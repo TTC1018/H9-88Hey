@@ -9,7 +9,7 @@
 ### Backend
 - 
 ### Frontend
-- 
+- React, TypeScript, Emotion, Jest
 ### Android
 - 
 ## 📒 참고 자료
