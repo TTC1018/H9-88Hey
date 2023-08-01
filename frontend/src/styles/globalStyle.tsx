@@ -137,6 +137,25 @@ const style = css`
   * {
     box-sizing: border-box;
   }
+
+  @font-face {
+    font-family: HyundaiSansBold;
+    font-style: normal;
+    font-display: swap;
+    src: url('src/assets/fonts/HyundaiSansHeadKRBold.ttf') format('truetype');
+  }
+  @font-face {
+    font-family: HyundaiSansMedium;
+    font-style: normal;
+    font-display: swap;
+    src: url('src/assets/fonts/HyundaiSansHeadKRMedium.ttf') format('truetype');
+  }
+  @font-face {
+    font-family: HyundaiSansRegular;
+    font-style: normal;
+    font-display: swap;
+    src: url('src/assets/fonts/HyundaiSansHeadKRRegular.ttf') format('truetype');
+  }
 `;
 
 const GlobalStyle = () => {
