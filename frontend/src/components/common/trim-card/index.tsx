@@ -1,0 +1,1 @@
+export { TrimCard } from './TrimCard';
