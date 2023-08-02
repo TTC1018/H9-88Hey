@@ -2,7 +2,6 @@ package com.softeer.mycarchiving.ui.component
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
@@ -14,6 +13,7 @@ import androidx.compose.ui.unit.dp
 import com.softeer.mycarchiving.ui.theme.HyundaiSand
 import com.softeer.mycarchiving.ui.theme.PrimaryBlue
 import com.softeer.mycarchiving.ui.theme.bold18
+import com.softeer.mycarchiving.ui.theme.roundCorner
 
 @Composable
 fun AppButton(
@@ -29,7 +29,7 @@ fun AppButton(
             .height(56.dp),
         colors = ButtonDefaults.buttonColors(containerColor = backgroundColor, contentColor = textColor),
         onClick = onClick,
-        shape = RoundedCornerShape(8.dp)
+        shape = roundCorner
     ) {
         Text(
             text = text,
