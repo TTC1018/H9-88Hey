@@ -25,7 +25,7 @@ export const Button = styled.button`
       color: ${colors.hyundaiLightSand};
       text-align: center;
 
-      background: rgba(35, 35, 35, 0.8);
+      background: ${colors.black};
       border-radius: 4px;
     `;
   }}
