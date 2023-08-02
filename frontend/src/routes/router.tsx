@@ -1,17 +1,22 @@
 import { createBrowserRouter } from 'react-router-dom';
+import { Trim } from '@pages/trim';
 
 export const router = createBrowserRouter([
   {
     path: '/trim',
     children: [
       {
-        path: '/engine',
+        path: '',
+        element: <Trim />,
       },
       {
-        path: '/body-type',
+        path: 'engine',
       },
       {
-        path: '/wheel-drive',
+        path: 'body-type',
+      },
+      {
+        path: 'wheel-drive',
       },
     ],
   },
@@ -22,10 +27,10 @@ export const router = createBrowserRouter([
     path: '/option',
     children: [
       {
-        path: '/h-genuine-accessories',
+        path: 'h-genuine-accessories',
       },
       {
-        path: '/n-performance',
+        path: 'n-performance',
       },
     ],
   },
