@@ -6,21 +6,25 @@ interface ActivateStateProps {
 }
 
 const Container = styled.div`
-  display: flex;
   gap: 8px;
+
+  display: flex;
 `;
 
 const Image = styled.img`
   width: 620px;
   height: 397px;
 
+  border-radius: 4px;
+
   object-fit: fill;
 `;
 
-const SubImageWrapper = styled.div`
+const Wrapper = styled.div`
+  gap: 8px;
+
   display: flex;
   flex-direction: column;
-  gap: 8px;
 `;
 
 const SubImage = styled.img<ActivateStateProps>`
@@ -38,4 +42,4 @@ const SubImage = styled.img<ActivateStateProps>`
   }}
 `;
 
-export { Container, Image, SubImageWrapper, SubImage };
+export { Container, Image, Wrapper, SubImage };

@@ -21,7 +21,7 @@ const Container = styled.div<ActivateStateProps>`
   }}
 `;
 
-const Header = styled.div`
+const Wrapper = styled.div`
   width: 100%;
   margin-bottom: 22px;
 
@@ -94,5 +94,4 @@ const InfoContent = styled.div`
     `;
   }}
 `;
-
-export { Container, Header, Title, Price, Description, Info, InfoTitle, InfoContent, Line };
+export { Container, Wrapper, Title, Price, Description, Info, InfoTitle, InfoContent, Line };

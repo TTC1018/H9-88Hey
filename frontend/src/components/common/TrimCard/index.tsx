@@ -1,21 +1,31 @@
-import * as style from './TrimCard.style';
+import * as style from './style';
 
 interface TrimCardProps {
-  isActivate: boolean;
+  power: string;
   title: string;
   price: string;
+  torque: string;
+  isActivate: boolean;
   description: string;
   hasEngineInfo: boolean;
-  power: string;
-  torque: string;
+  onClick: () => void;
 }
-export function TrimCard({ isActivate, title, price, description, hasEngineInfo, power, torque }: TrimCardProps) {
+export function TrimCard({
+  isActivate,
+  title,
+  price,
+  description,
+  hasEngineInfo,
+  power,
+  torque,
+  onClick,
+}: TrimCardProps) {
   return (
-    <style.Container isActivate={isActivate}>
-      <style.Header>
+    <style.Container isActivate={isActivate} onClick={onClick}>
+      <style.Wrapper>
         <style.Title>{title}</style.Title>
         <style.Price>+{price}원</style.Price>
-      </style.Header>
+      </style.Wrapper>
       <style.Description>{description}</style.Description>
       {hasEngineInfo && (
         <>

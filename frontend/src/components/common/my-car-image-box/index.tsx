@@ -1,1 +1,0 @@
-export { MyCarImageBox } from './MyCarImageBox';
