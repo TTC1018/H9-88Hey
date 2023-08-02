@@ -3,6 +3,8 @@ package com.softeer.mycarchiving.ui.theme
 import androidx.compose.ui.graphics.Color
 
 val PrimaryBlue = Color(0xFF002C5F)
+val PrimaryBlue10 = Color(0x1A002C5F)
+val PrimaryBlue60 = Color(0x99002C5F)
 val PrimaryBlue500 = Color(0xFF10498A)
 val PrimaryBlue600 = Color(0xFF00234C)
 val PrimaryBlue700 = Color(0xFF001A39)

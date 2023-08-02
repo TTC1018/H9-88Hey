@@ -27,12 +27,17 @@
     <string name="make_car_comment_announce">에 대해 시승자들은 이런 후기를 남겼어요</string>
     <string name="make_car_peak_output">최고출력</string>
     <string name="make_car_max_torque">최대토크</string>
+    <string name="make_car_option_title">%1$d. %2$s</string>
+    <string name="make_car_price_tail">원</string>
     <string name="make_car_price">+%1$s 원</string>
     <string name="make_car_selected_option">선택옵션 %1$d개</string>
     <string name="make_car_add">추가하기</string>
     <string name="make_car_add_done">추가 완료</string>
     <string name="make_car_basic_item">기본 포함 품목</string>
     <string name="make_car_show_option_location">옵션 위치 보기</string>
+    <string name="make_car_wheel">20인치\n알로이 휠</string>
+    <string name="make_car_surround">서라운드 뷰\n모니터</string>
+    <string name="make_car_cluster">클러스터\n(12.3인 컬러 LCD)</string>
 
     <!--  내 차 만들기 dialog  -->
     <string name="make_car_dialog_description">내 차 만들기 그만하시겠어요?\n만들던 차량은 아카이빙 > 내가 만든 차량에\n저장해둘게요</string>
