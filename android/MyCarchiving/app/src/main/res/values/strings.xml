@@ -6,6 +6,9 @@
     <string name="go_back">돌아가기</string>
     <string name="cancel">취소</string>
     <string name="purchase_car">구매하기</string>
+    <string name="archive">아카이빙</string>
+    <string name="my_archive">마이카이빙</string>
+    <string name="my_archive_button">마이 카이빙</string>
 
     <!--  progress 바  -->
     <string name="progress_trim">트림 선택</string>
