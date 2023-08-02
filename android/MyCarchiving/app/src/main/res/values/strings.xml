@@ -20,15 +20,15 @@
     <string name="progress_n_performance">N Performance</string>
 
     <!--  하단 바  -->
-    <string name="bottom_bar_price">%s 원</string>
+    <string name="bottom_bar_price">%1$s 원</string>
     <string name="bottom_bar_next_step">다음 단계로</string>
 
     <!--  내 차 만들기  -->
     <string name="make_car_comment_announce">에 대해 시승자들은 이런 후기를 남겼어요</string>
     <string name="make_car_peak_output">최고출력</string>
     <string name="make_car_max_torque">최대토크</string>
-    <string name="make_car_price">+%s 원</string>
-    <string name="make_car_selected_option">선택옵션 %d개</string>
+    <string name="make_car_price">+%1$s 원</string>
+    <string name="make_car_selected_option">선택옵션 %1$d개</string>
     <string name="make_car_add">추가하기</string>
     <string name="make_car_add_done">추가 완료</string>
     <string name="make_car_basic_item">기본 포함 품목</string>
@@ -39,9 +39,9 @@
     <string name="make_car_dialog_quit">내 차 만들기 종료</string>
 
     <!--  내 차 만들기 완성  -->
-    <string name="make_car_done_announce">나의 %s가 완성되었어요 !</string>
+    <string name="make_car_done_announce">나의 %1$s가 완성되었어요 !</string>
     <string name="make_car_done_description">완성된 차량은 마이카이빙 > 내가 만든 차량목록에서 볼 수 있어요</string>
-    <string name="make_car_done_feature">나의 %s는 이런 기능을 가지고 있어요</string>
+    <string name="make_car_done_feature">나의 %1$s는 이런 기능을 가지고 있어요</string>
     <string name="make_car_done_dealer">딜러에게 가까운 출고일자 상담을 받아볼까요?</string>
     <string name="make_car_done_other_process">구마를 위한 다른 절차가 필요하신가요?</string>
     <string name="make_car_done_apply_consult">구매상담 신청하기</string>
@@ -60,9 +60,9 @@
     <!--  아카이브  -->
     <string name="archive_filter_option">옵션을 필터링 하여 쉽게 검색해보세요</string>
     <string name="archive_get_selected_option">현재 추가한 옵션들을 가져왔어요</string>
-    <string name="archive_get_recent_review">%s에 관한 리뷰를 최신순으로 정렬했어요!</string>
-    <string name="archive_test_drive_date">%s에 시승했어요</string>
-    <string name="archive_purchase_date">%s에 구매했어요</string>
+    <string name="archive_get_recent_review">%1$s에 관한 리뷰를 최신순으로 정렬했어요!</string>
+    <string name="archive_test_drive_date">%1$s에 시승했어요</string>
+    <string name="archive_purchase_date">%1$s에 구매했어요</string>
     <string name="archive_summary_car_info">차량 정보 요약</string>
     <string name="archive_general_review">총평 후기</string>
     <string name="archive_selected_option">선택 옵션</string>
@@ -81,27 +81,27 @@
     <string name="my_make_car_list">내가 만든 차량 목록</string>
     <string name="my_save_car_list">저장한 차량 목록</string>
     <string name="my_not_save_car">저장하지 않고 나간 차량이 있어요.</string>
-    <string name="my_temp_save_date">%s 임시저장</string>
-    <string name="my_make_date">%s에 만들었어요</string>
+    <string name="my_temp_save_date">%1$s 임시저장</string>
+    <string name="my_make_date">%1$s에 만들었어요</string>
 
     <!--  마이카이빙 다이얼로그  -->
-    <string name="my_dialog_delete_description">%s을\n내가 만든 차량 목록에서 삭제하시겠어요?</string>
+    <string name="my_dialog_delete_description">%1$s을\n내가 만든 차량 목록에서 삭제하시겠어요?</string>
     <string name="my_dialog_delete">삭제</string>
-    <string name="my_dialog_continue_make_description">%s에 임시저장된 파일이에요.\n계속해서 내 차 만들기를 하시겠어요?</string>
+    <string name="my_dialog_continue_make_description">%1$s에 임시저장된 파일이에요.\n계속해서 내 차 만들기를 하시겠어요?</string>
     <string name="my_dialog_continue_make">내 차 만들기 이동</string>
 
     <!--  후기  -->
     <string name="review_test_drive">시승자 후기 작성</string>
-    <string name="review_test_drive_description">오늘 시승한 차량은 %s 이에요.\n시승한 차량 정보를 가져왔어요.</string>
+    <string name="review_test_drive_description">오늘 시승한 차량은 %1$s 이에요.\n시승한 차량 정보를 가져왔어요.</string>
     <string name="review_purchase_car">구매자 후기 작성</string>
-    <string name="review_purchase_car_description">구매한 차량은 %s 이에요.\n차량 정보를 가져왔어요.</string>
+    <string name="review_purchase_car_description">구매한 차량은 %1$s 이에요.\n차량 정보를 가져왔어요.</string>
     <string name="review_start">후가 작성 시작하기</string>
-    <string name="review_question">%s 은 어땠나요?</string>
+    <string name="review_question">%1$s 은 어땠나요?</string>
     <string name="review_tag_select">태그를 선택해주세요</string>
     <string name="review_tag_condition">(최소 1개 선택필수, 최대 3개 선택 가능)</string>
     <string name="review_placeholder">리뷰를 남겨주세요</string>
     <string name="review_condition">(선택 사항)</string>
-    <string name="review_text_count">(%d/%d)</string>
+    <string name="review_text_count">(%1$d/%2$d)</string>
     <string name="review_options">직접 옵션에 대해 이야기해주세요!</string>
     <string name="review_next_step">다음</string>
     <string name="review_done">완료</string>
