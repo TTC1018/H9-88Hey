@@ -32,6 +32,7 @@
     <string name="make_car_max_torque">최대토크</string>
     <string name="make_car_price">+%1$s 원</string>
     <string name="make_car_selected_option">선택옵션 %1$d개</string>
+    <string name="make_car_selected_option_price">+ %1$s 원</string>
     <string name="make_car_add">추가하기</string>
     <string name="make_car_add_done">추가 완료</string>
     <string name="make_car_basic_item">기본 포함 품목</string>

@@ -3,7 +3,7 @@ package com.softeer.mycarchiving.ui.component
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
@@ -29,7 +29,7 @@ import com.softeer.mycarchiving.ui.theme.medium14
 import com.softeer.mycarchiving.ui.theme.roundCorner
 
 @Composable
-fun AppButton(
+fun HyundaiButton(
     modifier: Modifier,
     backgroundColor: Color,
     textColor: Color,
@@ -56,7 +56,7 @@ fun AppButton(
 @Composable
 fun PreviewAppButton() {
     val pressed: () -> Unit = {}
-    AppButton(
+    HyundaiButton(
         modifier = Modifier,
         backgroundColor = PrimaryBlue,
         textColor = HyundaiSand,
@@ -74,7 +74,7 @@ fun OptionAddButton(
     Button(
         modifier = modifier
             .fillMaxWidth()
-            .padding(vertical = 8.dp),
+            .wrapContentHeight(),
         colors = if (isSelect) {
             ButtonDefaults.buttonColors(containerColor = HyundaiNavy, contentColor = HyundaiNeutral)
         } else {
@@ -89,7 +89,8 @@ fun OptionAddButton(
     ) {
         Text(
             text = if (isSelect) stringResource(id = R.string.make_car_add_done) else stringResource(id = R.string.make_car_add),
-            style = medium14
+            style = medium14,
+            color = if (isSelect) HyundaiNeutral else HyundaiNavy
         )
         if (isSelect) {
             Icon(

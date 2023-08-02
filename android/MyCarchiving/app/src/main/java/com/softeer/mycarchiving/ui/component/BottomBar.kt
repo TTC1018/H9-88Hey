@@ -79,7 +79,7 @@ fun BottomBar(
             }
         }
         Spacer(modifier = modifier.height(13.dp))
-        AppButton(
+        HyundaiButton(
             modifier = modifier,
             backgroundColor = PrimaryBlue,
             textColor = HyundaiSand,
