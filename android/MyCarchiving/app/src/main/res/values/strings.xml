@@ -23,7 +23,7 @@
     <string name="progress_n_performance">N Performance</string>
 
     <!--  하단 바  -->
-    <string name="bottom_bar_price">%1$s 원</string>
+    <string name="bottom_bar_price">원</string>
     <string name="bottom_bar_next_step">다음 단계로</string>
 
     <!--  내 차 만들기  -->
