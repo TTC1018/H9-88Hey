@@ -8,5 +8,8 @@ module.exports = {
     ecmaVersion: 'latest',
     sourceType: 'module',
   },
+  rules: {
+    'react-hooks/exhaustive-deps': ['warn'],
+  },
   plugins: ['@typescript-eslint', 'react'],
 };
