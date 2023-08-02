@@ -1,10 +1,11 @@
 package com.softeer.mycarchiving.ui.theme
 
-import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
+import com.softeer.mycarchiving.R
 
 private val regular = Font(R.font.hyundaisansheadregular, FontWeight.W400)
 private val medium = Font(R.font.hyundaisansheadmedium, FontWeight.W500)
