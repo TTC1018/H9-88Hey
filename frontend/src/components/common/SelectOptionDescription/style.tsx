@@ -3,7 +3,6 @@ import { css } from '@emotion/react';
 
 export const Container = styled.div`
   width: 507px;
-  height: 304px;
 
   display: flex;
   flex-direction: column;
