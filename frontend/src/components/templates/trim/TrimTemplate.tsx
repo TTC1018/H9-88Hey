@@ -1,5 +1,5 @@
-import { SelectOptionImageBox } from '@components/common/SelectOptionImageBox';
-import { SelectOptionDescription } from '@components/common/SelectOptionDescription';
+import { SelectOptionImageBox } from '@components/common/SelectOptionImageBox/SelectOptionImageBox';
+import { SelectOptionDescription } from '@components/common/SelectOptionDescription/SelectOptionDescription';
 
 export function TrimTemplate() {
   return (

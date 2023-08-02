@@ -1,0 +1,1 @@
+export { SelectOptionDescription } from './SelectOptionDescription';
