@@ -12,6 +12,7 @@ junit4 = "4.13.2"
 kotlin = "1.8.20"
 ksp = "1.8.20-1.0.11"
 androidxComposeCompiler = "1.4.5"
+landscapistGlide = "2.1.10"
 
 
 [libraries]
@@ -33,6 +34,7 @@ junit4 = { group = "junit", name = "junit", version.ref = "junit4" }
 #android-gradlePlugin = { group = "com.android.tools.build", name = "gradle", version.ref = "androidGradlePlugin" }
 #kotlin-gradlePlugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "kotlin" }
 ksp-gradlePlugin = { group = "com.google.devtools.ksp", name = "com.google.devtools.ksp.gradle.plugin", version.ref = "ksp" }
+landscapist-glide = { module = "com.github.skydoves:landscapist-glide", version.ref = "landscapistGlide" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }
