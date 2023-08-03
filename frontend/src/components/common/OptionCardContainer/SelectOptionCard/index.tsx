@@ -13,6 +13,10 @@ interface OptionCardProps {
   price: string;
 }
 
+interface OptionCardHoverProps {
+  descriptionList: string[];
+}
+
 export function SelectOptionCard({ selectedOption, images }: SelectOptionCardProps) {
   return (
     <>
@@ -69,12 +73,40 @@ function OptionCard({ option, selectedOption, image, title, price }: OptionCardP
     <style.OptionCard option={option} selectedOption={selectedOption}>
       <style.Image src={image} />
       <style.DescriptionWrapper>
-        <style.Text>{title}</style.Text>
-        <style.Text>{price}</style.Text>
+        <style.Text option={option} selectedOption={selectedOption}>
+          {title}
+        </style.Text>
+        <style.Text option={option} selectedOption={selectedOption}>
+          {price}
+        </style.Text>
         <style.ButtonBox>
-          <style.Button>추가하기</style.Button>
+          <style.Button option={option} selectedOption={selectedOption}>
+            {option === selectedOption ? '추가 완료' : '추가하기'}
+          </style.Button>
         </style.ButtonBox>
+        {option === selectedOption && <style.Icon src="src/assets/icon_done.svg" />}
       </style.DescriptionWrapper>
+      {option === 2 && (
+        <OptionCardHover
+          descriptionList={[
+            '전방 충돌방지 보조(교차 차량/추월시 대향차/측방 접근차)',
+            '내비게이션 기반 스마트 크루즈 컨트롤(진출입로)',
+            '고속도로 주행 보조 2',
+          ]}
+        />
+      )}
     </style.OptionCard>
+  );
+}
+
+function OptionCardHover({ descriptionList }: OptionCardHoverProps) {
+  return (
+    <style.OptionCardHover>
+      <style.DescriptionHoverWrapper>
+        {descriptionList.map(description => (
+          <style.DescriptionHover key={description}>{description}</style.DescriptionHover>
+        ))}
+      </style.DescriptionHoverWrapper>
+    </style.OptionCardHover>
   );
 }

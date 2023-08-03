@@ -3,7 +3,7 @@ import { css } from '@emotion/react';
 
 interface OptionProps {
   option: number;
-  selectedOption: number;
+  selectedCategory: number;
   onClick: (option: number) => void;
 }
 
@@ -16,14 +16,14 @@ export const OptionWrapper = styled.div`
 `;
 
 export const Option = styled.button<OptionProps>`
-  ${({ theme, option, selectedOption }) => {
+  ${({ theme, option, selectedCategory }) => {
     const { colors, fonts } = theme;
 
     return css`
-      color: ${option === selectedOption ? colors.black : colors.mediumGray};
+      color: ${option === selectedCategory ? colors.black : colors.mediumGray};
       ${fonts.headingMedium4};
-      text-decoration: ${option === selectedOption ? 'underline' : ''};
-      text-decoration-thickness: ${option === selectedOption ? '3px' : 0};
+      text-decoration: ${option === selectedCategory ? 'underline' : ''};
+      text-decoration-thickness: ${option === selectedCategory ? '3px' : 0};
     `;
   }}
 `;

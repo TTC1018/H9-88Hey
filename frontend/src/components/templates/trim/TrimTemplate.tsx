@@ -23,7 +23,7 @@ export function TrimTemplate() {
           },
         ]}
       />
-      <OptionCardContainer selectedOption={1} images={['src/assets/leblanc.jpeg']} />
+      <OptionCardContainer selectedCategory={1} selectedOption={1} images={['src/assets/leblanc.jpeg']} />
     </>
   );
 }

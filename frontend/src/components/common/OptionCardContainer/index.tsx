@@ -2,14 +2,15 @@ import { OptionCategory } from './OptionCategory';
 import { SelectOptionCard } from './SelectOptionCard';
 
 interface OptionCardContainerProps {
+  selectedCategory: number;
   selectedOption: number;
   images: string[];
 }
 
-export function OptionCardContainer({ selectedOption, images }: OptionCardContainerProps) {
+export function OptionCardContainer({ selectedCategory, selectedOption, images }: OptionCardContainerProps) {
   return (
     <>
-      <OptionCategory selectedOption={selectedOption} />
+      <OptionCategory selectedCategory={selectedCategory} />
       <SelectOptionCard selectedOption={selectedOption} images={images} />
     </>
   );
