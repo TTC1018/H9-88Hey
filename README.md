@@ -9,7 +9,7 @@
 ### Backend
 - 
 ### Frontend
-- React, TypeScript, Emotion, React Router, Jest
+- React, TypeScript, Emotion, React Router
 ### Android
 -
 
