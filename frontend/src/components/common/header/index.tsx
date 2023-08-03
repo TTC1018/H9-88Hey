@@ -1,4 +1,4 @@
-import { HyundaiLogo } from '../hyundaiLogo/index.tsx';
+import { HyundaiLogo } from '../HyundaiLogo/index.tsx';
 import { ArchivingLogo } from '../ArchivingLogo/index.tsx';
 import { AutoSavingLogo } from '../AutoSavingLogo/index.tsx';
 import * as style from './style';
