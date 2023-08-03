@@ -1,6 +1,6 @@
 <p align="center">
   <h3 align="center">🦈 H9-88Hey</h3>
-  <p align="center">현대자동차그룹 소프티어부트캠프 2기 현대자동차 9팀 프로젝트 저장소</p>
+  <p align="center">현대자동차그룹 소프티어부트캠프 2기 현대자동차 H9팀 프로젝트 저장소</p>
 </p>
 
 ## 📄 프로젝트 소개
@@ -9,7 +9,7 @@
 ### Backend
 - 
 ### Frontend
-- React, TypeScript, React Router, Emotion, Jest
+- React, TypeScript, Emotion, React Router, Jest
 ### Android
 -
 
