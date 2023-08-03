@@ -4,7 +4,7 @@ interface MyCarImageBoxPropsWithOption {
   images: string[];
   hasOption: true;
   selectedIndex: number;
-  onClick: (index: number) => void;
+  onClick: (index: number) => () => void;
 }
 interface MyCarImageBoxPropsWithoutOption {
   images: string;
@@ -20,12 +20,7 @@ export function MyCarImageBox({ images, hasOption, selectedIndex, onClick }: MyC
         <>
           <style.Wrapper>
             {images.map((image, index) => (
-              <style.SubImage
-                src={image}
-                key={image}
-                isActive={index === selectedIndex}
-                onClick={() => onClick(index)}
-              />
+              <style.SubImage src={image} key={image} isActive={index === selectedIndex} onClick={onClick(index)} />
             ))}
           </style.Wrapper>
           <style.Image src={images[selectedIndex]} alt="이미지" />

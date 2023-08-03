@@ -2,7 +2,7 @@ import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
 const Container = styled.div`
-  width: 620px;
+  width: 100%;
 `;
 
 const Wrapper = styled.div`

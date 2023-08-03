@@ -9,13 +9,12 @@ const Container = styled.div<ActiveStateProps>`
     const { colors } = theme;
     return css`
       width: 391px;
-      height: 100%;
-      padding: 18px 23px 28px 23px;
+      padding: 18px 23px 20px 23px;
 
       color: ${isActive ? colors.hyundaiPrimaryBlue : colors.black};
 
       background: ${isActive ? 'rgba(56, 93, 162, 0.1)' : colors.hyundaiLightSand};
-      border: ${isActive && `2px solid ${colors.hyundaiPrimaryBlue}`};
+      border: 2px solid ${isActive ? colors.hyundaiPrimaryBlue : colors.hyundaiLightSand};
       border-radius: 8px;
     `;
   }}

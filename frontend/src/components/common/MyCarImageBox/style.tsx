@@ -35,7 +35,7 @@ const SubImage = styled.img<ActiveStateProps>`
       height: 56px;
 
       border-radius: 8px;
-      border: ${isActive ? `2px solid #00AAD2` : `1px solid ${colors.lightGray}`};
+      border: ${isActive ? `2px solid #00AAD2` : `2px solid ${colors.lightGray}`};
 
       object-fit: fill;
     `;
