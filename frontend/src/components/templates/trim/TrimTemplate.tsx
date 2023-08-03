@@ -1,6 +1,7 @@
 import { SelectOptionImageBox } from '@components/common/SelectOptionImageBox';
 import { SelectOptionDescription } from '@components/common/SelectOptionDescription';
 import { SelectOptionDetail } from '@components/common/SelectOptionDetail';
+import { OptionCardContainer } from '@components/common/OptionCardContainer';
 
 export function TrimTemplate() {
   return (
@@ -22,6 +23,7 @@ export function TrimTemplate() {
           },
         ]}
       />
+      <OptionCardContainer selectedOption={1} />
     </>
   );
 }
