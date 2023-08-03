@@ -2,7 +2,7 @@ import * as style from './style';
 
 interface TrimCardPropsWithEngineInfo {
   title: string;
-  price: string;
+  price: number;
   isActive: boolean;
   description: string;
   onClick: () => void;
@@ -12,7 +12,7 @@ interface TrimCardPropsWithEngineInfo {
 }
 interface TrimCardPropsWithoutEngineInfo {
   title: string;
-  price: string;
+  price: number;
   isActive: boolean;
   description: string;
   onClick: () => void;

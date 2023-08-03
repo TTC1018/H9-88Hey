@@ -2,13 +2,13 @@ import * as style from './style';
 
 interface MyCarDescriptionPropsWithTag {
   title: string;
-  price: string;
+  price: number;
   hasTag: true;
   tags: string[];
 }
 interface MyCarDescriptionPropsWithoutTags {
   title: string;
-  price: string;
+  price: number;
   hasTag: false;
   tags?: never;
 }
