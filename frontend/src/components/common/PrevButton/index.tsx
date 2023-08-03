@@ -21,7 +21,7 @@ export function PrevButton({ width, height, onClick }: PrevButtonProps) {
         </g>
         <defs>
           <clipPath id="clip0_577_11601">
-            <rect width="48" height="48" fill="white" />
+            <rect width={width} height={height} fill="white" />
           </clipPath>
         </defs>
       </svg>
