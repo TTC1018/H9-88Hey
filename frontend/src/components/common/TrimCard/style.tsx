@@ -1,21 +1,21 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
-interface ActivateStateProps {
-  isActivate: boolean;
+interface ActiveStateProps {
+  isActive: boolean;
 }
-const Container = styled.div<ActivateStateProps>`
-  ${({ theme, isActivate }) => {
+const Container = styled.div<ActiveStateProps>`
+  ${({ theme, isActive }) => {
     const { colors } = theme;
     return css`
       width: 391px;
       height: 100%;
       padding: 18px 23px 28px 23px;
 
-      color: ${isActivate ? colors.hyundaiPrimaryBlue : colors.black};
+      color: ${isActive ? colors.hyundaiPrimaryBlue : colors.black};
 
-      background: ${isActivate ? 'rgba(56, 93, 162, 0.1)' : colors.hyundaiLightSand};
-      border: ${isActivate && `2px solid ${colors.hyundaiPrimaryBlue}`};
+      background: ${isActive ? 'rgba(56, 93, 162, 0.1)' : colors.hyundaiLightSand};
+      border: ${isActive && `2px solid ${colors.hyundaiPrimaryBlue}`};
       border-radius: 8px;
     `;
   }}
@@ -56,15 +56,15 @@ const Description = styled.div`
   }}
 `;
 
-const Line = styled.hr<ActivateStateProps>`
-  ${({ theme, isActivate }) => {
+const Line = styled.hr<ActiveStateProps>`
+  ${({ theme, isActive }) => {
     const { colors } = theme;
     return css`
       width: 100%;
       height: 2px;
       margin: 20px 0;
 
-      background-color: ${isActivate ? colors.hyundaiPrimaryBlue : colors.black};
+      background-color: ${isActive ? colors.hyundaiPrimaryBlue : colors.black};
     `;
   }}
 `;

@@ -1,8 +1,8 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
-interface ActivateStateProps {
-  isActivate: boolean;
+interface ActiveStateProps {
+  isActive: boolean;
 }
 
 const Container = styled.div`
@@ -27,15 +27,15 @@ const Wrapper = styled.div`
   flex-direction: column;
 `;
 
-const SubImage = styled.img<ActivateStateProps>`
-  ${({ theme, isActivate }) => {
+const SubImage = styled.img<ActiveStateProps>`
+  ${({ theme, isActive }) => {
     const { colors } = theme;
     return css`
       width: 56px;
       height: 56px;
 
       border-radius: 8px;
-      border: ${isActivate ? `2px solid #00AAD2` : `1px solid ${colors.lightGray}`};
+      border: ${isActive ? `2px solid #00AAD2` : `1px solid ${colors.lightGray}`};
 
       object-fit: fill;
     `;
