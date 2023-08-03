@@ -59,7 +59,6 @@ export function OptionTemplate({
         defaultOptionCardInfo={defaultOptionCardInfo}
         categories={categories}
       />
-      ;
     </>
   );
 }
