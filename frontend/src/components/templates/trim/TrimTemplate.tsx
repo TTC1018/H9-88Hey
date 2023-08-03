@@ -6,7 +6,7 @@ import { OptionCardContainer } from '@components/common/OptionCardContainer';
 export function TrimTemplate() {
   return (
     <>
-      <SelectOptionImageBox image="src/assets/hmg.png" />
+      <SelectOptionImageBox image="src/assets/leblanc.jpeg" />
       <SelectOptionDescription
         title="컴포트 ||"
         price="690,000"
@@ -23,7 +23,7 @@ export function TrimTemplate() {
           },
         ]}
       />
-      <OptionCardContainer selectedOption={1} />
+      <OptionCardContainer selectedOption={1} images={['src/assets/leblanc.jpeg']} />
     </>
   );
 }
