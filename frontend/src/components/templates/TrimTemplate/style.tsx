@@ -3,6 +3,10 @@ import styled from '@emotion/styled';
 const Container = styled.div`
   width: 1000px;
   /* width: 100%; */
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 `;
 
 const Wrapper = styled.div`

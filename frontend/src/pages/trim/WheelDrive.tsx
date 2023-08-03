@@ -1,5 +1,5 @@
-import { useSelectIndex } from '@hooks/useSelectedIndex';
-import { WheelDriveTemplate } from '@components/templates/WheelDriveTemplate';
+import { useSelectIndex } from '@/hooks/useSelectedIndex';
+import { WheelDriveTemplate } from '@/components/templates/WheelDriveTemplate';
 
 const mockData = [
   {

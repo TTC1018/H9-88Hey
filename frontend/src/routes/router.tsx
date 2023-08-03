@@ -1,9 +1,9 @@
 import { createBrowserRouter } from 'react-router-dom';
 
-import { Trim } from '@pages/trim';
-import { Engine } from '@pages/trim/Engine';
-import { BodyType } from '@pages/trim/BodyType';
-import { WheelDrive } from '@pages/trim/WheelDrive';
+import { Trim } from '@/pages/trim';
+import { Engine } from '@/pages/trim/Engine';
+import { BodyType } from '@/pages/trim/BodyType';
+import { WheelDrive } from '@/pages/trim/WheelDrive';
 
 export const router = createBrowserRouter([
   {

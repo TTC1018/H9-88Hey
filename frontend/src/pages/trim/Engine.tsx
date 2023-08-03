@@ -1,5 +1,5 @@
-import { useSelectIndex } from '@hooks/useSelectedIndex';
-import { EngineTemplate } from '@components/templates/EngineTemplate';
+import { useSelectIndex } from '@/hooks/useSelectedIndex';
+import { EngineTemplate } from '@/components/templates/EngineTemplate';
 
 const mockData = [
   {

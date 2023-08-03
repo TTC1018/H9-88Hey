@@ -1,7 +1,8 @@
 export interface TrimOptionType {
   title: string;
   price: number;
-  images: string[];
+  carImages: string[];
+  optionImages: string[];
 }
 
 export interface BodyTypeOptionType {

@@ -1,5 +1,5 @@
-import { useSelectIndex } from '@hooks/useSelectedIndex';
-import { BodyTypeTemplate } from '@components/templates/BodyTypeTemplate';
+import { useSelectIndex } from '@/hooks/useSelectedIndex';
+import { BodyTypeTemplate } from '@/components/templates/BodyTypeTemplate';
 
 const mockData = [
   {

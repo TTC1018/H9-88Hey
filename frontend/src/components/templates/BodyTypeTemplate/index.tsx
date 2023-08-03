@@ -1,13 +1,13 @@
-import { WheelTypeOptionType } from '@types/trim';
-import { TrimCard } from '@components/common/TrimCard';
-import { MyCarImageBox } from '@components/common/MyCarImageBox';
-import { MyCarDescription } from '@components/common/MyCarDescription';
+import { BodyTypeOptionType } from '@/types/trim';
+import { TrimCard } from '@/components/common/TrimCard';
+import { MyCarImageBox } from '@/components/common/MyCarImageBox';
+import { MyCarDescription } from '@/components/common/MyCarDescription';
 import * as style from './style';
 
 interface EngineTemplateProps {
   selectedIndex: number;
   selectedImageIndex: number;
-  selectOptionCards: WheelTypeOptionType[];
+  selectOptionCards: BodyTypeOptionType[];
   onCardClick: (index: number) => () => void;
   onImageClick: (index: number) => () => void;
 }

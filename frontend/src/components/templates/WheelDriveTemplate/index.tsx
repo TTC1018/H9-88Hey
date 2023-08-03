@@ -1,7 +1,7 @@
-import { WheelDriveOptionType } from '@types/trim';
-import { TrimCard } from '@components/common/TrimCard';
-import { MyCarImageBox } from '@components/common/MyCarImageBox';
-import { MyCarDescription } from '@components/common/MyCarDescription';
+import { WheelDriveOptionType } from '@/types/trim';
+import { TrimCard } from '@/components/common/TrimCard';
+import { MyCarImageBox } from '@/components/common/MyCarImageBox';
+import { MyCarDescription } from '@/components/common/MyCarDescription';
 import * as style from './style';
 
 interface EngineTemplateProps {
