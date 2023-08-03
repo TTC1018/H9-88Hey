@@ -40,13 +40,14 @@ fun HyundaiButton(
         modifier = modifier
             .fillMaxWidth()
             .height(56.dp),
-        colors = ButtonDefaults.buttonColors(containerColor = backgroundColor, contentColor = textColor),
+        colors = ButtonDefaults.buttonColors(containerColor = backgroundColor),
         onClick = onClick,
         shape = roundCorner
     ) {
         Text(
             text = text,
-            style = bold18
+            style = bold18,
+            color = textColor
         )
     }
 }

@@ -39,8 +39,8 @@
     <string name="make_car_show_option_location">옵션 위치 보기</string>
 
     <!--  내 차 만들기 dialog  -->
-    <string name="make_car_dialog_description">내 차 만들기 그만하시겠어요?\n만들던 차량은 아카이빙 > 내가 만든 차량에\n저장해둘게요</string>
-    <string name="make_car_dialog_quit">내 차 만들기 종료</string>
+    <string name="make_car_dialog_description">내 차 만들기 그만하시겠어요?\n만들던 차량은 <b>아카이빙 > 내가 만든 차량</b>에\n저장해둘게요</string>
+    <string name="make_car_dialog_finish">내 차 만들기 종료</string>
 
     <!--  내 차 만들기 완성  -->
     <string name="make_car_done_announce">나의 %1$s가 완성되었어요 !</string>
