@@ -4,12 +4,14 @@ import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -27,6 +29,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.softeer.mycarchiving.R
 import com.softeer.mycarchiving.ui.theme.Black
+import com.softeer.mycarchiving.ui.theme.HyundaiActiveBlue
 import com.softeer.mycarchiving.ui.theme.HyundaiLightSand
 import com.softeer.mycarchiving.ui.theme.PrimaryBlue
 import com.softeer.mycarchiving.ui.theme.PrimaryBlue10
@@ -94,4 +97,80 @@ fun OptionSelectItem(
 @Composable
 fun PreviewOptionSelectItem() {
     OptionSelectItem(modifier = Modifier, optionName = "컴포트 2", optionPrice = "1,090,000", onItemClick = {}, onAddClick = {})
+}
+
+@Composable
+fun CarImageSelectItem(
+    modifier: Modifier,
+    onItemClick: () -> Unit
+) {
+    var itemSelect by remember { mutableStateOf(false) }
+    Surface(
+        modifier = modifier
+            .size(80.dp)
+            .clickable {
+                itemSelect = !itemSelect
+                onItemClick()
+            },
+        shape = roundCorner,
+        border = if (itemSelect) BorderStroke(width = 2.dp, color = HyundaiActiveBlue) else null
+    ) {
+        Image(
+            modifier = modifier
+                .fillMaxSize(),
+            painter = painterResource(id = R.drawable.ic_launcher_background),
+            contentDescription = null,
+            contentScale = ContentScale.Crop
+        )
+    }
+}
+
+@Preview
+@Composable
+fun PreviewCarImageSelectItem() {
+    CarImageSelectItem(modifier = Modifier, onItemClick = {})
+}
+
+@Composable
+fun CarColorSelectItem(
+    modifier: Modifier,
+    onItemClick: () -> Unit
+) {
+    var itemSelect by remember { mutableStateOf(false) }
+    Box(
+        modifier = modifier
+            .size(59.dp)
+            .clickable {
+                itemSelect = !itemSelect
+                onItemClick()
+            }
+    ){
+        Surface(
+            modifier = modifier
+                .size(48.dp)
+                .align(Alignment.Center),
+            shape = roundCorner,
+            border = if (itemSelect) BorderStroke(width = 3.dp, color = HyundaiActiveBlue) else null
+        ) {
+            Image(
+                modifier = modifier
+                    .fillMaxSize(),
+                painter = painterResource(id = R.drawable.ic_launcher_background),
+                contentDescription = null,
+                contentScale = ContentScale.Crop
+            )
+        }
+        if (itemSelect) {
+            CheckCircle(
+                modifier = modifier
+                    .align(Alignment.TopEnd)
+            )
+        }
+    }
+}
+
+@Preview
+@Composable
+fun PreviewCarColorSelectItem() {
+    CarColorSelectItem(modifier = Modifier, onItemClick = {})
 }

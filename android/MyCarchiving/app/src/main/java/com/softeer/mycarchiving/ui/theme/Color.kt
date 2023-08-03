@@ -20,6 +20,7 @@ val HyundaiSand = Color(0xFFE4DCD3)
 val HyundaiLightSand = Color(0xFFF6F3F2)
 val HyundaiGold = Color(0xFFA36B4F)
 val HyundaiBlue = Color(0xFF4062DC)
+val HyundaiActiveBlue = Color(0xFF00AAD2)
 val HyundaiNavy = Color(0xFF385DA2)
 
 val LightGray = Color(0xFFDCDCDC)
