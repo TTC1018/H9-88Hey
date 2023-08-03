@@ -1,17 +1,28 @@
 import * as style from './style';
 
-interface TrimCardProps {
-  power: string;
+interface TrimCardPropsWithEngineInfo {
   title: string;
   price: string;
-  torque: string;
-  isActivate: boolean;
+  isActive: boolean;
   description: string;
-  hasEngineInfo: boolean;
   onClick: () => void;
+  hasEngineInfo: true;
+  power: string;
+  torque: string;
 }
+interface TrimCardPropsWithoutEngineInfo {
+  title: string;
+  price: string;
+  isActive: boolean;
+  description: string;
+  onClick: () => void;
+  hasEngineInfo: false;
+  power?: never;
+  torque?: never;
+}
+type TrimCardProps = TrimCardPropsWithEngineInfo | TrimCardPropsWithoutEngineInfo;
 export function TrimCard({
-  isActivate,
+  isActive,
   title,
   price,
   description,
@@ -21,7 +32,7 @@ export function TrimCard({
   onClick,
 }: TrimCardProps) {
   return (
-    <style.Container isActivate={isActivate} onClick={onClick}>
+    <style.Container isActive={isActive} onClick={onClick}>
       <style.Wrapper>
         <style.Title>{title}</style.Title>
         <style.Price>+{price}원</style.Price>
@@ -29,7 +40,7 @@ export function TrimCard({
       <style.Description>{description}</style.Description>
       {hasEngineInfo && (
         <>
-          <style.Line isActivate={isActivate} />
+          <style.Line isActive={isActive} />
           <style.Info>
             <style.InfoTitle>최고출력</style.InfoTitle>
             <style.InfoContent>{power}</style.InfoContent>

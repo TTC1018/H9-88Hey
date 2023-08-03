@@ -1,11 +1,18 @@
 import * as style from './style';
 
-interface MyCarDescriptionProps {
+interface MyCarDescriptionPropsWithTag {
   title: string;
   price: string;
-  hasTag: boolean;
+  hasTag: true;
   tags: string[];
 }
+interface MyCarDescriptionPropsWithoutTags {
+  title: string;
+  price: string;
+  hasTag: false;
+  tags?: never;
+}
+type MyCarDescriptionProps = MyCarDescriptionPropsWithTag | MyCarDescriptionPropsWithoutTags;
 export function MyCarDescription({ title, price, hasTag, tags }: MyCarDescriptionProps) {
   return (
     <style.Container>
