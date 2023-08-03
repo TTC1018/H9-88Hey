@@ -9,6 +9,7 @@ interface OptionProps {
 
 export const OptionWrapper = styled.div`
   width: 1025px;
+  height: 28px;
   gap: 23px;
 
   display: flex;
