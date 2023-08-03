@@ -1,5 +1,3 @@
-import { TrimTemplate } from '@components/templates/trim/TrimTemplate';
-
 export function Trim() {
-  return <TrimTemplate />;
+  return <div></div>;
 }

@@ -3,15 +3,17 @@ import * as style from './style';
 interface SelectOptionDetailProps {
   index: number;
   length: number;
-  optionList: optionListProps[];
+  optionDetails: OptionDetailsProps[];
 }
 
-interface optionListProps {
+interface OptionDetailsProps {
   title: string;
   description: string;
 }
 
-export function SelectOptionDetail({ index, length, optionList }: SelectOptionDetailProps) {
+export function SelectOptionDetail({ index, length, optionDetails }: SelectOptionDetailProps) {
+  const { title, description } = optionDetails[index];
+
   function convertToTwoDigits(index: number) {
     return (index + 1).toString().padStart(2, '0');
   }
@@ -22,7 +24,7 @@ export function SelectOptionDetail({ index, length, optionList }: SelectOptionDe
         <style.TitleWrapper>
           <style.TitleBox>
             <style.Ellipse>{convertToTwoDigits(index)}</style.Ellipse>
-            <style.Title>{optionList[0].title}</style.Title>
+            <style.Title>{title}</style.Title>
           </style.TitleBox>
           <style.OrderBox>
             <style.Order>
@@ -32,7 +34,7 @@ export function SelectOptionDetail({ index, length, optionList }: SelectOptionDe
         </style.TitleWrapper>
         <style.Line />
         <style.DescriptionWrapper>
-          <style.Description>{optionList[0].description}</style.Description>
+          <style.Description>{description}</style.Description>
         </style.DescriptionWrapper>
       </style.Container>
     </>

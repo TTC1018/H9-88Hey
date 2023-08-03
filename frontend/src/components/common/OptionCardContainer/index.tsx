@@ -5,15 +5,41 @@ import { DefaultOptionCard } from './DefaultOptionCard';
 interface OptionCardContainerProps {
   selectedCategory: number;
   selectedOption: number;
-  images: string[];
+  selectOptionCardInfo: SelectOptionCardInfoProps[];
+  defaultOptionCardInfo: DefaultOptionCardInfoProps[];
+  categories: string[];
 }
 
-export function OptionCardContainer({ selectedCategory, selectedOption, images }: OptionCardContainerProps) {
+interface SelectOptionCardInfoProps {
+  image: string;
+  title: string;
+  price: number;
+  descriptions: string[];
+}
+
+interface DefaultOptionCardInfoProps {
+  image: string;
+  text: string;
+  subtext: string;
+  description: string;
+}
+
+export function OptionCardContainer({
+  selectedCategory,
+  selectedOption,
+  selectOptionCardInfo,
+  defaultOptionCardInfo,
+  categories,
+}: OptionCardContainerProps) {
   return (
     <>
       <OptionCategory selectedCategory={selectedCategory} />
-      <SelectOptionCard selectedOption={selectedOption} images={images} />
-      <DefaultOptionCard />
+      <SelectOptionCard selectedOption={selectedOption} cardInfo={selectOptionCardInfo} />
+      <DefaultOptionCard
+        selectedCategory={selectedCategory}
+        categories={categories}
+        defaultOptionCardInfo={defaultOptionCardInfo}
+      />
     </>
   );
 }

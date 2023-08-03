@@ -2,7 +2,7 @@ import * as style from './style';
 
 interface SelectOptionDescriptionProps {
   title: string;
-  price: string;
+  price: number;
   tags: string[];
 }
 

@@ -2,8 +2,8 @@ import styled from '@emotion/styled';
 import { css } from '@emotion/react';
 
 interface CategoryProps {
-  option: number;
-  selectedOption: number;
+  category: number;
+  selectedCategory: number;
 }
 
 export const Container = styled.div`
@@ -22,11 +22,11 @@ export const CategoryWrapper = styled.div`
 `;
 
 export const Category = styled.p<CategoryProps>`
-  ${({ theme, option, selectedOption }) => {
+  ${({ theme, category, selectedCategory }) => {
     const { colors, fonts } = theme;
 
     return css`
-      color: ${option === selectedOption ? colors.black : colors.mediumGray};
+      color: ${category === selectedCategory ? colors.black : colors.mediumGray};
       ${fonts.bodyMedium4};
     `;
   }}

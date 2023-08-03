@@ -1,5 +1,6 @@
 import { createBrowserRouter } from 'react-router-dom';
-import { Trim } from '@pages/trim';
+import { Trim } from '@pages/Trim';
+import { Option } from '@pages/Option';
 
 export const router = createBrowserRouter([
   {
@@ -25,6 +26,7 @@ export const router = createBrowserRouter([
   },
   {
     path: '/option',
+    element: <Option />,
     children: [
       {
         path: 'h-genuine-accessories',

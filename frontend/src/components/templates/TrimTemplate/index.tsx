@@ -1,3 +1,3 @@
 export function TrimTemplate() {
-  return <div></div>;
+  return <div> </div>;
 }
