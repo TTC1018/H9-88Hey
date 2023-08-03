@@ -1,5 +1,6 @@
 import { OptionCategory } from './OptionCategory';
 import { SelectOptionCard } from './SelectOptionCard';
+import { DefaultOptionCard } from './DefaultOptionCard';
 
 interface OptionCardContainerProps {
   selectedCategory: number;
@@ -12,6 +13,7 @@ export function OptionCardContainer({ selectedCategory, selectedOption, images }
     <>
       <OptionCategory selectedCategory={selectedCategory} />
       <SelectOptionCard selectedOption={selectedOption} images={images} />
+      <DefaultOptionCard />
     </>
   );
 }
