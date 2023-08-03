@@ -102,10 +102,10 @@ export const Icon = styled.img`
 export const OptionCardHover = styled.div`
   width: 160px;
   height: 197px;
-
-  position: absolute;
   top: 0;
   left: 0;
+
+  position: absolute;
 
   border-radius: 8px;
   border: 0;
