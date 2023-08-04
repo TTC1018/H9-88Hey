@@ -1,14 +1,21 @@
+import { useState } from 'react';
+
 import { OptionTemplate } from '@/templates/OptionTemplate';
 
+function handleClickCategoryButton() {}
+
 export function Option() {
+  const [activeButtons, setActiveButtons] = useState<Set<number>>(new Set<number>());
+
   return (
     <OptionTemplate
       title="컴포트 ||"
       price={690000}
       tags={['여름에 쓰기 좋아요☀️', '옵션값 뽑았어요👍', '편리해요☺️']}
       index={5}
-      selectedCategory={1}
-      selectedOption={1}
+      isSelectOption={true}
+      selectOption={1}
+      defaultOption={1}
       optionDetails={[
         {
           title: '헤드업 디스플레이',
@@ -148,6 +155,7 @@ export function Option() {
         },
       ]}
       categories={['파워 트레인/성능', '지능형 안전 기술', '안전', '외관', '내장', '시트', '편의', '멀티미디어']}
+      activeButtons={activeButtons}
     />
   );
 }

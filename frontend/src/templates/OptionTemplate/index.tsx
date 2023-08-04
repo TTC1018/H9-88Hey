@@ -14,12 +14,14 @@ interface OptionTemplateProps {
   price: number;
   tags: string[];
   index: number;
-  selectedCategory: number;
-  selectedOption: number;
+  isSelectOption: boolean;
+  selectOption: number;
+  defaultOption: number;
   optionDetails: OptionDetailsProps[];
   selectOptionCardInfo: SelectOptionCardInfoProps[];
   defaultOptionCardInfo: DefaultOptionCardInfoProps[];
   categories: string[];
+  activeButtons: Set<number>;
 }
 
 export function OptionTemplate({
@@ -27,12 +29,14 @@ export function OptionTemplate({
   price,
   tags,
   index,
-  selectedCategory,
-  selectedOption,
+  isSelectOption,
+  selectOption,
+  defaultOption,
   optionDetails,
   selectOptionCardInfo,
   defaultOptionCardInfo,
   categories,
+  activeButtons,
 }: OptionTemplateProps) {
   return (
     <style.Container>
@@ -47,11 +51,13 @@ export function OptionTemplate({
       </style.OptionWrapper>
       <style.CardWrapper>
         <OptionCardContainer
-          selectedCategory={selectedCategory}
-          selectedOption={selectedOption}
+          isSelectOption={isSelectOption}
+          selectOption={selectOption}
+          defaultOption={defaultOption}
           selectOptionCardInfo={selectOptionCardInfo}
           defaultOptionCardInfo={defaultOptionCardInfo}
           categories={categories}
+          activeButtons={activeButtons}
         />
       </style.CardWrapper>
     </style.Container>

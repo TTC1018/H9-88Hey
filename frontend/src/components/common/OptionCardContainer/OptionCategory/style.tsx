@@ -2,9 +2,7 @@ import styled from '@emotion/styled';
 import { css } from '@emotion/react';
 
 interface OptionProps {
-  option: number;
-  selectedCategory: number;
-  onClick: (option: number) => void;
+  isActive: boolean;
 }
 
 export const OptionWrapper = styled.div`
@@ -16,14 +14,14 @@ export const OptionWrapper = styled.div`
 `;
 
 export const Option = styled.button<OptionProps>`
-  ${({ theme, option, selectedCategory }) => {
+  ${({ theme, isActive }) => {
     const { colors, fonts } = theme;
 
     return css`
-      color: ${option === selectedCategory ? colors.black : colors.mediumGray};
+      color: ${isActive ? colors.black : colors.mediumGray};
       ${fonts.headingMedium4};
-      text-decoration: ${option === selectedCategory ? 'underline' : ''};
-      text-decoration-thickness: ${option === selectedCategory ? '3px' : 0};
+      text-decoration: ${isActive ? 'underline' : ''};
+      text-decoration-thickness: ${isActive ? '3px' : 0};
     `;
   }}
 `;

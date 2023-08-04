@@ -3,17 +3,17 @@ import { DefaultOptionCardInfoProps } from '@/types/option';
 import * as style from './style';
 
 interface DefaultOptionCardProps {
-  selectedCategory: number;
+  defaultOption: number;
   categories: string[];
   defaultOptionCardInfo: DefaultOptionCardInfoProps[];
 }
 
-export function DefaultOptionCard({ selectedCategory, categories, defaultOptionCardInfo }: DefaultOptionCardProps) {
+export function DefaultOptionCard({ defaultOption, categories, defaultOptionCardInfo }: DefaultOptionCardProps) {
   return (
     <style.Container>
       <style.CategoryWrapper>
         {categories.map((category, index) => (
-          <style.Category category={index + 1} selectedCategory={selectedCategory} key={category}>
+          <style.Category isActive={index + 1 === defaultOption} key={category}>
             {category}
           </style.Category>
         ))}

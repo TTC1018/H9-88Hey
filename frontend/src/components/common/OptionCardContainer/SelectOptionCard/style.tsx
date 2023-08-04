@@ -2,8 +2,11 @@ import styled from '@emotion/styled';
 import { css } from '@emotion/react';
 
 interface OptionCardProps {
-  option: number;
-  selectedOption: number;
+  isCardActive: boolean;
+}
+
+interface ButtonProps {
+  isButtonActive: boolean;
 }
 
 export const Container = styled.div`
@@ -16,7 +19,7 @@ export const Container = styled.div`
 `;
 
 export const OptionCard = styled.div<OptionCardProps>`
-  ${({ theme, option, selectedOption }) => {
+  ${({ theme, isCardActive }) => {
     const { colors } = theme;
 
     return css`
@@ -29,8 +32,8 @@ export const OptionCard = styled.div<OptionCardProps>`
       position: relative;
 
       border-radius: 8px;
-      border: ${option === selectedOption && `2px solid ${colors.hyundaiPrimaryBlue}`};
-      background-color: ${option === selectedOption ? 'rgba(0, 44, 95, 0.1)' : colors.hyundaiLightSand};
+      border: ${isCardActive && `2px solid ${colors.hyundaiPrimaryBlue}`};
+      background-color: ${isCardActive ? 'rgba(0, 44, 95, 0.1)' : colors.hyundaiLightSand};
     `;
   }}
 `;
@@ -49,11 +52,11 @@ export const DescriptionWrapper = styled.div`
 `;
 
 export const Text = styled.p<OptionCardProps>`
-  ${({ theme, option, selectedOption }) => {
+  ${({ theme, isCardActive }) => {
     const { colors, fonts } = theme;
 
     return css`
-      color: ${option === selectedOption ? colors.hyundaiPrimaryBlue : colors.black};
+      color: ${isCardActive ? colors.hyundaiPrimaryBlue : colors.black};
       ${fonts.bodyMedium3}
     `;
   }}
@@ -66,8 +69,8 @@ export const ButtonBox = styled.div`
   justify-content: center;
 `;
 
-export const Button = styled.button<OptionCardProps>`
-  ${({ theme, option, selectedOption }) => {
+export const Button = styled.button<ButtonProps>`
+  ${({ theme, isButtonActive }) => {
     const { colors, fonts } = theme;
 
     return css`
@@ -80,13 +83,13 @@ export const Button = styled.button<OptionCardProps>`
       justify-content: center;
       align-items: center;
 
-      color: ${option === selectedOption ? colors.hyundaiNeutral : '#385da2'};
+      color: ${isButtonActive ? colors.hyundaiNeutral : '#385da2'};
       ${fonts.bodyMedium3};
 
       border-radius: 8px;
       border: 1px solid #385da2;
 
-      background-color: ${option === selectedOption ? '#385da2' : colors.hyundaiNeutral};
+      background-color: ${isButtonActive ? '#385da2' : colors.hyundaiNeutral};
     `;
   }}
 `;

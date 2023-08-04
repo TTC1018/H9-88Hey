@@ -1,36 +1,40 @@
 import { SelectOptionCardInfoProps } from '@/types/option';
+import { addCommasToPrice } from '@/utils';
 
 import * as style from './style';
 
 interface SelectOptionCardProps {
-  selectedOption: number;
+  selectOption: number;
+  activeButtons: Set<number>;
   cardInfo: SelectOptionCardInfoProps[];
 }
 
 interface OptionCardProps {
   option: number;
-  selectedOption: number;
+  selectOption: number;
   image: string;
   title: string;
-  price: string;
+  price: number;
   descriptions: string[];
+  isButtonActive: boolean;
 }
 
 interface OptionCardHoverProps {
   descriptions: string[];
 }
 
-export function SelectOptionCard({ selectedOption, cardInfo }: SelectOptionCardProps) {
+export function SelectOptionCard({ selectOption, activeButtons, cardInfo }: SelectOptionCardProps) {
   return (
     <style.Container>
       {cardInfo.map(({ image, title, price, descriptions }, index) => (
         <OptionCard
           option={index + 1}
-          selectedOption={selectedOption}
+          selectOption={selectOption}
           image={image}
           title={title}
-          price={price.toString()}
+          price={price}
           descriptions={descriptions}
+          isButtonActive={activeButtons.has(index + 1)}
           key={title}
         />
       ))}
@@ -38,24 +42,19 @@ export function SelectOptionCard({ selectedOption, cardInfo }: SelectOptionCardP
   );
 }
 
-function OptionCard({ option, selectedOption, image, title, price, descriptions }: OptionCardProps) {
+function OptionCard({ option, selectOption, image, title, price, descriptions, isButtonActive }: OptionCardProps) {
   return (
-    <style.OptionCard option={option} selectedOption={selectedOption}>
+    <style.OptionCard isCardActive={option === selectOption}>
       <style.Image src={image} />
       <style.DescriptionWrapper>
-        <style.Text option={option} selectedOption={selectedOption}>
-          {title}
-        </style.Text>
-        <style.Text option={option} selectedOption={selectedOption}>
-          {price}
-        </style.Text>
+        <style.Text isCardActive={option === selectOption}>{title}</style.Text>
+        <style.Text isCardActive={option === selectOption}>{addCommasToPrice(price)}</style.Text>
         <style.ButtonBox>
-          <style.Button option={option} selectedOption={selectedOption}>
-            {option === selectedOption ? '추가 완료' : '추가하기'}
-          </style.Button>
+          <style.Button isButtonActive={isButtonActive}>{isButtonActive ? '추가 완료' : '추가하기'}</style.Button>
         </style.ButtonBox>
-        {option === selectedOption && <style.Icon src={'src/assets/icon_done.svg'} />}
+        {isButtonActive && <style.Icon src={'src/assets/icon_done.svg'} />}
       </style.DescriptionWrapper>
+      {/* TODO: hover 시에만 바뀌도록 수정 필요 */}
       {option === 2 && <OptionCardHover descriptions={descriptions} />}
     </style.OptionCard>
   );

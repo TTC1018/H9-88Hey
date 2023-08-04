@@ -6,28 +6,32 @@ import { SelectOptionCard } from './SelectOptionCard';
 import { DefaultOptionCard } from './DefaultOptionCard';
 
 interface OptionCardContainerProps {
-  selectedCategory: number;
-  selectedOption: number;
+  isSelectOption: boolean;
+  selectOption: number;
+  defaultOption: number;
   selectOptionCardInfo: SelectOptionCardInfoProps[];
   defaultOptionCardInfo: DefaultOptionCardInfoProps[];
   categories: string[];
+  activeButtons: Set<number>;
 }
 
 export function OptionCardContainer({
-  selectedCategory,
-  selectedOption,
+  isSelectOption,
+  selectOption,
+  defaultOption,
   selectOptionCardInfo,
   defaultOptionCardInfo,
   categories,
+  activeButtons,
 }: OptionCardContainerProps) {
   return (
     <>
-      <OptionCategory selectedCategory={selectedCategory} />
-      {selectedOption === 1 ? (
-        <SelectOptionCard selectedOption={selectedOption} cardInfo={selectOptionCardInfo} />
+      <OptionCategory isSelectOption={isSelectOption} />
+      {isSelectOption ? (
+        <SelectOptionCard selectOption={selectOption} cardInfo={selectOptionCardInfo} activeButtons={activeButtons} />
       ) : (
         <DefaultOptionCard
-          selectedCategory={selectedCategory}
+          defaultOption={defaultOption}
           categories={categories}
           defaultOptionCardInfo={defaultOptionCardInfo}
         />
