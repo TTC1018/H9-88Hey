@@ -1,6 +1,9 @@
-import { Outlet, useLocation } from 'react-router-dom';
 import { useEffect, useState } from 'react';
+
+import { useLocation } from 'react-router-dom';
+
 import { NavArrowButton } from '@/components/common/NavArrowButton';
+
 import * as style from './style';
 
 const SELECTIONS = Object.freeze({
@@ -81,7 +84,6 @@ export function Navigation() {
           ))}
         </style.Wrapper>
       </style.Container>
-      <Outlet />
     </>
   );
 }
