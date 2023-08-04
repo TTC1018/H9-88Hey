@@ -13,6 +13,7 @@ interface OptionCardContainerProps {
   defaultOptionCardInfo: DefaultOptionCardInfoProps[];
   categories: string[];
   activeButtons: Set<number>;
+  onClickCategoryButton: (isSelectOption: boolean) => void;
 }
 
 export function OptionCardContainer({
@@ -23,10 +24,11 @@ export function OptionCardContainer({
   defaultOptionCardInfo,
   categories,
   activeButtons,
+  onClickCategoryButton,
 }: OptionCardContainerProps) {
   return (
     <>
-      <OptionCategory isSelectOption={isSelectOption} />
+      <OptionCategory isSelectOption={isSelectOption} onClickCategoryButton={onClickCategoryButton} />
       {isSelectOption ? (
         <SelectOptionCard selectOption={selectOption} cardInfo={selectOptionCardInfo} activeButtons={activeButtons} />
       ) : (

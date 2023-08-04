@@ -2,10 +2,16 @@ import { useState } from 'react';
 
 import { OptionTemplate } from '@/templates/OptionTemplate';
 
-function handleClickCategoryButton() {}
-
 export function Option() {
+  const [index, setIndex] = useState(0);
+  const [isSelectOption, setIsSelectOption] = useState(true);
+  const [selectOption, setSelectOption] = useState(1);
+  const [defaultOption, setDefaultOption] = useState(1);
   const [activeButtons, setActiveButtons] = useState<Set<number>>(new Set<number>());
+
+  function handleClickCategoryButton(isSelectOption: boolean) {
+    setIsSelectOption(isSelectOption);
+  }
 
   return (
     <OptionTemplate
@@ -13,7 +19,7 @@ export function Option() {
       price={690000}
       tags={['여름에 쓰기 좋아요☀️', '옵션값 뽑았어요👍', '편리해요☺️']}
       index={5}
-      isSelectOption={true}
+      isSelectOption={isSelectOption}
       selectOption={1}
       defaultOption={1}
       optionDetails={[
@@ -156,6 +162,7 @@ export function Option() {
       ]}
       categories={['파워 트레인/성능', '지능형 안전 기술', '안전', '외관', '내장', '시트', '편의', '멀티미디어']}
       activeButtons={activeButtons}
+      onClickCategoryButton={handleClickCategoryButton}
     />
   );
 }

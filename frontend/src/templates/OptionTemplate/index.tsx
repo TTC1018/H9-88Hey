@@ -22,6 +22,7 @@ interface OptionTemplateProps {
   defaultOptionCardInfo: DefaultOptionCardInfoProps[];
   categories: string[];
   activeButtons: Set<number>;
+  onClickCategoryButton: (isSelectOption: boolean) => void;
 }
 
 export function OptionTemplate({
@@ -37,6 +38,7 @@ export function OptionTemplate({
   defaultOptionCardInfo,
   categories,
   activeButtons,
+  onClickCategoryButton,
 }: OptionTemplateProps) {
   return (
     <style.Container>
@@ -58,6 +60,7 @@ export function OptionTemplate({
           defaultOptionCardInfo={defaultOptionCardInfo}
           categories={categories}
           activeButtons={activeButtons}
+          onClickCategoryButton={onClickCategoryButton}
         />
       </style.CardWrapper>
     </style.Container>
