@@ -1,7 +1,7 @@
-import { SelectOptionImageBox } from '@components/common/SelectOptionImageBox';
-import { SelectOptionDescription } from '@components/common/SelectOptionDescription';
-import { SelectOptionDetail } from '@components/common/SelectOptionDetail';
-import { OptionCardContainer } from '@components/common/OptionCardContainer';
+import { SelectOptionImageBox } from '@/components/common/SelectOptionImageBox';
+import { SelectOptionDescription } from '@/components/common/SelectOptionDescription';
+import { SelectOptionDetail } from '@/components/common/SelectOptionDetail';
+import { OptionCardContainer } from '@/components/common/OptionCardContainer';
 
 interface OptionTemplateProps {
   title: string;

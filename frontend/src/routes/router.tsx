@@ -1,6 +1,6 @@
 import { createBrowserRouter } from 'react-router-dom';
-import { Trim } from '@pages/Trim';
-import { Option } from '@pages/Option';
+import { Trim } from '@/pages/Trim';
+import { Option } from '@/pages/Option';
 
 export const router = createBrowserRouter([
   {

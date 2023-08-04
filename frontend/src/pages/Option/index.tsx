@@ -1,4 +1,4 @@
-import { OptionTemplate } from '@components/templates/OptionTemplate';
+import { OptionTemplate } from '@/components/templates/OptionTemplate';
 
 export function Option() {
   return (
