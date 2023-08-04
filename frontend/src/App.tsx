@@ -1,8 +1,9 @@
-import { ThemeProvider } from '@emotion/react';
-import { GlobalStyle } from './styles/GlobalStyle';
-import { theme } from './styles/theme';
 import { RouterProvider } from 'react-router';
+import { ThemeProvider } from '@emotion/react';
+
 import { router } from './routes/router';
+import { theme } from './styles/theme';
+import { GlobalStyle } from './styles/GlobalStyle';
 
 export function App() {
   return (
