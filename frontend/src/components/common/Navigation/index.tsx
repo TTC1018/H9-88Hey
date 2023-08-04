@@ -1,6 +1,6 @@
 import { Outlet, useLocation } from 'react-router-dom';
-import { NavArrowButton } from '../NavArrowButton';
 import { useEffect, useState } from 'react';
+import { NavArrowButton } from '@/components/common/NavArrowButton';
 import * as style from './style';
 
 const SELECTIONS = Object.freeze({
