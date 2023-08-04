@@ -1,15 +1,10 @@
+import { SelectOptionCardInfoProps } from '@/types/option';
+
 import * as style from './style';
 
 interface SelectOptionCardProps {
   selectedOption: number;
   cardInfo: SelectOptionCardInfoProps[];
-}
-
-interface SelectOptionCardInfoProps {
-  image: string;
-  title: string;
-  price: number;
-  descriptions: string[];
 }
 
 interface OptionCardProps {

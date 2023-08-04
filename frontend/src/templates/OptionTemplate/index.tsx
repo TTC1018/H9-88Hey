@@ -1,3 +1,7 @@
+import { OptionDetailsProps } from '@/types/option';
+import { SelectOptionCardInfoProps } from '@/types/option';
+import { DefaultOptionCardInfoProps } from '@/types/option';
+
 import { SelectOptionImageBox } from '@/components/common/SelectOptionImageBox';
 import { SelectOptionDescription } from '@/components/common/SelectOptionDescription';
 import { SelectOptionDetail } from '@/components/common/SelectOptionDetail';
@@ -14,25 +18,6 @@ interface OptionTemplateProps {
   selectOptionCardInfo: SelectOptionCardInfoProps[];
   defaultOptionCardInfo: DefaultOptionCardInfoProps[];
   categories: string[];
-}
-
-interface OptionDetailsProps {
-  title: string;
-  description: string;
-}
-
-interface SelectOptionCardInfoProps {
-  image: string;
-  title: string;
-  price: number;
-  descriptions: string[];
-}
-
-interface DefaultOptionCardInfoProps {
-  image: string;
-  text: string;
-  subtext: string;
-  description: string;
 }
 
 export function OptionTemplate({

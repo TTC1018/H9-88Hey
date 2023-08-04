@@ -1,16 +1,11 @@
+import { DefaultOptionCardInfoProps } from '@/types/option';
+
 import * as style from './style';
 
 interface DefaultOptionCardProps {
   selectedCategory: number;
   categories: string[];
   defaultOptionCardInfo: DefaultOptionCardInfoProps[];
-}
-
-interface DefaultOptionCardInfoProps {
-  image: string;
-  text: string;
-  subtext: string;
-  description: string;
 }
 
 export function DefaultOptionCard({ selectedCategory, categories, defaultOptionCardInfo }: DefaultOptionCardProps) {

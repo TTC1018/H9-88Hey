@@ -1,3 +1,6 @@
+import { SelectOptionCardInfoProps } from '@/types/option';
+import { DefaultOptionCardInfoProps } from '@/types/option';
+
 import { OptionCategory } from './OptionCategory';
 import { SelectOptionCard } from './SelectOptionCard';
 import { DefaultOptionCard } from './DefaultOptionCard';
@@ -8,20 +11,6 @@ interface OptionCardContainerProps {
   selectOptionCardInfo: SelectOptionCardInfoProps[];
   defaultOptionCardInfo: DefaultOptionCardInfoProps[];
   categories: string[];
-}
-
-interface SelectOptionCardInfoProps {
-  image: string;
-  title: string;
-  price: number;
-  descriptions: string[];
-}
-
-interface DefaultOptionCardInfoProps {
-  image: string;
-  text: string;
-  subtext: string;
-  description: string;
 }
 
 export function OptionCardContainer({

@@ -1,14 +1,11 @@
+import { OptionDetailsProps } from '@/types/option';
+
 import * as style from './style';
 
 interface SelectOptionDetailProps {
   index: number;
   length: number;
   optionDetails: OptionDetailsProps[];
-}
-
-interface OptionDetailsProps {
-  title: string;
-  description: string;
 }
 
 export function SelectOptionDetail({ index, length, optionDetails }: SelectOptionDetailProps) {
