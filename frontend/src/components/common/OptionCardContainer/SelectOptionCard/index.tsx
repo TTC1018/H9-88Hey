@@ -29,14 +29,15 @@ export function SelectOptionCard({ selectedOption, cardInfo }: SelectOptionCardP
   return (
     <>
       <style.Container>
-        {cardInfo.map((info, index) => (
+        {cardInfo.map(({ image, title, price, descriptions }, index) => (
           <OptionCard
             option={index + 1}
             selectedOption={selectedOption}
-            image={info.image}
-            title={info.title}
-            price={info.price.toString()}
-            descriptions={info.descriptions}
+            image={image}
+            title={title}
+            price={price.toString()}
+            descriptions={descriptions}
+            key={title}
           />
         ))}
       </style.Container>
