@@ -82,7 +82,7 @@ fun OptionSelectItem(
                     Text(
                         modifier = modifier
                             .align(Alignment.End),
-                        text = stringResource(id = R.string.make_car_selected_option_price, optionPrice),
+                        text = stringResource(id = R.string.plus_space_price_won, optionPrice),
                         style = medium14,
                         color = if (itemSelect) PrimaryBlue else Black
                     )

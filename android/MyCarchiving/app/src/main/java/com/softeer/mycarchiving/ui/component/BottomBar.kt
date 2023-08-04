@@ -73,7 +73,7 @@ fun BottomBar(
                 )
                 Spacer(modifier = modifier.width(3.dp))
                 Text(
-                    text = stringResource(id = R.string.bottom_bar_price),
+                    text = stringResource(id = R.string.won),
                     style = medium12
                 )
             }
