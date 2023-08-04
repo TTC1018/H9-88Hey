@@ -1,3 +1,7 @@
 export function TrimTemplate() {
-  return <></>;
+  return (
+    <>
+      <div>하이</div>
+    </>
+  );
 }
