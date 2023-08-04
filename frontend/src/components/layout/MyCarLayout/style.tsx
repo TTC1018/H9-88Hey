@@ -1,0 +1,20 @@
+import styled from '@emotion/styled';
+
+const Container = styled.div`
+  width: 100vw;
+  height: 100vh;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+`;
+
+const Wrapper = styled.div`
+  width: 100%;
+  max-width: 1280px;
+
+  flex-grow: 1;
+`;
+
+export { Container, Wrapper };

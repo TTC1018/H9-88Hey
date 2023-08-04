@@ -1,4 +1,4 @@
-import { TrimTemplate } from '@components/templates/trim/TrimTemplate';
+import { TrimTemplate } from '@/templates/trim/TrimTemplate';
 
 export function Trim() {
   return <TrimTemplate />;
