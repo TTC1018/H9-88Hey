@@ -60,30 +60,28 @@ export function Navigation() {
   }
 
   return (
-    <>
-      <style.Container>
-        <style.Wrapper>
-          <style.OrderNumber isDisplay={true} isCurrent={true}>
-            {orderNum}
-          </style.OrderNumber>
-          <style.OrderTitle>{title}</style.OrderTitle>
-          <style.OrderBox>
-            {Object.entries(flow).map(([key, value], index) => (
-              <style.Order key={key}>
-                <style.OrderText isCurrent={isKeyEqualToSelectedPath(key)}>{value}</style.OrderText>
-                {!isFlowLast(index) && <NavArrowButton isCurrent={isKeyEqualToSelectedPath(key)} />}
-              </style.Order>
-            ))}
-          </style.OrderBox>
-        </style.Wrapper>
-        <style.Wrapper>
-          {[2, 3].map(page => (
-            <style.OrderNumber key={page} isDisplay={isOrderNumLessThanPage(page)} isCurrent={false}>
-              {page}
-            </style.OrderNumber>
+    <style.Container>
+      <style.Wrapper>
+        <style.OrderNumber isDisplay={true} isCurrent={true}>
+          {orderNum}
+        </style.OrderNumber>
+        <style.OrderTitle>{title}</style.OrderTitle>
+        <style.OrderBox>
+          {Object.entries(flow).map(([key, value], index) => (
+            <style.Order key={key}>
+              <style.OrderText isCurrent={isKeyEqualToSelectedPath(key)}>{value}</style.OrderText>
+              {!isFlowLast(index) && <NavArrowButton isCurrent={isKeyEqualToSelectedPath(key)} />}
+            </style.Order>
           ))}
-        </style.Wrapper>
-      </style.Container>
-    </>
+        </style.OrderBox>
+      </style.Wrapper>
+      <style.Wrapper>
+        {[2, 3].map(page => (
+          <style.OrderNumber key={page} isDisplay={isOrderNumLessThanPage(page)} isCurrent={false}>
+            {page}
+          </style.OrderNumber>
+        ))}
+      </style.Wrapper>
+    </style.Container>
   );
 }
