@@ -32,8 +32,12 @@ export const router = createBrowserRouter([
   },
   {
     path: '/option',
-    element: <Option />,
+    element: <MyCarLayout />,
     children: [
+      {
+        path: '',
+        element: <Option />,
+      },
       {
         path: 'h-genuine-accessories',
         element: <div>h genuine</div>,
