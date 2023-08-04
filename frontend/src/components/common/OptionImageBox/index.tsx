@@ -6,9 +6,9 @@ interface OptionImageBoxProps {
 
 export function OptionImageBox({ image }: OptionImageBoxProps) {
   return (
-    <>
+    <style.Container>
       <style.Image src={image} />
       <style.Button>옵션 위치 보기</style.Button>
-    </>
+    </style.Container>
   );
 }
