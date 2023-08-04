@@ -11,8 +11,7 @@ const Container = styled.div`
 `;
 
 const Wrapper = styled.div`
-  width: 100%;
-  max-width: 1280px;
+  width: 1024px;
 
   flex-grow: 1;
 `;
