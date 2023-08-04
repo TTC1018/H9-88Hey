@@ -23,12 +23,15 @@ export function OptionCardContainer({
   return (
     <>
       <OptionCategory selectedCategory={selectedCategory} />
-      <SelectOptionCard selectedOption={selectedOption} cardInfo={selectOptionCardInfo} />
-      <DefaultOptionCard
-        selectedCategory={selectedCategory}
-        categories={categories}
-        defaultOptionCardInfo={defaultOptionCardInfo}
-      />
+      {selectedOption === 1 ? (
+        <SelectOptionCard selectedOption={selectedOption} cardInfo={selectOptionCardInfo} />
+      ) : (
+        <DefaultOptionCard
+          selectedCategory={selectedCategory}
+          categories={categories}
+          defaultOptionCardInfo={defaultOptionCardInfo}
+        />
+      )}
     </>
   );
 }

@@ -7,6 +7,8 @@ import { OptionDescription } from '@/components/common/OptionDescription';
 import { OptionDetailCard } from '@/components/common/OptionDetailCard';
 import { OptionCardContainer } from '@/components/common/OptionCardContainer';
 
+import * as style from './style';
+
 interface OptionTemplateProps {
   title: string;
   price: number;
@@ -33,17 +35,25 @@ export function OptionTemplate({
   categories,
 }: OptionTemplateProps) {
   return (
-    <>
-      <OptionImageBox image={selectOptionCardInfo[index].image} />
-      <OptionDescription title={title} price={price} tags={tags} />
-      <OptionDetailCard index={index} length={selectOptionCardInfo.length} optionDetails={optionDetails} />
-      <OptionCardContainer
-        selectedCategory={selectedCategory}
-        selectedOption={selectedOption}
-        selectOptionCardInfo={selectOptionCardInfo}
-        defaultOptionCardInfo={defaultOptionCardInfo}
-        categories={categories}
-      />
-    </>
+    <style.Container>
+      <style.OptionWrapper>
+        <style.ImageBox>
+          <OptionImageBox image={selectOptionCardInfo[index].image} />
+        </style.ImageBox>
+        <style.DescriptionBox>
+          <OptionDescription title={title} price={price} tags={tags} />
+          <OptionDetailCard index={index} length={selectOptionCardInfo.length} optionDetails={optionDetails} />
+        </style.DescriptionBox>
+      </style.OptionWrapper>
+      <style.CardWrapper>
+        <OptionCardContainer
+          selectedCategory={selectedCategory}
+          selectedOption={selectedOption}
+          selectOptionCardInfo={selectOptionCardInfo}
+          defaultOptionCardInfo={defaultOptionCardInfo}
+          categories={categories}
+        />
+      </style.CardWrapper>
+    </style.Container>
   );
 }
