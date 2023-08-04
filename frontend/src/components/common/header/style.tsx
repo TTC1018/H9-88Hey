@@ -17,9 +17,10 @@ const Container = styled.div`
 `;
 
 const Wrapper = styled.div`
+  gap: 10px;
+
   display: flex;
   align-items: center;
-  gap: 10px;
 `;
 
 const Division = styled.div`
