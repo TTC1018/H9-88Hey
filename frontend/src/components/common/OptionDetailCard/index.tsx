@@ -2,13 +2,13 @@ import { OptionDetailsProps } from '@/types/option';
 
 import * as style from './style';
 
-interface SelectOptionDetailProps {
+interface OptionDetailCardProps {
   index: number;
   length: number;
   optionDetails: OptionDetailsProps[];
 }
 
-export function SelectOptionDetail({ index, length, optionDetails }: SelectOptionDetailProps) {
+export function OptionDetailCard({ index, length, optionDetails }: OptionDetailCardProps) {
   const { title, description } = optionDetails[index];
 
   function convertToTwoDigits(index: number) {

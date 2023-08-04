@@ -1,12 +1,12 @@
 import * as style from './style';
 
-interface SelectOptionDescriptionProps {
+interface OptionDescriptionProps {
   title: string;
   price: number;
   tags: string[];
 }
 
-export function SelectOptionDescription({ title, price, tags }: SelectOptionDescriptionProps) {
+export function OptionDescription({ title, price, tags }: OptionDescriptionProps) {
   return (
     <style.Container>
       <style.TitleWrapper>

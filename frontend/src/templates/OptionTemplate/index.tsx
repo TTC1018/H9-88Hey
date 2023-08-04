@@ -2,9 +2,9 @@ import { OptionDetailsProps } from '@/types/option';
 import { SelectOptionCardInfoProps } from '@/types/option';
 import { DefaultOptionCardInfoProps } from '@/types/option';
 
-import { SelectOptionImageBox } from '@/components/common/SelectOptionImageBox';
-import { SelectOptionDescription } from '@/components/common/SelectOptionDescription';
-import { SelectOptionDetail } from '@/components/common/SelectOptionDetail';
+import { OptionImageBox } from '@/components/common/OptionImageBox';
+import { OptionDescription } from '@/components/common/OptionDescription';
+import { OptionDetailCard } from '@/components/common/OptionDetailCard';
 import { OptionCardContainer } from '@/components/common/OptionCardContainer';
 
 interface OptionTemplateProps {
@@ -34,9 +34,9 @@ export function OptionTemplate({
 }: OptionTemplateProps) {
   return (
     <>
-      <SelectOptionImageBox image={selectOptionCardInfo[index].image} />
-      <SelectOptionDescription title={title} price={price} tags={tags} />
-      <SelectOptionDetail index={index} length={selectOptionCardInfo.length} optionDetails={optionDetails} />
+      <OptionImageBox image={selectOptionCardInfo[index].image} />
+      <OptionDescription title={title} price={price} tags={tags} />
+      <OptionDetailCard index={index} length={selectOptionCardInfo.length} optionDetails={optionDetails} />
       <OptionCardContainer
         selectedCategory={selectedCategory}
         selectedOption={selectedOption}

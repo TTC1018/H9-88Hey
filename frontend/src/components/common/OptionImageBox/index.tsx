@@ -1,10 +1,10 @@
 import * as style from './style';
 
-interface SelectOptionImageBoxProps {
+interface OptionImageBoxProps {
   image: string;
 }
 
-export function SelectOptionImageBox({ image }: SelectOptionImageBoxProps) {
+export function OptionImageBox({ image }: OptionImageBoxProps) {
   return (
     <>
       <style.Image src={image} />
