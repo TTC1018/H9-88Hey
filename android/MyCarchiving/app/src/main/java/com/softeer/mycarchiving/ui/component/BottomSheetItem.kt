@@ -15,7 +15,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -63,7 +62,37 @@ val detailItems = listOf(
     CarBasicDetailItem(id = 2, detailName = "ISG 시스템", "신호 대기 상황이거나 정차 중일 때 차의 엔진을 일시 정지하여 연비를 향상시키고, 배출가스 발생을 억제하는 시스템입니다.")
 )
 
-val basicItem = CarBasicItem(id = 0, name = "파워트레인 성능", detailItems = detailItems)
+val basicItem1 = CarBasicItem(id = 0, name = "파워트레인 성능", detailItems = detailItems)
+val basicItem2 = CarBasicItem(id = 1, name = "지능형 안전 기술", detailItems = detailItems)
+val basicItem3 = CarBasicItem(id = 2, name = "안전", detailItems = detailItems)
+val basicItem4 = CarBasicItem(id = 3, name = "성능", detailItems = detailItems)
+
+val basicItems = listOf(basicItem1, basicItem2, basicItem3, basicItem4)
+
+@Composable
+fun CarBasicBottomSheetContent(
+    modifier: Modifier,
+    basicItems: List<CarBasicItem>
+) {
+    LazyColumn(
+        modifier = modifier.padding(top = 32.dp, bottom = 12.dp),
+        verticalArrangement = Arrangement.spacedBy(12.dp)
+    ) {
+        items(
+            items = basicItems,
+            key = { it.id },
+            itemContent = {
+                CarBasicItem(modifier = modifier, basicItem = it)
+            }
+        )
+    }
+}
+
+@Preview
+@Composable
+fun PreviewCarBasicBottomSheetContent() {
+    CarBasicBottomSheetContent(modifier = Modifier, basicItems = basicItems)
+}
 
 @Composable
 fun CarBasicItem(
@@ -96,20 +125,12 @@ fun CarBasicItem(
             )
         }
         if (showDetail) {
-            Surface(
-                modifier = modifier.padding(top = 12.dp, bottom = 6.dp)
+            Column(
+                modifier = modifier.padding(top = 12.dp, bottom = 6.dp),
+                verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                LazyColumn(
-                    userScrollEnabled = false,
-                    verticalArrangement = Arrangement.spacedBy(8.dp)
-                ) {
-                    items(
-                        items = basicItem.detailItems,
-                        key = { it.id },
-                        itemContent = {
-                            CarBasicDetailItem(modifier = modifier, detailItem = it)
-                        }
-                    )
+                basicItem.detailItems.forEach { detailItem ->
+                    CarBasicDetailItem(modifier = modifier, detailItem = detailItem)
                 }
             }
         }
@@ -117,11 +138,11 @@ fun CarBasicItem(
 
 }
 
-@Preview
+/*@Preview
 @Composable
 fun PreviewCarBasicItem() {
-    CarBasicItem(modifier = Modifier, basicItem = basicItem)
-}
+    CarBasicItem(modifier = Modifier, basicItem = basicItem1)
+}*/
 
 @Composable
 fun CarBasicDetailItem(
@@ -152,11 +173,11 @@ fun CarBasicDetailItem(
     }
 }
 
-@Preview
+/*@Preview
 @Composable
 fun PreviewCarBasicDetailItem() {
     CarBasicDetailItem(modifier = Modifier, detailItem = detailItems[0])
-}
+}*/
 
 data class SummaryItemChild(
     val name: String,
@@ -311,11 +332,11 @@ fun SummaryLabel(
     }
 }
 
-@Preview
+/*@Preview
 @Composable
 fun PreviewSummaryLabel() {
     SummaryLabel(modifier = Modifier, labelName = "총 견적 금액", totalPrice = totalPrice, summaryChildren = summaryFirst)
-}
+}*/
 
 @Composable
 fun SummaryChild(
@@ -363,6 +384,7 @@ fun SummaryChild(
     }
 }
 
+/*
 @Preview
 @Composable
 fun PreviewSummaryItem() {
@@ -370,4 +392,4 @@ fun PreviewSummaryItem() {
         modifier = Modifier,
         summaryChild = summarySecond[0]
     )
-}
+}*/
