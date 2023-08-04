@@ -16,24 +16,22 @@ export function OptionDetailCard({ index, length, optionDetails }: OptionDetailC
   }
 
   return (
-    <>
-      <style.Container>
-        <style.TitleWrapper>
-          <style.TitleBox>
-            <style.Ellipse>{convertToTwoDigits(index)}</style.Ellipse>
-            <style.Title>{title}</style.Title>
-          </style.TitleBox>
-          <style.OrderBox>
-            <style.Order>
-              {index + 1}/{length}
-            </style.Order>
-          </style.OrderBox>
-        </style.TitleWrapper>
-        <style.Line />
-        <style.DescriptionWrapper>
-          <style.Description>{description}</style.Description>
-        </style.DescriptionWrapper>
-      </style.Container>
-    </>
+    <style.Container>
+      <style.TitleWrapper>
+        <style.TitleBox>
+          <style.Ellipse>{convertToTwoDigits(index)}</style.Ellipse>
+          <style.Title>{title}</style.Title>
+        </style.TitleBox>
+        <style.OrderBox>
+          <style.Order>
+            {index + 1}/{length}
+          </style.Order>
+        </style.OrderBox>
+      </style.TitleWrapper>
+      <style.Line />
+      <style.DescriptionWrapper>
+        <style.Description>{description}</style.Description>
+      </style.DescriptionWrapper>
+    </style.Container>
   );
 }

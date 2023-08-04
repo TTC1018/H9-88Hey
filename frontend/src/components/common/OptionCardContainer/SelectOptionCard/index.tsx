@@ -22,21 +22,19 @@ interface OptionCardHoverProps {
 
 export function SelectOptionCard({ selectedOption, cardInfo }: SelectOptionCardProps) {
   return (
-    <>
-      <style.Container>
-        {cardInfo.map(({ image, title, price, descriptions }, index) => (
-          <OptionCard
-            option={index + 1}
-            selectedOption={selectedOption}
-            image={image}
-            title={title}
-            price={price.toString()}
-            descriptions={descriptions}
-            key={title}
-          />
-        ))}
-      </style.Container>
-    </>
+    <style.Container>
+      {cardInfo.map(({ image, title, price, descriptions }, index) => (
+        <OptionCard
+          option={index + 1}
+          selectedOption={selectedOption}
+          image={image}
+          title={title}
+          price={price.toString()}
+          descriptions={descriptions}
+          key={title}
+        />
+      ))}
+    </style.Container>
   );
 }
 
