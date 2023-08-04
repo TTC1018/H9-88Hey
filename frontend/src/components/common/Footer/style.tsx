@@ -14,9 +14,9 @@ const Container = styled.footer`
       justify-content: center;
 
       background-color: ${colors.hyundaiSand};
-      border-radius: 16px 16px 0px 0px;
+      border-radius: 16px 16px 0 0;
       border-top: 1.196px solid ${colors.lightGray};
-      box-shadow: -2px 0px 12px 0px rgba(217, 216, 215, 0.2);
+      box-shadow: -2px 0 12px 0 rgba(217, 216, 215, 0.2);
     `;
   }}
 `;
