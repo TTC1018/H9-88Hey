@@ -6,10 +6,10 @@ const Container = styled.nav`
     const { colors } = theme;
     return css`
       width: 100%;
-      padding: 15px 100px;
+      padding: 15px 0;
 
       display: flex;
-      justify-content: space-between;
+      justify-content: center;
 
       background-color: ${colors.hyundaiLightSand};
     `;
@@ -17,6 +17,15 @@ const Container = styled.nav`
 `;
 
 const Wrapper = styled.div`
+  max-width: 1024px;
+  width: 100%;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+`;
+
+const Box = styled.div`
   display: flex;
   align-items: center;
   gap: 10px;
@@ -78,4 +87,4 @@ const OrderText = styled.span<OrderTextProps>`
   }}
 `;
 
-export { Container, Wrapper, OrderNumber, OrderTitle, Order, OrderBox, OrderText };
+export { Container, Wrapper, Box, OrderNumber, OrderTitle, Order, OrderBox, OrderText };
