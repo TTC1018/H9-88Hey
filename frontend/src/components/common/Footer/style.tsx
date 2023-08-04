@@ -12,8 +12,6 @@ const Container = styled.footer`
       display: flex;
       align-items: center;
       justify-content: center;
-      position: absolute;
-      bottom: 0;
 
       background-color: ${colors.hyundaiSand};
       border-radius: 16px 16px 0px 0px;
