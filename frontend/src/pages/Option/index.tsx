@@ -587,8 +587,6 @@ export function Option() {
       description: subOption.description,
     });
     setSelectOptionCardData(selectOptionCardData);
-
-    setCategories(defaultOptionMockData.map(({ category }) => category));
   }, [selectOptionIndex, subOptionIndex]);
 
   useEffect(() => {
