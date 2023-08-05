@@ -61,7 +61,7 @@ const Line = styled.hr<ActiveStateProps>`
     return css`
       width: 100%;
       height: 2px;
-      margin: 20px 0;
+      margin: 10px 0;
 
       background-color: ${isActive ? colors.hyundaiPrimaryBlue : colors.black};
     `;

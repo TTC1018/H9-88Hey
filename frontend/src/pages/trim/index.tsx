@@ -1,7 +1,15 @@
-import { useSelectIndex } from '@/hooks/useSelectedIndex';
-import { TrimTemplate } from '@/components/templates/TrimTemplate';
+import { useEffect } from 'react';
 
-const mockCards = [
+import { useOutletContext } from 'react-router-dom';
+
+import { useSelectIndex } from '@/hooks/useSelectedIndex';
+
+import { MyCarLayoutContextType } from '@/types/trim';
+import { MyCarImageBox } from '@/components/common/MyCarImageBox';
+import { SelectOptionCard } from '@/components/trim/SelectOptionCard';
+import * as style from './style';
+
+const mockData = [
   {
     title: 'Le Blanc(르블랑)',
     price: 47720000,
@@ -19,7 +27,7 @@ const mockCards = [
   },
   {
     title: 'Exclusive',
-    price: 47720000,
+    price: 51720000,
     carImages: [
       'https://www.hyundai.com/contents/vr360/LX06/exterior/R2T/001.png',
       'https://img1.daumcdn.net/thumb/S1100x620ht.u/?fname=%2Fmedia%2Fvitraya%2Fauto%2Fimage%2F8c343c%2F574691FAF8211C9B0062C36B47DAB069D716EF12D7C7683B36_3JA1&scode=media',
@@ -34,7 +42,7 @@ const mockCards = [
   },
   {
     title: 'Prestige',
-    price: 47720000,
+    price: 107720000,
     carImages: [
       'https://www.hyundai.com/contents/vr360/LX06/exterior/D2S/001.png',
       'https://img1.daumcdn.net/thumb/S1100x620ht.u/?fname=%2Fmedia%2Fvitraya%2Fauto%2Fimage%2F8c343c%2F574691FAF8211C9B0062C36B47DAB069D716EF12D7C7683B36_3JA1&scode=media',
@@ -49,7 +57,7 @@ const mockCards = [
   },
   {
     title: 'Calligraphy',
-    price: 47720000,
+    price: 42120000,
     carImages: [
       'https://www.hyundai.com/contents/vr360/LX06/exterior/WC9/001.png',
       'https://img1.daumcdn.net/thumb/S1100x620ht.u/?fname=%2Fmedia%2Fvitraya%2Fauto%2Fimage%2F8c343c%2F574691FAF8211C9B0062C36B47DAB069D716EF12D7C7683B36_3JA1&scode=media',
@@ -65,21 +73,45 @@ const mockCards = [
 ];
 
 export function Trim() {
-  const [selectedIndex, handleClick] = useSelectIndex();
-  const [selectedImageIndex, handleImageClick] = useSelectIndex();
+  const [selectedIndex, handleSetIndex] = useSelectIndex();
+  const [selectedImageIndex, handleSetImageIndex] = useSelectIndex();
 
-  const handleCardClick = (index: number) => () => {
-    handleClick(index)();
-    handleImageClick(0)();
-  };
+  const { carImages } = mockData[selectedIndex];
+
+  const {
+    handleTrim,
+    trim: { model },
+  } = useOutletContext<MyCarLayoutContextType>();
+
+  function handleCardClick(index: number, price: number) {
+    return () => {
+      handleSetIndex(index)();
+      handleTrim({ key: 'model', option: mockData[index].title, price: price });
+      handleSetImageIndex(0)();
+    };
+  }
+
+  useEffect(() => {
+    const index = mockData.findIndex(card => card.title === model.title);
+
+    index !== -1 && handleSetIndex(index)();
+  }, [model.title]);
 
   return (
-    <TrimTemplate
-      selectedIndex={selectedIndex}
-      selectedImageIndex={selectedImageIndex}
-      optionCards={mockCards}
-      onCardClick={handleCardClick}
-      onImageClick={handleImageClick}
-    />
+    <style.Container>
+      <MyCarImageBox
+        hasOption={true}
+        images={carImages}
+        selectedIndex={selectedImageIndex}
+        onClick={handleSetImageIndex}
+      />
+      <style.Wrapper>
+        {mockData.map(({ title, price, optionImages }, index) => (
+          <style.Box key={title} onClick={handleCardClick(index, price)}>
+            <SelectOptionCard isActive={index === selectedIndex} title={title} price={price} images={optionImages} />
+          </style.Box>
+        ))}
+      </style.Wrapper>
+    </style.Container>
   );
 }

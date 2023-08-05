@@ -27,3 +27,24 @@ export interface EngineOptionType {
   torque: string;
   image: string;
 }
+
+interface MyCarDetailType {
+  title: string;
+  price: number;
+}
+export interface MyCarType {
+  model: MyCarDetailType;
+  engine: MyCarDetailType;
+  bodyType: MyCarDetailType;
+  wheelDrive: MyCarDetailType;
+  color: {
+    outer: [string, string];
+    inner: [string, string];
+  };
+  options: string[];
+}
+
+export interface MyCarLayoutContextType {
+  handleTrim: ({ key, option, price }: { key: string; option: string; price: number }) => void;
+  trim: MyCarType;
+}
