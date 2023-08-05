@@ -635,21 +635,6 @@ export function Option() {
           data={defaultOptionCardData}
           onClickCategory={handleChangeCategoryIndex}
         />
-
-        {/* {menu === 0 ? (
-          <SelectOptionCardList
-            selectedIndex={selectOptionIndex}
-            data={selectOptionCardData}
-            onClickCard={handleChangeOptionIndex}
-          />
-        ) : (
-          <DefaultOptionCardList
-            categoryIndex={categoryIndex}
-            categories={categories}
-            data={defaultOptionCardData}
-            onClickCategory={handleChangeCategoryIndex}
-          />
-        )} */}
       </style.CardWrapper>
     </style.Container>
   );
