@@ -40,11 +40,11 @@ export const router = createBrowserRouter([
       },
       {
         path: 'h-genuine-accessories',
-        element: <div>h genuine</div>,
+        element: <Option />,
       },
       {
         path: 'n-performance',
-        element: <div>n- performance</div>,
+        element: <Option />,
       },
     ],
   },
