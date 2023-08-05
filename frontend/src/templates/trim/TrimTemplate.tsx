@@ -1,7 +1,9 @@
+import { Color } from '@/pages/color';
+
 export function TrimTemplate() {
   return (
     <>
-      <div>하이</div>
+      <Color />
     </>
   );
 }
