@@ -1,47 +1,55 @@
 import { createBrowserRouter } from 'react-router-dom';
 
-import { Trim } from '@/pages/trim';
-import { Engine } from '@/pages/trim/Engine';
-import { BodyType } from '@/pages/trim/BodyType';
-import { WheelDrive } from '@/pages/trim/WheelDrive';
+import { Trim } from '@/pages/Trim';
+import { Engine } from '@/pages/Trim/Engine';
+import { BodyType } from '@/pages/Trim/BodyType';
+import { WheelDrive } from '@/pages/Trim/WheelDrive';
+import { MyCarLayout } from '@/components/layout/MyCarLayout';
 
 export const router = createBrowserRouter([
   {
-    path: '/trim',
+    path: '',
+    element: <MyCarLayout />,
     children: [
       {
-        path: '',
-        element: <Trim />,
+        path: '/trim',
+        children: [
+          {
+            path: '',
+            element: <Trim />,
+          },
+          {
+            path: 'engine',
+            element: <Engine />,
+          },
+          {
+            path: 'body-type',
+            element: <BodyType />,
+          },
+          {
+            path: 'wheel-drive',
+            element: <WheelDrive />,
+          },
+        ],
       },
       {
-        path: 'engine',
-        element: <Engine />,
+        path: '/color',
       },
       {
-        path: 'body-type',
-        element: <BodyType />,
-      },
-      {
-        path: 'wheel-drive',
-        element: <WheelDrive />,
+        path: '/option',
+        children: [
+          {
+            path: 'h-genuine-accessories',
+          },
+          {
+            path: 'n-performance',
+          },
+        ],
       },
     ],
   },
   {
-    path: '/color',
-  },
-  {
-    path: '/option',
-    children: [
-      {
-        path: 'h-genuine-accessories',
-      },
-      {
-        path: 'n-performance',
-      },
-    ],
-  },
-  {
-    path: '/result',
+    path: '*',
+    element: <div>아직 안만듬</div>,
   },
 ]);
