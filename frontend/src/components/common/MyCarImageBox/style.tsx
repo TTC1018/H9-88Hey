@@ -41,6 +41,8 @@ const SubImage = styled.img<ActiveStateProps>`
       border: 2px solid ${isActive ? '#00AAD2' : colors.lightGray};
 
       object-fit: cover;
+
+      cursor: pointer;
     `;
   }}
 `;

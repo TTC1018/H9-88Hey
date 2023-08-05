@@ -23,11 +23,13 @@ const Container = styled.div<ActiveStateProps>`
       border-radius: 8px;
       border: 2px solid ${isActive ? colors.hyundaiPrimaryBlue : colors.hyundaiLightSand};
       background: ${isActive ? 'rgba(0, 44, 95, 0.10)' : colors.hyundaiLightSand};
+
+      cursor: pointer;
     `;
   }}
 `;
 
-const Title = styled.div`
+const Title = styled.p`
   ${({ theme }) => {
     const { fonts } = theme;
     return css`
@@ -48,7 +50,7 @@ const Line = styled.hr<ActiveStateProps>`
   }}
 `;
 
-const Price = styled.div`
+const Price = styled.p`
   ${({ theme }) => {
     const { fonts } = theme;
     return css`

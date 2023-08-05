@@ -11,7 +11,7 @@ const Wrapper = styled.div`
   align-items: center;
 `;
 
-const Title = styled.div`
+const Title = styled.p`
   ${({ theme }) => {
     const { fonts } = theme;
     return css`
@@ -25,7 +25,7 @@ const Title = styled.div`
   }}
 `;
 
-const SubTitle = styled.div`
+const SubTitle = styled.p`
   ${({ theme }) => {
     const { fonts } = theme;
     return css`
@@ -34,7 +34,7 @@ const SubTitle = styled.div`
   }}
 `;
 
-const Price = styled.div`
+const Price = styled.p`
   ${({ theme }) => {
     const { fonts } = theme;
     return css`
@@ -56,14 +56,14 @@ const Line = styled.hr`
   }}
 `;
 
-const TagWrapper = styled.div`
+const TagWrapper = styled.ul`
   margin-top: 14px;
   gap: 8px;
 
   display: flex;
 `;
 
-const Tag = styled.div`
+const Tag = styled.li`
   ${({ theme }) => {
     const { colors, fonts } = theme;
     return css`

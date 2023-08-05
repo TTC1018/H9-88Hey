@@ -17,7 +17,7 @@ export function SelectOptionCard({ isActive, title, price, images }: SelectOptio
         ))}
       </style.ImageWrapper>
       <style.Line isActive={isActive} />
-      <style.Price>{price} 원</style.Price>
+      <style.Price>{price.toLocaleString()} 원</style.Price>
     </style.Container>
   );
 }

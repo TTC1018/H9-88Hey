@@ -21,7 +21,7 @@ export function MyCarDescription({ title, price, hasTag, tags }: MyCarDescriptio
           {title}
           {hasTag && <style.SubTitle>에 대해 시승자들은 이런 후기를 남겼어요</style.SubTitle>}
         </style.Title>
-        <style.Price>+{price}원</style.Price>
+        <style.Price>+{price.toLocaleString()}원</style.Price>
       </style.Wrapper>
       <style.Line />
       {hasTag && (

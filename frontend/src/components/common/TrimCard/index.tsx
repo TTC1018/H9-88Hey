@@ -24,7 +24,7 @@ export function TrimCard({ isActive, title, price, description, hasEngineInfo, p
     <style.Container isActive={isActive}>
       <style.Wrapper>
         <style.Title>{title}</style.Title>
-        <style.Price>+{price}원</style.Price>
+        <style.Price>+{price.toLocaleString()}원</style.Price>
       </style.Wrapper>
       <style.Description>{description}</style.Description>
       {hasEngineInfo && (
