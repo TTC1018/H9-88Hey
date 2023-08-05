@@ -3,3 +3,7 @@ export function addCommasToPrice(price: number) {
   const priceWithCommasString = `+${priceWithCommas}원`;
   return priceWithCommasString;
 }
+
+export function convertToTwoDigits(index: number) {
+  return (index + 1).toString().padStart(2, '0');
+}

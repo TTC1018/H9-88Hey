@@ -1,3 +1,5 @@
+import { convertToTwoDigits } from '@/utils';
+
 import { PrevButton } from '../PrevButton';
 import { NextButton } from '../NextButton';
 
@@ -9,11 +11,6 @@ interface OptionDetailCardProps {
   name: string;
   description: string;
   onClick: (step: number) => void;
-}
-
-// TODO: utils로 분리
-function convertToTwoDigits(index: number) {
-  return (index + 1).toString().padStart(2, '0');
 }
 
 export function OptionDetailCard({ index, length, name, description, onClick }: OptionDetailCardProps) {
