@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { PrevButton } from '../PrevButton';
+import { NextButton } from '../NextButton';
 
 import * as style from './style';
 
@@ -7,6 +8,7 @@ interface OptionDetailCardProps {
   length: number;
   name: string;
   description: string;
+  onClick: (step: number) => void;
 }
 
 // TODO: utils로 분리
@@ -14,7 +16,7 @@ function convertToTwoDigits(index: number) {
   return (index + 1).toString().padStart(2, '0');
 }
 
-export function OptionDetailCard({ index, length, name, description }: OptionDetailCardProps) {
+export function OptionDetailCard({ index, length, name, description, onClick }: OptionDetailCardProps) {
   return (
     <style.Container>
       <style.TitleWrapper>
@@ -30,7 +32,9 @@ export function OptionDetailCard({ index, length, name, description }: OptionDet
       </style.TitleWrapper>
       <style.Line />
       <style.DescriptionWrapper>
+        <PrevButton width="48" height="48" onClick={() => onClick(index - 1)} />
         <style.Description>{description}</style.Description>
+        <NextButton width="48" height="48" onClick={() => onClick(index + 1)} />
       </style.DescriptionWrapper>
     </style.Container>
   );

@@ -301,7 +301,22 @@ export function Option() {
   }
 
   function handleChangeOptionIndex(index: number) {
+    if (index === selectOptionIndex) {
+      return;
+    }
     setSelectOptionIndex(index);
+    setSubOptionIndex(0);
+  }
+
+  function isValidIndex(index: number) {
+    return index >= 0 && index < selectOption.subOptions.length;
+  }
+
+  function handleChangeSubOptionIndex(index: number) {
+    if (!isValidIndex(index)) {
+      return;
+    }
+    setSubOptionIndex(index);
   }
 
   useEffect(() => {
@@ -336,6 +351,7 @@ export function Option() {
             length={selectOption.subOptions.length}
             name={subOption.name}
             description={subOption.description}
+            onClick={handleChangeSubOptionIndex}
           />
         </style.DescriptionBox>
       </style.OptionWrapper>
