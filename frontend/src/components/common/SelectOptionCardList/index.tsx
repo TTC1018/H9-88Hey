@@ -81,7 +81,7 @@ function SelectOptionCard({
             {isButtonActive ? '추가 완료' : '추가하기'}
           </style.Button>
         </style.ButtonBox>
-        {isButtonActive && <style.Icon src={'src/assets/icon_done.svg'} />}
+        {isButtonActive && <style.Icon src={'/src/assets/icon_done.svg'} />}
       </style.DescriptionWrapper>
       {isHover && <SelectOptionCardHover subOptionNames={subOptionNames} />}
     </style.OptionCard>

@@ -20,42 +20,42 @@ const selectOptionMockData = [
   {
     name: '컴포트 2',
     price: 1090000,
-    imageUrl: 'src/assets/1.jpeg',
+    imageUrl: '/src/assets/1.jpeg',
     tags: ['여름에 쓰기 좋아요☀️', '옵션값 뽑았어요👍', '편리해요☺️'],
     subOptions: [
       {
         name: '후석 승객 알림',
-        imageUrl: 'src/assets/1.jpeg',
+        imageUrl: '/src/assets/1.jpeg',
         description:
           '초음파 센서를 통해 뒷좌석에 남아있는 승객의 움직임을 감지하여 운전자에게 경고함으로써 부주의에 의한 유아 또는 반려 동물 등의 방치 사고를 예방하는 신기술입니다.',
       },
       {
         name: '메탈 리어범퍼스텝',
-        imageUrl: 'src/assets/leblanc.jpeg',
+        imageUrl: '/src/assets/leblanc.jpeg',
         description:
           '러기지 룸 앞쪽 하단부를 메탈로 만들어 물건을 싣고 내릴 때나 사람이 올라갈 때 차체를 보호해줍니다.',
       },
       {
         name: '헤드업 디스플레이',
-        imageUrl: 'src/assets/3.jpeg',
+        imageUrl: '/src/assets/3.jpeg',
         description:
           '초음파 센서를 통해 뒷좌석에 남아있는 승객의 움직임을 감지하여 운전자에게 경고함으로써 부주의에 의한 유아 또는 반려 동물 등의 방치 사고를 예방하는 신기술입니다.',
       },
       {
         name: '헤드업 디스플레이',
-        imageUrl: 'src/assets/4.jpeg',
+        imageUrl: '/src/assets/4.jpeg',
         description:
           '초음파 센서를 통해 뒷좌석에 남아있는 승객의 움직임을 감지하여 운전자에게 경고함으로써 부주의에 의한 유아 또는 반려 동물 등의 방치 사고를 예방하는 신기술입니다.',
       },
       {
         name: '헤드업 디스플레이',
-        imageUrl: 'src/assets/5.jpeg',
+        imageUrl: '/src/assets/5.jpeg',
         description:
           '초음파 센서를 통해 뒷좌석에 남아있는 승객의 움직임을 감지하여 운전자에게 경고함으로써 부주의에 의한 유아 또는 반려 동물 등의 방치 사고를 예방하는 신기술입니다.',
       },
       {
         name: '헤드업 디스플레이',
-        imageUrl: 'src/assets/6.jpeg',
+        imageUrl: '/src/assets/6.jpeg',
         description:
           '초음파 센서를 통해 뒷좌석에 남아있는 승객의 움직임을 감지하여 운전자에게 경고함으로써 부주의에 의한 유아 또는 반려 동물 등의 방치 사고를 예방하는 신기술입니다.',
       },
@@ -64,42 +64,42 @@ const selectOptionMockData = [
   {
     name: '현대스마트센스 Ⅰ',
     price: 1090000,
-    imageUrl: 'src/assets/2.jpeg',
+    imageUrl: '/src/assets/2.jpeg',
     tags: ['여름에 쓰기 좋아요☀️', '옵션값 뽑았어요👍', '편리해요☺️'],
     subOptions: [
       {
         name: '헤드업 디스플레이',
-        imageUrl: 'src/assets/2.jpeg',
+        imageUrl: '/src/assets/2.jpeg',
         description:
           '초음파 센서를 통해 뒷좌석에 남아있는 승객의 움직임을 감지하여 운전자에게 경고함으로써 부주의에 의한 유아 또는 반려 동물 등의 방치 사고를 예방하는 신기술입니다.',
       },
       {
         name: '헤드업 디스플레이',
-        imageUrl: 'src/assets/2.jpeg',
+        imageUrl: '/src/assets/2.jpeg',
         description:
           '초음파 센서를 통해 뒷좌석에 남아있는 승객의 움직임을 감지하여 운전자에게 경고함으로써 부주의에 의한 유아 또는 반려 동물 등의 방치 사고를 예방하는 신기술입니다.',
       },
       {
         name: '헤드업 디스플레이',
-        imageUrl: 'src/assets/2.jpeg',
+        imageUrl: '/src/assets/2.jpeg',
         description:
           '초음파 센서를 통해 뒷좌석에 남아있는 승객의 움직임을 감지하여 운전자에게 경고함으로써 부주의에 의한 유아 또는 반려 동물 등의 방치 사고를 예방하는 신기술입니다.',
       },
       {
         name: '헤드업 디스플레이',
-        imageUrl: 'src/assets/2.jpeg',
+        imageUrl: '/src/assets/2.jpeg',
         description:
           '초음파 센서를 통해 뒷좌석에 남아있는 승객의 움직임을 감지하여 운전자에게 경고함으로써 부주의에 의한 유아 또는 반려 동물 등의 방치 사고를 예방하는 신기술입니다.',
       },
       {
         name: '헤드업 디스플레이',
-        imageUrl: 'src/assets/2.jpeg',
+        imageUrl: '/src/assets/2.jpeg',
         description:
           '초음파 센서를 통해 뒷좌석에 남아있는 승객의 움직임을 감지하여 운전자에게 경고함으로써 부주의에 의한 유아 또는 반려 동물 등의 방치 사고를 예방하는 신기술입니다.',
       },
       {
         name: '헤드업 디스플레이',
-        imageUrl: 'src/assets/2.jpeg',
+        imageUrl: '/src/assets/2.jpeg',
         description:
           '초음파 센서를 통해 뒷좌석에 남아있는 승객의 움직임을 감지하여 운전자에게 경고함으로써 부주의에 의한 유아 또는 반려 동물 등의 방치 사고를 예방하는 신기술입니다.',
       },
@@ -108,42 +108,42 @@ const selectOptionMockData = [
   {
     name: '2열 통풍 시트',
     price: 1090000,
-    imageUrl: 'src/assets/3.jpeg',
+    imageUrl: '/src/assets/3.jpeg',
     tags: ['여름에 쓰기 좋아요☀️', '옵션값 뽑았어요👍', '편리해요☺️'],
     subOptions: [
       {
         name: '헤드업 디스플레이',
-        imageUrl: 'src/assets/3.jpeg',
+        imageUrl: '/src/assets/3.jpeg',
         description:
           '초음파 센서를 통해 뒷좌석에 남아있는 승객의 움직임을 감지하여 운전자에게 경고함으로써 부주의에 의한 유아 또는 반려 동물 등의 방치 사고를 예방하는 신기술입니다.',
       },
       {
         name: '헤드업 디스플레이',
-        imageUrl: 'src/assets/3.jpeg',
+        imageUrl: '/src/assets/3.jpeg',
         description:
           '초음파 센서를 통해 뒷좌석에 남아있는 승객의 움직임을 감지하여 운전자에게 경고함으로써 부주의에 의한 유아 또는 반려 동물 등의 방치 사고를 예방하는 신기술입니다.',
       },
       {
         name: '헤드업 디스플레이',
-        imageUrl: 'src/assets/3.jpeg',
+        imageUrl: '/src/assets/3.jpeg',
         description:
           '초음파 센서를 통해 뒷좌석에 남아있는 승객의 움직임을 감지하여 운전자에게 경고함으로써 부주의에 의한 유아 또는 반려 동물 등의 방치 사고를 예방하는 신기술입니다.',
       },
       {
         name: '헤드업 디스플레이',
-        imageUrl: 'src/assets/3.jpeg',
+        imageUrl: '/src/assets/3.jpeg',
         description:
           '초음파 센서를 통해 뒷좌석에 남아있는 승객의 움직임을 감지하여 운전자에게 경고함으로써 부주의에 의한 유아 또는 반려 동물 등의 방치 사고를 예방하는 신기술입니다.',
       },
       {
         name: '헤드업 디스플레이',
-        imageUrl: 'src/assets/3.jpeg',
+        imageUrl: '/src/assets/3.jpeg',
         description:
           '초음파 센서를 통해 뒷좌석에 남아있는 승객의 움직임을 감지하여 운전자에게 경고함으로써 부주의에 의한 유아 또는 반려 동물 등의 방치 사고를 예방하는 신기술입니다.',
       },
       {
         name: '헤드업 디스플레이',
-        imageUrl: 'src/assets/3.jpeg',
+        imageUrl: '/src/assets/3.jpeg',
         description:
           '초음파 센서를 통해 뒷좌석에 남아있는 승객의 움직임을 감지하여 운전자에게 경고함으로써 부주의에 의한 유아 또는 반려 동물 등의 방치 사고를 예방하는 신기술입니다.',
       },
@@ -152,42 +152,42 @@ const selectOptionMockData = [
   {
     name: '듀얼 와이드 선루프',
     price: 1090000,
-    imageUrl: 'src/assets/4.jpeg',
+    imageUrl: '/src/assets/4.jpeg',
     tags: ['여름에 쓰기 좋아요☀️', '옵션값 뽑았어요👍', '편리해요☺️'],
     subOptions: [
       {
         name: '헤드업 디스플레이',
-        imageUrl: 'src/assets/4.jpeg',
+        imageUrl: '/src/assets/4.jpeg',
         description:
           '초음파 센서를 통해 뒷좌석에 남아있는 승객의 움직임을 감지하여 운전자에게 경고함으로써 부주의에 의한 유아 또는 반려 동물 등의 방치 사고를 예방하는 신기술입니다.',
       },
       {
         name: '헤드업 디스플레이',
-        imageUrl: 'src/assets/4.jpeg',
+        imageUrl: '/src/assets/4.jpeg',
         description:
           '초음파 센서를 통해 뒷좌석에 남아있는 승객의 움직임을 감지하여 운전자에게 경고함으로써 부주의에 의한 유아 또는 반려 동물 등의 방치 사고를 예방하는 신기술입니다.',
       },
       {
         name: '헤드업 디스플레이',
-        imageUrl: 'src/assets/4.jpeg',
+        imageUrl: '/src/assets/4.jpeg',
         description:
           '초음파 센서를 통해 뒷좌석에 남아있는 승객의 움직임을 감지하여 운전자에게 경고함으로써 부주의에 의한 유아 또는 반려 동물 등의 방치 사고를 예방하는 신기술입니다.',
       },
       {
         name: '헤드업 디스플레이',
-        imageUrl: 'src/assets/4.jpeg',
+        imageUrl: '/src/assets/4.jpeg',
         description:
           '초음파 센서를 통해 뒷좌석에 남아있는 승객의 움직임을 감지하여 운전자에게 경고함으로써 부주의에 의한 유아 또는 반려 동물 등의 방치 사고를 예방하는 신기술입니다.',
       },
       {
         name: '헤드업 디스플레이',
-        imageUrl: 'src/assets/4.jpeg',
+        imageUrl: '/src/assets/4.jpeg',
         description:
           '초음파 센서를 통해 뒷좌석에 남아있는 승객의 움직임을 감지하여 운전자에게 경고함으로써 부주의에 의한 유아 또는 반려 동물 등의 방치 사고를 예방하는 신기술입니다.',
       },
       {
         name: '헤드업 디스플레이',
-        imageUrl: 'src/assets/4.jpeg',
+        imageUrl: '/src/assets/4.jpeg',
         description:
           '초음파 센서를 통해 뒷좌석에 남아있는 승객의 움직임을 감지하여 운전자에게 경고함으로써 부주의에 의한 유아 또는 반려 동물 등의 방치 사고를 예방하는 신기술입니다.',
       },
@@ -196,42 +196,42 @@ const selectOptionMockData = [
   {
     name: '빌트인 캠',
     price: 1090000,
-    imageUrl: 'src/assets/5.jpeg',
+    imageUrl: '/src/assets/5.jpeg',
     tags: ['여름에 쓰기 좋아요☀️', '옵션값 뽑았어요👍', '편리해요☺️'],
     subOptions: [
       {
         name: '헤드업 디스플레이',
-        imageUrl: 'src/assets/5.jpeg',
+        imageUrl: '/src/assets/5.jpeg',
         description:
           '초음파 센서를 통해 뒷좌석에 남아있는 승객의 움직임을 감지하여 운전자에게 경고함으로써 부주의에 의한 유아 또는 반려 동물 등의 방치 사고를 예방하는 신기술입니다.',
       },
       {
         name: '헤드업 디스플레이',
-        imageUrl: 'src/assets/5.jpeg',
+        imageUrl: '/src/assets/5.jpeg',
         description:
           '초음파 센서를 통해 뒷좌석에 남아있는 승객의 움직임을 감지하여 운전자에게 경고함으로써 부주의에 의한 유아 또는 반려 동물 등의 방치 사고를 예방하는 신기술입니다.',
       },
       {
         name: '헤드업 디스플레이',
-        imageUrl: 'src/assets/5.jpeg',
+        imageUrl: '/src/assets/5.jpeg',
         description:
           '초음파 센서를 통해 뒷좌석에 남아있는 승객의 움직임을 감지하여 운전자에게 경고함으로써 부주의에 의한 유아 또는 반려 동물 등의 방치 사고를 예방하는 신기술입니다.',
       },
       {
         name: '헤드업 디스플레이',
-        imageUrl: 'src/assets/5.jpeg',
+        imageUrl: '/src/assets/5.jpeg',
         description:
           '초음파 센서를 통해 뒷좌석에 남아있는 승객의 움직임을 감지하여 운전자에게 경고함으로써 부주의에 의한 유아 또는 반려 동물 등의 방치 사고를 예방하는 신기술입니다.',
       },
       {
         name: '헤드업 디스플레이',
-        imageUrl: 'src/assets/5.jpeg',
+        imageUrl: '/src/assets/5.jpeg',
         description:
           '초음파 센서를 통해 뒷좌석에 남아있는 승객의 움직임을 감지하여 운전자에게 경고함으로써 부주의에 의한 유아 또는 반려 동물 등의 방치 사고를 예방하는 신기술입니다.',
       },
       {
         name: '헤드업 디스플레이',
-        imageUrl: 'src/assets/5.jpeg',
+        imageUrl: '/src/assets/5.jpeg',
         description:
           '초음파 센서를 통해 뒷좌석에 남아있는 승객의 움직임을 감지하여 운전자에게 경고함으로써 부주의에 의한 유아 또는 반려 동물 등의 방치 사고를 예방하는 신기술입니다.',
       },
@@ -240,42 +240,42 @@ const selectOptionMockData = [
   {
     name: '주차보조 시스템 Ⅱ',
     price: 1090000,
-    imageUrl: 'src/assets/6.jpeg',
+    imageUrl: '/src/assets/6.jpeg',
     tags: ['여름에 쓰기 좋아요☀️', '옵션값 뽑았어요👍', '편리해요☺️'],
     subOptions: [
       {
         name: '헤드업 디스플레이',
-        imageUrl: 'src/assets/6.jpeg',
+        imageUrl: '/src/assets/6.jpeg',
         description:
           '초음파 센서를 통해 뒷좌석에 남아있는 승객의 움직임을 감지하여 운전자에게 경고함으로써 부주의에 의한 유아 또는 반려 동물 등의 방치 사고를 예방하는 신기술입니다.',
       },
       {
         name: '헤드업 디스플레이',
-        imageUrl: 'src/assets/6.jpeg',
+        imageUrl: '/src/assets/6.jpeg',
         description:
           '초음파 센서를 통해 뒷좌석에 남아있는 승객의 움직임을 감지하여 운전자에게 경고함으로써 부주의에 의한 유아 또는 반려 동물 등의 방치 사고를 예방하는 신기술입니다.',
       },
       {
         name: '헤드업 디스플레이',
-        imageUrl: 'src/assets/6.jpeg',
+        imageUrl: '/src/assets/6.jpeg',
         description:
           '초음파 센서를 통해 뒷좌석에 남아있는 승객의 움직임을 감지하여 운전자에게 경고함으로써 부주의에 의한 유아 또는 반려 동물 등의 방치 사고를 예방하는 신기술입니다.',
       },
       {
         name: '헤드업 디스플레이',
-        imageUrl: 'src/assets/6.jpeg',
+        imageUrl: '/src/assets/6.jpeg',
         description:
           '초음파 센서를 통해 뒷좌석에 남아있는 승객의 움직임을 감지하여 운전자에게 경고함으로써 부주의에 의한 유아 또는 반려 동물 등의 방치 사고를 예방하는 신기술입니다.',
       },
       {
         name: '헤드업 디스플레이',
-        imageUrl: 'src/assets/6.jpeg',
+        imageUrl: '/src/assets/6.jpeg',
         description:
           '초음파 센서를 통해 뒷좌석에 남아있는 승객의 움직임을 감지하여 운전자에게 경고함으로써 부주의에 의한 유아 또는 반려 동물 등의 방치 사고를 예방하는 신기술입니다.',
       },
       {
         name: '헤드업 디스플레이',
-        imageUrl: 'src/assets/6.jpeg',
+        imageUrl: '/src/assets/6.jpeg',
         description:
           '초음파 센서를 통해 뒷좌석에 남아있는 승객의 움직임을 감지하여 운전자에게 경고함으로써 부주의에 의한 유아 또는 반려 동물 등의 방치 사고를 예방하는 신기술입니다.',
       },
@@ -289,27 +289,27 @@ const defaultOptionMockData = [
     subOptions: [
       {
         name: 'ISG 시스템',
-        imageUrl: 'src/assets/1.jpeg',
+        imageUrl: '/src/assets/1.jpeg',
       },
       {
         name: '통합주행모드',
-        imageUrl: 'src/assets/1.jpeg',
+        imageUrl: '/src/assets/1.jpeg',
       },
       {
         name: 'ISG 시스템',
-        imageUrl: 'src/assets/1.jpeg',
+        imageUrl: '/src/assets/1.jpeg',
       },
       {
         name: '통합주행모드',
-        imageUrl: 'src/assets/1.jpeg',
+        imageUrl: '/src/assets/1.jpeg',
       },
       {
         name: 'ISG 시스템',
-        imageUrl: 'src/assets/1.jpeg',
+        imageUrl: '/src/assets/1.jpeg',
       },
       {
         name: '통합주행모드',
-        imageUrl: 'src/assets/1.jpeg',
+        imageUrl: '/src/assets/1.jpeg',
       },
     ],
   },
@@ -318,27 +318,27 @@ const defaultOptionMockData = [
     subOptions: [
       {
         name: '하이빔 보조',
-        imageUrl: 'src/assets/2.jpeg',
+        imageUrl: '/src/assets/2.jpeg',
       },
       {
         name: '진동 경고 스티어링 휠',
-        imageUrl: 'src/assets/2.jpeg',
+        imageUrl: '/src/assets/2.jpeg',
       },
       {
         name: '하이빔 보조',
-        imageUrl: 'src/assets/2.jpeg',
+        imageUrl: '/src/assets/2.jpeg',
       },
       {
         name: '진동 경고 스티어링 휠',
-        imageUrl: 'src/assets/2.jpeg',
+        imageUrl: '/src/assets/2.jpeg',
       },
       {
         name: '하이빔 보조',
-        imageUrl: 'src/assets/2.jpeg',
+        imageUrl: '/src/assets/2.jpeg',
       },
       {
         name: '진동 경고 스티어링 휠',
-        imageUrl: 'src/assets/2.jpeg',
+        imageUrl: '/src/assets/2.jpeg',
       },
     ],
   },
@@ -347,27 +347,27 @@ const defaultOptionMockData = [
     subOptions: [
       {
         name: '하이빔 보조',
-        imageUrl: 'src/assets/3.jpeg',
+        imageUrl: '/src/assets/3.jpeg',
       },
       {
         name: '진동 경고 스티어링 휠',
-        imageUrl: 'src/assets/3.jpeg',
+        imageUrl: '/src/assets/3.jpeg',
       },
       {
         name: '하이빔 보조',
-        imageUrl: 'src/assets/3.jpeg',
+        imageUrl: '/src/assets/3.jpeg',
       },
       {
         name: '진동 경고 스티어링 휠',
-        imageUrl: 'src/assets/3.jpeg',
+        imageUrl: '/src/assets/3.jpeg',
       },
       {
         name: '하이빔 보조',
-        imageUrl: 'src/assets/3.jpeg',
+        imageUrl: '/src/assets/3.jpeg',
       },
       {
         name: '진동 경고 스티어링 휠',
-        imageUrl: 'src/assets/3.jpeg',
+        imageUrl: '/src/assets/3.jpeg',
       },
     ],
   },
@@ -376,27 +376,27 @@ const defaultOptionMockData = [
     subOptions: [
       {
         name: '하이빔 보조',
-        imageUrl: 'src/assets/4.jpeg',
+        imageUrl: '/src/assets/4.jpeg',
       },
       {
         name: '진동 경고 스티어링 휠',
-        imageUrl: 'src/assets/4.jpeg',
+        imageUrl: '/src/assets/4.jpeg',
       },
       {
         name: '하이빔 보조',
-        imageUrl: 'src/assets/4.jpeg',
+        imageUrl: '/src/assets/4.jpeg',
       },
       {
         name: '진동 경고 스티어링 휠',
-        imageUrl: 'src/assets/4.jpeg',
+        imageUrl: '/src/assets/4.jpeg',
       },
       {
         name: '하이빔 보조',
-        imageUrl: 'src/assets/4.jpeg',
+        imageUrl: '/src/assets/4.jpeg',
       },
       {
         name: '진동 경고 스티어링 휠',
-        imageUrl: 'src/assets/4.jpeg',
+        imageUrl: '/src/assets/4.jpeg',
       },
     ],
   },
@@ -405,27 +405,27 @@ const defaultOptionMockData = [
     subOptions: [
       {
         name: '하이빔 보조',
-        imageUrl: 'src/assets/5.jpeg',
+        imageUrl: '/src/assets/5.jpeg',
       },
       {
         name: '진동 경고 스티어링 휠',
-        imageUrl: 'src/assets/5.jpeg',
+        imageUrl: '/src/assets/5.jpeg',
       },
       {
         name: '하이빔 보조',
-        imageUrl: 'src/assets/5.jpeg',
+        imageUrl: '/src/assets/5.jpeg',
       },
       {
         name: '진동 경고 스티어링 휠',
-        imageUrl: 'src/assets/5.jpeg',
+        imageUrl: '/src/assets/5.jpeg',
       },
       {
         name: '하이빔 보조',
-        imageUrl: 'src/assets/5.jpeg',
+        imageUrl: '/src/assets/5.jpeg',
       },
       {
         name: '진동 경고 스티어링 휠',
-        imageUrl: 'src/assets/5.jpeg',
+        imageUrl: '/src/assets/5.jpeg',
       },
     ],
   },
@@ -434,27 +434,27 @@ const defaultOptionMockData = [
     subOptions: [
       {
         name: '하이빔 보조',
-        imageUrl: 'src/assets/6.jpeg',
+        imageUrl: '/src/assets/6.jpeg',
       },
       {
         name: '진동 경고 스티어링 휠',
-        imageUrl: 'src/assets/6.jpeg',
+        imageUrl: '/src/assets/6.jpeg',
       },
       {
         name: '하이빔 보조',
-        imageUrl: 'src/assets/6.jpeg',
+        imageUrl: '/src/assets/6.jpeg',
       },
       {
         name: '진동 경고 스티어링 휠',
-        imageUrl: 'src/assets/6.jpeg',
+        imageUrl: '/src/assets/6.jpeg',
       },
       {
         name: '하이빔 보조',
-        imageUrl: 'src/assets/6.jpeg',
+        imageUrl: '/src/assets/6.jpeg',
       },
       {
         name: '진동 경고 스티어링 휠',
-        imageUrl: 'src/assets/6.jpeg',
+        imageUrl: '/src/assets/6.jpeg',
       },
     ],
   },
@@ -463,27 +463,27 @@ const defaultOptionMockData = [
     subOptions: [
       {
         name: '하이빔 보조',
-        imageUrl: 'src/assets/1.jpeg',
+        imageUrl: '/src/assets/1.jpeg',
       },
       {
         name: '진동 경고 스티어링 휠',
-        imageUrl: 'src/assets/1.jpeg',
+        imageUrl: '/src/assets/1.jpeg',
       },
       {
         name: '하이빔 보조',
-        imageUrl: 'src/assets/1.jpeg',
+        imageUrl: '/src/assets/1.jpeg',
       },
       {
         name: '진동 경고 스티어링 휠',
-        imageUrl: 'src/assets/1.jpeg',
+        imageUrl: '/src/assets/1.jpeg',
       },
       {
         name: '하이빔 보조',
-        imageUrl: 'src/assets/1.jpeg',
+        imageUrl: '/src/assets/1.jpeg',
       },
       {
         name: '진동 경고 스티어링 휠',
-        imageUrl: 'src/assets/1.jpeg',
+        imageUrl: '/src/assets/1.jpeg',
       },
     ],
   },
@@ -492,27 +492,27 @@ const defaultOptionMockData = [
     subOptions: [
       {
         name: '하이빔 보조',
-        imageUrl: 'src/assets/2.jpeg',
+        imageUrl: '/src/assets/2.jpeg',
       },
       {
         name: '진동 경고 스티어링 휠',
-        imageUrl: 'src/assets/2.jpeg',
+        imageUrl: '/src/assets/2.jpeg',
       },
       {
         name: '하이빔 보조',
-        imageUrl: 'src/assets/2.jpeg',
+        imageUrl: '/src/assets/2.jpeg',
       },
       {
         name: '진동 경고 스티어링 휠',
-        imageUrl: 'src/assets/2.jpeg',
+        imageUrl: '/src/assets/2.jpeg',
       },
       {
         name: '하이빔 보조',
-        imageUrl: 'src/assets/2.jpeg',
+        imageUrl: '/src/assets/2.jpeg',
       },
       {
         name: '진동 경고 스티어링 휠',
-        imageUrl: 'src/assets/2.jpeg',
+        imageUrl: '/src/assets/2.jpeg',
       },
     ],
   },
