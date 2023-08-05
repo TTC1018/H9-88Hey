@@ -6,6 +6,7 @@ import { addCommasToPrice } from '@/utils';
 import * as style from './style';
 
 interface SelectOptionCardListProps {
+  isShow: boolean;
   selectedIndex: number;
   data: SelectOptionCardDataProps[];
   onClickCard: (index: number, event: React.MouseEvent<HTMLDivElement>) => void;
@@ -25,9 +26,9 @@ interface SelectOptionCardHoverProps {
   subOptionNames: string[];
 }
 
-export function SelectOptionCardList({ selectedIndex, data, onClickCard }: SelectOptionCardListProps) {
+export function SelectOptionCardList({ isShow, selectedIndex, data, onClickCard }: SelectOptionCardListProps) {
   return (
-    <style.Container>
+    <style.Container isShow={isShow}>
       {data.map(({ name, price, imageUrl, subOptionNames }, index) => (
         <SelectOptionCard
           index={index}

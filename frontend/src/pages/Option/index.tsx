@@ -622,7 +622,21 @@ export function Option() {
       </style.OptionWrapper>
       <style.CardWrapper>
         <OptionCategory menu={menu} onClick={handleChangeMenu} />
-        {menu === 0 ? (
+        <SelectOptionCardList
+          isShow={menu === 0}
+          selectedIndex={selectOptionIndex}
+          data={selectOptionCardData}
+          onClickCard={handleChangeOptionIndex}
+        />
+        <DefaultOptionCardList
+          isShow={menu === 1}
+          categoryIndex={categoryIndex}
+          categories={categories}
+          data={defaultOptionCardData}
+          onClickCategory={handleChangeCategoryIndex}
+        />
+
+        {/* {menu === 0 ? (
           <SelectOptionCardList
             selectedIndex={selectOptionIndex}
             data={selectOptionCardData}
@@ -635,7 +649,7 @@ export function Option() {
             data={defaultOptionCardData}
             onClickCategory={handleChangeCategoryIndex}
           />
-        )}
+        )} */}
       </style.CardWrapper>
     </style.Container>
   );

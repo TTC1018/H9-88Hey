@@ -3,6 +3,7 @@ import { DefaultOptionCardDataProps } from '@/types/option';
 import * as style from './style';
 
 interface DefaultOptionCardListProps {
+  isShow: boolean;
   categoryIndex: number;
   categories: string[];
   data: DefaultOptionCardDataProps[];
@@ -10,13 +11,14 @@ interface DefaultOptionCardListProps {
 }
 
 export function DefaultOptionCardList({
+  isShow,
   categoryIndex,
   categories,
   data,
   onClickCategory,
 }: DefaultOptionCardListProps) {
   return (
-    <style.Container>
+    <style.Container isShow={isShow}>
       <style.CategoryWrapper>
         {categories.map((category, index) => (
           <style.Category isActive={index === categoryIndex} onClick={() => onClickCategory(index)} key={category}>
