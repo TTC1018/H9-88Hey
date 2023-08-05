@@ -18,3 +18,8 @@ export interface SelectOptionCardDataProps {
   imageUrl: string;
   subOptionNames: string[];
 }
+
+export interface DefaultOptionCardDataProps {
+  name: string;
+  imageUrl: string;
+}

@@ -1,12 +1,18 @@
 import { useState, useEffect } from 'react';
 
-import { SelectOptionProps, SubOptionProps, SelectOptionCardDataProps } from '@/types/option';
+import {
+  SelectOptionProps,
+  SubOptionProps,
+  SelectOptionCardDataProps,
+  DefaultOptionCardDataProps,
+} from '@/types/option';
 
 import { OptionImageBox } from '@/components/common/OptionImageBox';
 import { OptionDescription } from '@/components/common/OptionDescription';
 import { OptionDetailCard } from '@/components/common/OptionDetailCard';
 import { OptionCategory } from '@/components/common/OptionCategory';
 import { SelectOptionCardList } from '@/components/common/SelectOptionCardList';
+import { DefaultOptionCardList } from '@/components/common/DefaultOptionCardList';
 
 import * as style from './style';
 
@@ -277,6 +283,241 @@ const selectOptionMockData = [
   },
 ];
 
+const defaultOptionMockData = [
+  {
+    category: '파워 트레인/성능',
+    subOptions: [
+      {
+        name: 'ISG 시스템',
+        imageUrl: 'src/assets/1.jpeg',
+      },
+      {
+        name: '통합주행모드',
+        imageUrl: 'src/assets/1.jpeg',
+      },
+      {
+        name: 'ISG 시스템',
+        imageUrl: 'src/assets/1.jpeg',
+      },
+      {
+        name: '통합주행모드',
+        imageUrl: 'src/assets/1.jpeg',
+      },
+      {
+        name: 'ISG 시스템',
+        imageUrl: 'src/assets/1.jpeg',
+      },
+      {
+        name: '통합주행모드',
+        imageUrl: 'src/assets/1.jpeg',
+      },
+    ],
+  },
+  {
+    category: '지능형 안전기술',
+    subOptions: [
+      {
+        name: '하이빔 보조',
+        imageUrl: 'src/assets/2.jpeg',
+      },
+      {
+        name: '진동 경고 스티어링 휠',
+        imageUrl: 'src/assets/2.jpeg',
+      },
+      {
+        name: '하이빔 보조',
+        imageUrl: 'src/assets/2.jpeg',
+      },
+      {
+        name: '진동 경고 스티어링 휠',
+        imageUrl: 'src/assets/2.jpeg',
+      },
+      {
+        name: '하이빔 보조',
+        imageUrl: 'src/assets/2.jpeg',
+      },
+      {
+        name: '진동 경고 스티어링 휠',
+        imageUrl: 'src/assets/2.jpeg',
+      },
+    ],
+  },
+  {
+    category: '안전',
+    subOptions: [
+      {
+        name: '하이빔 보조',
+        imageUrl: 'src/assets/3.jpeg',
+      },
+      {
+        name: '진동 경고 스티어링 휠',
+        imageUrl: 'src/assets/3.jpeg',
+      },
+      {
+        name: '하이빔 보조',
+        imageUrl: 'src/assets/3.jpeg',
+      },
+      {
+        name: '진동 경고 스티어링 휠',
+        imageUrl: 'src/assets/3.jpeg',
+      },
+      {
+        name: '하이빔 보조',
+        imageUrl: 'src/assets/3.jpeg',
+      },
+      {
+        name: '진동 경고 스티어링 휠',
+        imageUrl: 'src/assets/3.jpeg',
+      },
+    ],
+  },
+  {
+    category: '외관',
+    subOptions: [
+      {
+        name: '하이빔 보조',
+        imageUrl: 'src/assets/4.jpeg',
+      },
+      {
+        name: '진동 경고 스티어링 휠',
+        imageUrl: 'src/assets/4.jpeg',
+      },
+      {
+        name: '하이빔 보조',
+        imageUrl: 'src/assets/4.jpeg',
+      },
+      {
+        name: '진동 경고 스티어링 휠',
+        imageUrl: 'src/assets/4.jpeg',
+      },
+      {
+        name: '하이빔 보조',
+        imageUrl: 'src/assets/4.jpeg',
+      },
+      {
+        name: '진동 경고 스티어링 휠',
+        imageUrl: 'src/assets/4.jpeg',
+      },
+    ],
+  },
+  {
+    category: '내장',
+    subOptions: [
+      {
+        name: '하이빔 보조',
+        imageUrl: 'src/assets/5.jpeg',
+      },
+      {
+        name: '진동 경고 스티어링 휠',
+        imageUrl: 'src/assets/5.jpeg',
+      },
+      {
+        name: '하이빔 보조',
+        imageUrl: 'src/assets/5.jpeg',
+      },
+      {
+        name: '진동 경고 스티어링 휠',
+        imageUrl: 'src/assets/5.jpeg',
+      },
+      {
+        name: '하이빔 보조',
+        imageUrl: 'src/assets/5.jpeg',
+      },
+      {
+        name: '진동 경고 스티어링 휠',
+        imageUrl: 'src/assets/5.jpeg',
+      },
+    ],
+  },
+  {
+    category: '시트',
+    subOptions: [
+      {
+        name: '하이빔 보조',
+        imageUrl: 'src/assets/6.jpeg',
+      },
+      {
+        name: '진동 경고 스티어링 휠',
+        imageUrl: 'src/assets/6.jpeg',
+      },
+      {
+        name: '하이빔 보조',
+        imageUrl: 'src/assets/6.jpeg',
+      },
+      {
+        name: '진동 경고 스티어링 휠',
+        imageUrl: 'src/assets/6.jpeg',
+      },
+      {
+        name: '하이빔 보조',
+        imageUrl: 'src/assets/6.jpeg',
+      },
+      {
+        name: '진동 경고 스티어링 휠',
+        imageUrl: 'src/assets/6.jpeg',
+      },
+    ],
+  },
+  {
+    category: '편의',
+    subOptions: [
+      {
+        name: '하이빔 보조',
+        imageUrl: 'src/assets/1.jpeg',
+      },
+      {
+        name: '진동 경고 스티어링 휠',
+        imageUrl: 'src/assets/1.jpeg',
+      },
+      {
+        name: '하이빔 보조',
+        imageUrl: 'src/assets/1.jpeg',
+      },
+      {
+        name: '진동 경고 스티어링 휠',
+        imageUrl: 'src/assets/1.jpeg',
+      },
+      {
+        name: '하이빔 보조',
+        imageUrl: 'src/assets/1.jpeg',
+      },
+      {
+        name: '진동 경고 스티어링 휠',
+        imageUrl: 'src/assets/1.jpeg',
+      },
+    ],
+  },
+  {
+    category: '멀티미디어',
+    subOptions: [
+      {
+        name: '하이빔 보조',
+        imageUrl: 'src/assets/2.jpeg',
+      },
+      {
+        name: '진동 경고 스티어링 휠',
+        imageUrl: 'src/assets/2.jpeg',
+      },
+      {
+        name: '하이빔 보조',
+        imageUrl: 'src/assets/2.jpeg',
+      },
+      {
+        name: '진동 경고 스티어링 휠',
+        imageUrl: 'src/assets/2.jpeg',
+      },
+      {
+        name: '하이빔 보조',
+        imageUrl: 'src/assets/2.jpeg',
+      },
+      {
+        name: '진동 경고 스티어링 휠',
+        imageUrl: 'src/assets/2.jpeg',
+      },
+    ],
+  },
+];
+
 export function Option() {
   const [selectOption, setSelectOption] = useState<SelectOptionProps>({
     name: '',
@@ -291,10 +532,15 @@ export function Option() {
     description: '',
   });
   const [selectOptionCardData, setSelectOptionCardData] = useState<SelectOptionCardDataProps[]>([]);
+  const [defaultOptionCardData, setDefaultOptionCardData] = useState<DefaultOptionCardDataProps[]>([]);
 
   const [menu, setMenu] = useState(0);
+
   const [selectOptionIndex, setSelectOptionIndex] = useState(0);
   const [subOptionIndex, setSubOptionIndex] = useState(0);
+
+  const [categoryIndex, setCategoryIndex] = useState(0);
+  const [categories, setCategories] = useState<string[]>([]);
 
   function handleChangeMenu(menu: number) {
     setMenu(menu);
@@ -320,6 +566,10 @@ export function Option() {
     setSubOptionIndex(index);
   }
 
+  function handleChangeCategoryIndex(index: number) {
+    setCategoryIndex(index);
+  }
+
   useEffect(() => {
     const { name, price, imageUrl, tags, subOptions } = selectOptionMockData[selectOptionIndex];
     const subOption = subOptions[subOptionIndex];
@@ -337,7 +587,21 @@ export function Option() {
       description: subOption.description,
     });
     setSelectOptionCardData(selectOptionCardData);
+
+    setCategories(defaultOptionMockData.map(({ category }) => category));
   }, [selectOptionIndex, subOptionIndex]);
+
+  useEffect(() => {
+    const defaultOptionCardData = defaultOptionMockData[categoryIndex].subOptions.map(({ name, imageUrl }) => ({
+      name,
+      imageUrl,
+    }));
+    setDefaultOptionCardData(defaultOptionCardData);
+  }, [categoryIndex]);
+
+  useEffect(() => {
+    setCategories(defaultOptionMockData.map(({ category }) => category));
+  }, []);
 
   return (
     <style.Container>
@@ -358,14 +622,20 @@ export function Option() {
       </style.OptionWrapper>
       <style.CardWrapper>
         <OptionCategory menu={menu} onClick={handleChangeMenu} />
-        {/* TODO: menu가 1일 때 DefaultOptionCardList 렌더링 */}
         {menu === 0 ? (
           <SelectOptionCardList
             selectedIndex={selectOptionIndex}
             data={selectOptionCardData}
             onClickCard={handleChangeOptionIndex}
           />
-        ) : null}
+        ) : (
+          <DefaultOptionCardList
+            categoryIndex={categoryIndex}
+            categories={categories}
+            data={defaultOptionCardData}
+            onClickCategory={handleChangeCategoryIndex}
+          />
+        )}
       </style.CardWrapper>
     </style.Container>
   );

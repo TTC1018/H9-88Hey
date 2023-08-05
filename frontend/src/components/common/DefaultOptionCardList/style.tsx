@@ -20,7 +20,7 @@ export const CategoryWrapper = styled.div`
   gap: 20px;
 `;
 
-export const Category = styled.p<CategoryProps>`
+export const Category = styled.button<CategoryProps>`
   ${({ theme, isActive }) => {
     const { colors, fonts } = theme;
 
