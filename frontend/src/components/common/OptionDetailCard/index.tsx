@@ -1,26 +1,26 @@
-import { OptionDetailsProps } from '@/types/option';
+import { useState } from 'react';
 
 import * as style from './style';
 
 interface OptionDetailCardProps {
   index: number;
   length: number;
-  optionDetails: OptionDetailsProps[];
+  name: string;
+  description: string;
 }
 
-export function OptionDetailCard({ index, length, optionDetails }: OptionDetailCardProps) {
-  const { title, description } = optionDetails[index];
+// TODO: utils로 분리
+function convertToTwoDigits(index: number) {
+  return (index + 1).toString().padStart(2, '0');
+}
 
-  function convertToTwoDigits(index: number) {
-    return (index + 1).toString().padStart(2, '0');
-  }
-
+export function OptionDetailCard({ index, length, name, description }: OptionDetailCardProps) {
   return (
     <style.Container>
       <style.TitleWrapper>
         <style.TitleBox>
           <style.Ellipse>{convertToTwoDigits(index)}</style.Ellipse>
-          <style.Title>{title}</style.Title>
+          <style.Title>{name}</style.Title>
         </style.TitleBox>
         <style.OrderBox>
           <style.Order>

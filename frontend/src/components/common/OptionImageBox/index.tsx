@@ -1,13 +1,13 @@
 import * as style from './style';
 
 interface OptionImageBoxProps {
-  image: string;
+  imageUrl: string;
 }
 
-export function OptionImageBox({ image }: OptionImageBoxProps) {
+export function OptionImageBox({ imageUrl }: OptionImageBoxProps) {
   return (
     <style.Container>
-      <style.Image src={image} />
+      <style.Image src={imageUrl} />
       <style.Button>옵션 위치 보기</style.Button>
     </style.Container>
   );

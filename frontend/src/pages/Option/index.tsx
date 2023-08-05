@@ -1,168 +1,355 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
-import { OptionTemplate } from '@/templates/OptionTemplate';
+import { SelectOptionProps, SubOptionProps, SelectOptionCardDataProps } from '@/types/option';
+
+import { OptionImageBox } from '@/components/common/OptionImageBox';
+import { OptionDescription } from '@/components/common/OptionDescription';
+import { OptionDetailCard } from '@/components/common/OptionDetailCard';
+import { OptionCategory } from '@/components/common/OptionCategory';
+import { SelectOptionCardList } from '@/components/common/SelectOptionCardList';
+
+import * as style from './style';
+
+const selectOptionMockData = [
+  {
+    name: '컴포트 2',
+    price: 1090000,
+    imageUrl: 'src/assets/1.jpeg',
+    tags: ['여름에 쓰기 좋아요☀️', '옵션값 뽑았어요👍', '편리해요☺️'],
+    subOptions: [
+      {
+        name: '후석 승객 알림',
+        imageUrl: 'src/assets/1.jpeg',
+        description:
+          '초음파 센서를 통해 뒷좌석에 남아있는 승객의 움직임을 감지하여 운전자에게 경고함으로써 부주의에 의한 유아 또는 반려 동물 등의 방치 사고를 예방하는 신기술입니다.',
+      },
+      {
+        name: '메탈 리어범퍼스텝',
+        imageUrl: 'src/assets/leblanc.jpeg',
+        description:
+          '러기지 룸 앞쪽 하단부를 메탈로 만들어 물건을 싣고 내릴 때나 사람이 올라갈 때 차체를 보호해줍니다.',
+      },
+      {
+        name: '헤드업 디스플레이',
+        imageUrl: 'src/assets/3.jpeg',
+        description:
+          '초음파 센서를 통해 뒷좌석에 남아있는 승객의 움직임을 감지하여 운전자에게 경고함으로써 부주의에 의한 유아 또는 반려 동물 등의 방치 사고를 예방하는 신기술입니다.',
+      },
+      {
+        name: '헤드업 디스플레이',
+        imageUrl: 'src/assets/4.jpeg',
+        description:
+          '초음파 센서를 통해 뒷좌석에 남아있는 승객의 움직임을 감지하여 운전자에게 경고함으로써 부주의에 의한 유아 또는 반려 동물 등의 방치 사고를 예방하는 신기술입니다.',
+      },
+      {
+        name: '헤드업 디스플레이',
+        imageUrl: 'src/assets/5.jpeg',
+        description:
+          '초음파 센서를 통해 뒷좌석에 남아있는 승객의 움직임을 감지하여 운전자에게 경고함으로써 부주의에 의한 유아 또는 반려 동물 등의 방치 사고를 예방하는 신기술입니다.',
+      },
+      {
+        name: '헤드업 디스플레이',
+        imageUrl: 'src/assets/6.jpeg',
+        description:
+          '초음파 센서를 통해 뒷좌석에 남아있는 승객의 움직임을 감지하여 운전자에게 경고함으로써 부주의에 의한 유아 또는 반려 동물 등의 방치 사고를 예방하는 신기술입니다.',
+      },
+    ],
+  },
+  {
+    name: '현대스마트센스 Ⅰ',
+    price: 1090000,
+    imageUrl: 'src/assets/2.jpeg',
+    tags: ['여름에 쓰기 좋아요☀️', '옵션값 뽑았어요👍', '편리해요☺️'],
+    subOptions: [
+      {
+        name: '헤드업 디스플레이',
+        imageUrl: 'src/assets/2.jpeg',
+        description:
+          '초음파 센서를 통해 뒷좌석에 남아있는 승객의 움직임을 감지하여 운전자에게 경고함으로써 부주의에 의한 유아 또는 반려 동물 등의 방치 사고를 예방하는 신기술입니다.',
+      },
+      {
+        name: '헤드업 디스플레이',
+        imageUrl: 'src/assets/2.jpeg',
+        description:
+          '초음파 센서를 통해 뒷좌석에 남아있는 승객의 움직임을 감지하여 운전자에게 경고함으로써 부주의에 의한 유아 또는 반려 동물 등의 방치 사고를 예방하는 신기술입니다.',
+      },
+      {
+        name: '헤드업 디스플레이',
+        imageUrl: 'src/assets/2.jpeg',
+        description:
+          '초음파 센서를 통해 뒷좌석에 남아있는 승객의 움직임을 감지하여 운전자에게 경고함으로써 부주의에 의한 유아 또는 반려 동물 등의 방치 사고를 예방하는 신기술입니다.',
+      },
+      {
+        name: '헤드업 디스플레이',
+        imageUrl: 'src/assets/2.jpeg',
+        description:
+          '초음파 센서를 통해 뒷좌석에 남아있는 승객의 움직임을 감지하여 운전자에게 경고함으로써 부주의에 의한 유아 또는 반려 동물 등의 방치 사고를 예방하는 신기술입니다.',
+      },
+      {
+        name: '헤드업 디스플레이',
+        imageUrl: 'src/assets/2.jpeg',
+        description:
+          '초음파 센서를 통해 뒷좌석에 남아있는 승객의 움직임을 감지하여 운전자에게 경고함으로써 부주의에 의한 유아 또는 반려 동물 등의 방치 사고를 예방하는 신기술입니다.',
+      },
+      {
+        name: '헤드업 디스플레이',
+        imageUrl: 'src/assets/2.jpeg',
+        description:
+          '초음파 센서를 통해 뒷좌석에 남아있는 승객의 움직임을 감지하여 운전자에게 경고함으로써 부주의에 의한 유아 또는 반려 동물 등의 방치 사고를 예방하는 신기술입니다.',
+      },
+    ],
+  },
+  {
+    name: '2열 통풍 시트',
+    price: 1090000,
+    imageUrl: 'src/assets/3.jpeg',
+    tags: ['여름에 쓰기 좋아요☀️', '옵션값 뽑았어요👍', '편리해요☺️'],
+    subOptions: [
+      {
+        name: '헤드업 디스플레이',
+        imageUrl: 'src/assets/3.jpeg',
+        description:
+          '초음파 센서를 통해 뒷좌석에 남아있는 승객의 움직임을 감지하여 운전자에게 경고함으로써 부주의에 의한 유아 또는 반려 동물 등의 방치 사고를 예방하는 신기술입니다.',
+      },
+      {
+        name: '헤드업 디스플레이',
+        imageUrl: 'src/assets/3.jpeg',
+        description:
+          '초음파 센서를 통해 뒷좌석에 남아있는 승객의 움직임을 감지하여 운전자에게 경고함으로써 부주의에 의한 유아 또는 반려 동물 등의 방치 사고를 예방하는 신기술입니다.',
+      },
+      {
+        name: '헤드업 디스플레이',
+        imageUrl: 'src/assets/3.jpeg',
+        description:
+          '초음파 센서를 통해 뒷좌석에 남아있는 승객의 움직임을 감지하여 운전자에게 경고함으로써 부주의에 의한 유아 또는 반려 동물 등의 방치 사고를 예방하는 신기술입니다.',
+      },
+      {
+        name: '헤드업 디스플레이',
+        imageUrl: 'src/assets/3.jpeg',
+        description:
+          '초음파 센서를 통해 뒷좌석에 남아있는 승객의 움직임을 감지하여 운전자에게 경고함으로써 부주의에 의한 유아 또는 반려 동물 등의 방치 사고를 예방하는 신기술입니다.',
+      },
+      {
+        name: '헤드업 디스플레이',
+        imageUrl: 'src/assets/3.jpeg',
+        description:
+          '초음파 센서를 통해 뒷좌석에 남아있는 승객의 움직임을 감지하여 운전자에게 경고함으로써 부주의에 의한 유아 또는 반려 동물 등의 방치 사고를 예방하는 신기술입니다.',
+      },
+      {
+        name: '헤드업 디스플레이',
+        imageUrl: 'src/assets/3.jpeg',
+        description:
+          '초음파 센서를 통해 뒷좌석에 남아있는 승객의 움직임을 감지하여 운전자에게 경고함으로써 부주의에 의한 유아 또는 반려 동물 등의 방치 사고를 예방하는 신기술입니다.',
+      },
+    ],
+  },
+  {
+    name: '듀얼 와이드 선루프',
+    price: 1090000,
+    imageUrl: 'src/assets/4.jpeg',
+    tags: ['여름에 쓰기 좋아요☀️', '옵션값 뽑았어요👍', '편리해요☺️'],
+    subOptions: [
+      {
+        name: '헤드업 디스플레이',
+        imageUrl: 'src/assets/4.jpeg',
+        description:
+          '초음파 센서를 통해 뒷좌석에 남아있는 승객의 움직임을 감지하여 운전자에게 경고함으로써 부주의에 의한 유아 또는 반려 동물 등의 방치 사고를 예방하는 신기술입니다.',
+      },
+      {
+        name: '헤드업 디스플레이',
+        imageUrl: 'src/assets/4.jpeg',
+        description:
+          '초음파 센서를 통해 뒷좌석에 남아있는 승객의 움직임을 감지하여 운전자에게 경고함으로써 부주의에 의한 유아 또는 반려 동물 등의 방치 사고를 예방하는 신기술입니다.',
+      },
+      {
+        name: '헤드업 디스플레이',
+        imageUrl: 'src/assets/4.jpeg',
+        description:
+          '초음파 센서를 통해 뒷좌석에 남아있는 승객의 움직임을 감지하여 운전자에게 경고함으로써 부주의에 의한 유아 또는 반려 동물 등의 방치 사고를 예방하는 신기술입니다.',
+      },
+      {
+        name: '헤드업 디스플레이',
+        imageUrl: 'src/assets/4.jpeg',
+        description:
+          '초음파 센서를 통해 뒷좌석에 남아있는 승객의 움직임을 감지하여 운전자에게 경고함으로써 부주의에 의한 유아 또는 반려 동물 등의 방치 사고를 예방하는 신기술입니다.',
+      },
+      {
+        name: '헤드업 디스플레이',
+        imageUrl: 'src/assets/4.jpeg',
+        description:
+          '초음파 센서를 통해 뒷좌석에 남아있는 승객의 움직임을 감지하여 운전자에게 경고함으로써 부주의에 의한 유아 또는 반려 동물 등의 방치 사고를 예방하는 신기술입니다.',
+      },
+      {
+        name: '헤드업 디스플레이',
+        imageUrl: 'src/assets/4.jpeg',
+        description:
+          '초음파 센서를 통해 뒷좌석에 남아있는 승객의 움직임을 감지하여 운전자에게 경고함으로써 부주의에 의한 유아 또는 반려 동물 등의 방치 사고를 예방하는 신기술입니다.',
+      },
+    ],
+  },
+  {
+    name: '빌트인 캠',
+    price: 1090000,
+    imageUrl: 'src/assets/5.jpeg',
+    tags: ['여름에 쓰기 좋아요☀️', '옵션값 뽑았어요👍', '편리해요☺️'],
+    subOptions: [
+      {
+        name: '헤드업 디스플레이',
+        imageUrl: 'src/assets/5.jpeg',
+        description:
+          '초음파 센서를 통해 뒷좌석에 남아있는 승객의 움직임을 감지하여 운전자에게 경고함으로써 부주의에 의한 유아 또는 반려 동물 등의 방치 사고를 예방하는 신기술입니다.',
+      },
+      {
+        name: '헤드업 디스플레이',
+        imageUrl: 'src/assets/5.jpeg',
+        description:
+          '초음파 센서를 통해 뒷좌석에 남아있는 승객의 움직임을 감지하여 운전자에게 경고함으로써 부주의에 의한 유아 또는 반려 동물 등의 방치 사고를 예방하는 신기술입니다.',
+      },
+      {
+        name: '헤드업 디스플레이',
+        imageUrl: 'src/assets/5.jpeg',
+        description:
+          '초음파 센서를 통해 뒷좌석에 남아있는 승객의 움직임을 감지하여 운전자에게 경고함으로써 부주의에 의한 유아 또는 반려 동물 등의 방치 사고를 예방하는 신기술입니다.',
+      },
+      {
+        name: '헤드업 디스플레이',
+        imageUrl: 'src/assets/5.jpeg',
+        description:
+          '초음파 센서를 통해 뒷좌석에 남아있는 승객의 움직임을 감지하여 운전자에게 경고함으로써 부주의에 의한 유아 또는 반려 동물 등의 방치 사고를 예방하는 신기술입니다.',
+      },
+      {
+        name: '헤드업 디스플레이',
+        imageUrl: 'src/assets/5.jpeg',
+        description:
+          '초음파 센서를 통해 뒷좌석에 남아있는 승객의 움직임을 감지하여 운전자에게 경고함으로써 부주의에 의한 유아 또는 반려 동물 등의 방치 사고를 예방하는 신기술입니다.',
+      },
+      {
+        name: '헤드업 디스플레이',
+        imageUrl: 'src/assets/5.jpeg',
+        description:
+          '초음파 센서를 통해 뒷좌석에 남아있는 승객의 움직임을 감지하여 운전자에게 경고함으로써 부주의에 의한 유아 또는 반려 동물 등의 방치 사고를 예방하는 신기술입니다.',
+      },
+    ],
+  },
+  {
+    name: '주차보조 시스템 Ⅱ',
+    price: 1090000,
+    imageUrl: 'src/assets/6.jpeg',
+    tags: ['여름에 쓰기 좋아요☀️', '옵션값 뽑았어요👍', '편리해요☺️'],
+    subOptions: [
+      {
+        name: '헤드업 디스플레이',
+        imageUrl: 'src/assets/6.jpeg',
+        description:
+          '초음파 센서를 통해 뒷좌석에 남아있는 승객의 움직임을 감지하여 운전자에게 경고함으로써 부주의에 의한 유아 또는 반려 동물 등의 방치 사고를 예방하는 신기술입니다.',
+      },
+      {
+        name: '헤드업 디스플레이',
+        imageUrl: 'src/assets/6.jpeg',
+        description:
+          '초음파 센서를 통해 뒷좌석에 남아있는 승객의 움직임을 감지하여 운전자에게 경고함으로써 부주의에 의한 유아 또는 반려 동물 등의 방치 사고를 예방하는 신기술입니다.',
+      },
+      {
+        name: '헤드업 디스플레이',
+        imageUrl: 'src/assets/6.jpeg',
+        description:
+          '초음파 센서를 통해 뒷좌석에 남아있는 승객의 움직임을 감지하여 운전자에게 경고함으로써 부주의에 의한 유아 또는 반려 동물 등의 방치 사고를 예방하는 신기술입니다.',
+      },
+      {
+        name: '헤드업 디스플레이',
+        imageUrl: 'src/assets/6.jpeg',
+        description:
+          '초음파 센서를 통해 뒷좌석에 남아있는 승객의 움직임을 감지하여 운전자에게 경고함으로써 부주의에 의한 유아 또는 반려 동물 등의 방치 사고를 예방하는 신기술입니다.',
+      },
+      {
+        name: '헤드업 디스플레이',
+        imageUrl: 'src/assets/6.jpeg',
+        description:
+          '초음파 센서를 통해 뒷좌석에 남아있는 승객의 움직임을 감지하여 운전자에게 경고함으로써 부주의에 의한 유아 또는 반려 동물 등의 방치 사고를 예방하는 신기술입니다.',
+      },
+      {
+        name: '헤드업 디스플레이',
+        imageUrl: 'src/assets/6.jpeg',
+        description:
+          '초음파 센서를 통해 뒷좌석에 남아있는 승객의 움직임을 감지하여 운전자에게 경고함으로써 부주의에 의한 유아 또는 반려 동물 등의 방치 사고를 예방하는 신기술입니다.',
+      },
+    ],
+  },
+];
 
 export function Option() {
-  const [index, setIndex] = useState(0);
-  const [isSelectOption, setIsSelectOption] = useState(true);
-  const [selectOption, setSelectOption] = useState(1);
-  const [defaultOption, setDefaultOption] = useState(1);
-  const [activeButtons, setActiveButtons] = useState<Set<number>>(new Set<number>());
+  const [selectOption, setSelectOption] = useState<SelectOptionProps>({
+    name: '',
+    price: 0,
+    imageUrl: '',
+    tags: [],
+    subOptions: [],
+  });
+  const [subOption, setSubOption] = useState<SubOptionProps>({
+    name: '',
+    imageUrl: '',
+    description: '',
+  });
+  const [selectOptionCardData, setSelectOptionCardData] = useState<SelectOptionCardDataProps[]>([]);
 
-  function handleClickCategoryButton(isSelectOption: boolean) {
-    setIsSelectOption(isSelectOption);
+  const [menu, setMenu] = useState(0);
+  const [selectOptionIndex, setSelectOptionIndex] = useState(0);
+  const [subOptionIndex, setSubOptionIndex] = useState(0);
+
+  function handleChangeMenu(menu: number) {
+    setMenu(menu);
   }
 
+  function handleChangeOptionIndex(index: number) {
+    setSelectOptionIndex(index);
+  }
+
+  useEffect(() => {
+    const { name, price, imageUrl, tags, subOptions } = selectOptionMockData[selectOptionIndex];
+    const subOption = subOptions[subOptionIndex];
+    const selectOptionCardData = selectOptionMockData.map(({ name, price, imageUrl, subOptions }) => ({
+      name,
+      price,
+      imageUrl,
+      subOptionNames: subOptions.map(({ name }) => name),
+    }));
+
+    setSelectOption({ name, price, imageUrl, tags, subOptions });
+    setSubOption({
+      name: subOption.name,
+      imageUrl: subOption.imageUrl,
+      description: subOption.description,
+    });
+    setSelectOptionCardData(selectOptionCardData);
+  }, [selectOptionIndex, subOptionIndex]);
+
   return (
-    <OptionTemplate
-      title="컴포트 ||"
-      price={690000}
-      tags={['여름에 쓰기 좋아요☀️', '옵션값 뽑았어요👍', '편리해요☺️']}
-      index={5}
-      isSelectOption={isSelectOption}
-      selectOption={1}
-      defaultOption={1}
-      optionDetails={[
-        {
-          title: '헤드업 디스플레이',
-          description:
-            '초음파 센서를 통해 뒷좌석에 남아있는 승객의 움직임을 감지하여 운전자에게 경고함으로써 부주의에 의한 유아 또는 반려 동물 등의 방치 사고를 예방하는 신기술입니다.',
-        },
-        {
-          title: '헤드업 디스플레이',
-          description:
-            '초음파 센서를 통해 뒷좌석에 남아있는 승객의 움직임을 감지하여 운전자에게 경고함으로써 부주의에 의한 유아 또는 반려 동물 등의 방치 사고를 예방하는 신기술입니다.',
-        },
-        {
-          title: '헤드업 디스플레이',
-          description:
-            '초음파 센서를 통해 뒷좌석에 남아있는 승객의 움직임을 감지하여 운전자에게 경고함으로써 부주의에 의한 유아 또는 반려 동물 등의 방치 사고를 예방하는 신기술입니다.',
-        },
-        {
-          title: '헤드업 디스플레이',
-          description:
-            '초음파 센서를 통해 뒷좌석에 남아있는 승객의 움직임을 감지하여 운전자에게 경고함으로써 부주의에 의한 유아 또는 반려 동물 등의 방치 사고를 예방하는 신기술입니다.',
-        },
-        {
-          title: '헤드업 디스플레이',
-          description:
-            '초음파 센서를 통해 뒷좌석에 남아있는 승객의 움직임을 감지하여 운전자에게 경고함으로써 부주의에 의한 유아 또는 반려 동물 등의 방치 사고를 예방하는 신기술입니다.',
-        },
-        {
-          title: '헤드업 디스플레이',
-          description:
-            '초음파 센서를 통해 뒷좌석에 남아있는 승객의 움직임을 감지하여 운전자에게 경고함으로써 부주의에 의한 유아 또는 반려 동물 등의 방치 사고를 예방하는 신기술입니다.',
-        },
-      ]}
-      selectOptionCardInfo={[
-        {
-          image: 'src/assets/leblanc.jpeg',
-          title: '컴포트 2',
-          price: 1090000,
-          descriptions: [
-            '전방 충돌방지 보조(교차 차량/추월시 대향차/측방 접근차)',
-            '내비게이션 기반 스마트 크루즈 컨트롤(진출입로)',
-            '고속도로 주행 보조 2',
-          ],
-        },
-        {
-          image: 'src/assets/leblanc.jpeg',
-          title: '컴포트 2',
-          price: 1090000,
-          descriptions: [
-            '전방 충돌방지 보조(교차 차량/추월시 대향차/측방 접근차)',
-            '내비게이션 기반 스마트 크루즈 컨트롤(진출입로)',
-            '고속도로 주행 보조 2',
-          ],
-        },
-        {
-          image: 'src/assets/leblanc.jpeg',
-          title: '컴포트 2',
-          price: 1090000,
-          descriptions: [
-            '전방 충돌방지 보조(교차 차량/추월시 대향차/측방 접근차)',
-            '내비게이션 기반 스마트 크루즈 컨트롤(진출입로)',
-            '고속도로 주행 보조 2',
-          ],
-        },
-        {
-          image: 'src/assets/leblanc.jpeg',
-          title: '컴포트 2',
-          price: 1090000,
-          descriptions: [
-            '전방 충돌방지 보조(교차 차량/추월시 대향차/측방 접근차)',
-            '내비게이션 기반 스마트 크루즈 컨트롤(진출입로)',
-            '고속도로 주행 보조 2',
-          ],
-        },
-        {
-          image: 'src/assets/leblanc.jpeg',
-          title: '컴포트 2',
-          price: 1090000,
-          descriptions: [
-            '전방 충돌방지 보조(교차 차량/추월시 대향차/측방 접근차)',
-            '내비게이션 기반 스마트 크루즈 컨트롤(진출입로)',
-            '고속도로 주행 보조 2',
-          ],
-        },
-        {
-          image: 'src/assets/leblanc.jpeg',
-          title: '컴포트 2',
-          price: 1090000,
-          descriptions: [
-            '전방 충돌방지 보조(교차 차량/추월시 대향차/측방 접근차)',
-            '내비게이션 기반 스마트 크루즈 컨트롤(진출입로)',
-            '고속도로 주행 보조 2',
-          ],
-        },
-      ]}
-      defaultOptionCardInfo={[
-        {
-          image: 'src/assets/leblanc.jpeg',
-          text: 'ISG 시스템',
-          subtext: '기본 포함',
-          description:
-            '신호 대기 상황이거나 정차 중일 때 차의 엔진을 일시 정지하여 연비를 향상시키고, 배출가스 발생을 억제하는 시스템입니다.',
-        },
-        {
-          image: 'src/assets/leblanc.jpeg',
-          text: 'ISG 시스템',
-          subtext: '기본 포함',
-          description:
-            '신호 대기 상황이거나 정차 중일 때 차의 엔진을 일시 정지하여 연비를 향상시키고, 배출가스 발생을 억제하는 시스템입니다.',
-        },
-        {
-          image: 'src/assets/leblanc.jpeg',
-          text: 'ISG 시스템',
-          subtext: '기본 포함',
-          description:
-            '신호 대기 상황이거나 정차 중일 때 차의 엔진을 일시 정지하여 연비를 향상시키고, 배출가스 발생을 억제하는 시스템입니다.',
-        },
-        {
-          image: 'src/assets/leblanc.jpeg',
-          text: 'ISG 시스템',
-          subtext: '기본 포함',
-          description:
-            '신호 대기 상황이거나 정차 중일 때 차의 엔진을 일시 정지하여 연비를 향상시키고, 배출가스 발생을 억제하는 시스템입니다.',
-        },
-        {
-          image: 'src/assets/leblanc.jpeg',
-          text: 'ISG 시스템',
-          subtext: '기본 포함',
-          description:
-            '신호 대기 상황이거나 정차 중일 때 차의 엔진을 일시 정지하여 연비를 향상시키고, 배출가스 발생을 억제하는 시스템입니다.',
-        },
-        {
-          image: 'src/assets/leblanc.jpeg',
-          text: 'ISG 시스템',
-          subtext: '기본 포함',
-          description:
-            '신호 대기 상황이거나 정차 중일 때 차의 엔진을 일시 정지하여 연비를 향상시키고, 배출가스 발생을 억제하는 시스템입니다.',
-        },
-      ]}
-      categories={['파워 트레인/성능', '지능형 안전 기술', '안전', '외관', '내장', '시트', '편의', '멀티미디어']}
-      activeButtons={activeButtons}
-      onClickCategoryButton={handleClickCategoryButton}
-    />
+    <style.Container>
+      <style.OptionWrapper>
+        <style.ImageBox>
+          <OptionImageBox imageUrl={subOption.imageUrl} />
+        </style.ImageBox>
+        <style.DescriptionBox>
+          <OptionDescription name={selectOption.name} price={selectOption.price} tags={selectOption.tags} />
+          <OptionDetailCard
+            index={subOptionIndex}
+            length={selectOption.subOptions.length}
+            name={subOption.name}
+            description={subOption.description}
+          />
+        </style.DescriptionBox>
+      </style.OptionWrapper>
+      <style.CardWrapper>
+        <OptionCategory menu={menu} onClick={handleChangeMenu} />
+        {/* TODO: menu가 1일 때 DefaultOptionCardList 렌더링 */}
+        {menu === 0 ? (
+          <SelectOptionCardList
+            selectedIndex={selectOptionIndex}
+            data={selectOptionCardData}
+            onClickCard={handleChangeOptionIndex}
+          />
+        ) : null}
+      </style.CardWrapper>
+    </style.Container>
   );
 }
