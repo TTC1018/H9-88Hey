@@ -8,7 +8,7 @@ import * as style from './style';
 interface SelectOptionCardListProps {
   selectedIndex: number;
   data: SelectOptionCardDataProps[];
-  onClickCard: (index: number) => void;
+  onClickCard: (index: number, event: React.MouseEvent<HTMLDivElement>) => void;
 }
 
 interface SelectOptionCardProps {
@@ -18,7 +18,7 @@ interface SelectOptionCardProps {
   imageUrl: string;
   subOptionNames: string[];
   isCardActive: boolean;
-  onClickCard: (index: number) => void;
+  onClickCard: (index: number, event: React.MouseEvent<HTMLDivElement>) => void;
 }
 
 interface SelectOptionCardHoverProps {
@@ -67,7 +67,7 @@ function SelectOptionCard({
   return (
     <style.OptionCard
       isCardActive={isCardActive}
-      onClick={() => onClickCard(index)}
+      onClick={event => onClickCard(index, event)}
       onMouseEnter={() => handleHoverButton(true)}
       onMouseLeave={() => handleHoverButton(false)}
     >

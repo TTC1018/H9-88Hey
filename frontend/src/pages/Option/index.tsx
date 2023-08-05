@@ -300,8 +300,9 @@ export function Option() {
     setMenu(menu);
   }
 
-  function handleChangeOptionIndex(index: number) {
-    if (index === selectOptionIndex) {
+  function handleChangeOptionIndex(index: number, event: React.MouseEvent<HTMLDivElement>) {
+    const target = event.target as HTMLDivElement;
+    if (index === selectOptionIndex || target.tagName === 'BUTTON') {
       return;
     }
     setSelectOptionIndex(index);
