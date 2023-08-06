@@ -49,17 +49,19 @@ export const Division = styled.div`
 `;
 
 export const ColorBox = styled.div`
+  gap: 10px;
+
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 10px;
 `;
 
 export const ColorCard = styled.div`
-  position: relative;
+  gap: 8px;
+
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 8px;
+  position: relative;
 
   cursor: pointer;
 `;
@@ -76,8 +78,8 @@ export const ColorCardRect = styled.div<ColorCardRectProps>`
       height: 89px;
 
       background-color: ${colorValue};
-      border-radius: 8px;
       border: ${isActive ? '3px solid #00aad2' : 'none'};
+      border-radius: 8px;
     `;
   }}
 `;
@@ -93,9 +95,10 @@ export const ColorCardName = styled.span`
 `;
 
 export const InteriorColorBox = styled.div`
+  gap: 16px;
+
   display: grid;
   grid-template-rows: repeat(1, 1fr);
-  gap: 16px;
 `;
 
 export const InteriorColorCard = styled.div`
@@ -112,12 +115,11 @@ export const InteriorColorButton = styled.button<InteriorColorButtonProps>`
     return css`
       width: 331px;
       height: 68px;
+
       background-image: url(${bgImage});
       background-repeat: no-repeat;
       background-size: cover;
       background-color: transparent;
-      border: none;
-
       border-radius: 4px;
       border: ${isActive ? '3px solid #00aad2' : 'none'};
     `;
