@@ -1,6 +1,8 @@
-import { CheckIcon } from '@/components/common/CheckIcon';
-import * as style from './style';
 import { useState } from 'react';
+
+import { CheckIcon } from '@/components/common/CheckIcon';
+
+import * as style from './style';
 
 const external_colors = [
   {
