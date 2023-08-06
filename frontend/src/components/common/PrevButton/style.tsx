@@ -9,8 +9,8 @@ interface ContainerProps {
 const Container = styled.button<ContainerProps>`
   ${({ width, height }) => {
     return css`
-        width: ${width},
-        height: ${height}
+      width: ${width};
+      height: ${height};
     `;
   }}
 `;

@@ -21,7 +21,7 @@ export function NextButton({ width, height, onClick }: NextButtonProps) {
         </g>
         <defs>
           <clipPath id="clip0_577_11602">
-            <rect width={width} height={height} fill="white" transform="matrix(-1 0 0 1 48 0)" />
+            <rect width={width} height={height} fill="white" />
           </clipPath>
         </defs>
       </svg>
