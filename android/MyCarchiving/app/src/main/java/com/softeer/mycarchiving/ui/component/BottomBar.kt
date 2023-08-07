@@ -20,6 +20,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.softeer.mycarchiving.R
 import com.softeer.mycarchiving.ui.theme.Black
+import com.softeer.mycarchiving.ui.theme.HyundaiLightSand
 import com.softeer.mycarchiving.ui.theme.HyundaiSand
 import com.softeer.mycarchiving.ui.theme.PrimaryBlue
 import com.softeer.mycarchiving.ui.theme.bold18
@@ -29,8 +30,10 @@ import com.softeer.mycarchiving.ui.theme.medium12
 fun BottomBar(
     modifier: Modifier,
     totalPrice: String,
-    onShowSummary: () -> Unit,
-    onButtonClick: () -> Unit
+    summaryText: String,
+    underLineWidth: Int,
+    buttonArea: @Composable () -> Unit,
+    onShowSummary: (() -> Unit)? = null,
 ) {
     Column(
         modifier = modifier
@@ -51,15 +54,16 @@ fun BottomBar(
             verticalAlignment = Alignment.CenterVertically
         ) {
             Column(
-                modifier = modifier.clickable { onShowSummary() }
+                modifier = modifier
+                    .clickable { onShowSummary?.invoke() }
             ) {
                 Text(
-                    text = stringResource(id = R.string.show_summary),
+                    text = summaryText,
                     style = medium12,
                 )
                 Spacer(modifier = modifier.height(5.dp))
                 Divider(
-                    modifier = modifier.width(61.dp),
+                    modifier = modifier.width(underLineWidth.dp),
                     thickness = 2.dp,
                     color = Black
                 )
@@ -79,25 +83,128 @@ fun BottomBar(
             }
         }
         Spacer(modifier = modifier.height(13.dp))
-        HyundaiButton(
-            modifier = modifier,
-            backgroundColor = PrimaryBlue,
-            textColor = HyundaiSand,
-            text = stringResource(id = R.string.bottom_bar_next_step),
-            onClick = onButtonClick
-        )
+        buttonArea()
+
     }
+}
+
+@Composable
+fun MakeCarBottomBar(
+    modifier: Modifier,
+    totalPrice: String,
+    onButtonClick: () -> Unit,
+    onSummaryClick: () -> Unit,
+    isDone: Boolean
+) {
+    BottomBar(
+        modifier = modifier,
+        totalPrice = totalPrice,
+        summaryText = stringResource(id = R.string.show_summary),
+        underLineWidth = 61,
+        buttonArea = {
+            HyundaiButton(
+                modifier = modifier,
+                backgroundColor = PrimaryBlue,
+                textColor = HyundaiLightSand,
+                text = if (isDone) {
+                    stringResource(id = R.string.purchase_car)
+                } else {
+                    stringResource(id = R.string.bottom_bar_next_step)
+                },
+                onClick = onButtonClick
+            )
+        },
+        onShowSummary = onSummaryClick
+    )
 }
 
 @Preview
 @Composable
-fun PreviewBottomBar() {
-    val pressed: () -> Unit = {}
-    BottomBar(
+fun PreviewMakeCarBottomBar() {
+    MakeCarBottomBar(
         modifier = Modifier,
         totalPrice = "47,720,000",
-        onShowSummary = pressed,
-        onButtonClick = pressed
+        onButtonClick = {},
+        onSummaryClick = {},
+        isDone = false
     )
 }
+
+@Composable
+fun ArchiveBottomBar(
+    modifier: Modifier,
+    totalPrice: String,
+    onButtonClick: () -> Unit,
+    onSaveClick: () -> Unit
+) {
+    BottomBar(
+        modifier = modifier,
+        totalPrice = totalPrice,
+        summaryText = stringResource(id = R.string.archive_total_price),
+        underLineWidth = 35,
+        buttonArea = {
+            Row(
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                ArchiveSaveButton(
+                    modifier = modifier,
+                    onSave = onSaveClick
+                )
+                Spacer(modifier = modifier.width(16.dp))
+                HyundaiButton(
+                    modifier = modifier,
+                    backgroundColor = PrimaryBlue,
+                    textColor = HyundaiLightSand,
+                    text = stringResource(id = R.string.archive_make_my_car),
+                    onClick = onButtonClick
+                )
+            }
+        }
+    )
+}
+
+@Preview
+@Composable
+fun PreviewArchiveBottomBar() {
+    ArchiveBottomBar(
+        modifier = Modifier,
+        totalPrice = "47,720,000",
+        onButtonClick = {},
+        onSaveClick = {}
+    )
+}
+
+@Composable
+fun MyArchiveBottomBar(
+    modifier: Modifier,
+    totalPrice: String,
+    onButtonClick: () -> Unit,
+) {
+    BottomBar(
+        modifier = modifier,
+        totalPrice = totalPrice,
+        summaryText = stringResource(id = R.string.archive_total_price),
+        underLineWidth = 35,
+        buttonArea = {
+            HyundaiButton(
+                modifier = modifier,
+                backgroundColor = PrimaryBlue,
+                textColor = HyundaiLightSand,
+                text = stringResource(id = R.string.purchase_car),
+                onClick = onButtonClick
+            )
+        }
+    )
+}
+
+@Preview
+@Composable
+fun PreviewMyArchiveBottomBar() {
+    MyArchiveBottomBar(
+        modifier = Modifier,
+        totalPrice = "47,720,000",
+        onButtonClick = {},
+    )
+}
+
 

@@ -5,6 +5,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -13,6 +14,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
@@ -30,6 +32,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.softeer.mycarchiving.R
+import com.softeer.mycarchiving.ui.theme.AlertPrimary
 import com.softeer.mycarchiving.ui.theme.Black
 import com.softeer.mycarchiving.ui.theme.DarkGray
 import com.softeer.mycarchiving.ui.theme.HyundaiLightSand
@@ -39,6 +42,7 @@ import com.softeer.mycarchiving.ui.theme.HyundaiSand
 import com.softeer.mycarchiving.ui.theme.LightGray
 import com.softeer.mycarchiving.ui.theme.MediumGray
 import com.softeer.mycarchiving.ui.theme.PrimaryBlue
+import com.softeer.mycarchiving.ui.theme.White
 import com.softeer.mycarchiving.ui.theme.bold18
 import com.softeer.mycarchiving.ui.theme.medium14
 import com.softeer.mycarchiving.ui.theme.regular14
@@ -249,6 +253,40 @@ fun SearchConditionChipForDelete(
 @Composable
 fun PreviewSearchConditionChipForDelete() {
     SearchConditionChipForDelete(modifier = Modifier, name = "듀얼 와이드 선루프", {})
+}
+
+@Composable
+fun ArchiveSaveButton(
+    modifier: Modifier,
+    onSave: () -> Unit
+) {
+    var isSaved by remember { mutableStateOf(false) }
+    Box(
+        modifier = modifier
+            .width(52.dp)
+            .height(52.dp)
+            .background(
+                color = PrimaryBlue,
+                shape = CircleShape
+            )
+            .clickable {
+                isSaved = !isSaved
+                onSave()
+            },
+        contentAlignment = Alignment.Center
+    ) {
+        Icon(
+            painter = painterResource(id = R.drawable.ic_save),
+            contentDescription = null,
+            tint = if (isSaved) AlertPrimary else White
+        )
+    }
+}
+
+@Preview
+@Composable
+fun PreviewArchiveSaveButton() {
+    ArchiveSaveButton(modifier = Modifier, onSave = {})
 }
 
 
