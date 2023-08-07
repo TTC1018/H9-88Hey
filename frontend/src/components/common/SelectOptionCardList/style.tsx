@@ -40,7 +40,7 @@ export const OptionCard = styled.div<OptionCardProps>`
       position: relative;
 
       border-radius: 8px;
-      border: ${isCardActive && `2px solid ${colors.hyundaiPrimaryBlue}`};
+      border: 2px solid ${isCardActive ? colors.hyundaiPrimaryBlue : '#fff'};
       background-color: ${isCardActive ? 'rgba(0, 44, 95, 0.1)' : colors.hyundaiLightSand};
 
       cursor: pointer;
