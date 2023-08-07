@@ -16,6 +16,8 @@ export function CarImage({ color }: CarImageProps) {
   const [xPosition, setXPosition] = useState(0);
   const [currentImage, setCurrentImage] = useState(1);
 
+  const imageArray = Array.from({ length: 60 }, (_, index) => index + 1);
+
   function handleClickRotateButton() {
     setIsRotate(true);
   }
@@ -60,15 +62,19 @@ export function CarImage({ color }: CarImageProps) {
     <style.Container>
       <style.Wrapper>
         {isRotate && <PrevButton width="48" height="48" onClick={handleClickPrevButton} />}
-        <style.CarImage
-          onMouseDown={handleMouseDown}
-          onMouseUp={handleMouseOver}
-          onMouseMove={handleMouseMove}
-          src={`https://www.hyundai.com/contents/vr360/LX06/exterior/${color}/0${currentImage
-            .toString()
-            .padStart(2, '0')}.png`}
-          alt="VR 이미지"
-        />
+        {imageArray.map(num => (
+          <style.CarImage
+            key={num}
+            isDisplay={num === currentImage}
+            onMouseDown={handleMouseDown}
+            onMouseUp={handleMouseOver}
+            onMouseMove={handleMouseMove}
+            src={`https://www.hyundai.com/contents/vr360/LX06/exterior/${color}/0${num
+              .toString()
+              .padStart(2, '0')}.png`}
+            alt="VR 이미지"
+          />
+        ))}
         {isRotate && <NextButton width="48" height="48" onClick={handleClickNextButton} />}
         {!isRotate && (
           <>

@@ -4,14 +4,25 @@ import styled from '@emotion/styled';
 export const Container = styled.div``;
 
 export const Wrapper = styled.div`
+  width: 700px;
+
   display: flex;
   align-items: center;
   justify-content: center;
   position: relative;
 `;
 
-export const CarImage = styled.img`
-  width: 603px;
+interface CarImageProps {
+  isDisplay: boolean;
+}
+
+export const CarImage = styled.img<CarImageProps>`
+  ${({ isDisplay }) => {
+    return css`
+      width: 603px;
+      display: ${isDisplay ? 'block' : 'none'};
+    `;
+  }}
 `;
 
 export const rotateBtn = styled.button`
