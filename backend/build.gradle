@@ -6,6 +6,7 @@ plugins {
 
 group = 'softeer.h9'
 version = '0.0.1-SNAPSHOT'
+jar.enabled = false
 
 java {
 	sourceCompatibility = '11'
