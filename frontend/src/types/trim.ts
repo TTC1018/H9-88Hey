@@ -1,31 +1,47 @@
-export interface TrimOptionType {
-  title: string;
+export interface FeatureType {
+  name: string;
+  icon: string;
+}
+interface TrimType {
+  name: string;
   price: number;
-  carImages: string[];
-  optionImages: string[];
+  images: string[];
+  features: FeatureType[];
+}
+export interface TrimDataType {
+  trims: TrimType[];
 }
 
-export interface BodyTypeOptionType {
-  title: string;
-  price: number;
-  description: string;
+interface EngineType {
+  name: string;
+  extraCharge: number;
+  desc: string;
+  maximumOutput: string;
+  maximumTorque: string;
+  image: string;
+}
+export interface EngineDataType {
+  engines: EngineType[];
+}
+
+interface BodyTypeType {
+  name: string;
+  extraCharge: number;
+  desc: string;
   images: string[];
 }
-
-export interface WheelDriveOptionType {
-  title: string;
-  price: number;
-  description: string;
-  image: string;
+export interface BodyTypeDataType {
+  bodyTypes: BodyTypeType[];
 }
 
-export interface EngineOptionType {
-  title: string;
-  price: number;
-  description: string;
-  power: string;
-  torque: string;
+interface WheelDriveType {
+  name: string;
+  extraCharge: number;
+  desc: string;
   image: string;
+}
+export interface WheelDriveDataType {
+  wheelDrive: WheelDriveType[];
 }
 
 interface MyCarDetailType {
