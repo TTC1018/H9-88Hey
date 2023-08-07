@@ -561,10 +561,7 @@ export function Option() {
 
   function handleChangeSubOptionIndex(index: number) {
     const { length } = selectOption.subOptions;
-    let newIndex = index;
-    if (!isValidIndex(index)) {
-      newIndex = (index + length) % length;
-    }
+    const newIndex = isValidIndex(index) ? index : (index + length) % length;
     setSubOptionIndex(newIndex);
   }
 
