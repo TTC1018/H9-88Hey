@@ -18,7 +18,11 @@ export const OptionWrapper = styled.div`
 
 export const CardWrapper = styled.div``;
 
-export const ImageBox = styled.div``;
+export const ImageBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+`;
 
 export const DescriptionBox = styled.div`
   gap: 22px;
