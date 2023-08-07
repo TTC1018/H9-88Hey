@@ -129,7 +129,7 @@ export const InteriorColorButton = styled.button<InteriorColorButtonProps>`
       background-size: cover;
       background-color: transparent;
       border-radius: 4px;
-      border: ${isActive ? '3px solid #00aad2' : 'none'};
+      border: 3px solid ${isActive ? '#00aad2' : '#fff'};
     `;
   }}
 `;
