@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { CheckIcon } from '@/components/common/CheckIcon';
 import { CarImage } from '@/components/color/CarImage';
@@ -11,37 +11,37 @@ const mock_data = {
     external_colors: [
       {
         name: '어비스 블랙 펄',
-        rgb_value: '#141414',
+        image_url: 'https://www.hyundai.com/contents/vr360/LX06/exterior/A2B/colorchip-exterior.png',
         available_inner_color: ['퀄팅 천연', '퀄팅 그레이 샤넬'],
         tags: ['트렌디해요', '모두가 좋아하는 색상', '5개 데이터'],
       },
       {
         name: '쉬머링 실버 메탈릭',
-        rgb_value: '#8E918F',
+        image_url: 'https://www.hyundai.com/contents/vr360/LX06/exterior/R2T/colorchip-exterior.png',
         available_inner_color: ['퀄팅 천연', '퀄팅 그레이 샤넬'],
         tags: ['트렌디해요', '모두가 좋아하는 색상', '5개 데이터'],
       },
       {
         name: '문라이트 블루 펄',
-        rgb_value: '#121926',
+        image_url: 'https://www.hyundai.com/contents/vr360/LX06/exterior/UB7/colorchip-exterior.png',
         available_inner_color: ['퀄팅 천연', '퀄팅 그레이 샤넬'],
         tags: ['트렌디해요', '모두가 좋아하는 색상', '5개 데이터'],
       },
       {
         name: '가이아 브라운 펄',
-        rgb_value: '#282520',
+        image_url: 'https://www.hyundai.com/contents/vr360/LX06/exterior/D2S/colorchip-exterior.png',
         available_inner_color: ['퀄팅 천연', '퀄팅 그레이 샤넬'],
         tags: ['트렌디해요', '모두가 좋아하는 색상', '5개 데이터'],
       },
       {
         name: '그라파이트 그레이 메탈릭',
-        rgb_value: '#323534',
+        image_url: 'https://www.hyundai.com/contents/vr360/LX06/exterior/P7V/colorchip-exterior.png',
         available_inner_color: ['퀄팅 천연', '퀄팅 그레이 샤넬'],
         tags: ['트렌디해요', '모두가 좋아하는 색상', '5개 데이터'],
       },
       {
         name: '크리미 화이트 펄',
-        rgb_value: '#F0F2F1',
+        image_url: 'https://www.hyundai.com/contents/vr360/LX06/exterior/WC9/colorchip-exterior.png',
         available_inner_color: ['퀄팅 천연', '퀄팅 그레이 샤넬'],
         tags: ['트렌디해요', '모두가 좋아하는 색상', '5개 데이터'],
       },
@@ -62,8 +62,15 @@ const mock_data = {
 };
 
 export function Color() {
-  const [externalColor, setExternalColor] = useState('');
+  const [externalColor, setExternalColor] = useState('어비스 블랙 펄');
+  const [colorWord, setColorWord] = useState('A2B');
   const [innerColor, setInnerColor] = useState('');
+
+  useEffect(() => {
+    const targetIndex = mock_data.data.external_colors.findIndex(color => color.name === externalColor);
+    setColorWord(mock_data.data.external_colors[targetIndex].image_url.split('exterior/')[1].slice(0, 3));
+  }, [externalColor]);
+
   function handleClickExternalColor(name: string) {
     setExternalColor(name);
   }
@@ -82,7 +89,7 @@ export function Color() {
   return (
     <style.Container>
       <style.Wrapper>
-        <CarImage />
+        <CarImage color={colorWord} />
         <MyCarDescription title={externalColor} price={0} hasTag={false} />
       </style.Wrapper>
       <style.Wrapper>
@@ -95,7 +102,7 @@ export function Color() {
           <style.ColorBox>
             {mock_data.data.external_colors.map(color => (
               <style.ColorCard key={color.name} onClick={() => handleClickExternalColor(color.name)}>
-                <style.ColorCardRect colorValue={color.rgb_value} isActive={isSelectedExternalColor(color.name)} />
+                <style.ColorCardRect colorUrl={color.image_url} isActive={isSelectedExternalColor(color.name)} />
                 <style.ColorCardName>{color.name}</style.ColorCardName>
                 {isSelectedExternalColor(color.name) && <CheckIcon isInnerColorIcon={true} />}
               </style.ColorCard>

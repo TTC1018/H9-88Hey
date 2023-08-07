@@ -6,7 +6,11 @@ import { NextButton } from '@/components/common/NextButton';
 
 import * as style from './style';
 
-export function CarImage() {
+interface CarImageProps {
+  color: string;
+}
+
+export function CarImage({ color }: CarImageProps) {
   const [isClicked, setIsClicked] = useState(false);
   const [isRotate, setIsRotate] = useState(false);
   const [xPosition, setXPosition] = useState(0);
@@ -56,12 +60,11 @@ export function CarImage() {
     <style.Container>
       <style.Wrapper>
         {isRotate && <PrevButton width="48" height="48" onClick={handleClickPrevButton} />}
-        {}
         <style.CarImage
           onMouseDown={handleMouseDown}
           onMouseUp={handleMouseOver}
           onMouseMove={handleMouseMove}
-          src={`https://www.hyundai.com/contents/vr360/LX06/exterior/A2B/0${currentImage
+          src={`https://www.hyundai.com/contents/vr360/LX06/exterior/${color}/0${currentImage
             .toString()
             .padStart(2, '0')}.png`}
           alt="VR 이미지"
