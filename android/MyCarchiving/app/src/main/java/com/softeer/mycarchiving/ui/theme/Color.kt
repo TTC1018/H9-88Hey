@@ -25,6 +25,7 @@ val HyundaiNavy = Color(0xFF385DA2)
 
 val LightGray = Color(0xFFDCDCDC)
 val MediumGray = Color(0xFFBEBEBE)
+val MediumDarkGray = Color(0xFF8B8B8B)
 val DarkGray = Color(0xFF545454)
 val Black = Color(0xFF232323)
 val White = Color(0xFFFFFFFF)
