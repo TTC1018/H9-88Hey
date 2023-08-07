@@ -142,19 +142,22 @@ const style = css`
     font-family: HyundaiSansBold;
     font-style: normal;
     font-display: swap;
-    src: url('/src/assets/fonts/HyundaiSansHeadKRBold.ttf') format('truetype');
+    src: local('HyundaiSansBold'), url('/src/assets/fonts/HyundaiSansHeadKRBold.woff2') format('woff2'),
+      url('/src/assets/fonts/HyundaiSansHeadKRBold.woff') format('woff');
   }
   @font-face {
     font-family: HyundaiSansMedium;
     font-style: normal;
     font-display: swap;
-    src: url('/src/assets/fonts/HyundaiSansHeadKRMedium.ttf') format('truetype');
+    src: local('HyundaiSansMedium'), url('/src/assets/fonts/HyundaiSansHeadKRMedium.woff2') format('woff2'),
+      url('/src/assets/fonts/HyundaiSansHeadKRMedium.woff') format('woff');
   }
   @font-face {
     font-family: HyundaiSansRegular;
     font-style: normal;
     font-display: swap;
-    src: url('/src/assets/fonts/HyundaiSansHeadKRRegular.ttf') format('truetype');
+    src: local('HyundaiSansRegular'), url('/src/assets/fonts/HyundaiSansHeadKRRegular.woff2') format('woff2'),
+      url('/src/assets/fonts/HyundaiSansHeadKRRegular.woff') format('woff');
   }
 `;
 

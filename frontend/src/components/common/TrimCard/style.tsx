@@ -9,14 +9,15 @@ const Container = styled.div<ActiveStateProps>`
     const { colors } = theme;
     return css`
       width: 391px;
-      height: 100%;
-      padding: 18px 23px 28px 23px;
+      padding: 18px 23px 20px 23px;
 
       color: ${isActive ? colors.hyundaiPrimaryBlue : colors.black};
 
       background: ${isActive ? 'rgba(56, 93, 162, 0.1)' : colors.hyundaiLightSand};
-      border: ${isActive && `2px solid ${colors.hyundaiPrimaryBlue}`};
+      border: 2px solid ${isActive ? colors.hyundaiPrimaryBlue : colors.hyundaiLightSand};
       border-radius: 8px;
+
+      cursor: pointer;
     `;
   }}
 `;
@@ -29,7 +30,7 @@ const Wrapper = styled.div`
   justify-content: space-between;
 `;
 
-const Title = styled.div`
+const Title = styled.p`
   ${({ theme }) => {
     const { fonts } = theme;
     return css`
@@ -38,7 +39,7 @@ const Title = styled.div`
   }}
 `;
 
-const Price = styled.div`
+const Price = styled.p`
   ${({ theme }) => {
     const { fonts } = theme;
     return css`
@@ -47,7 +48,7 @@ const Price = styled.div`
   }}
 `;
 
-const Description = styled.div`
+const Description = styled.p`
   ${({ theme }) => {
     const { fonts } = theme;
     return css`
@@ -62,14 +63,14 @@ const Line = styled.hr<ActiveStateProps>`
     return css`
       width: 100%;
       height: 2px;
-      margin: 20px 0;
+      margin: 10px 0;
 
       background-color: ${isActive ? colors.hyundaiPrimaryBlue : colors.black};
     `;
   }}
 `;
 
-const Info = styled.div`
+const Info = styled.p`
   width: 100%;
   margin-bottom: 8px;
 
@@ -77,7 +78,7 @@ const Info = styled.div`
   justify-content: space-between;
 `;
 
-const InfoTitle = styled.div`
+const InfoTitle = styled.p`
   ${({ theme }) => {
     const { fonts } = theme;
     return css`
@@ -86,7 +87,7 @@ const InfoTitle = styled.div`
   }}
 `;
 
-const InfoContent = styled.div`
+const InfoContent = styled.p`
   ${({ theme }) => {
     const { fonts } = theme;
     return css`

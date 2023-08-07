@@ -9,6 +9,7 @@ const Container = styled.div`
   gap: 8px;
 
   display: flex;
+  position: relative;
 `;
 
 const Image = styled.img`
@@ -22,9 +23,11 @@ const Image = styled.img`
 
 const Wrapper = styled.div`
   gap: 8px;
+  left: -80px;
 
   display: flex;
   flex-direction: column;
+  position: absolute;
 `;
 
 const SubImage = styled.img<ActiveStateProps>`
@@ -35,9 +38,11 @@ const SubImage = styled.img<ActiveStateProps>`
       height: 56px;
 
       border-radius: 8px;
-      border: ${isActive ? `2px solid #00AAD2` : `1px solid ${colors.lightGray}`};
+      border: 2px solid ${isActive ? '#00AAD2' : colors.lightGray};
 
-      object-fit: fill;
+      object-fit: cover;
+
+      cursor: pointer;
     `;
   }}
 `;
