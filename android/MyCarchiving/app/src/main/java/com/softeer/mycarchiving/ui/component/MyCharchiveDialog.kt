@@ -2,6 +2,7 @@ package com.softeer.mycarchiving.ui.component
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -19,7 +20,11 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
@@ -102,45 +107,79 @@ fun PreviewBasicItemDialog() {
 }
 
 @Composable
-fun FinishMakeCarDialog(
+fun ButtonDialog(
     modifier: Modifier,
     onDismissRequest: () -> Unit,
-    onFinish: () -> Unit
+    description: String,
+    annotatedTargetStartIndex: Int,
+    annotatedTargetLength: Int,
+    buttonArea: @Composable () -> Unit
 ) {
+    val annotatedString = buildAnnotatedString {
+        append(description.substring(0, annotatedTargetStartIndex))
+        withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
+            append(description.substring(annotatedTargetStartIndex, annotatedTargetStartIndex + annotatedTargetLength))
+        }
+        append(description.substring(annotatedTargetStartIndex + annotatedTargetLength))
+    }
     Dialog(onDismissRequest = onDismissRequest) {
         Surface(
+            modifier = modifier.height(186.dp),
             color = White,
             shape = roundCorner
         ) {
             Column(
                 modifier = modifier
-                    .padding(start = 12.dp, end = 12.dp, top = 27.dp, bottom = 13.dp),
-                horizontalAlignment = Alignment.CenterHorizontally
+                    .padding(start = 12.dp, end = 12.dp, bottom = 13.dp),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.SpaceBetween
             ) {
-                Text(
-                    text = stringResource(id = R.string.make_car_dialog_description),
-                    style = regular14,
-                    textAlign = TextAlign.Center
-                )
-                Spacer(modifier = modifier.height(24.dp))
-                Row {
-                    HyundaiButton(
-                        modifier = modifier.width(120.dp),
-                        backgroundColor = LightGray,
-                        textColor = DarkGray,
-                        text = stringResource(id = R.string.cancel),
-                        onClick = onDismissRequest
-                    )
-                    Spacer(modifier = modifier.width(6.dp))
-                    HyundaiButton(
+                Box(
+                    modifier = modifier.weight(1f),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Text(
                         modifier = modifier,
-                        backgroundColor = PrimaryBlue,
-                        textColor = White,
-                        text = stringResource(id = R.string.make_car_dialog_finish),
-                        onClick = onFinish
+                        text = annotatedString,
+                        style = regular14,
+                        textAlign = TextAlign.Center
                     )
                 }
+                buttonArea()
             }
+        }
+    }
+}
+
+@Composable
+fun FinishMakeCarDialog(
+    modifier: Modifier,
+    onDismissRequest: () -> Unit,
+    onFinish: () -> Unit
+) {
+    ButtonDialog(
+        modifier = modifier,
+        onDismissRequest = onDismissRequest,
+        description = stringResource(id = R.string.make_car_dialog_description),
+        annotatedTargetStartIndex = 24,
+        annotatedTargetLength = 16
+    ) {
+        Row {
+            HyundaiButton(
+                modifier = modifier.width(120.dp),
+                backgroundColor = LightGray,
+                textColor = DarkGray,
+                text = stringResource(id = R.string.cancel),
+                onClick = onDismissRequest
+            )
+            Spacer(modifier = modifier.width(6.dp))
+            HyundaiButton(
+                modifier = modifier,
+                backgroundColor = PrimaryBlue,
+                textColor = White,
+                text = stringResource(id = R.string.make_car_dialog_finish),
+                onClick = onFinish
+            )
         }
     }
 }
@@ -149,4 +188,94 @@ fun FinishMakeCarDialog(
 @Composable
 fun PreviewFinishMakeCarDialog() {
     FinishMakeCarDialog(modifier = Modifier, onDismissRequest = {}, onFinish = {})
+}
+
+@Composable
+fun DeleteMadeCarDialog(
+    modifier: Modifier,
+    onDismissRequest: () -> Unit,
+    onDelete: () -> Unit,
+    carName: String
+) {
+    ButtonDialog(
+        modifier = modifier,
+        onDismissRequest = onDismissRequest,
+        description = stringResource(id = R.string.my_dialog_delete_description, carName),
+        annotatedTargetStartIndex = 0,
+        annotatedTargetLength = carName.length
+    ) {
+        Row {
+            HyundaiButton(
+                modifier = modifier.weight(1f),
+                backgroundColor = LightGray,
+                textColor = DarkGray,
+                text = stringResource(id = R.string.cancel),
+                onClick = onDismissRequest
+            )
+            Spacer(modifier = modifier.width(6.dp))
+            HyundaiButton(
+                modifier = modifier.weight(1f),
+                backgroundColor = PrimaryBlue,
+                textColor = White,
+                text = stringResource(id = R.string.my_dialog_delete),
+                onClick = onDelete
+            )
+        }
+    }
+}
+
+@Preview
+@Composable
+fun PreviewDeleteMadeCarDialog() {
+    DeleteMadeCarDialog(
+        modifier = Modifier,
+        onDismissRequest = {},
+        onDelete = {},
+        carName = "펠리세이드 Le Blanc"
+    )
+}
+
+@Composable
+fun MoveMakeCarDialog(
+    modifier: Modifier,
+    onDismissRequest: () -> Unit,
+    onMove: () -> Unit,
+    saveDate: String
+) {
+    ButtonDialog(
+        modifier = modifier,
+        onDismissRequest = onDismissRequest,
+        description = stringResource(id = R.string.my_dialog_continue_make_description, saveDate),
+        annotatedTargetStartIndex = 0,
+        annotatedTargetLength = saveDate.length
+    ) {
+        Row {
+            HyundaiButton(
+                modifier = modifier.width(120.dp),
+                backgroundColor = LightGray,
+                textColor = DarkGray,
+                text = stringResource(id = R.string.cancel),
+                onClick = onDismissRequest
+            )
+            Spacer(modifier = modifier.width(6.dp))
+            HyundaiButton(
+                modifier = modifier,
+                backgroundColor = PrimaryBlue,
+                textColor = White,
+                text = stringResource(id = R.string.my_dialog_continue_make),
+                onClick = onMove
+            )
+        }
+    }
+}
+
+@Preview
+@Composable
+fun PreviewMoveMakeCarDialog() {
+    MoveMakeCarDialog(
+        modifier = Modifier,
+        onDismissRequest = {},
+        onMove = {},
+        saveDate = "23년 7월 18일"
+    )
 }
