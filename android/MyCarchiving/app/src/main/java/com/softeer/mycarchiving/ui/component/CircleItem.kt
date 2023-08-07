@@ -1,17 +1,18 @@
 package com.softeer.mycarchiving.ui.component
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -68,10 +69,10 @@ fun CheckCircle(
             ),
         contentAlignment = Alignment.Center
     ) {
-        Image(
+        Icon(
             painter = painterResource(id = R.drawable.ic_check),
             contentDescription = null,
-            colorFilter = ColorFilter.tint(HyundaiNeutral)
+            tint = HyundaiNeutral
         )
     }
 }
@@ -80,4 +81,31 @@ fun CheckCircle(
 @Composable
 fun PreviewCheckCircle() {
     CheckCircle(modifier = Modifier)
+}
+
+@Composable
+fun XCircle(
+    modifier: Modifier,
+    onClick: () -> Unit
+) {
+    Box(
+        modifier = modifier
+            .size(20.dp)
+            .border(width = 1.dp, color = MediumGray, shape = CircleShape)
+            .clickable { onClick() },
+        contentAlignment = Alignment.Center
+    ) {
+        Icon(
+            modifier = modifier.size(15.dp),
+            painter = painterResource(id = R.drawable.ic_close),
+            contentDescription = null,
+            tint = MediumGray
+        )
+    }
+}
+
+@Preview
+@Composable
+fun PreviewXCircle() {
+    XCircle(modifier = Modifier, onClick = {})
 }
