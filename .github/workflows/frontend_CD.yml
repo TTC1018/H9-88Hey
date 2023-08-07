@@ -23,17 +23,15 @@ jobs:
       uses: actions/setup-node@v3
       with:
         node-version: ${{ matrix.node-version }}
-        cache: 'npm'
-        cache-dependency-path: frontend/package-lock.json
-    - run: npm ci
-    - run: npm run build --if-present
-    - run: npm test
+    - run: yarn
+    - run: yarn build --if-present
+    - run: yarn test
 
     - name: Upload artifact
       uses: actions/upload-artifact@v2
       with:
        name: cicdsample
-       path: frontend/build
+       path: frontend/dist
        
   deploy:
     needs: build
@@ -45,7 +43,7 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: cicdsample
-          path: build
+          path: dist
 
       - name: Copy files via SSH
         uses: appleboy/scp-action@master
@@ -53,7 +51,7 @@ jobs:
           host: ${{ secrets.SERVER_IP }}
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
-          source: "build/*"
+          source: "dist/*"
           target: "~/temp"
 
   ssh:
@@ -70,6 +68,6 @@ jobs:
           host: ${{ secrets.SERVER_IP }}
           username: ${{ secrets.SSH_USER }}
           script: |
-            rm -rf ~/build
-            mv ~/temp/build ~/build
+            rm -rf ~/dist
+            mv ~/temp/dist ~/dist
             sudo systemctl reload nginx
