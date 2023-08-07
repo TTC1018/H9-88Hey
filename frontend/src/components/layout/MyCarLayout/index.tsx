@@ -7,6 +7,7 @@ import { MyCarType } from '@/types/trim';
 import { Header } from '@/components/common/Header';
 import { Footer } from '@/components/common/Footer';
 import { Navigation } from '@/components/common/Navigation';
+
 import * as style from './style';
 
 const DEFAULT_STATE: MyCarType = {

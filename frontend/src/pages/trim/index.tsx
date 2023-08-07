@@ -2,11 +2,12 @@ import { useEffect } from 'react';
 
 import { useOutletContext } from 'react-router-dom';
 
+import { MyCarLayoutContextType } from '@/types/trim';
 import { useSelectIndex } from '@/hooks/useSelectedIndex';
 
-import { MyCarLayoutContextType } from '@/types/trim';
 import { MyCarImageBox } from '@/components/common/MyCarImageBox';
 import { SelectOptionCard } from '@/components/trim/SelectOptionCard';
+
 import * as style from './style';
 
 const mockData = [

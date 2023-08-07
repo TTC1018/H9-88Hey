@@ -1,7 +1,8 @@
 import { useLocation, useNavigate } from 'react-router-dom';
 
-import * as style from './style';
 import { MyCarType } from '@/types/trim';
+
+import * as style from './style';
 
 const NAVIGATION_PATH = {
   '/trim': { prev: '', next: '/trim/engine' },
