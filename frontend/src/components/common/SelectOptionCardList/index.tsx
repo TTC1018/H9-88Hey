@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, MouseEvent } from 'react';
 
 import { SelectOptionCardDataProps } from '@/types/option';
 import { isIndexLargeThanZero, isIndexSmallThanMaxIndex } from '@/utils';
@@ -14,7 +14,7 @@ interface SelectOptionCardListProps {
   selectedIndex: number;
   cardListIndex: number;
   data: SelectOptionCardDataProps[];
-  onClickCard: (index: number, event: React.MouseEvent<HTMLDivElement>) => void;
+  onClickCard: (index: number, event: MouseEvent<HTMLDivElement>) => void;
   onClickArrowButton: (type: string, index: number, length: number) => void;
 }
 
@@ -97,7 +97,12 @@ function SelectOptionCard({
     setIsButtonActive(!isButtonActive);
   }
 
-  function handleHoverButton(isHover: boolean) {
+  function handleHoverCard(isHover: boolean, event: MouseEvent<HTMLDivElement>) {
+    const target = event.target as HTMLDivElement;
+    if (target.tagName === 'BUTTON') {
+      setIsHover(false);
+      return;
+    }
     setIsHover(isHover);
   }
 
@@ -105,8 +110,8 @@ function SelectOptionCard({
     <style.OptionCard
       isCardActive={isCardActive}
       onClick={event => onClickCard(index, event)}
-      onMouseEnter={() => handleHoverButton(true)}
-      onMouseLeave={() => handleHoverButton(false)}
+      onMouseOver={event => handleHoverCard(true, event)}
+      onMouseOut={event => handleHoverCard(false, event)}
     >
       <style.Image src={imageUrl} />
       <style.DescriptionWrapper>
