@@ -1,8 +1,11 @@
 package com.softeer.mycarchiving.ui.component
 
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -20,6 +23,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.softeer.mycarchiving.R
+import com.softeer.mycarchiving.ui.theme.DarkGray
+import com.softeer.mycarchiving.ui.theme.HyundaiLightSand
 import com.softeer.mycarchiving.ui.theme.HyundaiNavy
 import com.softeer.mycarchiving.ui.theme.HyundaiNeutral
 import com.softeer.mycarchiving.ui.theme.HyundaiSand
@@ -27,6 +32,7 @@ import com.softeer.mycarchiving.ui.theme.PrimaryBlue
 import com.softeer.mycarchiving.ui.theme.bold18
 import com.softeer.mycarchiving.ui.theme.medium14
 import com.softeer.mycarchiving.ui.theme.roundCorner
+import com.softeer.mycarchiving.ui.theme.roundCornerSmall
 
 @Composable
 fun HyundaiButton(
@@ -52,7 +58,6 @@ fun HyundaiButton(
     }
 }
 
-
 @Preview
 @Composable
 fun PreviewAppButton() {
@@ -64,6 +69,29 @@ fun PreviewAppButton() {
         text = "다음 단계로",
         onClick = pressed
     )
+}
+
+@Composable
+fun MyArchiveButton(
+    modifier: Modifier,
+) {
+    Row(
+        modifier = modifier
+            .background(color = DarkGray, shape = roundCornerSmall)
+            .padding(all = 8.dp),
+    ) {
+        Text(
+            text = stringResource(id = R.string.my_archive),
+            style = medium14,
+            color = HyundaiLightSand
+        )
+    }
+}
+
+@Preview
+@Composable
+fun PreviewMyArchiveButton() {
+    MyArchiveButton(modifier = Modifier)
 }
 
 @Composable

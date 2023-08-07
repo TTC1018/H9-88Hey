@@ -69,7 +69,7 @@ fun BasicItemDialog(
                         modifier = modifier
                             .align(Alignment.CenterEnd)
                             .clickable { onDismissRequest() },
-                        painter = painterResource(id = R.drawable.ic_close),
+                        painter = painterResource(id = R.drawable.ic_close_light),
                         contentDescription = null
                     )
                 }
