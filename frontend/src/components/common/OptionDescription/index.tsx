@@ -1,5 +1,3 @@
-import { addCommasToPrice } from '@/utils';
-
 import * as style from './style';
 
 interface OptionDescriptionProps {
@@ -13,7 +11,7 @@ export function OptionDescription({ name, price, tags }: OptionDescriptionProps)
     <style.Container>
       <style.TitleWrapper>
         <style.TitleBox>{name}</style.TitleBox>
-        <style.PriceBox>{addCommasToPrice(price)}</style.PriceBox>
+        <style.PriceBox>+{price.toLocaleString('en')}원</style.PriceBox>
       </style.TitleWrapper>
       <style.Line />
       <style.DescriptionWrapper>

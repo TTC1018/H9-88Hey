@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 
 import { SelectOptionCardDataProps } from '@/types/option';
-import { addCommasToPrice, isIndexLargeThanZero, isIndexSmallThanMaxIndex } from '@/utils';
+import { isIndexLargeThanZero, isIndexSmallThanMaxIndex } from '@/utils';
 import { OPTION_CARD_LIST_LENGTH } from '@/constants';
 
 import { PrevButton } from '../PrevButton';
@@ -111,7 +111,7 @@ function SelectOptionCard({
       <style.Image src={imageUrl} />
       <style.DescriptionWrapper>
         <style.Text isCardActive={isCardActive}>{name}</style.Text>
-        <style.Text isCardActive={isCardActive}>{addCommasToPrice(price)}</style.Text>
+        <style.Text isCardActive={isCardActive}>+{price.toLocaleString('en')}원</style.Text>
         <style.ButtonBox>
           <style.Button isButtonActive={isButtonActive} onClick={handleClickButton}>
             {isButtonActive ? '추가 완료' : '추가하기'}
