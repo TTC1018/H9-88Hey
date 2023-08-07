@@ -1,6 +1,6 @@
-import { HyundaiLogo } from '@/components/common/HyundaiLogo/index.tsx';
-import { ArchivingLogo } from '@/components/common/ArchivingLogo/index.tsx';
-import { AutoSavingLogo } from '@/components/common/AutoSavingLogo/index.tsx';
+import { HyundaiLogo } from '@/components/common/HyundaiLogo';
+import { ArchivingLogo } from '@/components/common/ArchivingLogo';
+import { AutoSavingLogo } from '@/components/common/AutoSavingLogo';
 
 import * as style from './style';
 

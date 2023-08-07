@@ -4,13 +4,17 @@ import styled from '@emotion/styled';
 interface ContainerProps {
   width: number;
   height: number;
+  isShow: boolean;
 }
 
 const Container = styled.button<ContainerProps>`
-  ${({ width, height }) => {
+  ${({ width, height, isShow }) => {
     return css`
-        width: ${width},
-        height: ${height}
+      width: ${width};
+      height: ${height};
+
+      visibility: ${isShow ? 'visible' : 'hidden'};
+      // display: ${isShow ? 'block' : 'none'};
     `;
   }}
 `;

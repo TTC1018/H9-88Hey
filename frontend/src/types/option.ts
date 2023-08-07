@@ -13,6 +13,7 @@ export interface SubOptionProps {
 }
 
 export interface SelectOptionCardDataProps {
+  index: number;
   name: string;
   price: number;
   imageUrl: string;

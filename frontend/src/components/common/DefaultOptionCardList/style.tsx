@@ -42,11 +42,13 @@ export const Category = styled.button<CategoryProps>`
 `;
 
 export const OptionCardWrapper = styled.div`
-  width: 990px;
+  width: 1098px;
   height: 162px;
+  gap: 6px;
 
   display: flex;
-  gap: 6px;
+
+  transform: translateX(-54px);
 `;
 
 export const OptionCard = styled.div`

@@ -16,12 +16,15 @@ interface ButtonProps {
 export const Container = styled.div<ContainerProps>`
   ${({ isShow }) => {
     return css`
-      width: 100%;
+      width: 1098px;
       height: 197px;
       margin-top: 24px;
       gap: 6px;
 
       display: ${isShow ? 'flex' : 'none'};
+      position: relative;
+
+      transform: translateX(-54px);
     `;
   }}
 `;

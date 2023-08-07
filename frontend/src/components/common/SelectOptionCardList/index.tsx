@@ -1,15 +1,21 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 import { SelectOptionCardDataProps } from '@/types/option';
 import { addCommasToPrice } from '@/utils';
+import { OPTION_CARD_LIST_LENGTH } from '@/constants';
+
+import { PrevButton } from '../PrevButton';
+import { NextButton } from '../NextButton';
 
 import * as style from './style';
 
 interface SelectOptionCardListProps {
   isShow: boolean;
   selectedIndex: number;
+  cardListIndex: number;
   data: SelectOptionCardDataProps[];
   onClickCard: (index: number, event: React.MouseEvent<HTMLDivElement>) => void;
+  onClickArrowButton: (type: string, index: number, length: number) => void;
 }
 
 interface SelectOptionCardProps {
@@ -26,10 +32,34 @@ interface SelectOptionCardHoverProps {
   subOptionNames: string[];
 }
 
-export function SelectOptionCardList({ isShow, selectedIndex, data, onClickCard }: SelectOptionCardListProps) {
+export function SelectOptionCardList({
+  isShow,
+  selectedIndex,
+  cardListIndex,
+  data,
+  onClickCard,
+  onClickArrowButton,
+}: SelectOptionCardListProps) {
+  const [cardList, setCardList] = useState<SelectOptionCardDataProps[]>([]);
+
+  useEffect(() => {
+    const startIndex = cardListIndex * OPTION_CARD_LIST_LENGTH;
+    let endIndex = startIndex + OPTION_CARD_LIST_LENGTH;
+    if (endIndex > data.length) {
+      endIndex = data.length;
+    }
+    setCardList(data.slice(startIndex, endIndex));
+  }, [cardListIndex, data]);
+
   return (
     <style.Container isShow={isShow}>
-      {data.map(({ name, price, imageUrl, subOptionNames }, index) => (
+      <PrevButton
+        width="48"
+        height="48"
+        onClick={() => onClickArrowButton('SELECT', cardListIndex - 1, data.length)}
+        isShow={cardListIndex > 0}
+      />
+      {cardList.map(({ index, name, price, imageUrl, subOptionNames }) => (
         <SelectOptionCard
           index={index}
           name={name}
@@ -38,9 +68,15 @@ export function SelectOptionCardList({ isShow, selectedIndex, data, onClickCard 
           subOptionNames={subOptionNames}
           isCardActive={index === selectedIndex}
           onClickCard={onClickCard}
-          key={name}
+          key={index}
         />
       ))}
+      <NextButton
+        width="48"
+        height="48"
+        onClick={() => onClickArrowButton('SELECT', cardListIndex + 1, data.length)}
+        isShow={cardListIndex < Math.floor(data.length / OPTION_CARD_LIST_LENGTH)}
+      />
     </style.Container>
   );
 }
