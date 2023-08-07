@@ -49,9 +49,7 @@ export function Engine() {
   useEffect(() => {
     const index = data.engines.findIndex(card => card.name === engine.title);
 
-    if (index !== -1) {
-      handleSetIndex(index)();
-    }
+    index !== -1 && handleSetIndex(index)();
     engine.title === '' &&
       handleTrim({ key: 'engine', option: data.engines[0].name, price: data.engines[0].extraCharge });
   }, [data]);
