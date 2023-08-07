@@ -11,13 +11,18 @@ const Container = styled.div`
 `;
 
 const Wrapper = styled.div`
-  gap: 20px;
+  gap: 30px;
+
+  display: flex;
+`;
+
+const Box = styled.div`
+  gap: 10px;
 
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
 `;
 
-const Box = styled.div``;
+const Enclosure = styled.div``;
 
-export { Container, Wrapper, Box };
+export { Container, Wrapper, Box, Enclosure };

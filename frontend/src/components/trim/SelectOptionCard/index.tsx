@@ -1,20 +1,29 @@
+import { Feature } from '@/types/trim';
+
 import * as style from './style';
 
 interface SelectOptionCardProps {
   isActive: boolean;
-  title: string;
+  name: string;
   price: number;
-  images: string[];
+  features: Feature[];
 }
-export function SelectOptionCard({ isActive, title, price, images }: SelectOptionCardProps) {
+export function SelectOptionCard({ isActive, name, price, features }: SelectOptionCardProps) {
   return (
     <style.Container isActive={isActive}>
-      <style.Title>{title}</style.Title>
+      <style.Title>{name}</style.Title>
       <style.Line isActive={isActive} />
       <style.ImageWrapper>
-        {images.map(image => (
-          <style.Image key={image} src={image} />
-        ))}
+        {features.map(({ name, icon }) => {
+          const isBig = name.length >= 15;
+
+          return (
+            <style.IconWrapper key={name}>
+              <style.Image src={icon} />
+              <style.Text isBig={isBig}>{name}</style.Text>
+            </style.IconWrapper>
+          );
+        })}
       </style.ImageWrapper>
       <style.Line isActive={isActive} />
       <style.Price>{price.toLocaleString()} 원</style.Price>

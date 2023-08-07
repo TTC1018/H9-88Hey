@@ -4,6 +4,9 @@ import styled from '@emotion/styled';
 interface ActiveStateProps {
   isActive: boolean;
 }
+interface TextSizeProps {
+  isBig: boolean;
+}
 
 const Container = styled.div<ActiveStateProps>`
   ${({ theme, isActive }) => {
@@ -59,6 +62,16 @@ const Price = styled.p`
   }}
 `;
 
+const IconWrapper = styled.div`
+  height: 100%;
+  width: 80px;
+  gap: 10px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
 const ImageWrapper = styled.div`
   width: 100%;
 
@@ -67,7 +80,21 @@ const ImageWrapper = styled.div`
 `;
 
 const Image = styled.img`
-  width: 55px;
+  width: 40px;
+  height: 40px;
 `;
 
-export { Container, Title, Line, Price, ImageWrapper, Image };
+const Text = styled.p<TextSizeProps>`
+  ${({ theme, isBig }) => {
+    const { fonts } = theme;
+    return css`
+      width: ${isBig ? '73px' : '48px'};
+      height: 40px;
+
+      text-align: center;
+      ${fonts.captionMedium};
+    `;
+  }}
+`;
+
+export { Container, Title, Line, Price, ImageWrapper, Image, Text, IconWrapper };

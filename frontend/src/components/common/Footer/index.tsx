@@ -32,17 +32,17 @@ export function Footer({
     wheelDrive.title !== '' ? '/' : ''
   }${wheelDrive.title}`;
 
-  const handleNextNavigate = () => {
+  function handleNextNavigate() {
     const path = NAVIGATION_PATH[pathname as keyof typeof NAVIGATION_PATH].next;
     if (path !== '') {
       onSetLocalStorage();
       navigate(NAVIGATION_PATH[pathname as keyof typeof NAVIGATION_PATH].next);
     }
-  };
-  const handlePrevNavigate = () => {
+  }
+  function handlePrevNavigate() {
     const path = NAVIGATION_PATH[pathname as keyof typeof NAVIGATION_PATH].prev;
     path !== '' && navigate(NAVIGATION_PATH[pathname as keyof typeof NAVIGATION_PATH].prev);
-  };
+  }
 
   return (
     <style.Container>
