@@ -5,7 +5,6 @@ interface TrimCardPropsWithEngineInfo {
   price: number;
   isActive: boolean;
   description: string;
-  onClick: () => void;
   hasEngineInfo: true;
   power: string;
   torque: string;
@@ -15,27 +14,17 @@ interface TrimCardPropsWithoutEngineInfo {
   price: number;
   isActive: boolean;
   description: string;
-  onClick: () => void;
   hasEngineInfo: false;
   power?: never;
   torque?: never;
 }
 type TrimCardProps = TrimCardPropsWithEngineInfo | TrimCardPropsWithoutEngineInfo;
-export function TrimCard({
-  isActive,
-  title,
-  price,
-  description,
-  hasEngineInfo,
-  power,
-  torque,
-  onClick,
-}: TrimCardProps) {
+export function TrimCard({ isActive, title, price, description, hasEngineInfo, power, torque }: TrimCardProps) {
   return (
-    <style.Container isActive={isActive} onClick={onClick}>
+    <style.Container isActive={isActive}>
       <style.Wrapper>
         <style.Title>{title}</style.Title>
-        <style.Price>+{price}원</style.Price>
+        <style.Price>+{price.toLocaleString()}원</style.Price>
       </style.Wrapper>
       <style.Description>{description}</style.Description>
       {hasEngineInfo && (

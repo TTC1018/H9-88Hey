@@ -22,7 +22,7 @@ const Container = styled.footer`
 `;
 
 const TrimWrapper = styled.div`
-  width: 130px;
+  width: 150px;
   height: 75px;
 
   display: flex;
@@ -139,7 +139,7 @@ const Option = styled.div`
 `;
 
 const PriceWrapper = styled.div`
-  width: 200px;
+  width: 180px;
   height: 75px;
 
   display: flex;
@@ -161,6 +161,8 @@ const PriceUnitText = styled.span`
   ${({ theme }) => {
     const { fonts, colors } = theme;
     return css`
+      margin-left: 4px;
+
       ${fonts.headingBold1}
       color: ${colors.black};
       font-size: 18px;
