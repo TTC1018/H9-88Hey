@@ -2,45 +2,64 @@ import { useState } from 'react';
 
 import { CheckIcon } from '@/components/common/CheckIcon';
 import { CarImage } from '@/components/color/CarImage';
+import { MyCarDescription } from '@/components/common/MyCarDescription';
 
 import * as style from './style';
 
-const external_colors = [
-  {
-    name: '어비스 블랙 펄',
-    rgb: '#141414',
+const mock_data = {
+  data: {
+    external_colors: [
+      {
+        name: '어비스 블랙 펄',
+        rgb_value: '#141414',
+        available_inner_color: ['퀄팅 천연', '퀄팅 그레이 샤넬'],
+        tags: ['트렌디해요', '모두가 좋아하는 색상', '5개 데이터'],
+      },
+      {
+        name: '쉬머링 실버 메탈릭',
+        rgb_value: '#8E918F',
+        available_inner_color: ['퀄팅 천연', '퀄팅 그레이 샤넬'],
+        tags: ['트렌디해요', '모두가 좋아하는 색상', '5개 데이터'],
+      },
+      {
+        name: '문라이트 블루 펄',
+        rgb_value: '#121926',
+        available_inner_color: ['퀄팅 천연', '퀄팅 그레이 샤넬'],
+        tags: ['트렌디해요', '모두가 좋아하는 색상', '5개 데이터'],
+      },
+      {
+        name: '가이아 브라운 펄',
+        rgb_value: '#282520',
+        available_inner_color: ['퀄팅 천연', '퀄팅 그레이 샤넬'],
+        tags: ['트렌디해요', '모두가 좋아하는 색상', '5개 데이터'],
+      },
+      {
+        name: '그라파이트 그레이 메탈릭',
+        rgb_value: '#323534',
+        available_inner_color: ['퀄팅 천연', '퀄팅 그레이 샤넬'],
+        tags: ['트렌디해요', '모두가 좋아하는 색상', '5개 데이터'],
+      },
+      {
+        name: '크리미 화이트 펄',
+        rgb_value: '#F0F2F1',
+        available_inner_color: ['퀄팅 천연', '퀄팅 그레이 샤넬'],
+        tags: ['트렌디해요', '모두가 좋아하는 색상', '5개 데이터'],
+      },
+    ],
+    inner_colors: [
+      {
+        name: '내부 색상 1',
+        image_path: 'src/assets/InteriorColor.png',
+        tags: ['트렌디해요', '모두가 좋아하는 색상', '5개 데이터'],
+      },
+      {
+        name: '내부 색상 2',
+        image_path: 'src/assets/InteriorColor2.png',
+        tags: ['트렌디해요', '모두가 좋아하는 색상', '5개 데이터'],
+      },
+    ],
   },
-  {
-    name: '쉬머링 실버 메탈릭',
-    rgb: '#8E918F',
-  },
-  {
-    name: '문라이트 블루 펄',
-    rgb: '#121926',
-  },
-  {
-    name: '가이아 브라운 펄',
-    rgb: '#282520',
-  },
-  {
-    name: '그라파이트 그레이 메탈릭',
-    rgb: '#323534',
-  },
-  {
-    name: '크리미 화이트 펄',
-    rgb: '#F0F2F1',
-  },
-];
-const inner_colors = [
-  {
-    name: '내부 색상 1',
-    url: 'src/assets/InteriorColor.png',
-  },
-  {
-    name: '내부 색상 2',
-    url: 'src/assets/InteriorColor2.png',
-  },
-];
+};
 
 export function Color() {
   const [externalColor, setExternalColor] = useState('');
@@ -62,7 +81,10 @@ export function Color() {
 
   return (
     <style.Container>
-      <CarImage />
+      <style.Wrapper>
+        <CarImage />
+        <MyCarDescription title={externalColor} price={0} hasTag={false} />
+      </style.Wrapper>
       <style.Wrapper>
         <style.Box>
           <style.TitleBox>
@@ -71,9 +93,9 @@ export function Color() {
           </style.TitleBox>
           <style.Division />
           <style.ColorBox>
-            {external_colors.map(color => (
+            {mock_data.data.external_colors.map(color => (
               <style.ColorCard key={color.name} onClick={() => handleClickExternalColor(color.name)}>
-                <style.ColorCardRect colorValue={color.rgb} isActive={isSelectedExternalColor(color.name)} />
+                <style.ColorCardRect colorValue={color.rgb_value} isActive={isSelectedExternalColor(color.name)} />
                 <style.ColorCardName>{color.name}</style.ColorCardName>
                 {isSelectedExternalColor(color.name) && <CheckIcon isInnerColorIcon={true} />}
               </style.ColorCard>
@@ -87,9 +109,9 @@ export function Color() {
           </style.TitleBox>
           <style.Division />
           <style.InteriorColorBox>
-            {inner_colors.map(color => (
+            {mock_data.data.inner_colors.map(color => (
               <style.InteriorColorCard key={color.name} onClick={() => handleClickInnerColor(color.name)}>
-                <style.InteriorColorButton isActive={isSelectedInnerColor(color.name)} bgImage={color.url} />
+                <style.InteriorColorButton isActive={isSelectedInnerColor(color.name)} bgImage={color.image_path} />
                 {isSelectedInnerColor(color.name) && <CheckIcon isInnerColorIcon={false} />}
               </style.InteriorColorCard>
             ))}
