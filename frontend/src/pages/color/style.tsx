@@ -66,8 +66,6 @@ export const ColorBox = styled.div`
 `;
 
 export const ColorCard = styled.div`
-  gap: 8px;
-
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -86,6 +84,7 @@ export const ColorCardRect = styled.div<ColorCardRectProps>`
     return css`
       width: 89px;
       height: 89px;
+      margin-bottom: 8px;
 
       background-image: url(${colorUrl});
       background-repeat: no-repeat;
