@@ -1,4 +1,4 @@
-package com.softeer.mycarchiving.ui.mycar
+package com.softeer.mycarchiving.ui.myarchive
 
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
@@ -7,26 +7,23 @@ import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 
 @Composable
-internal fun MyCarRoute(
+internal fun MyArchivingRoute(
     modifier: Modifier = Modifier,
     onBackClick: () -> Unit,
-    onArchiveClick: () -> Unit,
-    myCarViewModel: MyCarViewModel = hiltViewModel()
+    myArchivingViewModel: MyArchivingViewModel = hiltViewModel()
 ) {
-    MyCarScreen(
+    MyArchivingScreen(
         modifier = modifier,
-        onBackClick = onBackClick,
-        onArchiveClick = onArchiveClick,
+        onBackClick = onBackClick
     )
 }
 
 @Composable
-internal fun MyCarScreen(
+internal fun MyArchivingScreen(
     modifier: Modifier = Modifier,
     onBackClick: () -> Unit,
-    onArchiveClick: () -> Unit,
 ) {
-    Button(onClick = { onArchiveClick() }) {
+    Button(onClick = { onBackClick() }) {
         Text(text = "MyCar")
     }
 }
