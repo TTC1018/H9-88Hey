@@ -2,10 +2,16 @@ package com.softeer.mycarchiving.ui.component
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -16,6 +22,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
@@ -23,14 +30,18 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.softeer.mycarchiving.R
+import com.softeer.mycarchiving.ui.theme.Black
 import com.softeer.mycarchiving.ui.theme.DarkGray
 import com.softeer.mycarchiving.ui.theme.HyundaiLightSand
 import com.softeer.mycarchiving.ui.theme.HyundaiNavy
 import com.softeer.mycarchiving.ui.theme.HyundaiNeutral
 import com.softeer.mycarchiving.ui.theme.HyundaiSand
+import com.softeer.mycarchiving.ui.theme.LightGray
+import com.softeer.mycarchiving.ui.theme.MediumGray
 import com.softeer.mycarchiving.ui.theme.PrimaryBlue
 import com.softeer.mycarchiving.ui.theme.bold18
 import com.softeer.mycarchiving.ui.theme.medium14
+import com.softeer.mycarchiving.ui.theme.regular14
 import com.softeer.mycarchiving.ui.theme.roundCorner
 import com.softeer.mycarchiving.ui.theme.roundCornerSmall
 
@@ -134,6 +145,110 @@ fun OptionAddButton(
 @Composable
 fun PreviewOptionAddButton() {
     OptionAddButton(modifier = Modifier, onClick = {})
+}
+
+@Composable
+fun SearchConditionButton(
+    modifier: Modifier,
+    selectedCar: String? = null,
+    onClick: () -> Unit
+) {
+    Row(
+        modifier = modifier
+            .fillMaxWidth()
+            .background(color = HyundaiLightSand, shape = roundCorner)
+            .padding(all = 12.dp)
+            .clickable { onClick() },
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.SpaceBetween
+    ) {
+        Text(
+            text =  selectedCar ?: stringResource(id = R.string.archive_search_select_option),
+            style = if (selectedCar != null) medium14 else regular14,
+            color = if (selectedCar != null) Black else MediumGray
+        )
+        Icon(
+            modifier = modifier.size(24.dp),
+            painter = painterResource(id = R.drawable.ic_right),
+            contentDescription = null,
+            tint = DarkGray
+        )
+    }
+}
+
+@Preview
+@Composable
+fun PreviewSearchConditionButton() {
+    SearchConditionButton(modifier = Modifier, selectedCar = "펠리세이드", {})
+}
+
+@Composable
+fun SearchConditionChip(
+    modifier: Modifier,
+    name: String,
+    onClick: () -> Unit
+) {
+    var isSelect by remember { mutableStateOf(false) }
+    Text(
+        modifier = modifier
+            .clickable {
+                isSelect = !isSelect
+                onClick()
+            }
+            .background(
+                color = if (isSelect) HyundaiNavy else HyundaiNeutral,
+                shape = roundCornerSmall
+            )
+            .border(
+                width = if (isSelect) 0.dp else 0.5.dp,
+                color = if (isSelect) HyundaiNavy else LightGray
+            )
+            .padding(horizontal = 12.dp, vertical = 4.dp),
+        text = name,
+        style = regular14,
+        color = if (isSelect) HyundaiLightSand else DarkGray
+    )
+}
+
+@Preview
+@Composable
+fun PreviewSearchConditionChip() {
+    SearchConditionChip(modifier = Modifier, name = "펠리세이드", {})
+}
+
+@Composable
+fun SearchConditionChipForDelete(
+    modifier: Modifier,
+    name: String,
+    onDelete: () -> Unit
+) {
+    Row(
+        modifier = modifier
+            .background(color = HyundaiNavy, shape = roundCornerSmall)
+            .padding(horizontal = 12.dp, vertical = 4.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Text(
+            text = name,
+            style = regular14,
+            color = HyundaiLightSand
+        )
+        Spacer(modifier = modifier.width(10.dp))
+        Icon(
+            modifier = modifier
+                .size(12.dp)
+                .clickable { onDelete() },
+            painter = painterResource(id = R.drawable.ic_close_chip),
+            contentDescription = null,
+            tint = LightGray
+        )
+    }
+}
+
+@Preview
+@Composable
+fun PreviewSearchConditionChipForDelete() {
+    SearchConditionChipForDelete(modifier = Modifier, name = "듀얼 와이드 선루프", {})
 }
 
 
