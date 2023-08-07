@@ -1,18 +1,18 @@
-export interface Feature {
+export interface FeatureType {
   name: string;
   icon: string;
 }
-interface Trim {
+interface TrimType {
   name: string;
   price: number;
   images: string[];
-  features: Feature[];
+  features: FeatureType[];
 }
 export interface TrimDataType {
-  trims: Trim[];
+  trims: TrimType[];
 }
 
-interface Engine {
+interface EngineType {
   name: string;
   extraCharge: number;
   desc: string;
@@ -21,27 +21,27 @@ interface Engine {
   image: string;
 }
 export interface EngineDataType {
-  engines: Engine[];
+  engines: EngineType[];
 }
 
-interface BodyType {
+interface BodyTypeType {
   name: string;
   extraCharge: number;
   desc: string;
   images: string[];
 }
 export interface BodyTypeDataType {
-  bodyTypes: BodyType[];
+  bodyTypes: BodyTypeType[];
 }
 
-interface WheelDrive {
+interface WheelDriveType {
   name: string;
   extraCharge: number;
   desc: string;
   image: string;
 }
 export interface WheelDriveDataType {
-  wheelDrive: WheelDrive[];
+  wheelDrive: WheelDriveType[];
 }
 
 interface MyCarDetailType {

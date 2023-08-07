@@ -36,12 +36,12 @@ export function Footer({
     const path = NAVIGATION_PATH[pathname as keyof typeof NAVIGATION_PATH].next;
     if (path !== '') {
       onSetLocalStorage();
-      navigate(NAVIGATION_PATH[pathname as keyof typeof NAVIGATION_PATH].next);
+      navigate(path);
     }
   }
   function handlePrevNavigate() {
     const path = NAVIGATION_PATH[pathname as keyof typeof NAVIGATION_PATH].prev;
-    path !== '' && navigate(NAVIGATION_PATH[pathname as keyof typeof NAVIGATION_PATH].prev);
+    path !== '' && navigate(path);
   }
 
   return (
