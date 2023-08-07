@@ -129,7 +129,7 @@ function SelectOptionCardHover({ subOptionNames }: SelectOptionCardHoverProps) {
     <style.OptionCardHover>
       <style.DescriptionHoverWrapper>
         {subOptionNames.map((name, index) => (
-          <style.DescriptionHover key={index}>{name}</style.DescriptionHover>
+          <style.DescriptionHover key={index}>· {name}</style.DescriptionHover>
         ))}
       </style.DescriptionHoverWrapper>
     </style.OptionCardHover>

@@ -134,6 +134,7 @@ export const OptionCardHover = styled.div`
 
 export const DescriptionHoverWrapper = styled.ul`
   padding: 21px 15px 0 30px;
+  overflow: hidden;
 
   list-style-type: disc;
   list-style-position: outside;
@@ -144,8 +145,12 @@ export const DescriptionHover = styled.li`
     const { fonts } = theme;
 
     return css`
+      overflow: hidden;
+
       color: #fff;
       ${fonts.bodyRegular4}
+      text-overflow: ellipsis;
+      white-space: nowrap;
     `;
   }}
 `;
