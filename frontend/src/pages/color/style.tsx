@@ -3,13 +3,15 @@ import styled from '@emotion/styled';
 
 export const Container = styled.div`
   width: 331px;
-  gap: 35px;
+  gap: 88px;
 
   display: flex;
   align-items: center;
 `;
 
 export const Wrapper = styled.div`
+  gap: 30px;
+
   display: flex;
   flex-direction: column;
 `;
@@ -76,16 +78,20 @@ export const ColorCard = styled.div`
 
 interface ColorCardRectProps {
   isActive: boolean;
-  colorValue: string;
+  colorUrl: string;
 }
 
 export const ColorCardRect = styled.div<ColorCardRectProps>`
-  ${({ isActive, colorValue }) => {
+  ${({ isActive, colorUrl }) => {
     return css`
       width: 89px;
       height: 89px;
 
-      background-color: ${colorValue};
+      background-image: url(${colorUrl});
+      background-repeat: no-repeat;
+      background-size: cover;
+      background-color: transparent;
+
       border: ${isActive ? '3px solid #00aad2' : 'none'};
       border-radius: 8px;
     `;
