@@ -8,7 +8,7 @@ permissions:
   contents: read
 
 env:
-  RESOURCE_PATH: ./H9-88Hey/backend/src/main/resources/application.yaml
+  RESOURCE_PATH: ./backend/src/main/resources/application.yaml
 
 jobs:
   build:
@@ -37,8 +37,9 @@ jobs:
 
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
+        
       - name: Build with Gradle
-        run: ./gradlew build
+        run: ./gradlew bootJar
 
       - name: Upload artifact
         uses: actions/upload-artifact@v2
