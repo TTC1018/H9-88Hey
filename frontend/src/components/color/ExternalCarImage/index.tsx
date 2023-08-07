@@ -10,7 +10,7 @@ interface CarImageProps {
   color: string;
 }
 
-export function CarImage({ color }: CarImageProps) {
+export function ExternalCarImage({ color }: CarImageProps) {
   const [isClicked, setIsClicked] = useState(false);
   const [isRotate, setIsRotate] = useState(false);
   const [xPosition, setXPosition] = useState(0);

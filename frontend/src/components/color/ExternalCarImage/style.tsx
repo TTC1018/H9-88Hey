@@ -4,7 +4,7 @@ import styled from '@emotion/styled';
 export const Container = styled.div``;
 
 export const Wrapper = styled.div`
-  width: 700px;
+  width: 644px;
 
   display: flex;
   align-items: center;
@@ -20,6 +20,7 @@ export const CarImage = styled.img<CarImageProps>`
   ${({ isDisplay }) => {
     return css`
       width: 603px;
+
       display: ${isDisplay ? 'block' : 'none'};
     `;
   }}

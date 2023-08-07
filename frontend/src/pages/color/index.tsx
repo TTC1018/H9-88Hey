@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react';
 
 import { CheckIcon } from '@/components/common/CheckIcon';
-import { CarImage } from '@/components/color/CarImage';
+import { ExternalCarImage } from '@/components/color/ExternalCarImage';
 import { MyCarDescription } from '@/components/common/MyCarDescription';
+import { InnerCarImage } from '@/components/color/InnerCarImage';
 
 import * as style from './style';
 
@@ -48,13 +49,13 @@ const mock_data = {
     ],
     inner_colors: [
       {
-        name: '내부 색상 1',
-        image_path: 'src/assets/InteriorColor.png',
+        name: '퀼팅천연(블랙)',
+        image_path: 'https://www.hyundai.com/contents/vr360/LX06/interior/I49/colorchip-interior.png',
         tags: ['트렌디해요', '모두가 좋아하는 색상', '5개 데이터'],
       },
       {
-        name: '내부 색상 2',
-        image_path: 'src/assets/InteriorColor2.png',
+        name: '쿨그레이',
+        image_path: 'https://www.hyundai.com/contents/vr360/LX06/interior/YJY/colorchip-interior.png',
         tags: ['트렌디해요', '모두가 좋아하는 색상', '5개 데이터'],
       },
     ],
@@ -64,18 +65,27 @@ const mock_data = {
 export function Color() {
   const [externalColor, setExternalColor] = useState('어비스 블랙 펄');
   const [colorWord, setColorWord] = useState('A2B');
-  const [innerColor, setInnerColor] = useState('');
+  const [innerColorWord, setInnerColorWord] = useState('A2B');
+  const [innerColor, setInnerColor] = useState('퀼팅천연(블랙)');
+  const [isExternalPage, setIsExternalPage] = useState(true);
 
   useEffect(() => {
     const targetIndex = mock_data.data.external_colors.findIndex(color => color.name === externalColor);
     setColorWord(mock_data.data.external_colors[targetIndex].image_url.split('exterior/')[1].slice(0, 3));
   }, [externalColor]);
 
+  useEffect(() => {
+    const targetIndex = mock_data.data.inner_colors.findIndex(color => color.name === innerColor);
+    setInnerColorWord(mock_data.data.inner_colors[targetIndex].image_path.split('interior/')[1].slice(0, 3));
+  }, [innerColor]);
+
   function handleClickExternalColor(name: string) {
     setExternalColor(name);
+    setIsExternalPage(true);
   }
   function handleClickInnerColor(name: string) {
     setInnerColor(name);
+    setIsExternalPage(false);
   }
 
   function isSelectedExternalColor(name: string) {
@@ -89,8 +99,17 @@ export function Color() {
   return (
     <style.Container>
       <style.Wrapper>
-        <CarImage color={colorWord} />
-        <MyCarDescription title={externalColor} price={0} hasTag={false} />
+        {isExternalPage ? (
+          <>
+            <ExternalCarImage color={colorWord} />
+            <MyCarDescription title={externalColor} price={0} hasTag={false} />
+          </>
+        ) : (
+          <>
+            <InnerCarImage color={innerColorWord} />
+            <MyCarDescription title={innerColor} price={0} hasTag={false} />
+          </>
+        )}
       </style.Wrapper>
       <style.Wrapper>
         <style.Box>
