@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 
 import { SelectOptionCardDataProps } from '@/types/option';
-import { addCommasToPrice } from '@/utils';
+import { addCommasToPrice, isIndexLargeThanZero, isIndexSmallThanMaxIndex } from '@/utils';
 import { OPTION_CARD_LIST_LENGTH } from '@/constants';
 
 import { PrevButton } from '../PrevButton';
@@ -57,7 +57,7 @@ export function SelectOptionCardList({
         width="48"
         height="48"
         onClick={() => onClickArrowButton('SELECT', cardListIndex - 1, data.length)}
-        isShow={cardListIndex > 0}
+        isShow={isIndexLargeThanZero(cardListIndex)}
       />
       {cardList.map(({ index, name, price, imageUrl, subOptionNames }) => (
         <SelectOptionCard
@@ -75,7 +75,7 @@ export function SelectOptionCardList({
         width="48"
         height="48"
         onClick={() => onClickArrowButton('SELECT', cardListIndex + 1, data.length)}
-        isShow={cardListIndex < Math.floor(data.length / OPTION_CARD_LIST_LENGTH)}
+        isShow={isIndexSmallThanMaxIndex(cardListIndex, data.length)}
       />
     </style.Container>
   );
