@@ -13,12 +13,14 @@ export const Container = styled.div<ContainerProps>`
   ${({ isShow }) => {
     return css`
       width: 990px;
-      height: 200px;
+      height: 197px;
+
       gap: 6px;
       margin-top: 18px;
 
       display: ${isShow ? 'flex' : 'none'};
       flex-direction: column;
+      justify-content: space-between;
     `;
   }}
 `;

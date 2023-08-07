@@ -16,7 +16,10 @@ export const OptionWrapper = styled.div`
   gap: 38px;
 `;
 
-export const CardWrapper = styled.div``;
+export const CardWrapper = styled.div`
+  width: 100%;
+  height: 249px;
+`;
 
 export const ImageBox = styled.div`
   display: flex;
