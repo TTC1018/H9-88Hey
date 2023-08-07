@@ -31,6 +31,7 @@ export function ExternalCarImage({ color }: CarImageProps) {
   }
 
   function handleMouseDown(event: React.MouseEvent<HTMLDivElement>) {
+    event.preventDefault();
     setIsClicked(true);
     setXPosition(event.screenX);
   }
