@@ -4,9 +4,17 @@ import styled from '@emotion/styled';
 export const Container = styled.div`
   width: 331px;
   gap: 35px;
+
+  display: flex;
+  align-items: center;
 `;
 
-export const Wrapper = styled.div``;
+export const Wrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
+export const Box = styled.div``;
 
 export const TitleBox = styled.div`
   display: flex;

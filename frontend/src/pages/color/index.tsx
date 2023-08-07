@@ -1,6 +1,7 @@
 import { useState } from 'react';
 
 import { CheckIcon } from '@/components/common/CheckIcon';
+import { CarImage } from '@/components/color/CarImage';
 
 import * as style from './style';
 
@@ -61,36 +62,39 @@ export function Color() {
 
   return (
     <style.Container>
+      <CarImage />
       <style.Wrapper>
-        <style.TitleBox>
-          <style.Title>외장 색상</style.Title>
-          <style.ColorName>{externalColor}</style.ColorName>
-        </style.TitleBox>
-        <style.Division />
-        <style.ColorBox>
-          {external_colors.map(color => (
-            <style.ColorCard key={color.name} onClick={() => handleClickExternalColor(color.name)}>
-              <style.ColorCardRect colorValue={color.rgb} isActive={isSelectedExternalColor(color.name)} />
-              <style.ColorCardName>{color.name}</style.ColorCardName>
-              {isSelectedExternalColor(color.name) && <CheckIcon isInnerColorIcon={true} />}
-            </style.ColorCard>
-          ))}
-        </style.ColorBox>
-      </style.Wrapper>
-      <style.Wrapper>
-        <style.TitleBox>
-          <style.Title>내장 색상</style.Title>
-          <style.ColorName>{innerColor}</style.ColorName>
-        </style.TitleBox>
-        <style.Division />
-        <style.InteriorColorBox>
-          {inner_colors.map(color => (
-            <style.InteriorColorCard key={color.name} onClick={() => handleClickInnerColor(color.name)}>
-              <style.InteriorColorButton isActive={isSelectedInnerColor(color.name)} bgImage={color.url} />
-              {isSelectedInnerColor(color.name) && <CheckIcon isInnerColorIcon={false} />}
-            </style.InteriorColorCard>
-          ))}
-        </style.InteriorColorBox>
+        <style.Box>
+          <style.TitleBox>
+            <style.Title>외장 색상</style.Title>
+            <style.ColorName>{externalColor}</style.ColorName>
+          </style.TitleBox>
+          <style.Division />
+          <style.ColorBox>
+            {external_colors.map(color => (
+              <style.ColorCard key={color.name} onClick={() => handleClickExternalColor(color.name)}>
+                <style.ColorCardRect colorValue={color.rgb} isActive={isSelectedExternalColor(color.name)} />
+                <style.ColorCardName>{color.name}</style.ColorCardName>
+                {isSelectedExternalColor(color.name) && <CheckIcon isInnerColorIcon={true} />}
+              </style.ColorCard>
+            ))}
+          </style.ColorBox>
+        </style.Box>
+        <style.Box>
+          <style.TitleBox>
+            <style.Title>내장 색상</style.Title>
+            <style.ColorName>{innerColor}</style.ColorName>
+          </style.TitleBox>
+          <style.Division />
+          <style.InteriorColorBox>
+            {inner_colors.map(color => (
+              <style.InteriorColorCard key={color.name} onClick={() => handleClickInnerColor(color.name)}>
+                <style.InteriorColorButton isActive={isSelectedInnerColor(color.name)} bgImage={color.url} />
+                {isSelectedInnerColor(color.name) && <CheckIcon isInnerColorIcon={false} />}
+              </style.InteriorColorCard>
+            ))}
+          </style.InteriorColorBox>
+        </style.Box>
       </style.Wrapper>
     </style.Container>
   );

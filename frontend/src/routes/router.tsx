@@ -5,6 +5,7 @@ import { Engine } from '@/pages/Trim/Engine';
 import { BodyType } from '@/pages/Trim/BodyType';
 import { WheelDrive } from '@/pages/Trim/WheelDrive';
 import { MyCarLayout } from '@/components/layout/MyCarLayout';
+import { Color } from '@/pages/color';
 
 export const router = createBrowserRouter([
   {
@@ -34,6 +35,7 @@ export const router = createBrowserRouter([
       },
       {
         path: '/color',
+        element: <Color />,
       },
       {
         path: '/option',

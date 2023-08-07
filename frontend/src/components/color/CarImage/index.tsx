@@ -12,15 +12,15 @@ export function CarImage() {
   const [xPosition, setXPosition] = useState(0);
   const [currentImage, setCurrentImage] = useState(1);
 
-  function handleClickRotateBtn() {
+  function handleClickRotateButton() {
     setIsRotate(true);
   }
 
-  function handleClickPrevBtn() {
+  function handleClickPrevButton() {
     setCurrentImage(prev => (prev === 60 ? 1 : prev + 1));
   }
 
-  function handleClickNextBtn() {
+  function handleClickNextButton() {
     setCurrentImage(prev => (prev === 1 ? 60 : prev - 1));
   }
 
@@ -34,6 +34,7 @@ export function CarImage() {
     setXPosition(0);
   }
 
+  // TODO: 드래그할 때 마우스 클릭 떼도 유지되는 문제 수정
   function handleMouseMove(event: React.MouseEvent<HTMLImageElement>) {
     if (!isClicked || !isRotate) {
       return;
@@ -41,11 +42,11 @@ export function CarImage() {
 
     event.preventDefault();
     if (xPosition > event.screenX) {
-      if (event.screenX % 5 === 0) {
+      if (event.screenX % 2 === 0) {
         setCurrentImage(prev => (prev === 60 ? 1 : prev + 1));
       }
     } else {
-      if (event.screenX % 5 === 0) {
+      if (event.screenX % 2 === 0) {
         setCurrentImage(prev => (prev === 1 ? 60 : prev - 1));
       }
     }
@@ -54,18 +55,21 @@ export function CarImage() {
   return (
     <style.Container>
       <style.Wrapper>
-        {currentImage}
-        {isRotate && <PrevButton width="48" height="48" onClick={handleClickPrevBtn} />}
+        {isRotate && <PrevButton width="48" height="48" onClick={handleClickPrevButton} />}
+        {}
         <style.CarImage
           onMouseDown={handleMouseDown}
           onMouseUp={handleMouseOver}
           onMouseMove={handleMouseMove}
-          src={`src/assets/abyss_exterior(accel)/image_0${currentImage.toString().padStart(2, '0')}.png`}
+          src={`https://www.hyundai.com/contents/vr360/LX06/exterior/A2B/0${currentImage
+            .toString()
+            .padStart(2, '0')}.png`}
+          alt="VR 이미지"
         />
-        {isRotate && <NextButton width="48" height="48" onClick={handleClickNextBtn} />}
+        {isRotate && <NextButton width="48" height="48" onClick={handleClickNextButton} />}
         {!isRotate && (
           <>
-            <style.rotateBtn onClick={handleClickRotateBtn}>
+            <style.rotateBtn onClick={handleClickRotateButton}>
               360°
               <RotateLogo />
             </style.rotateBtn>
