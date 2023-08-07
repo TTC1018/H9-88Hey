@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, MouseEvent } from 'react';
 
 import {
   SelectOptionProps,
@@ -546,7 +546,7 @@ export function Option() {
     setMenu(menu);
   }
 
-  function handleChangeOptionIndex(index: number, event: React.MouseEvent<HTMLDivElement>) {
+  function handleChangeOptionIndex(index: number, event: MouseEvent<HTMLDivElement>) {
     const target = event.target as HTMLDivElement;
     if (index === selectOptionIndex || target.tagName === 'BUTTON') {
       return;
