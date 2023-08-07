@@ -30,7 +30,7 @@ export function ExternalCarImage({ color }: CarImageProps) {
     setCurrentImage(prev => (prev === 1 ? 60 : prev - 1));
   }
 
-  function handleMouseDown(event: React.MouseEvent<HTMLImageElement>) {
+  function handleMouseDown(event: React.MouseEvent<HTMLDivElement>) {
     setIsClicked(true);
     setXPosition(event.screenX);
   }
@@ -40,8 +40,7 @@ export function ExternalCarImage({ color }: CarImageProps) {
     setXPosition(0);
   }
 
-  // TODO: 드래그할 때 마우스 클릭 떼도 유지되는 문제 수정
-  function handleMouseMove(event: React.MouseEvent<HTMLImageElement>) {
+  function handleMouseMove(event: React.MouseEvent<HTMLDivElement>) {
     if (!isClicked || !isRotate) {
       return;
     }
@@ -58,23 +57,31 @@ export function ExternalCarImage({ color }: CarImageProps) {
     }
   }
 
+  function handleMouseLeave() {
+    setIsClicked(false);
+  }
+
   return (
     <style.Container>
       <style.Wrapper>
         {isRotate && <PrevButton width="48" height="48" onClick={handleClickPrevButton} />}
-        {imageArray.map(num => (
-          <style.CarImage
-            key={num}
-            isDisplay={num === currentImage}
-            onMouseDown={handleMouseDown}
-            onMouseUp={handleMouseOver}
-            onMouseMove={handleMouseMove}
-            src={`https://www.hyundai.com/contents/vr360/LX06/exterior/${color}/0${num
-              .toString()
-              .padStart(2, '0')}.png`}
-            alt="VR 이미지"
-          />
-        ))}
+        <style.ImageBox
+          onMouseDown={handleMouseDown}
+          onMouseUp={handleMouseOver}
+          onMouseMove={handleMouseMove}
+          onMouseLeave={handleMouseLeave}
+        >
+          {imageArray.map(num => (
+            <style.CarImage
+              key={num}
+              isDisplay={num === currentImage}
+              src={`https://www.hyundai.com/contents/vr360/LX06/exterior/${color}/0${num
+                .toString()
+                .padStart(2, '0')}.png`}
+              alt="VR 이미지"
+            />
+          ))}
+        </style.ImageBox>
         {isRotate && <NextButton width="48" height="48" onClick={handleClickNextButton} />}
         {!isRotate && (
           <>

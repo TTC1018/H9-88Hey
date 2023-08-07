@@ -12,6 +12,8 @@ export const Wrapper = styled.div`
   position: relative;
 `;
 
+export const ImageBox = styled.div``;
+
 interface CarImageProps {
   isDisplay: boolean;
 }
