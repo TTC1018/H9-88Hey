@@ -66,8 +66,12 @@ export const Text = styled.p<OptionCardProps>`
     const { colors, fonts } = theme;
 
     return css`
+      overflow: hidden;
+
       color: ${isCardActive ? colors.hyundaiPrimaryBlue : colors.black};
       ${fonts.bodyMedium3}
+      text-overflow: ellipsis;
+      white-space: nowrap;
     `;
   }}
 `;

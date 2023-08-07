@@ -194,7 +194,7 @@ const selectOptionMockData = [
     ],
   },
   {
-    name: '빌트인 캠',
+    name: '빌트인 캠(보조배터리 전용)',
     price: 1090000,
     imageUrl: '/src/assets/5.jpeg',
     tags: ['여름에 쓰기 좋아요☀️', '옵션값 뽑았어요👍', '편리해요☺️'],
