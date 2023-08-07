@@ -1,15 +1,15 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
-const Container = styled.div`
+const Container = styled.header`
   ${({ theme }) => {
     const { colors } = theme;
     return css`
       width: 100%;
-      padding: 15px 70px;
 
       display: flex;
-      justify-content: space-between;
+      align-items: center;
+      justify-content: center;
 
       background-color: ${colors.hyundaiSand};
     `;
@@ -17,6 +17,23 @@ const Container = styled.div`
 `;
 
 const Wrapper = styled.div`
+  ${({ theme }) => {
+    const { colors } = theme;
+    return css`
+      width: 100%;
+      max-width: 1280px;
+      padding: 15px 0;
+
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      background-color: ${colors.hyundaiSand};
+    `;
+  }}
+`;
+
+const Box = styled.div`
   gap: 10px;
 
   display: flex;
@@ -112,6 +129,7 @@ const ButtonText = styled.span`
 export {
   Container,
   Wrapper,
+  Box,
   Division,
   Text,
   ButtonWrapper,

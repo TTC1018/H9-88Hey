@@ -1,54 +1,62 @@
 import { createBrowserRouter } from 'react-router-dom';
 
 import { Trim } from '@/pages/Trim';
+import { Engine } from '@/pages/Trim/Engine';
+import { BodyType } from '@/pages/Trim/BodyType';
+import { WheelDrive } from '@/pages/Trim/WheelDrive';
 import { Option } from '@/pages/Option';
 import { MyCarLayout } from '@/components/layout/MyCarLayout';
 
 export const router = createBrowserRouter([
   {
-    path: '/trim',
+    path: '',
     element: <MyCarLayout />,
     children: [
       {
-        path: '',
-        element: <Trim />,
+        path: '/trim',
+        children: [
+          {
+            path: '',
+            element: <Trim />,
+          },
+          {
+            path: 'engine',
+            element: <Engine />,
+          },
+          {
+            path: 'body-type',
+            element: <BodyType />,
+          },
+          {
+            path: 'wheel-drive',
+            element: <WheelDrive />,
+          },
+        ],
       },
       {
-        path: 'engine',
-        element: <div>여기는 엔진</div>,
+        path: '/color',
       },
       {
-        path: 'body-type',
-        element: <div>여기는 바디타입</div>,
-      },
-      {
-        path: 'wheel-drive',
-        element: <div>여기는 휠타입</div>,
+        path: '/option',
+        children: [
+          {
+            path: '',
+            element: <Option />,
+          },
+          {
+            path: 'h-genuine-accessories',
+            element: <Option />,
+          },
+          {
+            path: 'n-performance',
+            element: <Option />,
+          },
+        ],
       },
     ],
   },
   {
-    path: '/color',
-  },
-  {
-    path: '/option',
-    element: <MyCarLayout />,
-    children: [
-      {
-        path: '',
-        element: <Option />,
-      },
-      {
-        path: 'h-genuine-accessories',
-        element: <Option />,
-      },
-      {
-        path: 'n-performance',
-        element: <Option />,
-      },
-    ],
-  },
-  {
-    path: '/result',
+    path: '*',
+    element: <div>아직 안만듬</div>,
   },
 ]);
