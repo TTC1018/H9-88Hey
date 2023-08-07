@@ -49,10 +49,12 @@ export function ExternalCarImage({ color }: CarImageProps) {
     if (xPosition > event.screenX) {
       if (event.screenX % 2 === 0) {
         setCurrentImage(prev => (prev === 60 ? 1 : prev + 1));
+        setXPosition(event.screenX);
       }
     } else {
       if (event.screenX % 2 === 0) {
         setCurrentImage(prev => (prev === 1 ? 60 : prev - 1));
+        setXPosition(event.screenX);
       }
     }
   }
