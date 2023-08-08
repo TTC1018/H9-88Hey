@@ -34,7 +34,13 @@ def extract_default_option(saleModelCode):
         #옵션 삽입
         for option in car_options:
             option_id = option['basicOptionCode']
-            option_dictionary[category_code][1][option_id] = option
+            if option_id not in option_dictionary:
+                default_option={}
+                default_option["modelId"] = saleModelCode
+                default_option["optionId"] = option["basicOptionCode"]
+                default_option["optionName"] = option["basicOptionName"]
+                default_option["imgUrl"] = "https://www.hyundai.com/" + option["filePath"] + option["imgFile"]
+                option_dictionary[category_code][1][option_id] = default_option
 
 #32개 모델에 대한 옵션 추출
 for saleModelCode in saleModelCodes:
@@ -45,4 +51,11 @@ for key in option_dictionary.keys():
     option_keys = option_dictionary[key][1].keys()
     print(option_dictionary[key][0]+"("+str(len(option_keys))+")")
     for option_key in option_keys:
-        print(option_dictionary[key][1][option_key])                                
+        default_option = option_dictionary[key][1][option_key]
+        response = requests.get("https://www.hyundai.com/kr/ko/gw/product/v1/product/option/" + default_option["modelId"]
+                                + "?saleModelCode=" + default_option["modelId"]
+                                + "&carOptionCode="+ default_option["optionId"]
+                                + "&carOptionTypeCode=B")
+
+        default_option["description"] = response.json()["data"]["optionDetailBasic"]["spcExplSbl"]
+        print(default_option)                                
