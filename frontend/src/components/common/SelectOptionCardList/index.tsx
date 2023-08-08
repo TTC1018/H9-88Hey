@@ -15,7 +15,7 @@ interface SelectOptionCardListProps {
   cardListIndex: number;
   data: SelectOptionCardDataProps[];
   onClickCard: (index: number, event: MouseEvent<HTMLDivElement>) => void;
-  onClickArrowButton: (type: string, index: number, length: number) => void;
+  onClickArrowButton: (index: number, length: number) => void;
 }
 
 interface SelectOptionCardProps {
@@ -56,7 +56,7 @@ export function SelectOptionCardList({
       <PrevButton
         width="48"
         height="48"
-        onClick={() => onClickArrowButton('SELECT', cardListIndex - 1, data.length)}
+        onClick={() => onClickArrowButton(cardListIndex - 1, data.length)}
         isShow={isIndexLargeThanZero(cardListIndex)}
       />
       {cardList.map(({ index, name, price, imageUrl, subOptionNames }) => (
@@ -74,7 +74,7 @@ export function SelectOptionCardList({
       <NextButton
         width="48"
         height="48"
-        onClick={() => onClickArrowButton('SELECT', cardListIndex + 1, data.length)}
+        onClick={() => onClickArrowButton(cardListIndex + 1, data.length)}
         isShow={isIndexSmallThanMaxIndex(cardListIndex, data.length)}
       />
     </style.Container>
