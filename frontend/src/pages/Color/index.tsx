@@ -141,20 +141,15 @@ export function Color() {
     return innerName === name;
   }
 
+  const descriptionTitle = isExternalPage ? externalName : innerName;
+  const descriptionPrice = isExternalPage ? extraFee : 0;
+  const descriptionTags = isExternalPage ? externalTags : innerTags;
+
   return (
     <style.Container>
       <style.Wrapper>
-        {isExternalPage ? (
-          <>
-            <ExternalCarImage color={externalColorWord} />
-            <MyCarDescription title={externalName} price={extraFee} hasTag={true} tags={externalTags} />
-          </>
-        ) : (
-          <>
-            <InnerCarImage color={innerColorWord} />
-            <MyCarDescription title={innerName} price={0} hasTag={true} tags={innerTags} />
-          </>
-        )}
+        {isExternalPage ? <ExternalCarImage color={externalColorWord} /> : <InnerCarImage color={innerColorWord} />}
+        <MyCarDescription title={descriptionTitle} price={descriptionPrice} hasTag={true} tags={descriptionTags} />
       </style.Wrapper>
       <style.Wrapper>
         <style.Box>
