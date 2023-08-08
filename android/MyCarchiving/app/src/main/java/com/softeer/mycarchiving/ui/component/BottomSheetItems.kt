@@ -32,6 +32,9 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.softeer.mycarchiving.R
+import com.softeer.mycarchiving.model.common.CarBasicDetailUiModel
+import com.softeer.mycarchiving.model.common.CarBasicUiModel
+import com.softeer.mycarchiving.model.common.SummaryChildUiModel
 import com.softeer.mycarchiving.ui.theme.DarkGray
 import com.softeer.mycarchiving.ui.theme.HyundaiLightSand
 import com.softeer.mycarchiving.ui.theme.HyundaiNeutral
@@ -43,36 +46,23 @@ import com.softeer.mycarchiving.ui.theme.medium18
 import com.softeer.mycarchiving.ui.theme.regular14
 import com.softeer.mycarchiving.ui.theme.roundCorner
 
-data class CarBasicItem(
-    val id: Int,
-    val name: String,
-    val detailItems: List<CarBasicDetailItem>
-)
-
-data class CarBasicDetailItem(
-    val id: Int,
-    val detailName: String,
-    val description: String,
-    val detailImageUrl: String? = null
-)
-
 val detailItems = listOf(
-    CarBasicDetailItem(id = 0, detailName = "ISG 시스템", "신호 대기 상황이거나 정차 중일 때 차의 엔진을 일시 정지하여 연비를 향상시키고, 배출가스 발생을 억제하는 시스템입니다."),
-    CarBasicDetailItem(id = 1, detailName = "ISG 시스템", "신호 대기 상황이거나 정차 중일 때 차의 엔진을 일시 정지하여 연비를 향상시키고, 배출가스 발생을 억제하는 시스템입니다."),
-    CarBasicDetailItem(id = 2, detailName = "ISG 시스템", "신호 대기 상황이거나 정차 중일 때 차의 엔진을 일시 정지하여 연비를 향상시키고, 배출가스 발생을 억제하는 시스템입니다.")
+    CarBasicDetailUiModel(id = 0, detailName = "ISG 시스템", "신호 대기 상황이거나 정차 중일 때 차의 엔진을 일시 정지하여 연비를 향상시키고, 배출가스 발생을 억제하는 시스템입니다."),
+    CarBasicDetailUiModel(id = 1, detailName = "ISG 시스템", "신호 대기 상황이거나 정차 중일 때 차의 엔진을 일시 정지하여 연비를 향상시키고, 배출가스 발생을 억제하는 시스템입니다."),
+    CarBasicDetailUiModel(id = 2, detailName = "ISG 시스템", "신호 대기 상황이거나 정차 중일 때 차의 엔진을 일시 정지하여 연비를 향상시키고, 배출가스 발생을 억제하는 시스템입니다.")
 )
 
-val basicItem1 = CarBasicItem(id = 0, name = "파워트레인 성능", detailItems = detailItems)
-val basicItem2 = CarBasicItem(id = 1, name = "지능형 안전 기술", detailItems = detailItems)
-val basicItem3 = CarBasicItem(id = 2, name = "안전", detailItems = detailItems)
-val basicItem4 = CarBasicItem(id = 3, name = "성능", detailItems = detailItems)
+val basicItem1 = CarBasicUiModel(id = 0, name = "파워트레인 성능", detailItems = detailItems)
+val basicItem2 = CarBasicUiModel(id = 1, name = "지능형 안전 기술", detailItems = detailItems)
+val basicItem3 = CarBasicUiModel(id = 2, name = "안전", detailItems = detailItems)
+val basicItem4 = CarBasicUiModel(id = 3, name = "성능", detailItems = detailItems)
 
 val basicItems = listOf(basicItem1, basicItem2, basicItem3, basicItem4)
 
 @Composable
 fun CarBasicBottomSheetContent(
     modifier: Modifier,
-    basicItems: List<CarBasicItem>
+    basicItems: List<CarBasicUiModel>
 ) {
     LazyColumn(
         modifier = modifier.padding(top = 32.dp, bottom = 12.dp),
@@ -91,7 +81,7 @@ fun CarBasicBottomSheetContent(
 @Composable
 fun CarBasicItem(
     modifier: Modifier,
-    basicItem: CarBasicItem
+    basicItem: CarBasicUiModel
 ) {
     var showDetail by remember { mutableStateOf(false) }
     Column {
@@ -135,7 +125,7 @@ fun CarBasicItem(
 @Composable
 fun CarBasicDetailItem(
     modifier: Modifier,
-    detailItem: CarBasicDetailItem
+    detailItem: CarBasicDetailUiModel
 ) {
     Row(
         modifier = modifier
@@ -161,54 +151,47 @@ fun CarBasicDetailItem(
     }
 }
 
-data class SummaryItemChild(
-    val name: String,
-    val colorPosition: String? = null,
-    val price: String? = null,
-    val needPlus: Boolean = true
-)
-
 val summaryFirst = listOf(
-    SummaryItemChild(
+    SummaryChildUiModel(
         name = "펠리세이드 Le Blanc(르블랑)",
         price = "47,3400,000",
         needPlus = false
     ),
-    SummaryItemChild(
+    SummaryChildUiModel(
         name = "디젤 2.2 / 4WD / 7인승",
         price = "1,090,000",
     )
 )
 
 val summarySecond = listOf(
-    SummaryItemChild(
+    SummaryChildUiModel(
         name = "문라이트 블루펄",
         colorPosition = "외장"
     ),
-    SummaryItemChild(
+    SummaryChildUiModel(
         name = "퀼팅 천연(블랙)",
         colorPosition = "내장",
     )
 )
 
 val summaryThird = listOf(
-    SummaryItemChild(
+    SummaryChildUiModel(
         name = "컴포트 ||",
         price = "1,090,000",
     ),
-    SummaryItemChild(
+    SummaryChildUiModel(
         name = "컴포트 ||",
         price = "1,090,000",
     ),
-    SummaryItemChild(
+    SummaryChildUiModel(
         name = "컴포트 ||",
         price = "1,090,000",
     ),
-    SummaryItemChild(
+    SummaryChildUiModel(
         name = "컴포트 ||",
         price = "1,090,000",
     ),
-    SummaryItemChild(
+    SummaryChildUiModel(
         name = "컴포트 ||",
         price = "1,090,000",
     ),
@@ -257,7 +240,7 @@ fun SummaryLabel(
     labelName: String,
     totalPrice: String? = null,
     needCount: Boolean = false,
-    summaryChildren: List<SummaryItemChild>? = null
+    summaryChildren: List<SummaryChildUiModel>? = null
 ) {
     Column {
         Row(
@@ -311,7 +294,7 @@ fun SummaryLabel(
 @Composable
 fun SummaryChild(
     modifier: Modifier,
-    summaryChild: SummaryItemChild
+    summaryChild: SummaryChildUiModel
 ) {
     Row(
         modifier = modifier

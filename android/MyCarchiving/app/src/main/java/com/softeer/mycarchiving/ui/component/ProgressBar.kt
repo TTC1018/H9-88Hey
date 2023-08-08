@@ -24,6 +24,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.softeer.mycarchiving.R
+import com.softeer.mycarchiving.model.common.ProgressChildUiModel
+import com.softeer.mycarchiving.model.common.ProgressUiModel
 import com.softeer.mycarchiving.ui.theme.Black
 import com.softeer.mycarchiving.ui.theme.HyundaiLightSand
 import com.softeer.mycarchiving.ui.theme.MediumGray
@@ -31,46 +33,33 @@ import com.softeer.mycarchiving.ui.theme.medium14
 import com.softeer.mycarchiving.ui.theme.medium16
 import kotlinx.coroutines.flow.MutableStateFlow
 
-data class ProgressItem(
-    val id: Int,
-    val name: String,
-    val children: List<ProgressItemChild>,
-    val needNoChildProgress: Boolean = false
-)
-
-data class ProgressItemChild(
-    val id: Int,
-    val childName: String,
-    val fontSize: Int
-)
-
-val firstProgress = ProgressItem(
+val firstProgress = ProgressUiModel(
     id = 0,
     name = "트림 선택",
     children = listOf(
-        ProgressItemChild(0, "엔진" , 14),
-        ProgressItemChild(1, "바디타입", 14),
-        ProgressItemChild(2, "구동방식", 14),
+        ProgressChildUiModel(0, "엔진" , 14),
+        ProgressChildUiModel(1, "바디타입", 14),
+        ProgressChildUiModel(2, "구동방식", 14),
     ),
     needNoChildProgress = true
 )
 
-val secondProgress = ProgressItem(
+val secondProgress = ProgressUiModel(
     id = 1,
     name = "색상 선택",
     children = listOf(
-        ProgressItemChild(0, "외장색상", 14),
-        ProgressItemChild(1, "내장색상", 14),
+        ProgressChildUiModel(0, "외장색상", 14),
+        ProgressChildUiModel(1, "내장색상", 14),
     )
 )
 
-val thirdProgress = ProgressItem(
+val thirdProgress = ProgressUiModel(
     id = 2,
     name = "옵션 선택",
     children = listOf(
-        ProgressItemChild(0, "선택옵션", 10),
-        ProgressItemChild(1, "H Genuine Accessories", 10),
-        ProgressItemChild(2, "N Performance", 10),
+        ProgressChildUiModel(0, "선택옵션", 10),
+        ProgressChildUiModel(1, "H Genuine Accessories", 10),
+        ProgressChildUiModel(2, "N Performance", 10),
     )
 )
 
@@ -131,9 +120,9 @@ fun onBackProgress() {
 @Composable
 fun ProgressBar(
     modifier: Modifier,
-    currentProgress: ProgressItem,
+    currentProgress: ProgressUiModel,
     currentChildId: Int,
-    currentProgressChildren: List<ProgressItemChild>,
+    currentProgressChildren: List<ProgressChildUiModel>,
     remainCountList: MutableList<Int>
 ) {
     Row(
