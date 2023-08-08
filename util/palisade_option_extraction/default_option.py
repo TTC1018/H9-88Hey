@@ -15,7 +15,14 @@ for basic_category in option_basic:
     option_dictionary[category_code] = []
 
     option_dictionary[category_code].append(category_name)
-    option_dictionary[category_code].append(car_options)
+    option_dictionary[category_code].append(defaultdict())
+
+    for option in car_options:
+        option_id = option['basicOptionCode']
+        option_dictionary[category_code][1][option_id] = option
 
 for key in option_dictionary.keys():
-    print(option_dictionary[key])
+
+    print(option_dictionary[key][0])
+    for option_key in option_dictionary[key][1].keys():
+        print(option_dictionary[key][1][option_key])
