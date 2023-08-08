@@ -71,6 +71,6 @@ for key in option_dictionary.keys():
 
         default_option["description"] = response.json()["data"]["optionDetailBasic"]["spcExplSbl"]
         mycursor.execute("INSERT INTO default_option (id,name,description,image_url,category) VALUES (%s,%s,%s,%s,%s)"
-                       %(paramify(default_option["optionId"]),paramify(default_option["optionName"].replace('\'','\'\'')),paramify(default_option['description'].replace('\'','\'\'')),paramify(default_option["imgUrl"]),paramify(option_dictionary[key][0])))
+                       %(paramify(default_option["optionId"]),paramify(default_option["optionName"].replace("'","''")),paramify(default_option['description'].replace("'","''")),paramify(default_option["imgUrl"]),paramify(option_dictionary[key][0])))
         mydb.commit()
         print(default_option)
