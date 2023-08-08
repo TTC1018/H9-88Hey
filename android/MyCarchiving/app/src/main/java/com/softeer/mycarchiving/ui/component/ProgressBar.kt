@@ -150,7 +150,11 @@ fun ProgressBar(
             },
         verticalAlignment = Alignment.CenterVertically
     ) {
-        ProgressNumberCircle(modifier = modifier, number = currentProgress.id + 1, focus = true)
+        ProgressNumberCircle(
+            modifier = modifier,
+            numberText = (currentProgress.id + 1).toString(),
+            color = Black,
+        )
         Spacer(modifier = modifier.width(5.dp))
         Text(
             text = currentProgress.name,
@@ -200,7 +204,11 @@ fun ProgressBar(
                     Row(
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-                        ProgressNumberCircle(modifier = modifier, number = it, focus =  false)
+                        ProgressNumberCircle(
+                            modifier = modifier,
+                            numberText = it.toString(),
+                            color = MediumGray,
+                        )
                         if (it < remainCountList.last()) {
                             Divider(
                                 modifier = modifier

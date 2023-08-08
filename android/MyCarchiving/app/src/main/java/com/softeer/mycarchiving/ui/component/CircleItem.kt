@@ -32,7 +32,6 @@ fun ProgressNumberCircle(
     modifier: Modifier = Modifier,
     numberText: String,
     color: Color,
-    focus: Boolean = false
 ) {
     Box(
         modifier = modifier
@@ -60,7 +59,6 @@ fun PreviewProgressNumberCircle() {
         modifier = Modifier,
         numberText = "01",
         color = PrimaryBlue,
-        focus = false
     )
 }
 
