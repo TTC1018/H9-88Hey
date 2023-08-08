@@ -40,7 +40,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.softeer.mycarchiving.R
-import com.softeer.mycarchiving.model.OptionUiModel
+import com.softeer.mycarchiving.model.OptionCardUiModel
 import com.softeer.mycarchiving.ui.theme.Black
 import com.softeer.mycarchiving.ui.theme.DarkGray
 import com.softeer.mycarchiving.ui.theme.HyundaiLightSand
@@ -130,7 +130,7 @@ fun OptionSelectedInfo(
 @Composable
 fun ExtraOptionCards(
     modifier: Modifier = Modifier,
-    options: List<OptionUiModel>
+    options: List<OptionCardUiModel>
 ) {
     HorizontalPager(
         modifier = modifier,
@@ -351,8 +351,8 @@ fun PreviewExtraOptionCardMultiple() {
 fun PreviewExtraOptionCards() {
     ExtraOptionCards(
         options = listOf(
-            OptionUiModel("헤드업 디스플레이", "주요 주행 정보를 전면 윈드실드에 표시하며, 밝기가 최적화되어 주간에도 시인성이 뛰어납니다."),
-            OptionUiModel("3열 열선시트", "시동이 걸린 상태에서 해당 좌석 히터 스위치를 누르면 강약조절 표시등이 켜져 사용 중임을 나타내고 해당 좌석이 따뜻해집니다.")
+            OptionCardUiModel("헤드업 디스플레이", "주요 주행 정보를 전면 윈드실드에 표시하며, 밝기가 최적화되어 주간에도 시인성이 뛰어납니다."),
+            OptionCardUiModel("3열 열선시트", "시동이 걸린 상태에서 해당 좌석 히터 스위치를 누르면 강약조절 표시등이 켜져 사용 중임을 나타내고 해당 좌석이 따뜻해집니다.")
         )
     )
 }
