@@ -12,8 +12,9 @@ export const Container = styled.div`
 `;
 
 export const OptionWrapper = styled.div`
-  display: flex;
   gap: 38px;
+
+  display: flex;
 `;
 
 export const CardWrapper = styled.div`
