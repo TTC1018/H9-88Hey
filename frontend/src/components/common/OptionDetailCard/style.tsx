@@ -120,7 +120,6 @@ export const DescriptionWrapper = styled.div`
   width: 100%;
 
   display: flex;
-  justify-content: center;
 `;
 
 export const Description = styled.div`

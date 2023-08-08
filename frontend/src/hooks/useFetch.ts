@@ -35,7 +35,7 @@ export function useFetch<T>({ defaultValue, url }: UseFetchProps<T>) {
     setIsLoading(false);
   }
 
-  if (error) throw new Error(error);
+  if (error !== '') throw new Error(error);
 
   useEffect(() => {
     fetchUsers();

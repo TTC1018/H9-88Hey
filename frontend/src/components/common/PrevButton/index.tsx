@@ -4,11 +4,12 @@ interface PrevButtonProps {
   width: string;
   height: string;
   onClick: () => void;
+  isShow?: boolean;
 }
 
-export function PrevButton({ width, height, onClick }: PrevButtonProps) {
+export function PrevButton({ width, height, onClick, isShow = true }: PrevButtonProps) {
   return (
-    <style.Container width={parseInt(width)} height={parseInt(height)} onClick={() => onClick()}>
+    <style.Container width={parseInt(width)} height={parseInt(height)} onClick={() => onClick()} isShow={isShow}>
       <svg xmlns="http://www.w3.org/2000/svg" width={width} height={height} viewBox="0 0 48 48" fill="none">
         <g clipPath="url(#clip0_577_11601)">
           <path

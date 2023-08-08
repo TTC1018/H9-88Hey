@@ -1,43 +1,54 @@
 import styled from '@emotion/styled';
 import { css } from '@emotion/react';
 
-interface CategoryProps {
-  option: number;
-  selectedOption: number;
+interface ContainerProps {
+  isShow: boolean;
 }
 
-export const Container = styled.div`
-  width: 990px;
-  height: 200px;
-  gap: 6px;
-  margin-top: 18px;
+interface CategoryProps {
+  isActive: boolean;
+}
 
-  display: flex;
-  flex-direction: column;
+export const Container = styled.div<ContainerProps>`
+  ${({ isShow }) => {
+    return css`
+      width: 990px;
+      height: 197px;
+      gap: 6px;
+      margin-top: 18px;
+
+      display: ${isShow ? 'flex' : 'none'};
+      flex-direction: column;
+      justify-content: space-between;
+    `;
+  }}
 `;
 
 export const CategoryWrapper = styled.div`
-  display: flex;
   gap: 20px;
+
+  display: flex;
 `;
 
-export const Category = styled.p<CategoryProps>`
-  ${({ theme, option, selectedOption }) => {
+export const Category = styled.button<CategoryProps>`
+  ${({ theme, isActive }) => {
     const { colors, fonts } = theme;
 
     return css`
-      color: ${option === selectedOption ? colors.black : colors.mediumGray};
+      color: ${isActive ? colors.black : colors.mediumGray};
       ${fonts.bodyMedium4};
     `;
   }}
 `;
 
 export const OptionCardWrapper = styled.div`
-  width: 990px;
+  width: 1098px;
   height: 162px;
+  gap: 6px;
 
   display: flex;
-  gap: 6px;
+
+  transform: translateX(-54px);
 `;
 
 export const OptionCard = styled.div`

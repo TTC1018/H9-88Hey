@@ -11,7 +11,7 @@ import { theme } from './styles/theme';
 import { GlobalStyle } from './styles/globalStyle';
 
 export function App() {
-  const [isOpen, setIsOpen] = useState(true);
+  const [isOpen, setIsOpen] = useState(false);
 
   const handleClose = () => {
     setIsOpen(false);
