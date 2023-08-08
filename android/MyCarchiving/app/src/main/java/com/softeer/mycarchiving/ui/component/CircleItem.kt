@@ -13,10 +13,12 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.softeer.mycarchiving.ui.theme.PrimaryBlue
+import androidx.compose.ui.res.painterResource
 import com.softeer.mycarchiving.R
 import com.softeer.mycarchiving.ui.theme.Black
 import com.softeer.mycarchiving.ui.theme.HyundaiActiveBlue
@@ -27,22 +29,23 @@ import com.softeer.mycarchiving.ui.theme.medium12
 
 @Composable
 fun ProgressNumberCircle(
-    modifier: Modifier,
-    number: Int,
-    focus: Boolean
+    modifier: Modifier = Modifier,
+    numberText: String,
+    color: Color,
+    focus: Boolean = false
 ) {
     Box(
         modifier = modifier
             .width(20.dp)
             .height(20.dp)
             .background(
-                color = if (focus) Black else MediumGray,
+                color = color,
                 shape = CircleShape
             ),
         contentAlignment = Alignment.Center
     ) {
         Text(
-            text = number.toString(),
+            text = numberText,
             color = White,
             style = medium12,
             textAlign = TextAlign.Center,
@@ -53,7 +56,12 @@ fun ProgressNumberCircle(
 @Preview
 @Composable
 fun PreviewProgressNumberCircle() {
-    ProgressNumberCircle(modifier = Modifier, number = 1, focus = false)
+    ProgressNumberCircle(
+        modifier = Modifier,
+        numberText = "01",
+        color = PrimaryBlue,
+        focus = false
+    )
 }
 
 @Composable

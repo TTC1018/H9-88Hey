@@ -12,7 +12,7 @@ junit4 = "4.13.2"
 kotlin = "1.8.20"
 ksp = "1.8.20-1.0.11"
 androidxComposeCompiler = "1.4.5"
-landscapistGlide = "2.1.10"
+landscapistGlide = "2.2.2"
 
 
 [libraries]
