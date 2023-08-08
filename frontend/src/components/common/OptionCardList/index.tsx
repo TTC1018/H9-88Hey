@@ -25,7 +25,7 @@ interface OptionCardProps {
   imageUrl: string;
   subOptionNames: string[];
   isCardActive: boolean;
-  onClickCard: (index: number, event: React.MouseEvent<HTMLDivElement>) => void;
+  onClickCard: (index: number, event: MouseEvent<HTMLDivElement>) => void;
 }
 
 interface OptionCardHoverProps {
@@ -89,22 +89,12 @@ function OptionCard({ index, name, price, imageUrl, subOptionNames, isCardActive
     setIsButtonActive(!isButtonActive);
   }
 
-  function handleHoverCard(isHover: boolean, event: MouseEvent<HTMLDivElement>) {
-    const target = event.target as HTMLDivElement;
-    if (target.tagName === 'BUTTON') {
-      setIsHover(false);
-      return;
-    }
+  function handleHoverCard(isHover: boolean) {
     setIsHover(isHover);
   }
 
   return (
-    <style.OptionCard
-      isCardActive={isCardActive}
-      onClick={event => onClickCard(index, event)}
-      onMouseOver={event => handleHoverCard(true, event)}
-      onMouseOut={event => handleHoverCard(false, event)}
-    >
+    <style.OptionCard isCardActive={isCardActive} onClick={event => onClickCard(index, event)}>
       <style.Image src={imageUrl} />
       <style.DescriptionWrapper>
         <style.Text isCardActive={isCardActive}>{name}</style.Text>
@@ -117,6 +107,10 @@ function OptionCard({ index, name, price, imageUrl, subOptionNames, isCardActive
         {isButtonActive && <style.Icon src={'/src/assets/icon_done.svg'} />}
       </style.DescriptionWrapper>
       {isHover && <OptionCardHover subOptionNames={subOptionNames} />}
+      <style.OptionCardHoverArea
+        onMouseEnter={() => handleHoverCard(true)}
+        onMouseLeave={() => handleHoverCard(false)}
+      />
     </style.OptionCard>
   );
 }
