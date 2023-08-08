@@ -7,6 +7,9 @@ on:
 permissions:
   contents: read
 
+env:
+  RESOURCE_PATH: ./backend/src/main/resources/application.yaml
+
 jobs:
   build:
 
@@ -23,10 +26,20 @@ jobs:
           java-version: '11'
           distribution: 'temurin'
 
+      - name: Set yml file 
+        uses: microsoft/variable-substitution@v1
+        with:
+          files: ${{ env.RESOURCE_PATH }} 
+        env:
+          spring.datasource.url: ${{ secrets.DB_HOST }} 
+          spring.datasource.username: ${{ secrets.DB_USERNAME }} 
+          spring.datasource.password: ${{ secrets.DB_PASSWORD }} 
+
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
+        
       - name: Build with Gradle
-        run: ./gradlew build
+        run: ./gradlew bootJar
 
       - name: Upload artifact
         uses: actions/upload-artifact@v2
