@@ -4,11 +4,12 @@ interface NextButtonProps {
   width: string;
   height: string;
   onClick: () => void;
+  isShow?: boolean;
 }
 
-export function NextButton({ width, height, onClick }: NextButtonProps) {
+export function NextButton({ width, height, onClick, isShow = true }: NextButtonProps) {
   return (
-    <style.Container width={parseInt(width)} height={parseInt(height)} onClick={() => onClick()}>
+    <style.Container width={parseInt(width)} height={parseInt(height)} onClick={() => onClick()} isShow={isShow}>
       <svg xmlns="http://www.w3.org/2000/svg" width={width} height={height} viewBox="0 0 48 48" fill="none">
         <g clipPath="url(#clip0_577_11602)">
           <path

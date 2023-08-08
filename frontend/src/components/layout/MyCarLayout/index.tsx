@@ -11,7 +11,7 @@ import { Navigation } from '@/components/common/Navigation';
 import * as style from './style';
 
 const DEFAULT_STATE: MyCarType = {
-  model: { title: 'Le Blanc', price: 0 },
+  model: { title: '', price: 0 },
   engine: { title: '', price: 0 },
   bodyType: { title: '', price: 0 },
   wheelDrive: { title: '', price: 0 },

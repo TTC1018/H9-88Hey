@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { MouseEvent, useState } from 'react';
 
 import { RotateLogo } from '@/components/common/RotateLogo';
 import { PrevButton } from '@/components/common/PrevButton';
@@ -30,7 +30,7 @@ export function ExternalCarImage({ color }: CarImageProps) {
     setCurrentImage(prev => (prev === 1 ? 60 : prev - 1));
   }
 
-  function handleMouseDown(event: React.MouseEvent<HTMLDivElement>) {
+  function handleMouseDown(event: MouseEvent<HTMLDivElement>) {
     event.preventDefault();
     setIsClicked(true);
     setXPosition(event.screenX);
@@ -41,19 +41,19 @@ export function ExternalCarImage({ color }: CarImageProps) {
     setXPosition(0);
   }
 
-  function handleMouseMove(event: React.MouseEvent<HTMLDivElement>) {
+  function handleMouseMove(event: MouseEvent<HTMLDivElement>) {
     if (!isClicked || !isRotate) {
       return;
     }
 
     event.preventDefault();
     if (xPosition > event.screenX) {
-      if (event.screenX % 2 === 0) {
+      if (event.screenX % 3 === 0) {
         setCurrentImage(prev => (prev === 60 ? 1 : prev + 1));
         setXPosition(event.screenX);
       }
     } else {
-      if (event.screenX % 2 === 0) {
+      if (event.screenX % 3 === 0) {
         setCurrentImage(prev => (prev === 1 ? 60 : prev - 1));
         setXPosition(event.screenX);
       }

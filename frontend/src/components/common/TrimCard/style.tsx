@@ -48,7 +48,7 @@ const Price = styled.p`
   }}
 `;
 
-const Description = styled.p`
+const Description = styled.div`
   ${({ theme }) => {
     const { fonts } = theme;
     return css`
@@ -70,7 +70,7 @@ const Line = styled.hr<ActiveStateProps>`
   }}
 `;
 
-const Info = styled.p`
+const Info = styled.div`
   width: 100%;
   margin-bottom: 8px;
 

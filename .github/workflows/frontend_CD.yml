@@ -1,0 +1,73 @@
+name: Node.js CI
+
+on:
+  push:
+    branches: [ "fe-dev" ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: frontend
+
+    strategy:
+      matrix:
+        node-version: [18.16.1]
+        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{ matrix.node-version }}
+    - run: yarn
+    - run: yarn build --if-present
+    - run: yarn test
+
+    - name: Upload artifact
+      uses: actions/upload-artifact@v2
+      with:
+       name: cicdsample
+       path: frontend/dist
+       
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Download artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: cicdsample
+          path: dist
+
+      - name: Copy files via SSH
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.SERVER_IP }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          source: "dist/*"
+          target: "~/temp"
+
+  ssh:
+    needs: deploy
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - uses: actions/checkout@v3
+      - name: ssh to ec2
+        uses: appleboy/ssh-action@master
+        with:
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          host: ${{ secrets.SERVER_IP }}
+          username: ${{ secrets.SSH_USER }}
+          script: |
+            rm -rf ~/dist
+            mv ~/temp/dist ~/dist
+            sudo systemctl reload nginx
