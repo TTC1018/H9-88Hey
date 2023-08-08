@@ -29,6 +29,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import com.softeer.mycarchiving.R
+import com.softeer.mycarchiving.model.common.CarBasicDetailUiModel
 import com.softeer.mycarchiving.ui.theme.DarkGray
 import com.softeer.mycarchiving.ui.theme.LightGray
 import com.softeer.mycarchiving.ui.theme.PrimaryBlue
@@ -38,7 +39,7 @@ import com.softeer.mycarchiving.ui.theme.regular12
 import com.softeer.mycarchiving.ui.theme.regular14
 import com.softeer.mycarchiving.ui.theme.roundCorner
 
-val detailItem = CarBasicDetailItem(
+val detailItem = CarBasicDetailUiModel(
     id = 0,
     detailName = "ISG 시스템",
     "신호 대기 상황이거나 정차 중일 때 차의 엔진을 일시 정지하여 연비를 향상시키고, 배출가스 발생을 억제하는 시스템입니다."
@@ -48,7 +49,7 @@ val detailItem = CarBasicDetailItem(
 fun BasicItemDialog(
     modifier: Modifier,
     onDismissRequest: () -> Unit,
-    detailItem: CarBasicDetailItem
+    detailItem: CarBasicDetailUiModel
 ) {
     Dialog(onDismissRequest = onDismissRequest) {
         Surface(
@@ -98,12 +99,6 @@ fun BasicItemDialog(
             }
         }
     }
-}
-
-@Preview
-@Composable
-fun PreviewBasicItemDialog() {
-    BasicItemDialog(modifier = Modifier, onDismissRequest = {}, detailItem = detailItem)
 }
 
 @Composable
@@ -184,11 +179,7 @@ fun FinishMakeCarDialog(
     }
 }
 
-@Preview
-@Composable
-fun PreviewFinishMakeCarDialog() {
-    FinishMakeCarDialog(modifier = Modifier, onDismissRequest = {}, onFinish = {})
-}
+
 
 @Composable
 fun DeleteMadeCarDialog(
@@ -224,17 +215,6 @@ fun DeleteMadeCarDialog(
     }
 }
 
-@Preview
-@Composable
-fun PreviewDeleteMadeCarDialog() {
-    DeleteMadeCarDialog(
-        modifier = Modifier,
-        onDismissRequest = {},
-        onDelete = {},
-        carName = "펠리세이드 Le Blanc"
-    )
-}
-
 @Composable
 fun MoveMakeCarDialog(
     modifier: Modifier,
@@ -267,6 +247,29 @@ fun MoveMakeCarDialog(
             )
         }
     }
+}
+
+@Preview
+@Composable
+fun PreviewBasicItemDialog() {
+    BasicItemDialog(modifier = Modifier, onDismissRequest = {}, detailItem = detailItem)
+}
+
+@Preview
+@Composable
+fun PreviewFinishMakeCarDialog() {
+    FinishMakeCarDialog(modifier = Modifier, onDismissRequest = {}, onFinish = {})
+}
+
+@Preview
+@Composable
+fun PreviewDeleteMadeCarDialog() {
+    DeleteMadeCarDialog(
+        modifier = Modifier,
+        onDismissRequest = {},
+        onDelete = {},
+        carName = "펠리세이드 Le Blanc"
+    )
 }
 
 @Preview

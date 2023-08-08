@@ -20,7 +20,6 @@ import androidx.compose.ui.unit.dp
 import com.softeer.mycarchiving.ui.theme.PrimaryBlue
 import androidx.compose.ui.res.painterResource
 import com.softeer.mycarchiving.R
-import com.softeer.mycarchiving.ui.theme.Black
 import com.softeer.mycarchiving.ui.theme.HyundaiActiveBlue
 import com.softeer.mycarchiving.ui.theme.HyundaiNeutral
 import com.softeer.mycarchiving.ui.theme.MediumGray
@@ -32,7 +31,6 @@ fun ProgressNumberCircle(
     modifier: Modifier = Modifier,
     numberText: String,
     color: Color,
-    focus: Boolean = false
 ) {
     Box(
         modifier = modifier
@@ -51,17 +49,6 @@ fun ProgressNumberCircle(
             textAlign = TextAlign.Center,
         )
     }
-}
-
-@Preview
-@Composable
-fun PreviewProgressNumberCircle() {
-    ProgressNumberCircle(
-        modifier = Modifier,
-        numberText = "01",
-        color = PrimaryBlue,
-        focus = false
-    )
 }
 
 @Composable
@@ -85,12 +72,6 @@ fun CheckCircle(
     }
 }
 
-@Preview
-@Composable
-fun PreviewCheckCircle() {
-    CheckCircle(modifier = Modifier)
-}
-
 @Composable
 fun XCircle(
     modifier: Modifier,
@@ -110,6 +91,22 @@ fun XCircle(
             tint = MediumGray
         )
     }
+}
+
+@Preview
+@Composable
+fun PreviewProgressNumberCircle() {
+    ProgressNumberCircle(
+        modifier = Modifier,
+        numberText = "01",
+        color = PrimaryBlue,
+    )
+}
+
+@Preview
+@Composable
+fun PreviewCheckCircle() {
+    CheckCircle(modifier = Modifier)
 }
 
 @Preview

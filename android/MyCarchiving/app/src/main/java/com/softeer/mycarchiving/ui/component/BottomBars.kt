@@ -118,18 +118,6 @@ fun MakeCarBottomBar(
     )
 }
 
-@Preview
-@Composable
-fun PreviewMakeCarBottomBar() {
-    MakeCarBottomBar(
-        modifier = Modifier,
-        totalPrice = "47,720,000",
-        onButtonClick = {},
-        onSummaryClick = {},
-        isDone = false
-    )
-}
-
 @Composable
 fun ArchiveBottomBar(
     modifier: Modifier,
@@ -163,17 +151,6 @@ fun ArchiveBottomBar(
     )
 }
 
-@Preview
-@Composable
-fun PreviewArchiveBottomBar() {
-    ArchiveBottomBar(
-        modifier = Modifier,
-        totalPrice = "47,720,000",
-        onButtonClick = {},
-        onSaveClick = {}
-    )
-}
-
 @Composable
 fun MyArchiveBottomBar(
     modifier: Modifier,
@@ -194,6 +171,29 @@ fun MyArchiveBottomBar(
                 onClick = onButtonClick
             )
         }
+    )
+}
+
+@Preview
+@Composable
+fun PreviewMakeCarBottomBar() {
+    MakeCarBottomBar(
+        modifier = Modifier,
+        totalPrice = "47,720,000",
+        onButtonClick = {},
+        onSummaryClick = {},
+        isDone = false
+    )
+}
+
+@Preview
+@Composable
+fun PreviewArchiveBottomBar() {
+    ArchiveBottomBar(
+        modifier = Modifier,
+        totalPrice = "47,720,000",
+        onButtonClick = {},
+        onSaveClick = {}
     )
 }
 

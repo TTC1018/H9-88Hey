@@ -13,22 +13,17 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
-import androidx.compose.material3.TextFieldColors
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.softeer.mycarchiving.R
 import com.softeer.mycarchiving.ui.theme.Black
 import com.softeer.mycarchiving.ui.theme.HyundaiLightSand
 import com.softeer.mycarchiving.ui.theme.HyundaiSand
-import com.softeer.mycarchiving.ui.theme.LightGray
-import com.softeer.mycarchiving.ui.theme.MediumGray
 import com.softeer.mycarchiving.ui.theme.bold18
 import com.softeer.mycarchiving.ui.theme.regular14
 import com.softeer.mycarchiving.ui.theme.roundCorner
@@ -79,16 +74,6 @@ fun ReviewOptionInfo(
     }
 }
 
-@Preview
-@Composable
-fun PreviewReviewOptionInfo() {
-    ReviewOptionInfo(
-        modifier = Modifier,
-        name = "디젤 2.2",
-        description = "높은 토크로 파워풀한 드라이빙이 가능하며, 차급대비 연비 효율이 우수합니다."
-    )
-}
-
 @Composable
 fun ReviewTextField(
     modifier: Modifier,
@@ -97,6 +82,16 @@ fun ReviewTextField(
     isFocus: Boolean
 ) {
 
+}
+
+@Preview
+@Composable
+fun PreviewReviewOptionInfo() {
+    ReviewOptionInfo(
+        modifier = Modifier,
+        name = "디젤 2.2",
+        description = "높은 토크로 파워풀한 드라이빙이 가능하며, 차급대비 연비 효율이 우수합니다."
+    )
 }
 
 @Preview

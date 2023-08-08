@@ -126,21 +126,6 @@ fun MadeCarItem(
     }
 }
 
-@Preview
-@Composable
-fun PreviewMadeCarItem() {
-    MadeCarItem(
-        modifier = Modifier,
-        isTempSaved = true,
-        carName = "팰리세이드 Le Blanc",
-        madeDate = "23년 7월 19일",
-        options = "디젤 2.2 / 4WD / 7인승",
-        imageNames = imageNames,
-        onItemClick = {},
-        onDelete = {}
-    )
-}
-
 @Composable
 fun MyArchiveDateChip(
     modifier: Modifier,
@@ -159,16 +144,6 @@ fun MyArchiveDateChip(
         color = if (isTempSaved) AlertPrimary else HyundaiGold
     )
 }
-
-/*@Preview
-@Composable
-fun PreviewMadeCarDateChip() {
-    MyArchiveDateChip(
-        modifier = Modifier,
-        madeDate = "23년 7월 19일",
-        isTempSaved = true
-    )
-}*/
 
 @Composable
 fun MadeCarImageItem(
@@ -202,15 +177,6 @@ fun MadeCarImageItem(
         }
     }
 }
-
-/*@Preview
-@Composable
-fun PreviewMadeCarImageItem() {
-    MadeCarImageItem(
-        modifier = Modifier,
-        name = "컴포트 ||"
-    )
-}*/
 
 @Composable
 fun SavedCarItem(
@@ -324,6 +290,35 @@ fun SavedCarItem(
     }
 }
 
+@Composable
+fun SavedCarOptionChip(
+    modifier: Modifier,
+    name: String
+) {
+    Text(
+        modifier = modifier
+            .background(color = HyundaiSand, shape = roundCornerMinimum)
+            .padding(horizontal = 10.dp, vertical = 3.dp),
+        text = name,
+        style = regular14
+    )
+}
+
+@Preview
+@Composable
+fun PreviewMadeCarItem() {
+    MadeCarItem(
+        modifier = Modifier,
+        isTempSaved = true,
+        carName = "팰리세이드 Le Blanc",
+        madeDate = "23년 7월 19일",
+        options = "디젤 2.2 / 4WD / 7인승",
+        imageNames = imageNames,
+        onItemClick = {},
+        onDelete = {}
+    )
+}
+
 @Preview
 @Composable
 fun PreviewSavedCarItem() {
@@ -340,23 +335,3 @@ fun PreviewSavedCarItem() {
         onDelete = {}
     )
 }
-
-@Composable
-fun SavedCarOptionChip(
-    modifier: Modifier,
-    name: String
-) {
-    Text(
-        modifier = modifier
-            .background(color = HyundaiSand, shape = roundCornerMinimum)
-            .padding(horizontal = 10.dp, vertical = 3.dp),
-        text = name,
-        style = regular14
-    )
-}
-
-/*@Preview
-@Composable
-fun PreviewSavedCarOptionChip() {
-    SavedCarOptionChip(modifier = Modifier, name = "컴포트 || 패키지")
-}*/
