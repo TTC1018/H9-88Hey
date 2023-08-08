@@ -6,6 +6,8 @@ import { OPTION_CARD_LIST_LENGTH } from '@/constants';
 
 import { PrevButton } from '@/components/common/PrevButton';
 import { NextButton } from '@/components/common/NextButton';
+import { OptionModalProvider } from '@/components/common/OptionModalProvider';
+import { OptionModal } from '@/components/common/OptionModal';
 
 import * as style from './style';
 
@@ -260,6 +262,12 @@ export function DefaultOptionCardList({ isShow }: Props) {
   const [categoryIndex, setCategoryIndex] = useState(0);
   const [cardListIndex, setCardListIndex] = useState(0);
 
+  const [isShowModal, setIsShowModal] = useState(false);
+  const [modal, setModal] = useState({
+    name: '',
+    imageUrl: '',
+  });
+
   function handleChangeCategoryIndex(index: number) {
     if (index === categoryIndex) {
       return;
@@ -274,6 +282,15 @@ export function DefaultOptionCardList({ isShow }: Props) {
       return;
     }
     setCardListIndex(index);
+  }
+
+  function handleOpenModal(name: string, imageUrl: string) {
+    setIsShowModal(true);
+    setModal({ name, imageUrl });
+  }
+
+  function handleCloseModal() {
+    setIsShowModal(false);
   }
 
   // TODO: 커스텀 훅으로 빼기
@@ -318,7 +335,7 @@ export function DefaultOptionCardList({ isShow }: Props) {
           isShow={isIndexLargeThanZero(cardListIndex)}
         />
         {cardList.map(({ name, imageUrl }, index) => (
-          <style.OptionCard key={index}>
+          <style.OptionCard key={index} onClick={() => handleOpenModal(name, imageUrl)}>
             <style.Image src={imageUrl} />
             <style.TextWrapper>
               <style.Text>{name}</style.Text>
@@ -333,6 +350,11 @@ export function DefaultOptionCardList({ isShow }: Props) {
           isShow={isIndexSmallThanMaxIndex(cardListIndex, data.length)}
         />
       </style.OptionCardWrapper>
+      {isShowModal && (
+        <OptionModalProvider>
+          <OptionModal name={modal.name} imageUrl={modal.imageUrl} onClick={handleCloseModal} />
+        </OptionModalProvider>
+      )}
     </style.Container>
   );
 }
