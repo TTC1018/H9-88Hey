@@ -88,13 +88,13 @@ export function ExternalCarImage({ color }: CarImageProps) {
         {isRotate && <NextButton width="48" height="48" onClick={handleClickNextButton} />}
         {!isRotate && (
           <>
-            <style.rotateBtn onClick={handleClickRotateButton}>
+            <style.RotateBtn onClick={handleClickRotateButton}>
               360°
               <RotateLogo />
-            </style.rotateBtn>
-            <style.vr360Circle>
-              <style.vr360Text>360°</style.vr360Text>
-            </style.vr360Circle>
+            </style.RotateBtn>
+            <style.Vr360Circle>
+              <style.Vr360Text>360°</style.Vr360Text>
+            </style.Vr360Circle>
           </>
         )}
       </style.Wrapper>

@@ -28,7 +28,7 @@ export const CarImage = styled.img<CarImageProps>`
   }}
 `;
 
-export const rotateBtn = styled.button`
+export const RotateBtn = styled.button`
   ${({ theme }) => {
     const { colors, fonts } = theme;
     return css`
@@ -53,7 +53,7 @@ export const rotateBtn = styled.button`
   }}
 `;
 
-export const vr360Circle = styled.div`
+export const Vr360Circle = styled.div`
   ${({ theme }) => {
     const { colors } = theme;
     return css`
@@ -73,7 +73,7 @@ export const vr360Circle = styled.div`
   }}
 `;
 
-export const vr360Text = styled.span`
+export const Vr360Text = styled.span`
   ${({ theme }) => {
     const { fonts, colors } = theme;
     return css`
