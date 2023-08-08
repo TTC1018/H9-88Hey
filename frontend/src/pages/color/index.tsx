@@ -9,7 +9,7 @@ import { InnerCarImage } from '@/components/color/InnerCarImage';
 
 import * as style from './style';
 
-const mock_data = {
+const mockData = {
   data: {
     externalColors: [
       {
@@ -110,9 +110,9 @@ export function Color() {
     availableInnerColor,
     tags: externalTags,
     extraFee,
-  } = mock_data.data.externalColors[selectedExternalIndex];
+  } = mockData.data.externalColors[selectedExternalIndex];
 
-  const availableInnerColorList = mock_data.data.innerColors.filter(color => availableInnerColor.includes(color.id));
+  const availableInnerColorList = mockData.data.innerColors.filter(color => availableInnerColor.includes(color.id));
   const { name: innerName, imagePath: innerImagePath, tags: innerTags } = availableInnerColorList[selectedInnerIndex];
 
   useEffect(() => {
@@ -159,11 +159,11 @@ export function Color() {
           </style.TitleBox>
           <style.Division />
           <style.ColorBox>
-            {mock_data.data.externalColors.map(({ name, imageUrl, extraFee }, index) => (
+            {mockData.data.externalColors.map(({ name, imageUrl, extraFee }, index) => (
               <style.ColorCard key={name} onClick={() => handleClickExternalColor(index)}>
                 <style.ColorCardRect colorUrl={imageUrl} isActive={isSelectedExternalColor(name)} />
                 <style.ColorCardName>{name}</style.ColorCardName>
-                {extraFee !== 0 && <style.ColorCardName>(+{extraFee.toLocaleString()}원)</style.ColorCardName>}
+                {extraFee > 0 && <style.ColorCardName>(+{extraFee.toLocaleString()}원)</style.ColorCardName>}
                 {isSelectedExternalColor(name) && <CheckIcon isInnerColorIcon={true} />}
               </style.ColorCard>
             ))}
