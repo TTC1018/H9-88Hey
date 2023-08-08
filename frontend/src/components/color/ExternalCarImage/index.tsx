@@ -1,5 +1,7 @@
 import { MouseEvent, useState } from 'react';
 
+import { convertToTwoDigits } from '@/utils';
+
 import { RotateLogo } from '@/components/common/RotateLogo';
 import { PrevButton } from '@/components/common/PrevButton';
 import { NextButton } from '@/components/common/NextButton';
@@ -78,9 +80,7 @@ export function ExternalCarImage({ color }: CarImageProps) {
             <style.CarImage
               key={num}
               isDisplay={num === currentImage}
-              src={`https://www.hyundai.com/contents/vr360/LX06/exterior/${color}/0${num
-                .toString()
-                .padStart(2, '0')}.png`}
+              src={`https://www.hyundai.com/contents/vr360/LX06/exterior/${color}/0${convertToTwoDigits(num)}.png`}
               alt="VR 이미지"
             />
           ))}
