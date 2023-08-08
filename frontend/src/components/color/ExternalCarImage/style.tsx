@@ -1,6 +1,10 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
+interface CarImageProps {
+  isDisplay: boolean;
+}
+
 export const Container = styled.div``;
 
 export const Wrapper = styled.div`
@@ -13,10 +17,6 @@ export const Wrapper = styled.div`
 `;
 
 export const ImageBox = styled.div``;
-
-interface CarImageProps {
-  isDisplay: boolean;
-}
 
 export const CarImage = styled.img<CarImageProps>`
   ${({ isDisplay }) => {
@@ -42,13 +42,14 @@ export const RotateBtn = styled.button`
       align-items: center;
       justify-content: center;
       position: absolute;
-      transform: translate(-50%, -50%);
 
       ${fonts.headingMedium4}
 
       background-color: rgba(246, 243, 242, 0.6);
       border: 1px solid ${colors.hyundaiSand};
       border-radius: 50%;
+
+      transform: translate(-50%, -50%);
     `;
   }}
 `;
