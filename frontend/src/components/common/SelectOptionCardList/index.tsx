@@ -116,7 +116,7 @@ function SelectOptionCard({
       <style.Image src={imageUrl} />
       <style.DescriptionWrapper>
         <style.Text isCardActive={isCardActive}>{name}</style.Text>
-        <style.Text isCardActive={isCardActive}>+{price.toLocaleString('en')}원</style.Text>
+        <style.Text isCardActive={isCardActive}>+{price.toLocaleString()}원</style.Text>
         <style.ButtonBox>
           <style.Button isButtonActive={isButtonActive} onClick={handleClickButton}>
             {isButtonActive ? '추가 완료' : '추가하기'}

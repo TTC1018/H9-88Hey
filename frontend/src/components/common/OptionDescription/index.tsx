@@ -11,7 +11,7 @@ export function OptionDescription({ name, price, tags }: OptionDescriptionProps)
     <style.Container>
       <style.TitleWrapper>
         <style.TitleBox>{name}</style.TitleBox>
-        <style.PriceBox>+{price.toLocaleString('en')}원</style.PriceBox>
+        <style.PriceBox>+{price.toLocaleString()}원</style.PriceBox>
       </style.TitleWrapper>
       <style.Line />
       <style.DescriptionWrapper>
