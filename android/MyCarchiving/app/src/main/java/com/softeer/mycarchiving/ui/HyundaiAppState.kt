@@ -13,6 +13,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navOptions
 import com.softeer.mycarchiving.navigation.MainDestination
 import com.softeer.mycarchiving.navigation.MainDestination.*
+import com.softeer.mycarchiving.navigation.MakingCarDestinations
 import com.softeer.mycarchiving.ui.archiving.navigateToArchive
 import com.softeer.mycarchiving.ui.loading.navigateToLoading
 import com.softeer.mycarchiving.ui.login.navigateToLogin
@@ -48,7 +49,12 @@ class HyundaiAppState(
         @Composable get() = when (currentDestination?.route) {
             LOGIN.route -> LOGIN
             LOADING.route -> LOADING
-            MAKING_CAR.route -> MAKING_CAR
+            MAKING_CAR.route,
+            MakingCarDestinations.SELECT_MODEL,
+            MakingCarDestinations.SELECT_TRIM,
+            MakingCarDestinations.SELECT_COLOR,
+            MakingCarDestinations.SELECT_OPTION,
+            MakingCarDestinations.SELECT_COMPLETE-> MAKING_CAR
             ARCHIVING.route -> ARCHIVING
             MY_ARCHIVING.route -> MY_ARCHIVING
             else -> null

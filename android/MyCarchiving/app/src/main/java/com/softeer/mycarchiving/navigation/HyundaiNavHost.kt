@@ -9,7 +9,7 @@ import com.softeer.mycarchiving.ui.archiving.navigateToArchive
 import com.softeer.mycarchiving.ui.loading.loadingScreen
 import com.softeer.mycarchiving.ui.loading.navigateToLoading
 import com.softeer.mycarchiving.ui.login.loginScreen
-import com.softeer.mycarchiving.ui.makingcar.makingCarScreen
+import com.softeer.mycarchiving.ui.makingcar.makingCarGraph
 import com.softeer.mycarchiving.ui.makingcar.navigateToMakingCar
 import com.softeer.mycarchiving.ui.myarchive.myArchivingScreen
 import com.softeer.mycarchiving.ui.myarchive.navigateToMyArchiving
@@ -28,10 +28,7 @@ fun HyundaiNavHost(
     ) {
         loginScreen(onLogin = navController::navigateToLoading)
         loadingScreen(onLoading = navController::navigateToMakingCar)
-        makingCarScreen(
-            onBackClick = navController::popBackStack,
-            onArchiveClick = navController::navigateToArchive
-        )
+        makingCarGraph()
         archiveScreen(
             onBackClick = navController::popBackStack,
             onMyCarchiveClick = navController::navigateToMyArchiving

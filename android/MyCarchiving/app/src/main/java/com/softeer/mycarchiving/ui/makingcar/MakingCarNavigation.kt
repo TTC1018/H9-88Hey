@@ -4,7 +4,14 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
+import androidx.navigation.navigation
 import com.softeer.mycarchiving.navigation.MainDestination
+import com.softeer.mycarchiving.navigation.MakingCarDestinations
+import com.softeer.mycarchiving.ui.makingcar.complete.completeScreen
+import com.softeer.mycarchiving.ui.makingcar.selectcolor.selectColorScreen
+import com.softeer.mycarchiving.ui.makingcar.selectmodel.selectModelScreen
+import com.softeer.mycarchiving.ui.makingcar.selectoption.selectOptionScreen
+import com.softeer.mycarchiving.ui.makingcar.selecttrim.selectTrimScreen
 
 fun NavController.navigateToMakingCar(navOptions: NavOptions? = null) {
     navigate(
@@ -13,14 +20,12 @@ fun NavController.navigateToMakingCar(navOptions: NavOptions? = null) {
     )
 }
 
-fun NavGraphBuilder.makingCarScreen(
-    onBackClick: () -> Unit,
-    onArchiveClick: () -> Unit,
-) {
-    composable(route = MainDestination.MAKING_CAR.route) {
-        MakingCarRoute(
-            onBackClick = onBackClick,
-            onArchiveClick = onArchiveClick,
-        )
+fun NavGraphBuilder.makingCarGraph() {
+    navigation(startDestination = MakingCarDestinations.SELECT_MODEL, route = MainDestination.MAKING_CAR.route) {
+        selectModelScreen()
+        selectTrimScreen()
+        selectColorScreen()
+        selectOptionScreen()
+        completeScreen()
     }
 }

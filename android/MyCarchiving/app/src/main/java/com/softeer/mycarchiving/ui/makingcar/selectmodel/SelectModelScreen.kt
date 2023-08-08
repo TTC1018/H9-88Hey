@@ -54,6 +54,13 @@ val modelList = listOf(
     ),
 )
 
+@Composable
+fun SelectModelRoute(
+    modifier: Modifier = Modifier
+) {
+    SelectModelScreen(modifier = modifier)
+}
+
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun SelectModelScreen(
