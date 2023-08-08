@@ -104,7 +104,7 @@ function OptionCard({ index, name, price, imageUrl, subOptionNames, isCardActive
             {isButtonActive ? '추가 완료' : '추가하기'}
           </style.Button>
         </style.ButtonBox>
-        {isButtonActive && <style.Icon src={'/src/assets/icon_done.svg'} />}
+        {isButtonActive && <style.Icon src={'/src/assets/icons/icon_done.svg'} />}
       </style.DescriptionWrapper>
       {isHover && <OptionCardHover subOptionNames={subOptionNames} />}
       <style.OptionCardHoverArea
