@@ -15,54 +15,80 @@ const mock_data = {
       {
         name: '어비스 블랙 펄',
         imageUrl: 'https://www.hyundai.com/contents/vr360/LX06/exterior/A2B/colorchip-exterior.png',
-        availableInnerColor: ['퀄팅 천연', '퀄팅 그레이 샤넬'],
+        availableInnerColor: [1, 2],
         tags: ['트렌디해요', '모두가 좋아하는 색상', '5개 데이터', '어비스 블랙 펄'],
         extraFee: 0,
       },
       {
         name: '쉬머링 실버 메탈릭',
         imageUrl: 'https://www.hyundai.com/contents/vr360/LX06/exterior/R2T/colorchip-exterior.png',
-        availableInnerColor: ['퀄팅 천연', '퀄팅 그레이 샤넬'],
+        availableInnerColor: [2, 3],
         tags: ['트렌디해요', '모두가 좋아하는 색상', '5개 데이터', '쉬머링 실버 메탈릭'],
         extraFee: 0,
       },
       {
         name: '문라이트 블루 펄',
         imageUrl: 'https://www.hyundai.com/contents/vr360/LX06/exterior/UB7/colorchip-exterior.png',
-        availableInnerColor: ['퀄팅 천연', '퀄팅 그레이 샤넬'],
+        availableInnerColor: [3, 4],
         tags: ['트렌디해요', '모두가 좋아하는 색상', '5개 데이터', '문라이트 블루펄'],
         extraFee: 0,
       },
       {
         name: '가이아 브라운 펄',
         imageUrl: 'https://www.hyundai.com/contents/vr360/LX06/exterior/D2S/colorchip-exterior.png',
-        availableInnerColor: ['퀄팅 천연', '퀄팅 그레이 샤넬'],
+        availableInnerColor: [1, 4],
         tags: ['트렌디해요', '모두가 좋아하는 색상', '5개 데이터', '가이아 블아운 펄'],
         extraFee: 0,
       },
       {
         name: '그라파이트 그레이 메탈릭',
         imageUrl: 'https://www.hyundai.com/contents/vr360/LX06/exterior/P7V/colorchip-exterior.png',
-        availableInnerColor: ['퀄팅 천연', '퀄팅 그레이 샤넬'],
+        availableInnerColor: [2, 4],
         tags: ['트렌디해요', '모두가 좋아하는 색상', '5개 데이터', '그라파이트 그레이'],
         extraFee: 0,
       },
       {
         name: '크리미 화이트 펄',
         imageUrl: 'https://www.hyundai.com/contents/vr360/LX06/exterior/WC9/colorchip-exterior.png',
-        availableInnerColor: ['퀄팅 천연', '퀄팅 그레이 샤넬'],
+        availableInnerColor: [1],
         tags: ['트렌디해요', '모두가 좋아하는 색상', '5개 데이터', '크리미 화이트 펄'],
         extraFee: 100000,
       },
     ],
     innerColors: [
       {
+        id: 1,
         name: '퀼팅천연(블랙)',
         imagePath: 'https://www.hyundai.com/contents/vr360/LX06/interior/I49/colorchip-interior.png',
         tags: ['트렌디해요', '모두가 좋아하는 색상', '5개 데이터', '퀼팅천연'],
       },
       {
+        id: 2,
+        name: '퀼팅천연(블랙)2',
+        imagePath: 'https://www.hyundai.com/contents/vr360/LX06/interior/I49/colorchip-interior.png',
+        tags: ['트렌디해요', '모두가 좋아하는 색상', '5개 데이터', '퀼팅천연'],
+      },
+      {
+        id: 3,
         name: '쿨그레이',
+        imagePath: 'https://www.hyundai.com/contents/vr360/LX06/interior/YJY/colorchip-interior.png',
+        tags: ['트렌디해요', '모두가 좋아하는 색상', '5개 데이터', '쿨그레이'],
+      },
+      {
+        id: 4,
+        name: '퀼팅천연(블랙)3',
+        imagePath: 'https://www.hyundai.com/contents/vr360/LX06/interior/I49/colorchip-interior.png',
+        tags: ['트렌디해요', '모두가 좋아하는 색상', '5개 데이터', '퀼팅천연'],
+      },
+      {
+        id: 5,
+        name: '퀼팅천연(블랙)4',
+        imagePath: 'https://www.hyundai.com/contents/vr360/LX06/interior/I49/colorchip-interior.png',
+        tags: ['트렌디해요', '모두가 좋아하는 색상', '5개 데이터', '퀼팅천연'],
+      },
+      {
+        id: 6,
+        name: '쿨그레이2',
         imagePath: 'https://www.hyundai.com/contents/vr360/LX06/interior/YJY/colorchip-interior.png',
         tags: ['트렌디해요', '모두가 좋아하는 색상', '5개 데이터', '쿨그레이'],
       },
@@ -85,11 +111,9 @@ export function Color() {
     tags: externalTags,
     extraFee,
   } = mock_data.data.externalColors[selectedExternalIndex];
-  const {
-    name: innerName,
-    imagePath: innerImagePath,
-    tags: innerTags,
-  } = mock_data.data.innerColors[selectedInnerIndex];
+
+  const availableInnerColorList = mock_data.data.innerColors.filter(color => availableInnerColor.includes(color.id));
+  const { name: innerName, imagePath: innerImagePath, tags: innerTags } = availableInnerColorList[selectedInnerIndex];
 
   useEffect(() => {
     setExternalColorWord(externalImageUrl.split('exterior/')[1].slice(0, 3));
@@ -157,7 +181,7 @@ export function Color() {
           </style.TitleBox>
           <style.Division />
           <style.InteriorColorBox>
-            {mock_data.data.innerColors.map(({ name, imagePath }, index) => (
+            {availableInnerColorList.map(({ name, imagePath }, index) => (
               <style.InteriorColorCard key={name} onClick={() => handleClickInnerColor(index)}>
                 <style.InteriorColorButton isActive={isSelectedInnerColor(name)} bgImage={imagePath} />
                 {isSelectedInnerColor(name) && <CheckIcon isInnerColorIcon={false} />}
