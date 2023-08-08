@@ -1,7 +1,7 @@
 export const data = {
   engines: [
     {
-      id: '1',
+      id: 1,
       name: '디젤 2.2',
       additionalPrice: 1480000,
       imageURL: 'ur1',
@@ -10,7 +10,7 @@ export const data = {
       maximumTorque: '45.0/1,750~2,750kgf-m/rpm',
     },
     {
-      id: '2',
+      id: 2,
       name: '가솔린 3.8',
       additionalPrice: 1480000,
       imageURL: 'ur1',
