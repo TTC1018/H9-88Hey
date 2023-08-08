@@ -1,7 +1,7 @@
 import { convertToTwoDigits } from '@/utils';
 
-import { PrevButton } from '../PrevButton';
-import { NextButton } from '../NextButton';
+import { PrevButton } from '@/components/common/PrevButton';
+import { NextButton } from '@/components/common/NextButton';
 
 import * as style from './style';
 

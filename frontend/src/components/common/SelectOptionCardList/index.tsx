@@ -4,8 +4,8 @@ import { SelectOptionCardDataProps } from '@/types/option';
 import { isIndexLargeThanZero, isIndexSmallThanMaxIndex } from '@/utils';
 import { OPTION_CARD_LIST_LENGTH } from '@/constants';
 
-import { PrevButton } from '../PrevButton';
-import { NextButton } from '../NextButton';
+import { PrevButton } from '@/components/common/PrevButton';
+import { NextButton } from '@/components/common/NextButton';
 
 import * as style from './style';
 

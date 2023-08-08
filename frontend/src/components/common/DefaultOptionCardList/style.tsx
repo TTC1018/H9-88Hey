@@ -14,7 +14,6 @@ export const Container = styled.div<ContainerProps>`
     return css`
       width: 990px;
       height: 197px;
-
       gap: 6px;
       margin-top: 18px;
 

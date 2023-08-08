@@ -14,7 +14,6 @@ const Container = styled.button<ContainerProps>`
       height: ${height};
 
       visibility: ${isShow ? 'visible' : 'hidden'};
-      // display: ${isShow ? 'block' : 'none'};
     `;
   }}
 `;
