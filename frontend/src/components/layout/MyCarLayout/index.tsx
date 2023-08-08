@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 
 import { Outlet } from 'react-router-dom';
 
-import { MyCarType } from '@/types/trim';
+import { MyCarProps } from '@/types/trim';
 
 import { Header } from '@/components/common/Header';
 import { Footer } from '@/components/common/Footer';
@@ -10,7 +10,7 @@ import { Navigation } from '@/components/common/Navigation';
 
 import * as style from './style';
 
-const DEFAULT_STATE: MyCarType = {
+const DEFAULT_STATE: MyCarProps = {
   model: { title: '', price: 0 },
   engine: { title: '', price: 0 },
   bodyType: { title: '', price: 0 },
@@ -42,7 +42,7 @@ export function MyCarLayout() {
       return;
     }
 
-    const savedOptions: MyCarType = JSON.parse(localStorageData);
+    const savedOptions: MyCarProps = JSON.parse(localStorageData);
     setTrim(savedOptions);
   }, []);
 

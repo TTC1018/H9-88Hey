@@ -1,18 +1,18 @@
-export interface FeatureType {
+export interface FeatureProps {
   name: string;
   icon: string;
 }
-interface TrimType {
+interface TrimProps {
   name: string;
   price: number;
   images: string[];
-  features: FeatureType[];
+  features: FeatureProps[];
 }
-export interface TrimDataType {
-  trims: TrimType[];
+export interface TrimDataProps {
+  trims: TrimProps[];
 }
 
-interface EngineType {
+interface EngineProps {
   name: string;
   extraCharge: number;
   desc: string;
@@ -20,39 +20,39 @@ interface EngineType {
   maximumTorque: string;
   image: string;
 }
-export interface EngineDataType {
-  engines: EngineType[];
+export interface EngineDataProps {
+  engines: EngineProps[];
 }
 
-interface BodyTypeType {
+interface BodyProps {
   name: string;
   extraCharge: number;
   desc: string;
   images: string[];
 }
-export interface BodyTypeDataType {
-  bodyTypes: BodyTypeType[];
+export interface BodyPropsDataProps {
+  bodyPropss: BodyProps[];
 }
 
-interface WheelDriveType {
+interface WheelDriveProps {
   name: string;
   extraCharge: number;
   desc: string;
   image: string;
 }
-export interface WheelDriveDataType {
-  wheelDrive: WheelDriveType[];
+export interface WheelDriveDataProps {
+  wheelDrive: WheelDriveProps[];
 }
 
-interface MyCarDetailType {
+interface MyCarDetailProps {
   title: string;
   price: number;
 }
-export interface MyCarType {
-  model: MyCarDetailType;
-  engine: MyCarDetailType;
-  bodyType: MyCarDetailType;
-  wheelDrive: MyCarDetailType;
+export interface MyCarProps {
+  model: MyCarDetailProps;
+  engine: MyCarDetailProps;
+  bodyType: MyCarDetailProps;
+  wheelDrive: MyCarDetailProps;
   color: {
     outer: [string, string];
     inner: [string, string];
@@ -60,7 +60,7 @@ export interface MyCarType {
   options: string[];
 }
 
-export interface MyCarLayoutContextType {
+export interface MyCarLayoutContextProps {
   handleTrim: ({ key, option, price }: { key: string; option: string; price: number }) => void;
-  trim: MyCarType;
+  trim: MyCarProps;
 }

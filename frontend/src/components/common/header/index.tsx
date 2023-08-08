@@ -1,3 +1,7 @@
+import { ModalTypeProps } from '@/constants';
+
+import { useModalContext } from '@/hooks/useModalContext';
+
 import { HyundaiLogo } from '@/components/common/HyundaiLogo';
 import { ArchivingLogo } from '@/components/common/ArchivingLogo';
 import { AutoSavingLogo } from '@/components/common/AutoSavingLogo';
@@ -5,6 +9,13 @@ import { AutoSavingLogo } from '@/components/common/AutoSavingLogo';
 import * as style from './style';
 
 export function Header() {
+  const { handleOpen, setModalState } = useModalContext();
+
+  function onHeaderClick() {
+    setModalState({ modalType: ModalTypeProps.CLOSE, callbackData: localStorage.getItem('carOptions') });
+    handleOpen();
+  }
+
   return (
     <style.Container>
       <style.Wrapper>
@@ -22,7 +33,23 @@ export function Header() {
             <style.CarNameText>팰리세이드</style.CarNameText>
           </style.InfoBox>
           <style.Division />
-          <style.ButtonBox>
+          <div
+            onClick={() => {
+              setModalState({ modalType: ModalTypeProps.MOVE, callbackData: null });
+              handleOpen();
+            }}
+          >
+            CLOSE
+          </div>
+          <div
+            onClick={() => {
+              setModalState({ modalType: ModalTypeProps.DELETE, callbackData: null });
+              handleOpen();
+            }}
+          >
+            MOVE
+          </div>
+          <style.ButtonBox onClick={onHeaderClick}>
             <ArchivingLogo />
             <style.ButtonText>아카이빙</style.ButtonText>
           </style.ButtonBox>

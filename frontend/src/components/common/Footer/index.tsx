@@ -1,6 +1,6 @@
 import { useLocation, useNavigate } from 'react-router-dom';
 
-import { MyCarType } from '@/types/trim';
+import { MyCarProps } from '@/types/trim';
 
 import * as style from './style';
 
@@ -16,7 +16,7 @@ const NAVIGATION_PATH = {
 };
 
 interface FooterProps {
-  options: MyCarType;
+  options: MyCarProps;
   totalPrice: number;
   onSetLocalStorage: () => void;
 }

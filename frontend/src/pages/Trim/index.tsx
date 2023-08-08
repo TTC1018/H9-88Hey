@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 
 import { useOutletContext } from 'react-router-dom';
 
-import { MyCarLayoutContextType, TrimDataType } from '@/types/trim';
+import { MyCarLayoutContextProps, TrimDataProps } from '@/types/trim';
 import { useFetch } from '@/hooks/useFetch';
 import { useSelectIndex } from '@/hooks/useSelectedIndex';
 
@@ -23,7 +23,7 @@ const initialData = {
 };
 
 export function Trim() {
-  const { data } = useFetch<TrimDataType>({ defaultValue: initialData, url: '/model/palisade/trim' });
+  const { data } = useFetch<TrimDataProps>({ defaultValue: initialData, url: '/model/palisade/trim' });
 
   const [selectedIndex, handleSetIndex] = useSelectIndex();
   const [selectedImageIndex, handleSetImageIndex] = useSelectIndex();
@@ -33,7 +33,7 @@ export function Trim() {
   const {
     handleTrim,
     trim: { model },
-  } = useOutletContext<MyCarLayoutContextType>();
+  } = useOutletContext<MyCarLayoutContextProps>();
 
   function handleCardClick(index: number, price: number) {
     return () => {

@@ -1,50 +1,66 @@
+import { useModalContext } from '@/hooks/useModalContext';
+
 import * as style from './style';
 
-type Modaltype = 'create' | 'remove' | 'close';
-const MODAL_CONTENT = {
-  create: {
-    text: '내 차 만들기 이동',
-    isBig: true,
-  },
-  close: {
-    text: '내 차 만들기 종료',
-    isBig: true,
-  },
-  remove: {
-    text: '삭제',
-    isBig: false,
-  },
-};
+export function PopupModal() {
+  const { modalState, handleClose } = useModalContext();
 
-interface PopupModalProps {
-  type: Modaltype;
-  onCancel: () => void;
-  onConfirm: () => void;
-}
+  const state = (function () {
+    switch (modalState.modalType) {
+      case 'CLOSE':
+        return {
+          text: '내 차 만들기 종료',
+          isBig: true,
+          callback: () => {
+            console.log(modalState.callbackData);
+          },
+          content: <CloseContent />,
+        };
+      case 'DELETE':
+        return {
+          text: '삭제',
+          isBig: false,
+          callback: () => {
+            console.log(modalState.callbackData);
+          },
+          content: <DeleteContent name={modalState.ContentData!} />,
+        };
+      case 'MOVE':
+        return {
+          text: '내 차 만들기 이동',
+          isBig: true,
+          callback: () => {
+            console.log(modalState.callbackData);
+          },
+          content: <MoveContent date={modalState.ContentData!} />,
+        };
+    }
+  })();
 
-export function PopupModal({ type, onCancel, onConfirm }: PopupModalProps) {
-  const { text, isBig } = MODAL_CONTENT[type];
+  function handleConfirm() {
+    handleClose();
+    state?.callback();
+  }
 
   return (
     <style.Container>
-      {/* <CloseContent /> */}
-      <RemoveContent name="palicase" />
+      {state?.content}
       <style.ButtonWrapper>
-        <style.CancleButton isBig={isBig} onClick={onCancel}>
+        <style.CancleButton isBig={state!.isBig} onClick={handleClose}>
           취소
         </style.CancleButton>
-        <style.ConfirmButton isBig={isBig} onClick={onConfirm}>
-          {text}
+        <style.ConfirmButton isBig={state!.isBig} onClick={handleConfirm}>
+          {state!.text}
         </style.ConfirmButton>
       </style.ButtonWrapper>
     </style.Container>
   );
 }
 
-interface CreateContentProps {
+interface MoveContentProps {
   date: string;
 }
-function CreateContent({ date }: CreateContentProps) {
+function MoveContent({ date }: MoveContentProps) {
   return (
     <style.TextWrapper>
       <style.Fragment>
@@ -56,10 +72,10 @@ function CreateContent({ date }: CreateContentProps) {
   );
 }
 
-interface RemoveContentProps {
+interface DeleteContentProps {
   name: string;
 }
-function RemoveContent({ name }: RemoveContentProps) {
+function DeleteContent({ name }: DeleteContentProps) {
   return (
     <style.TextWrapper>
       <style.Fragment>

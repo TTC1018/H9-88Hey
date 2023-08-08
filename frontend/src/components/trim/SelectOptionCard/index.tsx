@@ -1,4 +1,4 @@
-import { FeatureType } from '@/types/trim';
+import { FeatureProps } from '@/types/trim';
 
 import * as style from './style';
 
@@ -6,7 +6,7 @@ interface SelectOptionCardProps {
   isActive: boolean;
   name: string;
   price: number;
-  features: FeatureType[];
+  features: FeatureProps[];
 }
 export function SelectOptionCard({ isActive, name, price, features }: SelectOptionCardProps) {
   return (
