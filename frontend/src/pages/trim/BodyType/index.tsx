@@ -2,7 +2,8 @@ import { useEffect } from 'react';
 
 import { useOutletContext } from 'react-router-dom';
 
-import { MyCarLayoutContextType } from '@/types/trim';
+import { BodyTypeDataType, MyCarLayoutContextType } from '@/types/trim';
+import { useFetch } from '@/hooks/useFetch';
 import { useSelectIndex } from '@/hooks/useSelectedIndex';
 
 import { TrimCard } from '@/components/common/TrimCard';
@@ -11,57 +12,48 @@ import { MyCarDescription } from '@/components/common/MyCarDescription';
 
 import * as style from './style';
 
-const mockData = [
-  {
-    title: '7인승',
-    price: 0,
-    description:
-      '기존 8인승 시트(1열 2명, 2열 3명, 3열 3명)에서 2열 가운데 시트를 없애 2열 탑승객의 편의는 물론, 3열 탑승객의 승하차가 편리합니다.',
-    images: [
-      'https://www.hyundai.com/contents/spec/guide/lx_2wd_s.jpg',
-      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT1p89A1Ayz5SUzrKfHgl0hph8xUyYAqRlJ5A&usqp=CAU',
-    ],
-  },
-  {
-    title: '8인승',
-    price: 0,
-    description: '1열 2명, 2열 3명, 3열 3명이 탑승할 수 있는 구조로, 많은 인원이 탑승할 수 있도록 배려하였습니다',
-    images: [
-      'https://www.hyundai.com/contents/spec/guide/lx_htrac_s.jpg',
-      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSUATgC4Xv06TncWaHMALgAiS0n4SoTG8iZ4g&usqp=CAU',
-    ],
-  },
-];
+const initialData = {
+  bodyTypes: [
+    {
+      name: '',
+      extraCharge: 0,
+      desc: '',
+      images: [''],
+    },
+  ],
+};
 
 export function BodyType() {
+  const { data } = useFetch<BodyTypeDataType>({
+    defaultValue: initialData,
+    url: '/model/palisade/trim/le_blanc/body_type',
+  });
+
   const [selectedIndex, handleSetIndex] = useSelectIndex();
   const [selectedImageIndex, handleSetImageIndex] = useSelectIndex();
 
-  const { images, title, price } = mockData[selectedIndex];
+  const { images, name, extraCharge } = data.bodyTypes[selectedIndex];
 
   const {
     handleTrim,
     trim: { bodyType },
   } = useOutletContext<MyCarLayoutContextType>();
 
-  function handleCardClick(index: number, price: number) {
+  function handleCardClick(index: number, extraCharge: number) {
     return function () {
       handleSetIndex(index)();
       handleSetImageIndex(0)();
-      handleTrim({ key: 'bodyType', option: mockData[index].title, price: price });
+      handleTrim({ key: 'bodyType', option: data.bodyTypes[index].name, price: extraCharge });
     };
   }
 
   useEffect(() => {
-    const index = mockData.findIndex(card => card.title === bodyType.title);
+    const index = data.bodyTypes.findIndex(card => card.name === bodyType.title);
 
-    if (index !== -1) {
-      handleSetIndex(index)();
-      return;
-    }
-
-    handleCardClick(0, mockData[selectedIndex].price)();
-  }, []);
+    index !== -1 && handleSetIndex(index)();
+    bodyType.title === '' &&
+      handleTrim({ key: 'bodyType', option: data.bodyTypes[0].name, price: data.bodyTypes[0].extraCharge });
+  }, [data]);
 
   return (
     <style.Container>
@@ -73,16 +65,16 @@ export function BodyType() {
             selectedIndex={selectedImageIndex}
             onClick={handleSetImageIndex}
           />
-          <MyCarDescription title={title} price={price} hasTag={false} />
+          <MyCarDescription title={name} price={extraCharge} hasTag={false} />
         </style.Box>
         <style.Box>
-          {mockData.map(({ title, price, description }, index) => (
-            <style.Enclosure key={title} onClick={handleCardClick(index, price)}>
+          {data.bodyTypes.map(({ name, extraCharge, desc }, index) => (
+            <style.Enclosure key={name} onClick={handleCardClick(index, extraCharge)}>
               <TrimCard
                 isActive={index === selectedIndex}
-                title={title}
-                price={price}
-                description={description}
+                title={name}
+                price={extraCharge}
+                description={desc}
                 hasEngineInfo={false}
               />
             </style.Enclosure>

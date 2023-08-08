@@ -3,7 +3,7 @@ import { ThemeProvider } from '@emotion/react';
 
 import { router } from './routes/router';
 import { theme } from './styles/theme';
-import { GlobalStyle } from './styles/GlobalStyle';
+import { GlobalStyle } from './styles/globalStyle';
 
 export function App() {
   return (
