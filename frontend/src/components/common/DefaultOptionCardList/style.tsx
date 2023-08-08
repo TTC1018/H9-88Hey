@@ -25,8 +25,9 @@ export const Container = styled.div<ContainerProps>`
 `;
 
 export const CategoryWrapper = styled.div`
-  display: flex;
   gap: 20px;
+
+  display: flex;
 `;
 
 export const Category = styled.button<CategoryProps>`
