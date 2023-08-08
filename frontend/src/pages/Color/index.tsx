@@ -125,6 +125,7 @@ export function Color() {
 
   function handleClickExternalColor(index: number) {
     handleSetExternalIndex(index)();
+    handleSetInnerIndex(0)();
     setIsExternalPage(true);
   }
 
