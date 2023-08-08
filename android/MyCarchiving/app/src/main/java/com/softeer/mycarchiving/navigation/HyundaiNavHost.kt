@@ -28,10 +28,7 @@ fun HyundaiNavHost(
     ) {
         loginScreen(onLogin = navController::navigateToLoading)
         loadingScreen(onLoading = navController::navigateToMakingCar)
-        makingCarGraph(
-            onBackClick = navController::popBackStack,
-            onArchiveClick = navController::navigateToArchive
-        )
+        makingCarGraph()
         archiveScreen(
             onBackClick = navController::popBackStack,
             onMyCarchiveClick = navController::navigateToMyArchiving
