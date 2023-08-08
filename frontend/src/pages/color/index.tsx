@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react';
 
+import { useSelectIndex } from '@/hooks/useSelectedIndex';
+
 import { CheckIcon } from '@/components/common/CheckIcon';
 import { ExternalCarImage } from '@/components/color/ExternalCarImage';
 import { MyCarDescription } from '@/components/common/MyCarDescription';
@@ -70,45 +72,49 @@ const mock_data = {
 
 export function Color() {
   const [isExternalPage, setIsExternalPage] = useState(true);
-  const [externalColor, setExternalColor] = useState('어비스 블랙 펄');
-  const [colorWord, setColorWord] = useState('A2B');
-  const [innerColorWord, setInnerColorWord] = useState('I49');
-  const [innerColor, setInnerColor] = useState('퀼팅천연(블랙)');
-  const [externalTags, setExternalTags] = useState<string[]>([
-    '트렌디해요',
-    '모두가 좋아하는 색상',
-    '5개 데이터',
-    '어비스 블랙 펄',
-  ]);
-  const [innerTags, setInnerTags] = useState<string[]>([]);
+  const [externalColorWord, setExternalColorWord] = useState('');
+  const [innerColorWord, setInnerColorWord] = useState('');
+
+  const [selectedExternalIndex, handleSetExternalIndex] = useSelectIndex();
+  const [selectedInnerIndex, handleSetInnerIndex] = useSelectIndex();
+
+  const {
+    name: externalName,
+    imageUrl: externalImageUrl,
+    availableInnerColor,
+    tags: externalTags,
+    extraFee,
+  } = mock_data.data.externalColors[selectedExternalIndex];
+  const {
+    name: innerName,
+    imagePath: innerImagePath,
+    tags: innerTags,
+  } = mock_data.data.innerColors[selectedInnerIndex];
 
   useEffect(() => {
-    const targetIndex = mock_data.data.externalColors.findIndex(color => color.name === externalColor);
-    setColorWord(mock_data.data.externalColors[targetIndex].imageUrl.split('exterior/')[1].slice(0, 3));
-  }, [externalColor]);
+    setExternalColorWord(externalImageUrl.split('exterior/')[1].slice(0, 3));
+  }, [externalImageUrl]);
 
   useEffect(() => {
-    const targetIndex = mock_data.data.innerColors.findIndex(color => color.name === innerColor);
-    setInnerColorWord(mock_data.data.innerColors[targetIndex].imagePath.split('interior/')[1].slice(0, 3));
-  }, [innerColor]);
+    setInnerColorWord(innerImagePath.split('interior/')[1].slice(0, 3));
+  }, [innerImagePath]);
 
-  function handleClickExternalColor(name: string, tags: string[]) {
-    setExternalColor(name);
-    setExternalTags(tags);
+  function handleClickExternalColor(index: number) {
+    handleSetExternalIndex(index)();
     setIsExternalPage(true);
   }
-  function handleClickInnerColor(name: string, tags: string[]) {
-    setInnerColor(name);
-    setInnerTags(tags);
+
+  function handleClickInnerColor(index: number) {
+    handleSetInnerIndex(index)();
     setIsExternalPage(false);
   }
 
   function isSelectedExternalColor(name: string) {
-    return externalColor === name;
+    return externalName === name;
   }
 
   function isSelectedInnerColor(name: string) {
-    return innerColor === name;
+    return innerName === name;
   }
 
   return (
@@ -116,13 +122,13 @@ export function Color() {
       <style.Wrapper>
         {isExternalPage ? (
           <>
-            <ExternalCarImage color={colorWord} />
-            <MyCarDescription title={externalColor} price={0} hasTag={true} tags={externalTags} />
+            <ExternalCarImage color={externalColorWord} />
+            <MyCarDescription title={externalName} price={extraFee} hasTag={true} tags={externalTags} />
           </>
         ) : (
           <>
             <InnerCarImage color={innerColorWord} />
-            <MyCarDescription title={innerColor} price={0} hasTag={true} tags={innerTags} />
+            <MyCarDescription title={innerName} price={0} hasTag={true} tags={innerTags} />
           </>
         )}
       </style.Wrapper>
@@ -130,18 +136,16 @@ export function Color() {
         <style.Box>
           <style.TitleBox>
             <style.Title>외장 색상</style.Title>
-            <style.ColorName>{externalColor}</style.ColorName>
+            <style.ColorName>{externalName}</style.ColorName>
           </style.TitleBox>
           <style.Division />
           <style.ColorBox>
-            {mock_data.data.externalColors.map(color => (
-              <style.ColorCard key={color.name} onClick={() => handleClickExternalColor(color.name, color.tags)}>
-                <style.ColorCardRect colorUrl={color.imageUrl} isActive={isSelectedExternalColor(color.name)} />
-                <style.ColorCardName>{color.name}</style.ColorCardName>
-                {color.extraFee !== 0 && (
-                  <style.ColorCardName>(+{color.extraFee.toLocaleString()}원)</style.ColorCardName>
-                )}
-                {isSelectedExternalColor(color.name) && <CheckIcon isInnerColorIcon={true} />}
+            {mock_data.data.externalColors.map(({ name, imageUrl, extraFee }, index) => (
+              <style.ColorCard key={name} onClick={() => handleClickExternalColor(index)}>
+                <style.ColorCardRect colorUrl={imageUrl} isActive={isSelectedExternalColor(name)} />
+                <style.ColorCardName>{name}</style.ColorCardName>
+                {extraFee !== 0 && <style.ColorCardName>(+{extraFee.toLocaleString()}원)</style.ColorCardName>}
+                {isSelectedExternalColor(name) && <CheckIcon isInnerColorIcon={true} />}
               </style.ColorCard>
             ))}
           </style.ColorBox>
@@ -149,14 +153,14 @@ export function Color() {
         <style.Box>
           <style.TitleBox>
             <style.Title>내장 색상</style.Title>
-            <style.ColorName>{innerColor}</style.ColorName>
+            <style.ColorName>{innerName}</style.ColorName>
           </style.TitleBox>
           <style.Division />
           <style.InteriorColorBox>
-            {mock_data.data.innerColors.map(color => (
-              <style.InteriorColorCard key={color.name} onClick={() => handleClickInnerColor(color.name, color.tags)}>
-                <style.InteriorColorButton isActive={isSelectedInnerColor(color.name)} bgImage={color.imagePath} />
-                {isSelectedInnerColor(color.name) && <CheckIcon isInnerColorIcon={false} />}
+            {mock_data.data.innerColors.map(({ name, imagePath }, index) => (
+              <style.InteriorColorCard key={name} onClick={() => handleClickInnerColor(index)}>
+                <style.InteriorColorButton isActive={isSelectedInnerColor(name)} bgImage={imagePath} />
+                {isSelectedInnerColor(name) && <CheckIcon isInnerColorIcon={false} />}
               </style.InteriorColorCard>
             ))}
           </style.InteriorColorBox>
