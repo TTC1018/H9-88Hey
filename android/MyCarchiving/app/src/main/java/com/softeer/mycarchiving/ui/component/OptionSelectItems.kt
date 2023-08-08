@@ -109,12 +109,6 @@ fun OptionSelectItem(
     }
 }
 
-@Preview
-@Composable
-fun PreviewOptionSelectItem() {
-    OptionSelectItem(modifier = Modifier, optionName = "컴포트 2", optionPrice = "1,090,000", onItemClick = {}, onAddClick = {})
-}
-
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun OptionSelectedInfo(
@@ -129,35 +123,6 @@ fun OptionSelectedInfo(
         optionTags.forEach { tagString ->
             OptionTagChip(tagString = tagString)
         }
-    }
-}
-
-@Preview(heightDp = 140)
-@Composable
-fun PreviewOptionSelectedInfo() {
-    Column(
-        verticalArrangement = Arrangement.spacedBy(8.dp)
-    ) {
-        OptionSelectedInfo(
-            optionTags = listOf(
-                "어린이🧒",
-                "안전사고 예방🚨",
-                "대형견도 문제 없어요🐶",
-                "가족들도 좋은 옵션👨‍👩‍👧‍👦"
-            )
-        )
-    }
-}
-
-
-@Preview(heightDp = 60)
-@Composable
-fun PreviewOptionColorNameSentence() {
-    Column(
-        verticalArrangement = Arrangement.SpaceBetween
-    ) {
-        OptionHeadText(optionName = "퀄팅 천연(블랙)")
-        OptionHeadComment()
     }
 }
 
@@ -313,6 +278,40 @@ fun ExtraOptionDesc(
         color = PrimaryBlue,
         text = text
     )
+}
+
+@Preview
+@Composable
+fun PreviewOptionSelectItem() {
+    OptionSelectItem(modifier = Modifier, optionName = "컴포트 2", optionPrice = "1,090,000", onItemClick = {}, onAddClick = {})
+}
+
+@Preview(heightDp = 140)
+@Composable
+fun PreviewOptionSelectedInfo() {
+    Column(
+        verticalArrangement = Arrangement.spacedBy(8.dp)
+    ) {
+        OptionSelectedInfo(
+            optionTags = listOf(
+                "어린이🧒",
+                "안전사고 예방🚨",
+                "대형견도 문제 없어요🐶",
+                "가족들도 좋은 옵션👨‍👩‍👧‍👦"
+            )
+        )
+    }
+}
+
+@Preview(heightDp = 60)
+@Composable
+fun PreviewOptionColorNameSentence() {
+    Column(
+        verticalArrangement = Arrangement.SpaceBetween
+    ) {
+        OptionHeadText(optionName = "퀄팅 천연(블랙)")
+        OptionHeadComment()
+    }
 }
 
 @Preview

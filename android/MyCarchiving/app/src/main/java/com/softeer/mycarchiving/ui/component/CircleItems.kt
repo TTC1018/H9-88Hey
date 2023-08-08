@@ -51,16 +51,6 @@ fun ProgressNumberCircle(
     }
 }
 
-@Preview
-@Composable
-fun PreviewProgressNumberCircle() {
-    ProgressNumberCircle(
-        modifier = Modifier,
-        numberText = "01",
-        color = PrimaryBlue,
-    )
-}
-
 @Composable
 fun CheckCircle(
     modifier: Modifier
@@ -82,12 +72,6 @@ fun CheckCircle(
     }
 }
 
-@Preview
-@Composable
-fun PreviewCheckCircle() {
-    CheckCircle(modifier = Modifier)
-}
-
 @Composable
 fun XCircle(
     modifier: Modifier,
@@ -107,6 +91,22 @@ fun XCircle(
             tint = MediumGray
         )
     }
+}
+
+@Preview
+@Composable
+fun PreviewProgressNumberCircle() {
+    ProgressNumberCircle(
+        modifier = Modifier,
+        numberText = "01",
+        color = PrimaryBlue,
+    )
+}
+
+@Preview
+@Composable
+fun PreviewCheckCircle() {
+    CheckCircle(modifier = Modifier)
 }
 
 @Preview

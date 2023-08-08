@@ -121,12 +121,6 @@ fun MakeCarNavigateBar(
     )
 }
 
-@Preview
-@Composable
-fun PreviewMakeCarNavigateBar() {
-    MakeCarNavigateBar(modifier = Modifier, carName = "펠리세이드", onStartAreaClick = {}, onEndAreaClick = {}, isDone = false)
-}
-
 @Composable
 fun ArchiveNavigateBar(
     modifier: Modifier,
@@ -167,12 +161,6 @@ fun ArchiveNavigateBar(
     )
 }
 
-@Preview
-@Composable
-fun PreviewArchiveNavigateBar() {
-    ArchiveNavigateBar(modifier = Modifier, {}, {})
-}
-
 @Composable
 fun MyArchiveNavigateBar(
     modifier: Modifier,
@@ -196,12 +184,6 @@ fun MyArchiveNavigateBar(
             onStartAreaClick()
         }
     )
-}
-
-@Preview
-@Composable
-fun PreviewMyArchiveNavigateBar() {
-    MyArchiveNavigateBar(modifier = Modifier, {})
 }
 
 @Composable
@@ -242,6 +224,24 @@ fun ReviewNavigateBar(
             onEndAreaClick()
         }
     )
+}
+
+@Preview
+@Composable
+fun PreviewMakeCarNavigateBar() {
+    MakeCarNavigateBar(modifier = Modifier, carName = "펠리세이드", onStartAreaClick = {}, onEndAreaClick = {}, isDone = false)
+}
+
+@Preview
+@Composable
+fun PreviewArchiveNavigateBar() {
+    ArchiveNavigateBar(modifier = Modifier, {}, {})
+}
+
+@Preview
+@Composable
+fun PreviewMyArchiveNavigateBar() {
+    MyArchiveNavigateBar(modifier = Modifier, {})
 }
 
 @Preview

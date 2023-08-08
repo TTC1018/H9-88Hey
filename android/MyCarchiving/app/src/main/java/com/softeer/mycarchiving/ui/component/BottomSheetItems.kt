@@ -88,12 +88,6 @@ fun CarBasicBottomSheetContent(
     }
 }
 
-@Preview
-@Composable
-fun PreviewCarBasicBottomSheetContent() {
-    CarBasicBottomSheetContent(modifier = Modifier, basicItems = basicItems)
-}
-
 @Composable
 fun CarBasicItem(
     modifier: Modifier,
@@ -138,12 +132,6 @@ fun CarBasicItem(
 
 }
 
-/*@Preview
-@Composable
-fun PreviewCarBasicItem() {
-    CarBasicItem(modifier = Modifier, basicItem = basicItem1)
-}*/
-
 @Composable
 fun CarBasicDetailItem(
     modifier: Modifier,
@@ -172,12 +160,6 @@ fun CarBasicDetailItem(
         )
     }
 }
-
-/*@Preview
-@Composable
-fun PreviewCarBasicDetailItem() {
-    CarBasicDetailItem(modifier = Modifier, detailItem = detailItems[0])
-}*/
 
 data class SummaryItemChild(
     val name: String,
@@ -269,12 +251,6 @@ fun SummaryBottomSheetContent(
     }
 }
 
-@Preview
-@Composable
-fun PreviewSummaryBottomSheetContent() {
-    SummaryBottomSheetContent(modifier = Modifier)
-}
-
 @Composable
 fun SummaryLabel(
     modifier: Modifier,
@@ -332,12 +308,6 @@ fun SummaryLabel(
     }
 }
 
-/*@Preview
-@Composable
-fun PreviewSummaryLabel() {
-    SummaryLabel(modifier = Modifier, labelName = "총 견적 금액", totalPrice = totalPrice, summaryChildren = summaryFirst)
-}*/
-
 @Composable
 fun SummaryChild(
     modifier: Modifier,
@@ -384,12 +354,14 @@ fun SummaryChild(
     }
 }
 
-/*
 @Preview
 @Composable
-fun PreviewSummaryItem() {
-    SummaryChild(
-        modifier = Modifier,
-        summaryChild = summarySecond[0]
-    )
-}*/
+fun PreviewCarBasicBottomSheetContent() {
+    CarBasicBottomSheetContent(modifier = Modifier, basicItems = basicItems)
+}
+
+@Preview
+@Composable
+fun PreviewSummaryBottomSheetContent() {
+    SummaryBottomSheetContent(modifier = Modifier)
+}

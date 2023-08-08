@@ -74,16 +74,6 @@ fun ReviewOptionInfo(
     }
 }
 
-@Preview
-@Composable
-fun PreviewReviewOptionInfo() {
-    ReviewOptionInfo(
-        modifier = Modifier,
-        name = "디젤 2.2",
-        description = "높은 토크로 파워풀한 드라이빙이 가능하며, 차급대비 연비 효율이 우수합니다."
-    )
-}
-
 @Composable
 fun ReviewTextField(
     modifier: Modifier,
@@ -92,6 +82,16 @@ fun ReviewTextField(
     isFocus: Boolean
 ) {
 
+}
+
+@Preview
+@Composable
+fun PreviewReviewOptionInfo() {
+    ReviewOptionInfo(
+        modifier = Modifier,
+        name = "디젤 2.2",
+        description = "높은 토크로 파워풀한 드라이빙이 가능하며, 차급대비 연비 효율이 우수합니다."
+    )
 }
 
 @Preview

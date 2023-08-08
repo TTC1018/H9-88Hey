@@ -73,19 +73,6 @@ fun HyundaiButton(
     }
 }
 
-@Preview
-@Composable
-fun PreviewAppButton() {
-    val pressed: () -> Unit = {}
-    HyundaiButton(
-        modifier = Modifier,
-        backgroundColor = PrimaryBlue,
-        textColor = HyundaiSand,
-        text = "다음 단계로",
-        onClick = pressed
-    )
-}
-
 @Composable
 fun MyArchiveButton(
     modifier: Modifier,
@@ -101,12 +88,6 @@ fun MyArchiveButton(
             color = HyundaiLightSand
         )
     }
-}
-
-@Preview
-@Composable
-fun PreviewMyArchiveButton() {
-    MyArchiveButton(modifier = Modifier)
 }
 
 @Composable
@@ -145,12 +126,6 @@ fun OptionAddButton(
     }
 }
 
-@Preview
-@Composable
-fun PreviewOptionAddButton() {
-    OptionAddButton(modifier = Modifier, onClick = {})
-}
-
 @Composable
 fun SearchConditionButton(
     modifier: Modifier,
@@ -180,12 +155,6 @@ fun SearchConditionButton(
     }
 }
 
-@Preview
-@Composable
-fun PreviewSearchConditionButton() {
-    SearchConditionButton(modifier = Modifier, selectedCar = "펠리세이드", {})
-}
-
 @Composable
 fun SearchConditionChip(
     modifier: Modifier,
@@ -212,12 +181,6 @@ fun SearchConditionChip(
         style = regular14,
         color = if (isSelect) HyundaiLightSand else DarkGray
     )
-}
-
-@Preview
-@Composable
-fun PreviewSearchConditionChip() {
-    SearchConditionChip(modifier = Modifier, name = "펠리세이드", {})
 }
 
 @Composable
@@ -249,12 +212,6 @@ fun SearchConditionChipForDelete(
     }
 }
 
-@Preview
-@Composable
-fun PreviewSearchConditionChipForDelete() {
-    SearchConditionChipForDelete(modifier = Modifier, name = "듀얼 와이드 선루프", {})
-}
-
 @Composable
 fun ArchiveSaveButton(
     modifier: Modifier,
@@ -281,6 +238,49 @@ fun ArchiveSaveButton(
             tint = if (isSaved) AlertPrimary else White
         )
     }
+}
+
+@Preview
+@Composable
+fun PreviewAppButton() {
+    val pressed: () -> Unit = {}
+    HyundaiButton(
+        modifier = Modifier,
+        backgroundColor = PrimaryBlue,
+        textColor = HyundaiSand,
+        text = "다음 단계로",
+        onClick = pressed
+    )
+}
+
+@Preview
+@Composable
+fun PreviewMyArchiveButton() {
+    MyArchiveButton(modifier = Modifier)
+}
+
+@Preview
+@Composable
+fun PreviewOptionAddButton() {
+    OptionAddButton(modifier = Modifier, onClick = {})
+}
+
+@Preview
+@Composable
+fun PreviewSearchConditionButton() {
+    SearchConditionButton(modifier = Modifier, selectedCar = "펠리세이드", {})
+}
+
+@Preview
+@Composable
+fun PreviewSearchConditionChip() {
+    SearchConditionChip(modifier = Modifier, name = "펠리세이드", {})
+}
+
+@Preview
+@Composable
+fun PreviewSearchConditionChipForDelete() {
+    SearchConditionChipForDelete(modifier = Modifier, name = "듀얼 와이드 선루프", {})
 }
 
 @Preview

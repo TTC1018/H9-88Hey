@@ -100,12 +100,6 @@ fun BasicItemDialog(
     }
 }
 
-@Preview
-@Composable
-fun PreviewBasicItemDialog() {
-    BasicItemDialog(modifier = Modifier, onDismissRequest = {}, detailItem = detailItem)
-}
-
 @Composable
 fun ButtonDialog(
     modifier: Modifier,
@@ -184,11 +178,7 @@ fun FinishMakeCarDialog(
     }
 }
 
-@Preview
-@Composable
-fun PreviewFinishMakeCarDialog() {
-    FinishMakeCarDialog(modifier = Modifier, onDismissRequest = {}, onFinish = {})
-}
+
 
 @Composable
 fun DeleteMadeCarDialog(
@@ -224,17 +214,6 @@ fun DeleteMadeCarDialog(
     }
 }
 
-@Preview
-@Composable
-fun PreviewDeleteMadeCarDialog() {
-    DeleteMadeCarDialog(
-        modifier = Modifier,
-        onDismissRequest = {},
-        onDelete = {},
-        carName = "펠리세이드 Le Blanc"
-    )
-}
-
 @Composable
 fun MoveMakeCarDialog(
     modifier: Modifier,
@@ -267,6 +246,29 @@ fun MoveMakeCarDialog(
             )
         }
     }
+}
+
+@Preview
+@Composable
+fun PreviewBasicItemDialog() {
+    BasicItemDialog(modifier = Modifier, onDismissRequest = {}, detailItem = detailItem)
+}
+
+@Preview
+@Composable
+fun PreviewFinishMakeCarDialog() {
+    FinishMakeCarDialog(modifier = Modifier, onDismissRequest = {}, onFinish = {})
+}
+
+@Preview
+@Composable
+fun PreviewDeleteMadeCarDialog() {
+    DeleteMadeCarDialog(
+        modifier = Modifier,
+        onDismissRequest = {},
+        onDelete = {},
+        carName = "펠리세이드 Le Blanc"
+    )
 }
 
 @Preview
