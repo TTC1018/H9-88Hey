@@ -125,4 +125,12 @@
     <string name="loading_get_my_car">내 차를 불러오는 중이에요</string>
     <string name="loading_empty_peed">피드에 저장한 차량이 없어요</string>
     <string name="loading_make_my_car">내 차 만들기</string>
+
+    <!--  Navigation  -->
+    <string name="top_bar_login">로그인</string>
+    <string name="top_bar_archiving">아카이빙</string>
+    <string name="top_bar_mycar">마이카이빙</string>
+    <string name="top_bar_making_car">팰리세이드</string>
+    <string name="top_bar_driver_comment">시승자 후기 작성</string>
+    <string name="top_bar_consumer_comment">구매자 후기 작성</string>
 </resources>
