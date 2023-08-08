@@ -1,4 +1,5 @@
 import requests
+import mysql.connector
 from collections import defaultdict
 
 option_dictionary = defaultdict()
@@ -17,6 +18,13 @@ def init_option_dict(category_code, category_name):
             option_dictionary[category_code].append(category_name)
             option_dictionary[category_code].append(defaultdict())
 
+#db연결
+mydb = mysql.connector.connect(
+  host="localhost",
+  user="root",
+  database="mycar_test"
+)
+mycursor = mydb.cursor()
 
 
 def extract_default_option(saleModelCode):
@@ -46,6 +54,10 @@ def extract_default_option(saleModelCode):
 for saleModelCode in saleModelCodes:
     extract_default_option(saleModelCode)
 
+
+def paramify(value):
+  return "\'"+str(value)+"\'"
+
 #옵셥 출력
 for key in option_dictionary.keys():
     option_keys = option_dictionary[key][1].keys()
@@ -58,4 +70,7 @@ for key in option_dictionary.keys():
                                 + "&carOptionTypeCode=B")
 
         default_option["description"] = response.json()["data"]["optionDetailBasic"]["spcExplSbl"]
-        print(default_option)                                
+        mycursor.execute("INSERT INTO default_option (id,name,description,image_url,category) VALUES (%s,%s,%s,%s,%s)"
+                       %(paramify(default_option["optionId"]),paramify(default_option["optionName"].replace('\'','\'\'')),paramify(default_option['description'].replace('\'','\'\'')),paramify(default_option["imgUrl"]),paramify(option_dictionary[key][0])))
+        mydb.commit()
+        print(default_option)
