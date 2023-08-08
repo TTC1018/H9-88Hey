@@ -20,7 +20,6 @@ import androidx.compose.ui.unit.dp
 import com.softeer.mycarchiving.ui.theme.PrimaryBlue
 import androidx.compose.ui.res.painterResource
 import com.softeer.mycarchiving.R
-import com.softeer.mycarchiving.ui.theme.Black
 import com.softeer.mycarchiving.ui.theme.HyundaiActiveBlue
 import com.softeer.mycarchiving.ui.theme.HyundaiNeutral
 import com.softeer.mycarchiving.ui.theme.MediumGray
