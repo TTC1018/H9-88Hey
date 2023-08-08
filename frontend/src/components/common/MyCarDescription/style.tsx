@@ -11,7 +11,7 @@ const Wrapper = styled.div`
   align-items: center;
 `;
 
-const Title = styled.p`
+const Title = styled.div`
   ${({ theme }) => {
     const { fonts } = theme;
     return css`
