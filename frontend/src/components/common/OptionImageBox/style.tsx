@@ -1,11 +1,16 @@
 import styled from '@emotion/styled';
 import { css } from '@emotion/react';
 
-export const Image = styled.img`
+export const Container = styled.div`
   width: 479px;
   height: 304px;
 
   position: relative;
+`;
+
+export const Image = styled.img`
+  width: 479px;
+  height: 304px;
 `;
 
 export const Button = styled.button`

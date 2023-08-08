@@ -4,6 +4,7 @@ import { Trim } from '@/pages/Trim';
 import { Engine } from '@/pages/Trim/Engine';
 import { BodyType } from '@/pages/Trim/BodyType';
 import { WheelDrive } from '@/pages/Trim/WheelDrive';
+import { Option } from '@/pages/Option';
 import { MyCarLayout } from '@/components/layout/MyCarLayout';
 
 export const router = createBrowserRouter([
@@ -39,10 +40,16 @@ export const router = createBrowserRouter([
         path: '/option',
         children: [
           {
+            path: '',
+            element: <Option key="option" />,
+          },
+          {
             path: 'h-genuine-accessories',
+            element: <Option key="h-genuine-accessories" />,
           },
           {
             path: 'n-performance',
+            element: <Option key="n-performance" />,
           },
         ],
       },

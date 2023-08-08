@@ -1,22 +1,36 @@
 import styled from '@emotion/styled';
 import { css } from '@emotion/react';
 
-interface OptionCardProps {
-  option: number;
-  selectedOption: number;
+interface ContainerProps {
+  isShow: boolean;
 }
 
-export const Container = styled.div`
-  width: 100%;
-  height: 197px;
-  margin-top: 24px;
-  gap: 6px;
+interface OptionCardProps {
+  isCardActive: boolean;
+}
 
-  display: flex;
+interface ButtonProps {
+  isButtonActive: boolean;
+}
+
+export const Container = styled.div<ContainerProps>`
+  ${({ isShow }) => {
+    return css`
+      width: 1098px;
+      height: 197px;
+      margin-top: 24px;
+      gap: 6px;
+
+      display: ${isShow ? 'flex' : 'none'};
+      position: relative;
+
+      transform: translateX(-54px);
+    `;
+  }}
 `;
 
 export const OptionCard = styled.div<OptionCardProps>`
-  ${({ theme, option, selectedOption }) => {
+  ${({ theme, isCardActive }) => {
     const { colors } = theme;
 
     return css`
@@ -29,8 +43,10 @@ export const OptionCard = styled.div<OptionCardProps>`
       position: relative;
 
       border-radius: 8px;
-      border: ${option === selectedOption && `2px solid ${colors.hyundaiPrimaryBlue}`};
-      background-color: ${option === selectedOption ? 'rgba(0, 44, 95, 0.1)' : colors.hyundaiLightSand};
+      border: 2px solid ${isCardActive ? colors.hyundaiPrimaryBlue : '#fff'};
+      background-color: ${isCardActive ? 'rgba(0, 44, 95, 0.1)' : colors.hyundaiLightSand};
+
+      cursor: pointer;
     `;
   }}
 `;
@@ -49,12 +65,16 @@ export const DescriptionWrapper = styled.div`
 `;
 
 export const Text = styled.p<OptionCardProps>`
-  ${({ theme, option, selectedOption }) => {
+  ${({ theme, isCardActive }) => {
     const { colors, fonts } = theme;
 
     return css`
-      color: ${option === selectedOption ? colors.hyundaiPrimaryBlue : colors.black};
+      overflow: hidden;
+
+      color: ${isCardActive ? colors.hyundaiPrimaryBlue : colors.black};
       ${fonts.bodyMedium3}
+      text-overflow: ellipsis;
+      white-space: nowrap;
     `;
   }}
 `;
@@ -66,8 +86,8 @@ export const ButtonBox = styled.div`
   justify-content: center;
 `;
 
-export const Button = styled.button<OptionCardProps>`
-  ${({ theme, option, selectedOption }) => {
+export const Button = styled.button<ButtonProps>`
+  ${({ theme, isButtonActive }) => {
     const { colors, fonts } = theme;
 
     return css`
@@ -80,13 +100,13 @@ export const Button = styled.button<OptionCardProps>`
       justify-content: center;
       align-items: center;
 
-      color: ${option === selectedOption ? colors.hyundaiNeutral : '#385da2'};
+      color: ${isButtonActive ? colors.hyundaiNeutral : '#385da2'};
       ${fonts.bodyMedium3};
 
       border-radius: 8px;
       border: 1px solid #385da2;
 
-      background-color: ${option === selectedOption ? '#385da2' : colors.hyundaiNeutral};
+      background-color: ${isButtonActive ? '#385da2' : colors.hyundaiNeutral};
     `;
   }}
 `;
@@ -114,6 +134,7 @@ export const OptionCardHover = styled.div`
 
 export const DescriptionHoverWrapper = styled.ul`
   padding: 21px 15px 0 30px;
+  overflow: hidden;
 
   list-style-type: disc;
   list-style-position: outside;
@@ -124,8 +145,12 @@ export const DescriptionHover = styled.li`
     const { fonts } = theme;
 
     return css`
+      overflow: hidden;
+
       color: #fff;
       ${fonts.bodyRegular4}
+      text-overflow: ellipsis;
+      white-space: nowrap;
     `;
   }}
 `;
