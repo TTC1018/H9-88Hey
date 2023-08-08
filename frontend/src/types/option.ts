@@ -1,4 +1,4 @@
-export interface SelectOptionProps {
+export interface OptionProps {
   name: string;
   price: number;
   imageUrl: string;
@@ -12,7 +12,7 @@ export interface SubOptionProps {
   description: string;
 }
 
-export interface SelectOptionCardDataProps {
+export interface OptionCardDataProps {
   index: number;
   name: string;
   price: number;

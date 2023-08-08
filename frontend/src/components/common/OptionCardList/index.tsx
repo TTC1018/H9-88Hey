@@ -1,6 +1,6 @@
 import { useState, useEffect, MouseEvent } from 'react';
 
-import { SelectOptionCardDataProps } from '@/types/option';
+import { OptionCardDataProps } from '@/types/option';
 import { isIndexLargeThanZero, isIndexSmallThanMaxIndex } from '@/utils';
 import { OPTION_CARD_LIST_LENGTH } from '@/constants';
 
@@ -9,16 +9,16 @@ import { NextButton } from '@/components/common/NextButton';
 
 import * as style from './style';
 
-interface SelectOptionCardListProps {
+interface OptionCardListProps {
   isShow: boolean;
   selectedIndex: number;
   cardListIndex: number;
-  data: SelectOptionCardDataProps[];
+  data: OptionCardDataProps[];
   onClickCard: (index: number, event: MouseEvent<HTMLDivElement>) => void;
   onClickArrowButton: (index: number, length: number) => void;
 }
 
-interface SelectOptionCardProps {
+interface OptionCardProps {
   index: number;
   name: string;
   price: number;
@@ -28,19 +28,19 @@ interface SelectOptionCardProps {
   onClickCard: (index: number, event: React.MouseEvent<HTMLDivElement>) => void;
 }
 
-interface SelectOptionCardHoverProps {
+interface OptionCardHoverProps {
   subOptionNames: string[];
 }
 
-export function SelectOptionCardList({
+export function OptionCardList({
   isShow,
   selectedIndex,
   cardListIndex,
   data,
   onClickCard,
   onClickArrowButton,
-}: SelectOptionCardListProps) {
-  const [cardList, setCardList] = useState<SelectOptionCardDataProps[]>([]);
+}: OptionCardListProps) {
+  const [cardList, setCardList] = useState<OptionCardDataProps[]>([]);
 
   useEffect(() => {
     const startIndex = cardListIndex * OPTION_CARD_LIST_LENGTH;
@@ -60,7 +60,7 @@ export function SelectOptionCardList({
         isShow={isIndexLargeThanZero(cardListIndex)}
       />
       {cardList.map(({ index, name, price, imageUrl, subOptionNames }) => (
-        <SelectOptionCard
+        <OptionCard
           index={index}
           name={name}
           price={price}
@@ -81,15 +81,7 @@ export function SelectOptionCardList({
   );
 }
 
-function SelectOptionCard({
-  index,
-  name,
-  price,
-  imageUrl,
-  subOptionNames,
-  isCardActive,
-  onClickCard,
-}: SelectOptionCardProps) {
+function OptionCard({ index, name, price, imageUrl, subOptionNames, isCardActive, onClickCard }: OptionCardProps) {
   const [isButtonActive, setIsButtonActive] = useState(false);
   const [isHover, setIsHover] = useState(false);
 
@@ -124,12 +116,12 @@ function SelectOptionCard({
         </style.ButtonBox>
         {isButtonActive && <style.Icon src={'/src/assets/icon_done.svg'} />}
       </style.DescriptionWrapper>
-      {isHover && <SelectOptionCardHover subOptionNames={subOptionNames} />}
+      {isHover && <OptionCardHover subOptionNames={subOptionNames} />}
     </style.OptionCard>
   );
 }
 
-function SelectOptionCardHover({ subOptionNames }: SelectOptionCardHoverProps) {
+function OptionCardHover({ subOptionNames }: OptionCardHoverProps) {
   return (
     <style.OptionCardHover>
       <style.DescriptionHoverWrapper>
