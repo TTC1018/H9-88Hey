@@ -12,7 +12,7 @@ interface ResponseType<T> {
 export function useFetch<T>({ defaultValue, url }: UseFetchProps<T>) {
   const [data, setData] = useState(defaultValue);
   const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<unknown>(null);
+  const [error, setError] = useState('');
 
   async function fetchUsers() {
     try {
@@ -23,14 +23,19 @@ export function useFetch<T>({ defaultValue, url }: UseFetchProps<T>) {
       }
 
       const { data } = (await response.json()) as ResponseType<T>;
-      // status 관련 로직 작성
 
       setData(data);
-    } catch (error: unknown) {
-      setError(error);
+    } catch (error) {
+      if (error instanceof Error) {
+        setError(error.message);
+      } else {
+        setError(String(error));
+      }
     }
     setIsLoading(false);
   }
+
+  if (error) throw new Error(error);
 
   useEffect(() => {
     fetchUsers();
