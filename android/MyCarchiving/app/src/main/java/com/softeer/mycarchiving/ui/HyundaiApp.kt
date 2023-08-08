@@ -1,5 +1,6 @@
 package com.softeer.mycarchiving.ui
 
+import android.util.Log
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -21,6 +22,7 @@ fun HyundaiApp(
         modifier = Modifier,
         topBar = {
             val destination = appState.currentMainDestination
+            Log.d("HyundaiCompose", appState.currentDestination?.route ?: "null")
             val topBarColor = appState.currentTopBarColor
             if (destination != null) {
                 HyundaiTopBar(
