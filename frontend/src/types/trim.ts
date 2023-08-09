@@ -48,19 +48,20 @@ interface MyCarDetailType {
   title: string;
   price: number;
 }
+
 export interface MyCarType {
   model: MyCarDetailType;
   engine: MyCarDetailType;
   bodyType: MyCarDetailType;
   wheelDrive: MyCarDetailType;
-  color: {
-    outer: [string, string];
-    inner: [string, string];
-  };
+  outerColor: { title: string; imageUrl: string; price: number };
+  innerColor: { title: string; imageUrl: string; id: number };
   options: string[];
 }
 
 export interface MyCarLayoutContextType {
   handleTrim: ({ key, option, price }: { key: string; option: string; price: number }) => void;
+  handleOuterColor: ({ color, colorImage, price }: { color: string; colorImage: string; price: number }) => void;
+  handleInnerColor: ({ color, colorImage, id }: { color: string; colorImage: string; id: number }) => void;
   trim: MyCarType;
 }

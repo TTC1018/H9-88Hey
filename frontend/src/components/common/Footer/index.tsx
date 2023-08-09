@@ -21,7 +21,7 @@ interface FooterProps {
   onSetLocalStorage: () => void;
 }
 export function Footer({
-  options: { model, engine, bodyType, wheelDrive, color, options },
+  options: { model, engine, bodyType, wheelDrive, outerColor, innerColor, options },
   totalPrice,
   onSetLocalStorage,
 }: FooterProps) {
@@ -57,15 +57,15 @@ export function Footer({
         <style.ColorBox>
           <style.ColorTitle>외장</style.ColorTitle>
           <style.ColorName>
-            <style.ColorCircle />
-            <style.ColorNameText>{color.inner[1]}</style.ColorNameText>
+            <style.ColorCircle imageUrl={outerColor.imageUrl || undefined} />
+            <style.ColorNameText>{outerColor.title}</style.ColorNameText>
           </style.ColorName>
         </style.ColorBox>
         <style.ColorBox>
           <style.ColorTitle>내장</style.ColorTitle>
           <style.ColorName>
-            <style.ColorCircle />
-            <style.ColorNameText>{color.outer[1]}</style.ColorNameText>
+            <style.ColorCircle imageUrl={innerColor.imageUrl || undefined} />
+            <style.ColorNameText>{innerColor.title}</style.ColorNameText>
           </style.ColorName>
         </style.ColorBox>
       </style.ColorWrapper>

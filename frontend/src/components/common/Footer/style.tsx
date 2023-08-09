@@ -83,14 +83,22 @@ const ColorName = styled.div`
   align-items: center;
 `;
 
-const ColorCircle = styled.div`
-  width: 16px;
-  height: 16px;
+interface ColorCircleProps {
+  imageUrl: string | undefined;
+}
 
-  flex-shrink: 0;
+const ColorCircle = styled.div<ColorCircleProps>`
+  ${({ imageUrl }) => {
+    return css`
+      width: 16px;
+      height: 16px;
 
-  background-color: #191f32;
-  border-radius: 50%;
+      flex-shrink: 0;
+
+      background-image: url(${imageUrl || ''});
+      border-radius: 50%;
+    `;
+  }}
 `;
 
 const ColorNameText = styled.div`
