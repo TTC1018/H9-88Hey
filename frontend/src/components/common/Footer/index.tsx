@@ -1,6 +1,7 @@
 import { useLocation, useNavigate } from 'react-router-dom';
 
 import { MyCarType } from '@/types/trim';
+import { TAG_CHIP_MAX_NUMBER } from '@/constants';
 
 import * as style from './style';
 
@@ -73,9 +74,10 @@ export function Footer({
       <style.OptionWrapper>
         <style.Title>선택 옵션</style.Title>
         <style.OptionBox>
-          {options.map(({ name }) => (
+          {options.slice(0, TAG_CHIP_MAX_NUMBER).map(({ name }) => (
             <style.Option>{name}</style.Option>
           ))}
+          {options.length > TAG_CHIP_MAX_NUMBER && <style.Option>+{options.length - TAG_CHIP_MAX_NUMBER}</style.Option>}
         </style.OptionBox>
       </style.OptionWrapper>
       <style.Division />
