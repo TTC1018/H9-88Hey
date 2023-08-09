@@ -35,7 +35,10 @@ const initialData = {
 };
 
 export function Option() {
-  const { data } = useFetch<OptionDataProps>({ defaultValue: initialData, url: '/model/1/trim/2/select_option' });
+  const { data } = useFetch<OptionDataProps>({
+    defaultValue: initialData,
+    url: '/model/1/trim/2/select_option',
+  });
 
   const [option, setOption] = useState<OptionProps>({
     id: 1,
@@ -86,6 +89,7 @@ export function Option() {
 
   useEffect(() => {
     const { selectOptions } = data;
+
     const { id, name, additionalPrice, imageURL, tags, subOptions } = selectOptions[optionIndex];
     const subOption = subOptions[subOptionIndex];
     const cardListData = selectOptions.map(({ id, name, additionalPrice, imageURL, subOptions }, index) => ({

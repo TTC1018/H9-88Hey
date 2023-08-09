@@ -1,8 +1,14 @@
 import { useState, useEffect } from 'react';
 
-import { DefaultOptionCardDataProps } from '@/types/option';
+import {
+  DefaultOptionDataProps,
+  DefaultOptionProps,
+  DefaultSubOptionProps,
+  DefaultOptionCardDataProps,
+} from '@/types/option';
 import { isValidIndex, isIndexLargeThanZero, isIndexSmallThanMaxIndex } from '@/utils';
 import { OPTION_CARD_LIST_LENGTH } from '@/constants';
+import { useFetch } from '@/hooks/useFetch';
 
 import { PrevButton } from '@/components/common/PrevButton';
 import { NextButton } from '@/components/common/NextButton';
@@ -11,251 +17,34 @@ import { OptionModal } from '@/components/common/OptionModal';
 
 import * as style from './style';
 
-const mockData = [
-  {
-    category: '파워 트레인/성능',
-    subOptions: [
-      {
-        name: 'ISG 시스템',
-        imageURL: '/src/assets/7.jpeg',
-      },
-      {
-        name: '통합주행모드',
-        imageURL: '/src/assets/7.jpeg',
-      },
-      {
-        name: 'ISG 시스템',
-        imageURL: '/src/assets/7.jpeg',
-      },
-      {
-        name: '통합주행모드',
-        imageURL: '/src/assets/7.jpeg',
-      },
-      {
-        name: 'ISG 시스템',
-        imageURL: '/src/assets/7.jpeg',
-      },
-      {
-        name: '통합주행모드',
-        imageURL: '/src/assets/7.jpeg',
-      },
-      {
-        name: '하이빔 보조',
-        imageURL: '/src/assets/7.jpeg',
-      },
-    ],
-  },
-  {
-    category: '지능형 안전기술',
-    subOptions: [
-      {
-        name: '하이빔 보조',
-        imageURL: '/src/assets/2.jpeg',
-      },
-      {
-        name: '진동 경고 스티어링 휠',
-        imageURL: '/src/assets/2.jpeg',
-      },
-      {
-        name: '하이빔 보조',
-        imageURL: '/src/assets/2.jpeg',
-      },
-      {
-        name: '진동 경고 스티어링 휠',
-        imageURL: '/src/assets/2.jpeg',
-      },
-      {
-        name: '하이빔 보조',
-        imageURL: '/src/assets/2.jpeg',
-      },
-      {
-        name: '진동 경고 스티어링 휠',
-        imageURL: '/src/assets/2.jpeg',
-      },
-    ],
-  },
-  {
-    category: '안전',
-    subOptions: [
-      {
-        name: '하이빔 보조',
-        imageURL: '/src/assets/3.jpeg',
-      },
-      {
-        name: '진동 경고 스티어링 휠',
-        imageURL: '/src/assets/3.jpeg',
-      },
-      {
-        name: '하이빔 보조',
-        imageURL: '/src/assets/3.jpeg',
-      },
-      {
-        name: '진동 경고 스티어링 휠',
-        imageURL: '/src/assets/3.jpeg',
-      },
-      {
-        name: '하이빔 보조',
-        imageURL: '/src/assets/3.jpeg',
-      },
-      {
-        name: '진동 경고 스티어링 휠',
-        imageURL: '/src/assets/3.jpeg',
-      },
-    ],
-  },
-  {
-    category: '외관',
-    subOptions: [
-      {
-        name: '하이빔 보조',
-        imageURL: '/src/assets/4.jpeg',
-      },
-      {
-        name: '진동 경고 스티어링 휠',
-        imageURL: '/src/assets/4.jpeg',
-      },
-      {
-        name: '하이빔 보조',
-        imageURL: '/src/assets/4.jpeg',
-      },
-      {
-        name: '진동 경고 스티어링 휠',
-        imageURL: '/src/assets/4.jpeg',
-      },
-      {
-        name: '하이빔 보조',
-        imageURL: '/src/assets/4.jpeg',
-      },
-      {
-        name: '진동 경고 스티어링 휠',
-        imageURL: '/src/assets/4.jpeg',
-      },
-    ],
-  },
-  {
-    category: '내장',
-    subOptions: [
-      {
-        name: '하이빔 보조',
-        imageURL: '/src/assets/5.jpeg',
-      },
-      {
-        name: '진동 경고 스티어링 휠',
-        imageURL: '/src/assets/5.jpeg',
-      },
-      {
-        name: '하이빔 보조',
-        imageURL: '/src/assets/5.jpeg',
-      },
-      {
-        name: '진동 경고 스티어링 휠',
-        imageURL: '/src/assets/5.jpeg',
-      },
-      {
-        name: '하이빔 보조',
-        imageURL: '/src/assets/5.jpeg',
-      },
-      {
-        name: '진동 경고 스티어링 휠',
-        imageURL: '/src/assets/5.jpeg',
-      },
-    ],
-  },
-  {
-    category: '시트',
-    subOptions: [
-      {
-        name: '하이빔 보조',
-        imageURL: '/src/assets/6.jpeg',
-      },
-      {
-        name: '진동 경고 스티어링 휠',
-        imageURL: '/src/assets/6.jpeg',
-      },
-      {
-        name: '하이빔 보조',
-        imageURL: '/src/assets/6.jpeg',
-      },
-      {
-        name: '진동 경고 스티어링 휠',
-        imageURL: '/src/assets/6.jpeg',
-      },
-      {
-        name: '하이빔 보조',
-        imageURL: '/src/assets/6.jpeg',
-      },
-      {
-        name: '진동 경고 스티어링 휠',
-        imageURL: '/src/assets/6.jpeg',
-      },
-    ],
-  },
-  {
-    category: '편의',
-    subOptions: [
-      {
-        name: '하이빔 보조',
-        imageURL: '/src/assets/1.jpeg',
-      },
-      {
-        name: '진동 경고 스티어링 휠',
-        imageURL: '/src/assets/1.jpeg',
-      },
-      {
-        name: '하이빔 보조',
-        imageURL: '/src/assets/1.jpeg',
-      },
-      {
-        name: '진동 경고 스티어링 휠',
-        imageURL: '/src/assets/1.jpeg',
-      },
-      {
-        name: '하이빔 보조',
-        imageURL: '/src/assets/1.jpeg',
-      },
-      {
-        name: '진동 경고 스티어링 휠',
-        imageURL: '/src/assets/1.jpeg',
-      },
-    ],
-  },
-  {
-    category: '멀티미디어',
-    subOptions: [
-      {
-        name: '하이빔 보조',
-        imageURL: '/src/assets/2.jpeg',
-      },
-      {
-        name: '진동 경고 스티어링 휠',
-        imageURL: '/src/assets/2.jpeg',
-      },
-      {
-        name: '하이빔 보조',
-        imageURL: '/src/assets/2.jpeg',
-      },
-      {
-        name: '진동 경고 스티어링 휠',
-        imageURL: '/src/assets/2.jpeg',
-      },
-      {
-        name: '하이빔 보조',
-        imageURL: '/src/assets/2.jpeg',
-      },
-      {
-        name: '진동 경고 스티어링 휠',
-        imageURL: '/src/assets/2.jpeg',
-      },
-    ],
-  },
-];
-
 interface Props {
   isShow: boolean;
 }
 
+const initialData = {
+  defaultOptions: [
+    {
+      category: '',
+      subOptions: [
+        {
+          id: 1,
+          name: '',
+          imageURL: '',
+          description: '',
+        },
+      ],
+    },
+  ],
+};
+
 export function DefaultOptionCardList({ isShow }: Props) {
-  const [data, setData] = useState<DefaultOptionCardDataProps[]>([]);
+  const { data } = useFetch<DefaultOptionDataProps>({
+    defaultValue: initialData,
+    url: '/model/1/trim/2/default_option',
+  });
+
+  const [defaultOptions, setDafaultOptions] = useState<DefaultOptionProps[]>([]);
+  const [subOptions, setSubOptions] = useState<DefaultSubOptionProps[]>([]);
   const [cardList, setCardList] = useState<DefaultOptionCardDataProps[]>([]);
   const [categories, setCategories] = useState<string[]>([]);
 
@@ -295,24 +84,24 @@ export function DefaultOptionCardList({ isShow }: Props) {
 
   // TODO: 커스텀 훅으로 빼기
   useEffect(() => {
-    const data = mockData[categoryIndex].subOptions.map(({ name, imageURL }) => ({
+    const { defaultOptions } = data;
+
+    const cardListData = defaultOptions[categoryIndex].subOptions.map(({ name, imageURL }) => ({
       name,
       imageURL,
     }));
 
     const startIndex = cardListIndex * OPTION_CARD_LIST_LENGTH;
     let endIndex = startIndex + OPTION_CARD_LIST_LENGTH;
-    if (endIndex > data.length) {
-      endIndex = data.length;
+    if (endIndex > cardListData.length) {
+      endIndex = cardListData.length;
     }
 
-    setData(data);
-    setCardList(data.slice(startIndex, endIndex));
-  }, [categoryIndex, cardListIndex]);
-
-  useEffect(() => {
-    setCategories(mockData.map(({ category }) => category));
-  }, []);
+    setDafaultOptions(defaultOptions);
+    setSubOptions(defaultOptions[categoryIndex].subOptions);
+    setCardList(cardListData.slice(startIndex, endIndex));
+    setCategories(defaultOptions.map(({ category }) => category));
+  }, [data, categoryIndex, cardListIndex]);
 
   return (
     <style.Container isShow={isShow}>
@@ -331,7 +120,7 @@ export function DefaultOptionCardList({ isShow }: Props) {
         <PrevButton
           width="48"
           height="48"
-          onClick={() => handleChangeCardListIndex(cardListIndex - 1, data.length)}
+          onClick={() => handleChangeCardListIndex(cardListIndex - 1, subOptions.length)}
           isShow={isIndexLargeThanZero(cardListIndex)}
         />
         {cardList.map(({ name, imageURL }, index) => (
@@ -346,8 +135,8 @@ export function DefaultOptionCardList({ isShow }: Props) {
         <NextButton
           width="48"
           height="48"
-          onClick={() => handleChangeCardListIndex(cardListIndex + 1, data.length)}
-          isShow={isIndexSmallThanMaxIndex(cardListIndex, data.length)}
+          onClick={() => handleChangeCardListIndex(cardListIndex + 1, subOptions.length)}
+          isShow={isIndexSmallThanMaxIndex(cardListIndex, subOptions.length)}
         />
       </style.OptionCardWrapper>
       {isShowModal && (

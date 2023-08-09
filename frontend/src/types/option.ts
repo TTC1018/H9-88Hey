@@ -29,9 +29,24 @@ export interface OptionCardDataProps {
   subOptionNames: string[];
 }
 
+export interface DefaultOptionDataProps {
+  defaultOptions: DefaultOptionProps[];
+}
+
+export interface DefaultOptionProps {
+  category: string;
+  subOptions: SubOptionProps[];
+}
+
+export interface DefaultSubOptionProps {
+  name: string;
+  imageURL: string;
+}
+
 export interface DefaultOptionCardDataProps {
   name: string;
   imageURL: string;
+  description?: string;
 }
 
 export interface OptionContextProviderProps {
