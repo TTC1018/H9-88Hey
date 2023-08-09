@@ -1,4 +1,4 @@
-package softeer.h9.hey.dto;
+package softeer.h9.hey.dto.global.response;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Builder;

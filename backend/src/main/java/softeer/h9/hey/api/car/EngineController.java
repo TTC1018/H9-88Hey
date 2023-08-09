@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 import softeer.h9.hey.application.car.EngineService;
-import softeer.h9.hey.dto.GlobalResponse;
+import softeer.h9.hey.dto.global.response.GlobalResponse;
 import softeer.h9.hey.dto.car.response.EnginesResponse;
 
 @RequiredArgsConstructor
