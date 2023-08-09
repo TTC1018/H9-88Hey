@@ -4,10 +4,6 @@ import lombok.*;
 
 @Getter
 @Setter
-@ToString
-@NoArgsConstructor
-@AllArgsConstructor
-@EqualsAndHashCode
 public class Engine {
     private int id;
     private int additionalPrice;
