@@ -91,6 +91,21 @@ fun MyArchiveButton(
 }
 
 @Composable
+fun CarBasicItemButton(
+    modifier: Modifier = Modifier,
+    onClick: () -> Unit
+) {
+    Text(
+        modifier = modifier
+            .background(color = HyundaiSand, shape = roundCornerSmall)
+            .clickable { onClick() }
+            .padding(horizontal = 12.dp, vertical = 4.dp),
+        text = stringResource(id = R.string.make_car_basic_item),
+        style = regular14
+    )
+}
+
+@Composable
 fun OptionAddButton(
     modifier: Modifier,
     onClick: () -> Unit
@@ -257,6 +272,12 @@ fun PreviewAppButton() {
 @Composable
 fun PreviewMyArchiveButton() {
     MyArchiveButton(modifier = Modifier)
+}
+
+@Preview
+@Composable
+fun PreviewCarBasicItemButton() {
+    CarBasicItemButton(onClick = {})
 }
 
 @Preview
