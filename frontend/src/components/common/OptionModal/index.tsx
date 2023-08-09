@@ -8,8 +8,9 @@ interface Props {
 
 export function OptionModal({ name, imageUrl, onClick }: Props) {
   return (
-    <style.Container onClick={onClick}>
-      <style.ModalWrapper onClick={event => event.stopPropagation()}>
+    <>
+      <style.Container onClick={onClick} />
+      <style.ModalWrapper>
         <style.TitleBox>
           <style.Title>{name}</style.Title>
           <style.Icon src="/src/assets/icons/icon_close.svg" onClick={onClick} />
@@ -30,6 +31,6 @@ export function OptionModal({ name, imageUrl, onClick }: Props) {
           <style.Button onClick={onClick}>확인</style.Button>
         </style.ButtonBox>
       </style.ModalWrapper>
-    </style.Container>
+    </>
   );
 }

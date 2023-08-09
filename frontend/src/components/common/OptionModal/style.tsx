@@ -18,12 +18,17 @@ export const Container = styled.div`
 
 export const ModalWrapper = styled.div`
   width: 800px;
+  top: 50%;
+  left: 50%;
 
   display: flex;
   flex-direction: column;
+  position: fixed;
 
   border-radius: 8px;
   background-color: #fff;
+
+  transform: translate(-50%, -50%);
 `;
 
 export const TitleBox = styled.div`
