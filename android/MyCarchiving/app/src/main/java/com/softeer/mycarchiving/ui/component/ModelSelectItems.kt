@@ -2,7 +2,6 @@ package com.softeer.mycarchiving.ui.component
 
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
@@ -21,20 +20,20 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.ColorFilter
-import androidx.compose.ui.graphics.painter.Painter
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.skydoves.landscapist.glide.GlideImage
 import com.softeer.mycarchiving.R
+import com.softeer.mycarchiving.model.makingcar.ModelFeatureUiModel
+import com.softeer.mycarchiving.model.makingcar.SelectModelUiModel
 import com.softeer.mycarchiving.ui.theme.Black
 import com.softeer.mycarchiving.ui.theme.HyundaiLightSand
 import com.softeer.mycarchiving.ui.theme.PrimaryBlue
 import com.softeer.mycarchiving.ui.theme.PrimaryBlue10
 import com.softeer.mycarchiving.ui.theme.PrimaryBlue60
 import com.softeer.mycarchiving.ui.theme.bold18
+import com.softeer.mycarchiving.ui.theme.regular14
 import com.softeer.mycarchiving.ui.theme.regular16
 import com.softeer.mycarchiving.util.toPriceString
 
@@ -52,10 +51,9 @@ val optionCardModifier: (Boolean, Boolean) -> Modifier = { descFirstFlag, isExpa
 @Composable
 fun OptionCardForModel(
     modifier: Modifier = Modifier,
-    optionNum: Int,
-    optionName: String,
-    price: Int,
-    isExpanded: Boolean = false
+    carModelIndex: Int,
+    carModel: SelectModelUiModel,
+    isExpanded: Boolean = false,
 ) {
     Column(
         modifier = modifier
@@ -73,10 +71,9 @@ fun OptionCardForModel(
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         OptionTopTitleForModel(
-            optionNum = optionNum,
-            optionName = optionName,
-            price = price,
-            isExpanded = isExpanded
+            carModelIndex = carModelIndex,
+            carModel = carModel,
+            isExpanded = isExpanded,
         )
         if (isExpanded) {
             Divider(
@@ -84,7 +81,7 @@ fun OptionCardForModel(
                 thickness = 1.dp,
                 color = PrimaryBlue60
             )
-            OptionImages()
+            OptionImages(modelFeatures = carModel.features)
         }
     }
 }
@@ -93,21 +90,22 @@ fun OptionCardForModel(
 fun OptionImageProperty(
     modifier: Modifier = Modifier,
     property: String,
-    icon: Painter
+    imageUrl: String,
+    placeHolder: Int
 ) {
     Column(
         modifier = modifier,
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Image(
-            painter = icon,
-            colorFilter = ColorFilter.tint(color = PrimaryBlue),
-            contentDescription = null
+        GlideImage(
+            imageModel = { imageUrl },
+            previewPlaceholder = placeHolder,
         )
         Spacer(modifier = Modifier.height(16.dp))
         Text(
             text = property,
+            style = regular14,
             color = PrimaryBlue,
             textAlign = TextAlign.Center
         )
@@ -117,9 +115,8 @@ fun OptionImageProperty(
 @Composable
 fun OptionTopTitleForModel(
     modifier: Modifier = Modifier,
-    optionNum: Int,
-    optionName: String,
-    price: Int,
+    carModelIndex: Int,
+    carModel: SelectModelUiModel,
     isExpanded: Boolean
 ) {
     val textColor = if (isExpanded) PrimaryBlue else Black
@@ -133,11 +130,11 @@ fun OptionTopTitleForModel(
         Text(
             style = bold18,
             color = textColor,
-            text = stringResource(id = R.string.make_car_option_title, optionNum, optionName)
+            text = stringResource(id = R.string.make_car_option_title, carModelIndex + 1, carModel.name)
         )
         PriceTextForModel(
             textColor = textColor,
-            price = price
+            price = carModel.price
         )
     }
 }
@@ -167,7 +164,8 @@ fun PriceTextForModel(
 
 @Composable
 fun OptionImages(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    modelFeatures: List<ModelFeatureUiModel>
 ) {
     Row(
         modifier = modifier
@@ -177,22 +175,25 @@ fun OptionImages(
         verticalAlignment = Alignment.CenterVertically
     ) {
         OptionImageProperty(
-            property = stringResource(id = R.string.make_car_wheel),
-            icon = painterResource(id = R.drawable.ic_wheel)
+            property = modelFeatures[0].name,
+            imageUrl = modelFeatures[0].imageUrl,
+            placeHolder = R.drawable.ic_wheel
         )
         Spacer(modifier = Modifier.width(12.dp))
         OptionImageProperty(
-            property = stringResource(id = R.string.make_car_surround),
-            icon = painterResource(id = R.drawable.ic_surround)
+            property = modelFeatures[1].name,
+            imageUrl = modelFeatures[1].imageUrl,
+            placeHolder = R.drawable.ic_surround
         )
         OptionImageProperty(
-            property = stringResource(id = R.string.make_car_cluster),
-            icon = painterResource(id = R.drawable.ic_cluster)
+            property = modelFeatures[2].name,
+            imageUrl = modelFeatures[2].imageUrl,
+            placeHolder = R.drawable.ic_cluster
         )
     }
 }
 
-@Preview(widthDp = 343, heightDp = 72)
+/*@Preview(widthDp = 343, heightDp = 72)
 @Composable
 fun PreviewNormalOptionCard() {
     OptionCardForModel(
@@ -211,9 +212,9 @@ fun PreviewExpandedOptionCardForModel() {
         price = 47720000,
         isExpanded = true
     )
-}
+}*/
 
-@Preview
+/*@Preview
 @Composable
 fun PreviewOptionTopTitle() {
     OptionTopTitleForModel(
@@ -222,8 +223,9 @@ fun PreviewOptionTopTitle() {
         price = 47720000,
         isExpanded = false
     )
-}
+}*/
 
+/*
 @Preview
 @Composable
 fun PreviewOptionImageProperty() {
@@ -231,4 +233,4 @@ fun PreviewOptionImageProperty() {
         property = stringResource(id = R.string.make_car_wheel),
         icon = painterResource(id = R.drawable.ic_wheel)
     )
-}
+}*/
