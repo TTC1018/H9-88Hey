@@ -1,4 +1,4 @@
-import { OPTION_CARD_LIST_LENGTH } from '../constants';
+import { OPTION_CARD_LIST_LENGTH } from '@/constants';
 
 export function convertToTwoDigits(index: number) {
   return (index + 1).toString().padStart(2, '0');
