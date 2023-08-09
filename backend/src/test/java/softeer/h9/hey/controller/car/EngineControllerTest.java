@@ -30,7 +30,7 @@ class EngineControllerTest {
         int modelId = 1;
 
         mockMvc.perform(
-                        get("/car/model/" + modelId + "/trim")
+                        get("/car/model/" + modelId + "/engine")
                                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpectAll(
