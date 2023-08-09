@@ -114,9 +114,12 @@ fun SelectOptionScreen(
                 .fillMaxWidth()
                 .padding(horizontal = 16.dp, vertical = 24.dp)
         ) {
-            OptionSelectedInfo(option = options[focusedIndex])
+            OptionSelectedInfo(
+                optionName = options[focusedIndex].name,
+                optionTags = options[focusedIndex].tags
+            )
             Spacer(modifier = Modifier.height(12.dp))
-            options[focusedIndex].subOptions?.let { 
+            options[focusedIndex].subOptions?.let {
                 if (it.size > 1) {
                     ExtraOptionCards(options = it)
                 } else {

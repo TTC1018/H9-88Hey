@@ -106,10 +106,11 @@ fun OptionSelectItem(
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun OptionSelectedInfo(
-    option: SelectOptionUiModel
+    optionName: String,
+    optionTags: List<String>?
 ) {
     Column {
-        OptionHeadText(optionName = option.name)
+        OptionHeadText(optionName = optionName)
         Spacer(modifier = Modifier.height(8.dp))
         OptionHeadComment()
         Spacer(modifier = Modifier.height(8.dp))
@@ -117,7 +118,7 @@ fun OptionSelectedInfo(
             verticalAlignment = Alignment.Top,
             horizontalArrangement = Arrangement.spacedBy(8.dp)
         ) {
-            option.tags?.forEach { tagString ->
+            optionTags?.forEach { tagString ->
                 OptionTagChip(tagString = tagString)
             }
         }
@@ -297,17 +298,13 @@ fun PreviewOptionSelectedInfo() {
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         OptionSelectedInfo(
-            option = SelectOptionUiModel(
-                name = "컴포트 2",
-                price = 10900000,
-                imageUrl = "",
-                tags = listOf(
-                    "어린이🧒",
-                    "안전사고 예방🚨",
-                    "대형견도 문제 없어요🐶",
-                    "가족들도 좋은 옵션👨‍👩‍👧‍👦"
-                ),
-            )
+            optionName = "컴포트 2",
+            optionTags = listOf(
+                "어린이🧒",
+                "안전사고 예방🚨",
+                "대형견도 문제 없어요🐶",
+                "가족들도 좋은 옵션👨‍👩‍👧‍👦"
+            ),
         )
     }
 }
