@@ -1,30 +1,37 @@
 import { MyCarType } from './trim';
 
+export interface OptionDataProps {
+  selectOptions: OptionProps[];
+}
+
 export interface OptionProps {
+  id: number;
   name: string;
-  price: number;
-  imageUrl: string;
+  additionalPrice: number;
+  imageURL: string;
   tags: string[];
   subOptions: SubOptionProps[];
 }
 
 export interface SubOptionProps {
+  id: number;
   name: string;
-  imageUrl: string;
+  imageURL: string;
   description: string;
 }
 
 export interface OptionCardDataProps {
+  id: number;
   index: number;
   name: string;
-  price: number;
-  imageUrl: string;
+  additionalPrice: number;
+  imageURL: string;
   subOptionNames: string[];
 }
 
 export interface DefaultOptionCardDataProps {
   name: string;
-  imageUrl: string;
+  imageURL: string;
 }
 
 export interface OptionContextProviderProps {

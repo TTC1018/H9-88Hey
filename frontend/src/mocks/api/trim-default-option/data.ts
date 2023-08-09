@@ -5,12 +5,12 @@ export const data = {
       subOptions: [
         {
           name: 'ISG 시스템',
-          imageUrl: 'link',
+          imageURL: 'link',
           tags: ['좋아요', '굳'],
         },
         {
           name: '통합주행모드',
-          imageUrl: 'link',
+          imageURL: 'link',
           tags: ['좋아요', '굳'],
         },
       ],
@@ -20,12 +20,12 @@ export const data = {
       subOptions: [
         {
           name: '하이빔 보조',
-          imageUrl: 'link',
+          imageURL: 'link',
           tags: ['좋아요', '굳'],
         },
         {
           name: '진동 경고 스티어링 휠',
-          imageUrl: 'link',
+          imageURL: 'link',
           tags: ['좋아요', '굳'],
         },
       ],

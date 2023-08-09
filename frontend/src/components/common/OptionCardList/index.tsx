@@ -23,8 +23,8 @@ interface OptionCardListProps {
 interface OptionCardProps {
   index: number;
   name: string;
-  price: number;
-  imageUrl: string;
+  additionalPrice: number;
+  imageURL: string;
   subOptionNames: string[];
   isCardActive: boolean;
   onClickCard: (index: number, event: MouseEvent<HTMLDivElement>) => void;
@@ -61,12 +61,12 @@ export function OptionCardList({
         onClick={() => onClickArrowButton(cardListIndex - 1, data.length)}
         isShow={isIndexLargeThanZero(cardListIndex)}
       />
-      {cardList.map(({ index, name, price, imageUrl, subOptionNames }) => (
+      {cardList.map(({ index, name, additionalPrice, imageURL, subOptionNames }) => (
         <OptionCard
           index={index}
           name={name}
-          price={price}
-          imageUrl={imageUrl}
+          additionalPrice={additionalPrice}
+          imageURL={imageURL}
           subOptionNames={subOptionNames}
           isCardActive={index === selectedIndex}
           onClickCard={onClickCard}
@@ -83,7 +83,15 @@ export function OptionCardList({
   );
 }
 
-function OptionCard({ index, name, price, imageUrl, subOptionNames, isCardActive, onClickCard }: OptionCardProps) {
+function OptionCard({
+  index,
+  name,
+  additionalPrice,
+  imageURL,
+  subOptionNames,
+  isCardActive,
+  onClickCard,
+}: OptionCardProps) {
   const [isButtonActive, setIsButtonActive] = useState(false);
   const [isHover, setIsHover] = useState(false);
 
@@ -91,7 +99,7 @@ function OptionCard({ index, name, price, imageUrl, subOptionNames, isCardActive
 
   function handleClickButton() {
     setIsButtonActive(!isButtonActive);
-    isButtonActive ? removeOption(name) : addOption({ name, price });
+    isButtonActive ? removeOption(name) : addOption({ name, price: additionalPrice });
   }
 
   function handleHoverCard(isHover: boolean) {
@@ -105,10 +113,10 @@ function OptionCard({ index, name, price, imageUrl, subOptionNames, isCardActive
 
   return (
     <style.OptionCard isCardActive={isCardActive} onClick={event => onClickCard(index, event)}>
-      <style.Image src={imageUrl} />
+      <style.Image src={imageURL} />
       <style.DescriptionWrapper>
         <style.Text isCardActive={isCardActive}>{name}</style.Text>
-        <style.Text isCardActive={isCardActive}>+{price.toLocaleString()}원</style.Text>
+        <style.Text isCardActive={isCardActive}>+{additionalPrice.toLocaleString()}원</style.Text>
         <style.ButtonBox>
           <style.Button isButtonActive={isButtonActive} onClick={handleClickButton}>
             {isButtonActive ? '추가 완료' : '추가하기'}

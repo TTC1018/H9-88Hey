@@ -17,31 +17,31 @@ const mockData = [
     subOptions: [
       {
         name: 'ISG 시스템',
-        imageUrl: '/src/assets/7.jpeg',
+        imageURL: '/src/assets/7.jpeg',
       },
       {
         name: '통합주행모드',
-        imageUrl: '/src/assets/7.jpeg',
+        imageURL: '/src/assets/7.jpeg',
       },
       {
         name: 'ISG 시스템',
-        imageUrl: '/src/assets/7.jpeg',
+        imageURL: '/src/assets/7.jpeg',
       },
       {
         name: '통합주행모드',
-        imageUrl: '/src/assets/7.jpeg',
+        imageURL: '/src/assets/7.jpeg',
       },
       {
         name: 'ISG 시스템',
-        imageUrl: '/src/assets/7.jpeg',
+        imageURL: '/src/assets/7.jpeg',
       },
       {
         name: '통합주행모드',
-        imageUrl: '/src/assets/7.jpeg',
+        imageURL: '/src/assets/7.jpeg',
       },
       {
         name: '하이빔 보조',
-        imageUrl: '/src/assets/7.jpeg',
+        imageURL: '/src/assets/7.jpeg',
       },
     ],
   },
@@ -50,27 +50,27 @@ const mockData = [
     subOptions: [
       {
         name: '하이빔 보조',
-        imageUrl: '/src/assets/2.jpeg',
+        imageURL: '/src/assets/2.jpeg',
       },
       {
         name: '진동 경고 스티어링 휠',
-        imageUrl: '/src/assets/2.jpeg',
+        imageURL: '/src/assets/2.jpeg',
       },
       {
         name: '하이빔 보조',
-        imageUrl: '/src/assets/2.jpeg',
+        imageURL: '/src/assets/2.jpeg',
       },
       {
         name: '진동 경고 스티어링 휠',
-        imageUrl: '/src/assets/2.jpeg',
+        imageURL: '/src/assets/2.jpeg',
       },
       {
         name: '하이빔 보조',
-        imageUrl: '/src/assets/2.jpeg',
+        imageURL: '/src/assets/2.jpeg',
       },
       {
         name: '진동 경고 스티어링 휠',
-        imageUrl: '/src/assets/2.jpeg',
+        imageURL: '/src/assets/2.jpeg',
       },
     ],
   },
@@ -79,27 +79,27 @@ const mockData = [
     subOptions: [
       {
         name: '하이빔 보조',
-        imageUrl: '/src/assets/3.jpeg',
+        imageURL: '/src/assets/3.jpeg',
       },
       {
         name: '진동 경고 스티어링 휠',
-        imageUrl: '/src/assets/3.jpeg',
+        imageURL: '/src/assets/3.jpeg',
       },
       {
         name: '하이빔 보조',
-        imageUrl: '/src/assets/3.jpeg',
+        imageURL: '/src/assets/3.jpeg',
       },
       {
         name: '진동 경고 스티어링 휠',
-        imageUrl: '/src/assets/3.jpeg',
+        imageURL: '/src/assets/3.jpeg',
       },
       {
         name: '하이빔 보조',
-        imageUrl: '/src/assets/3.jpeg',
+        imageURL: '/src/assets/3.jpeg',
       },
       {
         name: '진동 경고 스티어링 휠',
-        imageUrl: '/src/assets/3.jpeg',
+        imageURL: '/src/assets/3.jpeg',
       },
     ],
   },
@@ -108,27 +108,27 @@ const mockData = [
     subOptions: [
       {
         name: '하이빔 보조',
-        imageUrl: '/src/assets/4.jpeg',
+        imageURL: '/src/assets/4.jpeg',
       },
       {
         name: '진동 경고 스티어링 휠',
-        imageUrl: '/src/assets/4.jpeg',
+        imageURL: '/src/assets/4.jpeg',
       },
       {
         name: '하이빔 보조',
-        imageUrl: '/src/assets/4.jpeg',
+        imageURL: '/src/assets/4.jpeg',
       },
       {
         name: '진동 경고 스티어링 휠',
-        imageUrl: '/src/assets/4.jpeg',
+        imageURL: '/src/assets/4.jpeg',
       },
       {
         name: '하이빔 보조',
-        imageUrl: '/src/assets/4.jpeg',
+        imageURL: '/src/assets/4.jpeg',
       },
       {
         name: '진동 경고 스티어링 휠',
-        imageUrl: '/src/assets/4.jpeg',
+        imageURL: '/src/assets/4.jpeg',
       },
     ],
   },
@@ -137,27 +137,27 @@ const mockData = [
     subOptions: [
       {
         name: '하이빔 보조',
-        imageUrl: '/src/assets/5.jpeg',
+        imageURL: '/src/assets/5.jpeg',
       },
       {
         name: '진동 경고 스티어링 휠',
-        imageUrl: '/src/assets/5.jpeg',
+        imageURL: '/src/assets/5.jpeg',
       },
       {
         name: '하이빔 보조',
-        imageUrl: '/src/assets/5.jpeg',
+        imageURL: '/src/assets/5.jpeg',
       },
       {
         name: '진동 경고 스티어링 휠',
-        imageUrl: '/src/assets/5.jpeg',
+        imageURL: '/src/assets/5.jpeg',
       },
       {
         name: '하이빔 보조',
-        imageUrl: '/src/assets/5.jpeg',
+        imageURL: '/src/assets/5.jpeg',
       },
       {
         name: '진동 경고 스티어링 휠',
-        imageUrl: '/src/assets/5.jpeg',
+        imageURL: '/src/assets/5.jpeg',
       },
     ],
   },
@@ -166,27 +166,27 @@ const mockData = [
     subOptions: [
       {
         name: '하이빔 보조',
-        imageUrl: '/src/assets/6.jpeg',
+        imageURL: '/src/assets/6.jpeg',
       },
       {
         name: '진동 경고 스티어링 휠',
-        imageUrl: '/src/assets/6.jpeg',
+        imageURL: '/src/assets/6.jpeg',
       },
       {
         name: '하이빔 보조',
-        imageUrl: '/src/assets/6.jpeg',
+        imageURL: '/src/assets/6.jpeg',
       },
       {
         name: '진동 경고 스티어링 휠',
-        imageUrl: '/src/assets/6.jpeg',
+        imageURL: '/src/assets/6.jpeg',
       },
       {
         name: '하이빔 보조',
-        imageUrl: '/src/assets/6.jpeg',
+        imageURL: '/src/assets/6.jpeg',
       },
       {
         name: '진동 경고 스티어링 휠',
-        imageUrl: '/src/assets/6.jpeg',
+        imageURL: '/src/assets/6.jpeg',
       },
     ],
   },
@@ -195,27 +195,27 @@ const mockData = [
     subOptions: [
       {
         name: '하이빔 보조',
-        imageUrl: '/src/assets/1.jpeg',
+        imageURL: '/src/assets/1.jpeg',
       },
       {
         name: '진동 경고 스티어링 휠',
-        imageUrl: '/src/assets/1.jpeg',
+        imageURL: '/src/assets/1.jpeg',
       },
       {
         name: '하이빔 보조',
-        imageUrl: '/src/assets/1.jpeg',
+        imageURL: '/src/assets/1.jpeg',
       },
       {
         name: '진동 경고 스티어링 휠',
-        imageUrl: '/src/assets/1.jpeg',
+        imageURL: '/src/assets/1.jpeg',
       },
       {
         name: '하이빔 보조',
-        imageUrl: '/src/assets/1.jpeg',
+        imageURL: '/src/assets/1.jpeg',
       },
       {
         name: '진동 경고 스티어링 휠',
-        imageUrl: '/src/assets/1.jpeg',
+        imageURL: '/src/assets/1.jpeg',
       },
     ],
   },
@@ -224,27 +224,27 @@ const mockData = [
     subOptions: [
       {
         name: '하이빔 보조',
-        imageUrl: '/src/assets/2.jpeg',
+        imageURL: '/src/assets/2.jpeg',
       },
       {
         name: '진동 경고 스티어링 휠',
-        imageUrl: '/src/assets/2.jpeg',
+        imageURL: '/src/assets/2.jpeg',
       },
       {
         name: '하이빔 보조',
-        imageUrl: '/src/assets/2.jpeg',
+        imageURL: '/src/assets/2.jpeg',
       },
       {
         name: '진동 경고 스티어링 휠',
-        imageUrl: '/src/assets/2.jpeg',
+        imageURL: '/src/assets/2.jpeg',
       },
       {
         name: '하이빔 보조',
-        imageUrl: '/src/assets/2.jpeg',
+        imageURL: '/src/assets/2.jpeg',
       },
       {
         name: '진동 경고 스티어링 휠',
-        imageUrl: '/src/assets/2.jpeg',
+        imageURL: '/src/assets/2.jpeg',
       },
     ],
   },
@@ -265,7 +265,7 @@ export function DefaultOptionCardList({ isShow }: Props) {
   const [isShowModal, setIsShowModal] = useState(false);
   const [modal, setModal] = useState({
     name: '',
-    imageUrl: '',
+    imageURL: '',
   });
 
   function handleChangeCategoryIndex(index: number) {
@@ -284,9 +284,9 @@ export function DefaultOptionCardList({ isShow }: Props) {
     setCardListIndex(index);
   }
 
-  function handleOpenModal(name: string, imageUrl: string) {
+  function handleOpenModal(name: string, imageURL: string) {
     setIsShowModal(true);
-    setModal({ name, imageUrl });
+    setModal({ name, imageURL });
   }
 
   function handleCloseModal() {
@@ -295,9 +295,9 @@ export function DefaultOptionCardList({ isShow }: Props) {
 
   // TODO: 커스텀 훅으로 빼기
   useEffect(() => {
-    const data = mockData[categoryIndex].subOptions.map(({ name, imageUrl }) => ({
+    const data = mockData[categoryIndex].subOptions.map(({ name, imageURL }) => ({
       name,
-      imageUrl,
+      imageURL,
     }));
 
     const startIndex = cardListIndex * OPTION_CARD_LIST_LENGTH;
@@ -334,9 +334,9 @@ export function DefaultOptionCardList({ isShow }: Props) {
           onClick={() => handleChangeCardListIndex(cardListIndex - 1, data.length)}
           isShow={isIndexLargeThanZero(cardListIndex)}
         />
-        {cardList.map(({ name, imageUrl }, index) => (
-          <style.OptionCard key={index} onClick={() => handleOpenModal(name, imageUrl)}>
-            <style.Image src={imageUrl} />
+        {cardList.map(({ name, imageURL }, index) => (
+          <style.OptionCard key={index} onClick={() => handleOpenModal(name, imageURL)}>
+            <style.Image src={imageURL} />
             <style.TextWrapper>
               <style.Text>{name}</style.Text>
               <style.SubText>기본 포함</style.SubText>
@@ -352,7 +352,7 @@ export function DefaultOptionCardList({ isShow }: Props) {
       </style.OptionCardWrapper>
       {isShowModal && (
         <OptionModalProvider>
-          <OptionModal name={modal.name} imageUrl={modal.imageUrl} onClick={handleCloseModal} />
+          <OptionModal name={modal.name} imageURL={modal.imageURL} onClick={handleCloseModal} />
         </OptionModalProvider>
       )}
     </style.Container>
