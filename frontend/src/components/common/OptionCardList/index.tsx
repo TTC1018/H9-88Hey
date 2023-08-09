@@ -1,6 +1,8 @@
 import { useState, useEffect, MouseEvent } from 'react';
 
-import { OptionCardDataProps } from '@/types/option';
+import { useOutletContext } from 'react-router-dom';
+
+import { OptionCardDataProps, OptionContextProviderProps } from '@/types/option';
 import { isIndexLargeThanZero, isIndexSmallThanMaxIndex } from '@/utils';
 import { OPTION_CARD_LIST_LENGTH } from '@/constants';
 
@@ -51,6 +53,8 @@ export function OptionCardList({
     setCardList(data.slice(startIndex, endIndex));
   }, [cardListIndex, data]);
 
+  useEffect(() => {}, []);
+
   return (
     <style.Container isShow={isShow}>
       <PrevButton
@@ -85,8 +89,11 @@ function OptionCard({ index, name, price, imageUrl, subOptionNames, isCardActive
   const [isButtonActive, setIsButtonActive] = useState(false);
   const [isHover, setIsHover] = useState(false);
 
+  const { addOption, removeOption } = useOutletContext<OptionContextProviderProps>();
+
   function handleClickButton() {
     setIsButtonActive(!isButtonActive);
+    isButtonActive ? removeOption(name) : addOption({ name, price });
   }
 
   function handleHoverCard(isHover: boolean) {

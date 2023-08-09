@@ -24,3 +24,13 @@ export interface DefaultOptionCardDataProps {
   name: string;
   imageUrl: string;
 }
+
+export interface OptionContextProviderProps {
+  addOption: ({ name, price }: OptionContextProps) => void;
+  removeOption: (name: string) => void;
+}
+
+interface OptionContextProps {
+  name: string;
+  price: number;
+}

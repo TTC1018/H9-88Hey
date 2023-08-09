@@ -73,8 +73,8 @@ export function Footer({
       <style.OptionWrapper>
         <style.Title>선택 옵션</style.Title>
         <style.OptionBox>
-          {options.map(option => (
-            <style.Option>{option}</style.Option>
+          {options.map(({ name }) => (
+            <style.Option>{name}</style.Option>
           ))}
         </style.OptionBox>
       </style.OptionWrapper>
