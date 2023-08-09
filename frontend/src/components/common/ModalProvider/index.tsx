@@ -13,7 +13,7 @@ interface StateProps {
 interface ModalContextProps {
   isOpen: boolean;
   handleClose: () => void;
-  handleOpen: () => void;
+  handleOpen: (props: StateProps) => void;
   modalState: StateProps;
   setModalState: Dispatch<SetStateAction<StateProps>>;
 }
@@ -37,7 +37,8 @@ export function ModalProvider({ children }: Props) {
     setIsOpen(false);
   }
 
-  function handleOpen() {
+  function handleOpen(props: StateProps) {
+    setModalState(props);
     setIsOpen(true);
   }
 

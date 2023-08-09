@@ -9,12 +9,7 @@ import { AutoSavingLogo } from '@/components/common/AutoSavingLogo';
 import * as style from './style';
 
 export function Header() {
-  const { handleOpen, setModalState } = useModalContext();
-
-  function onHeaderClick() {
-    setModalState({ modalType: ModalTypeProps.CLOSE, callbackData: localStorage.getItem('carOptions') });
-    handleOpen();
-  }
+  const { handleOpen } = useModalContext();
 
   return (
     <style.Container>
@@ -33,23 +28,11 @@ export function Header() {
             <style.CarNameText>팰리세이드</style.CarNameText>
           </style.InfoBox>
           <style.Division />
-          <div
+          <style.ButtonBox
             onClick={() => {
-              setModalState({ modalType: ModalTypeProps.MOVE, callbackData: null });
-              handleOpen();
+              handleOpen({ modalType: ModalTypeProps.CLOSE, callbackData: null });
             }}
           >
-            CLOSE
-          </div>
-          <div
-            onClick={() => {
-              setModalState({ modalType: ModalTypeProps.DELETE, callbackData: null });
-              handleOpen();
-            }}
-          >
-            MOVE
-          </div>
-          <style.ButtonBox onClick={onHeaderClick}>
             <ArchivingLogo />
             <style.ButtonText>아카이빙</style.ButtonText>
           </style.ButtonBox>
