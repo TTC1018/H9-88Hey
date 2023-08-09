@@ -1,4 +1,4 @@
-package softeer.h9.hey.application.car;
+package softeer.h9.hey.service.car;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;

@@ -1,4 +1,4 @@
-package softeer.h9.hey.api.car;
+package softeer.h9.hey.controller.car;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.DisplayName;
