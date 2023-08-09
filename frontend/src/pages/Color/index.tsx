@@ -2,7 +2,9 @@ import { useEffect, useState } from 'react';
 
 import { useOutletContext } from 'react-router-dom';
 
+import { ColorDataProps, InterierColorsProps } from '@/types/color';
 import { MyCarLayoutContextType } from '@/types/trim';
+import { useFetch } from '@/hooks/useFetch';
 import { useSelectIndex } from '@/hooks/useSelectedIndex';
 
 import { CheckIcon } from '@/components/common/CheckIcon';
@@ -12,94 +14,31 @@ import { InnerCarImage } from '@/components/color/InnerCarImage';
 
 import * as style from './style';
 
-const mockData = {
-  data: {
-    externalColors: [
-      {
-        name: '어비스 블랙 펄(1, 2)',
-        imageUrl: 'https://www.hyundai.com/contents/vr360/LX06/exterior/A2B/colorchip-exterior.png',
-        availableInnerColor: [1, 2],
-        tags: ['트렌디해요', '모두가 좋아하는 색상', '5개 데이터', '어비스 블랙 펄'],
-        extraFee: 0,
-      },
-      {
-        name: '쉬머링 실버 메탈릭(2, 3)',
-        imageUrl: 'https://www.hyundai.com/contents/vr360/LX06/exterior/R2T/colorchip-exterior.png',
-        availableInnerColor: [2, 3],
-        tags: ['트렌디해요', '모두가 좋아하는 색상', '5개 데이터', '쉬머링 실버 메탈릭'],
-        extraFee: 0,
-      },
-      {
-        name: '문라이트 블루 펄(3, 4)',
-        imageUrl: 'https://www.hyundai.com/contents/vr360/LX06/exterior/UB7/colorchip-exterior.png',
-        availableInnerColor: [3, 4],
-        tags: ['트렌디해요', '모두가 좋아하는 색상', '5개 데이터', '문라이트 블루펄'],
-        extraFee: 0,
-      },
-      {
-        name: '가이아 브라운 펄(1, 4)',
-        imageUrl: 'https://www.hyundai.com/contents/vr360/LX06/exterior/D2S/colorchip-exterior.png',
-        availableInnerColor: [1, 4],
-        tags: ['트렌디해요', '모두가 좋아하는 색상', '5개 데이터', '가이아 블아운 펄'],
-        extraFee: 0,
-      },
-      {
-        name: '그라파이트 그레이 메탈릭(2, 4)',
-        imageUrl: 'https://www.hyundai.com/contents/vr360/LX06/exterior/P7V/colorchip-exterior.png',
-        availableInnerColor: [2, 4],
-        tags: ['트렌디해요', '모두가 좋아하는 색상', '5개 데이터', '그라파이트 그레이'],
-        extraFee: 0,
-      },
-      {
-        name: '크리미 화이트 펄(1)',
-        imageUrl: 'https://www.hyundai.com/contents/vr360/LX06/exterior/WC9/colorchip-exterior.png',
-        availableInnerColor: [1],
-        tags: ['트렌디해요', '모두가 좋아하는 색상', '5개 데이터', '크리미 화이트 펄'],
-        extraFee: 100000,
-      },
-    ],
-    innerColors: [
-      {
-        id: 1,
-        name: '1',
-        imagePath: 'https://www.hyundai.com/contents/vr360/LX06/interior/I49/colorchip-interior.png',
-        tags: ['트렌디해요', '모두가 좋아하는 색상', '5개 데이터', '퀼팅천연'],
-      },
-      {
-        id: 2,
-        name: '2',
-        imagePath: 'https://www.hyundai.com/contents/vr360/LX06/interior/I49/colorchip-interior.png',
-        tags: ['트렌디해요', '모두가 좋아하는 색상', '5개 데이터', '퀼팅천연'],
-      },
-      {
-        id: 3,
-        name: '3',
-        imagePath: 'https://www.hyundai.com/contents/vr360/LX06/interior/YJY/colorchip-interior.png',
-        tags: ['트렌디해요', '모두가 좋아하는 색상', '5개 데이터', '쿨그레이'],
-      },
-      {
-        id: 4,
-        name: '4',
-        imagePath: 'https://www.hyundai.com/contents/vr360/LX06/interior/I49/colorchip-interior.png',
-        tags: ['트렌디해요', '모두가 좋아하는 색상', '5개 데이터', '퀼팅천연'],
-      },
-      {
-        id: 5,
-        name: '5',
-        imagePath: 'https://www.hyundai.com/contents/vr360/LX06/interior/I49/colorchip-interior.png',
-        tags: ['트렌디해요', '모두가 좋아하는 색상', '5개 데이터', '퀼팅천연'],
-      },
-      {
-        id: 6,
-        name: '6',
-        imagePath: 'https://www.hyundai.com/contents/vr360/LX06/interior/YJY/colorchip-interior.png',
-        tags: ['트렌디해요', '모두가 좋아하는 색상', '5개 데이터', '쿨그레이'],
-      },
-    ],
-  },
+const initialData = {
+  exterierColors: [
+    {
+      id: 1,
+      name: '',
+      carImagePath: '',
+      colorImageURL: '',
+      additionalPrice: 0,
+      availableInteriorColors: [0],
+      tags: [''],
+    },
+  ],
+  interierColors: [
+    {
+      id: 0,
+      name: '',
+      carImageURL: '',
+      colorImageURL: '',
+      tags: [''],
+    },
+  ],
 };
 
 export function Color() {
+  const { data } = useFetch<ColorDataProps>({ defaultValue: initialData, url: '/model/1/trim/2/color' });
   const [isExternalPage, setIsExternalPage] = useState(true);
   const [externalColorWord, setExternalColorWord] = useState('');
   const [innerColorWord, setInnerColorWord] = useState('');
@@ -109,17 +48,16 @@ export function Color() {
 
   const {
     name: externalName,
-    imageUrl: externalImageUrl,
-    availableInnerColor,
+    colorImageURL: externalImageUrl,
+    availableInteriorColors,
     tags: externalTags,
-    extraFee,
-  } = mockData.data.externalColors[selectedExternalIndex];
+    additionalPrice,
+  } = data.exterierColors[selectedExternalIndex];
 
-  const availableInnerColorList = mockData.data.innerColors.filter(color => availableInnerColor.includes(color.id));
+  const availableInnerColorList = data.interierColors.filter(color => availableInteriorColors.includes(color.id));
   const {
-    id: innerId,
     name: innerName,
-    imagePath: innerImagePath,
+    colorImageURL: innerImageUrl,
     tags: innerTags,
   } = availableInnerColorList[selectedInnerIndex];
 
@@ -129,77 +67,68 @@ export function Color() {
     trim: { outerColor, innerColor },
   } = useOutletContext<MyCarLayoutContextType>();
 
+  function updateOuterColor(index: number) {
+    handleOuterColor({
+      color: data.exterierColors[index].name,
+      colorImage: data.exterierColors[index].colorImageURL,
+      price: data.exterierColors[index].additionalPrice,
+    });
+  }
+
+  function updateInnerColor(list: InterierColorsProps[], index: number) {
+    handleInnerColor({
+      color: list[index].name,
+      colorImage: list[index].colorImageURL,
+      id: list[index].id,
+    });
+  }
+
   useEffect(() => {
-    // 로컬 스트로지 변경 내용 유지
-    const outerIndex = mockData.data.externalColors.findIndex(color => color.name === outerColor.title);
+    const outerIndex = data.exterierColors.findIndex(color => color.name === outerColor.title);
     let innerIndex = -1;
 
-    console.log(outerIndex);
+    if (outerIndex !== -1) {
+      innerIndex = data.exterierColors[outerIndex].availableInteriorColors.findIndex(
+        colorId => colorId === innerColor.id
+      );
 
-    // if (outerIndex !== -1) {
-    //   innerIndex = mockData.data.externalColors[outerIndex].availableInnerColor.findIndex(
-    //     colorId => colorId === innerColor.id
-    //   );
-    // }
-    console.log(innerColor);
-    outerIndex !== -1 && handleSetExternalIndex(outerIndex)();
-    // innerIndex === -1
-    // ? handleSetInnerIndex(innerIndex)()
-    // handleInnerColor({
-    //   color: availableInnerColorList[0].name,
-    //   colorImage: availableInnerColorList[0].imagePath,
-    //   id: availableInnerColorList[0].id,
-    // });
-
-    // local에 없을 때 용도 (위에 변화 없으면 위 변수로 사용 가능 할듯)
-    if (outerColor.title === '') {
-      handleOuterColor({
-        color: mockData.data.externalColors[0].name,
-        colorImage: mockData.data.externalColors[0].imageUrl,
-        price: mockData.data.externalColors[0].extraFee,
-      });
-      handleInnerColor({
-        color: availableInnerColorList[0].name,
-        colorImage: availableInnerColorList[0].imagePath,
-        id: availableInnerColorList[0].id,
-      });
+      handleSetExternalIndex(outerIndex)();
+      innerIndex !== -1 && handleSetInnerIndex(innerIndex)();
     }
-  }, [availableInnerColorList]);
+    if (outerColor.title === '') {
+      updateOuterColor(0);
+      updateInnerColor(availableInnerColorList, 0);
+    }
+  }, [data]);
 
   useEffect(() => {
-    setExternalColorWord(externalImageUrl.split('exterior/')[1].slice(0, 3));
-    // 외장 색상 클릭 했을 때 내장 색상 첫번째 자동 선택
-    outerColor.title === '' &&
-      handleInnerColor({
-        color: availableInnerColorList[0].name,
-        colorImage: availableInnerColorList[0].imagePath,
-        id: availableInnerColorList[0].id,
-      });
+    if (externalImageUrl !== '') {
+      setExternalColorWord(externalImageUrl.split('exterior/')[1].slice(0, 3));
+    }
   }, [externalImageUrl]);
 
   useEffect(() => {
-    setInnerColorWord(innerImagePath.split('interior/')[1].slice(0, 3));
-  }, [innerImagePath]);
+    if (innerImageUrl !== '') {
+      setInnerColorWord(innerImageUrl.split('interior/')[1].slice(0, 3));
+    }
+  }, [innerImageUrl]);
 
   function handleClickExternalColor(index: number) {
     handleSetExternalIndex(index)();
-    handleSetInnerIndex(0)(); // 두번째 내장 선택에서 하나만 있는 경우
-    handleOuterColor({
-      color: mockData.data.externalColors[index].name,
-      colorImage: mockData.data.externalColors[index].imageUrl,
-      price: mockData.data.externalColors[index].extraFee,
-    });
+    handleSetInnerIndex(0)();
+    updateOuterColor(index);
+
+    const newAvailableInnerColorList = data.interierColors.filter(color =>
+      data.exterierColors[index].availableInteriorColors.includes(color.id)
+    );
+
+    updateInnerColor(newAvailableInnerColorList, 0);
     setIsExternalPage(true);
   }
 
-  // Good
   function handleClickInnerColor(index: number) {
     handleSetInnerIndex(index)();
-    handleInnerColor({
-      color: availableInnerColorList[index].name,
-      colorImage: availableInnerColorList[index].imagePath,
-      id: availableInnerColorList[index].id,
-    });
+    updateInnerColor(availableInnerColorList, index);
     setIsExternalPage(false);
   }
 
@@ -212,7 +141,7 @@ export function Color() {
   }
 
   const descriptionTitle = isExternalPage ? externalName : innerName;
-  const descriptionPrice = isExternalPage ? extraFee : 0;
+  const descriptionPrice = isExternalPage ? additionalPrice : 0;
   const descriptionTags = isExternalPage ? externalTags : innerTags;
 
   return (
@@ -229,11 +158,13 @@ export function Color() {
           </style.TitleBox>
           <style.Division />
           <style.ColorBox>
-            {mockData.data.externalColors.map(({ name, imageUrl, extraFee }, index) => (
+            {data.exterierColors.map(({ name, colorImageURL, additionalPrice }, index) => (
               <style.ColorCard key={name} onClick={() => handleClickExternalColor(index)}>
-                <style.ColorCardRect colorUrl={imageUrl} isActive={isSelectedExternalColor(name)} />
+                <style.ColorCardRect colorUrl={colorImageURL} isActive={isSelectedExternalColor(name)} />
                 <style.ColorCardName>{name}</style.ColorCardName>
-                {extraFee > 0 && <style.ColorCardName>(+{extraFee.toLocaleString()}원)</style.ColorCardName>}
+                {additionalPrice > 0 && (
+                  <style.ColorCardName>(+{additionalPrice.toLocaleString()}원)</style.ColorCardName>
+                )}
                 {isSelectedExternalColor(name) && <CheckIcon isInnerColorIcon={true} />}
               </style.ColorCard>
             ))}
@@ -246,9 +177,9 @@ export function Color() {
           </style.TitleBox>
           <style.Division />
           <style.InteriorColorBox>
-            {availableInnerColorList.map(({ name, imagePath }, index) => (
+            {availableInnerColorList.map(({ name, colorImageURL }, index) => (
               <style.InteriorColorCard key={name} onClick={() => handleClickInnerColor(index)}>
-                <style.InteriorColorButton isActive={isSelectedInnerColor(name)} bgImage={imagePath} />
+                <style.InteriorColorButton isActive={isSelectedInnerColor(name)} bgImage={colorImageURL} />
                 {isSelectedInnerColor(name) && <CheckIcon isInnerColorIcon={false} />}
               </style.InteriorColorCard>
             ))}
