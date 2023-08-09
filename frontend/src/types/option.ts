@@ -1,3 +1,5 @@
+import { MyCarType } from './trim';
+
 export interface OptionProps {
   name: string;
   price: number;
@@ -26,6 +28,7 @@ export interface DefaultOptionCardDataProps {
 }
 
 export interface OptionContextProviderProps {
+  trim: MyCarType;
   addOption: ({ name, price }: OptionContextProps) => void;
   removeOption: (name: string) => void;
 }

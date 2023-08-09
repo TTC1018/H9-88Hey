@@ -53,8 +53,6 @@ export function OptionCardList({
     setCardList(data.slice(startIndex, endIndex));
   }, [cardListIndex, data]);
 
-  useEffect(() => {}, []);
-
   return (
     <style.Container isShow={isShow}>
       <PrevButton
@@ -89,7 +87,7 @@ function OptionCard({ index, name, price, imageUrl, subOptionNames, isCardActive
   const [isButtonActive, setIsButtonActive] = useState(false);
   const [isHover, setIsHover] = useState(false);
 
-  const { addOption, removeOption } = useOutletContext<OptionContextProviderProps>();
+  const { trim, addOption, removeOption } = useOutletContext<OptionContextProviderProps>();
 
   function handleClickButton() {
     setIsButtonActive(!isButtonActive);
@@ -99,6 +97,11 @@ function OptionCard({ index, name, price, imageUrl, subOptionNames, isCardActive
   function handleHoverCard(isHover: boolean) {
     setIsHover(isHover);
   }
+
+  useEffect(() => {
+    const isOptionIncluded = trim.options.some(option => option.name === name);
+    setIsButtonActive(isOptionIncluded);
+  }, []);
 
   return (
     <style.OptionCard isCardActive={isCardActive} onClick={event => onClickCard(index, event)}>
