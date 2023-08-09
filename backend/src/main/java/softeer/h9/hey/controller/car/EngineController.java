@@ -14,7 +14,7 @@ public class EngineController {
 
     private final EngineService engineService;
 
-    @GetMapping("/car/model/{modelId}/trim")
+    @GetMapping("/car/model/{modelId}/engine")
     public GlobalResponse<EnginesResponse> findEnginesByModelId(@PathVariable final int modelId) {
         EnginesResponse enginesResponse = engineService.findEnginesByModelId(modelId);
         return GlobalResponse.ok(enginesResponse);
