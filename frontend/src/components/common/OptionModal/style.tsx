@@ -18,7 +18,6 @@ export const Container = styled.div`
 
 export const ModalWrapper = styled.div`
   width: 800px;
-  height: 510px;
 
   display: flex;
   flex-direction: column;
@@ -71,7 +70,6 @@ export const Line = styled.hr`
 
 export const ContentBox = styled.div`
   width: 800px;
-  height: 356px;
   gap: 24px;
 
   display: flex;
@@ -118,6 +116,7 @@ export const Description = styled.p`
 export const ButtonBox = styled.div`
   width: 800px;
   height: 74px;
+  margin-top: 33px;
 
   display: flex;
   justify-content: center;

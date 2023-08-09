@@ -17,31 +17,31 @@ const mockData = [
     subOptions: [
       {
         name: 'ISG 시스템',
-        imageUrl: '/src/assets/1.jpeg',
+        imageUrl: '/src/assets/7.jpeg',
       },
       {
         name: '통합주행모드',
-        imageUrl: '/src/assets/1.jpeg',
+        imageUrl: '/src/assets/7.jpeg',
       },
       {
         name: 'ISG 시스템',
-        imageUrl: '/src/assets/1.jpeg',
+        imageUrl: '/src/assets/7.jpeg',
       },
       {
         name: '통합주행모드',
-        imageUrl: '/src/assets/1.jpeg',
+        imageUrl: '/src/assets/7.jpeg',
       },
       {
         name: 'ISG 시스템',
-        imageUrl: '/src/assets/1.jpeg',
+        imageUrl: '/src/assets/7.jpeg',
       },
       {
         name: '통합주행모드',
-        imageUrl: '/src/assets/1.jpeg',
+        imageUrl: '/src/assets/7.jpeg',
       },
       {
         name: '하이빔 보조',
-        imageUrl: '/src/assets/2.jpeg',
+        imageUrl: '/src/assets/7.jpeg',
       },
     ],
   },
