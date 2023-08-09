@@ -75,7 +75,7 @@ export function Footer({
         <style.Title>선택 옵션</style.Title>
         <style.OptionBox>
           {options.slice(0, TAG_CHIP_MAX_NUMBER).map(({ name }) => (
-            <style.Option>{name}</style.Option>
+            <style.Option key={name}>{name}</style.Option>
           ))}
           {options.length > TAG_CHIP_MAX_NUMBER && <style.Option>+{options.length - TAG_CHIP_MAX_NUMBER}</style.Option>}
         </style.OptionBox>
