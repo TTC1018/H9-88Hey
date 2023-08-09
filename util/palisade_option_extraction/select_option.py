@@ -70,10 +70,10 @@ def extract_select_option(option_set, type):
         else:
             option_datas["category"] = "H Geniune Accessories"
         option_datas["price"] = select_option_data["saleCtyPce"]
-        option_datas["isContainSub"] = False
+        option_datas["subOptionCount"] = 0
         
         if data["carOptionPackageDetail"]:
-            option_datas["isContainSub"] = True
+            option_datas["subOptionCount"] = len(data["carOptionPackageDetail"])
             option_datas["imgUrl"] = "https://www.hyundai.com" + data["carOptionPackageDetail"][0]["carOptionDetailPcImg"][0]["imageFilePath"]
             option_datas["subOptionList"] = extract_sub_option(data["carOptionPackageDetail"],select_option_data["optCtyNo"])
         else:
@@ -96,12 +96,3 @@ print(len(select_sub_mapping_dictionary))
 print(select_sub_mapping_dictionary)
 print(len(model_select_mapping_dictionary))
 print(model_select_mapping_dictionary)
-
-print("--------------------------------")
-print("--------------------------------")
-for select_option_id in model_select_mapping_dictionary["LXJJ8DAA5"]:
-    select_option=select_option_dictionary[select_option_id]
-    print("선택옵션명: %s, 카테코리: %s" % (select_option["name"],select_option["category"]))
-    
-    for sub_option_id in select_sub_mapping_dictionary[select_option_id]:
-        print("--하위옵션명: %s" % (sub_option_dictionary[sub_option_id]["name"]))
