@@ -1,12 +1,14 @@
 export const data = {
   selectOptions: [
     {
+      id: 1,
       name: '듀얼 머플러 패키지',
       price: 10900000,
       imageURL: '/path',
       tags: ['좋아요', '굳', '태그 5개'],
       subOptions: [
         {
+          id: 1,
           name: '듀얼 머플러 패키지',
           imageURL: '/path',
           description: '-',
@@ -14,12 +16,14 @@ export const data = {
       ],
     },
     {
+      id: 1,
       name: '빌트인 공기청정기',
       price: 10900000,
       imageURL: '/path',
       tags: ['좋아요', '굳', '태그 5개'],
       subOptions: [
         {
+          id: 1,
           name: '빌트인 공기청정기',
           imageURL: 'path',
           description:

@@ -1,6 +1,7 @@
 export const data = {
-  externalColors: [
+  exterierColors: [
     {
+      id: 1,
       name: '어비스 블랙 펄',
       imageURL: 'https://www.hyundai.com/contents/vr360/LX06/exterior/A2B/colorchip-exterior.png',
       availableInnerColor: ['퀄팅 천연', '퀄팅 그레이 샤넬'],
@@ -36,6 +37,7 @@ export const data = {
       extraFee: 0,
     },
     {
+      id: 2,
       name: '크리미 화이트 펄',
       imageURL: 'https://www.hyundai.com/contents/vr360/LX06/exterior/WC9/colorchip-exterior.png',
       availableInnerColor: ['퀄팅 천연', '퀄팅 그레이 샤넬'],
@@ -43,16 +45,13 @@ export const data = {
       extraFee: 100000,
     },
   ],
-  inner_colors: [
+  interierColors: [
     {
-      name: '퀼팅천연(블랙)',
-      image_path: 'https://www.hyundai.com/contents/vr360/LX06/interior/I49/colorchip-interior.png',
-      tags: ['트렌디해요', '모두가 좋아하는 색상', '5개 데이터', '퀼팅천연'],
-    },
-    {
-      name: '쿨그레이',
-      image_path: 'https://www.hyundai.com/contents/vr360/LX06/interior/YJY/colorchip-interior.png',
-      tags: ['트렌디해요', '모두가 좋아하는 색상', '5개 데이터', '쿨그레이'],
+      id: 1,
+      name: '어비스 블랙 펄',
+      carImageURL: 'link',
+      colorImageURL: 'link',
+      tags: ['트렌디해요', '모두가 좋아하는 색상', '5개 데이터'],
     },
   ],
 };
