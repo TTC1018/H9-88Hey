@@ -4,6 +4,8 @@ import lombok.*;
 
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class Engine {
     private int id;
     private int additionalPrice;
