@@ -109,7 +109,7 @@ function OptionCard({
   useEffect(() => {
     const isOptionIncluded = trim.options.some(option => option.name === name);
     setIsButtonActive(isOptionIncluded);
-  }, []);
+  }, [name]);
 
   return (
     <style.OptionCard isCardActive={isCardActive} onClick={event => onClickCard(index, event)}>

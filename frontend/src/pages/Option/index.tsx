@@ -36,6 +36,7 @@ const initialData = {
 
 export function Option() {
   const { data } = useFetch<OptionDataProps>({ defaultValue: initialData, url: '/model/1/trim/2/select_option' });
+
   const [option, setOption] = useState<OptionProps>({
     id: 1,
     name: '',
