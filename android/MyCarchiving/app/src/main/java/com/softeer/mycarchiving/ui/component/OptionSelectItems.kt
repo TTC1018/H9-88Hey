@@ -112,9 +112,10 @@ fun OptionSelectItem(
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun OptionSelectedInfo(
+    optionName: String,
     optionTags: List<String>
 ) {
-    OptionHeadText(optionName = "컴포트 II")
+    OptionHeadText(optionName = optionName)
     OptionHeadComment()
     FlowRow(
         verticalAlignment = Alignment.Top,
@@ -293,6 +294,7 @@ fun PreviewOptionSelectedInfo() {
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         OptionSelectedInfo(
+            optionName = "컴포트 II",
             optionTags = listOf(
                 "어린이🧒",
                 "안전사고 예방🚨",
