@@ -1,5 +1,5 @@
 export const data = {
-  carImageURL: ['url1', 'url2', 'url3', 'url4'],
+  carImageUrl: ['url1', 'url2', 'url3', 'url4'],
   trims: [
     {
       id: 1,
