@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import softeer.h9.hey.domain.car.ModelImage;
 import softeer.h9.hey.dto.car.response.ModelImagesResponse;
+import softeer.h9.hey.repository.car.ModelImageRepository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,7 +15,7 @@ public class ModelImageService {
 
     private final ModelImageRepository modelImageRepository;
 
-    public ModelImagesResponse findModelImagesByModelId(int modelId) {
+    public ModelImagesResponse findModelImageUrlsByModelId(int modelId) {
         List<ModelImage> modelImages = modelImageRepository.findAllByModelId(modelId);
 
         List<String> imageUrls = new ArrayList<>();
@@ -25,4 +26,3 @@ public class ModelImageService {
         return ModelImagesResponse.of(imageUrls);
     }
 }
-의

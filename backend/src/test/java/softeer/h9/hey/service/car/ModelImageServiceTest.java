@@ -23,7 +23,7 @@ class ModelImageServiceTest {
     void findModelImages() {
         int modelId = 1;
 
-        ModelImagesResponse modelImagesResponse = modelImageService.findModelImagesByModelId(modelId);
+        ModelImagesResponse modelImagesResponse = modelImageService.findModelImageUrlsByModelId(modelId);
         List<String> imageUrls = modelImagesResponse.getImageUrls();
 
         Assertions.assertThat(imageUrls).hasSize(4);

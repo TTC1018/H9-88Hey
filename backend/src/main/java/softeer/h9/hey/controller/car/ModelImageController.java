@@ -16,8 +16,8 @@ public class ModelImageController {
     private final ModelImageService modelImageService;
 
     @GetMapping("/car/model/{modelId}/Image")
-    public GlobalResponse<ModelImagesResponse> findImagesByModelId(@PathVariable final int modelId) {
-        ModelImagesResponse modelResponse = modelImageService.findImagesByModelId(modelId);
+    public GlobalResponse<ModelImagesResponse> findModelImageUrlsByModelId(@PathVariable final int modelId) {
+        ModelImagesResponse modelResponse = modelImageService.findModelImageUrlsByModelId(modelId);
         return GlobalResponse.ok(modelResponse);
     }
 }
