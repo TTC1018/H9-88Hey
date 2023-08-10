@@ -29,7 +29,6 @@ interface FooterProps {
 export function Footer({ myCarData, totalPrice, onSetLocalStorage }: FooterProps) {
   const { pathname } = useLocation();
   const navigate = useNavigate();
-
   const [isOpen, setIsOpen] = useState(false);
 
   function handleOpenModal() {
