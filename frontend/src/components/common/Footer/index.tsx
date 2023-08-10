@@ -58,14 +58,14 @@ export function Footer({
         <style.ColorBox>
           <style.ColorTitle>외장</style.ColorTitle>
           <style.ColorName>
-            <style.ColorCircle imageUrl={outerColor.imageUrl || undefined} />
+            <style.ColorCircle imageUrl={outerColor.imageUrl || ''} />
             <style.ColorNameText>{outerColor.title}</style.ColorNameText>
           </style.ColorName>
         </style.ColorBox>
         <style.ColorBox>
           <style.ColorTitle>내장</style.ColorTitle>
           <style.ColorName>
-            <style.ColorCircle imageUrl={innerColor.imageUrl || undefined} />
+            <style.ColorCircle imageUrl={innerColor.imageUrl || ''} />
             <style.ColorNameText>{innerColor.title}</style.ColorNameText>
           </style.ColorName>
         </style.ColorBox>

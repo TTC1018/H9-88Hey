@@ -88,7 +88,7 @@ const ColorName = styled.div`
 `;
 
 interface ColorCircleProps {
-  imageUrl: string | undefined;
+  imageUrl: string;
 }
 
 const ColorCircle = styled.div<ColorCircleProps>`
@@ -99,7 +99,7 @@ const ColorCircle = styled.div<ColorCircleProps>`
 
       flex-shrink: 0;
 
-      background-image: url(${imageUrl || ''});
+      background-image: url(${imageUrl});
       border-radius: 50%;
     `;
   }}
