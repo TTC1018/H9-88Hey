@@ -25,7 +25,8 @@ public class TrimServiceTest {
         int modelId = 1;
         when(trimRepository.findTrimsByModelId(modelId)).thenReturn(getTrimFixture());
 
-        List<Trim> trims = trimService.findTrimsByModelId(modelId);
+        TrimsResponse trimsResponse = trimService.findTrimsByModelId(modelId);
+        List<Trim> trims = trimsResponse.getTrims();
 
         assertThat(trims).hasSize(2);
         for (Trim trim : trims) {
