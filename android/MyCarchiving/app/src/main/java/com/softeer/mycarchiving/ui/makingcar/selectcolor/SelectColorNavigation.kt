@@ -12,6 +12,6 @@ fun NavController.navigateToSelectColor(navOptions: NavOptions? = null) {
 
 fun NavGraphBuilder.selectColorScreen() {
     composable(route = MakingCarDestinations.SELECT_COLOR.route) {
-
+        SelectColorRoute()
     }
 }

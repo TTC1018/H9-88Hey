@@ -25,8 +25,8 @@ import com.softeer.mycarchiving.ui.theme.roundCorner
 
 @Composable
 fun CarImageSelectItem(
-    modifier: Modifier,
-    onItemClick: () -> Unit,
+    modifier: Modifier = Modifier,
+    onItemClick: () -> Unit
     isSelect: Boolean,
     imageUrl: String,
 ) {
@@ -49,36 +49,36 @@ fun CarImageSelectItem(
 
 @Composable
 fun CarColorSelectItem(
-    modifier: Modifier,
-    onItemClick: () -> Unit
+    modifier: Modifier = Modifier,
+    onItemClick: () -> Unit,
+    imageUrl: String,
+    selected: Boolean,
 ) {
-    var itemSelect by remember { mutableStateOf(false) }
     Box(
         modifier = modifier
             .size(59.dp)
             .clickable {
-                itemSelect = !itemSelect
                 onItemClick()
             }
     ){
         Surface(
-            modifier = modifier
+            modifier = Modifier
                 .size(48.dp)
                 .align(Alignment.Center),
             shape = roundCorner,
-            border = if (itemSelect) BorderStroke(width = 3.dp, color = HyundaiActiveBlue) else null
+            border = if (selected) BorderStroke(width = 3.dp, color = HyundaiActiveBlue) else null
         ) {
             Image(
-                modifier = modifier
+                modifier = Modifier
                     .fillMaxSize(),
                 painter = painterResource(id = R.drawable.ic_launcher_background),
                 contentDescription = null,
                 contentScale = ContentScale.Crop
             )
         }
-        if (itemSelect) {
+        if (selected) {
             CheckCircle(
-                modifier = modifier
+                modifier = Modifier
                     .align(Alignment.TopEnd)
             )
         }
@@ -100,5 +100,10 @@ fun PreviewCarImageSelectItem() {
 @Preview
 @Composable
 fun PreviewCarColorSelectItem() {
-    CarColorSelectItem(modifier = Modifier, onItemClick = {})
+    CarColorSelectItem(
+        modifier = Modifier,
+        onItemClick = {},
+        imageUrl = "",
+        selected = false,
+    )
 }

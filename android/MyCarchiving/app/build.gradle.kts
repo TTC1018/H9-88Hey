@@ -75,8 +75,10 @@ dependencies {
     implementation(libs.androidx.lifecycle.livedata.ktx)
 
     // Glide
+    implementation(libs.glide)
     implementation(libs.landscapist.glide)
     implementation(libs.landscapist.animation)
+    implementation(libs.landscapist.placeholder)
 
     // Navigation
     implementation(libs.androidx.navigation.compose)

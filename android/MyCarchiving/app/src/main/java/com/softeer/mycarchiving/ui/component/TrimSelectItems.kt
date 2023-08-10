@@ -44,9 +44,9 @@ fun OptionCardForDetail(
     descSecond: String? = null,
     maximumOutput: String? = null,
     maximumTorque: String? = null,
+    isSelected: Boolean,
+    onClick: () -> Unit,
 ) {
-    var isSelected by remember { mutableStateOf(false) }
-
     Column(
         modifier = modifier
             .fillMaxWidth()
@@ -59,7 +59,7 @@ fun OptionCardForDetail(
                 else Modifier
             )
             .then(optionCardModifier(descFirst != null, isSelected))
-            .clickable { isSelected = isSelected.not() },
+            .clickable { onClick() },
         verticalArrangement = if (isSelected) Arrangement.SpaceBetween else Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
@@ -240,7 +240,9 @@ fun PreviewSelectedOptionCardForDetail() {
         price = 1480000,
         descFirst = "높은 토크로 파워풀한 드라이빙이 가능하며, 차급대비 연비 효율이 우수합니다.",
         maximumOutput = "202/3,800PS/rpm",
-        maximumTorque = "45.0/1,750~2,750kgf-m/rpm"
+        maximumTorque = "45.0/1,750~2,750kgf-m/rpm",
+        isSelected = true,
+        onClick = {}
     )
 }
 

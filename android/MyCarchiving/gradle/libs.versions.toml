@@ -6,6 +6,7 @@ androidxLifecycle = "2.6.1"
 androidxHiltNavigationCompose = "1.0.0"
 androidxComposeBom = "2023.06.01"
 androidxAppcompat = "1.6.1"
+glideCompose = "1.0.0-alpha.3"
 hilt = "2.44.2"
 androidxComposeMaterial3 = "1.1.0-alpha07"
 junit4 = "4.13.2"
@@ -31,6 +32,7 @@ androidx-compose-ui-tooling = { group = "androidx.compose.ui", name = "ui-toolin
 androidx-compose-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview" }
 androidx-compose-material3 = { group = "androidx.compose.material3", name = "material3", version.ref = "androidxComposeMaterial3" }
 androidx-navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "navigationCompose" }
+glide = { module = "com.github.bumptech.glide:compose", version.ref = "glideCompose" }
 hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt" }
 hilt-compiler = { group = "com.google.dagger", name = "hilt-android-compiler", version.ref = "hilt" }
 junit4 = { group = "junit", name = "junit", version.ref = "junit4" }
@@ -38,8 +40,9 @@ junit4 = { group = "junit", name = "junit", version.ref = "junit4" }
 #android-gradlePlugin = { group = "com.android.tools.build", name = "gradle", version.ref = "androidGradlePlugin" }
 #kotlin-gradlePlugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "kotlin" }
 ksp-gradlePlugin = { group = "com.google.devtools.ksp", name = "com.google.devtools.ksp.gradle.plugin", version.ref = "ksp" }
-landscapist-glide = { module = "com.github.skydoves:landscapist-glide", version.ref = "landscapistGlide" }
-landscapist-animation = { module = "com.github.skydoves:landscapist-animation", version.ref = "landscapistGlide" }
+landscapist-glide= { group = "com.github.skydoves", name = "landscapist-glide", version.ref = "landscapistGlide" }
+landscapist-animation = { group = "com.github.skydoves", name = "landscapist-animation", version.ref = "landscapistGlide" }
+landscapist-placeholder = { group = "com.github.skydoves", name = "landscapist-placeholder", version.ref = "landscapistGlide" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }

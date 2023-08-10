@@ -13,6 +13,7 @@ import androidx.compose.ui.unit.dp
 import com.softeer.mycarchiving.R
 import com.softeer.mycarchiving.ui.theme.DarkGray
 import com.softeer.mycarchiving.ui.theme.medium20
+import com.softeer.mycarchiving.ui.theme.regular10
 import com.softeer.mycarchiving.ui.theme.regular14
 
 @Composable
@@ -35,6 +36,30 @@ fun OptionHeadComment(
         modifier = modifier,
         style = regular14,
         text = stringResource(id = R.string.make_car_comment_announce)
+    )
+}
+
+@Composable
+fun OptionRegular10Text(
+    modifier: Modifier = Modifier,
+    text: String,
+) {
+    Text(
+        modifier = modifier,
+        style = regular10,
+        text = text,
+    )
+}
+
+@Composable
+fun OptionRegular14Text(
+    modifier: Modifier = Modifier,
+    optionName: String,
+) {
+    Text(
+        modifier = modifier,
+        text = optionName,
+        style = regular14,
     )
 }
 
