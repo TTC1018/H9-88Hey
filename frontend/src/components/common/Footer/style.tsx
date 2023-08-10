@@ -51,7 +51,7 @@ const TrimDetail = styled.span`
 `;
 
 const ColorWrapper = styled.div`
-  width: 150px;
+  width: 170px;
   height: 75px;
 
   display: flex;
@@ -60,7 +60,7 @@ const ColorWrapper = styled.div`
 `;
 
 const ColorBox = styled.div`
-  gap: 12px;
+  gap: 10px;
 
   display: flex;
   align-items: center;
@@ -72,15 +72,19 @@ const ColorTitle = styled.span`
     return css`
       ${fonts.bodyMedium3};
       color: ${colors.black};
+
+      white-space: nowrap;
     `;
   }}
 `;
 
 const ColorName = styled.div`
-  gap: 8px;
+  gap: 7px;
 
   display: flex;
   align-items: center;
+
+  overflow: hidden;
 `;
 
 interface ColorCircleProps {
@@ -107,6 +111,10 @@ const ColorNameText = styled.div`
     return css`
       ${fonts.bodyRegular3};
       color: ${colors.black};
+
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     `;
   }}
 `;
@@ -199,7 +207,7 @@ const PrevButton = styled.button`
   ${({ theme }) => {
     const { fonts, colors } = theme;
     return css`
-      width: 121px;
+      width: 105px;
       height: 50px;
 
       flex-shrink: 0;
@@ -216,7 +224,7 @@ const NextButton = styled.button`
   ${({ theme }) => {
     const { fonts, colors } = theme;
     return css`
-      width: 176px;
+      width: 150px;
       height: 50px;
 
       flex-shrink: 0;
