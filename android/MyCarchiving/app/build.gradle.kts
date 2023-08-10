@@ -76,6 +76,7 @@ dependencies {
 
     // Glide
     implementation(libs.landscapist.glide)
+    implementation(libs.landscapist.animation)
 
     // Navigation
     implementation(libs.androidx.navigation.compose)

@@ -5,7 +5,6 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import com.softeer.mycarchiving.ui.HyundaiAppState
 import com.softeer.mycarchiving.ui.archiving.archiveScreen
-import com.softeer.mycarchiving.ui.archiving.navigateToArchive
 import com.softeer.mycarchiving.ui.loading.loadingScreen
 import com.softeer.mycarchiving.ui.loading.navigateToLoading
 import com.softeer.mycarchiving.ui.login.loginScreen
@@ -28,10 +27,7 @@ fun HyundaiNavHost(
     ) {
         loginScreen(onLogin = navController::navigateToLoading)
         loadingScreen(onLoading = navController::navigateToMakingCar)
-        makingCarGraph(
-            onBackClick = navController::popBackStack,
-            onArchiveClick = navController::navigateToArchive
-        )
+        makingCarGraph()
         archiveScreen(
             onBackClick = navController::popBackStack,
             onMyCarchiveClick = navController::navigateToMyArchiving

@@ -6,15 +6,24 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Divider
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Text
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -23,13 +32,15 @@ import com.softeer.mycarchiving.ui.theme.Black
 import com.softeer.mycarchiving.ui.theme.HyundaiLightSand
 import com.softeer.mycarchiving.ui.theme.HyundaiSand
 import com.softeer.mycarchiving.ui.theme.PrimaryBlue
+import com.softeer.mycarchiving.ui.theme.White
 import com.softeer.mycarchiving.ui.theme.bold18
 import com.softeer.mycarchiving.ui.theme.medium12
+import com.softeer.mycarchiving.util.toPriceString
 
 @Composable
 fun BottomBar(
     modifier: Modifier,
-    totalPrice: String,
+    totalPrice: Int,
     summaryText: String,
     underLineWidth: Int,
     buttonArea: @Composable () -> Unit,
@@ -72,7 +83,7 @@ fun BottomBar(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    text = totalPrice,
+                    text = totalPrice.toPriceString(),
                     style = bold18
                 )
                 Spacer(modifier = modifier.width(3.dp))
@@ -88,14 +99,19 @@ fun BottomBar(
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MakeCarBottomBar(
-    modifier: Modifier,
-    totalPrice: String,
+    modifier: Modifier = Modifier,
+    totalPrice: Int,
     onButtonClick: () -> Unit,
     onSummaryClick: () -> Unit,
-    isDone: Boolean
+    isDone: Boolean,
 ) {
+    var openSummarySheet by rememberSaveable { mutableStateOf(false) }
+    val summarySheetState = rememberModalBottomSheetState(
+        skipPartiallyExpanded = true
+    )
     BottomBar(
         modifier = modifier,
         totalPrice = totalPrice,
@@ -114,16 +130,29 @@ fun MakeCarBottomBar(
                 onClick = onButtonClick
             )
         },
-        onShowSummary = onSummaryClick
+        onShowSummary = { openSummarySheet = true }
     )
+    if (openSummarySheet) {
+        ModalBottomSheet(
+            onDismissRequest = { openSummarySheet = false },
+            containerColor = White,
+            sheetState = summarySheetState,
+            windowInsets = WindowInsets(top = 60.dp),
+            scrimColor = Color.Transparent
+        ) {
+            SummaryBottomSheetContent(
+                totalPrice = totalPrice
+            )
+        }
+    }
 }
 
 @Composable
 fun ArchiveBottomBar(
-    modifier: Modifier,
-    totalPrice: String,
+    modifier: Modifier = Modifier,
+    totalPrice: Int,
     onButtonClick: () -> Unit,
-    onSaveClick: () -> Unit
+    onSaveClick: () -> Unit,
 ) {
     BottomBar(
         modifier = modifier,
@@ -153,8 +182,8 @@ fun ArchiveBottomBar(
 
 @Composable
 fun MyArchiveBottomBar(
-    modifier: Modifier,
-    totalPrice: String,
+    modifier: Modifier = Modifier,
+    totalPrice: Int,
     onButtonClick: () -> Unit,
 ) {
     BottomBar(
@@ -179,7 +208,7 @@ fun MyArchiveBottomBar(
 fun PreviewMakeCarBottomBar() {
     MakeCarBottomBar(
         modifier = Modifier,
-        totalPrice = "47,720,000",
+        totalPrice = 47720000,
         onButtonClick = {},
         onSummaryClick = {},
         isDone = false
@@ -191,7 +220,7 @@ fun PreviewMakeCarBottomBar() {
 fun PreviewArchiveBottomBar() {
     ArchiveBottomBar(
         modifier = Modifier,
-        totalPrice = "47,720,000",
+        totalPrice = 47720000,
         onButtonClick = {},
         onSaveClick = {}
     )
@@ -202,7 +231,7 @@ fun PreviewArchiveBottomBar() {
 fun PreviewMyArchiveBottomBar() {
     MyArchiveBottomBar(
         modifier = Modifier,
-        totalPrice = "47,720,000",
+        totalPrice = 47720000,
         onButtonClick = {},
     )
 }

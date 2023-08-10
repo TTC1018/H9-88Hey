@@ -18,6 +18,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.skydoves.landscapist.glide.GlideImage
 import com.softeer.mycarchiving.R
 import com.softeer.mycarchiving.ui.theme.HyundaiActiveBlue
 import com.softeer.mycarchiving.ui.theme.roundCorner
@@ -25,25 +26,23 @@ import com.softeer.mycarchiving.ui.theme.roundCorner
 @Composable
 fun CarImageSelectItem(
     modifier: Modifier,
-    onItemClick: () -> Unit
+    onItemClick: () -> Unit,
+    isSelect: Boolean,
+    imageUrl: String,
 ) {
-    var itemSelect by remember { mutableStateOf(false) }
     Surface(
         modifier = modifier
             .size(80.dp)
             .clickable {
-                itemSelect = !itemSelect
                 onItemClick()
             },
         shape = roundCorner,
-        border = if (itemSelect) BorderStroke(width = 2.dp, color = HyundaiActiveBlue) else null
+        border = if (isSelect) BorderStroke(width = 2.dp, color = HyundaiActiveBlue) else null
     ) {
-        Image(
-            modifier = modifier
-                .fillMaxSize(),
-            painter = painterResource(id = R.drawable.ic_launcher_background),
-            contentDescription = null,
-            contentScale = ContentScale.Crop
+        GlideImage(
+            modifier = Modifier.fillMaxSize(),
+            imageModel = { imageUrl },
+            previewPlaceholder = R.drawable.ic_launcher_background,
         )
     }
 }
@@ -89,7 +88,12 @@ fun CarColorSelectItem(
 @Preview
 @Composable
 fun PreviewCarImageSelectItem() {
-    CarImageSelectItem(modifier = Modifier, onItemClick = {})
+    CarImageSelectItem(
+        modifier = Modifier,
+        onItemClick = {},
+        isSelect = true,
+        imageUrl = ""
+    )
 }
 
 

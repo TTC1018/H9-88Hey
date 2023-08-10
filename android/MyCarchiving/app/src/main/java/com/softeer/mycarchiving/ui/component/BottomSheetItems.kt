@@ -14,7 +14,9 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -45,6 +47,7 @@ import com.softeer.mycarchiving.ui.theme.medium14
 import com.softeer.mycarchiving.ui.theme.medium18
 import com.softeer.mycarchiving.ui.theme.regular14
 import com.softeer.mycarchiving.ui.theme.roundCorner
+import com.softeer.mycarchiving.util.toPriceString
 
 val detailItems = listOf(
     CarBasicDetailUiModel(id = 0, detailName = "ISG 시스템", "신호 대기 상황이거나 정차 중일 때 차의 엔진을 일시 정지하여 연비를 향상시키고, 배출가스 발생을 억제하는 시스템입니다."),
@@ -197,19 +200,21 @@ val summaryThird = listOf(
     ),
 )
 
-const val totalPrice = "47,720,000"
-
 @Composable
 fun SummaryBottomSheetContent(
-    modifier: Modifier,
+    modifier: Modifier = Modifier,
+    totalPrice: Int,
 ) {
+    val scrollState = rememberScrollState()
     Column(
         modifier = modifier
             .fillMaxWidth()
             .background(White)
+            .verticalScroll(scrollState)
     ) {
-        Spacer(modifier = modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(16.dp))
         Text(
+            modifier = Modifier.padding(start = 16.dp),
             text = stringResource(id = R.string.show_summary),
             style = medium18
         )
@@ -238,7 +243,7 @@ fun SummaryBottomSheetContent(
 fun SummaryLabel(
     modifier: Modifier,
     labelName: String,
-    totalPrice: String? = null,
+    totalPrice: Int? = null,
     needCount: Boolean = false,
     summaryChildren: List<SummaryChildUiModel>? = null
 ) {
@@ -264,7 +269,7 @@ fun SummaryLabel(
             if (totalPrice != null) {
                 Text(
                     modifier = modifier.weight(1f),
-                    text = totalPrice,
+                    text = totalPrice.toPriceString(),
                     style = bold18,
                     textAlign = TextAlign.End
                 )
@@ -275,26 +280,18 @@ fun SummaryLabel(
                 )
             }
         }
-        LazyColumn(
-            modifier = modifier.padding(vertical = 20.dp),
-            userScrollEnabled = false,
-        ) {
-            if (summaryChildren != null) {
-                items(
-                    items = summaryChildren,
-                    itemContent = {
-                        SummaryChild(modifier = modifier, summaryChild = it)
-                    }
-                )
-            }
+        Spacer(modifier = Modifier.height(10.dp))
+        summaryChildren?.forEach { summaryChild ->
+            SummaryChild(summaryChild = summaryChild)
         }
+        Spacer(modifier = Modifier.height(10.dp))
     }
 }
 
 @Composable
 fun SummaryChild(
-    modifier: Modifier,
-    summaryChild: SummaryChildUiModel
+    modifier: Modifier = Modifier,
+    summaryChild: SummaryChildUiModel,
 ) {
     Row(
         modifier = modifier
@@ -346,5 +343,5 @@ fun PreviewCarBasicBottomSheetContent() {
 @Preview
 @Composable
 fun PreviewSummaryBottomSheetContent() {
-    SummaryBottomSheetContent(modifier = Modifier)
+    SummaryBottomSheetContent(modifier = Modifier, totalPrice = 47720000)
 }
