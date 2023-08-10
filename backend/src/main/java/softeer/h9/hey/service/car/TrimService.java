@@ -14,7 +14,7 @@ public class TrimService {
 
     private final TrimRepository trimRepository;
     
-    public TrimsResponse findTrimsByModelId(int modelId) {
+    public TrimsResponse findTrimsByModelId(final int modelId) {
         List<Trim> trims = trimRepository.findTrimsByModelId(modelId);
         return TrimsResponse.of(trims);
     }

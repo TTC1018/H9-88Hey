@@ -15,7 +15,7 @@ public class TrimController {
     private final TrimService trimService;
 
     @GetMapping("/car/model/{model_id}/trim")
-    public GlobalResponse<TrimsResponse> getTrim(@PathVariable("model_id") int modelId) {
+    public GlobalResponse<TrimsResponse> getTrim(@PathVariable("model_id") final int modelId) {
         TrimsResponse trimsResponse = trimService.findTrimsByModelId(modelId);
         return GlobalResponse.ok(trimsResponse);
     }

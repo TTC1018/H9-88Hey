@@ -17,7 +17,7 @@ public class TrimRepository {
 
     private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
-    public List<Trim> findTrimsByModelId(int modelId) {
+    public List<Trim> findTrimsByModelId(final int modelId) {
         String sql = "SELECT * FROM trim LEFT JOIN trim_feature tf ON trim.id = tf.trim_id WHERE trim.model_id = :model_id";
 
         Map<String, Object> params = Map.of("model_id", modelId);
@@ -25,7 +25,7 @@ public class TrimRepository {
         return fetchTrimsWithFeatures(sql, params);
     }
 
-    private ArrayList<Trim> fetchTrimsWithFeatures(String sql, Map<String, Object> params) {
+    private ArrayList<Trim> fetchTrimsWithFeatures(final String sql, final Map<String, Object> params) {
         HashMap<Integer, Trim> trimMap = new HashMap<>();
 
         namedParameterJdbcTemplate.query(sql, params, rs -> {
