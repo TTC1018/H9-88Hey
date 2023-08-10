@@ -1,59 +1,63 @@
-export interface FeatureType {
+export interface FeatureProps {
   name: string;
   icon: string;
 }
-interface TrimType {
+interface TrimProps {
+  id: number;
   name: string;
   price: number;
-  images: string[];
-  features: FeatureType[];
+  trimFeatures: FeatureProps[];
 }
-export interface TrimDataType {
-  trims: TrimType[];
+export interface TrimDataProps {
+  carImageURL: string[];
+  trims: TrimProps[];
 }
 
-interface EngineType {
+interface EngineProps {
+  id: number;
   name: string;
-  extraCharge: number;
-  desc: string;
-  maximumOutput: string;
+  additionalPrice: number;
+  description: string;
+  maximumPower: string;
   maximumTorque: string;
-  image: string;
+  imageURL: string;
 }
-export interface EngineDataType {
-  engines: EngineType[];
+export interface EngineDataProps {
+  engines: EngineProps[];
 }
 
-interface BodyTypeType {
+interface BodyTypeProps {
+  id: number;
   name: string;
-  extraCharge: number;
-  desc: string;
-  images: string[];
+  imageURLs: string[];
+  additionalPrice: number;
+  description: string;
 }
-export interface BodyTypeDataType {
-  bodyTypes: BodyTypeType[];
+export interface BodyTypeDataProps {
+  bodyTypes: BodyTypeProps[];
 }
 
-interface WheelDriveType {
+interface WheelDriveProps {
+  id: number;
   name: string;
-  extraCharge: number;
-  desc: string;
-  image: string;
+  additionalPrice: number;
+  description: string;
+  imageURL: string;
 }
-export interface WheelDriveDataType {
-  wheelDrive: WheelDriveType[];
+export interface WheelDriveDataProps {
+  wheelDrives: WheelDriveProps[];
 }
 
-interface MyCarDetailType {
+interface MyCarDetailProps {
   title: string;
   price: number;
 }
 
-export interface MyCarType {
-  model: MyCarDetailType;
-  engine: MyCarDetailType;
-  bodyType: MyCarDetailType;
-  wheelDrive: MyCarDetailType;
+export interface MyCarProps {
+  model: MyCarDetailProps;
+  engine: MyCarDetailProps;
+  bodyType: MyCarDetailProps;
+  wheelDrive: MyCarDetailProps;
   outerColor: { title: string; imageUrl: string; price: number };
   innerColor: { title: string; imageUrl: string; id: number };
   options: {
@@ -62,9 +66,9 @@ export interface MyCarType {
   }[];
 }
 
-export interface MyCarLayoutContextType {
+export interface MyCarLayoutContextProps {
   handleTrim: ({ key, option, price }: { key: string; option: string; price: number }) => void;
   handleOuterColor: ({ color, colorImage, price }: { color: string; colorImage: string; price: number }) => void;
   handleInnerColor: ({ color, colorImage, id }: { color: string; colorImage: string; id: number }) => void;
-  trim: MyCarType;
+  trim: MyCarProps;
 }
