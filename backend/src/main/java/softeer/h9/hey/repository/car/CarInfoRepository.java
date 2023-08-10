@@ -20,7 +20,6 @@ public class CarInfoRepository {
     public Optional<CarInfo> findBy(final int trimId, final int engineId, final int bodyTypeId, final int wheelDriveId) {
         String sql = "select id as car_code, trim_id, engine_id, body_type_id, wheel_type_id from `carNormalTypes` " +
                 "where trim_id = :trimId AND engine_id = :engineId AND body_type_id = :bodyTypeId AND wheel_type_id = :wheelDriveId";
-        System.out.println(sql);
 
         MapSqlParameterSource params = new MapSqlParameterSource()
                 .addValue("trimId", trimId)
