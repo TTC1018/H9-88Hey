@@ -26,7 +26,7 @@ import com.softeer.mycarchiving.ui.theme.roundCorner
 @Composable
 fun CarImageSelectItem(
     modifier: Modifier = Modifier,
-    onItemClick: () -> Unit
+    onItemClick: () -> Unit,
     isSelect: Boolean,
     imageUrl: String,
 ) {
