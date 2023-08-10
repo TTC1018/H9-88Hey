@@ -19,14 +19,14 @@ const initialData = {
     {
       id: 1,
       name: '',
-      imageURL: '',
+      imageUrl: '',
       additionalPrice: 0,
       tags: [],
       subOptions: [
         {
           id: 1,
           name: '',
-          imageURL: '',
+          imageUrl: '',
           description: '',
         },
       ],
@@ -48,14 +48,14 @@ export function Option({ apiType }: Props) {
     id: 1,
     name: '',
     additionalPrice: 0,
-    imageURL: '',
+    imageUrl: '',
     tags: [],
     subOptions: [],
   });
   const [subOption, setSubOption] = useState<SubOptionProps>({
     id: 1,
     name: '',
-    imageURL: '',
+    imageUrl: '',
     description: '',
   });
   const [cardListData, setCardListData] = useState<OptionCardDataProps[]>([]);
@@ -94,22 +94,22 @@ export function Option({ apiType }: Props) {
   useEffect(() => {
     const { selectOptions } = data;
 
-    const { id, name, additionalPrice, imageURL, tags, subOptions } = selectOptions[optionIndex];
+    const { id, name, additionalPrice, imageUrl, tags, subOptions } = selectOptions[optionIndex];
     const subOption = subOptions[subOptionIndex];
-    const cardListData = selectOptions.map(({ id, name, additionalPrice, imageURL, subOptions }, index) => ({
+    const cardListData = selectOptions.map(({ id, name, additionalPrice, imageUrl, subOptions }, index) => ({
       id,
       index,
       name,
       additionalPrice,
-      imageURL,
+      imageUrl,
       subOptionNames: subOptions.map(({ name }) => name),
     }));
 
-    setOption({ id, name, additionalPrice, imageURL, tags, subOptions });
+    setOption({ id, name, additionalPrice, imageUrl, tags, subOptions });
     setSubOption({
       id: subOption.id,
       name: subOption.name,
-      imageURL: subOption.imageURL,
+      imageUrl: subOption.imageUrl,
       description: subOption.description,
     });
     setCardListData(cardListData);
@@ -119,7 +119,7 @@ export function Option({ apiType }: Props) {
     <style.Container>
       <style.OptionWrapper>
         <style.ImageBox>
-          <OptionImageBox imageURL={subOption.imageURL} />
+          <OptionImageBox imageUrl={subOption.imageUrl} />
         </style.ImageBox>
         <style.DescriptionBox>
           <OptionDescription name={option.name} additionalPrice={option.additionalPrice} tags={option.tags} />

@@ -2,12 +2,12 @@ import * as style from './style';
 
 interface Props {
   name: string;
-  imageURL: string;
+  imageUrl: string;
   description: string;
   onClick: () => void;
 }
 
-export function OptionModal({ name, imageURL, description, onClick }: Props) {
+export function OptionModal({ name, imageUrl, description, onClick }: Props) {
   return (
     <>
       <style.Container onClick={onClick} />
@@ -19,7 +19,7 @@ export function OptionModal({ name, imageURL, description, onClick }: Props) {
         <style.Line />
         <style.ContentBox>
           <style.ImageBox>
-            <style.Image src={imageURL} />
+            <style.Image src={imageUrl} />
           </style.ImageBox>
           <style.DescriptionBox>
             <style.Description>{description}</style.Description>

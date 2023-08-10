@@ -8,15 +8,15 @@ export const data = {
       trimFeatures: [
         {
           name: '20인치 알로이 휠',
-          imageURL: '/car/trim/icon/1',
+          imageUrl: '/car/trim/icon/1',
         },
         {
           name: '서라운드 뷰 모니터',
-          imageURL: '/car/trim/icon/2',
+          imageUrl: '/car/trim/icon/2',
         },
         {
           name: '클러스터(12.3인치 컬러 LCD)',
-          imageURL: '/car/trim/icon/3',
+          imageUrl: '/car/trim/icon/3',
         },
       ],
     },
@@ -27,15 +27,15 @@ export const data = {
       trimFeatures: [
         {
           name: '12.3인치 내비게이션',
-          imageURL: '/car/trim/icon/4',
+          imageUrl: '/car/trim/icon/4',
         },
         {
           name: '네비게이션 기반 스마트 크루즈 컨트롤',
-          imageURL: '/car/trim/icon/5',
+          imageUrl: '/car/trim/icon/5',
         },
         {
           name: '베젤리스 인사이드 미러',
-          imageURL: '/car/trim/icon/6',
+          imageUrl: '/car/trim/icon/6',
         },
       ],
     },
@@ -46,15 +46,15 @@ export const data = {
       trimFeatures: [
         {
           name: '2열 수동식 도어 커튼',
-          imageURL: '/car/trim/icon/7',
+          imageUrl: '/car/trim/icon/7',
         },
         {
           name: '스마트 자세제어',
-          imageURL: '/car/trim/icon/8',
+          imageUrl: '/car/trim/icon/8',
         },
         {
           name: '전후석 통합 터치 공조 컨트롤',
-          imageURL: '/car/trim/icon/9',
+          imageUrl: '/car/trim/icon/9',
         },
       ],
     },
@@ -65,15 +65,15 @@ export const data = {
       trimFeatures: [
         {
           name: 'KRELL 프리미엄 사운드',
-          imageURL: '/car/trim/icon/10',
+          imageUrl: '/car/trim/icon/10',
         },
         {
           name: '원격 스마트 주차보조',
-          imageURL: '/car/trim/icon/11',
+          imageUrl: '/car/trim/icon/11',
         },
         {
           name: '캘리그래피 전용 디자인',
-          imageURL: '/car/trim/icon/12',
+          imageUrl: '/car/trim/icon/12',
         },
       ],
     },

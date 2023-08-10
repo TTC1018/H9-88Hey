@@ -24,7 +24,7 @@ const initialData = {
         {
           id: 1,
           name: '',
-          imageURL: '',
+          imageUrl: '',
           description: '',
         },
       ],
@@ -48,7 +48,7 @@ export function DefaultOptionCardList({ isShow }: Props) {
   const [isShowModal, setIsShowModal] = useState(false);
   const [modal, setModal] = useState({
     name: '',
-    imageURL: '',
+    imageUrl: '',
     description: '',
   });
 
@@ -68,9 +68,9 @@ export function DefaultOptionCardList({ isShow }: Props) {
     setCardListIndex(index);
   }
 
-  function handleOpenModal(name: string, imageURL: string, description: string) {
+  function handleOpenModal(name: string, imageUrl: string, description: string) {
     setIsShowModal(true);
-    setModal({ name, imageURL, description });
+    setModal({ name, imageUrl, description });
   }
 
   function handleCloseModal() {
@@ -81,10 +81,10 @@ export function DefaultOptionCardList({ isShow }: Props) {
   useEffect(() => {
     const { defaultOptions } = data;
 
-    const cardListData = defaultOptions[categoryIndex].subOptions.map(({ id, name, imageURL, description }) => ({
+    const cardListData = defaultOptions[categoryIndex].subOptions.map(({ id, name, imageUrl, description }) => ({
       id,
       name,
-      imageURL,
+      imageUrl,
       description,
     }));
 
@@ -119,9 +119,9 @@ export function DefaultOptionCardList({ isShow }: Props) {
           onClick={() => handleChangeCardListIndex(cardListIndex - 1, subOptions.length)}
           isShow={isIndexLargeThanZero(cardListIndex)}
         />
-        {cardList.map(({ name, imageURL, description }, index) => (
-          <style.OptionCard key={index} onClick={() => handleOpenModal(name, imageURL, description)}>
-            <style.Image src={imageURL} />
+        {cardList.map(({ name, imageUrl, description }, index) => (
+          <style.OptionCard key={index} onClick={() => handleOpenModal(name, imageUrl, description)}>
+            <style.Image src={imageUrl} />
             <style.TextWrapper>
               <style.Text>{name}</style.Text>
               <style.SubText>기본 포함</style.SubText>
@@ -139,7 +139,7 @@ export function DefaultOptionCardList({ isShow }: Props) {
         <OptionModalProvider>
           <OptionModal
             name={modal.name}
-            imageURL={modal.imageURL}
+            imageUrl={modal.imageUrl}
             description={modal.description}
             onClick={handleCloseModal}
           />
