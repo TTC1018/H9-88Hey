@@ -24,11 +24,11 @@ export function ExternalCarImage({ color }: CarImageProps) {
     setIsRotate(true);
   }
 
-  function handleClickPrevButton() {
+  function goPrevImage() {
     setCurrentImage(prev => (prev === 60 ? 1 : prev + 1));
   }
 
-  function handleClickNextButton() {
+  function goNextImage() {
     setCurrentImage(prev => (prev === 1 ? 60 : prev - 1));
   }
 
@@ -43,20 +43,28 @@ export function ExternalCarImage({ color }: CarImageProps) {
     setXPosition(0);
   }
 
+  function moveMouseToLeft(event: MouseEvent<HTMLDivElement>) {
+    return xPosition > event.screenX;
+  }
+
+  function setMovingSpeed(event: MouseEvent<HTMLDivElement>) {
+    return event.screenX % 3 === 0;
+  }
+
   function handleMouseMove(event: MouseEvent<HTMLDivElement>) {
     if (!isClicked || !isRotate) {
       return;
     }
 
     event.preventDefault();
-    if (xPosition > event.screenX) {
-      if (event.screenX % 3 === 0) {
-        setCurrentImage(prev => (prev === 60 ? 1 : prev + 1));
+    if (moveMouseToLeft(event)) {
+      if (setMovingSpeed(event)) {
+        goPrevImage();
         setXPosition(event.screenX);
       }
     } else {
-      if (event.screenX % 3 === 0) {
-        setCurrentImage(prev => (prev === 1 ? 60 : prev - 1));
+      if (setMovingSpeed(event)) {
+        goNextImage();
         setXPosition(event.screenX);
       }
     }
@@ -69,7 +77,7 @@ export function ExternalCarImage({ color }: CarImageProps) {
   return (
     <style.Container>
       <style.Wrapper>
-        {isRotate && <PrevButton width="48" height="48" onClick={handleClickPrevButton} />}
+        {isRotate && <PrevButton width="48" height="48" onClick={goPrevImage} />}
         <style.ImageBox
           onMouseDown={handleMouseDown}
           onMouseUp={handleMouseOver}
@@ -85,7 +93,7 @@ export function ExternalCarImage({ color }: CarImageProps) {
             />
           ))}
         </style.ImageBox>
-        {isRotate && <NextButton width="48" height="48" onClick={handleClickNextButton} />}
+        {isRotate && <NextButton width="48" height="48" onClick={goNextImage} />}
         {!isRotate && (
           <>
             <style.RotateBtn onClick={handleClickRotateButton}>
