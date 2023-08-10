@@ -27,14 +27,14 @@ class ModelImageControllerTest {
         int modelId = 1;
 
         mockMvc.perform(
-                    get("car/model/" + modelId + "/image")
+                    get("/car/model/" + modelId + "/image")
                             .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpectAll(
-                        jsonPath("$.data.carImageURL").exists(),
-                        jsonPath("$.data.carImageURL[0]").value("url"),
-                        jsonPath("$.data.carImageURL[1]").value("url"),
-                        jsonPath("$.data.carImageURL[2]").value("url")
+                        jsonPath("$.data.carImageUrls").exists(),
+                        jsonPath("$.data.carImageUrls[0]").value("url"),
+                        jsonPath("$.data.carImageUrls[1]").value("url"),
+                        jsonPath("$.data.carImageUrls[2]").value("url")
                 );
     }
 
