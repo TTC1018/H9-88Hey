@@ -17,6 +17,23 @@ export const Container = styled.header`
 `;
 
 export const Wrapper = styled.div`
+  ${({ theme }) => {
+    const { colors } = theme;
+    return css`
+      width: 100%;
+      max-width: 1280px;
+      padding: 15px 0;
+
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      background-color: ${colors.hyundaiSand};
+    `;
+  }}
+`;
+
+export const Box = styled.div`
   gap: 10px;
 
   display: flex;
@@ -62,9 +79,10 @@ export const Button = styled.button`
       padding: 4px 8px;
 
       ${fonts.bodyMedium3};
-      color: ${colors.hyundaiNeutral}
-      
+      color: ${colors.hyundaiNeutral};
+
       background-color: ${colors.darkGray};
+      border-radius: 4px;
     `;
   }}
 `;
