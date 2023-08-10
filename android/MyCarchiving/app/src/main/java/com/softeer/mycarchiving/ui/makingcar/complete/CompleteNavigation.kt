@@ -12,6 +12,6 @@ fun NavController.navigateToComplete(navOptions: NavOptions? = null) {
 
 fun NavGraphBuilder.completeScreen() {
     composable(route = MakingCarDestinations.SELECT_COMPLETE) {
-
+        CompleteRoute()
     }
 }
