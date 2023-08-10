@@ -21,13 +21,12 @@ export const ModalPortal = ({ children }: ModalPortalProps) => {
     }
   };
 
-  return (
-    isOpen &&
-    ReactDom.createPortal(
-      <style.Container onClick={handleOutsideClick}>
-        <div ref={modalRef}>{children}</div>
-      </style.Container>,
-      el
-    )
-  );
+  return isOpen
+    ? ReactDom.createPortal(
+        <style.Container onClick={handleOutsideClick}>
+          <div ref={modalRef}>{children}</div>
+        </style.Container>,
+        el
+      )
+    : null;
 };
