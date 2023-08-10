@@ -1,11 +1,6 @@
 import { useState, useEffect } from 'react';
 
-import {
-  DefaultOptionDataProps,
-  DefaultOptionProps,
-  DefaultSubOptionProps,
-  DefaultOptionCardDataProps,
-} from '@/types/option';
+import { DefaultOptionDataProps, DefaultSubOptionProps, DefaultOptionCardDataProps } from '@/types/option';
 import { isValidIndex, isIndexLargeThanZero, isIndexSmallThanMaxIndex } from '@/utils';
 import { OPTION_CARD_LIST_LENGTH } from '@/constants';
 import { useFetch } from '@/hooks/useFetch';
@@ -43,7 +38,6 @@ export function DefaultOptionCardList({ isShow }: Props) {
     url: '/model/1/trim/2/default_option',
   });
 
-  const [defaultOptions, setDafaultOptions] = useState<DefaultOptionProps[]>([]);
   const [subOptions, setSubOptions] = useState<DefaultSubOptionProps[]>([]);
   const [cardList, setCardList] = useState<DefaultOptionCardDataProps[]>([]);
   const [categories, setCategories] = useState<string[]>([]);
@@ -97,7 +91,6 @@ export function DefaultOptionCardList({ isShow }: Props) {
       endIndex = cardListData.length;
     }
 
-    setDafaultOptions(defaultOptions);
     setSubOptions(defaultOptions[categoryIndex].subOptions);
     setCardList(cardListData.slice(startIndex, endIndex));
     setCategories(defaultOptions.map(({ category }) => category));
