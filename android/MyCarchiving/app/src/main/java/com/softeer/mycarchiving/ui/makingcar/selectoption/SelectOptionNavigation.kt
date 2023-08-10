@@ -7,11 +7,11 @@ import androidx.navigation.compose.composable
 import com.softeer.mycarchiving.navigation.MakingCarDestinations
 
 fun NavController.navigateToSelectOption(navOptions: NavOptions? = null) {
-    navigate(MakingCarDestinations.SELECT_OPTION, navOptions)
+    navigate(MakingCarDestinations.SELECT_OPTION.route, navOptions)
 }
 
 fun NavGraphBuilder.selectOptionScreen() {
-    composable(route = MakingCarDestinations.SELECT_OPTION) {
-
+    composable(route = MakingCarDestinations.SELECT_OPTION.route) {
+        SelectOptionRoute()
     }
 }

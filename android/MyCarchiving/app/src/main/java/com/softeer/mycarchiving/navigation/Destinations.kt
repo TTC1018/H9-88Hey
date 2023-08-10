@@ -12,10 +12,10 @@ enum class MainDestination(val route: String, val titleTextId: Int) {
     CONSUMER_COMMENT("consumer_route", R.string.top_bar_consumer_comment)
 }
 
-object MakingCarDestinations {
-    const val SELECT_MODEL = "select_model"
-    const val SELECT_TRIM = "select_trim"
-    const val SELECT_COLOR = "select_color"
-    const val SELECT_OPTION = "select_option"
-    const val SELECT_COMPLETE = "select_complete"
+enum class MakingCarDestinations(val route: String) {
+    SELECT_MODEL("select_model"),
+    SELECT_TRIM ("select_trim"),
+    SELECT_COLOR( "select_color"),
+    SELECT_OPTION( "select_option"),
+    SELECT_COMPLETE("select_complete")
 }

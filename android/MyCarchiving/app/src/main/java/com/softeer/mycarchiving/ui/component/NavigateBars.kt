@@ -73,7 +73,7 @@ fun NavigateBar(
 
 @Composable
 fun MakeCarNavigateBar(
-    modifier: Modifier,
+    modifier: Modifier = Modifier,
     carName: String,
     onStartAreaClick: () -> Unit,
     onEndAreaClick: () -> Unit,
@@ -123,7 +123,7 @@ fun MakeCarNavigateBar(
 
 @Composable
 fun ArchiveNavigateBar(
-    modifier: Modifier,
+    modifier: Modifier = Modifier,
     onStartAreaClick: () -> Unit,
     onEndAreaClick: () -> Unit
 ) {
@@ -163,7 +163,7 @@ fun ArchiveNavigateBar(
 
 @Composable
 fun MyArchiveNavigateBar(
-    modifier: Modifier,
+    modifier: Modifier = Modifier,
     onStartAreaClick: () -> Unit,
 ) {
     NavigateBar(
@@ -188,10 +188,10 @@ fun MyArchiveNavigateBar(
 
 @Composable
 fun ReviewNavigateBar(
-    modifier: Modifier,
+    modifier: Modifier = Modifier,
     onStartAreaClick: () -> Unit,
     onEndAreaClick: () -> Unit,
-    isBuyer: Boolean
+    isBuyer: Boolean,
 ) {
     NavigateBar(
         modifier = modifier,

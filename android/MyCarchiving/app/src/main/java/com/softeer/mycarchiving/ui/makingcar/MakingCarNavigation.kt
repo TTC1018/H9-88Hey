@@ -3,7 +3,6 @@ package com.softeer.mycarchiving.ui.makingcar
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
-import androidx.navigation.compose.composable
 import androidx.navigation.navigation
 import com.softeer.mycarchiving.navigation.MainDestination
 import com.softeer.mycarchiving.navigation.MakingCarDestinations
@@ -21,7 +20,7 @@ fun NavController.navigateToMakingCar(navOptions: NavOptions? = null) {
 }
 
 fun NavGraphBuilder.makingCarGraph() {
-    navigation(startDestination = MakingCarDestinations.SELECT_MODEL, route = MainDestination.MAKING_CAR.route) {
+    navigation(startDestination = MakingCarDestinations.SELECT_MODEL.route, route = MainDestination.MAKING_CAR.route) {
         selectModelScreen()
         selectTrimScreen()
         selectColorScreen()

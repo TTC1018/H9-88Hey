@@ -4,7 +4,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.ui.graphics.Color
 import androidx.navigation.NavDestination
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
@@ -14,6 +13,7 @@ import androidx.navigation.navOptions
 import com.softeer.mycarchiving.navigation.MainDestination
 import com.softeer.mycarchiving.navigation.MainDestination.*
 import com.softeer.mycarchiving.navigation.MakingCarDestinations
+import com.softeer.mycarchiving.navigation.MakingCarDestinations.*
 import com.softeer.mycarchiving.ui.archiving.navigateToArchive
 import com.softeer.mycarchiving.ui.loading.navigateToLoading
 import com.softeer.mycarchiving.ui.login.navigateToLogin
@@ -50,18 +50,25 @@ class HyundaiAppState(
             LOGIN.route -> LOGIN
             LOADING.route -> LOADING
             MAKING_CAR.route,
-            MakingCarDestinations.SELECT_MODEL,
-            MakingCarDestinations.SELECT_TRIM,
-            MakingCarDestinations.SELECT_COLOR,
-            MakingCarDestinations.SELECT_OPTION,
-            MakingCarDestinations.SELECT_COMPLETE-> MAKING_CAR
+            SELECT_MODEL.route,
+            SELECT_TRIM.route,
+            SELECT_COLOR.route,
+            SELECT_OPTION.route,
+            SELECT_COMPLETE.route-> MAKING_CAR
             ARCHIVING.route -> ARCHIVING
             MY_ARCHIVING.route -> MY_ARCHIVING
             else -> null
         }
 
-    // TODO 화면별 상단바 색상 교체하기
-    val currentTopBarColor = Color.Transparent
+    val currentMakingCarDestinations: MakingCarDestinations?
+        @Composable get() = when(currentDestination?.route) {
+            SELECT_MODEL.route -> SELECT_MODEL
+            SELECT_TRIM.route -> SELECT_TRIM
+            SELECT_COLOR.route -> SELECT_COLOR
+            SELECT_OPTION.route -> SELECT_OPTION
+            SELECT_COMPLETE.route -> SELECT_COMPLETE
+            else -> null
+        }
 
     val mainDestinations: List<MainDestination> = MainDestination.values().asList()
 

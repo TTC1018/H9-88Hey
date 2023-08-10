@@ -27,10 +27,6 @@ import androidx.compose.material3.Divider
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
@@ -41,6 +37,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.softeer.mycarchiving.R
 import com.softeer.mycarchiving.model.OptionCardUiModel
+import com.softeer.mycarchiving.model.makingcar.SelectOptionUiModel
+import com.softeer.mycarchiving.model.makingcar.SubSelectOptionUiModel
 import com.softeer.mycarchiving.ui.theme.Black
 import com.softeer.mycarchiving.ui.theme.DarkGray
 import com.softeer.mycarchiving.ui.theme.HyundaiLightSand
@@ -51,31 +49,28 @@ import com.softeer.mycarchiving.ui.theme.medium14
 import com.softeer.mycarchiving.ui.theme.regular10
 import com.softeer.mycarchiving.ui.theme.regular14
 import com.softeer.mycarchiving.ui.theme.roundCorner
+import com.softeer.mycarchiving.util.toPriceString
 
 @Composable
 fun OptionSelectItem(
-    modifier: Modifier,
-    optionName: String,
-    optionPrice: String,
-    onItemClick: () -> Unit,
-    onAddClick: () -> Unit
+    modifier: Modifier = Modifier,
+    option: SelectOptionUiModel,
+    onAddClick: () -> Unit,
+    focus: Boolean,
+    onFocus: () -> Unit,
 ) {
-    var itemSelect by remember { mutableStateOf(false) }
     Surface(
         modifier = modifier
             .width(160.dp)
             .height(197.dp)
-            .clickable {
-                itemSelect = !itemSelect
-                onItemClick()
-            },
+            .clickable { onFocus() },
         shape = roundCorner,
-        border = if (itemSelect) BorderStroke(width = 2.dp, color = PrimaryBlue) else null,
-        color = if (itemSelect) PrimaryBlue10 else HyundaiLightSand
+        border = if (focus) BorderStroke(width = 2.dp, color = PrimaryBlue) else null,
+        color = if (focus) PrimaryBlue10 else HyundaiLightSand
     ) {
         Column {
             Image(
-                modifier = modifier
+                modifier = Modifier
                     .fillMaxWidth()
                     .height(93.dp),
                 painter = painterResource(id = R.drawable.ic_launcher_background),
@@ -83,24 +78,24 @@ fun OptionSelectItem(
                 contentScale = ContentScale.Crop
             )
             Column(
-                modifier = modifier
+                modifier = Modifier
                     .fillMaxSize()
                     .padding(start = 9.dp, end = 9.dp, top = 10.dp, bottom = 3.dp),
                 verticalArrangement = Arrangement.SpaceBetween
             ) {
                 Column {
                     Text(
-                        text = optionName,
+                        text = option.name,
                         style = medium14,
-                        color = if (itemSelect) PrimaryBlue else Black
+                        color = if (focus) PrimaryBlue else Black
                     )
                     Spacer(modifier = modifier.height(5.dp))
                     Text(
                         modifier = modifier
                             .align(Alignment.End),
-                        text = stringResource(id = R.string.plus_space_price_won, optionPrice),
+                        text = stringResource(id = R.string.plus_space_price_won, option.price.toPriceString()),
                         style = medium14,
-                        color = if (itemSelect) PrimaryBlue else Black
+                        color = if (focus) PrimaryBlue else Black
                     )
                 }
                 OptionAddButton(modifier = modifier, onClick = onAddClick)
@@ -113,16 +108,20 @@ fun OptionSelectItem(
 @Composable
 fun OptionSelectedInfo(
     optionName: String,
-    optionTags: List<String>
+    optionTags: List<String>?
 ) {
-    OptionHeadText(optionName = optionName)
-    OptionHeadComment()
-    FlowRow(
-        verticalAlignment = Alignment.Top,
-        horizontalArrangement = Arrangement.spacedBy(4.dp)
-    ) {
-        optionTags.forEach { tagString ->
-            OptionTagChip(tagString = tagString)
+    Column {
+        OptionHeadText(optionName = optionName)
+        Spacer(modifier = Modifier.height(8.dp))
+        OptionHeadComment()
+        Spacer(modifier = Modifier.height(8.dp))
+        FlowRow(
+            verticalAlignment = Alignment.Top,
+            horizontalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            optionTags?.forEach { tagString ->
+                OptionTagChip(tagString = tagString)
+            }
         }
     }
 }
@@ -131,19 +130,17 @@ fun OptionSelectedInfo(
 @Composable
 fun ExtraOptionCards(
     modifier: Modifier = Modifier,
-    options: List<OptionCardUiModel>
+    options: List<SubSelectOptionUiModel>
 ) {
     HorizontalPager(
         modifier = modifier,
         pageCount = options.size,
         pageSpacing = 16.dp
     ) { pageNum ->
-        val (name, desc) = options[pageNum]
         ExtraOptionCard(
-            optionCount = options.size,
+            option = options[pageNum],
+            optionsSize = options.size,
             optionNum = pageNum + 1,
-            optionName = name,
-            description = desc,
             isMultiple = options.size > 1
         )
     }
@@ -152,10 +149,9 @@ fun ExtraOptionCards(
 @Composable
 fun ExtraOptionCard(
     modifier: Modifier = Modifier,
+    option: SubSelectOptionUiModel,
+    optionsSize: Int,
     optionNum: Int = 0,
-    optionCount: Int,
-    optionName: String,
-    description: String?,
     isMultiple: Boolean = false
 ) {
     Box(
@@ -166,7 +162,7 @@ fun ExtraOptionCard(
                 border = BorderStroke(2.dp, PrimaryBlue),
                 shape = RoundedCornerShape(8.dp)
             )
-            .heightIn(min = if (description != null) 140.dp else 70.dp)
+            .heightIn(min = if (option.description != null) 140.dp else 70.dp)
             .background(
                 color = PrimaryBlue10,
                 shape = RoundedCornerShape(8.dp)
@@ -177,17 +173,17 @@ fun ExtraOptionCard(
         Column(
             modifier = Modifier
                 .fillMaxWidth(),
-            verticalArrangement = if (description != null) Arrangement.spacedBy(8.dp) else Arrangement.Center,
+            verticalArrangement = if (option.description != null) Arrangement.spacedBy(8.dp) else Arrangement.Center,
             horizontalAlignment = Alignment.Start,
         ) {
             ExtraOptionTitle(
                 optionNum = optionNum,
-                optionName = optionName,
-                optionCount = optionCount,
+                optionName = option.name,
+                optionCount = optionsSize,
                 isMultiple = isMultiple
             )
-            if (description != null) {
-                ExtraOptionDetail(description = description)
+            if (option.description != null) {
+                ExtraOptionDetail(description = option.description)
             }
         }
     }
@@ -271,7 +267,6 @@ fun ExtraOptionDetail(
 
 @Composable
 fun ExtraOptionDesc(
-    modifier: Modifier = Modifier,
     text: String,
 ) {
     Text(
@@ -284,7 +279,17 @@ fun ExtraOptionDesc(
 @Preview
 @Composable
 fun PreviewOptionSelectItem() {
-    OptionSelectItem(modifier = Modifier, optionName = "컴포트 2", optionPrice = "1,090,000", onItemClick = {}, onAddClick = {})
+    OptionSelectItem(
+        modifier = Modifier,
+        option = SelectOptionUiModel(
+            name = "컴포트 2",
+            price = 1090000,
+            imageUrl = ""
+        ),
+        onAddClick = {},
+        focus = true,
+        onFocus = {}
+    )
 }
 
 @Preview(heightDp = 140)
@@ -300,7 +305,7 @@ fun PreviewOptionSelectedInfo() {
                 "안전사고 예방🚨",
                 "대형견도 문제 없어요🐶",
                 "가족들도 좋은 옵션👨‍👩‍👧‍👦"
-            )
+            ),
         )
     }
 }
@@ -320,9 +325,11 @@ fun PreviewOptionColorNameSentence() {
 @Composable
 fun PreviewExtraOptionCardSingle() {
     ExtraOptionCard(
-        optionName = "듀얼 머플러 패키지",
-        description = null,
-        optionCount = 0
+        option = SubSelectOptionUiModel(
+            name = "후석 승객 알림",
+            imageUrl = "",
+        ),
+        optionsSize = 0
     )
 }
 
@@ -330,9 +337,12 @@ fun PreviewExtraOptionCardSingle() {
 @Composable
 fun PreviewExtraOptionCardWithDesc() {
     ExtraOptionCard(
-        optionName = "20인치 다크 스퍼터링 힐",
-        description = "* 홈페이지의 사진과 설명은 참고용이며 실제 차량에 탑재되는 기능과 설명은 상이할 수 있으니, 차량 구입 전 카마스터를 통해 확인 바랍니다.",
-        optionCount = 0
+        option = SubSelectOptionUiModel(
+            name = "후석 승객 알림",
+            imageUrl = "",
+            description = "* 홈페이지의 사진과 설명은 참고용이며 실제 차량에 탑재되는 기능과 설명은 상이할 수 있으니, 차량 구입 전 카마스터를 통해 확인 바랍니다.",
+        ),
+        optionsSize = 0
     )
 }
 
@@ -340,10 +350,13 @@ fun PreviewExtraOptionCardWithDesc() {
 @Composable
 fun PreviewExtraOptionCardMultiple() {
     ExtraOptionCard(
-        optionName = "헤드업 디스플레이",
-        description = "주요 주행 정보를 전면 윈드실드에 표시하며, 밝기가 최적화되어 주간에도 시인성이 뛰어납니다.",
+        option = SubSelectOptionUiModel(
+            name = "후석 승객 알림",
+            imageUrl = "",
+            description = "* 홈페이지의 사진과 설명은 참고용이며 실제 차량에 탑재되는 기능과 설명은 상이할 수 있으니, 차량 구입 전 카마스터를 통해 확인 바랍니다.",
+        ),
         optionNum = 1,
-        optionCount = 6,
+        optionsSize = 6,
         isMultiple = true
     )
 }
@@ -353,8 +366,16 @@ fun PreviewExtraOptionCardMultiple() {
 fun PreviewExtraOptionCards() {
     ExtraOptionCards(
         options = listOf(
-            OptionCardUiModel("헤드업 디스플레이", "주요 주행 정보를 전면 윈드실드에 표시하며, 밝기가 최적화되어 주간에도 시인성이 뛰어납니다."),
-            OptionCardUiModel("3열 열선시트", "시동이 걸린 상태에서 해당 좌석 히터 스위치를 누르면 강약조절 표시등이 켜져 사용 중임을 나타내고 해당 좌석이 따뜻해집니다.")
+            SubSelectOptionUiModel(
+                name = "후석 승객 알림",
+                imageUrl = "",
+                description = "초음파 센서를 통해 뒷좌석에 남아있는 승객의 움직임을 감지하여 운전자에게 경고함으로써 부주의에 의한 유아 또는 반려 동물 등의 방치 사고를 예방하는 신기술입니다."
+            ),
+            SubSelectOptionUiModel(
+                name = "메탈 리어범퍼스텝",
+                imageUrl = "",
+                description = "러기지 룸 앞쪽 하단부를 메탈로 만들어 물건을 싣고 내릴 때나 사람이 올라갈 때 차체를 보호해줍니다."
+            )
         )
     )
 }
