@@ -27,15 +27,15 @@ export function MyCarLayout() {
     trim.model.price + trim.engine.price + trim.bodyType.price + trim.wheelDrive.price + trim.outerColor.price;
 
   function handleTrim({ key, option, price }: { key: string; option: string; price: number }) {
-    setTrim(prev => ({ ...prev, [key]: { title: option, price: price } }));
+    setTrim(prev => ({ ...prev, [key]: { title: option, price } }));
   }
 
   function handleOuterColor({ color, colorImage, price }: { color: string; colorImage: string; price: number }) {
-    setTrim(prev => ({ ...prev, outerColor: { title: color, imageUrl: colorImage, price: price } }));
+    setTrim(prev => ({ ...prev, outerColor: { title: color, imageUrl: colorImage, price } }));
   }
 
   function handleInnerColor({ color, colorImage, id }: { color: string; colorImage: string; id: number }) {
-    setTrim(prev => ({ ...prev, innerColor: { title: color, imageUrl: colorImage, id: id } }));
+    setTrim(prev => ({ ...prev, innerColor: { title: color, imageUrl: colorImage, id } }));
   }
 
   function addOption({ name, price }: { name: string; price: number }) {

@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { useOutletContext } from 'react-router-dom';
 
 import { ColorDataProps, InterierColorsProps } from '@/types/color';
-import { MyCarLayoutContextType } from '@/types/trim';
+import { MyCarLayoutContextProps } from '@/types/trim';
 import { useFetch } from '@/hooks/useFetch';
 import { useSelectIndex } from '@/hooks/useSelectedIndex';
 
@@ -20,7 +20,7 @@ const initialData = {
       id: 1,
       name: '',
       carImagePath: '',
-      colorImageURL: '',
+      colorImageUrl: '',
       additionalPrice: 0,
       availableInteriorColors: [0],
       tags: [''],
@@ -30,8 +30,8 @@ const initialData = {
     {
       id: 0,
       name: '',
-      carImageURL: '',
-      colorImageURL: '',
+      carImageUrl: '',
+      colorImageUrl: '',
       tags: [''],
     },
   ],
@@ -48,7 +48,7 @@ export function Color() {
 
   const {
     name: externalName,
-    colorImageURL: externalImageUrl,
+    colorImageUrl: externalImageUrl,
     availableInteriorColors,
     tags: externalTags,
     additionalPrice,
@@ -57,7 +57,7 @@ export function Color() {
   const availableInnerColorList = data.interierColors.filter(color => availableInteriorColors.includes(color.id));
   const {
     name: innerName,
-    colorImageURL: innerImageUrl,
+    colorImageUrl: innerImageUrl,
     tags: innerTags,
   } = availableInnerColorList[selectedInnerIndex];
 
@@ -65,21 +65,25 @@ export function Color() {
     handleOuterColor,
     handleInnerColor,
     trim: { outerColor, innerColor },
-  } = useOutletContext<MyCarLayoutContextType>();
+  } = useOutletContext<MyCarLayoutContextProps>();
 
   function updateOuterColor(index: number) {
+    const selectedExteriorColor = data.exterierColors[index];
+
     handleOuterColor({
-      color: data.exterierColors[index].name,
-      colorImage: data.exterierColors[index].colorImageURL,
-      price: data.exterierColors[index].additionalPrice,
+      color: selectedExteriorColor.name,
+      colorImage: selectedExteriorColor.colorImageUrl,
+      price: selectedExteriorColor.additionalPrice,
     });
   }
 
   function updateInnerColor(list: InterierColorsProps[], index: number) {
+    const selectedInteriorColor = list[index];
+
     handleInnerColor({
-      color: list[index].name,
-      colorImage: list[index].colorImageURL,
-      id: list[index].id,
+      color: selectedInteriorColor.name,
+      colorImage: selectedInteriorColor.colorImageUrl,
+      id: selectedInteriorColor.id,
     });
   }
 
@@ -158,9 +162,9 @@ export function Color() {
           </style.TitleBox>
           <style.Division />
           <style.ColorBox>
-            {data.exterierColors.map(({ name, colorImageURL, additionalPrice }, index) => (
+            {data.exterierColors.map(({ name, colorImageUrl, additionalPrice }, index) => (
               <style.ColorCard key={name} onClick={() => handleClickExternalColor(index)}>
-                <style.ColorCardRect colorUrl={colorImageURL} isActive={isSelectedExternalColor(name)} />
+                <style.ColorCardRect colorUrl={colorImageUrl} isActive={isSelectedExternalColor(name)} />
                 <style.ColorCardName>{name}</style.ColorCardName>
                 {additionalPrice > 0 && (
                   <style.ColorCardName>(+{additionalPrice.toLocaleString()}원)</style.ColorCardName>
@@ -177,9 +181,9 @@ export function Color() {
           </style.TitleBox>
           <style.Division />
           <style.InteriorColorBox>
-            {availableInnerColorList.map(({ name, colorImageURL }, index) => (
+            {availableInnerColorList.map(({ name, colorImageUrl }, index) => (
               <style.InteriorColorCard key={name} onClick={() => handleClickInnerColor(index)}>
-                <style.InteriorColorButton isActive={isSelectedInnerColor(name)} bgImage={colorImageURL} />
+                <style.InteriorColorButton isActive={isSelectedInnerColor(name)} bgImage={colorImageUrl} />
                 {isSelectedInnerColor(name) && <CheckIcon isInnerColorIcon={false} />}
               </style.InteriorColorCard>
             ))}
