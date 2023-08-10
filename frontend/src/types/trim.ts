@@ -61,7 +61,10 @@ export interface MyCarProps {
     outer: [string, string];
     inner: [string, string];
   };
-  options: string[];
+  options: {
+    name: string;
+    price: number;
+  }[];
 }
 
 export interface MyCarLayoutContextProps {

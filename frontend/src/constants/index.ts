@@ -5,3 +5,4 @@ export enum ModalTypeProps {
   DELETE = 'DELETE',
   MOVE = 'MOVE',
 }
+export const TAG_CHIP_MAX_NUMBER = 3;

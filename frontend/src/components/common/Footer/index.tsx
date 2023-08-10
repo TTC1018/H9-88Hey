@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 import { MyCarProps } from '@/types/trim';
+import { TAG_CHIP_MAX_NUMBER } from '@/constants';
 
 import { EstimateModal } from './EstimateModal';
 
@@ -85,9 +86,10 @@ export function Footer({ myCarData, totalPrice, onSetLocalStorage }: FooterProps
       <style.OptionWrapper>
         <style.Title onClick={handleOpenModal}>선택 옵션</style.Title>
         <style.OptionBox>
-          {options.map(option => (
-            <style.Option>{option}</style.Option>
+          {options.slice(0, TAG_CHIP_MAX_NUMBER).map(({ name }) => (
+            <style.Option key={name}>{name}</style.Option>
           ))}
+          {options.length > TAG_CHIP_MAX_NUMBER && <style.Option>+{options.length - TAG_CHIP_MAX_NUMBER}</style.Option>}
         </style.OptionBox>
       </style.OptionWrapper>
       <style.Division />

@@ -65,6 +65,7 @@ export const OptionCard = styled.div`
 
       border-radius: 8px;
       background-color: ${colors.hyundaiLightSand};
+      cursor: pointer;
     `;
   }}
 `;
