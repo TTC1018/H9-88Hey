@@ -5,8 +5,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 import softeer.h9.hey.dto.car.response.EnginesResponse;
-import softeer.h9.hey.dto.car.response.ModelImageResponse;
+import softeer.h9.hey.dto.car.response.ModelImagesResponse;
 import softeer.h9.hey.dto.global.response.GlobalResponse;
+import softeer.h9.hey.service.car.ModelImageService;
 
 @RestController
 @RequiredArgsConstructor
@@ -15,8 +16,8 @@ public class ModelImageController {
     private final ModelImageService modelImageService;
 
     @GetMapping("/car/model/{modelId}/Image")
-    public GlobalResponse<ModelImageResponse> findImageByModelId(@PathVariable final int modelId) {
-        ModelImageResponse modelResponse = modelImageService.findImageByModelId(modelId);
-        return GlobalResponse.ok(ModelImageResponse);
+    public GlobalResponse<ModelImagesResponse> findImagesByModelId(@PathVariable final int modelId) {
+        ModelImagesResponse modelResponse = modelImageService.findImagesByModelId(modelId);
+        return GlobalResponse.ok(modelResponse);
     }
 }
