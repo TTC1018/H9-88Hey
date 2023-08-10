@@ -5,11 +5,16 @@ interface CarImageProps {
   isDisplay: boolean;
 }
 
-export const Container = styled.div``;
+export const Container = styled.div`
+  width: 644px;
+  height: 401px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
 
 export const Wrapper = styled.div`
-  width: 644px;
-
   display: flex;
   align-items: center;
   justify-content: center;
