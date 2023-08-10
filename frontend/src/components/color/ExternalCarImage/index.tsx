@@ -43,20 +43,28 @@ export function ExternalCarImage({ color }: CarImageProps) {
     setXPosition(0);
   }
 
+  function moveMouseToLeft(event: MouseEvent<HTMLDivElement>) {
+    return xPosition > event.screenX;
+  }
+
+  function setMovingSpeed(event: MouseEvent<HTMLDivElement>) {
+    return event.screenX % 3 === 0;
+  }
+
   function handleMouseMove(event: MouseEvent<HTMLDivElement>) {
     if (!isClicked || !isRotate) {
       return;
     }
 
     event.preventDefault();
-    if (xPosition > event.screenX) {
-      if (event.screenX % 3 === 0) {
-        setCurrentImage(prev => (prev === 60 ? 1 : prev + 1));
+    if (moveMouseToLeft(event)) {
+      if (setMovingSpeed(event)) {
+        handleClickPrevButton();
         setXPosition(event.screenX);
       }
     } else {
-      if (event.screenX % 3 === 0) {
-        setCurrentImage(prev => (prev === 1 ? 60 : prev - 1));
+      if (setMovingSpeed(event)) {
+        handleClickNextButton();
         setXPosition(event.screenX);
       }
     }

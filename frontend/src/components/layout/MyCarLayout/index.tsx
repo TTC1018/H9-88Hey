@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 
 import { Outlet } from 'react-router-dom';
 
-import { MyCarType } from '@/types/trim';
+import { MyCarProps } from '@/types/trim';
 
 import { Header } from '@/components/common/Header';
 import { Footer } from '@/components/common/Footer';
@@ -10,25 +10,32 @@ import { Navigation } from '@/components/common/Navigation';
 
 import * as style from './style';
 
-const initialState: MyCarType = {
+const initialState: MyCarProps = {
   model: { title: '', price: 0 },
   engine: { title: '', price: 0 },
   bodyType: { title: '', price: 0 },
   wheelDrive: { title: '', price: 0 },
-  color: {
-    outer: ['', ''],
-    inner: ['', ''],
-  },
+  outerColor: { title: '', imageUrl: '', price: 0 },
+  innerColor: { title: '', imageUrl: '', id: 1 },
   options: [],
 };
 
 export function MyCarLayout() {
   const [trim, setTrim] = useState(initialState);
 
-  const totalPrice = trim.model.price + trim.engine.price + trim.bodyType.price + trim.wheelDrive.price;
+  const totalPrice =
+    trim.model.price + trim.engine.price + trim.bodyType.price + trim.wheelDrive.price + trim.outerColor.price;
 
   function handleTrim({ key, option, price }: { key: string; option: string; price: number }) {
-    setTrim(prev => ({ ...prev, [key]: { title: option, price: price } }));
+    setTrim(prev => ({ ...prev, [key]: { title: option, price } }));
+  }
+
+  function handleOuterColor({ color, colorImage, price }: { color: string; colorImage: string; price: number }) {
+    setTrim(prev => ({ ...prev, outerColor: { title: color, imageUrl: colorImage, price } }));
+  }
+
+  function handleInnerColor({ color, colorImage, id }: { color: string; colorImage: string; id: number }) {
+    setTrim(prev => ({ ...prev, innerColor: { title: color, imageUrl: colorImage, id } }));
   }
 
   function addOption({ name, price }: { name: string; price: number }) {
@@ -50,7 +57,7 @@ export function MyCarLayout() {
       return;
     }
 
-    const savedOptions: MyCarType = JSON.parse(localStorageData);
+    const savedOptions: MyCarProps = JSON.parse(localStorageData);
     setTrim(savedOptions);
   }, []);
 
@@ -59,9 +66,9 @@ export function MyCarLayout() {
       <Header />
       <Navigation />
       <style.Wrapper>
-        <Outlet context={{ handleTrim, trim, addOption, removeOption }} />
+        <Outlet context={{ handleTrim, handleOuterColor, handleInnerColor, addOption, removeOption, trim }} />
       </style.Wrapper>
-      <Footer options={trim} totalPrice={totalPrice} onSetLocalStorage={handleLocalStrage} />
+      <Footer myCarData={trim} totalPrice={totalPrice} onSetLocalStorage={handleLocalStrage} />
     </style.Container>
   );
 }

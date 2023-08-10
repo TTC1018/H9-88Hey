@@ -1,21 +1,26 @@
 import { createBrowserRouter } from 'react-router-dom';
 
 import { Trim } from '@/pages/Trim';
+import { Color } from '@/pages/Color';
+import { Option } from '@/pages/Option';
 import { Engine } from '@/pages/Trim/Engine';
 import { BodyType } from '@/pages/Trim/BodyType';
 import { WheelDrive } from '@/pages/Trim/WheelDrive';
-import { Option } from '@/pages/Option';
 import { MyCarLayout } from '@/components/layout/MyCarLayout';
-import { Color } from '@/pages/Color';
 import { Archiving } from '@/pages/Archiving';
+import { ErrorBoundary } from '@/components/common/ErrorBoundary';
 
 export const router = createBrowserRouter([
   {
     path: '',
-    element: <MyCarLayout />,
+    element: (
+      <ErrorBoundary>
+        <MyCarLayout />
+      </ErrorBoundary>
+    ),
     children: [
       {
-        path: '/trim',
+        path: 'trim',
         children: [
           {
             path: '',

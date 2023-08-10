@@ -108,6 +108,7 @@ export const ColorCardName = styled.span`
 `;
 
 export const InteriorColorBox = styled.div`
+  height: 153px;
   gap: 16px;
 
   display: grid;
