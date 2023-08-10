@@ -12,10 +12,6 @@ import { OptionModal } from '@/components/common/OptionModal';
 
 import * as style from './style';
 
-interface Props {
-  isShow: boolean;
-}
-
 const initialData = {
   defaultOptions: [
     {
@@ -32,7 +28,7 @@ const initialData = {
   ],
 };
 
-export function DefaultOptionCardList({ isShow }: Props) {
+export function DefaultOptionCardList() {
   const { data } = useFetch<DefaultOptionDataProps>({
     defaultValue: initialData,
     url: '/model/1/trim/2/default_option',
@@ -100,7 +96,7 @@ export function DefaultOptionCardList({ isShow }: Props) {
   }, [data, categoryIndex, cardListIndex]);
 
   return (
-    <style.Container isShow={isShow}>
+    <style.Container>
       <style.CategoryWrapper>
         {categories.map((category, index) => (
           <style.Category

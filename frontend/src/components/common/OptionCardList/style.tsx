@@ -1,10 +1,6 @@
 import styled from '@emotion/styled';
 import { css } from '@emotion/react';
 
-interface ContainerProps {
-  isShow: boolean;
-}
-
 interface OptionCardProps {
   isCardActive: boolean;
 }
@@ -13,20 +9,16 @@ interface ButtonProps {
   isButtonActive: boolean;
 }
 
-export const Container = styled.div<ContainerProps>`
-  ${({ isShow }) => {
-    return css`
-      width: 1098px;
-      height: 197px;
-      margin-top: 24px;
-      gap: 6px;
+export const Container = styled.div`
+  width: 1098px;
+  height: 197px;
+  margin-top: 24px;
+  gap: 6px;
 
-      display: ${isShow ? 'flex' : 'none'};
-      position: relative;
+  display: flex;
+  position: relative;
 
-      transform: translateX(-54px);
-    `;
-  }}
+  transform: translateX(-54px);
 `;
 
 export const OptionCard = styled.div<OptionCardProps>`

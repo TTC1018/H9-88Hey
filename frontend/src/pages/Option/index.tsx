@@ -134,15 +134,16 @@ export function Option({ apiType }: Props) {
       </style.OptionWrapper>
       <style.CardWrapper>
         <OptionCategory menu={menu} onClick={handleChangeMenu} isShowDefaultOption={apiType === 'select_option'} />
-        <OptionCardList
-          isShow={menu === 0}
-          selectedIndex={optionIndex}
-          cardListIndex={cardListIndex}
-          data={cardListData}
-          onClickCard={handleChangeOptionIndex}
-          onClickArrowButton={handleChangeCardListIndex}
-        />
-        <DefaultOptionCardList isShow={apiType === 'select_option' && menu === 1} />
+        {menu === 0 && (
+          <OptionCardList
+            selectedIndex={optionIndex}
+            cardListIndex={cardListIndex}
+            data={cardListData}
+            onClickCard={handleChangeOptionIndex}
+            onClickArrowButton={handleChangeCardListIndex}
+          />
+        )}
+        {apiType === 'select_option' && menu === 1 && <DefaultOptionCardList />}
       </style.CardWrapper>
     </style.Container>
   );

@@ -1,27 +1,19 @@
 import styled from '@emotion/styled';
 import { css } from '@emotion/react';
 
-interface ContainerProps {
-  isShow: boolean;
-}
-
 interface CategoryProps {
   isActive: boolean;
 }
 
-export const Container = styled.div<ContainerProps>`
-  ${({ isShow }) => {
-    return css`
-      width: 990px;
-      height: 197px;
-      gap: 6px;
-      margin-top: 18px;
+export const Container = styled.div`
+  width: 990px;
+  height: 197px;
+  gap: 6px;
+  margin-top: 18px;
 
-      display: ${isShow ? 'flex' : 'none'};
-      flex-direction: column;
-      justify-content: space-between;
-    `;
-  }}
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 `;
 
 export const CategoryWrapper = styled.div`

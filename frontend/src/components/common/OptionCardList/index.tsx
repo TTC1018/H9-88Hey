@@ -12,7 +12,6 @@ import { NextButton } from '@/components/common/NextButton';
 import * as style from './style';
 
 interface OptionCardListProps {
-  isShow: boolean;
   selectedIndex: number;
   cardListIndex: number;
   data: OptionCardDataProps[];
@@ -35,7 +34,6 @@ interface OptionCardHoverProps {
 }
 
 export function OptionCardList({
-  isShow,
   selectedIndex,
   cardListIndex,
   data,
@@ -54,7 +52,7 @@ export function OptionCardList({
   }, [cardListIndex, data]);
 
   return (
-    <style.Container isShow={isShow}>
+    <style.Container>
       <PrevButton
         width="48"
         height="48"
