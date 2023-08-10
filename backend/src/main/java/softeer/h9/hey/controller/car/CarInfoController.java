@@ -8,8 +8,8 @@ import softeer.h9.hey.dto.car.response.CarCodeResponse;
 import softeer.h9.hey.dto.global.response.GlobalResponse;
 import softeer.h9.hey.service.car.CarInfoService;
 
-@RequiredArgsConstructor
 @RestController
+@RequiredArgsConstructor
 public class CarInfoController {
 
     private final CarInfoService carInfoService;

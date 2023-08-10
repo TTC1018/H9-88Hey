@@ -12,16 +12,16 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@DisplayName("CarInfo Controller 테스트")
 @SpringBootTest
 @AutoConfigureMockMvc
+@DisplayName("CarInfo Controller 테스트")
 class CarInfoControllerTest {
 
     @Autowired
     MockMvc mockMvc;
 
-    @DisplayName("자동차 코드 요청시 응답 데이터 검증")
     @Test
+    @DisplayName("자동차 코드 요청시 응답 데이터 검증")
     void responseTrimTest() throws Exception {
         mockMvc.perform(
                         get("/car/car-code")
@@ -37,3 +37,5 @@ class CarInfoControllerTest {
                 );
     }
 }
+
+

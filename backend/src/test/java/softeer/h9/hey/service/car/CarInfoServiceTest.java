@@ -18,8 +18,8 @@ class CarInfoServiceTest {
     private final CarInfoRepository carInfoRepository = Mockito.mock(CarInfoRepository.class);
     private final CarInfoService carInfoService = new CarInfoService(carInfoRepository);
 
-    @DisplayName("특정 구성을 갖는 CarInfo로부터 carCode를 가져온다.")
     @Test
+    @DisplayName("특정 구성을 갖는 CarInfo로부터 carCode를 가져온다.")
     void findCarCodeTest() {
         String expectedCarCode = "LXJJ8MAA5";
         CarCodeRequest carCodeRequest = new CarCodeRequest(2, 2, 2, 2);
@@ -33,8 +33,8 @@ class CarInfoServiceTest {
         Assertions.assertThat(carCode).isEqualTo(expectedCarCode);
     }
 
-    @DisplayName("조합에 맞는 CarInfo가 없는 경우 예외를 던진다.")
     @Test
+    @DisplayName("조합에 맞는 CarInfo가 없는 경우 예외를 던진다.")
     void findCarCodeFailTest() {
         CarCodeRequest carCodeRequest = new CarCodeRequest(1212, 2, 2, 2);
 
