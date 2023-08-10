@@ -52,15 +52,14 @@ interface MyCarDetailProps {
   title: string;
   price: number;
 }
+
 export interface MyCarProps {
   model: MyCarDetailProps;
   engine: MyCarDetailProps;
   bodyType: MyCarDetailProps;
   wheelDrive: MyCarDetailProps;
-  color: {
-    outer: [string, string];
-    inner: [string, string];
-  };
+  outerColor: { title: string; imageUrl: string; price: number };
+  innerColor: { title: string; imageUrl: string; id: number };
   options: {
     name: string;
     price: number;
@@ -69,5 +68,7 @@ export interface MyCarProps {
 
 export interface MyCarLayoutContextProps {
   handleTrim: ({ key, option, price }: { key: string; option: string; price: number }) => void;
+  handleOuterColor: ({ color, colorImage, price }: { color: string; colorImage: string; price: number }) => void;
+  handleInnerColor: ({ color, colorImage, id }: { color: string; colorImage: string; id: number }) => void;
   trim: MyCarProps;
 }

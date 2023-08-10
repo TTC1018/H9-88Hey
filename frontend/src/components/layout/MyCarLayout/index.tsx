@@ -15,20 +15,27 @@ const DEFAULT_STATE: MyCarProps = {
   engine: { title: '', price: 0 },
   bodyType: { title: '', price: 0 },
   wheelDrive: { title: '', price: 0 },
-  color: {
-    outer: ['', ''],
-    inner: ['', ''],
-  },
+  outerColor: { title: '', imageUrl: '', price: 0 },
+  innerColor: { title: '', imageUrl: '', id: 1 },
   options: [],
 };
 
 export function MyCarLayout() {
   const [trim, setTrim] = useState(DEFAULT_STATE);
 
-  const totalPrice = trim.model.price + trim.engine.price + trim.bodyType.price + trim.wheelDrive.price;
+  const totalPrice =
+    trim.model.price + trim.engine.price + trim.bodyType.price + trim.wheelDrive.price + trim.outerColor.price;
 
   function handleTrim({ key, option, price }: { key: string; option: string; price: number }) {
-    setTrim(prev => ({ ...prev, [key]: { title: option, price: price } }));
+    setTrim(prev => ({ ...prev, [key]: { title: option, price } }));
+  }
+
+  function handleOuterColor({ color, colorImage, price }: { color: string; colorImage: string; price: number }) {
+    setTrim(prev => ({ ...prev, outerColor: { title: color, imageUrl: colorImage, price } }));
+  }
+
+  function handleInnerColor({ color, colorImage, id }: { color: string; colorImage: string; id: number }) {
+    setTrim(prev => ({ ...prev, innerColor: { title: color, imageUrl: colorImage, id } }));
   }
 
   function addOption({ name, price }: { name: string; price: number }) {
@@ -59,7 +66,7 @@ export function MyCarLayout() {
       <Header />
       <Navigation />
       <style.Wrapper>
-        <Outlet context={{ handleTrim, trim, addOption, removeOption }} />
+        <Outlet context={{ handleTrim, handleOuterColor, handleInnerColor, addOption, removeOption, trim }} />
       </style.Wrapper>
       <Footer myCarData={trim} totalPrice={totalPrice} onSetLocalStorage={handleLocalStrage} />
     </style.Container>

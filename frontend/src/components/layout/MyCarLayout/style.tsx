@@ -13,6 +13,7 @@ const Container = styled.div`
 const Wrapper = styled.div`
   width: 1024px;
 
+  display: flex;
   flex-grow: 1;
 `;
 
