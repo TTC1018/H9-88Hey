@@ -25,15 +25,18 @@ const initialData = {
 };
 
 export function BodyType() {
-  const { data } = useFetch<BodyTypeDataProps>({
+  const {
+    data: { bodyTypes },
+  } = useFetch<BodyTypeDataProps>({
     defaultValue: initialData,
     url: '/model/1/body-type',
   });
+  const initBodyTypes = bodyTypes[0];
 
   const [selectedIndex, handleSetIndex] = useSelectIndex();
   const [selectedImageIndex, handleSetImageIndex] = useSelectIndex();
 
-  const { imageURLs, name, additionalPrice } = data.bodyTypes[selectedIndex];
+  const { imageURLs, name, additionalPrice } = bodyTypes[selectedIndex];
 
   const {
     handleTrim,
@@ -44,20 +47,20 @@ export function BodyType() {
     return function () {
       handleSetIndex(index)();
       handleSetImageIndex(0)();
-      handleTrim({ key: 'bodyType', option: data.bodyTypes[index].name, price: extraCharge });
+      handleTrim({ key: 'bodyType', option: bodyTypes[index].name, price: extraCharge });
     };
   }
 
   useEffect(() => {
     if (bodyType.title === '') {
-      handleTrim({ key: 'bodyType', option: data.bodyTypes[0].name, price: data.bodyTypes[0].additionalPrice });
+      handleTrim({ key: 'bodyType', option: initBodyTypes.name, price: initBodyTypes.additionalPrice });
 
       return;
     }
 
-    const index = data.bodyTypes.findIndex(card => card.name === bodyType.title);
+    const index = bodyTypes.findIndex(card => card.name === bodyType.title);
     index !== -1 && handleSetIndex(index)();
-  }, [data]);
+  }, [bodyTypes]);
 
   return (
     <style.Container>
@@ -72,7 +75,7 @@ export function BodyType() {
           <MyCarDescription title={name} price={additionalPrice} hasTag={false} />
         </style.Box>
         <style.Box>
-          {data.bodyTypes.map(({ name, additionalPrice, description }, index) => (
+          {bodyTypes.map(({ name, additionalPrice, description }, index) => (
             <style.Enclosure key={name} onClick={handleCardClick(index, additionalPrice)}>
               <TrimCard
                 isActive={index === selectedIndex}

@@ -27,13 +27,16 @@ const initialData = {
 };
 
 export function Engine() {
-  const { data } = useFetch<EngineDataProps>({
+  const {
+    data: { engines },
+  } = useFetch<EngineDataProps>({
     defaultValue: initialData,
     url: '/model/1/engine',
   });
-  console.log(data);
+  const initEngines = engines[0];
+
   const [selectedIndex, handleSetIndex] = useSelectIndex();
-  const { imageURL, additionalPrice, name } = data.engines[selectedIndex];
+  const { imageURL, additionalPrice, name } = engines[selectedIndex];
 
   const {
     handleTrim,
@@ -43,20 +46,20 @@ export function Engine() {
   function handleCardClick(index: number, extraCharge: number) {
     return () => {
       handleSetIndex(index)();
-      handleTrim({ key: 'engine', option: data.engines[index].name, price: extraCharge });
+      handleTrim({ key: 'engine', option: engines[index].name, price: extraCharge });
     };
   }
 
   useEffect(() => {
     if (engine.title === '') {
-      handleTrim({ key: 'engine', option: data.engines[0].name, price: data.engines[0].additionalPrice });
+      handleTrim({ key: 'engine', option: initEngines.name, price: initEngines.additionalPrice });
 
       return;
     }
 
-    const index = data.engines.findIndex(card => card.name === engine.title);
+    const index = engines.findIndex(card => card.name === engine.title);
     index !== -1 && handleSetIndex(index)();
-  }, [data]);
+  }, [engines]);
 
   return (
     <style.Container>
@@ -66,7 +69,7 @@ export function Engine() {
           <MyCarDescription title={name} price={additionalPrice} hasTag={false} />
         </style.Box>
         <style.CardBox>
-          {data.engines.map(({ name, additionalPrice, description, maximumPower, maximumTorque, id }, index) => (
+          {engines.map(({ name, additionalPrice, description, maximumPower, maximumTorque, id }, index) => (
             <style.Enclosure key={id} onClick={handleCardClick(index, additionalPrice)}>
               <TrimCard
                 isActive={index === selectedIndex}

@@ -26,7 +26,7 @@ type Props = {
   children: ReactNode;
 };
 
-export const ErrorBoundary = Catch(function MyErrorBoundary(props: Props, error?: Error) {
+export const ErrorBoundary = Catch(function ErrorBoundary(props: Props, error?: Error) {
   if (error) {
     return (
       <style.Container>

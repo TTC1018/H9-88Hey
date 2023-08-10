@@ -25,14 +25,16 @@ const initialData = {
 };
 
 export function WheelDrive() {
-  const { data } = useFetch<WheelDriveDataProps>({
+  const {
+    data: { wheelDrives },
+  } = useFetch<WheelDriveDataProps>({
     defaultValue: initialData,
     url: '/model/1/wheel-drive',
   });
+  const initwheelDrives = wheelDrives[0];
 
   const [selectedIndex, handleSetIndex] = useSelectIndex();
-  const { name, additionalPrice, imageURL } = data.wheelDrives[selectedIndex];
-  console.log(data.wheelDrives);
+  const { name, additionalPrice, imageURL } = wheelDrives[selectedIndex];
 
   const {
     handleTrim,
@@ -42,20 +44,20 @@ export function WheelDrive() {
   function handleCardClick(index: number, additionalPrice: number) {
     return () => {
       handleSetIndex(index)();
-      handleTrim({ key: 'wheelDrive', option: data.wheelDrives[index].name, price: additionalPrice });
+      handleTrim({ key: 'wheelDrive', option: wheelDrives[index].name, price: additionalPrice });
     };
   }
 
   useEffect(() => {
     if (wheelDrive.title === '') {
-      handleTrim({ key: 'wheelDrive', option: data.wheelDrives[0].name, price: data.wheelDrives[0].additionalPrice });
+      handleTrim({ key: 'wheelDrive', option: initwheelDrives.name, price: initwheelDrives.additionalPrice });
 
       return;
     }
 
-    const index = data.wheelDrives.findIndex(card => card.name === wheelDrive.title);
+    const index = wheelDrives.findIndex(card => card.name === wheelDrive.title);
     index !== -1 && handleSetIndex(index)();
-  }, [data]);
+  }, [wheelDrives]);
 
   return (
     <style.Container>
@@ -65,7 +67,7 @@ export function WheelDrive() {
           <MyCarDescription title={name} price={additionalPrice} hasTag={false} />
         </style.Box>
         <style.Box>
-          {data.wheelDrives.map(({ name, additionalPrice, description, id }, index) => (
+          {wheelDrives.map(({ name, additionalPrice, description, id }, index) => (
             <style.Enclosure key={id} onClick={handleCardClick(index, additionalPrice)}>
               <TrimCard
                 isActive={index === selectedIndex}
