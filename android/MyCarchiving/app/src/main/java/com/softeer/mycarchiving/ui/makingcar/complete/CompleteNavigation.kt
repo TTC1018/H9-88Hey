@@ -7,11 +7,11 @@ import androidx.navigation.compose.composable
 import com.softeer.mycarchiving.navigation.MakingCarDestinations
 
 fun NavController.navigateToComplete(navOptions: NavOptions? = null) {
-    navigate(MakingCarDestinations.SELECT_COMPLETE, navOptions)
+    navigate(MakingCarDestinations.SELECT_COMPLETE.route, navOptions)
 }
 
 fun NavGraphBuilder.completeScreen() {
-    composable(route = MakingCarDestinations.SELECT_COMPLETE) {
+    composable(route = MakingCarDestinations.SELECT_COMPLETE.route) {
 
     }
 }

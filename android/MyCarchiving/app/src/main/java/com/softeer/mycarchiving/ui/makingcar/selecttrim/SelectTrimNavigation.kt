@@ -7,11 +7,11 @@ import androidx.navigation.compose.composable
 import com.softeer.mycarchiving.navigation.MakingCarDestinations
 
 fun NavController.navigateToSelectTrim(navOptions: NavOptions? = null) {
-    navigate(MakingCarDestinations.SELECT_TRIM, navOptions)
+    navigate(MakingCarDestinations.SELECT_TRIM.route, navOptions)
 }
 
 fun NavGraphBuilder.selectTrimScreen() {
-    composable(route = MakingCarDestinations.SELECT_TRIM) {
-
+    composable(route = MakingCarDestinations.SELECT_TRIM.route) {
+        SelectTrimRoute()
     }
 }

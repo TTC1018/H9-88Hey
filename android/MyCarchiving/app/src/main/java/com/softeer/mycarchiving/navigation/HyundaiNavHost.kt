@@ -5,7 +5,6 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import com.softeer.mycarchiving.ui.HyundaiAppState
 import com.softeer.mycarchiving.ui.archiving.archiveScreen
-import com.softeer.mycarchiving.ui.archiving.navigateToArchive
 import com.softeer.mycarchiving.ui.loading.loadingScreen
 import com.softeer.mycarchiving.ui.loading.navigateToLoading
 import com.softeer.mycarchiving.ui.login.loginScreen
