@@ -10,6 +10,7 @@ import softeer.h9.hey.repository.Car.BodyTypeRepository;
 public class BodyTypeService {
 
     private final BodyTypeRepository bodyTypeRepository;
+
     public BodyTypeResponse findAllByModelId(final int modelId) {
         return BodyTypeResponse.of(bodyTypeRepository.findAllByModelId(modelId));
     }

@@ -1,5 +1,6 @@
 package softeer.h9.hey.repository.Car;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -11,12 +12,10 @@ import softeer.h9.hey.domain.car.BodyType;
 import java.util.List;
 
 @Repository
+@RequiredArgsConstructor
 public class BodyTypeRepository {
-    private final NamedParameterJdbcTemplate jdbcTemplate;
 
-    public BodyTypeRepository(NamedParameterJdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
-    }
+    private final NamedParameterJdbcTemplate jdbcTemplate;
 
     public List<BodyType> findAllByModelId(final int modelId) {
         String sql = "SELECT * FROM bodyType WHERE model_id = :model_id";
