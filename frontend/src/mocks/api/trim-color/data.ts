@@ -2,11 +2,11 @@ export const data = {
   exterierColors: [
     {
       id: 1,
-      name: '어비스 블랙 펄(1, 2)',
+      name: '어비스 블랙 펄(1, 2, 5)',
       carImagePath: 'https/aws-s3/88hey/360carimage/avisblack/',
       colorImageURL: 'https://www.hyundai.com/contents/vr360/LX06/exterior/A2B/colorchip-exterior.png',
       additionalPrice: 0,
-      availableInteriorColors: [1, 2],
+      availableInteriorColors: [1, 2, 5],
       tags: ['트렌디해요', '모두가 좋아하는 색상', '5개 데이터'],
     },
     {
