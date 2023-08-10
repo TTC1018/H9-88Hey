@@ -37,7 +37,7 @@ class TrimControllerTest {
                         jsonPath("$.data.trims[0].name").value("Le Blanc"),
                         jsonPath("$.data.trims[0].price").value(41980000),
                         jsonPath("$.data.trims[0].trimFeatures[0].name").exists(),
-                        jsonPath("$.data.trims[0].trimFeatures[0].imageURL").exists(),
+                        jsonPath("$.data.trims[0].trimFeatures[0].imageUrl").exists(),
 
                         jsonPath("$.data.trims[1]").exists(),
                         jsonPath("$.data.trims[1].trimFeatures[2]").exists(),

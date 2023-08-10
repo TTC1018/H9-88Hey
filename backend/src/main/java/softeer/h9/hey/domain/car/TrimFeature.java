@@ -11,5 +11,5 @@ import lombok.Setter;
 @NoArgsConstructor
 public class TrimFeature {
     private String name;
-    private String imageURL;
+    private String imageUrl;
 }

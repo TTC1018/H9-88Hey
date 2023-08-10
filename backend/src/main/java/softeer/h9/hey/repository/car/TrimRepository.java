@@ -38,7 +38,7 @@ public class TrimRepository {
 
             TrimFeature trimFeature = new TrimFeature();
             trimFeature.setName(rs.getString("tf.name"));
-            trimFeature.setImageURL(rs.getString("tf.image_url"));
+            trimFeature.setImageUrl(rs.getString("tf.image_url"));
 
             trim.addTrimFeature(trimFeature);
 
