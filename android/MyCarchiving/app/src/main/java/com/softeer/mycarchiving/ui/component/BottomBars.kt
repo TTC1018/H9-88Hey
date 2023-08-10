@@ -6,15 +6,24 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Divider
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Text
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -23,6 +32,7 @@ import com.softeer.mycarchiving.ui.theme.Black
 import com.softeer.mycarchiving.ui.theme.HyundaiLightSand
 import com.softeer.mycarchiving.ui.theme.HyundaiSand
 import com.softeer.mycarchiving.ui.theme.PrimaryBlue
+import com.softeer.mycarchiving.ui.theme.White
 import com.softeer.mycarchiving.ui.theme.bold18
 import com.softeer.mycarchiving.ui.theme.medium12
 import com.softeer.mycarchiving.util.toPriceString
@@ -89,6 +99,7 @@ fun BottomBar(
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MakeCarBottomBar(
     modifier: Modifier = Modifier,
@@ -97,6 +108,10 @@ fun MakeCarBottomBar(
     onSummaryClick: () -> Unit,
     isDone: Boolean,
 ) {
+    var openSummarySheet by rememberSaveable { mutableStateOf(false) }
+    val summarySheetState = rememberModalBottomSheetState(
+        skipPartiallyExpanded = true
+    )
     BottomBar(
         modifier = modifier,
         totalPrice = totalPrice,
@@ -115,8 +130,21 @@ fun MakeCarBottomBar(
                 onClick = onButtonClick
             )
         },
-        onShowSummary = onSummaryClick
+        onShowSummary = { openSummarySheet = true }
     )
+    if (openSummarySheet) {
+        ModalBottomSheet(
+            onDismissRequest = { openSummarySheet = false },
+            containerColor = White,
+            sheetState = summarySheetState,
+            windowInsets = WindowInsets(top = 60.dp),
+            scrimColor = Color.Transparent
+        ) {
+            SummaryBottomSheetContent(
+                totalPrice = totalPrice
+            )
+        }
+    }
 }
 
 @Composable
