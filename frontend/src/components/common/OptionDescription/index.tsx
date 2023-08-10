@@ -2,16 +2,16 @@ import * as style from './style';
 
 interface OptionDescriptionProps {
   name: string;
-  price: number;
+  additionalPrice: number;
   tags: string[];
 }
 
-export function OptionDescription({ name, price, tags }: OptionDescriptionProps) {
+export function OptionDescription({ name, additionalPrice, tags }: OptionDescriptionProps) {
   return (
     <style.Container>
       <style.TitleWrapper>
         <style.TitleBox>{name}</style.TitleBox>
-        <style.PriceBox>+{price.toLocaleString()}원</style.PriceBox>
+        <style.PriceBox>+{additionalPrice.toLocaleString()}원</style.PriceBox>
       </style.TitleWrapper>
       <style.Line />
       <style.DescriptionWrapper>

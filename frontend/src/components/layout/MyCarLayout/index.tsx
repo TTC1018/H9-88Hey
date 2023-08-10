@@ -31,6 +31,14 @@ export function MyCarLayout() {
     setTrim(prev => ({ ...prev, [key]: { title: option, price: price } }));
   }
 
+  function addOption({ name, price }: { name: string; price: number }) {
+    setTrim(prev => ({ ...prev, options: [...prev.options, { name, price }] }));
+  }
+
+  function removeOption(name: string) {
+    setTrim(prev => ({ ...prev, options: prev.options.filter(options => options.name !== name) }));
+  }
+
   function handleLocalStrage() {
     localStorage.setItem('carOptions', JSON.stringify(trim));
   }
@@ -51,7 +59,7 @@ export function MyCarLayout() {
       <Header />
       <Navigation />
       <style.Wrapper>
-        <Outlet context={{ handleTrim, trim }} />
+        <Outlet context={{ handleTrim, trim, addOption, removeOption }} />
       </style.Wrapper>
       <Footer options={trim} totalPrice={totalPrice} onSetLocalStorage={handleLocalStrage} />
     </style.Container>

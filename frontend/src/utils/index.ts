@@ -1,7 +1,11 @@
-import { OPTION_CARD_LIST_LENGTH } from '../constants';
+import { OPTION_CARD_LIST_LENGTH } from '@/constants';
 
 export function convertToTwoDigits(index: number) {
   return (index + 1).toString().padStart(2, '0');
+}
+
+export function isValidIndex(index: number, maxIndex: number) {
+  return index >= 0 && index <= maxIndex;
 }
 
 export function isIndexLargeThanZero(index: number) {
