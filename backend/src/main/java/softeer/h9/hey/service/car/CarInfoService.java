@@ -1,7 +1,7 @@
 package softeer.h9.hey.service.car;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.stereotype.Service;
 import softeer.h9.hey.domain.car.CarInfo;
 import softeer.h9.hey.dto.car.request.CarCodeRequest;
 import softeer.h9.hey.dto.car.response.CarCodeResponse;
@@ -9,7 +9,7 @@ import softeer.h9.hey.repository.car.CarInfoRepository;
 
 import java.util.Optional;
 
-@RestController
+@Service
 @RequiredArgsConstructor
 public class CarInfoService {
 
