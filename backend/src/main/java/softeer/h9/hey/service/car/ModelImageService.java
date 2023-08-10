@@ -15,7 +15,7 @@ public class ModelImageService {
 
     private final ModelImageRepository modelImageRepository;
 
-    public ModelImagesResponse findModelImageUrlsByModelId(int modelId) {
+    public ModelImagesResponse findModelImageUrlsByModelId(final int modelId) {
         List<ModelImage> modelImages = modelImageRepository.findAllByModelId(modelId);
 
         List<String> imageUrls = new ArrayList<>();

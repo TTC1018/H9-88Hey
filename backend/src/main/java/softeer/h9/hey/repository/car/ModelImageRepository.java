@@ -16,7 +16,7 @@ public class ModelImageRepository {
 
     private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
-    public List<ModelImage> findAllByModelId(int modelId) {
+    public List<ModelImage> findAllByModelId(final int modelId) {
         String sql = "select * from `modelImage` where model_id = :modelId";
 
         Map<String, Object> params = Map.of("modelId", modelId);
