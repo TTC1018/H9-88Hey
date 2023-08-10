@@ -25,7 +25,10 @@ const DEFAULT_STATE: MyCarType = {
 export function MyCarLayout() {
   const [trim, setTrim] = useState(DEFAULT_STATE);
 
-  const totalPrice = trim.model.price + trim.engine.price + trim.bodyType.price + trim.wheelDrive.price;
+  const trimKeys = ['model', 'engine', 'bodyType', 'wheelDrive'];
+
+  const totalPrice =
+    trimKeys.reduce((acc, cur) => acc + trim[cur].price, 0) + trim.options.reduce((acc, cur) => acc + cur.price, 0);
 
   function handleTrim({ key, option, price }: { key: string; option: string; price: number }) {
     setTrim(prev => ({ ...prev, [key]: { title: option, price: price } }));

@@ -49,6 +49,7 @@ interface MyCarDetailType {
   price: number;
 }
 export interface MyCarType {
+  [key: string]: any;
   model: MyCarDetailType;
   engine: MyCarDetailType;
   bodyType: MyCarDetailType;
