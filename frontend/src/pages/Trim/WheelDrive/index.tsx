@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 
 import { useOutletContext } from 'react-router-dom';
 
-import { MyCarLayoutContextType, WheelDriveDataType } from '@/types/trim';
+import { MyCarLayoutContextProps, WheelDriveDataProps } from '@/types/trim';
 import { useFetch } from '@/hooks/useFetch';
 import { useSelectIndex } from '@/hooks/useSelectedIndex';
 
@@ -13,60 +13,67 @@ import { MyCarDescription } from '@/components/common/MyCarDescription';
 import * as style from './style';
 
 const initialData = {
-  wheelDrive: [
+  wheelDrives: [
     {
+      id: 0,
       name: '',
-      extraCharge: 0,
-      desc: '',
-      image: '',
+      additionalPrice: 0,
+      description: '',
+      imageURL: '',
     },
   ],
 };
 
 export function WheelDrive() {
-  const { data } = useFetch<WheelDriveDataType>({
+  const {
+    data: { wheelDrives },
+  } = useFetch<WheelDriveDataProps>({
     defaultValue: initialData,
-    url: '/model/palisade/trim/le_blanc/wheel_drive',
+    url: '/model/1/wheel-drive',
   });
+  const initwheelDrives = wheelDrives[0];
 
   const [selectedIndex, handleSetIndex] = useSelectIndex();
-  const { name, extraCharge, image } = data.wheelDrive[selectedIndex];
+  const { name, additionalPrice, imageURL } = wheelDrives[selectedIndex];
 
   const {
     handleTrim,
     trim: { wheelDrive },
-  } = useOutletContext<MyCarLayoutContextType>();
+  } = useOutletContext<MyCarLayoutContextProps>();
 
-  function handleCardClick(index: number, extraCharge: number) {
+  function handleCardClick(index: number, additionalPrice: number) {
     return () => {
       handleSetIndex(index)();
-      handleTrim({ key: 'wheelDrive', option: data.wheelDrive[index].name, price: extraCharge });
+      handleTrim({ key: 'wheelDrive', option: wheelDrives[index].name, price: additionalPrice });
     };
   }
 
   useEffect(() => {
-    const index = data.wheelDrive.findIndex(card => card.name === wheelDrive.title);
+    if (wheelDrive.title === '') {
+      handleTrim({ key: 'wheelDrive', option: initwheelDrives.name, price: initwheelDrives.additionalPrice });
 
+      return;
+    }
+
+    const index = wheelDrives.findIndex(card => card.name === wheelDrive.title);
     index !== -1 && handleSetIndex(index)();
-    wheelDrive.title === '' &&
-      handleTrim({ key: 'wheelDrive', option: data.wheelDrive[0].name, price: data.wheelDrive[0].extraCharge });
-  }, [data]);
+  }, [wheelDrives]);
 
   return (
     <style.Container>
       <style.Wrapper>
         <style.Box>
-          <MyCarImageBox hasOption={false} images={image} />
-          <MyCarDescription title={name} price={extraCharge} hasTag={false} />
+          <MyCarImageBox hasOption={false} images={imageURL} />
+          <MyCarDescription title={name} price={additionalPrice} hasTag={false} />
         </style.Box>
         <style.Box>
-          {data.wheelDrive.map(({ name, extraCharge, desc }, index) => (
-            <style.Enclosure key={name} onClick={handleCardClick(index, extraCharge)}>
+          {wheelDrives.map(({ name, additionalPrice, description, id }, index) => (
+            <style.Enclosure key={id} onClick={handleCardClick(index, additionalPrice)}>
               <TrimCard
                 isActive={index === selectedIndex}
                 title={name}
-                price={extraCharge}
-                description={desc}
+                price={additionalPrice}
+                description={description}
                 hasEngineInfo={false}
               />
             </style.Enclosure>
