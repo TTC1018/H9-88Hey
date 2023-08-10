@@ -42,18 +42,18 @@ export function Footer({ myCarData, totalPrice, onSetLocalStorage }: FooterProps
   }${wheelDrive.title}`;
 
   const { pathname } = useLocation();
-  const pathkey = pathname.endsWith('/') ? pathname.slice(0, -1) : pathname;
+  const pathKey = pathname.endsWith('/') ? pathname.slice(0, -1) : pathname;
   const navigate = useNavigate();
 
   function handleNextNavigate() {
-    const path = NAVIGATION_PATH[pathkey as keyof typeof NAVIGATION_PATH].next;
+    const path = NAVIGATION_PATH[pathKey as keyof typeof NAVIGATION_PATH].next;
     if (path !== '') {
       onSetLocalStorage();
       navigate(path);
     }
   }
   function handlePrevNavigate() {
-    const path = NAVIGATION_PATH[pathkey as keyof typeof NAVIGATION_PATH].prev;
+    const path = NAVIGATION_PATH[pathKey as keyof typeof NAVIGATION_PATH].prev;
     path !== '' && navigate(path);
   }
 

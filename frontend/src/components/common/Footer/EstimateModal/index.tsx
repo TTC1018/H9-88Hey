@@ -1,4 +1,5 @@
 import { MyCarProps } from '@/types/trim';
+
 import * as style from './style';
 
 interface Props {

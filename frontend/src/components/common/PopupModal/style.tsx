@@ -50,8 +50,9 @@ export const Bold = styled.span`
 `;
 
 export const ButtonWrapper = styled.div`
-  display: flex;
   gap: 6px;
+
+  display: flex;
 `;
 
 export const CancleButton = styled.button<SizeProps>`

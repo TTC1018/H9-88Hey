@@ -23,11 +23,11 @@ export const ModalContainer = styled.div`
 
   position: fixed;
 
-  transform: translate(-50%, -50%);
-
   border-radius: 10px;
   background: #fff;
   box-shadow: -2px 0px 12px 0px rgba(78, 81, 94, 0.25);
+
+  transform: translate(-50%, -50%);
 `;
 
 export const Header = styled.div`
