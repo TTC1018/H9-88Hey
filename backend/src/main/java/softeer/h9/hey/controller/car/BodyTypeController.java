@@ -17,8 +17,8 @@ public class BodyTypeController {
     private final BodyTypeService bodyTypeService;
 
     @GetMapping("/model/{modelId}/body-type")
-    public GlobalResponse<BodyTypeResponse> findAllByModelId(@PathVariable final int modelId) {
-        BodyTypeResponse response = bodyTypeService.findAllByModelId(modelId);
+    public GlobalResponse<BodyTypeResponse> findBodyTypesByModelId(@PathVariable final int modelId) {
+        BodyTypeResponse response = bodyTypeService.findBodyTypesByModelId(modelId);
         return GlobalResponse.ok(response);
     }
 }

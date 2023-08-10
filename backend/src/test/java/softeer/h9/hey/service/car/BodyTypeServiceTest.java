@@ -26,9 +26,9 @@ class BodyTypeServiceTest {
         int modelId = 1;
         BodyType bodyType1 = new BodyType(modelId, "7인승", "url1", 12300, "설명");
         BodyType bodyType2 = new BodyType(modelId, "8인승", "url2", 32100, "설명2");
-        when(bodyTypeRepository.findAllByModelId(modelId)).thenReturn(List.of(bodyType1, bodyType2));
+        when(bodyTypeRepository.findBodyTypesByModelId(modelId)).thenReturn(List.of(bodyType1, bodyType2));
 
-        BodyTypeResponse response = bodyTypeService.findAllByModelId(modelId);
+        BodyTypeResponse response = bodyTypeService.findBodyTypesByModelId(modelId);
         List<BodyType> bodyTypes = response.getBodyTypes();
 
         Assertions.assertAll(

@@ -11,7 +11,7 @@ public class BodyTypeService {
 
     private final BodyTypeRepository bodyTypeRepository;
 
-    public BodyTypeResponse findAllByModelId(final int modelId) {
-        return BodyTypeResponse.of(bodyTypeRepository.findAllByModelId(modelId));
+    public BodyTypeResponse findBodyTypesByModelId(final int modelId) {
+        return BodyTypeResponse.of(bodyTypeRepository.findBodyTypesByModelId(modelId));
     }
 }

@@ -21,7 +21,7 @@ class BodyTypeRepositoryTest {
     void getBodyTypesByModelId() {
         int modelId = 1;
 
-        List<BodyType> bodyTypes = bodyTypeRepository.findAllByModelId(modelId);
+        List<BodyType> bodyTypes = bodyTypeRepository.findBodyTypesByModelId(modelId);
 
         Assertions.assertThat(bodyTypes).isNotNull();
     }

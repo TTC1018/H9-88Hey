@@ -17,7 +17,7 @@ public class BodyTypeRepository {
 
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
-    public List<BodyType> findAllByModelId(final int modelId) {
+    public List<BodyType> findBodyTypesByModelId(final int modelId) {
         String sql = "SELECT * FROM bodyType WHERE model_id = :model_id";
         SqlParameterSource param = new MapSqlParameterSource()
                 .addValue("model_id", modelId);
