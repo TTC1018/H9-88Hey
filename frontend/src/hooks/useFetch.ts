@@ -1,3 +1,4 @@
+import { API_URL } from '@/constants';
 import { useState, useEffect } from 'react';
 
 interface UseFetchProps<T> {
@@ -12,24 +13,31 @@ interface ResponseType<T> {
 export function useFetch<T>({ defaultValue, url }: UseFetchProps<T>) {
   const [data, setData] = useState(defaultValue);
   const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<unknown>(null);
+  const [error, setError] = useState('');
 
   async function fetchUsers() {
     try {
-      const response = await fetch(url);
+      const response = await fetch(`${API_URL}${url}`);
 
       if (!response.ok) {
         throw new Error(`${response.status} ${response.statusText}`);
       }
 
       const { data } = (await response.json()) as ResponseType<T>;
-      // status 관련 로직 작성
 
       setData(data);
-    } catch (error: unknown) {
-      setError(error);
+    } catch (error) {
+      if (error instanceof Error) {
+        setError(error.message);
+      } else {
+        setError(String(error));
+      }
     }
     setIsLoading(false);
+  }
+
+  if (error !== '') {
+    throw new Error(error);
   }
 
   useEffect(() => {
