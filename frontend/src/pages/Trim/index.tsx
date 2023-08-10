@@ -24,7 +24,7 @@ const initialData = {
 
 export function Trim() {
   const { data } = useFetch<TrimDataType>({ defaultValue: initialData, url: '/model/palisade/trim' });
-
+  console.log(data);
   const [selectedIndex, handleSetIndex] = useSelectIndex();
   const [selectedImageIndex, handleSetImageIndex] = useSelectIndex();
 

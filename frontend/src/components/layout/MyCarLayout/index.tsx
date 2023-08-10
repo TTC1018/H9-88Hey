@@ -10,7 +10,7 @@ import { Navigation } from '@/components/common/Navigation';
 
 import * as style from './style';
 
-const DEFAULT_STATE: MyCarType = {
+const initialState: MyCarType = {
   model: { title: '', price: 0 },
   engine: { title: '', price: 0 },
   bodyType: { title: '', price: 0 },
@@ -23,7 +23,7 @@ const DEFAULT_STATE: MyCarType = {
 };
 
 export function MyCarLayout() {
-  const [trim, setTrim] = useState(DEFAULT_STATE);
+  const [trim, setTrim] = useState(initialState);
 
   const totalPrice = trim.model.price + trim.engine.price + trim.bodyType.price + trim.wheelDrive.price;
 
