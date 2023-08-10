@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
@@ -143,7 +144,7 @@ fun SelectedOptionInfo(
         Row(
             modifier = modifier
                 .fillMaxWidth()
-                .height(IntrinsicSize.Min)
+                .heightIn(max = 120.dp)
                 .padding(top = 10.dp, bottom = 10.dp),
             horizontalArrangement = Arrangement.spacedBy(8.dp)
         ) {
@@ -226,7 +227,7 @@ fun CompleteColorInfoRow(
 ) {
     Row(
         modifier = modifier
-            .height(IntrinsicSize.Min),
+            .heightIn(max = 30.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(8.dp)
     ) {
@@ -329,7 +330,7 @@ fun PreviewSelectedOptionInfo() {
         optionInfo = CompleteOptionUiModel(
             optionName = "컴포트 II",
             price = 1090000,
-            listOf("후석 승객 알림", "메탈 리어범퍼스텝", "메탈 도어스커프", "3열 파워폴딩시트", "3열 열선시트", "헤드업 디스플레이")
+            subOptionNames = listOf("후석 승객 알림", "메탈 리어범퍼스텝", "메탈 도어스커프", "3열 파워폴딩시트", "3열 열선시트", "헤드업 디스플레이")
         ),
         thumbnailUrl = ""
     )

@@ -48,6 +48,15 @@ class CompleteViewModel @Inject constructor() : ViewModel() {
                     "메탈 도어스커프", "3열 파워폴딩시트",
                     "3열 열선시트", "헤드업 디스플레이"
                 )
+            ),
+            CompleteOptionUiModel(
+                optionName = "컴포트 II",
+                price = 1090000,
+                subOptionNames = listOf(
+                    "후석 승객 알림", "메탈 리어 범퍼스텝",
+                    "메탈 도어스커프", "3열 파워폴딩시트",
+                    "3열 열선시트", "헤드업 디스플레이"
+                )
             )
         )
     )
