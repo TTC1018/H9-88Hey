@@ -24,11 +24,11 @@ export function ExternalCarImage({ color }: CarImageProps) {
     setIsRotate(true);
   }
 
-  function goPrevImage() {
+  function handleClickPrevButton() {
     setCurrentImage(prev => (prev === 60 ? 1 : prev + 1));
   }
 
-  function goNextImage() {
+  function handleClickNextButton() {
     setCurrentImage(prev => (prev === 1 ? 60 : prev - 1));
   }
 
@@ -59,12 +59,12 @@ export function ExternalCarImage({ color }: CarImageProps) {
     event.preventDefault();
     if (moveMouseToLeft(event)) {
       if (setMovingSpeed(event)) {
-        goPrevImage();
+        handleClickPrevButton();
         setXPosition(event.screenX);
       }
     } else {
       if (setMovingSpeed(event)) {
-        goNextImage();
+        handleClickNextButton();
         setXPosition(event.screenX);
       }
     }
@@ -77,7 +77,7 @@ export function ExternalCarImage({ color }: CarImageProps) {
   return (
     <style.Container>
       <style.Wrapper>
-        {isRotate && <PrevButton width="48" height="48" onClick={goPrevImage} />}
+        {isRotate && <PrevButton width="48" height="48" onClick={handleClickPrevButton} />}
         <style.ImageBox
           onMouseDown={handleMouseDown}
           onMouseUp={handleMouseOver}
@@ -93,7 +93,7 @@ export function ExternalCarImage({ color }: CarImageProps) {
             />
           ))}
         </style.ImageBox>
-        {isRotate && <NextButton width="48" height="48" onClick={goNextImage} />}
+        {isRotate && <NextButton width="48" height="48" onClick={handleClickNextButton} />}
         {!isRotate && (
           <>
             <style.RotateBtn onClick={handleClickRotateButton}>
