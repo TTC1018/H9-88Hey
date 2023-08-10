@@ -11,6 +11,6 @@ import lombok.Setter;
 @AllArgsConstructor
 public class ModelImage {
     private int id;
-    private int imageUrl;
+    private String imageUrl;
     private int modelId;
 }
