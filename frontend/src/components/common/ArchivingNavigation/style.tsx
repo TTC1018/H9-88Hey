@@ -25,17 +25,18 @@ export const TitleBox = styled.div`
     return css`
       width: 133px;
       height: 40px;
+      left: 50%;
       gap: 9px;
 
       display: flex;
       align-items: center;
       justify-content: center;
       position: absolute;
-      left: 50%;
-      transform: translateX(-50%);
 
       background-color: ${colors.hyundaiLightSand};
       border-radius: 18px;
+
+      transform: translateX(-50%);
     `;
   }}
 `;

@@ -65,9 +65,8 @@ export const CarNameText = styled.span`
   ${({ theme }) => {
     const { colors, fonts } = theme;
     return css`
+      ${fonts.headingBold4};
       color: ${colors.black};
-
-      ${fonts.headingBold4}
     `;
   }}
 `;
