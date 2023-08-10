@@ -53,7 +53,7 @@ export function MyCarLayout() {
       <style.Wrapper>
         <Outlet context={{ handleTrim, trim }} />
       </style.Wrapper>
-      <Footer options={trim} totalPrice={totalPrice} onSetLocalStorage={handleLocalStrage} />
+      <Footer myCarData={trim} totalPrice={totalPrice} onSetLocalStorage={handleLocalStrage} />
     </style.Container>
   );
 }

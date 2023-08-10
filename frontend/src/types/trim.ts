@@ -3,45 +3,49 @@ export interface FeatureProps {
   icon: string;
 }
 interface TrimProps {
+  id: number;
   name: string;
   price: number;
-  images: string[];
-  features: FeatureProps[];
+  trimFeatures: FeatureProps[];
 }
 export interface TrimDataProps {
+  carImageURL: string[];
   trims: TrimProps[];
 }
 
 interface EngineProps {
+  id: number;
   name: string;
-  extraCharge: number;
-  desc: string;
-  maximumOutput: string;
+  additionalPrice: number;
+  description: string;
+  maximumPower: string;
   maximumTorque: string;
-  image: string;
+  imageURL: string;
 }
 export interface EngineDataProps {
   engines: EngineProps[];
 }
 
-interface BodyProps {
+interface BodyTypeProps {
+  id: number;
   name: string;
-  extraCharge: number;
-  desc: string;
-  images: string[];
+  imageURLs: string[];
+  additionalPrice: number;
+  description: string;
 }
-export interface BodyPropsDataProps {
-  bodyPropss: BodyProps[];
+export interface BodyTypeDataProps {
+  bodyTypes: BodyTypeProps[];
 }
 
 interface WheelDriveProps {
+  id: number;
   name: string;
-  extraCharge: number;
-  desc: string;
-  image: string;
+  additionalPrice: number;
+  description: string;
+  imageURL: string;
 }
 export interface WheelDriveDataProps {
-  wheelDrive: WheelDriveProps[];
+  wheelDrives: WheelDriveProps[];
 }
 
 interface MyCarDetailProps {
