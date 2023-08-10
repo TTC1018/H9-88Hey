@@ -40,7 +40,7 @@ class SelectColorViewModel @Inject constructor() : ViewModel() {
     ))
     val colorOptions: StateFlow<List<ColorOptionUiModel>> = _colorOptions
 
-    private val _category = MutableStateFlow("")
+    private val _category = MutableStateFlow("외장 색상")
     val category: StateFlow<String> = _category
 
     fun changeTopImageIndex(beAdded: Boolean) {
