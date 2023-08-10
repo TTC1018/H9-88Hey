@@ -15,7 +15,7 @@ import java.util.List;
 class TrimRepositoryTest {
 
     @Autowired
-    TrimRepository trimRepository;
+    private TrimRepository trimRepository;
 
     @Test
     @DisplayName("DB에 저장된 특정 모델에서 적용할 수 있는 트림 리스트를 조회한다.")
