@@ -8,11 +8,11 @@ import java.util.List;
 
 @Getter
 @RequiredArgsConstructor
-public class BodyTypeResponse {
+public class BodyTypesResponse {
 
     private final List<BodyType> bodyTypes;
 
-    public static BodyTypeResponse of(final List<BodyType> bodyTypes) {
-        return new BodyTypeResponse(bodyTypes);
+    public static BodyTypesResponse of(final List<BodyType> bodyTypes) {
+        return new BodyTypesResponse(bodyTypes);
     }
 }

@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.boot.test.context.SpringBootTest;
 import softeer.h9.hey.domain.car.BodyType;
-import softeer.h9.hey.dto.car.response.BodyTypeResponse;
+import softeer.h9.hey.dto.car.response.BodyTypesResponse;
 import softeer.h9.hey.repository.Car.BodyTypeRepository;
 
 import java.util.List;
@@ -28,7 +28,7 @@ class BodyTypeServiceTest {
         BodyType bodyType2 = new BodyType(modelId, "8인승", "url2", 32100, "설명2");
         when(bodyTypeRepository.findBodyTypesByModelId(modelId)).thenReturn(List.of(bodyType1, bodyType2));
 
-        BodyTypeResponse response = bodyTypeService.findBodyTypesByModelId(modelId);
+        BodyTypesResponse response = bodyTypeService.findBodyTypesByModelId(modelId);
         List<BodyType> bodyTypes = response.getBodyTypes();
 
         Assertions.assertAll(
