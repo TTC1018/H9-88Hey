@@ -9,11 +9,11 @@ import java.util.List;
 public class BodyTypeResponse {
     private final List<BodyType> bodyTypes;
 
-    private BodyTypeResponse(List<BodyType> bodyTypes) {
+    private BodyTypeResponse(final List<BodyType> bodyTypes) {
         this.bodyTypes = bodyTypes;
     }
 
-    public static BodyTypeResponse of(List<BodyType> bodyTypes) {
+    public static BodyTypeResponse of(final List<BodyType> bodyTypes) {
         return new BodyTypeResponse(bodyTypes);
     }
 }
