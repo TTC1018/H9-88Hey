@@ -13,6 +13,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.bumptech.glide.request.RequestOptions
 import com.skydoves.landscapist.glide.GlideImage
 import com.softeer.mycarchiving.R
@@ -23,8 +25,10 @@ import com.softeer.mycarchiving.ui.component.OptionNameWithDivider
 @Composable
 fun SelectTrimRoute(
     modifier: Modifier = Modifier,
-    options: List<OptionCardUiModel>,
+    selectTrimViewModel: SelectTrimViewModel = hiltViewModel(),
 ) {
+    val options by selectTrimViewModel.options.collectAsStateWithLifecycle()
+
     SelectTrimScreen(
         modifier = modifier,
         options = options
