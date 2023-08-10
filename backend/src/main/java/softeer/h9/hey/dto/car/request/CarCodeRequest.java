@@ -6,7 +6,7 @@ import lombok.RequiredArgsConstructor;
 public class CarCodeRequest {
     private final int trim_id;
     private final int engine_id;
-    private final int body_Type_id;
+    private final int body_type_id;
     private final int wheel_drive_id;
 
     public int getTrimId() {
@@ -18,7 +18,7 @@ public class CarCodeRequest {
     }
 
     public int getBodyTypeId() {
-        return body_Type_id;
+        return body_type_id;
     }
 
     public int getWheelDriveId() {
