@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import softeer.h9.hey.domain.car.Trim;
 import softeer.h9.hey.domain.car.TrimFeature;
+import softeer.h9.hey.dto.car.response.TrimsResponse;
 import softeer.h9.hey.repository.car.TrimRepository;
 
 import java.util.List;
@@ -41,9 +42,9 @@ public class TrimServiceTest {
         trim1.addTrimFeature(new TrimFeature("트림1 특징3", "url13"));
 
         Trim trim2 = new Trim(2, "trim2", 200);
-        trim1.addTrimFeature(new TrimFeature("트림2 특징1", "url21"));
-        trim1.addTrimFeature(new TrimFeature("트림2 특징2", "url22"));
-        trim1.addTrimFeature(new TrimFeature("트림2 특징3", "url23"));
+        trim2.addTrimFeature(new TrimFeature("트림2 특징1", "url21"));
+        trim2.addTrimFeature(new TrimFeature("트림2 특징2", "url22"));
+        trim2.addTrimFeature(new TrimFeature("트림2 특징3", "url23"));
 
         return List.of(trim1, trim2);
     }
