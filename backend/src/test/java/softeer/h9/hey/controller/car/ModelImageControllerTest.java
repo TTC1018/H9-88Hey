@@ -33,8 +33,8 @@ class ModelImageControllerTest {
                 .andExpectAll(
                         jsonPath("$.data.carImageURL").exists(),
                         jsonPath("$.data.carImageURL[0]").value("url"),
-                        jsonPath("$.data.carImageURL[0]").value("url"),
-                        jsonPath("$.data.carImageURL[0]").value("url")
+                        jsonPath("$.data.carImageURL[1]").value("url"),
+                        jsonPath("$.data.carImageURL[2]").value("url")
                 );
     }
 

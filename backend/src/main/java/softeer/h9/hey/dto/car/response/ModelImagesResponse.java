@@ -6,10 +6,10 @@ import java.util.List;
 
 @Getter
 public class ModelImagesResponse {
-    private final List<String> imageUrls;
+    private final List<String> carImageUrls;
 
     private ModelImagesResponse(final List<String> imageUrls){
-        this.imageUrls = imageUrls;
+        this.carImageUrls = imageUrls;
     }
 
     public static ModelImagesResponse of(final List<String> imageUrls) {
