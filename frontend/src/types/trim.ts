@@ -56,7 +56,10 @@ export interface MyCarType {
   wheelDrive: MyCarDetailType;
   outerColor: { title: string; imageUrl: string; price: number };
   innerColor: { title: string; imageUrl: string; id: number };
-  options: string[];
+  options: {
+    name: string;
+    price: number;
+  }[];
 }
 
 export interface MyCarLayoutContextType {

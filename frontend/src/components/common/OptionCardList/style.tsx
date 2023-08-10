@@ -154,3 +154,14 @@ export const DescriptionHover = styled.li`
     `;
   }}
 `;
+
+export const OptionCardHoverArea = styled.div`
+  width: 160px;
+  height: 159px;
+  top: 0;
+  left: 0;
+
+  position: absolute;
+
+  background-color: transparent;
+`;

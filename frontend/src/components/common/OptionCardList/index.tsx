@@ -1,6 +1,8 @@
 import { useState, useEffect, MouseEvent } from 'react';
 
-import { SelectOptionCardDataProps } from '@/types/option';
+import { useOutletContext } from 'react-router-dom';
+
+import { OptionCardDataProps, OptionContextProviderProps } from '@/types/option';
 import { isIndexLargeThanZero, isIndexSmallThanMaxIndex } from '@/utils';
 import { OPTION_CARD_LIST_LENGTH } from '@/constants';
 
@@ -9,38 +11,38 @@ import { NextButton } from '@/components/common/NextButton';
 
 import * as style from './style';
 
-interface SelectOptionCardListProps {
+interface OptionCardListProps {
   isShow: boolean;
   selectedIndex: number;
   cardListIndex: number;
-  data: SelectOptionCardDataProps[];
+  data: OptionCardDataProps[];
   onClickCard: (index: number, event: MouseEvent<HTMLDivElement>) => void;
-  onClickArrowButton: (type: string, index: number, length: number) => void;
+  onClickArrowButton: (index: number, length: number) => void;
 }
 
-interface SelectOptionCardProps {
+interface OptionCardProps {
   index: number;
   name: string;
-  price: number;
-  imageUrl: string;
+  additionalPrice: number;
+  imageURL: string;
   subOptionNames: string[];
   isCardActive: boolean;
-  onClickCard: (index: number, event: React.MouseEvent<HTMLDivElement>) => void;
+  onClickCard: (index: number, event: MouseEvent<HTMLDivElement>) => void;
 }
 
-interface SelectOptionCardHoverProps {
+interface OptionCardHoverProps {
   subOptionNames: string[];
 }
 
-export function SelectOptionCardList({
+export function OptionCardList({
   isShow,
   selectedIndex,
   cardListIndex,
   data,
   onClickCard,
   onClickArrowButton,
-}: SelectOptionCardListProps) {
-  const [cardList, setCardList] = useState<SelectOptionCardDataProps[]>([]);
+}: OptionCardListProps) {
+  const [cardList, setCardList] = useState<OptionCardDataProps[]>([]);
 
   useEffect(() => {
     const startIndex = cardListIndex * OPTION_CARD_LIST_LENGTH;
@@ -56,15 +58,15 @@ export function SelectOptionCardList({
       <PrevButton
         width="48"
         height="48"
-        onClick={() => onClickArrowButton('SELECT', cardListIndex - 1, data.length)}
+        onClick={() => onClickArrowButton(cardListIndex - 1, data.length)}
         isShow={isIndexLargeThanZero(cardListIndex)}
       />
-      {cardList.map(({ index, name, price, imageUrl, subOptionNames }) => (
-        <SelectOptionCard
+      {cardList.map(({ index, name, additionalPrice, imageURL, subOptionNames }) => (
+        <OptionCard
           index={index}
           name={name}
-          price={price}
-          imageUrl={imageUrl}
+          additionalPrice={additionalPrice}
+          imageURL={imageURL}
           subOptionNames={subOptionNames}
           isCardActive={index === selectedIndex}
           onClickCard={onClickCard}
@@ -74,62 +76,64 @@ export function SelectOptionCardList({
       <NextButton
         width="48"
         height="48"
-        onClick={() => onClickArrowButton('SELECT', cardListIndex + 1, data.length)}
+        onClick={() => onClickArrowButton(cardListIndex + 1, data.length)}
         isShow={isIndexSmallThanMaxIndex(cardListIndex, data.length)}
       />
     </style.Container>
   );
 }
 
-function SelectOptionCard({
+function OptionCard({
   index,
   name,
-  price,
-  imageUrl,
+  additionalPrice,
+  imageURL,
   subOptionNames,
   isCardActive,
   onClickCard,
-}: SelectOptionCardProps) {
+}: OptionCardProps) {
   const [isButtonActive, setIsButtonActive] = useState(false);
   const [isHover, setIsHover] = useState(false);
 
+  const { trim, addOption, removeOption } = useOutletContext<OptionContextProviderProps>();
+
   function handleClickButton() {
     setIsButtonActive(!isButtonActive);
+    isButtonActive ? removeOption(name) : addOption({ name, price: additionalPrice });
   }
 
-  function handleHoverCard(isHover: boolean, event: MouseEvent<HTMLDivElement>) {
-    const target = event.target as HTMLDivElement;
-    if (target.tagName === 'BUTTON') {
-      setIsHover(false);
-      return;
-    }
+  function handleHoverCard(isHover: boolean) {
     setIsHover(isHover);
   }
 
+  useEffect(() => {
+    const isOptionIncluded = trim.options.some(option => option.name === name);
+    setIsButtonActive(isOptionIncluded);
+  }, [name]);
+
   return (
-    <style.OptionCard
-      isCardActive={isCardActive}
-      onClick={event => onClickCard(index, event)}
-      onMouseOver={event => handleHoverCard(true, event)}
-      onMouseOut={event => handleHoverCard(false, event)}
-    >
-      <style.Image src={imageUrl} />
+    <style.OptionCard isCardActive={isCardActive} onClick={event => onClickCard(index, event)}>
+      <style.Image src={imageURL} />
       <style.DescriptionWrapper>
         <style.Text isCardActive={isCardActive}>{name}</style.Text>
-        <style.Text isCardActive={isCardActive}>+{price.toLocaleString()}원</style.Text>
+        <style.Text isCardActive={isCardActive}>+{additionalPrice.toLocaleString()}원</style.Text>
         <style.ButtonBox>
           <style.Button isButtonActive={isButtonActive} onClick={handleClickButton}>
             {isButtonActive ? '추가 완료' : '추가하기'}
           </style.Button>
         </style.ButtonBox>
-        {isButtonActive && <style.Icon src={'/src/assets/icon_done.svg'} />}
+        {isButtonActive && <style.Icon src={'/src/assets/icons/icon_done.svg'} />}
       </style.DescriptionWrapper>
-      {isHover && <SelectOptionCardHover subOptionNames={subOptionNames} />}
+      {isHover && <OptionCardHover subOptionNames={subOptionNames} />}
+      <style.OptionCardHoverArea
+        onMouseEnter={() => handleHoverCard(true)}
+        onMouseLeave={() => handleHoverCard(false)}
+      />
     </style.OptionCard>
   );
 }
 
-function SelectOptionCardHover({ subOptionNames }: SelectOptionCardHoverProps) {
+function OptionCardHover({ subOptionNames }: OptionCardHoverProps) {
   return (
     <style.OptionCardHover>
       <style.DescriptionHoverWrapper>

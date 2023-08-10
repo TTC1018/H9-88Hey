@@ -139,6 +139,7 @@ const Option = styled.div`
   ${({ theme }) => {
     const { fonts, colors } = theme;
     return css`
+      max-width: 100px;
       padding: 4px 8px;
 
       overflow: hidden;
