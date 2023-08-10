@@ -1,16 +1,27 @@
-import { ArchivingLogo } from '@/components/common/ArchivingLogo';
+import { useLocation } from 'react-router-dom';
+
+import { PATH_LIST } from '@/constants';
+
+import { ArchivingLogoDark } from '@/components/common/ArchivingLogoDark';
+import { PrevButton } from '@/components/common/PrevButton';
+import { CarLogo } from '@/components/common/CarLogo';
+
 import * as style from './style';
-import { PrevButton } from '../PrevButton';
-import { CarLogo } from '../CarLogo';
+
+type PathType = 'archiving' | 'my-archiving';
 
 export function ArchivingNavigation() {
+  const { pathname } = useLocation();
+  const path = pathname.split('/')[1];
+  const title = PATH_LIST[path as PathType];
+
   return (
     <style.Container>
       <style.Wrapper>
         <PrevButton width="48" height="48" onClick={() => {}} />
         <style.TitleBox>
-          <ArchivingLogo />
-          <style.TitleText>아카이빙</style.TitleText>
+          <ArchivingLogoDark />
+          <style.TitleText>{title}</style.TitleText>
         </style.TitleBox>
         <style.ButtonBox>
           <CarLogo />

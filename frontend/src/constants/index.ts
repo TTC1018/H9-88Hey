@@ -7,3 +7,11 @@ export enum ModalTypeProps {
 }
 export const TAG_CHIP_MAX_NUMBER = 3;
 export const API_URL = import.meta.env.VITE_API_URL;
+
+export const ARCHIVING = '아카이빙';
+export const MY_ARCHIVING = '마이카이빙';
+
+export const PATH_LIST = Object.freeze({
+  archiving: ARCHIVING,
+  'my-archiving': MY_ARCHIVING,
+});

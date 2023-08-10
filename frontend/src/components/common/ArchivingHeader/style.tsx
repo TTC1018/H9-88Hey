@@ -21,8 +21,8 @@ export const Wrapper = styled.div`
     const { colors } = theme;
     return css`
       width: 100%;
+      height: 60px;
       max-width: 1280px;
-      padding: 15px 0;
 
       display: flex;
       justify-content: space-between;

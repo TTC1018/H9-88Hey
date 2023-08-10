@@ -23,8 +23,7 @@ export const TitleBox = styled.div`
   ${({ theme }) => {
     const { colors } = theme;
     return css`
-      width: 133px;
-      height: 40px;
+      padding: 7px 15px;
       left: 50%;
       gap: 9px;
 
@@ -34,7 +33,7 @@ export const TitleBox = styled.div`
       position: absolute;
 
       background-color: ${colors.hyundaiLightSand};
-      border-radius: 18px;
+      border-radius: 999px;
 
       transform: translateX(-50%);
     `;
