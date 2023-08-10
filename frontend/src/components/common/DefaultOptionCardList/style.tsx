@@ -89,8 +89,12 @@ export const Text = styled.p`
     const { colors, fonts } = theme;
 
     return css`
+      overflow: hidden;
+
       color: ${colors.black};
       ${fonts.bodyMedium3};
+      text-overflow: ellipsis;
+      white-space: nowrap;
     `;
   }}
 `;

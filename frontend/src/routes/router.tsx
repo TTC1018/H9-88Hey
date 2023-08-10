@@ -43,15 +43,15 @@ export const router = createBrowserRouter([
         children: [
           {
             path: '',
-            element: <Option key="option" />,
+            element: <Option key="option" apiType="select_option" />,
           },
           {
             path: 'h-genuine-accessories',
-            element: <Option key="h-genuine-accessories" />,
+            element: <Option key="h-genuine-accessories" apiType="h_genuine_accessories" />,
           },
           {
             path: 'n-performance',
-            element: <Option key="n-performance" />,
+            element: <Option key="n-performance" apiType="n_performance" />,
           },
         ],
       },

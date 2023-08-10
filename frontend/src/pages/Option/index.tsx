@@ -34,10 +34,14 @@ const initialData = {
   ],
 };
 
-export function Option() {
+interface Props {
+  apiType: string;
+}
+
+export function Option({ apiType }: Props) {
   const { data } = useFetch<OptionDataProps>({
     defaultValue: initialData,
-    url: '/model/1/trim/2/select_option',
+    url: `/model/1/trim/2/${apiType}`,
   });
 
   const [option, setOption] = useState<OptionProps>({
@@ -129,7 +133,7 @@ export function Option() {
         </style.DescriptionBox>
       </style.OptionWrapper>
       <style.CardWrapper>
-        <OptionCategory menu={menu} onClick={handleChangeMenu} />
+        <OptionCategory menu={menu} onClick={handleChangeMenu} isShowDefaultOption={apiType === 'select_option'} />
         <OptionCardList
           isShow={menu === 0}
           selectedIndex={optionIndex}
@@ -138,7 +142,7 @@ export function Option() {
           onClickCard={handleChangeOptionIndex}
           onClickArrowButton={handleChangeCardListIndex}
         />
-        <DefaultOptionCardList isShow={menu === 1} />
+        <DefaultOptionCardList isShow={apiType === 'select_option' && menu === 1} />
       </style.CardWrapper>
     </style.Container>
   );

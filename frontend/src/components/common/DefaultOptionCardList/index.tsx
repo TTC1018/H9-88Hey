@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 
-import { DefaultOptionDataProps, DefaultSubOptionProps, DefaultOptionCardDataProps } from '@/types/option';
+import { DefaultOptionDataProps, SubOptionProps } from '@/types/option';
 import { isValidIndex, isIndexLargeThanZero, isIndexSmallThanMaxIndex } from '@/utils';
 import { OPTION_CARD_LIST_LENGTH } from '@/constants';
 import { useFetch } from '@/hooks/useFetch';
@@ -38,9 +38,9 @@ export function DefaultOptionCardList({ isShow }: Props) {
     url: '/model/1/trim/2/default_option',
   });
 
-  const [subOptions, setSubOptions] = useState<DefaultSubOptionProps[]>([]);
-  const [cardList, setCardList] = useState<DefaultOptionCardDataProps[]>([]);
   const [categories, setCategories] = useState<string[]>([]);
+  const [subOptions, setSubOptions] = useState<SubOptionProps[]>([]);
+  const [cardList, setCardList] = useState<SubOptionProps[]>([]);
 
   const [categoryIndex, setCategoryIndex] = useState(0);
   const [cardListIndex, setCardListIndex] = useState(0);
@@ -49,6 +49,7 @@ export function DefaultOptionCardList({ isShow }: Props) {
   const [modal, setModal] = useState({
     name: '',
     imageURL: '',
+    description: '',
   });
 
   function handleChangeCategoryIndex(index: number) {
@@ -67,9 +68,9 @@ export function DefaultOptionCardList({ isShow }: Props) {
     setCardListIndex(index);
   }
 
-  function handleOpenModal(name: string, imageURL: string) {
+  function handleOpenModal(name: string, imageURL: string, description: string) {
     setIsShowModal(true);
-    setModal({ name, imageURL });
+    setModal({ name, imageURL, description });
   }
 
   function handleCloseModal() {
@@ -80,9 +81,11 @@ export function DefaultOptionCardList({ isShow }: Props) {
   useEffect(() => {
     const { defaultOptions } = data;
 
-    const cardListData = defaultOptions[categoryIndex].subOptions.map(({ name, imageURL }) => ({
+    const cardListData = defaultOptions[categoryIndex].subOptions.map(({ id, name, imageURL, description }) => ({
+      id,
       name,
       imageURL,
+      description,
     }));
 
     const startIndex = cardListIndex * OPTION_CARD_LIST_LENGTH;
@@ -91,9 +94,9 @@ export function DefaultOptionCardList({ isShow }: Props) {
       endIndex = cardListData.length;
     }
 
+    setCategories(defaultOptions.map(({ category }) => category));
     setSubOptions(defaultOptions[categoryIndex].subOptions);
     setCardList(cardListData.slice(startIndex, endIndex));
-    setCategories(defaultOptions.map(({ category }) => category));
   }, [data, categoryIndex, cardListIndex]);
 
   return (
@@ -116,8 +119,8 @@ export function DefaultOptionCardList({ isShow }: Props) {
           onClick={() => handleChangeCardListIndex(cardListIndex - 1, subOptions.length)}
           isShow={isIndexLargeThanZero(cardListIndex)}
         />
-        {cardList.map(({ name, imageURL }, index) => (
-          <style.OptionCard key={index} onClick={() => handleOpenModal(name, imageURL)}>
+        {cardList.map(({ name, imageURL, description }, index) => (
+          <style.OptionCard key={index} onClick={() => handleOpenModal(name, imageURL, description)}>
             <style.Image src={imageURL} />
             <style.TextWrapper>
               <style.Text>{name}</style.Text>
@@ -134,7 +137,12 @@ export function DefaultOptionCardList({ isShow }: Props) {
       </style.OptionCardWrapper>
       {isShowModal && (
         <OptionModalProvider>
-          <OptionModal name={modal.name} imageURL={modal.imageURL} onClick={handleCloseModal} />
+          <OptionModal
+            name={modal.name}
+            imageURL={modal.imageURL}
+            description={modal.description}
+            onClick={handleCloseModal}
+          />
         </OptionModalProvider>
       )}
     </style.Container>
