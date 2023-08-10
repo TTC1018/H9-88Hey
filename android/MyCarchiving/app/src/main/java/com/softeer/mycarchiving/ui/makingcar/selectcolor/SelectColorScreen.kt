@@ -23,7 +23,7 @@ import com.softeer.mycarchiving.model.makingcar.ColorOptionUiModel
 import com.softeer.mycarchiving.ui.component.CarColorSelectItem
 import com.softeer.mycarchiving.ui.component.OptionHeadText
 import com.softeer.mycarchiving.ui.component.OptionInfoDivider
-import com.softeer.mycarchiving.ui.component.OptionNameText
+import com.softeer.mycarchiving.ui.component.OptionRegular14Text
 import com.softeer.mycarchiving.ui.component.OptionSelectedInfo
 import com.softeer.mycarchiving.ui.component.RotateCarImage
 import com.softeer.mycarchiving.ui.theme.HyundaiLightSand
@@ -84,7 +84,7 @@ fun SelectColorScreen(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 OptionHeadText(optionName = category)
-                OptionNameText(optionName = selectedColor.optionName)
+                OptionRegular14Text(optionName = selectedColor.optionName)
             }
             LazyRow {
                 items(colorOptions) {
