@@ -25,11 +25,12 @@ import com.softeer.mycarchiving.ui.theme.HyundaiSand
 import com.softeer.mycarchiving.ui.theme.PrimaryBlue
 import com.softeer.mycarchiving.ui.theme.bold18
 import com.softeer.mycarchiving.ui.theme.medium12
+import com.softeer.mycarchiving.util.toPriceString
 
 @Composable
 fun BottomBar(
     modifier: Modifier,
-    totalPrice: String,
+    totalPrice: Int,
     summaryText: String,
     underLineWidth: Int,
     buttonArea: @Composable () -> Unit,
@@ -72,7 +73,7 @@ fun BottomBar(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    text = totalPrice,
+                    text = totalPrice.toPriceString(),
                     style = bold18
                 )
                 Spacer(modifier = modifier.width(3.dp))
@@ -90,11 +91,11 @@ fun BottomBar(
 
 @Composable
 fun MakeCarBottomBar(
-    modifier: Modifier,
-    totalPrice: String,
+    modifier: Modifier = Modifier,
+    totalPrice: Int,
     onButtonClick: () -> Unit,
     onSummaryClick: () -> Unit,
-    isDone: Boolean
+    isDone: Boolean,
 ) {
     BottomBar(
         modifier = modifier,
@@ -120,10 +121,10 @@ fun MakeCarBottomBar(
 
 @Composable
 fun ArchiveBottomBar(
-    modifier: Modifier,
-    totalPrice: String,
+    modifier: Modifier = Modifier,
+    totalPrice: Int,
     onButtonClick: () -> Unit,
-    onSaveClick: () -> Unit
+    onSaveClick: () -> Unit,
 ) {
     BottomBar(
         modifier = modifier,
@@ -153,8 +154,8 @@ fun ArchiveBottomBar(
 
 @Composable
 fun MyArchiveBottomBar(
-    modifier: Modifier,
-    totalPrice: String,
+    modifier: Modifier = Modifier,
+    totalPrice: Int,
     onButtonClick: () -> Unit,
 ) {
     BottomBar(
@@ -179,7 +180,7 @@ fun MyArchiveBottomBar(
 fun PreviewMakeCarBottomBar() {
     MakeCarBottomBar(
         modifier = Modifier,
-        totalPrice = "47,720,000",
+        totalPrice = 47720000,
         onButtonClick = {},
         onSummaryClick = {},
         isDone = false
@@ -191,7 +192,7 @@ fun PreviewMakeCarBottomBar() {
 fun PreviewArchiveBottomBar() {
     ArchiveBottomBar(
         modifier = Modifier,
-        totalPrice = "47,720,000",
+        totalPrice = 47720000,
         onButtonClick = {},
         onSaveClick = {}
     )
@@ -202,7 +203,7 @@ fun PreviewArchiveBottomBar() {
 fun PreviewMyArchiveBottomBar() {
     MyArchiveBottomBar(
         modifier = Modifier,
-        totalPrice = "47,720,000",
+        totalPrice = 47720000,
         onButtonClick = {},
     )
 }

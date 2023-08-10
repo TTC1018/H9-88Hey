@@ -31,39 +31,9 @@ import com.softeer.mycarchiving.ui.theme.HyundaiLightSand
 import com.softeer.mycarchiving.ui.theme.MediumGray
 import com.softeer.mycarchiving.ui.theme.medium14
 import com.softeer.mycarchiving.ui.theme.medium16
+import com.softeer.mycarchiving.util.MakeCarProcess.progressItems
 import kotlinx.coroutines.flow.MutableStateFlow
 
-val firstProgress = ProgressUiModel(
-    id = 0,
-    name = "트림 선택",
-    children = listOf(
-        ProgressChildUiModel(0, "엔진" , 14),
-        ProgressChildUiModel(1, "바디타입", 14),
-        ProgressChildUiModel(2, "구동방식", 14),
-    ),
-    needNoChildProgress = true
-)
-
-val secondProgress = ProgressUiModel(
-    id = 1,
-    name = "색상 선택",
-    children = listOf(
-        ProgressChildUiModel(0, "외장색상", 14),
-        ProgressChildUiModel(1, "내장색상", 14),
-    )
-)
-
-val thirdProgress = ProgressUiModel(
-    id = 2,
-    name = "옵션 선택",
-    children = listOf(
-        ProgressChildUiModel(0, "선택옵션", 10),
-        ProgressChildUiModel(1, "H Genuine Accessories", 10),
-        ProgressChildUiModel(2, "N Performance", 10),
-    )
-)
-
-val progressItems = listOf(firstProgress, secondProgress, thirdProgress)
 val currentProgress = MutableStateFlow(progressItems[0])
 val currentProgressChildId = MutableStateFlow(if (progressItems[0].needNoChildProgress) -1 else 0)
 val currentProgressChildren = MutableStateFlow(progressItems[0].children)
