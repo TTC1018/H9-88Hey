@@ -40,9 +40,8 @@ import com.softeer.mycarchiving.ui.theme.regular14
 import com.softeer.mycarchiving.ui.theme.roundCorner
 
 val detailItem = CarBasicDetailUiModel(
-    id = 0,
-    detailName = "ISG 시스템",
-    "신호 대기 상황이거나 정차 중일 때 차의 엔진을 일시 정지하여 연비를 향상시키고, 배출가스 발생을 억제하는 시스템입니다."
+    name = "ISG 시스템",
+    description ="신호 대기 상황이거나 정차 중일 때 차의 엔진을 일시 정지하여 연비를 향상시키고, 배출가스 발생을 억제하는 시스템입니다."
 )
 
 @Composable
@@ -67,7 +66,7 @@ fun BasicItemDialog(
                     Text(
                         modifier = modifier
                             .align(Alignment.Center),
-                        text = detailItem.detailName,
+                        text = detailItem.name,
                         style = medium18,
                         textAlign = TextAlign.Center
                     )

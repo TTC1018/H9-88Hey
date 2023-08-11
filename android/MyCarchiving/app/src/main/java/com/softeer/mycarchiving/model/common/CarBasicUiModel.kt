@@ -1,7 +1,6 @@
 package com.softeer.mycarchiving.model.common
 
 data class CarBasicUiModel(
-    val id: Int,
-    val name: String,
+    val category: String,
     val detailItems: List<CarBasicDetailUiModel>
 )

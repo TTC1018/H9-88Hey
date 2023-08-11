@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -31,6 +30,7 @@ import com.softeer.mycarchiving.R
 import com.softeer.mycarchiving.navigation.MainDestination
 import com.softeer.mycarchiving.ui.HyundaiAppState
 import com.softeer.mycarchiving.ui.makingcar.MakingCarViewModel
+import com.softeer.mycarchiving.ui.makingcar.selectoption.SelectOptionViewModel
 import com.softeer.mycarchiving.ui.rememberHyundaiAppState
 import com.softeer.mycarchiving.ui.theme.Black
 import com.softeer.mycarchiving.ui.theme.HyundaiLightSand
@@ -130,7 +130,7 @@ fun BottomBar(
 fun MakeCarBottomBar(
     modifier: Modifier = Modifier,
     appState: HyundaiAppState,
-    viewModel: MakingCarViewModel = hiltViewModel()
+    viewModel: MakingCarViewModel = hiltViewModel(),
 ) {
     val destination = appState.currentMakingCarDestinations
     val processEnd by appState.progressEnd.collectAsStateWithLifecycle()
@@ -163,7 +163,6 @@ fun MakeCarBottomBar(
     )
     if (showSummary) {
         ModalBottomSheet(
-            modifier = Modifier.fillMaxHeight(),
             onDismissRequest = viewModel::closeSummary,
             containerColor = White,
             sheetState = SheetState(skipPartiallyExpanded = true),

@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -15,10 +16,15 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Divider
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ModalBottomSheet
+import androidx.compose.material3.SheetState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -26,6 +32,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.softeer.mycarchiving.R
 import com.softeer.mycarchiving.model.makingcar.SelectOptionUiModel
+import com.softeer.mycarchiving.ui.component.CarBasicBottomSheetContent
 import com.softeer.mycarchiving.ui.component.CarBasicItemButton
 import com.softeer.mycarchiving.ui.component.ExtraOptionCard
 import com.softeer.mycarchiving.ui.component.ExtraOptionCards
@@ -36,23 +43,41 @@ import com.softeer.mycarchiving.ui.theme.HyundaiLightSand
 import com.softeer.mycarchiving.ui.theme.White
 import com.softeer.mycarchiving.ui.theme.medium16
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SelectOptionRoute(
     modifier: Modifier = Modifier,
     viewModel: SelectOptionViewModel = hiltViewModel(),
 ) {
-    val options = viewModel.options.collectAsStateWithLifecycle().value
-    val focusedOptionIndex = viewModel.focusedOptionIndex.collectAsStateWithLifecycle().value
     val scrollState = rememberScrollState()
+    val options by viewModel.options.collectAsStateWithLifecycle()
+    val focusedOptionIndex by viewModel.focusedOptionIndex.collectAsStateWithLifecycle()
+    val basicItems by viewModel.basicItems.collectAsStateWithLifecycle()
+    val showBasicItems by viewModel.showBasicItems.collectAsStateWithLifecycle()
     SelectOptionScreen(
         modifier = modifier,
         scrollState = scrollState,
         options = options,
         focusedIndex =  focusedOptionIndex,
         focusOption = viewModel::focusOptionItem,
-        showBasicItems = viewModel::showBasicItems,
+        showBasicItems = viewModel::openBasicItems,
         addOption = viewModel::onAddOption,
     )
+    if (showBasicItems) {
+        ModalBottomSheet(
+            onDismissRequest = viewModel::closeBasicItems,
+            containerColor = White,
+            sheetState = SheetState(skipPartiallyExpanded = true),
+            windowInsets = WindowInsets(top = 60.dp),
+            scrimColor = Color.Transparent,
+            dragHandle = null
+        ) {
+            CarBasicBottomSheetContent(
+                basicItems = basicItems,
+                closeBasicItems = viewModel::closeBasicItems
+            )
+        }
+    }
 }
 
 @Composable
