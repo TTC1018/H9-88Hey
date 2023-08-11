@@ -15,20 +15,23 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ModalBottomSheet
+import androidx.compose.material3.SheetState
 import androidx.compose.material3.Text
-import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.softeer.mycarchiving.R
+import com.softeer.mycarchiving.navigation.MainDestination
+import com.softeer.mycarchiving.ui.HyundaiAppState
+import com.softeer.mycarchiving.ui.makingcar.MakingCarViewModel
+import com.softeer.mycarchiving.ui.rememberHyundaiAppState
 import com.softeer.mycarchiving.ui.theme.Black
 import com.softeer.mycarchiving.ui.theme.HyundaiLightSand
 import com.softeer.mycarchiving.ui.theme.HyundaiSand
@@ -37,6 +40,28 @@ import com.softeer.mycarchiving.ui.theme.White
 import com.softeer.mycarchiving.ui.theme.bold18
 import com.softeer.mycarchiving.ui.theme.medium12
 import com.softeer.mycarchiving.util.toPriceString
+
+@Composable
+fun HyundaiBottomBar(
+    appState: HyundaiAppState,
+) {
+    when(appState.currentMainDestination) {
+        MainDestination.ARCHIVING -> ArchiveBottomBar(
+            totalPrice = 0,
+            onSaveClick = {},
+            onButtonClick = {}
+        )
+
+        MainDestination.MY_ARCHIVING -> MyArchiveBottomBar(
+            totalPrice = 0,
+            onButtonClick = {}
+        )
+
+        MainDestination.MAKING_CAR -> MakeCarBottomBar(appState = appState)
+        MainDestination.DRIVER_COMMENT, MainDestination.CONSUMER_COMMENT -> {}
+        else -> @Composable {}
+    }
+}
 
 @Composable
 fun BottomBar(
@@ -104,15 +129,14 @@ fun BottomBar(
 @Composable
 fun MakeCarBottomBar(
     modifier: Modifier = Modifier,
-    totalPrice: Int,
-    onButtonClick: () -> Unit,
-    onSummaryClick: () -> Unit,
-    isDone: Boolean,
+    appState: HyundaiAppState,
+    viewModel: MakingCarViewModel = hiltViewModel()
 ) {
-    var openSummarySheet by rememberSaveable { mutableStateOf(false) }
-    val summarySheetState = rememberModalBottomSheetState(
-        skipPartiallyExpanded = true
-    )
+    val destination = appState.currentMakingCarDestinations
+    val processEnd by appState.progressEnd.collectAsStateWithLifecycle()
+    val totalPrice by viewModel.totalPrice.collectAsStateWithLifecycle()
+    val showSummary by viewModel.showSummary.collectAsStateWithLifecycle()
+
     BottomBar(
         modifier = modifier,
         totalPrice = totalPrice,
@@ -123,22 +147,26 @@ fun MakeCarBottomBar(
                 modifier = modifier,
                 backgroundColor = PrimaryBlue,
                 textColor = HyundaiLightSand,
-                text = if (isDone) {
+                text = if (processEnd) {
                     stringResource(id = R.string.purchase_car)
                 } else {
                     stringResource(id = R.string.bottom_bar_next_step)
                 },
-                onClick = onButtonClick
+                onClick = {
+                    appState.onNextProgress {
+                        appState.navigateInMakingCar(destination)
+                    }
+                }
             )
         },
-        onShowSummary = { openSummarySheet = true }
+        onShowSummary = viewModel::openSummary
     )
-    if (openSummarySheet) {
+    if (showSummary) {
         ModalBottomSheet(
             modifier = Modifier.fillMaxHeight(),
-            onDismissRequest = { openSummarySheet = false },
+            onDismissRequest = viewModel::closeSummary,
             containerColor = White,
-            sheetState = summarySheetState,
+            sheetState = SheetState(skipPartiallyExpanded = true),
             windowInsets = WindowInsets(top = 60.dp),
             scrimColor = Color.Transparent
         ) {
@@ -209,11 +237,7 @@ fun MyArchiveBottomBar(
 @Composable
 fun PreviewMakeCarBottomBar() {
     MakeCarBottomBar(
-        modifier = Modifier,
-        totalPrice = 47720000,
-        onButtonClick = {},
-        onSummaryClick = {},
-        isDone = false
+        appState = rememberHyundaiAppState()
     )
 }
 
