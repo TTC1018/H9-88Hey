@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -25,6 +26,7 @@ import com.softeer.mycarchiving.ui.makingcar.complete.navigateToComplete
 import com.softeer.mycarchiving.ui.makingcar.selectcolor.navigateToSelectColor
 import com.softeer.mycarchiving.ui.makingcar.selectoption.navigateToSelectOption
 import com.softeer.mycarchiving.ui.makingcar.selecttrim.navigateToSelectTrim
+import com.softeer.mycarchiving.util.MakeCarProcess.makeCarProcess
 
 @Composable
 fun HyundaiApp(
@@ -34,13 +36,12 @@ fun HyundaiApp(
     val destination = appState.currentMainDestination
     val currentMakingCarProgress = appState.currentMakingCarDestinations
 
-    val selectedCarModel = makingCarViewModel.selectedCarModel.collectAsStateWithLifecycle().value
-    val totalPrice = makingCarViewModel.totalPrice.collectAsStateWithLifecycle().value
-    val currentProgress = makingCarViewModel.currentProgress.collectAsStateWithLifecycle().value
-    val currentProgressChildId = makingCarViewModel.currentProgressChildId.collectAsStateWithLifecycle().value
-    val currentProgressChildren = makingCarViewModel.currentProgressChildren.collectAsStateWithLifecycle().value
-    val remainProgressCountList = makingCarViewModel.remainProgressCountList.collectAsStateWithLifecycle().value
-    val processEnd = makingCarViewModel.progressEnd.collectAsStateWithLifecycle().value
+    val selectedCarModel by makingCarViewModel.selectedCarModel.collectAsStateWithLifecycle()
+    val totalPrice by makingCarViewModel.totalPrice.collectAsStateWithLifecycle()
+
+    val currentProgressId by makingCarViewModel.currentProgressId.collectAsStateWithLifecycle()
+    val currentProgressChildId by makingCarViewModel.currentProgressChildId.collectAsStateWithLifecycle()
+    val processEnd by makingCarViewModel.progressEnd.collectAsStateWithLifecycle()
 
     Scaffold(
         modifier = Modifier,
@@ -61,21 +62,17 @@ fun HyundaiApp(
                         MakeCarNavigateBar(
                             carName = selectedCarModel,
                             onStartAreaClick = {
-                               if (currentProgress.id == 0 && currentProgressChildId < 0) {/*앱 종료*/}
-                               else {
-                                   makingCarViewModel.onBackProgress {
-                                       appState.navController.popBackStack()
-                                   }
+                               makingCarViewModel.onBackProgress {
+                                   appState.navController.popBackStack()
                                }
                             },
                             onEndAreaClick = { appState.navigateToMainDestination(ARCHIVING) },
                             isDone = processEnd
                         )
                         ProgressBar(
-                            currentProgress = currentProgress,
+                            makeCarProcess = makeCarProcess,
+                            currentProgressId = currentProgressId,
                             currentChildId = currentProgressChildId,
-                            currentProgressChildren = currentProgressChildren,
-                            remainCountList = remainProgressCountList,
                             isDone = processEnd
                         )
                     }

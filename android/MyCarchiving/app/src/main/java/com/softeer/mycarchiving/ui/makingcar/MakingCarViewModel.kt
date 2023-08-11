@@ -1,7 +1,7 @@
 package com.softeer.mycarchiving.ui.makingcar
 
 import androidx.lifecycle.ViewModel
-import com.softeer.mycarchiving.util.MakeCarProcess.progressItems
+import com.softeer.mycarchiving.util.MakeCarProcess.makeCarProcess
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -19,10 +19,8 @@ class MakingCarViewModel @Inject constructor(): ViewModel() {
     private val _showSummary = MutableStateFlow(false)
     val showSummary: StateFlow<Boolean> = _showSummary
 
-    val currentProgress = MutableStateFlow(progressItems[0])
-    val currentProgressChildId = MutableStateFlow(if (progressItems[0].needNoChildProgress) -1 else 0)
-    val currentProgressChildren = MutableStateFlow(progressItems[0].children)
-    val remainProgressCountList = MutableStateFlow(mutableListOf(progressItems.size - 1, progressItems.size))
+    val currentProgressId = MutableStateFlow(0)
+    val currentProgressChildId = MutableStateFlow(-1)
     val progressEnd = MutableStateFlow(false)
 
     fun openSummary() {
@@ -34,60 +32,56 @@ class MakingCarViewModel @Inject constructor(): ViewModel() {
     }
 
     fun onNextProgress(navigate: () -> Unit) {
+        // 완성 화면일 경우
         if (progressEnd.value) {
             return
         }
+
         // 다음 세부 단계가 남았을 경우
-        if (currentProgressChildId.value < currentProgress.value.children.size - 1) {
-            if (currentProgressChildId.value < 0) navigate()
-            currentProgressChildId.value = currentProgressChildId.value + 1
-            return
+        currentProgressChildId.value.let { childId ->
+            if (childId < makeCarProcess[currentProgressId.value].children.last().id) {
+                if (childId < 0) navigate()
+                currentProgressChildId.value = childId + 1
+                return
+            }
         }
+
         // 다음 단계가 남았을 경우
-        val currentId = currentProgress.value.id
-        if (currentId < progressItems.size - 1) {
-                progressItems[currentId + 1].let {
-                currentProgress.value = it
-                currentProgressChildren.value = it.children
-                currentProgressChildId.value = it.children.first().id
+        currentProgressId.value.let { progressId ->
+            if (progressId < makeCarProcess.last().id) {
+                currentProgressId.value = progressId + 1
+                currentProgressChildId.value = makeCarProcess[progressId + 1].children.first().id
+            } else { // 모든 단계가 끝나는 경우
+                progressEnd.value = true
             }
-            remainProgressCountList.value = remainProgressCountList.value.also {
-                it.removeFirst()
-            }
-        } else {
-            // 모든 단계가 끝나는 경우
-            progressEnd.value = true
         }
         navigate()
     }
 
     fun onBackProgress(navigate: () -> Unit) {
+        // 완성 화면일 경우
         if (progressEnd.value) {
             progressEnd.value = false
             navigate()
             return
         }
+
         // 이전 세부 단계가 남았을 경우
-        val minChildId = if (currentProgress.value.needNoChildProgress) -1 else 0
+        val minChildId = if (makeCarProcess[currentProgressId.value].needNoChild) -1 else 0
         if (currentProgressChildId.value > minChildId) {
             currentProgressChildId.value = currentProgressChildId.value - 1
-            if (currentProgressChildId.value < 0) navigate()
             return
         }
+
         // 이전 단계가 남았을 경우
-        val currentId = currentProgress.value.id
-        if (currentId > progressItems[0].id) {
-                progressItems[currentId - 1].let {
-                currentProgress.value = it
-                currentProgressChildren.value = it.children
-                currentProgressChildId.value = it.children.last().id
+        currentProgressId.value.let { progressId ->
+            if (progressId > makeCarProcess.first().id) {
+                currentProgressId.value = progressId - 1
+                currentProgressChildId.value = makeCarProcess[progressId - 1].children.last().id
+            } else { // 이전 단계가 없는 경우
+                return
             }
-            remainProgressCountList.value = remainProgressCountList.value.also {
-                val newProgressCount = if (it.isEmpty()) progressItems.size else it.last() - 1
-                it.add(0, newProgressCount)
-            }
-            navigate()
-            return
         }
+        navigate()
     }
 }
