@@ -4,14 +4,14 @@ import lombok.Getter;
 
 @Getter
 public class CarCodeResponse {
-    private final String carCode;
+	private final String carCode;
 
-    private CarCodeResponse(String carCode) {
-        this.carCode = carCode;
-    }
+	private CarCodeResponse(String carCode) {
+		this.carCode = carCode;
+	}
 
-    public static CarCodeResponse of(String carCode) {
+	public static CarCodeResponse of(String carCode) {
 
-        return new CarCodeResponse(carCode);
-    }
+		return new CarCodeResponse(carCode);
+	}
 }

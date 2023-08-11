@@ -10,7 +10,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ModelImage {
-    private int id;
-    private String imageUrl;
-    private int modelId;
+	private int id;
+	private String imageUrl;
+	private int modelId;
 }

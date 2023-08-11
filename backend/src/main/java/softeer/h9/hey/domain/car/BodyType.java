@@ -7,9 +7,9 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 public class BodyType {
-    private int id;
-    private String name;
-    private String imageUrl;
-    private int additionalPrice;
-    private String description;
+	private int id;
+	private String name;
+	private String imageUrl;
+	private int additionalPrice;
+	private String description;
 }
