@@ -157,6 +157,7 @@ export const SummaryBox = styled.div`
       display: flex;
       flex-direction: column;
 
+      border-radius: 8px;
       background-color: ${colors.hyundaiLightSand};
     `;
   }}
