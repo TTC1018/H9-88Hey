@@ -1,6 +1,8 @@
 package com.softeer.mycarchiving.ui.makingcar.selectoption
 
 import androidx.lifecycle.ViewModel
+import com.softeer.mycarchiving.model.common.CarBasicDetailUiModel
+import com.softeer.mycarchiving.model.common.CarBasicUiModel
 import com.softeer.mycarchiving.model.makingcar.SelectOptionUiModel
 import com.softeer.mycarchiving.model.makingcar.SubSelectOptionUiModel
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -33,7 +35,7 @@ class SelectOptionViewModel @Inject constructor() : ViewModel() {
                 tags = listOf(
                     "어린이🧒",
                     "안전사고 예방🚨",
-                    "대형견도 문제 없어요🐶",
+                    "대형견도 문제 없어요",
                     "가족들도 좋은 옵션👨‍👩‍👧‍👦"
                 ),
                 subOptions = subOptions
@@ -43,7 +45,7 @@ class SelectOptionViewModel @Inject constructor() : ViewModel() {
                 price = 2900000,
                 imageUrl = "",
                 tags = listOf(
-                    "대형견도 문제 없어요🐶",
+                    "대형견도 문제 없어요",
                     "가족들도 좋은 옵션👨‍👩‍👧‍👦"
                 ),
                 subOptions = subOptions
@@ -51,15 +53,35 @@ class SelectOptionViewModel @Inject constructor() : ViewModel() {
         )
     )
     val options: StateFlow<List<SelectOptionUiModel>> = _options
-
     val focusedOptionIndex = MutableStateFlow(0)
+
+
+    private val basicDetailItems = listOf(
+        CarBasicDetailUiModel(name = "ISG 시스템", description = "신호 대기 상황이거나 정차 중일 때 차의 엔진을 일시 정지하여 연비를 향상시키고, 배출가스 발생을 억제하는 시스템입니다."),
+        CarBasicDetailUiModel(name = "ISG 시스템", description = "신호 대기 상황이거나 정차 중일 때 차의 엔진을 일시 정지하여 연비를 향상시키고, 배출가스 발생을 억제하는 시스템입니다."),
+        CarBasicDetailUiModel(name = "ISG 시스템", description = "신호 대기 상황이거나 정차 중일 때 차의 엔진을 일시 정지하여 연비를 향상시키고, 배출가스 발생을 억제하는 시스템입니다.")
+    )
+
+    private val basicItem1 = CarBasicUiModel(category = "파워트레인 성능", detailItems = basicDetailItems)
+    private val basicItem2 = CarBasicUiModel(category = "지능형 안전 기술", detailItems = basicDetailItems)
+    private val basicItem3 = CarBasicUiModel(category = "안전", detailItems = basicDetailItems)
+    private val basicItem4 = CarBasicUiModel(category = "성능", detailItems = basicDetailItems)
+
+    private val _basicItems = MutableStateFlow(listOf(basicItem1, basicItem2, basicItem3, basicItem4))
+    val basicItems: StateFlow<List<CarBasicUiModel>> = _basicItems
+    private val _showBasicItems = MutableStateFlow(false)
+    val showBasicItems: StateFlow<Boolean> = _showBasicItems
 
     fun focusOptionItem(idx: Int) {
         focusedOptionIndex.value = idx
     }
 
-    fun showBasicItems() {
+    fun openBasicItems() {
+        _showBasicItems.value = true
+    }
 
+    fun closeBasicItems() {
+        _showBasicItems.value = false
     }
 
     fun onAddOption() {
