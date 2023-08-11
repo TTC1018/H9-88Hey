@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -19,8 +20,13 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import coil.ImageLoader
+import coil.compose.AsyncImage
+import coil.memory.MemoryCache
+import coil.request.ImageRequest
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
+import kotlinx.coroutines.launch
 
 
 @OptIn(ExperimentalGlideComposeApi::class)
@@ -34,52 +40,40 @@ fun RotateCarImage(
 ) {
     val context = LocalContext.current
     val interactionSource = remember { MutableInteractionSource() }
+    val imageLoader = remember {
+        ImageLoader.Builder(context)
+            .memoryCache {
+                MemoryCache.Builder(context)
+                    .maxSizePercent(0.25)
+                    .build()
+            }.build()
+    }
 
-    // TODO 이미지 캐싱하기
-//    LaunchedEffect(imageUrls) {
-//        for (imageUrl in imageUrls) {
-//            launch {
-//                Glide.with(context)
-//                    .load(imageUrl)
-//                    .preload()
-//            }
-//        }
-//    }
-
+    // image preload
+    LaunchedEffect(imageUrls) {
+        for (imageUrl in imageUrls) {
+            launch {
+                imageLoader.enqueue(
+                    ImageRequest.Builder(context)
+                        .data(imageUrl)
+                        .build()
+                )
+            }
+        }
+    }
 
     Box(
         modifier = modifier
             .fillMaxWidth()
             .height(260.dp)
     ) {
-        GlideImage(
+        AsyncImage(
             modifier = Modifier
                 .fillMaxSize(),
-            contentScale = ContentScale.Fit,
-            alignment = Alignment.Center,
             model = imageUrls.getOrNull(selectedIndex),
-            contentDescription = null
+            contentDescription = "",
+            imageLoader = imageLoader
         )
-//        com.skydoves.landscapist.glide.GlideImage(
-//            modifier = Modifier
-//                .fillMaxSize(),
-//            component = rememberImageComponent {
-//                +ThumbnailPlugin()
-//            },
-//            imageModel = { imageUrls.getOrNull(selectedIndex) },
-//            requestOptions = {
-//                RequestOptions()
-//                    .onlyRetrieveFromCache(true)
-//                    .fitCenter()
-//            },
-//            requestBuilder = {
-//                             glideManager
-//                                 .asDrawable()
-//                                 .diskCacheStrategy(DiskCacheStrategy.ALL)
-//            },
-//            onImageStateChanged = { Log.d("RotateCarImage", it.toString()) },
-//            previewPlaceholder = R.drawable.ic_launcher_background
-//        )
         Row(
             modifier = Modifier.fillMaxSize()
         ) {
