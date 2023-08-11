@@ -80,6 +80,9 @@ dependencies {
     implementation(libs.landscapist.animation)
     implementation(libs.landscapist.placeholder)
 
+    // Coil
+    implementation(libs.coil.compose)
+
     // Navigation
     implementation(libs.androidx.navigation.compose)
     implementation(libs.androidx.hilt.navigation.compose)
