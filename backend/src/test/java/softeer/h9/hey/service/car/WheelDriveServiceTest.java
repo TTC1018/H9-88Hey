@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import softeer.h9.hey.domain.car.WheelDrive;
+import softeer.h9.hey.dto.car.response.WheelDriveResponse;
 
 @SpringBootTest
 @DisplayName("WheelDriveService 테스트")
@@ -22,7 +23,9 @@ class WheelDriveServiceTest {
 	@Test
 	@DisplayName("모델 아이디를 인자로 넘겨 휠 드라이브 조회 시 그 목록을 반환해야 한다.")
 	void findWheelDrivesByModelId() {
-		List<WheelDrive> wheelDrives = wheelDriveService.findWheelDrivesByModelId();
-		Assertions.assertThat(wheelDrives).hasSize(2);
+		int modelId = 1;
+
+		WheelDriveResponse wheelDriveResponse = wheelDriveService.findWheelDrivesByModelId(modelId);
+		Assertions.assertThat(wheelDriveResponse.getWheelDrives()).hasSize(2);
 	}
 }
