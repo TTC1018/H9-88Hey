@@ -22,22 +22,17 @@ export const InfoBox = styled.div`
   height: 20px;
 `;
 
-export const AlertStar = styled.span`
-  ${({ theme }) => {
-    const { colors, fonts } = theme;
-    return css`
-      ${fonts.bodyMedium4}
-      color: ${colors.alertPrimary};
-    `;
-  }}
-`;
-
 export const InfoText = styled.span`
   ${({ theme }) => {
     const { colors, fonts } = theme;
     return css`
       ${fonts.bodyMedium4}
       color: ${colors.darkGray};
+
+      &::before {
+        color: ${colors.alertPrimary};
+        content: '* ';
+      }
     `;
   }}
 `;
@@ -84,16 +79,20 @@ export const SubTitle = styled.div`
   align-items: center;
 `;
 
-export const subTitleText = styled.span`
-  ${({ theme }) => {
+interface subTitleTextProps {
+  isSaved: boolean;
+}
+
+export const SubTitleText = styled.span<subTitleTextProps>`
+  ${({ theme, isSaved }) => {
     const { colors, fonts } = theme;
     return css`
       padding: 4px 12px;
 
       ${fonts.bodyMedium4};
-      color: ${colors.alertPrimary};
+      color: ${isSaved ? colors.hyundaiGold : colors.alertPrimary};
 
-      background-color: #ffd1cd;
+      background-color: ${isSaved ? colors.hyundaiLightSand : '#ffd1cd'};
       border-radius: 99px;
     `;
   }}
@@ -102,24 +101,65 @@ export const subTitleText = styled.span`
 export const XButton = styled.button``;
 
 export const OptionBox = styled.div`
+  height: 120px;
   gap: 4px;
 
   display: flex;
-  align-content: center;
+  align-items: center;
+
+  overflow-x: scroll;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+`;
+
+export const OptionBoxText = styled.span`
+  ${({ theme }) => {
+    const { colors, fonts } = theme;
+    return css`
+      ${fonts.bodyRegular3};
+      color: ${colors.black};
+    `;
+  }}
 `;
 
 interface OptionCardProps {
-  isLastCard: boolean;
+  imageUrl: string;
 }
 
 export const OptionCard = styled.div<OptionCardProps>`
-  ${({ theme, isLastCard }) => {
+  ${({ theme, imageUrl }) => {
     const { colors } = theme;
     return css`
-      width: ${!isLastCard ? '120px' : '60px'};
+      width: 120px;
       height: 120px;
 
-      background-color: ${colors.hyundaiLightSand};
+      flex: none;
+      position: relative;
+
+      background: ${imageUrl ? `url(${imageUrl})` : colors.hyundaiLightSand};
+      background-repeat: no-repeat;
+      background-size: cover;
+      background-color: transparent;
+      border-radius: 4px;
+    `;
+  }}
+`;
+
+export const OptionCardText = styled.span`
+  ${({ theme }) => {
+    const { colors, fonts } = theme;
+    return css`
+      bottom: 6px;
+      left: 6px;
+      padding: 2px 4px;
+
+      position: absolute;
+
+      ${fonts.bodyRegular4};
+      color: ${colors.hyundaiNeutral};
+
+      background-color: ${colors.black};
       border-radius: 4px;
     `;
   }}
