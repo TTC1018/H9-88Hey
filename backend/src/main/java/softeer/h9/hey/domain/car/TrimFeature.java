@@ -10,6 +10,6 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class TrimFeature {
-    private String name;
-    private String imageUrl;
+	private String name;
+	private String imageUrl;
 }

@@ -11,13 +11,13 @@ import org.springframework.jdbc.core.JdbcTemplate;
 @DisplayName("DB 연결 테스트")
 class DbConnectionTest {
 
-    @Autowired
-    private JdbcTemplate jdbcTemplate;
+	@Autowired
+	private JdbcTemplate jdbcTemplate;
 
-    @Test
-    @DisplayName("DB 연결을 테스트한다.")
-    public void testConnection() {
-        String result = jdbcTemplate.queryForObject("SELECT 'TEST'", String.class);
-        Assertions.assertEquals("TEST", result);
-    }
+	@Test
+	@DisplayName("DB 연결을 테스트한다.")
+	public void testConnection() {
+		String result = jdbcTemplate.queryForObject("SELECT 'TEST'", String.class);
+		Assertions.assertEquals("TEST", result);
+	}
 }

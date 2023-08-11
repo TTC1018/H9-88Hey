@@ -10,9 +10,9 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CarInfo {
-    private String carCode;
-    private int trimId;
-    private int engineId;
-    private int bodyTypeId;
-    private int wheelDriveId;
+	private String carCode;
+	private int trimId;
+	private int engineId;
+	private int bodyTypeId;
+	private int wheelDriveId;
 }
