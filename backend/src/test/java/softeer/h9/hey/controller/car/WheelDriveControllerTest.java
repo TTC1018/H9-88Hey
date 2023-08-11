@@ -22,7 +22,7 @@ class WheelDriveControllerTest {
 
 	@Test
 	@DisplayName("/car/model/{modelId}/wheel-drive로 요청을 보낼 시 해당 모델 아이디와 연관된 wheelDrive 목록을 반환해야 한다.")
-	void findWheelDri() throws Exception {
+	void findWheelDriveByModelId() throws Exception {
 		int modelId = 1;
 
 		mockMvc.perform(
