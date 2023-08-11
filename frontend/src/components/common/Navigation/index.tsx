@@ -29,6 +29,10 @@ const SELECTIONS = Object.freeze({
       'n-performance': 'N Performance',
     },
   },
+  result: {
+    title: '',
+    flow: {},
+  },
 });
 
 type SelectionsType = 'trim' | 'color' | 'option';
@@ -57,6 +61,10 @@ export function Navigation() {
 
   function isOrderNumLessThanPage(page: number) {
     return orderNum < page;
+  }
+
+  if (title === '') {
+    return null;
   }
 
   return (

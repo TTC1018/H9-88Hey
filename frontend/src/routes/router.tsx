@@ -7,6 +7,7 @@ import { WheelDrive } from '@/pages/Trim/WheelDrive';
 import { Option } from '@/pages/Option';
 import { MyCarLayout } from '@/components/layout/MyCarLayout';
 import { Color } from '@/pages/Color';
+import { Result } from '@/pages/Result';
 
 export const router = createBrowserRouter([
   {
@@ -54,6 +55,10 @@ export const router = createBrowserRouter([
             element: <Option key="n-performance" apiType="n_performance" />,
           },
         ],
+      },
+      {
+        path: '/result',
+        element: <Result />,
       },
     ],
   },

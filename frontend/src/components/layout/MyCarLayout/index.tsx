@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-import { Outlet } from 'react-router-dom';
+import { Outlet, useLocation } from 'react-router-dom';
 
 import { MyCarType } from '@/types/trim';
 
@@ -23,6 +23,8 @@ const DEFAULT_STATE: MyCarType = {
 };
 
 export function MyCarLayout() {
+  const { pathname } = useLocation();
+
   const [trim, setTrim] = useState(DEFAULT_STATE);
 
   const trimKeys = ['model', 'engine', 'bodyType', 'wheelDrive'];
@@ -58,10 +60,10 @@ export function MyCarLayout() {
   }, []);
 
   return (
-    <style.Container>
+    <style.Container isFull={pathname === '/result'}>
       <Header />
       <Navigation />
-      <style.Wrapper>
+      <style.Wrapper isFull={pathname === '/result'}>
         <Outlet context={{ handleTrim, trim, addOption, removeOption }} />
       </style.Wrapper>
       <Footer options={trim} totalPrice={totalPrice} onSetLocalStorage={handleLocalStrage} />
