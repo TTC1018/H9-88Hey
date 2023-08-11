@@ -15,7 +15,7 @@ export function XButtonLogo() {
       <path
         d="M13.8271 8.17186L8.17028 13.8287"
         stroke="#BEBEBE"
-        stroke-width="2"
+        strokeWidth="2"
         strokeLinecap="round"
         strokeLinejoin="round"
       />
@@ -28,7 +28,7 @@ export function XButtonLogo() {
       <path
         d="M8.17287 8.17186L13.8297 13.8287"
         stroke="#BEBEBE"
-        stroke-width="2"
+        strokeWidth="2"
         strokeLinecap="round"
         strokeLinejoin="round"
       />
