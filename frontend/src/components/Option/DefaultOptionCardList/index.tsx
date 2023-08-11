@@ -7,8 +7,8 @@ import { useFetch } from '@/hooks/useFetch';
 
 import { PrevButton } from '@/components/common/PrevButton';
 import { NextButton } from '@/components/common/NextButton';
-import { OptionModalProvider } from '@/components/common/OptionModalProvider';
-import { OptionModal } from '@/components/common/OptionModal';
+import { OptionModalProvider } from '@/components/Option/OptionModalProvider';
+import { OptionModal } from '@/components/Option/OptionModal';
 
 import * as style from './style';
 

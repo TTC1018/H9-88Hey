@@ -5,12 +5,12 @@ import { isValidIndex } from '@/utils';
 import { OPTION_CARD_LIST_LENGTH } from '@/constants';
 import { useFetch } from '@/hooks/useFetch';
 
-import { OptionImageBox } from '@/components/common/OptionImageBox';
-import { OptionDescription } from '@/components/common/OptionDescription';
-import { OptionDetailCard } from '@/components/common/OptionDetailCard';
-import { OptionCategory } from '@/components/common/OptionCategory';
-import { OptionCardList } from '@/components/common/OptionCardList';
-import { DefaultOptionCardList } from '@/components/common/DefaultOptionCardList';
+import { OptionImageBox } from '@/components/Option/OptionImageBox';
+import { OptionDescription } from '@/components/Option/OptionDescription';
+import { OptionDetailCard } from '@/components/Option/OptionDetailCard';
+import { OptionCategory } from '@/components/Option/OptionCategory';
+import { OptionCardList } from '@/components/Option/OptionCardList';
+import { DefaultOptionCardList } from '@/components/Option/DefaultOptionCardList';
 
 import * as style from './style';
 
