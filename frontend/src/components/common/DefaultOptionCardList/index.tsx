@@ -29,7 +29,7 @@ const initialData = {
         {
           id: 1,
           name: '',
-          imageURL: '',
+          imageUrl: '',
           description: '',
         },
       ],
@@ -54,7 +54,7 @@ export function DefaultOptionCardList({ isShow }: Props) {
   const [isShowModal, setIsShowModal] = useState(false);
   const [modal, setModal] = useState({
     name: '',
-    imageURL: '',
+    imageUrl: '',
   });
 
   function handleChangeCategoryIndex(index: number) {
@@ -73,9 +73,9 @@ export function DefaultOptionCardList({ isShow }: Props) {
     setCardListIndex(index);
   }
 
-  function handleOpenModal(name: string, imageURL: string) {
+  function handleOpenModal(name: string, imageUrl: string) {
     setIsShowModal(true);
-    setModal({ name, imageURL });
+    setModal({ name, imageUrl });
   }
 
   function handleCloseModal() {
@@ -86,9 +86,9 @@ export function DefaultOptionCardList({ isShow }: Props) {
   useEffect(() => {
     const { defaultOptions } = data;
 
-    const cardListData = defaultOptions[categoryIndex].subOptions.map(({ name, imageURL }) => ({
+    const cardListData = defaultOptions[categoryIndex].subOptions.map(({ name, imageUrl }) => ({
       name,
-      imageURL,
+      imageUrl,
     }));
 
     const startIndex = cardListIndex * OPTION_CARD_LIST_LENGTH;
@@ -123,9 +123,9 @@ export function DefaultOptionCardList({ isShow }: Props) {
           onClick={() => handleChangeCardListIndex(cardListIndex - 1, subOptions.length)}
           isShow={isIndexLargeThanZero(cardListIndex)}
         />
-        {cardList.map(({ name, imageURL }, index) => (
-          <style.OptionCard key={index} onClick={() => handleOpenModal(name, imageURL)}>
-            <style.Image src={imageURL} />
+        {cardList.map(({ name, imageUrl }, index) => (
+          <style.OptionCard key={index} onClick={() => handleOpenModal(name, imageUrl)}>
+            <style.Image src={imageUrl} />
             <style.TextWrapper>
               <style.Text>{name}</style.Text>
               <style.SubText>기본 포함</style.SubText>
@@ -141,7 +141,7 @@ export function DefaultOptionCardList({ isShow }: Props) {
       </style.OptionCardWrapper>
       {isShowModal && (
         <OptionModalProvider>
-          <OptionModal name={modal.name} imageURL={modal.imageURL} onClick={handleCloseModal} />
+          <OptionModal name={modal.name} imageUrl={modal.imageUrl} onClick={handleCloseModal} />
         </OptionModalProvider>
       )}
     </style.Container>

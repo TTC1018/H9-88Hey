@@ -24,7 +24,7 @@ interface OptionCardProps {
   index: number;
   name: string;
   additionalPrice: number;
-  imageURL: string;
+  imageUrl: string;
   subOptionNames: string[];
   isCardActive: boolean;
   onClickCard: (index: number, event: MouseEvent<HTMLDivElement>) => void;
@@ -61,12 +61,12 @@ export function OptionCardList({
         onClick={() => onClickArrowButton(cardListIndex - 1, data.length)}
         isShow={isIndexLargeThanZero(cardListIndex)}
       />
-      {cardList.map(({ index, name, additionalPrice, imageURL, subOptionNames }) => (
+      {cardList.map(({ index, name, additionalPrice, imageUrl, subOptionNames }) => (
         <OptionCard
           index={index}
           name={name}
           additionalPrice={additionalPrice}
-          imageURL={imageURL}
+          imageUrl={imageUrl}
           subOptionNames={subOptionNames}
           isCardActive={index === selectedIndex}
           onClickCard={onClickCard}
@@ -87,7 +87,7 @@ function OptionCard({
   index,
   name,
   additionalPrice,
-  imageURL,
+  imageUrl,
   subOptionNames,
   isCardActive,
   onClickCard,
@@ -113,7 +113,7 @@ function OptionCard({
 
   return (
     <style.OptionCard isCardActive={isCardActive} onClick={event => onClickCard(index, event)}>
-      <style.Image src={imageURL} />
+      <style.Image src={imageUrl} />
       <style.DescriptionWrapper>
         <style.Text isCardActive={isCardActive}>{name}</style.Text>
         <style.Text isCardActive={isCardActive}>+{additionalPrice.toLocaleString()}원</style.Text>

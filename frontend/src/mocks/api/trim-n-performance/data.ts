@@ -4,13 +4,13 @@ export const data = {
       id: 1,
       name: '[N퍼포먼스파츠] 20인치 다크 스퍼터링 휠',
       price: 10900000,
-      imageURL: '/path',
+      imageUrl: '/path',
       tags: ['좋아요', '굳', '태그 5개'],
       sub_options: [
         {
           id: 1,
           name: '[N퍼포먼스파츠] 20인치 다크 스퍼터링 휠',
-          imageURL: '/path',
+          imageUrl: '/path',
           description: '-',
         },
       ],
@@ -19,13 +19,13 @@ export const data = {
       id: 1,
       name: '[N퍼포먼스파츠] 20인치 블랙톤 전면 가공 휠',
       price: 10900000,
-      imageURL: '/path',
+      imageUrl: '/path',
       tags: ['좋아요', '굳', '태그 5개'],
       sub_options: [
         {
           id: 1,
           name: '[N퍼포먼스파츠] 20인치 블랙톤 전면 가공 휠',
-          imageURL: 'path',
+          imageUrl: 'path',
           description: '-',
         },
       ],

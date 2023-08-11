@@ -6,33 +6,33 @@ export const data = {
         {
           id: 1,
           name: 'ISG 시스템',
-          imageURL: 'link',
+          imageUrl: 'link',
           tags: ['좋아요', '굳'],
         },
         {
           id: 2,
           name: '통합주행모드',
-          imageURL: 'link',
+          imageUrl: 'link',
           tags: ['좋아요', '굳'],
         },
         {
           name: 'ISG 시스템',
-          imageURL: 'link',
+          imageUrl: 'link',
           tags: ['좋아요', '굳'],
         },
         {
           name: '통합주행모드',
-          imageURL: 'link',
+          imageUrl: 'link',
           tags: ['좋아요', '굳'],
         },
         {
           name: 'ISG 시스템',
-          imageURL: 'link',
+          imageUrl: 'link',
           tags: ['좋아요', '굳'],
         },
         {
           name: '통합주행모드',
-          imageURL: 'link',
+          imageUrl: 'link',
           tags: ['좋아요', '굳'],
         },
       ],
@@ -43,13 +43,13 @@ export const data = {
         {
           id: 3,
           name: '하이빔 보조',
-          imageURL: 'link',
+          imageUrl: 'link',
           tags: ['좋아요', '굳'],
         },
         {
           id: 4,
           name: '진동 경고 스티어링 휠',
-          imageURL: 'link',
+          imageUrl: 'link',
           tags: ['좋아요', '굳'],
         },
       ],
@@ -59,12 +59,12 @@ export const data = {
       subOptions: [
         {
           name: '하이빔 보조',
-          imageURL: 'link',
+          imageUrl: 'link',
           tags: ['좋아요', '굳'],
         },
         {
           name: '진동 경고 스티어링 휠',
-          imageURL: 'link',
+          imageUrl: 'link',
           tags: ['좋아요', '굳'],
         },
       ],
@@ -74,12 +74,12 @@ export const data = {
       subOptions: [
         {
           name: '하이빔 보조',
-          imageURL: 'link',
+          imageUrl: 'link',
           tags: ['좋아요', '굳'],
         },
         {
           name: '진동 경고 스티어링 휠',
-          imageURL: 'link',
+          imageUrl: 'link',
           tags: ['좋아요', '굳'],
         },
       ],
@@ -89,12 +89,12 @@ export const data = {
       subOptions: [
         {
           name: '하이빔 보조',
-          imageURL: 'link',
+          imageUrl: 'link',
           tags: ['좋아요', '굳'],
         },
         {
           name: '진동 경고 스티어링 휠',
-          imageURL: 'link',
+          imageUrl: 'link',
           tags: ['좋아요', '굳'],
         },
       ],
@@ -104,12 +104,12 @@ export const data = {
       subOptions: [
         {
           name: '하이빔 보조',
-          imageURL: 'link',
+          imageUrl: 'link',
           tags: ['좋아요', '굳'],
         },
         {
           name: '진동 경고 스티어링 휠',
-          imageURL: 'link',
+          imageUrl: 'link',
           tags: ['좋아요', '굳'],
         },
       ],
@@ -119,12 +119,12 @@ export const data = {
       subOptions: [
         {
           name: '하이빔 보조',
-          imageURL: 'link',
+          imageUrl: 'link',
           tags: ['좋아요', '굳'],
         },
         {
           name: '진동 경고 스티어링 휠',
-          imageURL: 'link',
+          imageUrl: 'link',
           tags: ['좋아요', '굳'],
         },
       ],
@@ -134,12 +134,12 @@ export const data = {
       subOptions: [
         {
           name: '하이빔 보조',
-          imageURL: 'link',
+          imageUrl: 'link',
           tags: ['좋아요', '굳'],
         },
         {
           name: '진동 경고 스티어링 휠',
-          imageURL: 'link',
+          imageUrl: 'link',
           tags: ['좋아요', '굳'],
         },
       ],

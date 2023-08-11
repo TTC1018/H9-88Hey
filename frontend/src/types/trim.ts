@@ -9,7 +9,7 @@ interface TrimProps {
   trimFeatures: FeatureProps[];
 }
 export interface TrimDataProps {
-  carImageURL: string[];
+  carImageUrl: string[];
   trims: TrimProps[];
 }
 
@@ -20,7 +20,7 @@ interface EngineProps {
   description: string;
   maximumPower: string;
   maximumTorque: string;
-  imageURL: string;
+  imageUrl: string;
 }
 export interface EngineDataProps {
   engines: EngineProps[];
@@ -29,7 +29,7 @@ export interface EngineDataProps {
 interface BodyTypeProps {
   id: number;
   name: string;
-  imageURLs: string[];
+  imageUrls: string[];
   additionalPrice: number;
   description: string;
 }
@@ -42,7 +42,7 @@ interface WheelDriveProps {
   name: string;
   additionalPrice: number;
   description: string;
-  imageURL: string;
+  imageUrl: string;
 }
 export interface WheelDriveDataProps {
   wheelDrives: WheelDriveProps[];

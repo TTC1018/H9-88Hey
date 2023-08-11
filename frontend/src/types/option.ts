@@ -8,7 +8,7 @@ export interface OptionProps {
   id: number;
   name: string;
   additionalPrice: number;
-  imageURL: string;
+  imageUrl: string;
   tags: string[];
   subOptions: SubOptionProps[];
 }
@@ -16,7 +16,7 @@ export interface OptionProps {
 export interface SubOptionProps {
   id: number;
   name: string;
-  imageURL: string;
+  imageUrl: string;
   description: string;
 }
 
@@ -25,7 +25,7 @@ export interface OptionCardDataProps {
   index: number;
   name: string;
   additionalPrice: number;
-  imageURL: string;
+  imageUrl: string;
   subOptionNames: string[];
 }
 
@@ -40,12 +40,12 @@ export interface DefaultOptionProps {
 
 export interface DefaultSubOptionProps {
   name: string;
-  imageURL: string;
+  imageUrl: string;
 }
 
 export interface DefaultOptionCardDataProps {
   name: string;
-  imageURL: string;
+  imageUrl: string;
   description?: string;
 }
 
