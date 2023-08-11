@@ -20,7 +20,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.softeer.mycarchiving.R
-import com.softeer.mycarchiving.model.common.ProgressChildUiModel
 import com.softeer.mycarchiving.model.common.ProgressUiModel
 import com.softeer.mycarchiving.ui.theme.Black
 import com.softeer.mycarchiving.ui.theme.HyundaiLightSand
@@ -31,10 +30,9 @@ import com.softeer.mycarchiving.ui.theme.medium16
 @Composable
 fun ProgressBar(
     modifier: Modifier = Modifier,
-    currentProgress: ProgressUiModel,
+    makeCarProcess: List<ProgressUiModel>,
+    currentProgressId: Int,
     currentChildId: Int,
-    currentProgressChildren: List<ProgressChildUiModel>,
-    remainCountList: MutableList<Int>,
     isDone: Boolean
 ) {
     if (!isDone) {
@@ -48,12 +46,12 @@ fun ProgressBar(
         ) {
             ProgressNumberCircle(
                 modifier = modifier,
-                numberText = (currentProgress.id + 1).toString(),
+                numberText = (makeCarProcess[currentProgressId].id + 1).toString(),
                 color = Black,
             )
             Spacer(modifier = modifier.width(5.dp))
             Text(
-                text = currentProgress.name,
+                text = makeCarProcess[currentProgressId].name,
                 style = medium16
             )
             Spacer(modifier = modifier.width(12.dp))
@@ -63,7 +61,7 @@ fun ProgressBar(
                 userScrollEnabled = false
             ) {
                 items(
-                    items = currentProgressChildren,
+                    items = makeCarProcess[currentProgressId].children,
                     key = { it.id },
                     itemContent = { progressChild ->
                         Row(
@@ -75,7 +73,7 @@ fun ProgressBar(
                                 color = if (progressChild.id == currentChildId) Black else MediumGray,
                                 fontSize = progressChild.fontSize.sp
                             )
-                            if (progressChild.id < currentProgressChildren.size - 1) {
+                            if (progressChild.id < makeCarProcess[currentProgressId].children.size - 1) {
                                 Image(
                                     painter = painterResource(id = R.drawable.ic_right),
                                     contentDescription = null,
@@ -90,32 +88,24 @@ fun ProgressBar(
                     }
                 )
             }
-            LazyRow(
-                userScrollEnabled = false
+            Row(
+                verticalAlignment = Alignment.CenterVertically
             ) {
-                items(
-                    items = remainCountList,
-                    key = { it },
-                    itemContent = {
-                        Row(
-                            verticalAlignment = Alignment.CenterVertically
-                        ) {
-                            ProgressNumberCircle(
-                                modifier = modifier,
-                                numberText = it.toString(),
-                                color = MediumGray,
-                            )
-                            if (it < remainCountList.last()) {
-                                Divider(
-                                    modifier = modifier
-                                        .width(16.dp),
-                                    thickness = 1.dp,
-                                    color = MediumGray
-                                )
-                            }
-                        }
+                for (number in currentProgressId + 2..makeCarProcess.last().id + 1) {
+                    ProgressNumberCircle(
+                        modifier = modifier,
+                        numberText = number.toString(),
+                        color = MediumGray,
+                    )
+                    if (number < makeCarProcess.last().id + 1) {
+                        Divider(
+                            modifier = modifier
+                                .width(16.dp),
+                            thickness = 1.dp,
+                            color = MediumGray
+                        )
                     }
-                )
+                }
             }
         }
     }

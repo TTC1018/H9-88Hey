@@ -4,7 +4,8 @@ import com.softeer.mycarchiving.model.common.ProgressChildUiModel
 import com.softeer.mycarchiving.model.common.ProgressUiModel
 
 object MakeCarProcess {
-    private val firstProgress = ProgressUiModel(
+
+    private val trimSelect = ProgressUiModel(
         id = 0,
         name = "트림 선택",
         children = listOf(
@@ -12,10 +13,10 @@ object MakeCarProcess {
             ProgressChildUiModel(1, "바디타입", 14),
             ProgressChildUiModel(2, "구동방식", 14),
         ),
-        needNoChildProgress = true
+        needNoChild = true
     )
 
-    private val secondProgress = ProgressUiModel(
+    private val colorSelect = ProgressUiModel(
         id = 1,
         name = "색상 선택",
         children = listOf(
@@ -24,7 +25,7 @@ object MakeCarProcess {
         )
     )
 
-    private val thirdProgress = ProgressUiModel(
+    private val optionSelect = ProgressUiModel(
         id = 2,
         name = "옵션 선택",
         children = listOf(
@@ -34,5 +35,5 @@ object MakeCarProcess {
         )
     )
 
-    val progressItems = listOf(firstProgress, secondProgress, thirdProgress)
+    val makeCarProcess = listOf(trimSelect, colorSelect, optionSelect)
 }
