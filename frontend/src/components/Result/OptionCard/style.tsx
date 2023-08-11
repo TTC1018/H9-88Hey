@@ -11,7 +11,7 @@ export const Container = styled.div<Props>`
       width: 489px;
       height: 99px;
       gap: 17px;
-      margin-right: ${hasMargin ? '62px' : '0'};
+      margin-right: ${hasMargin ? '52px' : '0'};
 
       display: flex;
     `;

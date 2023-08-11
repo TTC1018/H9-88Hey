@@ -536,6 +536,7 @@ export const OptionCardWrapper = styled.div`
 
 export const OptionCardBox = styled.div`
   width: 1040px;
+  gap: 10px;
 
   display: flex;
   flex-wrap: wrap;
