@@ -1,4 +1,4 @@
-import { XButtonLogo } from '@/components/common/XButtonLogo';
+import { XButton } from '@/components/common/XButton';
 import * as style from './style';
 
 interface selectedOptionProps {
@@ -18,6 +18,10 @@ interface MyCarListProps {
 export function MyCarList({ isSaved, model, trim, trimOptions, lastModifiedDate, selectedOptions }: MyCarListProps) {
   const modifiedDate = lastModifiedDate.split('-');
   const date = `${modifiedDate[0].slice(2)}년 ${modifiedDate[1]}월 ${modifiedDate[2]}일`;
+
+  function handleClick() {
+    // 모달창 출력
+  }
   return (
     <style.Container>
       <style.Wrapper>
@@ -33,9 +37,7 @@ export function MyCarList({ isSaved, model, trim, trimOptions, lastModifiedDate,
             <style.SubTitleText isSaved={isSaved}>
               {isSaved ? `${date}에 만들었어요.` : `${date} 임시저장`}
             </style.SubTitleText>
-            <style.XButton>
-              <XButtonLogo />
-            </style.XButton>
+            <XButton onClick={handleClick} />
           </style.SubTitle>
         </style.MainBox>
         <style.OptionBox>
