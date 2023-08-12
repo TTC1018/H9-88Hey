@@ -3,11 +3,11 @@ import { useState } from 'react';
 import { MyCarList } from '@/components/archiving/MyCarList';
 import { ArchivingHeader } from '@/components/common/ArchivingHeader';
 import { ArchivingNavigation } from '@/components/common/ArchivingNavigation';
+import { MyCarNavigation } from '@/components/archiving/MyCarNavigation';
 import { PrevButton } from '@/components/common/PrevButton';
 import { NextButton } from '@/components/common/NextButton';
 
 import * as style from './style';
-import MyCarNavigation from '@/components/archiving/MyCarNavigation';
 
 const archivingMockData = {
   data: {

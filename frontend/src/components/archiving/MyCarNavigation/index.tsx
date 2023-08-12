@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import * as style from './style';
 
-export default function MyCarNavigation() {
+export function MyCarNavigation() {
   const [indexNum, setIndexNum] = useState(1);
 
   function handleClick(index: number) {
