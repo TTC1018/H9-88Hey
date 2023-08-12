@@ -36,7 +36,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.softeer.mycarchiving.R
-import com.softeer.mycarchiving.model.OptionCardUiModel
 import com.softeer.mycarchiving.model.makingcar.SelectOptionUiModel
 import com.softeer.mycarchiving.model.makingcar.SubSelectOptionUiModel
 import com.softeer.mycarchiving.ui.theme.Black
