@@ -1,4 +1,3 @@
-import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
 export const Container = styled.main`
@@ -11,30 +10,6 @@ export const Container = styled.main`
 
 export const Wrapper = styled.div`
   width: 1024px;
-`;
-
-export const TitleText = styled.h3`
-  ${({ theme }) => {
-    const { colors, fonts } = theme;
-    return css`
-      ${fonts.headingMedium3};
-      color: ${colors.black};
-    `;
-  }}
-`;
-
-export const Division = styled.div`
-  ${({ theme }) => {
-    const { colors } = theme;
-    return css`
-      margin: 8px 0 25px 0;
-
-      width: 100%;
-      height: 6px;
-
-      background-color: ${colors.hyundaiLightSand};
-    `;
-  }}
 `;
 
 export const MyCarMain = styled.div`

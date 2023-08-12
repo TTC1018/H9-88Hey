@@ -7,6 +7,7 @@ import { PrevButton } from '@/components/common/PrevButton';
 import { NextButton } from '@/components/common/NextButton';
 
 import * as style from './style';
+import MyCarNavigation from '@/components/archiving/MyCarNavigation';
 
 const archivingMockData = {
   data: {
@@ -210,8 +211,7 @@ export function MyArchiving() {
       <ArchivingNavigation />
       <style.Container>
         <style.Wrapper>
-          <style.TitleText>내가 만든 차량 목록</style.TitleText>
-          <style.Division />
+          <MyCarNavigation />
           <style.MyCarMain>
             <PrevButton
               width="60"
