@@ -134,4 +134,7 @@
     <string name="top_bar_making_car">팰리세이드</string>
     <string name="top_bar_driver_comment">시승자 후기 작성</string>
     <string name="top_bar_consumer_comment">구매자 후기 작성</string>
+
+    <!-- 오류 -->
+    <string name="error_no_model">모델 정보 없음</string>
 </resources>
