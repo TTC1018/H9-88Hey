@@ -1,5 +1,8 @@
 import { useState } from 'react';
 
+import { MyChivingDataProps } from '@/types/myChiving';
+import { useFetch } from '@/hooks/useFetch';
+
 import { MyCarList } from '@/components/archiving/MyCarList';
 import { ArchivingHeader } from '@/components/common/ArchivingHeader';
 import { ArchivingNavigation } from '@/components/common/ArchivingNavigation';
@@ -9,198 +12,48 @@ import { NextButton } from '@/components/common/NextButton';
 
 import * as style from './style';
 
-const archivingMockData = {
-  data: {
-    myarchivings: [
-      {
-        id: 1,
-        model: '팰리세이드',
-        trim: 'Le Blanc',
-        isSaved: true,
-        trimOptions: ['디젤 2.2', '4WD', '7인승'],
-        lastModifiedDate: '2023-07-19',
-        selectedOptions: [
-          {
-            name: '컴포트 ||',
-            imageUrl: 'https://www.hyundai.com/contents/vr360/LX06/exterior/A2B/colorchip-exterior.png',
-          },
-          {
-            name: '듀얼 와이드 선루프',
-            imageUrl: 'https://www.hyundai.com/contents/vr360/LX06/exterior/A2B/colorchip-exterior.png',
-          },
-        ],
-      },
-      {
-        id: 2,
-        model: '팰리세이드',
-        trim: 'Le Blanc',
-        isSaved: true,
-        trimOptions: ['디젤 2.2', '4WD', '7인승'],
-        lastModifiedDate: '2023-07-19',
-        selectedOptions: [
-          {
-            name: '컴포트 ||',
-            imageUrl: 'https://www.hyundai.com/contents/vr360/LX06/exterior/A2B/colorchip-exterior.png',
-          },
-          {
-            name: '듀얼 와이드 선루프',
-            imageUrl: 'https://www.hyundai.com/contents/vr360/LX06/exterior/A2B/colorchip-exterior.png',
-          },
-        ],
-      },
-      {
-        id: 3,
-        model: '팰리세이드',
-        trim: 'Le Blanc',
-        isSaved: true,
-        trimOptions: ['디젤 2.2', '2WD', '7인승'],
-        lastModifiedDate: '2023-07-15',
-        selectedOptions: [
-          {
-            name: '주차보조 시스템',
-            imageUrl: 'https://www.hyundai.com/contents/vr360/LX06/exterior/A2B/colorchip-exterior.png',
-          },
-          {
-            name: '적외선 무릎워머',
-            imageUrl: 'https://www.hyundai.com/contents/vr360/LX06/exterior/A2B/colorchip-exterior.png',
-          },
-          {
-            name: '적외선 무릎워머',
-            imageUrl: 'https://www.hyundai.com/contents/vr360/LX06/exterior/A2B/colorchip-exterior.png',
-          },
-          {
-            name: '적외선 무릎워머',
-            imageUrl: 'https://www.hyundai.com/contents/vr360/LX06/exterior/A2B/colorchip-exterior.png',
-          },
-          {
-            name: '적외선 무릎워머',
-            imageUrl: 'https://www.hyundai.com/contents/vr360/LX06/exterior/A2B/colorchip-exterior.png',
-          },
-        ],
-      },
-    ],
-  },
+const savedInitialData = {
+  myarchivings: [
+    {
+      id: 111,
+      model: '',
+      trim: '',
+      isSaved: true,
+      trimOptions: [''],
+      lastModifiedDate: '',
+      selectedOptions: [
+        {
+          name: '',
+          imageUrl: '',
+        },
+      ],
+    },
+  ],
 };
 
-const tempArchivingMockData = {
-  data: {
-    myarchivings: [
-      {
-        id: 13,
-        model: '팰리세이드',
-        trim: 'Le Blanc',
-        isSaved: false,
-        trimOptions: ['디젤 2.2', '4WD', '7인승'],
-        lastModifiedDate: '2023-07-19',
-        selectedOptions: [
-          {
-            name: '컴포트 ||',
-            imageUrl: 'https://www.hyundai.com/contents/vr360/LX06/exterior/P7V/002.png',
-          },
-          {
-            name: '듀얼 와이드 선루프',
-            imageUrl: 'https://www.hyundai.com/contents/vr360/LX06/exterior/P7V/002.png',
-          },
-        ],
-      },
-      {
-        id: 14,
-        model: '팰리세이드',
-        trim: 'Le Blanc',
-        isSaved: false,
-        trimOptions: ['디젤 2.2', '4WD', '7인승'],
-        lastModifiedDate: '2023-07-19',
-        selectedOptions: [
-          {
-            name: '컴포트 ||',
-            imageUrl: 'https://www.hyundai.com/contents/vr360/LX06/exterior/P7V/002.png',
-          },
-          {
-            name: '듀얼 와이드 선루프',
-            imageUrl: 'https://www.hyundai.com/contents/vr360/LX06/exterior/P7V/002.png',
-          },
-        ],
-      },
-      {
-        id: 15,
-        model: '팰리세이드',
-        trim: 'Le Blanc',
-        isSaved: false,
-        trimOptions: ['디젤 2.2', '4WD', '7인승'],
-        lastModifiedDate: '2023-07-19',
-        selectedOptions: [
-          {
-            name: '컴포트 ||',
-            imageUrl: 'https://www.hyundai.com/contents/vr360/LX06/exterior/P7V/002.png',
-          },
-          {
-            name: '듀얼 와이드 선루프',
-            imageUrl: 'https://www.hyundai.com/contents/vr360/LX06/exterior/P7V/002.png',
-          },
-        ],
-      },
-      {
-        id: 16,
-        model: '팰리세이드',
-        trim: 'Le Blanc',
-        isSaved: false,
-        trimOptions: ['디젤 2.2', '4WD', '7인승'],
-        lastModifiedDate: '2023-07-19',
-        selectedOptions: [
-          {
-            name: '컴포트 ||',
-            imageUrl: 'https://www.hyundai.com/contents/vr360/LX06/exterior/P7V/002.png',
-          },
-          {
-            name: '듀얼 와이드 선루프',
-            imageUrl: 'https://www.hyundai.com/contents/vr360/LX06/exterior/P7V/002.png',
-          },
-        ],
-      },
-      {
-        id: 17,
-        model: '팰리세이드',
-        trim: 'Le Blanc',
-        isSaved: false,
-        trimOptions: ['디젤 2.2', '4WD', '7인승'],
-        lastModifiedDate: '2023-07-19',
-        selectedOptions: [
-          {
-            name: '컴포트 ||',
-            imageUrl: 'https://www.hyundai.com/contents/vr360/LX06/exterior/P7V/002.png',
-          },
-          {
-            name: '듀얼 와이드 선루프',
-            imageUrl: 'https://www.hyundai.com/contents/vr360/LX06/exterior/P7V/002.png',
-          },
-        ],
-      },
-      {
-        id: 18,
-        model: '팰리세이드',
-        trim: 'Le Blanc',
-        isSaved: false,
-        trimOptions: ['디젤 2.2', '4WD', '7인승'],
-        lastModifiedDate: '2023-07-19',
-        selectedOptions: [
-          {
-            name: '컴포트 ||',
-            imageUrl: 'https://www.hyundai.com/contents/vr360/LX06/exterior/P7V/002.png',
-          },
-          {
-            name: '듀얼 와이드 선루프',
-            imageUrl: 'https://www.hyundai.com/contents/vr360/LX06/exterior/P7V/002.png',
-          },
-        ],
-      },
-    ],
-  },
+const tempInitialData = {
+  myarchivings: [
+    {
+      id: 222,
+      model: '',
+      trim: '',
+      isSaved: false,
+      trimOptions: [''],
+      lastModifiedDate: '',
+      selectedOptions: [
+        {
+          name: '',
+          imageUrl: '',
+        },
+      ],
+    },
+  ],
 };
 
 export function MyArchiving() {
-  const tempData = tempArchivingMockData.data.myarchivings;
-  const data = archivingMockData.data.myarchivings;
-  const allData = [...tempData, ...data];
+  const { data: tempData } = useFetch<MyChivingDataProps>({ defaultValue: tempInitialData, url: '/mychiving/temp' });
+  const { data: savedData } = useFetch<MyChivingDataProps>({ defaultValue: savedInitialData, url: '/mychiving' });
+  const allData = [...tempData.myarchivings, ...savedData.myarchivings];
 
   const [page, setPage] = useState(0);
   const rangeArray = Array.from({ length: 4 }, (_, index) => index + page * 4);
