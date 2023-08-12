@@ -221,23 +221,30 @@ export function MyArchiving() {
               }}
               isShow={page !== 0}
             />
-            <style.MyCarBox>
-              {rangeArray.map(index =>
-                index < allData.length ? (
-                  <MyCarList
-                    key={allData[index].id}
-                    isSaved={allData[index].isSaved}
-                    model={allData[index].model}
-                    trim={allData[index].trim}
-                    trimOptions={allData[index].trimOptions}
-                    lastModifiedDate={allData[index].lastModifiedDate}
-                    selectedOptions={allData[index].selectedOptions}
-                  />
-                ) : (
-                  <style.EmptyBox key={index}></style.EmptyBox>
-                )
-              )}
-            </style.MyCarBox>
+            {allData.length > 0 ? (
+              <style.MyCarBox>
+                {rangeArray.map(index =>
+                  index < allData.length ? (
+                    <MyCarList
+                      key={allData[index].id}
+                      isSaved={allData[index].isSaved}
+                      model={allData[index].model}
+                      trim={allData[index].trim}
+                      trimOptions={allData[index].trimOptions}
+                      lastModifiedDate={allData[index].lastModifiedDate}
+                      selectedOptions={allData[index].selectedOptions}
+                    />
+                  ) : (
+                    <style.EmptyBox key={index}></style.EmptyBox>
+                  )
+                )}
+              </style.MyCarBox>
+            ) : (
+              <style.NoDataInfoBox>
+                <style.NoDataInfoText>피드에 저장한 차량이 없어요</style.NoDataInfoText>
+                <style.CreateMyCarButton>내 차 만들기</style.CreateMyCarButton>
+              </style.NoDataInfoBox>
+            )}
             <NextButton
               width="60"
               height="60"
