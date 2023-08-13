@@ -1,4 +1,4 @@
-name: Java CI with Gradle
+name: Java CD with Gradle
 
 on:
   push:
@@ -44,7 +44,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-artifact@v2
         with:
-          name: cicdsample
+          name: buildJar
           path: backend/build/libs/*.jar
 
   deploy:
@@ -56,7 +56,7 @@ jobs:
       - name: Download artifact
         uses: actions/download-artifact@v2
         with:
-          name: cicdsample
+          name: buildJar
 
       - name: Copy files via SSH
         uses: appleboy/scp-action@master
@@ -72,7 +72,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - name: ssh to ec2
+      - name: ssh to ec2 for run spring jar
         uses: appleboy/ssh-action@master
         with:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
