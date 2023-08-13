@@ -28,6 +28,7 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
+import androidx.compose.ui.window.DialogProperties
 import com.softeer.mycarchiving.R
 import com.softeer.mycarchiving.model.common.CarBasicDetailUiModel
 import com.softeer.mycarchiving.ui.theme.DarkGray
@@ -46,41 +47,49 @@ val detailItem = CarBasicDetailUiModel(
 
 @Composable
 fun BasicItemDialog(
-    modifier: Modifier,
+    modifier: Modifier = Modifier,
     onDismissRequest: () -> Unit,
-    detailItem: CarBasicDetailUiModel
+    detailItem: CarBasicDetailUiModel,
 ) {
-    Dialog(onDismissRequest = onDismissRequest) {
+    Dialog(
+        onDismissRequest = onDismissRequest,
+        properties = DialogProperties(
+            usePlatformDefaultWidth = false
+        )
+    ) {
         Surface(
+            modifier = modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp),
             color = White,
             shape = roundCorner
         ) {
             Column(
-                modifier = modifier
+                modifier = Modifier
                     .padding(start = 24.dp, end = 24.dp, top = 24.dp, bottom = 30.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Box(
-                    modifier = modifier.fillMaxWidth()
+                    modifier = Modifier.fillMaxWidth()
                 ) {
                     Text(
-                        modifier = modifier
+                        modifier = Modifier
                             .align(Alignment.Center),
                         text = detailItem.name,
                         style = medium18,
                         textAlign = TextAlign.Center
                     )
                     Image(
-                        modifier = modifier
+                        modifier = Modifier
                             .align(Alignment.CenterEnd)
                             .clickable { onDismissRequest() },
                         painter = painterResource(id = R.drawable.ic_close_light),
                         contentDescription = null
                     )
                 }
-                Spacer(modifier = modifier.height(12.dp))
+                Spacer(modifier = Modifier.height(12.dp))
                 Image(
-                    modifier = modifier
+                    modifier = Modifier
                         .fillMaxWidth()
                         .height(161.dp)
                         .clip(roundCorner),
@@ -88,9 +97,9 @@ fun BasicItemDialog(
                     contentDescription = null,
                     contentScale = ContentScale.FillBounds
                 )
-                Spacer(modifier = modifier.height(20.dp))
+                Spacer(modifier = Modifier.height(20.dp))
                 Text(
-                    modifier = modifier
+                    modifier = Modifier
                         .fillMaxWidth(),
                     text = detailItem.description,
                     style = regular12
