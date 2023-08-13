@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -15,6 +16,7 @@ import lombok.RequiredArgsConstructor;
 import softeer.h9.hey.domain.car.SelectOptionCategory;
 import softeer.h9.hey.domain.car.SelectOption;
 import softeer.h9.hey.domain.car.SubOption;
+import softeer.h9.hey.dto.car.SubOptionIdDto;
 
 @Repository
 @RequiredArgsConstructor
@@ -31,6 +33,27 @@ public class SelectOptionRepository {
 
 	public List<SelectOption> findHGenuineAccessoriesByCarCode(final String carCode) {
 		return findSelectOptions(carCode, SelectOptionCategory.H_GENUINE);
+	}
+
+	public List<SubOptionIdDto> findSubOptionIdsBySelectOptionIds(final List<String> selectOptionIds){
+		String selectOptionsString = selectOptionIds.stream()
+			.map(id -> "\'" + id + "\'")
+			.collect(Collectors.joining(", "));
+
+		String sql = "SELECT DISTINCT sub_option_id "
+						+ "FROM selectOption_subOption "
+						+ "where select_option_id in ( "
+						+ selectOptionsString
+						+ ")";
+
+		List<SubOptionIdDto> subOptionIdDtos = new ArrayList<>();
+		namedParameterJdbcTemplate.query(sql, result -> {
+
+			System.out.println(result.getString("sub_option_id"));
+			subOptionIdDtos.add(SubOptionIdDto.of(result.getString("sub_option_id")));
+		});
+
+		return subOptionIdDtos;
 	}
 
 	private List<SelectOption> findSelectOptions(String carCode, SelectOptionCategory selectOptionCategory) {
