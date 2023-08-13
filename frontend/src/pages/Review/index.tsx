@@ -17,7 +17,7 @@ export function Review() {
   }
 
   function handlePrevSlide() {
-    currentSlide !== 0 && setCurrentSlide(prev => prev - 1);
+    currentSlide > 0 && setCurrentSlide(prev => prev - 1);
   }
 
   useEffect(() => {
