@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import softeer.h9.hey.domain.car.Category;
+import softeer.h9.hey.domain.car.SelectOptionCategory;
 import softeer.h9.hey.domain.car.SelectOption;
 
 @SpringBootTest
@@ -28,7 +28,7 @@ public class SelectOptionRepositoryTest {
 
 		assertThat(selectOptions).hasSize(6);
 		for (SelectOption selectOption : selectOptions) {
-			assertThat(selectOption.getCategory()).isEqualTo(Category.SELECT_OPTION);
+			assertThat(selectOption.getSelectOptionCategory()).isEqualTo(SelectOptionCategory.SELECT_OPTION);
 		}
 	}
 
@@ -41,7 +41,7 @@ public class SelectOptionRepositoryTest {
 
 		assertThat(selectOptions).hasSize(3);
 		for (SelectOption selectOption : selectOptions) {
-			assertThat(selectOption.getCategory()).isEqualTo(Category.N_PERFORMANCE);
+			assertThat(selectOption.getSelectOptionCategory()).isEqualTo(SelectOptionCategory.N_PERFORMANCE);
 		}
 	}
 }

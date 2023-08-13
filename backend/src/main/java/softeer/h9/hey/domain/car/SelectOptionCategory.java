@@ -5,20 +5,20 @@ import java.util.Arrays;
 import lombok.Getter;
 
 @Getter
-public enum Category {
+public enum SelectOptionCategory {
 	SELECT_OPTION("선택옵션"),
 	N_PERFORMANCE("N Performance"),
 	H_GENUINE("H Genuine Accessories");
 
 	private final String name;
 
-	Category(String name) {
+	SelectOptionCategory(String name) {
 		this.name = name;
 	}
 
-	public static Category findByName(String categoryName) {
-		return Arrays.stream(Category.values())
-			.filter(category -> category.name.equals(categoryName))
+	public static SelectOptionCategory findByName(String categoryName) {
+		return Arrays.stream(SelectOptionCategory.values())
+			.filter(selectOptionCategory -> selectOptionCategory.name.equals(categoryName))
 			.findFirst()
 			.orElseThrow();
 	}

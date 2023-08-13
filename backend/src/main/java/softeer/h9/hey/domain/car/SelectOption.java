@@ -15,7 +15,7 @@ public class SelectOption {
 	private String name;
 	private Integer additionalPrice;
 	private String imageUrl;
-	private Category category;
+	private SelectOptionCategory selectOptionCategory;
 	private List<Tag> tags = new ArrayList<>();
 	private List<SubOption> subOptions = new ArrayList<>();
 

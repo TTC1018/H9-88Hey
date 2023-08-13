@@ -12,7 +12,7 @@ import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
 
 import lombok.RequiredArgsConstructor;
-import softeer.h9.hey.domain.car.Category;
+import softeer.h9.hey.domain.car.SelectOptionCategory;
 import softeer.h9.hey.domain.car.SelectOption;
 import softeer.h9.hey.domain.car.SubOption;
 
@@ -22,14 +22,14 @@ public class SelectOptionRepository {
 	private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
 	public List<SelectOption> findSelectOptionsByCarCode(String carCode) {
-		return findSelectOptions(carCode, Category.SELECT_OPTION);
+		return findSelectOptions(carCode, SelectOptionCategory.SELECT_OPTION);
 	}
 
 	public List<SelectOption> findNPerformanceByCarCode(String carCode) {
-		return findSelectOptions(carCode, Category.N_PERFORMANCE);
+		return findSelectOptions(carCode, SelectOptionCategory.N_PERFORMANCE);
 	}
 
-	private List<SelectOption> findSelectOptions(String carCode, Category category) {
+	private List<SelectOption> findSelectOptions(String carCode, SelectOptionCategory selectOptionCategory) {
 		String sql =
 			"select selectOption.id, selectOption.category,selectOption.name, selectOption.image_url, "
 				+ "selectOption.additional_price, \n"
@@ -39,7 +39,7 @@ public class SelectOptionRepository {
 				+ "         left join selectOption_subOption map on selectOption.id = map.select_option_id\n"
 				+ "         left join subOption on map.sub_option_id = subOption.id\n"
 				+ "where car_normal_types_id = :carCode\n"
-				+ "   AND category = \"" + category.getName() + "\"\n;";
+				+ "   AND category = \"" + selectOptionCategory.getName() + "\"\n;";
 
 		SqlParameterSource params = new MapSqlParameterSource()
 			.addValue("carCode", carCode);
@@ -77,7 +77,7 @@ public class SelectOptionRepository {
 	private SelectOption mapSelectOption(ResultSet rs) throws SQLException {
 		SelectOption selectOption = new SelectOption();
 		selectOption.setId(rs.getString("selectOption.id"));
-		selectOption.setCategory(Category.findByName(rs.getString("selectOption.category")));
+		selectOption.setSelectOptionCategory(SelectOptionCategory.findByName(rs.getString("selectOption.category")));
 		selectOption.setName(rs.getString("selectOption.name"));
 		selectOption.setImageUrl(rs.getString("selectOption.image_url"));
 		selectOption.setAdditionalPrice(rs.getInt("selectOption.additional_price"));
