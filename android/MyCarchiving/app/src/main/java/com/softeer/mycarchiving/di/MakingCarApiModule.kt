@@ -1,5 +1,6 @@
 package com.softeer.mycarchiving.di
 
+import com.softeer.data.network.SelectColorNetworkApi
 import com.softeer.data.network.SelectTrimNetworkApi
 import dagger.Module
 import dagger.Provides
@@ -16,5 +17,10 @@ object MakingCarApiModule {
     @Singleton
     fun provideSelectTrimNetworkApi(retrofit: Retrofit): SelectTrimNetworkApi =
         retrofit.create(SelectTrimNetworkApi::class.java)
+
+    @Provides
+    @Singleton
+    fun provideSelectColorNetworkApi(retrofit: Retrofit): SelectColorNetworkApi =
+        retrofit.create(SelectColorNetworkApi::class.java)
 
 }
