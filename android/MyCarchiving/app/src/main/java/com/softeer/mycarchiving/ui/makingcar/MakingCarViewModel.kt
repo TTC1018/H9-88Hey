@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModel
 import com.softeer.mycarchiving.model.TrimOptionUiModel
 import com.softeer.mycarchiving.model.makingcar.ColorOptionUiModel
 import com.softeer.mycarchiving.model.makingcar.SelectModelUiModel
+import com.softeer.mycarchiving.model.makingcar.SelectOptionUiModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -33,6 +34,9 @@ class MakingCarViewModel @Inject constructor() : ViewModel() {
     private var selectedTrimState = mutableStateListOf<TrimOptionUiModel>()
     private val _selectedTrim = MutableStateFlow<List<TrimOptionUiModel>>(selectedTrimState)
     val selectedTrim: StateFlow<List<TrimOptionUiModel>> = _selectedTrim
+
+    private val _selectedExtraOptions = MutableLiveData<List<SelectOptionUiModel>>()
+    val selectedExtraOptions: LiveData<List<SelectOptionUiModel>> = _selectedExtraOptions
 
     private val _totalPrice = MutableStateFlow(0)
     val totalPrice: StateFlow<Int> = _totalPrice
