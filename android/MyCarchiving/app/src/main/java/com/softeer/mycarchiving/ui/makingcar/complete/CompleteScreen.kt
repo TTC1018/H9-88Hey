@@ -1,58 +1,57 @@
 package com.softeer.mycarchiving.ui.makingcar.complete
 
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.softeer.data.CarColorType
 import com.softeer.mycarchiving.R
-import com.softeer.mycarchiving.model.makingcar.ColorOptionSimpleUiModel
-import com.softeer.mycarchiving.model.makingcar.CompleteOptionUiModel
+import com.softeer.mycarchiving.model.makingcar.ColorOptionUiModel
+import com.softeer.mycarchiving.model.makingcar.SelectOptionUiModel
+import com.softeer.mycarchiving.model.makingcar.SubSelectOptionUiModel
 import com.softeer.mycarchiving.ui.component.CompleteBanner
 import com.softeer.mycarchiving.ui.component.CompleteCarCard
 import com.softeer.mycarchiving.ui.component.CompleteCarTitleText
 import com.softeer.mycarchiving.ui.component.OptionInfoDivider
 import com.softeer.mycarchiving.ui.component.SelectedOptionInfo
+import com.softeer.mycarchiving.ui.makingcar.MakingCarViewModel
 import com.softeer.mycarchiving.ui.theme.LightGray
 
 @Composable
 fun CompleteRoute(
     modifier: Modifier = Modifier,
-    completeViewModel: CompleteViewModel = hiltViewModel()
+    makingCarViewModel: MakingCarViewModel = hiltViewModel(),
 ) {
-    val carName by completeViewModel.carName.collectAsStateWithLifecycle()
-    val carImage by completeViewModel.carImage.collectAsStateWithLifecycle()
-    val modelName by completeViewModel.modelName.collectAsStateWithLifecycle()
-    val totalPrice by completeViewModel.totalPrice.collectAsStateWithLifecycle()
-    val colors by completeViewModel.colors.collectAsStateWithLifecycle()
-    val trimOptions by completeViewModel.trimOptions.collectAsStateWithLifecycle()
-    val selectedOptions by completeViewModel.selectedOptions.collectAsStateWithLifecycle()
-
+    val carName by makingCarViewModel.selectedCarName.collectAsStateWithLifecycle()
+    val carImage by makingCarViewModel.selectedCarImage.observeAsState()
+    val selectedModelInfo by makingCarViewModel.selectedModelInfo.observeAsState()
+    val totalPrice by makingCarViewModel.totalPrice.collectAsStateWithLifecycle()
+    val colors by makingCarViewModel.selectedColor.observeAsState()
+    val selectedTrims by makingCarViewModel.selectedTrim.collectAsStateWithLifecycle()
+    val selectedOptions by makingCarViewModel.selectedExtraOptions.observeAsState()
 
     CompleteScreen(
         modifier = modifier,
         carName = carName,
-        carImage = carImage,
-        modelName = modelName,
+        carImage = carImage ?: "",
+        modelName = selectedModelInfo?.name ?: stringResource(id = R.string.error_no_model),
         totalPrice = totalPrice,
-        colors = colors,
-        trimOptions = trimOptions,
-        selectedOptions = selectedOptions
+        colors = colors ?: emptyList(),
+        trimOptions = selectedTrims.map { it.optionName },
+        selectedOptions = selectedOptions ?: emptyList()
     )
 }
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun CompleteScreen(
     modifier: Modifier,
@@ -60,9 +59,9 @@ fun CompleteScreen(
     carImage: String,
     modelName: String,
     totalPrice: Int,
-    colors: List<ColorOptionSimpleUiModel>,
+    colors: List<ColorOptionUiModel>,
     trimOptions: List<String>,
-    selectedOptions: List<CompleteOptionUiModel>,
+    selectedOptions: List<SelectOptionUiModel>,
 ) {
     Column(
         modifier = modifier
@@ -76,7 +75,12 @@ fun CompleteScreen(
             modifier = Modifier.padding(16.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            CompleteCarTitleText(text = stringResource(id = R.string.make_car_done_feature, carName))
+            CompleteCarTitleText(
+                text = stringResource(
+                    id = R.string.make_car_done_feature,
+                    carName
+                )
+            )
             CompleteCarCard(
                 carName = carName,
                 modelName = modelName,
@@ -93,7 +97,7 @@ fun CompleteScreen(
             Column {
                 OptionInfoDivider(thickness = 1.dp, color = LightGray)
                 selectedOptions.forEach { option ->
-                    SelectedOptionInfo(optionInfo = option, thumbnailUrl = option.thumbnailUrl)
+                    SelectedOptionInfo(optionInfo = option, thumbnailUrl = option.imageUrl)
                 }
             }
         }
@@ -110,30 +114,59 @@ fun PreviewCompleteScreen() {
         modelName = "Le Blanc(르블랑)",
         totalPrice = 47340000,
         colors = listOf(
-            ColorOptionSimpleUiModel(category = "외장", "", "문라이트 블루펄"),
-            ColorOptionSimpleUiModel(category = "내장", "", "퀼팅 천연(블랙)")
+            ColorOptionUiModel(
+                category = CarColorType.EXTERIOR,
+                optionName = "문라이트 블루펄",
+                imageUrl = "",
+                price = 0,
+                matchingColors = emptyList(),
+                tags = emptyList()
+            ),
+            ColorOptionUiModel(
+                category = CarColorType.INTERIOR,
+                optionName = "퀼팅 천연(블랙)",
+                imageUrl = "",
+                price = 0,
+                matchingColors = emptyList(),
+                tags = emptyList()
+            )
         ),
         trimOptions = listOf(
             "디젤 2.2", "4WD", "7인승"
         ),
         selectedOptions = listOf(
-            CompleteOptionUiModel(
-                optionName = "컴포트 II",
-                price = 1090000,
-                subOptionNames = listOf(
-                    "후석 승객 알림", "메탈 리어 범퍼스텝",
-                    "메탈 도어스커프", "3열 파워폴딩시트",
-                    "3열 열선시트", "헤드업 디스플레이"
+            SelectOptionUiModel(
+                name = "컴포트 II",
+                price = 10900000,
+                imageUrl = "",
+                tags = listOf(
+                    "어린이🧒",
+                    "안전사고 예방🚨",
+                    "대형견도 문제 없어요🐶",
+                    "가족들도 좋은 옵션👨‍👩‍👧‍👦"
+                ),
+                subOptions = listOf(
+                    SubSelectOptionUiModel(
+                        name = "후석 승객 알림",
+                        imageUrl = "",
+                        description = "초음파 센서를 통해 뒷좌석에 남아있는 승객의 움직임을 감지하여 운전자에게 경고함으로써 부주의에 의한 유아 또는 반려 동물 등의 방치 사고를 예방하는 신기술입니다."
+                    ),
+                    SubSelectOptionUiModel(
+                        name = "메탈 리어범퍼스텝",
+                        imageUrl = "",
+                        description = "러기지 룸 앞쪽 하단부를 메탈로 만들어 물건을 싣고 내릴 때나 사람이 올라갈 때 차체를 보호해줍니다."
+                    )
                 )
             ),
-            CompleteOptionUiModel(
-                optionName = "컴포트 II",
-                price = 1090000,
-                subOptionNames = listOf(
-                    "후석 승객 알림", "메탈 리어 범퍼스텝",
-                    "메탈 도어스커프", "3열 파워폴딩시트",
-                    "3열 열선시트", "헤드업 디스플레이"
-                )
+            SelectOptionUiModel(
+                name = "현대스마트센스 Ⅰ",
+                price = 2900000,
+                imageUrl = "",
+                tags = listOf(
+                    "대형견도 문제 없어요🐶",
+                    "가족들도 좋은 옵션👨‍👩‍👧‍👦"
+                ),
+                subOptions = emptyList()
             )
         )
     )

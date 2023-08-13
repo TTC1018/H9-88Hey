@@ -34,9 +34,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.skydoves.landscapist.ImageOptions
 import com.skydoves.landscapist.glide.GlideImage
+import com.softeer.data.CarColorType
 import com.softeer.mycarchiving.R
 import com.softeer.mycarchiving.model.makingcar.ColorOptionSimpleUiModel
+import com.softeer.mycarchiving.model.makingcar.ColorOptionUiModel
 import com.softeer.mycarchiving.model.makingcar.CompleteOptionUiModel
+import com.softeer.mycarchiving.model.makingcar.SelectOptionUiModel
+import com.softeer.mycarchiving.model.makingcar.SubSelectOptionUiModel
 import com.softeer.mycarchiving.ui.theme.HyundaiLightSand
 import com.softeer.mycarchiving.ui.theme.HyundaiSand
 import com.softeer.mycarchiving.ui.theme.LightGray
@@ -134,7 +138,7 @@ fun SelectedOptionSubs(
 @Composable
 fun SelectedOptionInfo(
     modifier: Modifier = Modifier,
-    optionInfo: CompleteOptionUiModel,
+    optionInfo: SelectOptionUiModel,
     thumbnailUrl: String?
 ) {
     Column(
@@ -160,11 +164,11 @@ fun SelectedOptionInfo(
                     horizontalArrangement = Arrangement
                         .spacedBy(8.dp)
                 ) {
-                    SelectedOptionHeadText(text = optionInfo.optionName)
+                    SelectedOptionHeadText(text = optionInfo.name)
                     SelectedOptionDivider()
                     SelectedOptionPriceText(price = optionInfo.price)
                 }
-                SelectedOptionSubs(text = optionInfo.subOptionNames.joinToString(" / "))
+                SelectedOptionSubs(text = optionInfo.subOptions?.joinToString(" / ") { it.name } ?: "")
             }
         }
         OptionInfoDivider(thickness = 1.dp, color = LightGray)
@@ -189,7 +193,7 @@ fun CompleteCarCard(
     carName: String,
     modelName: String,
     options: List<String>,
-    colors: List<ColorOptionSimpleUiModel>,
+    colors: List<ColorOptionUiModel>,
     price: Int,
 ) {
     Column(
@@ -210,9 +214,9 @@ fun CompleteCarCard(
         OptionInfoDivider(thickness = 1.dp, color = HyundaiSand)
         colors.forEach {
             CompleteColorInfoRow(
-                category = it.category,
+                category = it.category.type,
                 imageUrl = it.imageUrl,
-                colorName = it.colorName
+                colorName = it.optionName
             )
         }
     }
@@ -327,10 +331,28 @@ fun PreviewSelectedOptionThumbnail() {
 @Composable
 fun PreviewSelectedOptionInfo() {
     SelectedOptionInfo(
-        optionInfo = CompleteOptionUiModel(
-            optionName = "컴포트 II",
-            price = 1090000,
-            subOptionNames = listOf("후석 승객 알림", "메탈 리어범퍼스텝", "메탈 도어스커프", "3열 파워폴딩시트", "3열 열선시트", "헤드업 디스플레이")
+        optionInfo = SelectOptionUiModel(
+            name = "컴포트 2",
+            price = 10900000,
+            imageUrl = "",
+            tags = listOf(
+                "어린이🧒",
+                "안전사고 예방🚨",
+                "대형견도 문제 없어요🐶",
+                "가족들도 좋은 옵션👨‍👩‍👧‍👦"
+            ),
+            subOptions = listOf(
+                SubSelectOptionUiModel(
+                    name = "후석 승객 알림",
+                    imageUrl = "",
+                    description = "초음파 센서를 통해 뒷좌석에 남아있는 승객의 움직임을 감지하여 운전자에게 경고함으로써 부주의에 의한 유아 또는 반려 동물 등의 방치 사고를 예방하는 신기술입니다."
+                ),
+                SubSelectOptionUiModel(
+                    name = "메탈 리어범퍼스텝",
+                    imageUrl = "",
+                    description = "러기지 룸 앞쪽 하단부를 메탈로 만들어 물건을 싣고 내릴 때나 사람이 올라갈 때 차체를 보호해줍니다."
+                )
+            )
         ),
         thumbnailUrl = ""
     )
@@ -370,8 +392,22 @@ fun PreviewCompleteCarCard() {
         options = listOf("디젤 2.2", "4WD", "7인승"),
         price = 47340000,
         colors = listOf(
-            ColorOptionSimpleUiModel("외장", "", "문라이트 블루펄"),
-            ColorOptionSimpleUiModel("내장", "", "퀼팅 천연(블랙)")
+            ColorOptionUiModel(
+                category = CarColorType.EXTERIOR,
+                optionName = "문라이트 블루펄",
+                imageUrl = "",
+                price = 0,
+                matchingColors = emptyList(),
+                tags = emptyList()
+            ),
+            ColorOptionUiModel(
+                category = CarColorType.INTERIOR,
+                optionName = "퀼팅 천연(블랙)",
+                imageUrl = "",
+                price = 0,
+                matchingColors = emptyList(),
+                tags = emptyList()
+            )
         )
     )
 }
