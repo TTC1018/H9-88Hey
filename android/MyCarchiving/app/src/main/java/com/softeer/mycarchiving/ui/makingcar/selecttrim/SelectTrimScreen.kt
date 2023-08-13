@@ -11,27 +11,32 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.bumptech.glide.request.RequestOptions
 import com.skydoves.landscapist.glide.GlideImage
+import com.softeer.mycarchiving.MainActivity
 import com.softeer.mycarchiving.R
 import com.softeer.mycarchiving.model.TrimOptionUiModel
 import com.softeer.mycarchiving.ui.component.OptionCardForDetail
 import com.softeer.mycarchiving.ui.component.OptionNameWithDivider
+import com.softeer.mycarchiving.ui.makingcar.MakingCarViewModel
 
 @Composable
 fun SelectTrimRoute(
     modifier: Modifier = Modifier,
+    makingCarViewModel: MakingCarViewModel = hiltViewModel(LocalContext.current as MainActivity),
     selectTrimViewModel: SelectTrimViewModel = hiltViewModel(),
 ) {
     val options by selectTrimViewModel.options.collectAsStateWithLifecycle()
 
     SelectTrimScreen(
         modifier = modifier,
-        options = options
+        options = options,
+        onOptionSelect = makingCarViewModel::updateSelectedTrimOption
     )
 }
 
@@ -39,6 +44,7 @@ fun SelectTrimRoute(
 fun SelectTrimScreen(
     modifier: Modifier,
     options: List<TrimOptionUiModel>,
+    onOptionSelect: (TrimOptionUiModel) -> Unit,
 ) {
     var selectedIndex by remember { mutableStateOf(0) }
 
@@ -69,7 +75,10 @@ fun SelectTrimScreen(
                     maximumTorque = item.maximumTorque,
                     maximumOutput = item.maximumOutput,
                     isSelected = idx == selectedIndex,
-                    onClick = { selectedIndex = idx },
+                    onClick = {
+                        selectedIndex = idx
+                        onOptionSelect(item)
+                    },
                 )
             }
         }
@@ -96,6 +105,7 @@ fun PreviewSelectTrimScreen() {
                 maximumOutput = "202/3,800PS/rmp",
                 maximumTorque = "36.2/5,200kgf-m/rpm",
             )
-        )
+        ),
+        onOptionSelect = {},
     )
 }
