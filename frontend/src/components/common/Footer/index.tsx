@@ -1,7 +1,11 @@
+import { useState } from 'react';
+
 import { useLocation, useNavigate } from 'react-router-dom';
 
-import { MyCarType } from '@/types/trim';
+import { MyCarProps } from '@/types/trim';
 import { TAG_CHIP_MAX_NUMBER } from '@/constants';
+
+import { EstimateModal } from './EstimateModal';
 
 import * as Styled from './style';
 
@@ -18,31 +22,40 @@ const NAVIGATION_PATH = {
 };
 
 interface FooterProps {
-  options: MyCarType;
+  myCarData: MyCarProps;
   totalPrice: number;
   onSetLocalStorage: () => void;
 }
-export function Footer({
-  options: { model, engine, bodyType, wheelDrive, color, options },
-  totalPrice,
-  onSetLocalStorage,
-}: FooterProps) {
+
+export function Footer({ myCarData, totalPrice, onSetLocalStorage }: FooterProps) {
   const { pathname } = useLocation();
   const navigate = useNavigate();
+  const [isOpen, setIsOpen] = useState(false);
+
+  function handleOpenModal() {
+    setIsOpen(true);
+  }
+  function handleCloseModal() {
+    setIsOpen(false);
+  }
+
+  const { model, engine, bodyType, wheelDrive, outerColor, innerColor, options } = myCarData;
 
   const trim = `${engine.title}${bodyType.title !== '' ? '/' : ''}${bodyType.title}${
     wheelDrive.title !== '' ? '/' : ''
   }${wheelDrive.title}`;
 
+  const pathKey = pathname.endsWith('/') ? pathname.slice(0, -1) : pathname;
+
   function handleNextNavigate() {
-    const path = NAVIGATION_PATH[pathname as keyof typeof NAVIGATION_PATH].next;
+    const path = NAVIGATION_PATH[pathKey as keyof typeof NAVIGATION_PATH].next;
     if (path !== '') {
       onSetLocalStorage();
       navigate(path);
     }
   }
   function handlePrevNavigate() {
-    const path = NAVIGATION_PATH[pathname as keyof typeof NAVIGATION_PATH].prev;
+    const path = NAVIGATION_PATH[pathKey as keyof typeof NAVIGATION_PATH].prev;
     path !== '' && navigate(path);
   }
 
@@ -63,21 +76,21 @@ export function Footer({
         <Styled.ColorBox>
           <Styled.ColorTitle>외장</Styled.ColorTitle>
           <Styled.ColorName>
-            <Styled.ColorCircle />
-            <Styled.ColorNameText>{color.inner[1]}</Styled.ColorNameText>
+            <Styled.ColorCircle imageUrl={outerColor.imageUrl || ''} />
+            <Styled.ColorNameText>{outerColor.title}</Styled.ColorNameText>
           </Styled.ColorName>
         </Styled.ColorBox>
         <Styled.ColorBox>
           <Styled.ColorTitle>내장</Styled.ColorTitle>
           <Styled.ColorName>
-            <Styled.ColorCircle />
-            <Styled.ColorNameText>{color.outer[1]}</Styled.ColorNameText>
+            <Styled.ColorCircle imageUrl={innerColor.imageUrl || ''} />
+            <Styled.ColorNameText>{innerColor.title}</Styled.ColorNameText>
           </Styled.ColorName>
         </Styled.ColorBox>
       </Styled.ColorWrapper>
       <Styled.Division />
       <Styled.OptionWrapper>
-        <Styled.Title>선택 옵션</Styled.Title>
+        <Styled.Title onClick={handleOpenModal}>선택 옵션</Styled.Title>
         <Styled.OptionBox>
           {options.slice(0, TAG_CHIP_MAX_NUMBER).map(({ name }) => (
             <Styled.Option key={name}>{name}</Styled.Option>
@@ -99,6 +112,7 @@ export function Footer({
         <Styled.PrevButton onClick={handlePrevNavigate}>이전</Styled.PrevButton>
         <Styled.NextButton onClick={handleNextNavigate}>다음</Styled.NextButton>
       </Styled.ButtonWrapper>
+      {isOpen && <EstimateModal onClick={handleCloseModal} myCarData={myCarData} totalPrice={totalPrice} />}
     </Styled.Container>
   );
 }

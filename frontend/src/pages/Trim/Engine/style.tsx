@@ -3,7 +3,6 @@ import styled from '@emotion/styled';
 const Container = styled.div`
   width: 100%;
   height: 100%;
-  gap: 30px;
 
   display: flex;
   justify-content: center;
@@ -17,12 +16,18 @@ const Wrapper = styled.div`
 `;
 
 const Box = styled.div`
-  gap: 10px;
+  gap: 20px;
 
   display: flex;
   flex-direction: column;
 `;
 
+const CardBox = styled.div`
+  gap: 10px;
+
+  display: flex;
+  flex-direction: column;
+`;
 const Enclosure = styled.div``;
 
-export { Container, Wrapper, Box, Enclosure };
+export { Container, Wrapper, Box, Enclosure, CardBox };

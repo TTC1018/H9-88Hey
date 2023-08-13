@@ -24,6 +24,7 @@ const Wrapper = styled.div<Props>`
     return css`
       width: ${isFull ? '100%' : '1024px'};
 
+      display: flex;
       flex-grow: 1;
     `;
   }}

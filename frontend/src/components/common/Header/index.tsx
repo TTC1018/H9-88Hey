@@ -1,3 +1,7 @@
+import { ModalTypeProps } from '@/constants';
+
+import { useModalContext } from '@/hooks/useModalContext';
+
 import { HyundaiLogo } from '@/components/common/HyundaiLogo';
 import { ArchivingLogo } from '@/components/common/ArchivingLogo';
 import { AutoSavingLogo } from '@/components/common/AutoSavingLogo';
@@ -5,6 +9,8 @@ import { AutoSavingLogo } from '@/components/common/AutoSavingLogo';
 import * as Styled from './style';
 
 export function Header() {
+  const { handleOpen } = useModalContext();
+
   return (
     <Styled.Container>
       <Styled.Wrapper>
@@ -22,7 +28,11 @@ export function Header() {
             <Styled.CarNameText>팰리세이드</Styled.CarNameText>
           </Styled.InfoBox>
           <Styled.Division />
-          <Styled.ButtonBox>
+          <Styled.ButtonBox
+            onClick={() => {
+              handleOpen({ modalType: ModalTypeProps.CLOSE, callbackData: null });
+            }}
+          >
             <ArchivingLogo />
             <Styled.ButtonText>아카이빙</Styled.ButtonText>
           </Styled.ButtonBox>

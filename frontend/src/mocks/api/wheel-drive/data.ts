@@ -1,14 +1,16 @@
 export const data = {
   wheelDrives: [
     {
-      name: 'Two-Wheel Drive',
+      id: 1,
+      name: '2WD',
       additionalPrice: 0,
       imageUrl: 'url',
       description:
         '엔진에서 전달되는 동력이 전/후륜 바퀴 중 한쪽으로만 전달되어 차량을 움직이는 방식입니다차체가 가벼워 연료 효율이 높습니다',
     },
     {
-      name: 'Four_Wheel Drive',
+      id: 2,
+      name: '4WD',
       additionalPrice: 2370000,
       imageUrl: 'url',
       description:

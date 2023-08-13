@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 
 import { useOutletContext } from 'react-router-dom';
 
-import { BodyTypeDataType, MyCarLayoutContextType } from '@/types/trim';
+import { BodyTypeDataProps, MyCarLayoutContextProps } from '@/types/trim';
 import { useFetch } from '@/hooks/useFetch';
 import { useSelectIndex } from '@/hooks/useSelectedIndex';
 
@@ -15,45 +15,52 @@ import * as Styled from './style';
 const initialData = {
   bodyTypes: [
     {
+      id: 0,
       name: '',
-      extraCharge: 0,
-      desc: '',
-      images: [''],
+      additionalPrice: 0,
+      description: '',
+      imageURLs: [''],
     },
   ],
 };
 
 export function BodyType() {
-  const { data } = useFetch<BodyTypeDataType>({
+  const {
+    data: { bodyTypes },
+  } = useFetch<BodyTypeDataProps>({
     defaultValue: initialData,
-    url: '/model/palisade/trim/le_blanc/body_type',
+    url: '/model/1/body-type',
   });
+  const initBodyTypes = bodyTypes[0];
 
   const [selectedIndex, handleSetIndex] = useSelectIndex();
   const [selectedImageIndex, handleSetImageIndex] = useSelectIndex();
 
-  const { images, name, extraCharge } = data.bodyTypes[selectedIndex];
+  const { imageURLs, name, additionalPrice } = bodyTypes[selectedIndex];
 
   const {
     handleTrim,
     trim: { bodyType },
-  } = useOutletContext<MyCarLayoutContextType>();
+  } = useOutletContext<MyCarLayoutContextProps>();
 
   function handleCardClick(index: number, extraCharge: number) {
     return function () {
       handleSetIndex(index)();
       handleSetImageIndex(0)();
-      handleTrim({ key: 'bodyType', option: data.bodyTypes[index].name, price: extraCharge });
+      handleTrim({ key: 'bodyType', option: bodyTypes[index].name, price: extraCharge });
     };
   }
 
   useEffect(() => {
-    const index = data.bodyTypes.findIndex(card => card.name === bodyType.title);
+    if (bodyType.title === '') {
+      handleTrim({ key: 'bodyType', option: initBodyTypes.name, price: initBodyTypes.additionalPrice });
 
+      return;
+    }
+
+    const index = bodyTypes.findIndex(card => card.name === bodyType.title);
     index !== -1 && handleSetIndex(index)();
-    bodyType.title === '' &&
-      handleTrim({ key: 'bodyType', option: data.bodyTypes[0].name, price: data.bodyTypes[0].extraCharge });
-  }, [data]);
+  }, [bodyTypes]);
 
   return (
     <Styled.Container>
@@ -61,20 +68,20 @@ export function BodyType() {
         <Styled.Box>
           <MyCarImageBox
             hasOption={true}
-            images={images}
+            images={imageURLs}
             selectedIndex={selectedImageIndex}
             onClick={handleSetImageIndex}
           />
-          <MyCarDescription title={name} price={extraCharge} hasTag={false} />
+          <MyCarDescription title={name} price={additionalPrice} hasTag={false} />
         </Styled.Box>
         <Styled.Box>
-          {data.bodyTypes.map(({ name, extraCharge, desc }, index) => (
-            <Styled.Enclosure key={name} onClick={handleCardClick(index, extraCharge)}>
+          {bodyTypes.map(({ name, additionalPrice, description }, index) => (
+            <Styled.Enclosure key={name} onClick={handleCardClick(index, additionalPrice)}>
               <TrimCard
                 isActive={index === selectedIndex}
                 title={name}
-                price={extraCharge}
-                description={desc}
+                price={additionalPrice}
+                description={description}
                 hasEngineInfo={false}
               />
             </Styled.Enclosure>
