@@ -6,7 +6,9 @@ import lombok.Getter;
 
 @Getter
 public enum Category {
-	SELECT_OPTION("선택옵션"), N_PERFORMANCE("N Performance"), H_GENUINE("H Genuine");
+	SELECT_OPTION("선택옵션"),
+	N_PERFORMANCE("N Performance"),
+	H_GENUINE("H Genuine Accessories");
 
 	private final String name;
 
