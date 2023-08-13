@@ -111,7 +111,7 @@ fun BasicItemDialog(
 
 @Composable
 fun ButtonDialog(
-    modifier: Modifier,
+    modifier: Modifier = Modifier,
     onDismissRequest: () -> Unit,
     description: String,
     annotatedTargetStartIndex: Int,
@@ -125,9 +125,17 @@ fun ButtonDialog(
         }
         append(description.substring(annotatedTargetStartIndex + annotatedTargetLength))
     }
-    Dialog(onDismissRequest = onDismissRequest) {
+    Dialog(
+        onDismissRequest = onDismissRequest,
+        properties = DialogProperties(
+            usePlatformDefaultWidth = false
+        )
+    ) {
         Surface(
-            modifier = modifier.height(186.dp),
+            modifier = modifier
+                .fillMaxWidth()
+                .height(186.dp)
+                .padding(horizontal = 16.dp),
             color = White,
             shape = roundCorner
         ) {
@@ -156,7 +164,7 @@ fun ButtonDialog(
 
 @Composable
 fun FinishMakeCarDialog(
-    modifier: Modifier,
+    modifier: Modifier = Modifier,
     onDismissRequest: () -> Unit,
     onFinish: () -> Unit
 ) {
@@ -169,7 +177,7 @@ fun FinishMakeCarDialog(
     ) {
         Row {
             HyundaiButton(
-                modifier = modifier.width(120.dp),
+                modifier = Modifier.width(120.dp),
                 backgroundColor = LightGray,
                 textColor = DarkGray,
                 text = stringResource(id = R.string.cancel),
@@ -177,7 +185,7 @@ fun FinishMakeCarDialog(
             )
             Spacer(modifier = modifier.width(6.dp))
             HyundaiButton(
-                modifier = modifier,
+                modifier = Modifier,
                 backgroundColor = PrimaryBlue,
                 textColor = White,
                 text = stringResource(id = R.string.make_car_dialog_finish),
@@ -191,7 +199,7 @@ fun FinishMakeCarDialog(
 
 @Composable
 fun DeleteMadeCarDialog(
-    modifier: Modifier,
+    modifier: Modifier = Modifier,
     onDismissRequest: () -> Unit,
     onDelete: () -> Unit,
     carName: String
@@ -205,15 +213,15 @@ fun DeleteMadeCarDialog(
     ) {
         Row {
             HyundaiButton(
-                modifier = modifier.weight(1f),
+                modifier = Modifier.weight(1f),
                 backgroundColor = LightGray,
                 textColor = DarkGray,
                 text = stringResource(id = R.string.cancel),
                 onClick = onDismissRequest
             )
-            Spacer(modifier = modifier.width(6.dp))
+            Spacer(modifier = Modifier.width(6.dp))
             HyundaiButton(
-                modifier = modifier.weight(1f),
+                modifier = Modifier.weight(1f),
                 backgroundColor = PrimaryBlue,
                 textColor = White,
                 text = stringResource(id = R.string.my_dialog_delete),
@@ -225,7 +233,7 @@ fun DeleteMadeCarDialog(
 
 @Composable
 fun MoveMakeCarDialog(
-    modifier: Modifier,
+    modifier: Modifier = Modifier,
     onDismissRequest: () -> Unit,
     onMove: () -> Unit,
     saveDate: String
@@ -239,15 +247,15 @@ fun MoveMakeCarDialog(
     ) {
         Row {
             HyundaiButton(
-                modifier = modifier.width(120.dp),
+                modifier = Modifier.width(120.dp),
                 backgroundColor = LightGray,
                 textColor = DarkGray,
                 text = stringResource(id = R.string.cancel),
                 onClick = onDismissRequest
             )
-            Spacer(modifier = modifier.width(6.dp))
+            Spacer(modifier = Modifier.width(6.dp))
             HyundaiButton(
-                modifier = modifier,
+                modifier = Modifier,
                 backgroundColor = PrimaryBlue,
                 textColor = White,
                 text = stringResource(id = R.string.my_dialog_continue_make),
@@ -260,20 +268,19 @@ fun MoveMakeCarDialog(
 @Preview
 @Composable
 fun PreviewBasicItemDialog() {
-    BasicItemDialog(modifier = Modifier, onDismissRequest = {}, detailItem = detailItem)
+    BasicItemDialog(onDismissRequest = {}, detailItem = detailItem)
 }
 
 @Preview
 @Composable
 fun PreviewFinishMakeCarDialog() {
-    FinishMakeCarDialog(modifier = Modifier, onDismissRequest = {}, onFinish = {})
+    FinishMakeCarDialog(onDismissRequest = {}, onFinish = {})
 }
 
 @Preview
 @Composable
 fun PreviewDeleteMadeCarDialog() {
     DeleteMadeCarDialog(
-        modifier = Modifier,
         onDismissRequest = {},
         onDelete = {},
         carName = "펠리세이드 Le Blanc"
@@ -284,7 +291,6 @@ fun PreviewDeleteMadeCarDialog() {
 @Composable
 fun PreviewMoveMakeCarDialog() {
     MoveMakeCarDialog(
-        modifier = Modifier,
         onDismissRequest = {},
         onMove = {},
         saveDate = "23년 7월 18일"
