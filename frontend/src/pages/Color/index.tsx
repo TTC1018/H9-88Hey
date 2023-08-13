@@ -64,6 +64,7 @@ export function Color() {
   const {
     handleOuterColor,
     handleInnerColor,
+    handleCarImageUrl,
     trim: { outerColor, innerColor },
   } = useOutletContext<MyCarLayoutContextProps>();
 
@@ -75,6 +76,7 @@ export function Color() {
       colorImage: selectedExteriorColor.colorImageUrl,
       price: selectedExteriorColor.additionalPrice,
     });
+    handleCarImageUrl(`${selectedExteriorColor.carImagePath}1.png`);
   }
 
   function updateInnerColor(list: InterierColorsProps[], index: number) {

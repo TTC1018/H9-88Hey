@@ -60,6 +60,7 @@ export interface MyCarProps {
   wheelDrive: MyCarDetailProps;
   outerColor: { title: string; imageUrl: string; price: number };
   innerColor: { title: string; imageUrl: string; id: number };
+  carImageUrl: string;
   options: {
     name: string;
     price: number;
@@ -70,5 +71,6 @@ export interface MyCarLayoutContextProps {
   handleTrim: ({ key, option, price }: { key: string; option: string; price: number }) => void;
   handleOuterColor: ({ color, colorImage, price }: { color: string; colorImage: string; price: number }) => void;
   handleInnerColor: ({ color, colorImage, id }: { color: string; colorImage: string; id: number }) => void;
+  handleCarImageUrl: (carImageUrl: string) => void;
   trim: MyCarProps;
 }
