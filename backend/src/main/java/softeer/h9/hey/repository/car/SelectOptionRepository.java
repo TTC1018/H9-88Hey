@@ -39,10 +39,11 @@ public class SelectOptionRepository {
 				+ "         left join selectOption_subOption map on selectOption.id = map.select_option_id\n"
 				+ "         left join subOption on map.sub_option_id = subOption.id\n"
 				+ "where car_normal_types_id = :carCode\n"
-				+ "   AND category = \"" + selectOptionCategory.getName() + "\"\n;";
+				+ "   AND category = :category ;";
 
 		SqlParameterSource params = new MapSqlParameterSource()
-			.addValue("carCode", carCode);
+			.addValue("carCode", carCode)
+			.addValue("category", selectOptionCategory.getName());
 
 		return fetchSelectOptionWithSubOptions(sql, params);
 	}
