@@ -1,5 +1,8 @@
 package softeer.h9.hey.dto.car;
 
+import lombok.Getter;
+
+@Getter
 public class SubOptionIdDto {
 	private final String subOptionId;
 
