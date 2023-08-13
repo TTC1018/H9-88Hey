@@ -7,15 +7,18 @@ androidxHiltNavigationCompose = "1.0.0"
 androidxComposeBom = "2023.06.01"
 androidxAppcompat = "1.6.1"
 coilCompose = "2.4.0"
+converterGson = "2.9.0"
 glideCompose = "1.0.0-alpha.3"
 hilt = "2.44.2"
 androidxComposeMaterial3 = "1.1.0-alpha07"
 junit4 = "4.13.2"
 kotlin = "1.8.20"
+kotlinxCoroutinesCore = "1.7.3"
 ksp = "1.8.20-1.0.11"
 androidxComposeCompiler = "1.4.5"
 landscapistGlide = "2.2.2"
 navigationCompose = "2.6.0"
+retrofit = "2.9.0"
 
 
 [libraries]
@@ -38,6 +41,9 @@ glide = { module = "com.github.bumptech.glide:compose", version.ref = "glideComp
 hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt" }
 hilt-compiler = { group = "com.google.dagger", name = "hilt-android-compiler", version.ref = "hilt" }
 junit4 = { group = "junit", name = "junit", version.ref = "junit4" }
+kotlinx-coroutines-core = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version.ref = "kotlinxCoroutinesCore" }
+retrofit2 = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" }
+retrofit2-gson = { group = "com.squareup.retrofit2", name = "converter-gson", version.ref = "retrofit" }
 
 #android-gradlePlugin = { group = "com.android.tools.build", name = "gradle", version.ref = "androidGradlePlugin" }
 #kotlin-gradlePlugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "kotlin" }
@@ -54,3 +60,4 @@ hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
+kotlin-kapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kotlin" }
