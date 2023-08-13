@@ -17,6 +17,10 @@ export function ArchivingHeader() {
   const path = pathname.split('/')[1];
   const title = PATH_LIST[path as PathType];
 
+  function isArchivingPage() {
+    return title === ARCHIVING;
+  }
+
   return (
     <style.Container>
       <style.Wrapper>
@@ -27,8 +31,8 @@ export function ArchivingHeader() {
         </style.Box>
         <style.Box>
           <style.CarNameText>팰리세이드</style.CarNameText>
-          <Link to={title === ARCHIVING ? '/my-archiving' : '/archiving'}>
-            <style.Button>{title === ARCHIVING ? '마이카이빙' : '아카이빙'}</style.Button>
+          <Link to={isArchivingPage() ? '/my-archiving' : '/archiving'}>
+            <style.Button>{isArchivingPage() ? '마이카이빙' : '아카이빙'}</style.Button>
           </Link>
         </style.Box>
       </style.Wrapper>
