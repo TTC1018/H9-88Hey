@@ -49,7 +49,8 @@ fun SelectTrimRoute(
             1 -> bodyTypes
             2 -> wheels
             else -> emptyList()
-        }
+        },
+        onOptionSelect = makingCarViewModel::updateSelectedTrimOption
     )
 }
 
@@ -57,6 +58,7 @@ fun SelectTrimRoute(
 fun SelectTrimScreen(
     modifier: Modifier,
     options: List<TrimOptionUiModel>,
+    onOptionSelect: (TrimOptionUiModel) -> Unit,
 ) {
     var selectedIndex by remember { mutableStateOf(0) }
     val scrollState = rememberScrollState()
@@ -131,6 +133,7 @@ fun PreviewSelectTrimScreen() {
                 maximumOutput = "202/3,800PS/rmp",
                 maximumTorque = "36.2/5,200kgf-m/rpm",
             )
-        )
+        ),
+        onOptionSelect = {},
     )
 }

@@ -42,6 +42,7 @@ import androidx.compose.ui.unit.sp
 import com.softeer.mycarchiving.R
 import com.softeer.mycarchiving.enums.ArchiveSearchPage
 import com.softeer.mycarchiving.enums.ArchiveSearchPage.*
+import com.softeer.mycarchiving.model.TrimOptionUiModel
 import com.softeer.mycarchiving.model.common.CarBasicDetailUiModel
 import com.softeer.mycarchiving.model.common.CarBasicUiModel
 import com.softeer.mycarchiving.model.common.SummaryChildUiModel
@@ -250,6 +251,7 @@ val summaryThird = listOf(
 fun SummaryBottomSheetContent(
     modifier: Modifier = Modifier,
     totalPrice: Int,
+    trimOptions: List<TrimOptionUiModel>,
 ) {
     val scrollState = rememberScrollState()
     Column(
@@ -269,7 +271,7 @@ fun SummaryBottomSheetContent(
             modifier = Modifier,
             labelName = stringResource(id = R.string.summary_total_price),
             totalPrice = totalPrice,
-            summaryChildren = summaryFirst
+            summaryChildren = trimOptions.trimsToSummary(),
         )
         SummaryLabel(
             modifier = modifier,
@@ -379,8 +381,6 @@ fun SummaryChild(
         }
     }
 }
-
-
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
@@ -503,7 +503,13 @@ fun SearchCarBottomSheetContent(
     }
 }
 
-/*@Preview
+private fun List<TrimOptionUiModel>.trimsToSummary(): List<SummaryChildUiModel> =
+    this.fold(0 to "") { acc, trimOptionUiModel ->
+        (acc.first + (trimOptionUiModel.price
+            ?: 0)) to (acc.second + trimOptionUiModel.optionName + " / ")
+    }.run { listOf(SummaryChildUiModel(name = second.dropLast(3), price = first.toPriceString())) }
+
+@Preview
 @Composable
 fun PreviewCarBasicBottomSheetContent() {
     CarBasicBottomSheetContent(basicItems = basicItems) {}
@@ -512,8 +518,27 @@ fun PreviewCarBasicBottomSheetContent() {
 @Preview
 @Composable
 fun PreviewSummaryBottomSheetContent() {
-    SummaryBottomSheetContent(modifier = Modifier, totalPrice = 47720000)
-}*/
+    SummaryBottomSheetContent(
+        modifier = Modifier,
+        totalPrice = 47720000,
+        trimOptions = listOf(
+            TrimOptionUiModel(
+                optionName = "디젤 2.2",
+                optionDesc = "높은 토크로 파워풀한 드라이빙이 가능하며, 차급대비 연비 효율이 우수합니다.",
+                imageUrl = null,
+                price = 1480000,
+                maximumOutput = "202/3,800PS/rpm",
+                maximumTorque = "45.0/1,750~2,750kgf-m/rpm"
+            ),
+            TrimOptionUiModel(
+                optionName = "7인승",
+                optionDesc = "기존 8인승 시트(1열 2명, 2열 3명, 3열 3명)에서 2열 가운데 시트를 없애 2열 탑승객의 편의는 물론, 3열 탑승객의 승하차가 편리합니다.",
+                imageUrl = null,
+                price = 0,
+            )
+        ),
+    )
+}
 
 val selectedOptions = listOf("컴포트 2 패키지", "듀얼 와이드 선루프")
 
