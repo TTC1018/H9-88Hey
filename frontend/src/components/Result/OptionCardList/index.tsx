@@ -96,7 +96,14 @@ export function OptionCardList() {
       <Styled.OptionCardWrapper>
         <Styled.OptionCardBox>
           {mockData.map(({ imageUrl, name, price, subOptions }, index) => (
-            <OptionCard imageUrl={imageUrl} name={name} price={price} subOptions={subOptions} index={index} />
+            <OptionCard
+              imageUrl={imageUrl}
+              name={name}
+              price={price}
+              subOptions={subOptions}
+              index={index}
+              key={name}
+            />
           ))}
         </Styled.OptionCardBox>
       </Styled.OptionCardWrapper>
