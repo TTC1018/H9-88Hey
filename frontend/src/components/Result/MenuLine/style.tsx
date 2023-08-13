@@ -1,15 +1,7 @@
 import styled from '@emotion/styled';
 import { css } from '@emotion/react';
 
-export const Container = styled.div`
-  width: 100%;
-
-  display: flex;
-  flex-direction: column;
-  aign-items: center;
-`;
-
-export const FooterLine = styled.hr`
+export const MenuLine = styled.hr`
   ${({ theme }) => {
     const { colors } = theme;
 
