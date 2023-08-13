@@ -47,6 +47,20 @@ public class SelectOptionRepositoryTest {
 	}
 
 	@Test
+	@DisplayName("특정 자동차에 적용할 수 있는 H Genuine Accessory 옵션을 조회한다.")
+	void findHGenuineOptionTest() {
+		String carCode = "LXJJ8MBA5";
+
+		List<SelectOption> selectOptions = repository.findHGenuineAccessoriesByCarCode(carCode);
+
+		assertThat(selectOptions).hasSize(6);
+
+		for (SelectOption selectOption : selectOptions) {
+			assertThat(selectOption.getSelectOptionCategory()).isEqualTo(SelectOptionCategory.H_GENUINE);
+		}
+	}
+
+	@Test
 	@DisplayName("선택한 옵션들에 대한 하위옵션 id 값들을 중복을 제거하여 조회한다.")
 	void findSubOptionIdsBySelectOptionIdsTest() {
 		List<String> selectOptionIds = List.of("LST", "US1");
