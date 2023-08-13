@@ -17,5 +17,5 @@ public class SelectOptionRequest {
 	@NotEmpty
 	private String carCode;
 
-	private List<String> selectedOptionCodes;
+	private List<String> selectOption;
 }

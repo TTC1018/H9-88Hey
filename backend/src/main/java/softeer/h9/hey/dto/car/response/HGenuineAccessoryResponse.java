@@ -1,19 +1,17 @@
 package softeer.h9.hey.dto.car.response;
 
-import java.util.List;
-
 import lombok.Getter;
 
 @Getter
 public class HGenuineAccessoryResponse {
 
-	private final boolean isAvailable;
+	private final Boolean isAvailable;
 
-	private final SelectOptionResponse selectOptionResponse;
+	private final SelectOptionResponse selectOption;
 
-	private HGenuineAccessoryResponse(final boolean isAvailable, final SelectOptionResponse selectOptionResponse) {
+	private HGenuineAccessoryResponse(final boolean isAvailable, final SelectOptionResponse selectOption) {
 		this.isAvailable = isAvailable;
-		this.selectOptionResponse = selectOptionResponse;
+		this.selectOption = selectOption;
 	}
 
 	public static HGenuineAccessoryResponse of(final boolean isAvailable,

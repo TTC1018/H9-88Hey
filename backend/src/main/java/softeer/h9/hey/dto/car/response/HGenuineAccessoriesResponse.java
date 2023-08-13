@@ -7,10 +7,10 @@ import lombok.Getter;
 @Getter
 public class HGenuineAccessoriesResponse {
 
-	private final List<HGenuineAccessoryResponse> hGenuineAccessoryResponses;
+	private final List<HGenuineAccessoryResponse> selectOptions;
 
-	private HGenuineAccessoriesResponse(final List<HGenuineAccessoryResponse> hGenuineAccessoryResponses) {
-		this.hGenuineAccessoryResponses = hGenuineAccessoryResponses;
+	private HGenuineAccessoriesResponse(final List<HGenuineAccessoryResponse> selectOptions) {
+		this.selectOptions = selectOptions;
 	}
 
 	public static HGenuineAccessoriesResponse of(final List<HGenuineAccessoryResponse> hGenuineAccessoryResponses) {
