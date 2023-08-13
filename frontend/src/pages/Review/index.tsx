@@ -6,33 +6,25 @@ import { ReviewDescripion } from '@/components/review/ReviewDescription';
 
 import * as Styled from './style';
 
-const TOTAL_SLIDES = 4;
+const TOTAL_SLIDES = 4; // 나중엔 데이터 보고 할거
 
 export function Review() {
   const [currentSlide, setCurrentSlide] = useState(0);
   const slideRef = useRef<HTMLDivElement>(null);
 
   function handleNextSlide() {
-    if (currentSlide >= TOTAL_SLIDES) {
-      return;
-    }
-
-    setCurrentSlide(prev => prev + 1);
+    currentSlide <= TOTAL_SLIDES && setCurrentSlide(prev => prev + 1);
   }
 
   function handlePrevSlide() {
-    if (currentSlide === 0) {
-      return;
-    }
-
-    setCurrentSlide(prev => prev - 1);
+    currentSlide !== 0 && setCurrentSlide(prev => prev - 1);
   }
 
   useEffect(() => {
-    if (slideRef.current === null) return;
-
-    slideRef.current.style.transition = 'all 0.5s ease-in-out';
-    slideRef.current.style.transform = `translateX(-${currentSlide}00%)`;
+    if (slideRef.current !== null) {
+      slideRef.current.style.transition = 'all 0.5s ease-in-out';
+      slideRef.current.style.transform = `translateX(-${currentSlide}00%)`;
+    }
   }, [currentSlide]);
 
   return (

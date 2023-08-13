@@ -30,12 +30,15 @@ export const Title = styled.span`
   }}
 `;
 
-export const SubTitle = styled.span`
-  ${({ theme }) => {
+interface Props {
+  isActive: boolean;
+}
+export const SubTitle = styled.span<Props>`
+  ${({ theme, isActive }) => {
     const { fonts, colors } = theme;
     return css`
       ${fonts.bodyRegular4}
-      color:${colors.mediumGray};
+      color:${isActive ? colors.alertPrimary : colors.mediumGray};
     `;
   }}
 `;
@@ -55,6 +58,7 @@ export const TextArea = styled.textarea`
       border: 0;
 
       resize: none;
+      outline-color: ${colors.hyundaiPrimaryBlue};
 
       ::placeholder {
         color: ${colors.mediumGray};
