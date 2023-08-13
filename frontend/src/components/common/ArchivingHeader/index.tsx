@@ -1,4 +1,4 @@
-import { useLocation } from 'react-router-dom';
+import { useLocation, Link } from 'react-router-dom';
 
 import { ARCHIVING, PATH_LIST } from '@/constants';
 
@@ -27,8 +27,9 @@ export function ArchivingHeader() {
         </style.Box>
         <style.Box>
           <style.CarNameText>팰리세이드</style.CarNameText>
-          {title === ARCHIVING && <style.Division />}
-          {title === ARCHIVING && <style.Button>마이카이빙</style.Button>}
+          <Link to={title === ARCHIVING ? '/my-archiving' : '/archiving'}>
+            <style.Button>{title === ARCHIVING ? '마이카이빙' : '아카이빙'}</style.Button>
+          </Link>
         </style.Box>
       </style.Wrapper>
     </style.Container>
