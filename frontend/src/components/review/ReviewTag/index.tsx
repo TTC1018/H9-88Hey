@@ -4,6 +4,7 @@ interface Props {
   tags: string[];
 }
 export function ReviewTag({ tags }: Props) {
+  tags; // 아직 안쓰는거
   return (
     <Styled.Container>
       <Styled.TextWrapper>
