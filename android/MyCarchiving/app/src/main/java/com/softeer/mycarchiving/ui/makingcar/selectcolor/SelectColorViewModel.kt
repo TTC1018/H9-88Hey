@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.softeer.data.model.TrimExteriorCarColor
 import com.softeer.data.model.TrimInteriorCarColor
 import com.softeer.data.repository.SelectColorRepository
+import com.softeer.data.CarColorType
 import com.softeer.mycarchiving.model.makingcar.ColorOptionUiModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -75,6 +76,7 @@ class SelectColorViewModel @Inject constructor(
 
     private fun TrimExteriorCarColor.asColorOptionUiModel() =
         ColorOptionUiModel(
+            category = CarColorType.EXTERIOR,
             optionName = name,
             imageUrl = colorImageUrl,
             price = additionalPrice,
@@ -84,6 +86,7 @@ class SelectColorViewModel @Inject constructor(
 
     private fun TrimInteriorCarColor.asColorOptionUiModel() =
         ColorOptionUiModel(
+            category = CarColorType.INTERIOR,
             optionName = name,
             imageUrl = colorImageUrl,
             price = 0,
