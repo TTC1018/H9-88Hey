@@ -23,7 +23,7 @@ class SelectOptionServiceTest {
 	@Test
 	@DisplayName("carCode에 해당하는 차량에 적용할 수 있는 선택 옵션 목록을 조회한다.")
 	void findSelectOptionTest() {
-		SelectOptionRequest selectOptionRequest = new SelectOptionRequest("LXJJ8MST5");
+		SelectOptionRequest selectOptionRequest = new SelectOptionRequest("LXJJ8MST5", null);
 		when(selectOptionRepository.findSelectOptionsByCarCode(any()))
 			.thenReturn(List.of(Mockito.mock(SelectOption.class), Mockito.mock(SelectOption.class)));
 
@@ -36,7 +36,7 @@ class SelectOptionServiceTest {
 	@Test
 	@DisplayName("carCode에 해당하는 차량에 적용할 수 있는 N Performance 옵션 목록을 조회한다.")
 	void findNPerformanceOptionTest() {
-		SelectOptionRequest selectOptionRequest = new SelectOptionRequest("LXJJ8MST5");
+		SelectOptionRequest selectOptionRequest = new SelectOptionRequest("LXJJ8MST5", null);
 		when(selectOptionRepository.findNPerformanceByCarCode(any()))
 			.thenReturn(List.of(
 				Mockito.mock(SelectOption.class),
