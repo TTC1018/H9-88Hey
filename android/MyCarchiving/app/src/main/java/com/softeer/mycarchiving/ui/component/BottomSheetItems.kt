@@ -7,6 +7,8 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -36,7 +38,10 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.softeer.mycarchiving.R
+import com.softeer.mycarchiving.enums.ArchiveSearchPage
+import com.softeer.mycarchiving.enums.ArchiveSearchPage.*
 import com.softeer.mycarchiving.model.common.CarBasicDetailUiModel
 import com.softeer.mycarchiving.model.common.CarBasicUiModel
 import com.softeer.mycarchiving.model.common.SummaryChildUiModel
@@ -375,7 +380,130 @@ fun SummaryChild(
     }
 }
 
-@Preview
+
+
+@OptIn(ExperimentalLayoutApi::class)
+@Composable
+fun SearchCarBottomSheetContent(
+    modifier: Modifier = Modifier,
+    currentPage: ArchiveSearchPage,
+    selectedOptions: List<String>,
+    onBackClick: () -> Unit,
+    closeSheet: () -> Unit,
+    onButtonClick: () -> Unit,
+) {
+    Column(
+        modifier = modifier
+            .fillMaxSize()
+            .background(White)
+    ) {
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp, vertical = 20.dp)
+        ) {
+            if (currentPage.needBack) {
+                Icon(
+                    modifier = Modifier
+                        .align(Alignment.CenterStart)
+                        .clickable { onBackClick() },
+                    painter = painterResource(id = R.drawable.ic_back),
+                    contentDescription = null
+                )
+            }
+            Text(
+                modifier = modifier.align(Alignment.Center),
+                text = stringResource(id = currentPage.titleTextId),
+                style = medium16,
+                fontSize = if (currentPage == SEARCH_CONDITION) 16.sp else 14.sp,
+            )
+            Icon(
+                modifier = Modifier
+                    .align(Alignment.CenterEnd)
+                    .clickable { closeSheet() },
+                painter = painterResource(id = R.drawable.ic_close),
+                contentDescription = null
+            )
+        }
+        Divider(thickness = 1.dp, color = thinGray)
+        val scrollState = rememberScrollState()
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .verticalScroll(scrollState)
+                .padding(horizontal = 16.dp, vertical = 32.dp)
+                .weight(1f),
+        ) {
+            when(currentPage) {
+                SEARCH_CONDITION -> {
+                    Text(
+                        text = stringResource(id = R.string.archive_search_set_car),
+                        style = medium16
+                    )
+                    Spacer(modifier = Modifier.height(10.dp))
+                    SearchConditionButton(
+                        selectedCar = "펠리세이드",
+                        onClick = {}
+                    )
+                    Spacer(modifier = Modifier.height(24.dp))
+                    Divider(thickness = 1.dp, color = thinGray)
+                    Spacer(modifier = Modifier.height(24.dp))
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.Bottom
+                    ) {
+                        Text(
+                            text = stringResource(id = R.string.archive_search_set_option),
+                            style = medium16
+                        )
+                        Text(
+                            text = stringResource(id = R.string.archive_search_set_option_count, selectedOptions.size, 15),
+                            style = medium12
+                        )
+                    }
+                    Spacer(modifier = Modifier.height(10.dp))
+                    SearchConditionButton(
+                        onClick = {}
+                    )
+                    Spacer(modifier = Modifier.height(14.dp))
+                    FlowRow(
+                        horizontalArrangement = Arrangement.spacedBy(3.dp)
+                    ) {
+                        selectedOptions.forEach {
+                            SearchConditionChipForDelete(
+                                name = it,
+                                onDelete = {}
+                            )
+                        }
+                    }
+                }
+                SET_CAR -> {
+
+                }
+                SET_OPTION -> {
+
+                }
+            }
+        }
+        Column(
+            modifier = Modifier
+                .padding(start = 16.dp, end = 16.dp, bottom = 20.dp)
+        ) {
+            HyundaiButton(
+                text = if (currentPage == SET_OPTION) {
+                    stringResource(id = R.string.archive_search_apply_options, 0)
+                } else {
+                    stringResource(id = R.string.archive_search_apply_selected_item)
+                },
+                textColor = White,
+                onClick = onButtonClick,
+            )
+        }
+    }
+}
+
+/*@Preview
 @Composable
 fun PreviewCarBasicBottomSheetContent() {
     CarBasicBottomSheetContent(basicItems = basicItems) {}
@@ -385,4 +513,18 @@ fun PreviewCarBasicBottomSheetContent() {
 @Composable
 fun PreviewSummaryBottomSheetContent() {
     SummaryBottomSheetContent(modifier = Modifier, totalPrice = 47720000)
+}*/
+
+val selectedOptions = listOf("컴포트 2 패키지", "듀얼 와이드 선루프")
+
+@Preview
+@Composable
+fun PreviewSearchCarBottomSheetContent() {
+    SearchCarBottomSheetContent(
+        currentPage = SEARCH_CONDITION,
+        selectedOptions = selectedOptions,
+        onBackClick = {},
+        closeSheet = {},
+        onButtonClick = {},
+    )
 }

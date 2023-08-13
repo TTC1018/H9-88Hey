@@ -51,9 +51,9 @@ import com.softeer.mycarchiving.ui.theme.roundCornerSmall
 
 @Composable
 fun HyundaiButton(
-    modifier: Modifier,
-    backgroundColor: Color,
-    textColor: Color,
+    modifier: Modifier = Modifier,
+    backgroundColor: Color = PrimaryBlue,
+    textColor: Color = HyundaiLightSand,
     text: String,
     onClick: () -> Unit
 ) {
@@ -143,7 +143,7 @@ fun OptionAddButton(
 
 @Composable
 fun SearchConditionButton(
-    modifier: Modifier,
+    modifier: Modifier = Modifier,
     selectedCar: String? = null,
     onClick: () -> Unit
 ) {
@@ -200,14 +200,14 @@ fun SearchConditionChip(
 
 @Composable
 fun SearchConditionChipForDelete(
-    modifier: Modifier,
+    modifier: Modifier = Modifier,
     name: String,
     onDelete: () -> Unit
 ) {
     Row(
         modifier = modifier
             .background(color = HyundaiNavy, shape = roundCornerSmall)
-            .padding(horizontal = 12.dp, vertical = 4.dp),
+            .padding(horizontal = 12.dp, vertical = 8.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Text(
