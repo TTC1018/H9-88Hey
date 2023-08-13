@@ -36,6 +36,10 @@ public class SelectOptionRepository {
 	}
 
 	public List<SubOptionIdDto> findSubOptionIdsBySelectOptionIds(final List<String> selectOptionIds){
+		if(selectOptionIds == null) {
+			return null;
+		}
+
 		String selectOptionsString = selectOptionIds.stream()
 			.map(id -> "\'" + id + "\'")
 			.collect(Collectors.joining(", "));
@@ -48,8 +52,6 @@ public class SelectOptionRepository {
 
 		List<SubOptionIdDto> subOptionIdDtos = new ArrayList<>();
 		namedParameterJdbcTemplate.query(sql, result -> {
-
-			System.out.println(result.getString("sub_option_id"));
 			subOptionIdDtos.add(SubOptionIdDto.of(result.getString("sub_option_id")));
 		});
 
