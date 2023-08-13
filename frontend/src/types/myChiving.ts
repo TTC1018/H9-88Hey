@@ -16,3 +16,21 @@ export interface MyArchivingsProps {
 export interface MyChivingDataProps {
   myarchivings: MyArchivingsProps[];
 }
+
+export interface FeedMyChivingsProps {
+  id: number;
+  model: string;
+  trim: string;
+  isPurchase: boolean;
+  trimOptions: string[];
+  interiorColor: string;
+  exteriorColor: string;
+  creatrionDate: string;
+  selectedOptions: SelectionOptionsProps[];
+  review: string;
+  tags: string[];
+}
+
+export interface FeedMyChivingDataProps {
+  archivingsByUser: FeedMyChivingsProps[];
+}

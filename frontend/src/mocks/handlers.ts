@@ -9,6 +9,7 @@ import { trimDefaultOptionHandler } from './api/trim-default-option';
 import { trimHGenuineAccessoriesHandler } from './api/trim-h-genuine-accessories';
 import { savedMyChivingHandler } from './api/my-archiving-saved';
 import { tempMyChivingHandler } from './api/my-archiving-temp';
+import { feedMyChivingHandler } from './api/my-archiving-feed';
 
 export const handlers = [
   ...trimHandler,
@@ -22,4 +23,5 @@ export const handlers = [
   ...bodyTypeHandler,
   ...savedMyChivingHandler,
   ...tempMyChivingHandler,
+  ...feedMyChivingHandler,
 ];
