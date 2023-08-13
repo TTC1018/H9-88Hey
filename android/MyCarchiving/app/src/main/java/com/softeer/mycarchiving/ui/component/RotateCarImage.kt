@@ -29,11 +29,11 @@ import com.bumptech.glide.integration.compose.GlideImage
 import kotlinx.coroutines.launch
 
 
-@OptIn(ExperimentalGlideComposeApi::class)
+
 @Composable
 fun RotateCarImage(
     modifier: Modifier = Modifier,
-    imageUrls: List<String>,
+    imagePath: String,
     selectedIndex: Int,
     onLeftClick: () -> Unit,
     onRightClick: () -> Unit
@@ -50,12 +50,12 @@ fun RotateCarImage(
     }
 
     // image preload
-    LaunchedEffect(imageUrls) {
-        for (imageUrl in imageUrls) {
+    LaunchedEffect(imagePath) {
+        for (imageNum in 1..60) {
             launch {
                 imageLoader.enqueue(
                     ImageRequest.Builder(context)
-                        .data(imageUrl)
+                        .data(imagePath.imagePathToUrl(imageNum))
                         .build()
                 )
             }
@@ -70,7 +70,7 @@ fun RotateCarImage(
         AsyncImage(
             modifier = Modifier
                 .fillMaxSize(),
-            model = imageUrls.getOrNull(selectedIndex),
+            model = imagePath.imagePathToUrl(selectedIndex + 1),
             contentDescription = "",
             imageLoader = imageLoader
         )
@@ -97,6 +97,8 @@ fun RotateCarImage(
     }
 }
 
+private fun String.imagePathToUrl(imageNum: Int) = this + imageNum.toString().padStart(3, '0') + ".png"
+
 @Preview
 @Composable
 fun PreviewRotateCarImage() {
@@ -104,19 +106,13 @@ fun PreviewRotateCarImage() {
     var selectedIndex by remember { mutableStateOf(0) }
 
     RotateCarImage(
-        imageUrls = listOf(""),
+        imagePath = "",
         selectedIndex = selectedIndex,
         onLeftClick = {
-            if (selectedIndex == 0)
-                selectedIndex = imageUrls.size - 1
-            else
-                selectedIndex--
+            selectedIndex = (selectedIndex - 1) % imageUrls.size
         },
         onRightClick = {
-            if (selectedIndex == imageUrls.size - 1)
-                selectedIndex = 0
-            else
-                selectedIndex++
+            selectedIndex = (selectedIndex + 1) % imageUrls.size
         }
     )
 }

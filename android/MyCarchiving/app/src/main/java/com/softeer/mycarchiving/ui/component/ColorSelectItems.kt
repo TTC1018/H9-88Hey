@@ -18,6 +18,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.skydoves.landscapist.ImageOptions
 import com.skydoves.landscapist.glide.GlideImage
 import com.softeer.mycarchiving.R
 import com.softeer.mycarchiving.ui.theme.HyundaiActiveBlue
@@ -68,12 +69,14 @@ fun CarColorSelectItem(
             shape = roundCorner,
             border = if (selected) BorderStroke(width = 3.dp, color = HyundaiActiveBlue) else null
         ) {
-            Image(
+            GlideImage(
                 modifier = Modifier
                     .fillMaxSize(),
-                painter = painterResource(id = R.drawable.ic_launcher_background),
-                contentDescription = null,
-                contentScale = ContentScale.Crop
+                imageModel = { imageUrl },
+                previewPlaceholder = R.drawable.ic_launcher_background,
+                imageOptions = ImageOptions(
+                    contentScale = ContentScale.Crop
+                ),
             )
         }
         if (selected) {
