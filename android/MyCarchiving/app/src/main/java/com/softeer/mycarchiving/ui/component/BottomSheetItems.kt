@@ -147,8 +147,8 @@ fun CarBasicItem(
                 modifier = modifier.padding(top = 12.dp, bottom = 6.dp),
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                basicItem.detailItems.forEach { detailItem ->
-                    CarBasicDetailItem(modifier = modifier, detailItem = detailItem)
+                basicItem.detailItems.forEach {
+                    CarBasicDetailItem(detailItem = it)
                 }
             }
         }
@@ -158,18 +158,20 @@ fun CarBasicItem(
 
 @Composable
 fun CarBasicDetailItem(
-    modifier: Modifier,
+    modifier: Modifier = Modifier,
     detailItem: CarBasicDetailUiModel
 ) {
+    var detailDialogShow by remember { mutableStateOf(false) }
     Row(
         modifier = modifier
             .fillMaxWidth()
             .background(color = HyundaiNeutral, shape = roundCorner)
+            .clickable { detailDialogShow = true }
             .padding(all = 8.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Image(
-            modifier = modifier
+            modifier = Modifier
                 .width(94.dp)
                 .height(55.dp)
                 .clip(roundCorner),
@@ -177,10 +179,18 @@ fun CarBasicDetailItem(
             contentDescription = null,
             contentScale = ContentScale.FillBounds
         )
-        Spacer(modifier = modifier.width(17.dp))
+        Spacer(modifier = Modifier.width(17.dp))
         Text(
             text = detailItem.name,
             style = regular14
+        )
+    }
+    if (detailDialogShow) {
+        BasicItemDialog(
+            onDismissRequest = {
+               detailDialogShow = false
+            },
+            detailItem = detailItem
         )
     }
 }

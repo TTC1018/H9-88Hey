@@ -59,7 +59,6 @@ fun SelectModelScreen(
         modifier = modifier
             .fillMaxWidth()
             .background(color = White)
-            .padding(bottom = 20.dp)
             .verticalScroll(scrollState)
     ) {
         GlideImage(
@@ -75,10 +74,10 @@ fun SelectModelScreen(
             }
         )
         Column(
-            modifier = modifier.padding(all = 16.dp)
+            modifier = Modifier.padding(all = 16.dp)
         ) {
             FlowRow(
-                modifier = modifier.fillMaxWidth(),
+                modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween,
             ) {
                 for(i in carImages.indices) {
@@ -91,7 +90,7 @@ fun SelectModelScreen(
                 }
             }
             Column(
-                modifier = modifier.padding(vertical = 12.dp),
+                modifier = Modifier.padding(vertical = 12.dp),
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
                 carModels.forEachIndexed { index, carModel ->
