@@ -17,7 +17,7 @@ data class TrimWheelDto(
     @SerializedName("additionalPrice")
     val price: Int,
     @SerializedName("imageUrl")
-    val iamgeUrl: String,
+    val imageUrl: String,
     @SerializedName("modelId")
     val modelId: Int
 )
