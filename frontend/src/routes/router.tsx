@@ -8,6 +8,7 @@ import { BodyType } from '@/pages/Trim/BodyType';
 import { WheelDrive } from '@/pages/Trim/WheelDrive';
 import { MyCarLayout } from '@/components/layout/MyCarLayout';
 import { ErrorBoundary } from '@/components/common/ErrorBoundary';
+import { Review } from '@/pages/Review';
 
 export const router = createBrowserRouter([
   {
@@ -61,5 +62,9 @@ export const router = createBrowserRouter([
         ],
       },
     ],
+  },
+  {
+    path: 'review',
+    element: <Review />,
   },
 ]);

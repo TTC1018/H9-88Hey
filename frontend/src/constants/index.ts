@@ -7,3 +7,4 @@ export enum ModalTypeProps {
 }
 export const TAG_CHIP_MAX_NUMBER = 3;
 export const API_URL = import.meta.env.VITE_API_URL;
+export const MAX_TEXT_LENGTH = 140;

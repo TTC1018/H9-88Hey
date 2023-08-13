@@ -65,6 +65,14 @@ const fonts = {
     lineHeight: lineHeight.Expanded,
     letterSpacing: '-0.52px',
   },
+  headingRegular1: {
+    fontFamily: 'HyundaiSansRegular',
+    fontSize: fontSize.Enormous,
+    fontStyle: 'normal',
+    fontWeight: fontWeight.regular,
+    lineHeight: lineHeight.Expanded,
+    letterSpacing: '-0.52px',
+  },
   headingBold2: {
     fontFamily: 'HyundaiSansBold',
     fontSize: fontSize.Gigantic,
