@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -31,9 +32,9 @@ fun SelectModelRoute(
     modifier: Modifier = Modifier,
     viewModel: SelectModelViewModel = hiltViewModel()
 ) {
-    val carModels = viewModel.carModels.collectAsStateWithLifecycle().value
-    val carImages = viewModel.carImageUrls.collectAsStateWithLifecycle().value
-    val focusedImageIndex = viewModel.focusedImageIndex.collectAsStateWithLifecycle().value
+    val carModels by viewModel.carModels.collectAsStateWithLifecycle()
+    val carImages by viewModel.carImages.collectAsStateWithLifecycle()
+    val focusedImageIndex by viewModel.focusedImageIndex.collectAsStateWithLifecycle()
     val scrollState = rememberScrollState()
     SelectModelScreen(
         modifier = modifier,
@@ -65,7 +66,7 @@ fun SelectModelScreen(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(254.dp),
-            imageModel = { carImages[focusedImageIndex] },
+            imageModel = { carImages.getOrNull(focusedImageIndex) },
             previewPlaceholder = R.drawable.ic_launcher_background,
             component = rememberImageComponent {
                 +CrossfadePlugin(

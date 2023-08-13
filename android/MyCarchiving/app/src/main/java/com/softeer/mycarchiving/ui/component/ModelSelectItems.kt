@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Text
@@ -99,6 +100,8 @@ fun OptionImageProperty(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         GlideImage(
+            modifier = Modifier
+                .widthIn(max = 40.dp),
             imageModel = { imageUrl },
             previewPlaceholder = placeHolder,
         )
