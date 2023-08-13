@@ -29,6 +29,10 @@ public class SelectOptionRepository {
 		return findSelectOptions(carCode, SelectOptionCategory.N_PERFORMANCE);
 	}
 
+	public List<SelectOption> findHGenuineAccessoriesByCarCode(final String carCode) {
+		return findSelectOptions(carCode, SelectOptionCategory.H_GENUINE);
+	}
+
 	private List<SelectOption> findSelectOptions(String carCode, SelectOptionCategory selectOptionCategory) {
 		String sql =
 			"select selectOption.id, selectOption.category,selectOption.name, selectOption.image_url, "
