@@ -19,6 +19,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.softeer.data.CarColorType
 import com.softeer.mycarchiving.model.makingcar.ColorOptionUiModel
 import com.softeer.mycarchiving.ui.component.CarColorSelectItem
 import com.softeer.mycarchiving.ui.component.OptionHeadText
@@ -123,6 +124,7 @@ fun PreviewSelectColorScreen() {
         selectedIndex = 0,
         colorOptions = listOf(
             ColorOptionUiModel(
+                category = CarColorType.EXTERIOR,
                 optionName = "어비스 블랙펄",
                 imageUrl = "",
                 price = 0,

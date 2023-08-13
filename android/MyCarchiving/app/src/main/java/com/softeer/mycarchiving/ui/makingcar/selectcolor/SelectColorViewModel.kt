@@ -1,6 +1,7 @@
 package com.softeer.mycarchiving.ui.makingcar.selectcolor
 
 import androidx.lifecycle.ViewModel
+import com.softeer.data.CarColorType
 import com.softeer.mycarchiving.model.makingcar.ColorOptionUiModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -25,6 +26,7 @@ class SelectColorViewModel @Inject constructor() : ViewModel() {
 
     private val _colorOptions = MutableStateFlow<List<ColorOptionUiModel>>(listOf(
         ColorOptionUiModel(
+            category = CarColorType.EXTERIOR,
             optionName = "어비스 블랙펄",
             imageUrl = "",
             price = 0,
