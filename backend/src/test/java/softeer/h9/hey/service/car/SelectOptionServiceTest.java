@@ -10,6 +10,9 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 import softeer.h9.hey.domain.car.SelectOption;
+import softeer.h9.hey.dto.car.request.SelectOptionRequest;
+import softeer.h9.hey.dto.car.response.SelectOptionResponse;
+import softeer.h9.hey.dto.car.response.SelectOptionsResponse;
 import softeer.h9.hey.repository.car.SelectOptionRepository;
 
 @DisplayName("선택 옵션 조회 테스트")

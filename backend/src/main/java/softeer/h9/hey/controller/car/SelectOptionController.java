@@ -5,9 +5,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
 import softeer.h9.hey.dto.global.response.GlobalResponse;
-import softeer.h9.hey.service.car.SelectOptionRequest;
+import softeer.h9.hey.dto.car.request.SelectOptionRequest;
 import softeer.h9.hey.service.car.SelectOptionService;
-import softeer.h9.hey.service.car.SelectOptionsResponse;
+import softeer.h9.hey.dto.car.response.SelectOptionsResponse;
 
 @RestController
 @RequiredArgsConstructor

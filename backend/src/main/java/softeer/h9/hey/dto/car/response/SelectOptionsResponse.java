@@ -1,4 +1,4 @@
-package softeer.h9.hey.service.car;
+package softeer.h9.hey.dto.car.response;
 
 import java.util.List;
 
