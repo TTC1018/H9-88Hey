@@ -9,10 +9,9 @@ import { OPTION_CARD_LIST_LENGTH } from '@/constants';
 import { PrevButton } from '@/components/common/PrevButton';
 import { NextButton } from '@/components/common/NextButton';
 
-import * as style from './style';
+import * as Styled from './style';
 
 interface OptionCardListProps {
-  isShow: boolean;
   selectedIndex: number;
   cardListIndex: number;
   data: OptionCardDataProps[];
@@ -24,7 +23,7 @@ interface OptionCardProps {
   index: number;
   name: string;
   additionalPrice: number;
-  imageURL: string;
+  imageUrl: string;
   subOptionNames: string[];
   isCardActive: boolean;
   onClickCard: (index: number, event: MouseEvent<HTMLDivElement>) => void;
@@ -35,7 +34,6 @@ interface OptionCardHoverProps {
 }
 
 export function OptionCardList({
-  isShow,
   selectedIndex,
   cardListIndex,
   data,
@@ -54,19 +52,19 @@ export function OptionCardList({
   }, [cardListIndex, data]);
 
   return (
-    <style.Container isShow={isShow}>
+    <Styled.Container>
       <PrevButton
         width="48"
         height="48"
         onClick={() => onClickArrowButton(cardListIndex - 1, data.length)}
         isShow={isIndexLargeThanZero(cardListIndex)}
       />
-      {cardList.map(({ index, name, additionalPrice, imageURL, subOptionNames }) => (
+      {cardList.map(({ index, name, additionalPrice, imageUrl, subOptionNames }) => (
         <OptionCard
           index={index}
           name={name}
           additionalPrice={additionalPrice}
-          imageURL={imageURL}
+          imageUrl={imageUrl}
           subOptionNames={subOptionNames}
           isCardActive={index === selectedIndex}
           onClickCard={onClickCard}
@@ -79,7 +77,7 @@ export function OptionCardList({
         onClick={() => onClickArrowButton(cardListIndex + 1, data.length)}
         isShow={isIndexSmallThanMaxIndex(cardListIndex, data.length)}
       />
-    </style.Container>
+    </Styled.Container>
   );
 }
 
@@ -87,7 +85,7 @@ function OptionCard({
   index,
   name,
   additionalPrice,
-  imageURL,
+  imageUrl,
   subOptionNames,
   isCardActive,
   onClickCard,
@@ -112,35 +110,35 @@ function OptionCard({
   }, [name]);
 
   return (
-    <style.OptionCard isCardActive={isCardActive} onClick={event => onClickCard(index, event)}>
-      <style.Image src={imageURL} />
-      <style.DescriptionWrapper>
-        <style.Text isCardActive={isCardActive}>{name}</style.Text>
-        <style.Text isCardActive={isCardActive}>+{additionalPrice.toLocaleString()}원</style.Text>
-        <style.ButtonBox>
-          <style.Button isButtonActive={isButtonActive} onClick={handleClickButton}>
+    <Styled.OptionCard isCardActive={isCardActive} onClick={event => onClickCard(index, event)}>
+      <Styled.Image src={imageUrl} />
+      <Styled.DescriptionWrapper>
+        <Styled.Text isCardActive={isCardActive}>{name}</Styled.Text>
+        <Styled.Text isCardActive={isCardActive}>+{additionalPrice.toLocaleString()}원</Styled.Text>
+        <Styled.ButtonBox>
+          <Styled.Button isButtonActive={isButtonActive} onClick={handleClickButton}>
             {isButtonActive ? '추가 완료' : '추가하기'}
-          </style.Button>
-        </style.ButtonBox>
-        {isButtonActive && <style.Icon src={'/src/assets/icons/icon_done.svg'} />}
-      </style.DescriptionWrapper>
+          </Styled.Button>
+        </Styled.ButtonBox>
+        {isButtonActive && <Styled.Icon src={'/src/assets/icons/icon_done.svg'} />}
+      </Styled.DescriptionWrapper>
       {isHover && <OptionCardHover subOptionNames={subOptionNames} />}
-      <style.OptionCardHoverArea
+      <Styled.OptionCardHoverArea
         onMouseEnter={() => handleHoverCard(true)}
         onMouseLeave={() => handleHoverCard(false)}
       />
-    </style.OptionCard>
+    </Styled.OptionCard>
   );
 }
 
 function OptionCardHover({ subOptionNames }: OptionCardHoverProps) {
   return (
-    <style.OptionCardHover>
-      <style.DescriptionHoverWrapper>
+    <Styled.OptionCardHover>
+      <Styled.DescriptionHoverWrapper>
         {subOptionNames.map((name, index) => (
-          <style.DescriptionHover key={index}>· {name}</style.DescriptionHover>
+          <Styled.DescriptionHover key={index}>· {name}</Styled.DescriptionHover>
         ))}
-      </style.DescriptionHoverWrapper>
-    </style.OptionCardHover>
+      </Styled.DescriptionHoverWrapper>
+    </Styled.OptionCardHover>
   );
 }

@@ -1,25 +1,16 @@
 import { useState, useEffect } from 'react';
 
-import {
-  DefaultOptionDataProps,
-  DefaultOptionProps,
-  DefaultSubOptionProps,
-  DefaultOptionCardDataProps,
-} from '@/types/option';
+import { DefaultOptionDataProps, SubOptionProps } from '@/types/option';
 import { isValidIndex, isIndexLargeThanZero, isIndexSmallThanMaxIndex } from '@/utils';
 import { OPTION_CARD_LIST_LENGTH } from '@/constants';
 import { useFetch } from '@/hooks/useFetch';
 
 import { PrevButton } from '@/components/common/PrevButton';
 import { NextButton } from '@/components/common/NextButton';
-import { OptionModalProvider } from '@/components/common/OptionModalProvider';
-import { OptionModal } from '@/components/common/OptionModal';
+import { OptionModalProvider } from '@/components/Option/OptionModalProvider';
+import { OptionModal } from '@/components/Option/OptionModal';
 
-import * as style from './style';
-
-interface Props {
-  isShow: boolean;
-}
+import * as Styled from './style';
 
 const initialData = {
   defaultOptions: [
@@ -29,7 +20,7 @@ const initialData = {
         {
           id: 1,
           name: '',
-          imageURL: '',
+          imageUrl: '',
           description: '',
         },
       ],
@@ -37,16 +28,15 @@ const initialData = {
   ],
 };
 
-export function DefaultOptionCardList({ isShow }: Props) {
+export function DefaultOptionCardList() {
   const { data } = useFetch<DefaultOptionDataProps>({
     defaultValue: initialData,
     url: '/model/1/trim/2/default_option',
   });
 
-  const [defaultOptions, setDafaultOptions] = useState<DefaultOptionProps[]>([]);
-  const [subOptions, setSubOptions] = useState<DefaultSubOptionProps[]>([]);
-  const [cardList, setCardList] = useState<DefaultOptionCardDataProps[]>([]);
   const [categories, setCategories] = useState<string[]>([]);
+  const [subOptions, setSubOptions] = useState<SubOptionProps[]>([]);
+  const [cardList, setCardList] = useState<SubOptionProps[]>([]);
 
   const [categoryIndex, setCategoryIndex] = useState(0);
   const [cardListIndex, setCardListIndex] = useState(0);
@@ -54,7 +44,8 @@ export function DefaultOptionCardList({ isShow }: Props) {
   const [isShowModal, setIsShowModal] = useState(false);
   const [modal, setModal] = useState({
     name: '',
-    imageURL: '',
+    imageUrl: '',
+    description: '',
   });
 
   function handleChangeCategoryIndex(index: number) {
@@ -73,9 +64,9 @@ export function DefaultOptionCardList({ isShow }: Props) {
     setCardListIndex(index);
   }
 
-  function handleOpenModal(name: string, imageURL: string) {
+  function handleOpenModal(name: string, imageUrl: string, description: string) {
     setIsShowModal(true);
-    setModal({ name, imageURL });
+    setModal({ name, imageUrl, description });
   }
 
   function handleCloseModal() {
@@ -86,9 +77,11 @@ export function DefaultOptionCardList({ isShow }: Props) {
   useEffect(() => {
     const { defaultOptions } = data;
 
-    const cardListData = defaultOptions[categoryIndex].subOptions.map(({ name, imageURL }) => ({
+    const cardListData = defaultOptions[categoryIndex].subOptions.map(({ id, name, imageUrl, description }) => ({
+      id,
       name,
-      imageURL,
+      imageUrl,
+      description,
     }));
 
     const startIndex = cardListIndex * OPTION_CARD_LIST_LENGTH;
@@ -97,40 +90,39 @@ export function DefaultOptionCardList({ isShow }: Props) {
       endIndex = cardListData.length;
     }
 
-    setDafaultOptions(defaultOptions);
+    setCategories(defaultOptions.map(({ category }) => category));
     setSubOptions(defaultOptions[categoryIndex].subOptions);
     setCardList(cardListData.slice(startIndex, endIndex));
-    setCategories(defaultOptions.map(({ category }) => category));
   }, [data, categoryIndex, cardListIndex]);
 
   return (
-    <style.Container isShow={isShow}>
-      <style.CategoryWrapper>
+    <Styled.Container>
+      <Styled.CategoryWrapper>
         {categories.map((category, index) => (
-          <style.Category
+          <Styled.Category
             isActive={index === categoryIndex}
             onClick={() => handleChangeCategoryIndex(index)}
             key={category}
           >
             {category}
-          </style.Category>
+          </Styled.Category>
         ))}
-      </style.CategoryWrapper>
-      <style.OptionCardWrapper>
+      </Styled.CategoryWrapper>
+      <Styled.OptionCardWrapper>
         <PrevButton
           width="48"
           height="48"
           onClick={() => handleChangeCardListIndex(cardListIndex - 1, subOptions.length)}
           isShow={isIndexLargeThanZero(cardListIndex)}
         />
-        {cardList.map(({ name, imageURL }, index) => (
-          <style.OptionCard key={index} onClick={() => handleOpenModal(name, imageURL)}>
-            <style.Image src={imageURL} />
-            <style.TextWrapper>
-              <style.Text>{name}</style.Text>
-              <style.SubText>기본 포함</style.SubText>
-            </style.TextWrapper>
-          </style.OptionCard>
+        {cardList.map(({ name, imageUrl, description }, index) => (
+          <Styled.OptionCard key={index} onClick={() => handleOpenModal(name, imageUrl, description)}>
+            <Styled.Image src={imageUrl} />
+            <Styled.TextWrapper>
+              <Styled.Text>{name}</Styled.Text>
+              <Styled.SubText>기본 포함</Styled.SubText>
+            </Styled.TextWrapper>
+          </Styled.OptionCard>
         ))}
         <NextButton
           width="48"
@@ -138,12 +130,17 @@ export function DefaultOptionCardList({ isShow }: Props) {
           onClick={() => handleChangeCardListIndex(cardListIndex + 1, subOptions.length)}
           isShow={isIndexSmallThanMaxIndex(cardListIndex, subOptions.length)}
         />
-      </style.OptionCardWrapper>
+      </Styled.OptionCardWrapper>
       {isShowModal && (
         <OptionModalProvider>
-          <OptionModal name={modal.name} imageURL={modal.imageURL} onClick={handleCloseModal} />
+          <OptionModal
+            name={modal.name}
+            imageUrl={modal.imageUrl}
+            description={modal.description}
+            onClick={handleCloseModal}
+          />
         </OptionModalProvider>
       )}
-    </style.Container>
+    </Styled.Container>
   );
 }

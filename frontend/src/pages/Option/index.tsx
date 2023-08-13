@@ -5,28 +5,28 @@ import { isValidIndex } from '@/utils';
 import { OPTION_CARD_LIST_LENGTH } from '@/constants';
 import { useFetch } from '@/hooks/useFetch';
 
-import { OptionImageBox } from '@/components/common/OptionImageBox';
-import { OptionDescription } from '@/components/common/OptionDescription';
-import { OptionDetailCard } from '@/components/common/OptionDetailCard';
-import { OptionCategory } from '@/components/common/OptionCategory';
-import { OptionCardList } from '@/components/common/OptionCardList';
-import { DefaultOptionCardList } from '@/components/common/DefaultOptionCardList';
+import { OptionImageBox } from '@/components/Option/OptionImageBox';
+import { OptionDescription } from '@/components/Option/OptionDescription';
+import { OptionDetailCard } from '@/components/Option/OptionDetailCard';
+import { OptionCategory } from '@/components/Option/OptionCategory';
+import { OptionCardList } from '@/components/Option/OptionCardList';
+import { DefaultOptionCardList } from '@/components/Option/DefaultOptionCardList';
 
-import * as style from './style';
+import * as Styled from './style';
 
 const initialData = {
   selectOptions: [
     {
       id: 1,
       name: '',
-      imageURL: '',
+      imageUrl: '',
       additionalPrice: 0,
       tags: [],
       subOptions: [
         {
           id: 1,
           name: '',
-          imageURL: '',
+          imageUrl: '',
           description: '',
         },
       ],
@@ -34,24 +34,28 @@ const initialData = {
   ],
 };
 
-export function Option() {
+interface Props {
+  apiType: string;
+}
+
+export function Option({ apiType }: Props) {
   const { data } = useFetch<OptionDataProps>({
     defaultValue: initialData,
-    url: '/model/1/trim/2/select_option',
+    url: `/model/1/trim/2/${apiType}`,
   });
 
   const [option, setOption] = useState<OptionProps>({
     id: 1,
     name: '',
     additionalPrice: 0,
-    imageURL: '',
+    imageUrl: '',
     tags: [],
     subOptions: [],
   });
   const [subOption, setSubOption] = useState<SubOptionProps>({
     id: 1,
     name: '',
-    imageURL: '',
+    imageUrl: '',
     description: '',
   });
   const [cardListData, setCardListData] = useState<OptionCardDataProps[]>([]);
@@ -90,34 +94,34 @@ export function Option() {
   useEffect(() => {
     const { selectOptions } = data;
 
-    const { id, name, additionalPrice, imageURL, tags, subOptions } = selectOptions[optionIndex];
+    const { id, name, additionalPrice, imageUrl, tags, subOptions } = selectOptions[optionIndex];
     const subOption = subOptions[subOptionIndex];
-    const cardListData = selectOptions.map(({ id, name, additionalPrice, imageURL, subOptions }, index) => ({
+    const cardListData = selectOptions.map(({ id, name, additionalPrice, imageUrl, subOptions }, index) => ({
       id,
       index,
       name,
       additionalPrice,
-      imageURL,
+      imageUrl,
       subOptionNames: subOptions.map(({ name }) => name),
     }));
 
-    setOption({ id, name, additionalPrice, imageURL, tags, subOptions });
+    setOption({ id, name, additionalPrice, imageUrl, tags, subOptions });
     setSubOption({
       id: subOption.id,
       name: subOption.name,
-      imageURL: subOption.imageURL,
+      imageUrl: subOption.imageUrl,
       description: subOption.description,
     });
     setCardListData(cardListData);
   }, [data, optionIndex, subOptionIndex]);
 
   return (
-    <style.Container>
-      <style.OptionWrapper>
-        <style.ImageBox>
-          <OptionImageBox imageURL={subOption.imageURL} />
-        </style.ImageBox>
-        <style.DescriptionBox>
+    <Styled.Container>
+      <Styled.OptionWrapper>
+        <Styled.ImageBox>
+          <OptionImageBox imageUrl={subOption.imageUrl} />
+        </Styled.ImageBox>
+        <Styled.DescriptionBox>
           <OptionDescription name={option.name} additionalPrice={option.additionalPrice} tags={option.tags} />
           <OptionDetailCard
             index={subOptionIndex}
@@ -126,20 +130,21 @@ export function Option() {
             description={subOption.description}
             onClick={handleChangeSubOptionIndex}
           />
-        </style.DescriptionBox>
-      </style.OptionWrapper>
-      <style.CardWrapper>
-        <OptionCategory menu={menu} onClick={handleChangeMenu} />
-        <OptionCardList
-          isShow={menu === 0}
-          selectedIndex={optionIndex}
-          cardListIndex={cardListIndex}
-          data={cardListData}
-          onClickCard={handleChangeOptionIndex}
-          onClickArrowButton={handleChangeCardListIndex}
-        />
-        <DefaultOptionCardList isShow={menu === 1} />
-      </style.CardWrapper>
-    </style.Container>
+        </Styled.DescriptionBox>
+      </Styled.OptionWrapper>
+      <Styled.CardWrapper>
+        <OptionCategory menu={menu} onClick={handleChangeMenu} isShowDefaultOption={apiType === 'select_option'} />
+        {menu === 0 && (
+          <OptionCardList
+            selectedIndex={optionIndex}
+            cardListIndex={cardListIndex}
+            data={cardListData}
+            onClickCard={handleChangeOptionIndex}
+            onClickArrowButton={handleChangeCardListIndex}
+          />
+        )}
+        {apiType === 'select_option' && menu === 1 && <DefaultOptionCardList />}
+      </Styled.CardWrapper>
+    </Styled.Container>
   );
 }

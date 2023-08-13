@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-import { Outlet } from 'react-router-dom';
+import { Outlet, useLocation } from 'react-router-dom';
 
 import { MyCarProps } from '@/types/trim';
 
@@ -8,7 +8,7 @@ import { Header } from '@/components/common/Header';
 import { Footer } from '@/components/common/Footer';
 import { Navigation } from '@/components/common/Navigation';
 
-import * as style from './style';
+import * as Styled from './style';
 
 const DEFAULT_STATE: MyCarProps = {
   model: { title: '', price: 0 },
@@ -21,6 +21,8 @@ const DEFAULT_STATE: MyCarProps = {
 };
 
 export function MyCarLayout() {
+  const { pathname } = useLocation();
+
   const [trim, setTrim] = useState(DEFAULT_STATE);
 
   const totalPrice =
@@ -62,13 +64,13 @@ export function MyCarLayout() {
   }, []);
 
   return (
-    <style.Container>
+    <Styled.Container isFull={pathname === '/result'}>
       <Header />
       <Navigation />
-      <style.Wrapper>
+      <Styled.Wrapper isFull={pathname === '/result'}>
         <Outlet context={{ handleTrim, handleOuterColor, handleInnerColor, addOption, removeOption, trim }} />
-      </style.Wrapper>
+      </Styled.Wrapper>
       <Footer myCarData={trim} totalPrice={totalPrice} onSetLocalStorage={handleLocalStrage} />
-    </style.Container>
+    </Styled.Container>
   );
 }

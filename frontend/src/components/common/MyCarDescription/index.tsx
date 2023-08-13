@@ -1,4 +1,4 @@
-import * as style from './style';
+import * as Styled from './style';
 
 interface MyCarDescriptionPropsWithTag {
   title: string;
@@ -15,22 +15,22 @@ interface MyCarDescriptionPropsWithoutTags {
 type MyCarDescriptionProps = MyCarDescriptionPropsWithTag | MyCarDescriptionPropsWithoutTags;
 export function MyCarDescription({ title, price, hasTag, tags }: MyCarDescriptionProps) {
   return (
-    <style.Container>
-      <style.Wrapper>
-        <style.Title>
+    <Styled.Container>
+      <Styled.Wrapper>
+        <Styled.Title>
           {title}
-          {hasTag && <style.SubTitle>에 대해 시승자들은 이런 후기를 남겼어요</style.SubTitle>}
-        </style.Title>
-        <style.Price>+{price.toLocaleString()}원</style.Price>
-      </style.Wrapper>
-      <style.Line />
+          {hasTag && <Styled.SubTitle>에 대해 시승자들은 이런 후기를 남겼어요</Styled.SubTitle>}
+        </Styled.Title>
+        <Styled.Price>+{price.toLocaleString()}원</Styled.Price>
+      </Styled.Wrapper>
+      <Styled.Line />
       {hasTag && (
-        <style.TagWrapper>
+        <Styled.TagWrapper>
           {tags.map(tag => (
-            <style.Tag key={tag}>{tag}</style.Tag>
+            <Styled.Tag key={tag}>{tag}</Styled.Tag>
           ))}
-        </style.TagWrapper>
+        </Styled.TagWrapper>
       )}
-    </style.Container>
+    </Styled.Container>
   );
 }

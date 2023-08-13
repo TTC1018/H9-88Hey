@@ -1,4 +1,4 @@
-import * as style from './style';
+import * as Styled from './style';
 
 interface MyCarImageBoxPropsWithOption {
   images: string[];
@@ -15,12 +15,12 @@ interface MyCarImageBoxPropsWithoutOption {
 type MyCarImageBoxProps = MyCarImageBoxPropsWithOption | MyCarImageBoxPropsWithoutOption;
 export function MyCarImageBox({ images, hasOption, selectedIndex, onClick }: MyCarImageBoxProps) {
   return (
-    <style.Container>
+    <Styled.Container>
       {hasOption ? (
         <>
-          <style.Wrapper>
+          <Styled.Wrapper>
             {images.map((image, index) => (
-              <style.SubImage
+              <Styled.SubImage
                 src={image}
                 key={image}
                 isActive={index === selectedIndex}
@@ -28,12 +28,12 @@ export function MyCarImageBox({ images, hasOption, selectedIndex, onClick }: MyC
                 alt="서브 이미지"
               />
             ))}
-          </style.Wrapper>
-          <style.Image src={images[selectedIndex]} alt="메인 이미지" />
+          </Styled.Wrapper>
+          <Styled.Image src={images[selectedIndex]} alt="메인 이미지" />
         </>
       ) : (
-        <style.Image src={images} alt="메인 이미지" />
+        <Styled.Image src={images} alt="메인 이미지" />
       )}
-    </style.Container>
+    </Styled.Container>
   );
 }
