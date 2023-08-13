@@ -85,7 +85,7 @@ export function MySavedCar() {
         </style.MyCarBox>
       ) : (
         <style.NoDataInfoBox>
-          <style.NoDataInfoText>피드에 저장한 차량이 없어요</style.NoDataInfoText>
+          <style.NoDataInfoText>내 차 목록에 저장한 차량이 없어요</style.NoDataInfoText>
           <style.CreateMyCarButton>내 차 만들기</style.CreateMyCarButton>
         </style.NoDataInfoBox>
       )}
