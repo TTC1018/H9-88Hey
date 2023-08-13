@@ -4,7 +4,7 @@ import { useLocation } from 'react-router-dom';
 
 import { NavArrowButton } from '@/components/common/NavArrowButton';
 
-import * as style from './style';
+import * as Styled from './style';
 
 const SELECTIONS = Object.freeze({
   trim: {
@@ -60,30 +60,30 @@ export function Navigation() {
   }
 
   return (
-    <style.Container>
-      <style.Wrapper>
-        <style.Box>
-          <style.OrderNumber isDisplay={true} isCurrent={true}>
+    <Styled.Container>
+      <Styled.Wrapper>
+        <Styled.Box>
+          <Styled.OrderNumber isDisplay={true} isCurrent={true}>
             {orderNum}
-          </style.OrderNumber>
-          <style.OrderTitle>{title}</style.OrderTitle>
-          <style.OrderBox>
+          </Styled.OrderNumber>
+          <Styled.OrderTitle>{title}</Styled.OrderTitle>
+          <Styled.OrderBox>
             {Object.entries(flow).map(([key, value], index) => (
-              <style.Order key={key}>
-                <style.OrderText isCurrent={isKeyEqualToSelectedPath(key)}>{value}</style.OrderText>
+              <Styled.Order key={key}>
+                <Styled.OrderText isCurrent={isKeyEqualToSelectedPath(key)}>{value}</Styled.OrderText>
                 {!isFlowLast(index) && <NavArrowButton isCurrent={isKeyEqualToSelectedPath(key)} />}
-              </style.Order>
+              </Styled.Order>
             ))}
-          </style.OrderBox>
-        </style.Box>
-        <style.Box>
+          </Styled.OrderBox>
+        </Styled.Box>
+        <Styled.Box>
           {[2, 3].map(page => (
-            <style.OrderNumber key={page} isDisplay={isOrderNumLessThanPage(page)} isCurrent={false}>
+            <Styled.OrderNumber key={page} isDisplay={isOrderNumLessThanPage(page)} isCurrent={false}>
               {page}
-            </style.OrderNumber>
+            </Styled.OrderNumber>
           ))}
-        </style.Box>
-      </style.Wrapper>
-    </style.Container>
+        </Styled.Box>
+      </Styled.Wrapper>
+    </Styled.Container>
   );
 }

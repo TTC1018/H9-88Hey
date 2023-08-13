@@ -7,7 +7,7 @@ import { TAG_CHIP_MAX_NUMBER } from '@/constants';
 
 import { EstimateModal } from './EstimateModal';
 
-import * as style from './style';
+import * as Styled from './style';
 
 const NAVIGATION_PATH = {
   '/trim': { prev: '', next: '/trim/engine' },
@@ -59,53 +59,55 @@ export function Footer({ myCarData, totalPrice, onSetLocalStorage }: FooterProps
   }
 
   return (
-    <style.Container>
-      <style.TrimWrapper>
-        <style.Title>트림</style.Title>
-        <style.CarName>{model.title}</style.CarName>
-        <style.TrimDetail>{trim}</style.TrimDetail>
-      </style.TrimWrapper>
-      <style.Division />
-      <style.ColorWrapper>
-        <style.Title>선택 색상</style.Title>
-        <style.ColorBox>
-          <style.ColorTitle>외장</style.ColorTitle>
-          <style.ColorName>
-            <style.ColorCircle imageUrl={outerColor.imageUrl || ''} />
-            <style.ColorNameText>{outerColor.title}</style.ColorNameText>
-          </style.ColorName>
-        </style.ColorBox>
-        <style.ColorBox>
-          <style.ColorTitle>내장</style.ColorTitle>
-          <style.ColorName>
-            <style.ColorCircle imageUrl={innerColor.imageUrl || ''} />
-            <style.ColorNameText>{innerColor.title}</style.ColorNameText>
-          </style.ColorName>
-        </style.ColorBox>
-      </style.ColorWrapper>
-      <style.Division />
-      <style.OptionWrapper>
-        <style.Title onClick={handleOpenModal}>선택 옵션</style.Title>
-        <style.OptionBox>
+    <Styled.Container>
+      <Styled.TrimWrapper>
+        <Styled.Title>트림</Styled.Title>
+        <Styled.CarName>{model.title}</Styled.CarName>
+        <Styled.TrimDetail>{trim}</Styled.TrimDetail>
+      </Styled.TrimWrapper>
+      <Styled.Division />
+      <Styled.ColorWrapper>
+        <Styled.Title>선택 색상</Styled.Title>
+        <Styled.ColorBox>
+          <Styled.ColorTitle>외장</Styled.ColorTitle>
+          <Styled.ColorName>
+            <Styled.ColorCircle imageUrl={outerColor.imageUrl || ''} />
+            <Styled.ColorNameText>{outerColor.title}</Styled.ColorNameText>
+          </Styled.ColorName>
+        </Styled.ColorBox>
+        <Styled.ColorBox>
+          <Styled.ColorTitle>내장</Styled.ColorTitle>
+          <Styled.ColorName>
+            <Styled.ColorCircle imageUrl={innerColor.imageUrl || ''} />
+            <Styled.ColorNameText>{innerColor.title}</Styled.ColorNameText>
+          </Styled.ColorName>
+        </Styled.ColorBox>
+      </Styled.ColorWrapper>
+      <Styled.Division />
+      <Styled.OptionWrapper>
+        <Styled.Title onClick={handleOpenModal}>선택 옵션</Styled.Title>
+        <Styled.OptionBox>
           {options.slice(0, TAG_CHIP_MAX_NUMBER).map(({ name }) => (
-            <style.Option key={name}>{name}</style.Option>
+            <Styled.Option key={name}>{name}</Styled.Option>
           ))}
-          {options.length > TAG_CHIP_MAX_NUMBER && <style.Option>+{options.length - TAG_CHIP_MAX_NUMBER}</style.Option>}
-        </style.OptionBox>
-      </style.OptionWrapper>
-      <style.Division />
-      <style.PriceWrapper>
-        <style.Title>예상 가격</style.Title>
-        <style.PriceText>
+          {options.length > TAG_CHIP_MAX_NUMBER && (
+            <Styled.Option>+{options.length - TAG_CHIP_MAX_NUMBER}</Styled.Option>
+          )}
+        </Styled.OptionBox>
+      </Styled.OptionWrapper>
+      <Styled.Division />
+      <Styled.PriceWrapper>
+        <Styled.Title>예상 가격</Styled.Title>
+        <Styled.PriceText>
           {totalPrice.toLocaleString()}
-          <style.PriceUnitText>원</style.PriceUnitText>
-        </style.PriceText>
-      </style.PriceWrapper>
-      <style.ButtonWrapper>
-        <style.PrevButton onClick={handlePrevNavigate}>이전</style.PrevButton>
-        <style.NextButton onClick={handleNextNavigate}>다음</style.NextButton>
-      </style.ButtonWrapper>
+          <Styled.PriceUnitText>원</Styled.PriceUnitText>
+        </Styled.PriceText>
+      </Styled.PriceWrapper>
+      <Styled.ButtonWrapper>
+        <Styled.PrevButton onClick={handlePrevNavigate}>이전</Styled.PrevButton>
+        <Styled.NextButton onClick={handleNextNavigate}>다음</Styled.NextButton>
+      </Styled.ButtonWrapper>
       {isOpen && <EstimateModal onClick={handleCloseModal} myCarData={myCarData} totalPrice={totalPrice} />}
-    </style.Container>
+    </Styled.Container>
   );
 }

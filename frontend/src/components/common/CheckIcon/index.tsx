@@ -1,4 +1,4 @@
-import * as style from './style';
+import * as Styled from './style';
 
 interface CheckIconProps {
   isInnerColorIcon: boolean;
@@ -6,7 +6,7 @@ interface CheckIconProps {
 
 export function CheckIcon({ isInnerColorIcon }: CheckIconProps) {
   return (
-    <style.Container isInnerColorIcon={isInnerColorIcon}>
+    <Styled.Container isInnerColorIcon={isInnerColorIcon}>
       <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 22 22" fill="none">
         <circle cx="11" cy="11" r="11" fill="#00AAD2" />
         <path
@@ -17,6 +17,6 @@ export function CheckIcon({ isInnerColorIcon }: CheckIconProps) {
           strokeLinejoin="round"
         />
       </svg>
-    </style.Container>
+    </Styled.Container>
   );
 }

@@ -6,18 +6,18 @@ import { MyFeed } from '@/components/archiving/MyFeed';
 
 import { NavIndexContext } from './context';
 
-import * as style from './style';
+import * as Styled from './style';
 
 export function MyArchiving() {
   const [index, setIndex] = useState(1);
   return (
     <NavIndexContext.Provider value={{ index, setIndex }}>
-      <style.Container>
-        <style.Wrapper>
+      <Styled.Container>
+        <Styled.Wrapper>
           <MyCarNavigation />
           {index === 1 ? <MySavedCar /> : <MyFeed />}
-        </style.Wrapper>
-      </style.Container>
+        </Styled.Wrapper>
+      </Styled.Container>
     </NavIndexContext.Provider>
   );
 }

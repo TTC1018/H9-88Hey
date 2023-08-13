@@ -7,7 +7,7 @@ import { MyCarList } from '@/components/archiving/MyCarList';
 import { PrevButton } from '@/components/common/PrevButton';
 import { NextButton } from '@/components/common/NextButton';
 
-import * as style from './style';
+import * as Styled from './style';
 
 const savedInitialData = {
   myarchivings: [
@@ -56,7 +56,7 @@ export function MySavedCar() {
   const rangeArray = Array.from({ length: 4 }, (_, index) => index + page * 4);
 
   return (
-    <style.Contianer>
+    <Styled.Contianer>
       <PrevButton
         width="60"
         height="60"
@@ -66,7 +66,7 @@ export function MySavedCar() {
         isShow={page !== 0}
       />
       {allData.length > 0 ? (
-        <style.MyCarBox>
+        <Styled.MyCarBox>
           {rangeArray.map(index =>
             index < allData.length ? (
               <MyCarList
@@ -79,15 +79,15 @@ export function MySavedCar() {
                 selectedOptions={allData[index].selectedOptions}
               />
             ) : (
-              <style.EmptyBox key={index}></style.EmptyBox>
+              <Styled.EmptyBox key={index}></Styled.EmptyBox>
             )
           )}
-        </style.MyCarBox>
+        </Styled.MyCarBox>
       ) : (
-        <style.NoDataInfoBox>
-          <style.NoDataInfoText>내 차 목록에 저장한 차량이 없어요</style.NoDataInfoText>
-          <style.CreateMyCarButton>내 차 만들기</style.CreateMyCarButton>
-        </style.NoDataInfoBox>
+        <Styled.NoDataInfoBox>
+          <Styled.NoDataInfoText>내 차 목록에 저장한 차량이 없어요</Styled.NoDataInfoText>
+          <Styled.CreateMyCarButton>내 차 만들기</Styled.CreateMyCarButton>
+        </Styled.NoDataInfoBox>
       )}
       <NextButton
         width="60"
@@ -97,6 +97,6 @@ export function MySavedCar() {
         }}
         isShow={page !== Math.floor(allData.length < 1 ? 0 : Math.floor((allData.length - 1) / 4))}
       />
-    </style.Contianer>
+    </Styled.Contianer>
   );
 }

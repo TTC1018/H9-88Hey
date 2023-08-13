@@ -1,4 +1,4 @@
-import * as style from './style';
+import * as Styled from './style';
 
 interface NextButtonProps {
   width: string;
@@ -9,7 +9,7 @@ interface NextButtonProps {
 
 export function NextButton({ width, height, onClick, isShow = true }: NextButtonProps) {
   return (
-    <style.Container width={parseInt(width)} height={parseInt(height)} onClick={() => onClick()} isShow={isShow}>
+    <Styled.Container width={parseInt(width)} height={parseInt(height)} onClick={() => onClick()} isShow={isShow}>
       <svg xmlns="http://www.w3.org/2000/svg" width={width} height={height} viewBox="0 0 48 48" fill="none">
         <g clipPath="url(#clip0_577_11602)">
           <path
@@ -26,6 +26,6 @@ export function NextButton({ width, height, onClick, isShow = true }: NextButton
           </clipPath>
         </defs>
       </svg>
-    </style.Container>
+    </Styled.Container>
   );
 }

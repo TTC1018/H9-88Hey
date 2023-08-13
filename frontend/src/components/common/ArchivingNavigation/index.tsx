@@ -6,7 +6,7 @@ import { ArchivingLogoDark } from '@/components/common/ArchivingLogoDark';
 import { PrevButton } from '@/components/common/PrevButton';
 import { CarLogo } from '@/components/common/CarLogo';
 
-import * as style from './style';
+import * as Styled from './style';
 import { Link } from 'react-router-dom';
 
 type PathType = 'archiving' | 'my-archiving';
@@ -17,20 +17,20 @@ export function ArchivingNavigation() {
   const title = PATH_LIST[path as PathType];
 
   return (
-    <style.Container>
-      <style.Wrapper>
+    <Styled.Container>
+      <Styled.Wrapper>
         <PrevButton width="48" height="48" onClick={() => {}} />
-        <style.TitleBox>
+        <Styled.TitleBox>
           <ArchivingLogoDark />
-          <style.TitleText>{title}</style.TitleText>
-        </style.TitleBox>
+          <Styled.TitleText>{title}</Styled.TitleText>
+        </Styled.TitleBox>
         <Link to={'/trim'}>
-          <style.ButtonBox>
+          <Styled.ButtonBox>
             <CarLogo />
-            <style.ButtonText>내 차 만들기 바로가기</style.ButtonText>
-          </style.ButtonBox>
+            <Styled.ButtonText>내 차 만들기 바로가기</Styled.ButtonText>
+          </Styled.ButtonBox>
         </Link>
-      </style.Wrapper>
-    </style.Container>
+      </Styled.Wrapper>
+    </Styled.Container>
   );
 }

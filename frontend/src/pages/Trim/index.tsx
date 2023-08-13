@@ -9,7 +9,7 @@ import { useSelectIndex } from '@/hooks/useSelectedIndex';
 import { MyCarImageBox } from '@/components/common/MyCarImageBox';
 import { SelectOptionCard } from '@/components/trim/SelectOptionCard';
 
-import * as style from './style';
+import * as Styled from './style';
 
 const initialData = {
   carImageUrl: [''],
@@ -53,20 +53,20 @@ export function Trim() {
   }, [data]);
 
   return (
-    <style.Container>
+    <Styled.Container>
       <MyCarImageBox
         hasOption={true}
         images={data.carImageUrl}
         selectedIndex={selectedImageIndex}
         onClick={handleSetImageIndex}
       />
-      <style.Wrapper>
+      <Styled.Wrapper>
         {data.trims.map(({ id, name, price, trimFeatures }, index) => (
-          <style.Box key={id} onClick={handleCardClick(index, price)}>
+          <Styled.Box key={id} onClick={handleCardClick(index, price)}>
             <SelectOptionCard isActive={index === selectedIndex} name={name} price={price} features={trimFeatures} />
-          </style.Box>
+          </Styled.Box>
         ))}
-      </style.Wrapper>
-    </style.Container>
+      </Styled.Wrapper>
+    </Styled.Container>
   );
 }

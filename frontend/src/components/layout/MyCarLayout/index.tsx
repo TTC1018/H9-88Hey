@@ -8,7 +8,7 @@ import { Header } from '@/components/common/Header';
 import { Footer } from '@/components/common/Footer';
 import { Navigation } from '@/components/common/Navigation';
 
-import * as style from './style';
+import * as Styled from './style';
 
 const DEFAULT_STATE: MyCarProps = {
   model: { title: '', price: 0 },
@@ -67,15 +67,15 @@ export function MyCarLayout() {
   }, []);
 
   return (
-    <style.Container>
+    <Styled.Container>
       <Header />
       <Navigation />
-      <style.Wrapper>
+      <Styled.Wrapper>
         <Outlet
           context={{ handleTrim, handleOuterColor, handleCarImageUrl, handleInnerColor, addOption, removeOption, trim }}
         />
-      </style.Wrapper>
+      </Styled.Wrapper>
       <Footer myCarData={trim} totalPrice={totalPrice} onSetLocalStorage={handleLocalStrage} />
-    </style.Container>
+    </Styled.Container>
   );
 }

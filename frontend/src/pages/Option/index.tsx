@@ -12,7 +12,7 @@ import { OptionCategory } from '@/components/common/OptionCategory';
 import { OptionCardList } from '@/components/common/OptionCardList';
 import { DefaultOptionCardList } from '@/components/common/DefaultOptionCardList';
 
-import * as style from './style';
+import * as Styled from './style';
 
 const initialData = {
   selectOptions: [
@@ -112,12 +112,12 @@ export function Option() {
   }, [data, optionIndex, subOptionIndex]);
 
   return (
-    <style.Container>
-      <style.OptionWrapper>
-        <style.ImageBox>
+    <Styled.Container>
+      <Styled.OptionWrapper>
+        <Styled.ImageBox>
           <OptionImageBox imageUrl={subOption.imageUrl} />
-        </style.ImageBox>
-        <style.DescriptionBox>
+        </Styled.ImageBox>
+        <Styled.DescriptionBox>
           <OptionDescription name={option.name} additionalPrice={option.additionalPrice} tags={option.tags} />
           <OptionDetailCard
             index={subOptionIndex}
@@ -126,9 +126,9 @@ export function Option() {
             description={subOption.description}
             onClick={handleChangeSubOptionIndex}
           />
-        </style.DescriptionBox>
-      </style.OptionWrapper>
-      <style.CardWrapper>
+        </Styled.DescriptionBox>
+      </Styled.OptionWrapper>
+      <Styled.CardWrapper>
         <OptionCategory menu={menu} onClick={handleChangeMenu} />
         <OptionCardList
           isShow={menu === 0}
@@ -139,7 +139,7 @@ export function Option() {
           onClickArrowButton={handleChangeCardListIndex}
         />
         <DefaultOptionCardList isShow={menu === 1} />
-      </style.CardWrapper>
-    </style.Container>
+      </Styled.CardWrapper>
+    </Styled.Container>
   );
 }
