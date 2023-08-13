@@ -7,7 +7,7 @@ import { ExternalCarImage } from '@/components/color/ExternalCarImage';
 import { MyCarDescription } from '@/components/common/MyCarDescription';
 import { InnerCarImage } from '@/components/color/InnerCarImage';
 
-import * as style from './style';
+import * as Styled from './style';
 
 const mockData = {
   data: {
@@ -146,45 +146,45 @@ export function Color() {
   const descriptionTags = isExternalPage ? externalTags : innerTags;
 
   return (
-    <style.Container>
-      <style.Wrapper>
+    <Styled.Container>
+      <Styled.Wrapper>
         {isExternalPage ? <ExternalCarImage color={externalColorWord} /> : <InnerCarImage color={innerColorWord} />}
         <MyCarDescription title={descriptionTitle} price={descriptionPrice} hasTag={true} tags={descriptionTags} />
-      </style.Wrapper>
-      <style.Wrapper>
-        <style.Box>
-          <style.TitleBox>
-            <style.Title>외장 색상</style.Title>
-            <style.ColorName>{externalName}</style.ColorName>
-          </style.TitleBox>
-          <style.Division />
-          <style.ColorBox>
+      </Styled.Wrapper>
+      <Styled.Wrapper>
+        <Styled.Box>
+          <Styled.TitleBox>
+            <Styled.Title>외장 색상</Styled.Title>
+            <Styled.ColorName>{externalName}</Styled.ColorName>
+          </Styled.TitleBox>
+          <Styled.Division />
+          <Styled.ColorBox>
             {mockData.data.externalColors.map(({ name, imageUrl, extraFee }, index) => (
-              <style.ColorCard key={name} onClick={() => handleClickExternalColor(index)}>
-                <style.ColorCardRect colorUrl={imageUrl} isActive={isSelectedExternalColor(name)} />
-                <style.ColorCardName>{name}</style.ColorCardName>
-                {extraFee > 0 && <style.ColorCardName>(+{extraFee.toLocaleString()}원)</style.ColorCardName>}
+              <Styled.ColorCard key={name} onClick={() => handleClickExternalColor(index)}>
+                <Styled.ColorCardRect colorUrl={imageUrl} isActive={isSelectedExternalColor(name)} />
+                <Styled.ColorCardName>{name}</Styled.ColorCardName>
+                {extraFee > 0 && <Styled.ColorCardName>(+{extraFee.toLocaleString()}원)</Styled.ColorCardName>}
                 {isSelectedExternalColor(name) && <CheckIcon isInnerColorIcon={true} />}
-              </style.ColorCard>
+              </Styled.ColorCard>
             ))}
-          </style.ColorBox>
-        </style.Box>
-        <style.Box>
-          <style.TitleBox>
-            <style.Title>내장 색상</style.Title>
-            <style.ColorName>{innerName}</style.ColorName>
-          </style.TitleBox>
-          <style.Division />
-          <style.InteriorColorBox>
+          </Styled.ColorBox>
+        </Styled.Box>
+        <Styled.Box>
+          <Styled.TitleBox>
+            <Styled.Title>내장 색상</Styled.Title>
+            <Styled.ColorName>{innerName}</Styled.ColorName>
+          </Styled.TitleBox>
+          <Styled.Division />
+          <Styled.InteriorColorBox>
             {availableInnerColorList.map(({ name, imagePath }, index) => (
-              <style.InteriorColorCard key={name} onClick={() => handleClickInnerColor(index)}>
-                <style.InteriorColorButton isActive={isSelectedInnerColor(name)} bgImage={imagePath} />
+              <Styled.InteriorColorCard key={name} onClick={() => handleClickInnerColor(index)}>
+                <Styled.InteriorColorButton isActive={isSelectedInnerColor(name)} bgImage={imagePath} />
                 {isSelectedInnerColor(name) && <CheckIcon isInnerColorIcon={false} />}
-              </style.InteriorColorCard>
+              </Styled.InteriorColorCard>
             ))}
-          </style.InteriorColorBox>
-        </style.Box>
-      </style.Wrapper>
-    </style.Container>
+          </Styled.InteriorColorBox>
+        </Styled.Box>
+      </Styled.Wrapper>
+    </Styled.Container>
   );
 }

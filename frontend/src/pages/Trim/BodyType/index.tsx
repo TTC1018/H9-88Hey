@@ -10,7 +10,7 @@ import { TrimCard } from '@/components/common/TrimCard';
 import { MyCarImageBox } from '@/components/common/MyCarImageBox';
 import { MyCarDescription } from '@/components/common/MyCarDescription';
 
-import * as style from './style';
+import * as Styled from './style';
 
 const initialData = {
   bodyTypes: [
@@ -56,9 +56,9 @@ export function BodyType() {
   }, [data]);
 
   return (
-    <style.Container>
-      <style.Wrapper>
-        <style.Box>
+    <Styled.Container>
+      <Styled.Wrapper>
+        <Styled.Box>
           <MyCarImageBox
             hasOption={true}
             images={images}
@@ -66,10 +66,10 @@ export function BodyType() {
             onClick={handleSetImageIndex}
           />
           <MyCarDescription title={name} price={extraCharge} hasTag={false} />
-        </style.Box>
-        <style.Box>
+        </Styled.Box>
+        <Styled.Box>
           {data.bodyTypes.map(({ name, extraCharge, desc }, index) => (
-            <style.Enclosure key={name} onClick={handleCardClick(index, extraCharge)}>
+            <Styled.Enclosure key={name} onClick={handleCardClick(index, extraCharge)}>
               <TrimCard
                 isActive={index === selectedIndex}
                 title={name}
@@ -77,10 +77,10 @@ export function BodyType() {
                 description={desc}
                 hasEngineInfo={false}
               />
-            </style.Enclosure>
+            </Styled.Enclosure>
           ))}
-        </style.Box>
-      </style.Wrapper>
-    </style.Container>
+        </Styled.Box>
+      </Styled.Wrapper>
+    </Styled.Container>
   );
 }

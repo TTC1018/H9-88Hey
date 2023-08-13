@@ -8,7 +8,7 @@ import { Header } from '@/components/common/Header';
 import { Footer } from '@/components/common/Footer';
 import { Navigation } from '@/components/common/Navigation';
 
-import * as style from './style';
+import * as Styled from './style';
 
 const DEFAULT_STATE: MyCarType = {
   model: { title: '', price: 0 },
@@ -60,13 +60,13 @@ export function MyCarLayout() {
   }, []);
 
   return (
-    <style.Container isFull={pathname === '/result'}>
+    <Styled.Container isFull={pathname === '/result'}>
       <Header />
       <Navigation />
-      <style.Wrapper isFull={pathname === '/result'}>
+      <Styled.Wrapper isFull={pathname === '/result'}>
         <Outlet context={{ handleTrim, trim, addOption, removeOption }} />
-      </style.Wrapper>
+      </Styled.Wrapper>
       <Footer options={trim} totalPrice={totalPrice} onSetLocalStorage={handleLocalStrage} />
-    </style.Container>
+    </Styled.Container>
   );
 }

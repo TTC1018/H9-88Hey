@@ -2,32 +2,32 @@ import { HyundaiLogo } from '@/components/common/HyundaiLogo';
 import { ArchivingLogo } from '@/components/common/ArchivingLogo';
 import { AutoSavingLogo } from '@/components/common/AutoSavingLogo';
 
-import * as style from './style';
+import * as Styled from './style';
 
 export function Header() {
   return (
-    <style.Container>
-      <style.Wrapper>
-        <style.Box>
+    <Styled.Container>
+      <Styled.Wrapper>
+        <Styled.Box>
           <HyundaiLogo />
-          <style.Division />
-          <style.Text>내차 만들기</style.Text>
-        </style.Box>
-        <style.ButtonWrapper>
-          <style.InfoBox>
-            <style.AutoSavingBox>
-              <style.AutoSavingText>자동저장 중</style.AutoSavingText>
+          <Styled.Division />
+          <Styled.Text>내차 만들기</Styled.Text>
+        </Styled.Box>
+        <Styled.ButtonWrapper>
+          <Styled.InfoBox>
+            <Styled.AutoSavingBox>
+              <Styled.AutoSavingText>자동저장 중</Styled.AutoSavingText>
               <AutoSavingLogo />
-            </style.AutoSavingBox>
-            <style.CarNameText>팰리세이드</style.CarNameText>
-          </style.InfoBox>
-          <style.Division />
-          <style.ButtonBox>
+            </Styled.AutoSavingBox>
+            <Styled.CarNameText>팰리세이드</Styled.CarNameText>
+          </Styled.InfoBox>
+          <Styled.Division />
+          <Styled.ButtonBox>
             <ArchivingLogo />
-            <style.ButtonText>아카이빙</style.ButtonText>
-          </style.ButtonBox>
-        </style.ButtonWrapper>
-      </style.Wrapper>
-    </style.Container>
+            <Styled.ButtonText>아카이빙</Styled.ButtonText>
+          </Styled.ButtonBox>
+        </Styled.ButtonWrapper>
+      </Styled.Wrapper>
+    </Styled.Container>
   );
 }

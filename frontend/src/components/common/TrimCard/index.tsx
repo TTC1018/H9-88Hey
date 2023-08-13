@@ -1,4 +1,4 @@
-import * as style from './style';
+import * as Styled from './style';
 
 interface TrimCardPropsWithEngineInfo {
   title: string;
@@ -21,25 +21,25 @@ interface TrimCardPropsWithoutEngineInfo {
 type TrimCardProps = TrimCardPropsWithEngineInfo | TrimCardPropsWithoutEngineInfo;
 export function TrimCard({ isActive, title, price, description, hasEngineInfo, power, torque }: TrimCardProps) {
   return (
-    <style.Container isActive={isActive}>
-      <style.Wrapper>
-        <style.Title>{title}</style.Title>
-        <style.Price>+{price.toLocaleString()}원</style.Price>
-      </style.Wrapper>
-      <style.Description>{description}</style.Description>
+    <Styled.Container isActive={isActive}>
+      <Styled.Wrapper>
+        <Styled.Title>{title}</Styled.Title>
+        <Styled.Price>+{price.toLocaleString()}원</Styled.Price>
+      </Styled.Wrapper>
+      <Styled.Description>{description}</Styled.Description>
       {hasEngineInfo && (
         <>
-          <style.Line isActive={isActive} />
-          <style.Info>
-            <style.InfoTitle>최고출력</style.InfoTitle>
-            <style.InfoContent>{power}</style.InfoContent>
-          </style.Info>
-          <style.Info>
-            <style.InfoTitle>최대토크</style.InfoTitle>
-            <style.InfoContent>{torque}</style.InfoContent>
-          </style.Info>
+          <Styled.Line isActive={isActive} />
+          <Styled.Info>
+            <Styled.InfoTitle>최고출력</Styled.InfoTitle>
+            <Styled.InfoContent>{power}</Styled.InfoContent>
+          </Styled.Info>
+          <Styled.Info>
+            <Styled.InfoTitle>최대토크</Styled.InfoTitle>
+            <Styled.InfoContent>{torque}</Styled.InfoContent>
+          </Styled.Info>
         </>
       )}
-    </style.Container>
+    </Styled.Container>
   );
 }

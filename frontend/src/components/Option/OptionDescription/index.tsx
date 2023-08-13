@@ -1,4 +1,4 @@
-import * as style from './style';
+import * as Styled from './style';
 
 interface OptionDescriptionProps {
   name: string;
@@ -8,21 +8,21 @@ interface OptionDescriptionProps {
 
 export function OptionDescription({ name, additionalPrice, tags }: OptionDescriptionProps) {
   return (
-    <style.Container>
-      <style.TitleWrapper>
-        <style.TitleBox>{name}</style.TitleBox>
-        <style.PriceBox>+{additionalPrice.toLocaleString()}원</style.PriceBox>
-      </style.TitleWrapper>
-      <style.Line />
-      <style.DescriptionWrapper>
-        <style.SubTitleBox>{name}</style.SubTitleBox>
-        <style.MessageBox>에 대해 시승자들은 이런 후기를 남겼어요</style.MessageBox>
-      </style.DescriptionWrapper>
-      <style.TagWrapper>
+    <Styled.Container>
+      <Styled.TitleWrapper>
+        <Styled.TitleBox>{name}</Styled.TitleBox>
+        <Styled.PriceBox>+{additionalPrice.toLocaleString()}원</Styled.PriceBox>
+      </Styled.TitleWrapper>
+      <Styled.Line />
+      <Styled.DescriptionWrapper>
+        <Styled.SubTitleBox>{name}</Styled.SubTitleBox>
+        <Styled.MessageBox>에 대해 시승자들은 이런 후기를 남겼어요</Styled.MessageBox>
+      </Styled.DescriptionWrapper>
+      <Styled.TagWrapper>
         {tags.map(tag => (
-          <style.TagBox key={tag}>{tag}</style.TagBox>
+          <Styled.TagBox key={tag}>{tag}</Styled.TagBox>
         ))}
-      </style.TagWrapper>
-    </style.Container>
+      </Styled.TagWrapper>
+    </Styled.Container>
   );
 }

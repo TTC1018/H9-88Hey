@@ -12,7 +12,7 @@ import { OptionCategory } from '@/components/Option/OptionCategory';
 import { OptionCardList } from '@/components/Option/OptionCardList';
 import { DefaultOptionCardList } from '@/components/Option/DefaultOptionCardList';
 
-import * as style from './style';
+import * as Styled from './style';
 
 const initialData = {
   selectOptions: [
@@ -116,12 +116,12 @@ export function Option({ apiType }: Props) {
   }, [data, optionIndex, subOptionIndex]);
 
   return (
-    <style.Container>
-      <style.OptionWrapper>
-        <style.ImageBox>
+    <Styled.Container>
+      <Styled.OptionWrapper>
+        <Styled.ImageBox>
           <OptionImageBox imageUrl={subOption.imageUrl} />
-        </style.ImageBox>
-        <style.DescriptionBox>
+        </Styled.ImageBox>
+        <Styled.DescriptionBox>
           <OptionDescription name={option.name} additionalPrice={option.additionalPrice} tags={option.tags} />
           <OptionDetailCard
             index={subOptionIndex}
@@ -130,9 +130,9 @@ export function Option({ apiType }: Props) {
             description={subOption.description}
             onClick={handleChangeSubOptionIndex}
           />
-        </style.DescriptionBox>
-      </style.OptionWrapper>
-      <style.CardWrapper>
+        </Styled.DescriptionBox>
+      </Styled.OptionWrapper>
+      <Styled.CardWrapper>
         <OptionCategory menu={menu} onClick={handleChangeMenu} isShowDefaultOption={apiType === 'select_option'} />
         {menu === 0 && (
           <OptionCardList
@@ -144,7 +144,7 @@ export function Option({ apiType }: Props) {
           />
         )}
         {apiType === 'select_option' && menu === 1 && <DefaultOptionCardList />}
-      </style.CardWrapper>
-    </style.Container>
+      </Styled.CardWrapper>
+    </Styled.Container>
   );
 }

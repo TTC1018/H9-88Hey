@@ -10,7 +10,7 @@ import { NextButton } from '@/components/common/NextButton';
 import { OptionModalProvider } from '@/components/Option/OptionModalProvider';
 import { OptionModal } from '@/components/Option/OptionModal';
 
-import * as style from './style';
+import * as Styled from './style';
 
 const initialData = {
   defaultOptions: [
@@ -96,19 +96,19 @@ export function DefaultOptionCardList() {
   }, [data, categoryIndex, cardListIndex]);
 
   return (
-    <style.Container>
-      <style.CategoryWrapper>
+    <Styled.Container>
+      <Styled.CategoryWrapper>
         {categories.map((category, index) => (
-          <style.Category
+          <Styled.Category
             isActive={index === categoryIndex}
             onClick={() => handleChangeCategoryIndex(index)}
             key={category}
           >
             {category}
-          </style.Category>
+          </Styled.Category>
         ))}
-      </style.CategoryWrapper>
-      <style.OptionCardWrapper>
+      </Styled.CategoryWrapper>
+      <Styled.OptionCardWrapper>
         <PrevButton
           width="48"
           height="48"
@@ -116,13 +116,13 @@ export function DefaultOptionCardList() {
           isShow={isIndexLargeThanZero(cardListIndex)}
         />
         {cardList.map(({ name, imageUrl, description }, index) => (
-          <style.OptionCard key={index} onClick={() => handleOpenModal(name, imageUrl, description)}>
-            <style.Image src={imageUrl} />
-            <style.TextWrapper>
-              <style.Text>{name}</style.Text>
-              <style.SubText>기본 포함</style.SubText>
-            </style.TextWrapper>
-          </style.OptionCard>
+          <Styled.OptionCard key={index} onClick={() => handleOpenModal(name, imageUrl, description)}>
+            <Styled.Image src={imageUrl} />
+            <Styled.TextWrapper>
+              <Styled.Text>{name}</Styled.Text>
+              <Styled.SubText>기본 포함</Styled.SubText>
+            </Styled.TextWrapper>
+          </Styled.OptionCard>
         ))}
         <NextButton
           width="48"
@@ -130,7 +130,7 @@ export function DefaultOptionCardList() {
           onClick={() => handleChangeCardListIndex(cardListIndex + 1, subOptions.length)}
           isShow={isIndexSmallThanMaxIndex(cardListIndex, subOptions.length)}
         />
-      </style.OptionCardWrapper>
+      </Styled.OptionCardWrapper>
       {isShowModal && (
         <OptionModalProvider>
           <OptionModal
@@ -141,6 +141,6 @@ export function DefaultOptionCardList() {
           />
         </OptionModalProvider>
       )}
-    </style.Container>
+    </Styled.Container>
   );
 }

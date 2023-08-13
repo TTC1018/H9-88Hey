@@ -1,4 +1,4 @@
-import * as style from './style';
+import * as Styled from './style';
 
 interface OptionCategoryProps {
   menu: number;
@@ -8,15 +8,15 @@ interface OptionCategoryProps {
 
 export function OptionCategory({ menu, onClick, isShowDefaultOption }: OptionCategoryProps) {
   return (
-    <style.OptionWrapper>
-      <style.Option isActive={menu === 0} onClick={() => onClick(0)}>
+    <Styled.OptionWrapper>
+      <Styled.Option isActive={menu === 0} onClick={() => onClick(0)}>
         선택 항목
-      </style.Option>
+      </Styled.Option>
       {isShowDefaultOption && (
-        <style.Option isActive={menu === 1} onClick={() => onClick(1)}>
+        <Styled.Option isActive={menu === 1} onClick={() => onClick(1)}>
           기본 포함 품목
-        </style.Option>
+        </Styled.Option>
       )}
-    </style.OptionWrapper>
+    </Styled.OptionWrapper>
   );
 }

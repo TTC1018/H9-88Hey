@@ -1,6 +1,6 @@
 import { FeatureType } from '@/types/trim';
 
-import * as style from './style';
+import * as Styled from './style';
 
 interface SelectOptionCardProps {
   isActive: boolean;
@@ -10,23 +10,23 @@ interface SelectOptionCardProps {
 }
 export function SelectOptionCard({ isActive, name, price, features }: SelectOptionCardProps) {
   return (
-    <style.Container isActive={isActive}>
-      <style.Title>{name}</style.Title>
-      <style.Line isActive={isActive} />
-      <style.ImageWrapper>
+    <Styled.Container isActive={isActive}>
+      <Styled.Title>{name}</Styled.Title>
+      <Styled.Line isActive={isActive} />
+      <Styled.ImageWrapper>
         {features.map(({ name, icon }) => {
           const isBig = name.length >= 15;
 
           return (
-            <style.IconWrapper key={name}>
-              <style.Image src={icon} />
-              <style.Text isBig={isBig}>{name}</style.Text>
-            </style.IconWrapper>
+            <Styled.IconWrapper key={name}>
+              <Styled.Image src={icon} />
+              <Styled.Text isBig={isBig}>{name}</Styled.Text>
+            </Styled.IconWrapper>
           );
         })}
-      </style.ImageWrapper>
-      <style.Line isActive={isActive} />
-      <style.Price>{price.toLocaleString()} 원</style.Price>
-    </style.Container>
+      </Styled.ImageWrapper>
+      <Styled.Line isActive={isActive} />
+      <Styled.Price>{price.toLocaleString()} 원</Styled.Price>
+    </Styled.Container>
   );
 }
