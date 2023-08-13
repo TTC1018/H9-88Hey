@@ -1,4 +1,5 @@
-import { XButton } from '@/components/common/XButton';
+import { XButton } from '@/components/archiving/XButton';
+
 import * as Styled from './style';
 
 interface selectedOptionProps {

@@ -7,7 +7,7 @@ import { MyCarLayoutContextProps } from '@/types/trim';
 import { useFetch } from '@/hooks/useFetch';
 import { useSelectIndex } from '@/hooks/useSelectedIndex';
 
-import { CheckIcon } from '@/components/common/CheckIcon';
+import { CheckIcon } from '@/components/color/CheckIcon';
 import { ExternalCarImage } from '@/components/color/ExternalCarImage';
 import { MyCarDescription } from '@/components/common/MyCarDescription';
 import { InnerCarImage } from '@/components/color/InnerCarImage';
