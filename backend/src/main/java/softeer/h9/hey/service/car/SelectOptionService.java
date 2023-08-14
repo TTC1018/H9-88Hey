@@ -38,7 +38,7 @@ public class SelectOptionService {
 
 	public HGenuineAccessoriesResponse findHGenuineOption(final SelectOptionRequest selectOptionRequest) {
 		String carCode = selectOptionRequest.getCarCode();
-		List<String> selectedOptionCodes = selectOptionRequest.getSelectOption();
+		List<String> selectedOptionCodes = selectOptionRequest.getSelectOptions();
 
 		List<DisabledOptionIdDto> disabledOptionIdDtos = selectOptionRepository.findDisabledOptionIdsBySelectOptionIds(
 			selectedOptionCodes);
