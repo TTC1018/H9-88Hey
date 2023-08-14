@@ -21,17 +21,23 @@ import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.SheetState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import coil.compose.AsyncImage
+import coil.request.ImageRequest
 import com.softeer.mycarchiving.R
 import com.softeer.mycarchiving.model.makingcar.SelectOptionUiModel
+import com.softeer.mycarchiving.model.makingcar.SubSelectOptionUiModel
 import com.softeer.mycarchiving.ui.component.CarBasicBottomSheetContent
 import com.softeer.mycarchiving.ui.component.CarBasicItemButton
 import com.softeer.mycarchiving.ui.component.ExtraOptionCard
@@ -56,12 +62,17 @@ fun SelectOptionRoute(
     val focusedOptionIndex by viewModel.focusedOptionIndex.collectAsStateWithLifecycle()
     val basicItems by viewModel.basicItems.collectAsStateWithLifecycle()
     val showBasicItems by viewModel.showBasicItems.collectAsStateWithLifecycle()
+
+    LaunchedEffect(screenProgress) {
+        viewModel.focusOptionItem(0) // 화면 변할 때마다 focus된 아이템 초기화
+    }
+
     SelectOptionScreen(
         modifier = modifier,
         scrollState = scrollState,
         options = when (screenProgress) {
             0 -> selectOptions
-            1 -> emptyList()
+            1 -> emptyList() // h-genuine 데이터 필요
             2 -> nPerformances
             else -> emptyList()
         },
@@ -141,6 +152,17 @@ fun SelectOptionScreen(
             }
         }
         Divider(thickness = 6.dp, color = HyundaiLightSand)
+        AsyncImage(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(220.dp),
+            model = ImageRequest.Builder(LocalContext.current)
+                .data(options.getOrNull(focusedIndex)?.imageUrl)
+                .crossfade(true)
+                .build(),
+            contentDescription = "",
+            contentScale = ContentScale.Crop
+        )
         Column(
             modifier = Modifier
                 .fillMaxWidth()
@@ -164,6 +186,41 @@ fun SelectOptionScreen(
 
 @Preview
 @Composable
-fun PreviewSelectOptionRoute() {
-    SelectOptionRoute(screenProgress = 0)
+fun PreviewSelectOptionScreen() {
+    SelectOptionScreen(
+        modifier = Modifier,
+        scrollState = rememberScrollState(),
+        options = listOf(
+            SelectOptionUiModel(
+                name = "컴포트 2",
+                price = 1090000,
+                imageUrl = "",
+                subOptions = listOf(
+                    SubSelectOptionUiModel(
+                        name = "후석 승객 알림",
+                        imageUrl = "",
+                        description = "초음파 센서를 통해 뒷좌석에 남아있는 승객의 움직임을 감지하여 운전자에게 경고함으로써 부주의에 의한 유아 또는 반려 동물 등의 방치 사고를 예방하는 신기술입니다."
+                    ),
+                    SubSelectOptionUiModel(
+                        name = "메탈 리어범퍼스텝",
+                        imageUrl = "",
+                        description = "러기지 룸 앞쪽 하단부를 메탈로 만들어 물건을 싣고 내릴 때나 사람이 올라갈 때 차체를 보호해줍니다."
+                    )
+                ),
+            ),
+            SelectOptionUiModel(
+                name = "현대스마트센스 Ⅰ",
+                price = 2900000,
+                imageUrl = "",
+                tags = listOf(
+                    "대형견도 문제 없어요",
+                    "가족들도 좋은 옵션👨‍👩‍👧‍👦"
+                ),
+            )
+        ),
+            focusedIndex = 0,
+            focusOption = {},
+            showBasicItems = {},
+            addOption = {}
+    )
 }
