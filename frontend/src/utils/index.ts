@@ -29,3 +29,16 @@ export function formatDate(inputDate: string) {
 export function combineWithSlash(strings: string[]) {
   return strings.join(' / ');
 }
+
+export function hasJongSeong(word: string) {
+  const unicode = word.charCodeAt(word.length - 1);
+
+  const hangeulStart = 0xac00;
+  const hangeulEnd = 0xd7a3;
+
+  if (unicode < hangeulStart || unicode > hangeulEnd) {
+    return false;
+  }
+
+  return (unicode - hangeulStart) % 28 > 0;
+}

@@ -2,34 +2,35 @@ import { MouseEvent, useState } from 'react';
 
 import { convertToTwoDigits } from '@/utils';
 
-import { RotateLogo } from '@/components/common/RotateLogo';
+import { RotateLogo } from '@/components/Color/RotateLogo';
 import { PrevButton } from '@/components/common/PrevButton';
 import { NextButton } from '@/components/common/NextButton';
 
-import * as style from './style';
+import * as Styled from './style';
 
 interface CarImageProps {
-  color: string;
+  imageUrl: string;
 }
 
-export function ExternalCarImage({ color }: CarImageProps) {
+export function ExternalCarImage({ imageUrl }: CarImageProps) {
+  console.log(imageUrl);
   const [isClicked, setIsClicked] = useState(false);
   const [isRotate, setIsRotate] = useState(false);
   const [xPosition, setXPosition] = useState(0);
   const [currentImage, setCurrentImage] = useState(1);
 
-  const imageArray = Array.from({ length: 60 }, (_, index) => index + 1);
+  const imageArray = Array.from({ length: 60 }, (_, index) => index);
 
   function handleClickRotateButton() {
     setIsRotate(true);
   }
 
   function handleClickPrevButton() {
-    setCurrentImage(prev => (prev === 60 ? 1 : prev + 1));
+    setCurrentImage(prev => (prev === 59 ? 1 : prev + 1));
   }
 
   function handleClickNextButton() {
-    setCurrentImage(prev => (prev === 1 ? 60 : prev - 1));
+    setCurrentImage(prev => (prev === 1 ? 59 : prev - 1));
   }
 
   function handleMouseDown(event: MouseEvent<HTMLDivElement>) {
@@ -75,37 +76,38 @@ export function ExternalCarImage({ color }: CarImageProps) {
   }
 
   return (
-    <style.Container>
-      <style.Wrapper>
+    <Styled.Container>
+      <Styled.Wrapper>
         {isRotate && <PrevButton width="48" height="48" onClick={handleClickPrevButton} />}
-        <style.ImageBox
+        <Styled.ImageBox
           onMouseDown={handleMouseDown}
           onMouseUp={handleMouseOver}
           onMouseMove={handleMouseMove}
           onMouseLeave={handleMouseLeave}
         >
-          {imageArray.map(num => (
-            <style.CarImage
-              key={num}
-              isDisplay={num === currentImage}
-              src={`https://www.hyundai.com/contents/vr360/LX06/exterior/${color}/0${convertToTwoDigits(num)}.png`}
-              alt="VR 이미지"
-            />
-          ))}
-        </style.ImageBox>
+          {imageUrl !== '' &&
+            imageArray.map(num => (
+              <Styled.CarImage
+                key={num}
+                isDisplay={num === currentImage}
+                src={`${imageUrl}0${convertToTwoDigits(num)}.png`}
+                alt="VR 이미지"
+              />
+            ))}
+        </Styled.ImageBox>
         {isRotate && <NextButton width="48" height="48" onClick={handleClickNextButton} />}
         {!isRotate && (
           <>
-            <style.RotateBtn onClick={handleClickRotateButton}>
+            <Styled.RotateBtn onClick={handleClickRotateButton}>
               360°
               <RotateLogo />
-            </style.RotateBtn>
-            <style.Vr360Circle>
-              <style.Vr360Text>360°</style.Vr360Text>
-            </style.Vr360Circle>
+            </Styled.RotateBtn>
+            <Styled.Vr360Circle>
+              <Styled.Vr360Text>360°</Styled.Vr360Text>
+            </Styled.Vr360Circle>
           </>
         )}
-      </style.Wrapper>
-    </style.Container>
+      </Styled.Wrapper>
+    </Styled.Container>
   );
 }

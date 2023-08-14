@@ -1,5 +1,5 @@
 export const data = {
-  exterierColors: [
+  exteriorColors: [
     {
       id: 1,
       name: '어비스 블랙 펄(1, 2, 5)',
@@ -55,7 +55,7 @@ export const data = {
       tags: ['트렌디해요', '모두가 좋아하는 색상', '5개 데이터'],
     },
   ],
-  interierColors: [
+  interiorColors: [
     {
       id: 1,
       name: '1',

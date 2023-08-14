@@ -8,7 +8,7 @@ export interface OptionProps {
   id: number;
   name: string;
   additionalPrice: number;
-  imageURL: string;
+  imageUrl: string;
   tags: string[];
   subOptions: SubOptionProps[];
 }
@@ -16,7 +16,7 @@ export interface OptionProps {
 export interface SubOptionProps {
   id: number;
   name: string;
-  imageURL: string;
+  imageUrl: string;
   description: string;
 }
 
@@ -25,7 +25,7 @@ export interface OptionCardDataProps {
   index: number;
   name: string;
   additionalPrice: number;
-  imageURL: string;
+  imageUrl: string;
   subOptionNames: string[];
 }
 
@@ -38,24 +38,15 @@ export interface DefaultOptionProps {
   subOptions: SubOptionProps[];
 }
 
-export interface DefaultSubOptionProps {
-  name: string;
-  imageURL: string;
-}
-
-export interface DefaultOptionCardDataProps {
-  name: string;
-  imageURL: string;
-  description?: string;
-}
-
 export interface OptionContextProviderProps {
   trim: MyCarProps;
   addOption: ({ name, price }: OptionContextProps) => void;
   removeOption: (name: string) => void;
 }
 
-interface OptionContextProps {
+export interface OptionContextProps {
   name: string;
   price: number;
+  imageUrl: string;
+  subOptions: string[];
 }

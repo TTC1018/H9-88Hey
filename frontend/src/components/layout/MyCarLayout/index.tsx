@@ -1,30 +1,38 @@
 import { useEffect, useRef, useState } from 'react';
 
-import { Outlet } from 'react-router-dom';
+import { Outlet, useLocation } from 'react-router-dom';
 
 import { MyCarProps } from '@/types/trim';
+import { OptionContextProps } from '@/types/option';
 
 import { useCountPrice } from '@/hooks/useCountPrice';
 import { Header } from '@/components/common/Header';
 import { Footer } from '@/components/common/Footer';
 import { Navigation } from '@/components/common/Navigation';
 
-import * as style from './style';
+import * as Styled from './style';
 
-const initialState: MyCarProps = {
+const DEFAULT_STATE: MyCarProps = {
+  carType: { krName: '펠리세이드', enName: 'Palisade' },
   model: { title: '', price: 0 },
   engine: { title: '', price: 0 },
   bodyType: { title: '', price: 0 },
   wheelDrive: { title: '', price: 0 },
-  outerColor: { title: '', imageUrl: '', price: 0 },
-  innerColor: { title: '', imageUrl: '', id: 1 },
+  outerColor: { title: '', imageUrl: '/src/assets/icons/ellipse_123.png', price: 0 },
+  innerColor: { title: '', imageUrl: '/src/assets/icons/ellipse_567.svg', id: 1 },
   options: [],
+  carImageUrl: 'https://www.hyundai.com/contents/vr360/LX06/exterior/WC9/001.png', // 임시 mock data
 };
 
 export function MyCarLayout() {
-  const [trim, setTrim] = useState(initialState);
+  const { pathname } = useLocation();
+
+  const [trim, setTrim] = useState(DEFAULT_STATE);
+
+  const trimKeys = ['model', 'engine', 'bodyType', 'wheelDrive', 'outerColor'];
+
   const calclPrice =
-    trim.model.price + trim.engine.price + trim.bodyType.price + trim.wheelDrive.price + trim.outerColor.price;
+    trimKeys.reduce((acc, cur) => acc + trim[cur].price, 0) + trim.options.reduce((acc, cur) => acc + cur.price, 0);
 
   const prevPrice = useRef(calclPrice);
 
@@ -47,15 +55,19 @@ export function MyCarLayout() {
     setTrim(prev => ({ ...prev, innerColor: { title: color, imageUrl: colorImage, id } }));
   }
 
-  function addOption({ name, price }: { name: string; price: number }) {
-    setTrim(prev => ({ ...prev, options: [...prev.options, { name, price }] }));
+  function addOption({ name, price, imageUrl, subOptions }: OptionContextProps) {
+    setTrim(prev => ({ ...prev, options: [...prev.options, { name, price, imageUrl, subOptions }] }));
+  }
+
+  function handleCarImageUrl(carImageUrl: string) {
+    setTrim(prev => ({ ...prev, carImageUrl }));
   }
 
   function removeOption(name: string) {
     setTrim(prev => ({ ...prev, options: prev.options.filter(options => options.name !== name) }));
   }
 
-  function handleLocalStrage() {
+  function handleLocalStorage() {
     localStorage.setItem('carOptions', JSON.stringify(trim));
   }
 
@@ -71,13 +83,24 @@ export function MyCarLayout() {
   }, []);
 
   return (
-    <style.Container>
+    <Styled.Container isFull={pathname === '/result'}>
       <Header />
       <Navigation />
-      <style.Wrapper>
-        <Outlet context={{ handleTrim, handleOuterColor, handleInnerColor, addOption, removeOption, trim }} />
-      </style.Wrapper>
-      <Footer myCarData={trim} totalPrice={totalPrice} onSetLocalStorage={handleLocalStrage} />
-    </style.Container>
+      <Styled.Wrapper isFull={pathname === '/result'}>
+        <Outlet
+          context={{
+            trim,
+            totalPrice,
+            handleTrim,
+            handleOuterColor,
+            handleInnerColor,
+            handleCarImageUrl,
+            addOption,
+            removeOption,
+          }}
+        />
+      </Styled.Wrapper>
+      <Footer myCarData={trim} totalPrice={totalPrice} onSetLocalStorage={handleLocalStorage} />
+    </Styled.Container>
   );
 }

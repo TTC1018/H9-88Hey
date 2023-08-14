@@ -17,3 +17,13 @@ export const NAVIGATION_PATH = {
   '/option/h-genuine-accessories': { prev: '/option', next: '/option/n-performance' },
   '/option/n-performance': { prev: '/option/h-genuine-accessories', next: '' },
 };
+
+export const ARCHIVING = '아카이빙';
+export const MY_ARCHIVING = '마이카이빙';
+
+export const PATH_LIST = Object.freeze({
+  archiving: ARCHIVING,
+  mychiving: MY_ARCHIVING,
+});
+
+export const MAX_TEXT_LENGTH = 140;

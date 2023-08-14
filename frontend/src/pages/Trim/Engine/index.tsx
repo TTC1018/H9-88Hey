@@ -7,10 +7,10 @@ import { useFetch } from '@/hooks/useFetch';
 import { useSelectIndex } from '@/hooks/useSelectedIndex';
 
 import { TrimCard } from '@/components/common/TrimCard';
-import { MyCarImageBox } from '@/components/common/MyCarImageBox';
+import { MyCarImageBox } from '@/components/Trim/MyCarImageBox';
 import { MyCarDescription } from '@/components/common/MyCarDescription';
 
-import * as style from './style';
+import * as Styled from './style';
 
 const initialData = {
   engines: [
@@ -62,15 +62,15 @@ export function Engine() {
   }, [engines]);
 
   return (
-    <style.Container>
-      <style.Wrapper>
-        <style.Box>
+    <Styled.Container>
+      <Styled.Wrapper>
+        <Styled.Box>
           <MyCarImageBox hasOption={false} images={imageUrl} />
           <MyCarDescription title={name} price={additionalPrice} hasTag={false} />
-        </style.Box>
-        <style.CardBox>
+        </Styled.Box>
+        <Styled.CardBox>
           {engines.map(({ name, additionalPrice, description, maximumPower, maximumTorque, id }, index) => (
-            <style.Enclosure key={id} onClick={handleCardClick(index, additionalPrice)}>
+            <Styled.Enclosure key={id} onClick={handleCardClick(index, additionalPrice)}>
               <TrimCard
                 isActive={index === selectedIndex}
                 title={name}
@@ -80,10 +80,10 @@ export function Engine() {
                 power={maximumPower}
                 torque={maximumTorque}
               />
-            </style.Enclosure>
+            </Styled.Enclosure>
           ))}
-        </style.CardBox>
-      </style.Wrapper>
-    </style.Container>
+        </Styled.CardBox>
+      </Styled.Wrapper>
+    </Styled.Container>
   );
 }

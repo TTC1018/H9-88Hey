@@ -1,13 +1,13 @@
-import * as style from './style';
+import * as Styled from './style';
 
 interface InnerCarImageProps {
-  color: string;
+  imageUrl: string;
 }
 
-export function InnerCarImage({ color }: InnerCarImageProps) {
+export function InnerCarImage({ imageUrl }: InnerCarImageProps) {
   return (
-    <style.Container>
-      <style.MainImage src={`https://www.hyundai.com/contents/vr360/LX06/interior/${color}/img-interior.png`} />
-    </style.Container>
+    <Styled.Container>
+      <Styled.MainImage src={imageUrl} />
+    </Styled.Container>
   );
 }
