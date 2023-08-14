@@ -16,6 +16,7 @@ public class SelectOptionResponse {
 	private final String id;
 	private final String name;
 	private final String imageURL;
+	private final int additionalPrice;
 
 	private final List<TagResponse> tags;
 
@@ -28,6 +29,7 @@ public class SelectOptionResponse {
 			.id(selectOption.getId())
 			.name(selectOption.getName())
 			.imageURL(selectOption.getImageUrl())
+			.additionalPrice(selectOption.getAdditionalPrice())
 			// #TODO 태그 넣기
 			.tags(null)
 			.subOptions(subOptionResponses)

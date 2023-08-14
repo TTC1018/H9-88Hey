@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -15,6 +16,7 @@ import lombok.RequiredArgsConstructor;
 import softeer.h9.hey.domain.car.SelectOptionCategory;
 import softeer.h9.hey.domain.car.SelectOption;
 import softeer.h9.hey.domain.car.SubOption;
+import softeer.h9.hey.dto.car.DisabledOptionIdDto;
 
 @Repository
 @RequiredArgsConstructor
@@ -27,6 +29,33 @@ public class SelectOptionRepository {
 
 	public List<SelectOption> findNPerformanceByCarCode(String carCode) {
 		return findSelectOptions(carCode, SelectOptionCategory.N_PERFORMANCE);
+	}
+
+	public List<SelectOption> findHGenuineAccessoriesByCarCode(final String carCode) {
+		return findSelectOptions(carCode, SelectOptionCategory.H_GENUINE);
+	}
+
+	public List<DisabledOptionIdDto> findDisabledOptionIdsBySelectOptionIds(final List<String> selectOptionIds){
+		if(selectOptionIds == null) {
+			return null;
+		}
+
+		String selectOptionsString = selectOptionIds.stream()
+			.map(id -> "\'" + id + "\'")
+			.collect(Collectors.joining(", "));
+
+		String sql = "SELECT DISTINCT disabled_option_id "
+						+ "FROM disabledOption "
+						+ "where selected_option_id in ( "
+						+ selectOptionsString
+						+ ")";
+
+		List<DisabledOptionIdDto> disabledOptionIdDtos = new ArrayList<>();
+		namedParameterJdbcTemplate.query(sql, result -> {
+			disabledOptionIdDtos.add(DisabledOptionIdDto.of(result.getString("disabled_option_id")));
+		});
+
+		return disabledOptionIdDtos;
 	}
 
 	private List<SelectOption> findSelectOptions(String carCode, SelectOptionCategory selectOptionCategory) {

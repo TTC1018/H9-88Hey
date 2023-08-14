@@ -11,6 +11,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import softeer.h9.hey.domain.car.SelectOptionCategory;
 import softeer.h9.hey.domain.car.SelectOption;
+import softeer.h9.hey.dto.car.DisabledOptionIdDto;
 
 @SpringBootTest
 @DisplayName("선택 옵션 저장소 테스트")
@@ -43,5 +44,29 @@ public class SelectOptionRepositoryTest {
 		for (SelectOption selectOption : selectOptions) {
 			assertThat(selectOption.getSelectOptionCategory()).isEqualTo(SelectOptionCategory.N_PERFORMANCE);
 		}
+	}
+
+	@Test
+	@DisplayName("특정 자동차에 적용할 수 있는 H Genuine Accessory 옵션을 조회한다.")
+	void findHGenuineOptionTest() {
+		String carCode = "LXJJ8MBA5";
+
+		List<SelectOption> selectOptions = repository.findHGenuineAccessoriesByCarCode(carCode);
+
+		assertThat(selectOptions).hasSize(6);
+
+		for (SelectOption selectOption : selectOptions) {
+			assertThat(selectOption.getSelectOptionCategory()).isEqualTo(SelectOptionCategory.H_GENUINE);
+		}
+	}
+
+	@Test
+	@DisplayName("선택한 옵션들에 대해서 선택 불가능한 옵션 목록을 조회한다.")
+	void findDisabledOptionIdsBySelectOptionIdsTest() {
+		List<String> selectOptionIds = List.of("LST", "US1");
+
+		List<DisabledOptionIdDto> disabledOptionIdDtos = repository.findDisabledOptionIdsBySelectOptionIds(selectOptionIds);
+
+		assertThat(disabledOptionIdDtos).hasSize(1);
 	}
 }
