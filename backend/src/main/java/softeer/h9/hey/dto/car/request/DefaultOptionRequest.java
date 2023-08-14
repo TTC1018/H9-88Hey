@@ -9,4 +9,8 @@ public class DefaultOptionRequest {
 	private DefaultOptionRequest(String car_code) {
 		this.carCode = car_code;
 	}
+
+	public static DefaultOptionRequest of(String carCode) {
+		return new DefaultOptionRequest(carCode);
+	}
 }
