@@ -12,7 +12,7 @@ import { SelectOptionCard } from '@/components/Trim/SelectOptionCard';
 import * as Styled from './style';
 
 const initialData = {
-  carImageURL: [''],
+  carImageUrl: [''],
   trims: [
     {
       id: 0,
@@ -56,7 +56,7 @@ export function Trim() {
     <Styled.Container>
       <MyCarImageBox
         hasOption={true}
-        images={data.carImageURL}
+        images={data.carImageUrl}
         selectedIndex={selectedImageIndex}
         onClick={handleSetImageIndex}
       />

@@ -9,7 +9,7 @@ interface TrimProps {
   trimFeatures: FeatureProps[];
 }
 export interface TrimDataProps {
-  carImageURL: string[];
+  carImageUrl: string[];
   trims: TrimProps[];
 }
 
@@ -20,7 +20,7 @@ interface EngineProps {
   description: string;
   maximumPower: string;
   maximumTorque: string;
-  imageURL: string;
+  imageUrl: string;
 }
 export interface EngineDataProps {
   engines: EngineProps[];
@@ -29,7 +29,7 @@ export interface EngineDataProps {
 interface BodyTypeProps {
   id: number;
   name: string;
-  imageURLs: string[];
+  imageUrls: string[];
   additionalPrice: number;
   description: string;
 }
@@ -42,7 +42,7 @@ interface WheelDriveProps {
   name: string;
   additionalPrice: number;
   description: string;
-  imageURL: string;
+  imageUrl: string;
 }
 export interface WheelDriveDataProps {
   wheelDrives: WheelDriveProps[];
@@ -60,6 +60,7 @@ export interface MyCarProps {
   wheelDrive: MyCarDetailProps;
   outerColor: { title: string; imageUrl: string; price: number };
   innerColor: { title: string; imageUrl: string; id: number };
+  carImageUrl: string;
   options: {
     name: string;
     price: number;
@@ -70,5 +71,6 @@ export interface MyCarLayoutContextProps {
   handleTrim: ({ key, option, price }: { key: string; option: string; price: number }) => void;
   handleOuterColor: ({ color, colorImage, price }: { color: string; colorImage: string; price: number }) => void;
   handleInnerColor: ({ color, colorImage, id }: { color: string; colorImage: string; id: number }) => void;
+  handleCarImageUrl: (carImageUrl: string) => void;
   trim: MyCarProps;
 }

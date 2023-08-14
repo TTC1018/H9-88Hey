@@ -19,7 +19,7 @@ const initialData = {
       name: '',
       additionalPrice: 0,
       description: '',
-      imageURL: '',
+      imageUrl: '',
     },
   ],
 };
@@ -34,7 +34,7 @@ export function WheelDrive() {
   const initwheelDrives = wheelDrives[0];
 
   const [selectedIndex, handleSetIndex] = useSelectIndex();
-  const { name, additionalPrice, imageURL } = wheelDrives[selectedIndex];
+  const { name, additionalPrice, imageUrl } = wheelDrives[selectedIndex];
 
   const {
     handleTrim,
@@ -63,7 +63,7 @@ export function WheelDrive() {
     <Styled.Container>
       <Styled.Wrapper>
         <Styled.Box>
-          <MyCarImageBox hasOption={false} images={imageURL} />
+          <MyCarImageBox hasOption={false} images={imageUrl} />
           <MyCarDescription title={name} price={additionalPrice} hasTag={false} />
         </Styled.Box>
         <Styled.Box>

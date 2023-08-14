@@ -17,6 +17,7 @@ const DEFAULT_STATE: MyCarProps = {
   wheelDrive: { title: '', price: 0 },
   outerColor: { title: '', imageUrl: '', price: 0 },
   innerColor: { title: '', imageUrl: '', id: 1 },
+  carImageUrl: '',
   options: [],
 };
 
@@ -38,6 +39,10 @@ export function MyCarLayout() {
 
   function handleInnerColor({ color, colorImage, id }: { color: string; colorImage: string; id: number }) {
     setTrim(prev => ({ ...prev, innerColor: { title: color, imageUrl: colorImage, id } }));
+  }
+
+  function handleCarImageUrl(carImageUrl: string) {
+    setTrim(prev => ({ ...prev, carImageUrl }));
   }
 
   function addOption({ name, price }: { name: string; price: number }) {
@@ -68,7 +73,9 @@ export function MyCarLayout() {
       <Header />
       <Navigation />
       <Styled.Wrapper isFull={pathname === '/result'}>
-        <Outlet context={{ handleTrim, handleOuterColor, handleInnerColor, addOption, removeOption, trim }} />
+        <Outlet
+          context={{ handleTrim, handleOuterColor, handleInnerColor, handleCarImageUrl, addOption, removeOption, trim }}
+        />
       </Styled.Wrapper>
       <Footer myCarData={trim} totalPrice={totalPrice} onSetLocalStorage={handleLocalStrage} />
     </Styled.Container>
