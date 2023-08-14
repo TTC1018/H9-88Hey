@@ -22,7 +22,7 @@ class SelectOptionControllerTest {
 	void getSelectOptionTest() throws Exception {
 		mockMvc.perform(
 				get("/car/select-option")
-					.param("carCode", "LXJJ8MST5"))
+					.param("car_code", "LXJJ8MST5"))
 			.andExpect(status().isOk())
 			.andExpectAll(
 				jsonPath("$.data.selectOptions").exists(),
@@ -42,7 +42,7 @@ class SelectOptionControllerTest {
 	void getNPerformanceOptionTest() throws Exception {
 		mockMvc.perform(
 				get("/car/n-performance")
-					.param("carCode", "LXJJ8MST5"))
+					.param("car_code", "LXJJ8MST5"))
 			.andExpect(status().isOk())
 			.andExpectAll(
 				jsonPath("$.data.selectOptions").exists(),
@@ -62,8 +62,8 @@ class SelectOptionControllerTest {
 	void getAvailableHGenuineOptionTest() throws Exception {
 		mockMvc.perform(
 				get("/car/h-genuine-accessories")
-					.param("carCode", "LXJJ7DCT5")
-					.param("seletOption", "VI2"))
+					.param("car_code", "LXJJ7DCT5")
+					.param("select_option", "VI2"))
 			.andExpect(status().isOk())
 			.andExpectAll(
 				jsonPath("$.data.selectOptions").exists(),
