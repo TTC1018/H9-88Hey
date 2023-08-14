@@ -18,7 +18,7 @@ public class DefaultOptionRepository {
 
 	private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
-	public List<DefaultOption> findAllDefaultSubOptionByCarCode(String carCode) {
+	public List<DefaultOption> findAllDefaultSubOptionByCarCode(final String carCode) {
 		String sql = "SELECT default_option_id AS id, name, description, image_url, category FROM defaultOption LEFT JOIN defaultOption_carTrims ON defaultOption.id = defaultOption_carTrims.default_option_id WHERE car_normal_types_id = :carCode";
 
 		SqlParameterSource params = new MapSqlParameterSource()

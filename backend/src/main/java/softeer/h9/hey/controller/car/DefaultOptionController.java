@@ -17,7 +17,7 @@ public class DefaultOptionController {
 
 	@GetMapping("/car/default-option")
 	public GlobalResponse<DefaultOptionsResponse> findAllByCarCode(
-		DefaultOptionRequest defaultOptionRequest) {
+		final DefaultOptionRequest defaultOptionRequest) {
 		DefaultOptionsResponse defaultOptionsResponse = defaultOptionService.findAllByCarCode(defaultOptionRequest);
 		return GlobalResponse.ok(defaultOptionsResponse);
 	}
