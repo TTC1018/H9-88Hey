@@ -67,7 +67,7 @@ fun MakeCarTopBar(
     viewModel: MakingCarViewModel = hiltViewModel(),
 ) {
     val destination = appState.currentMakingCarDestinations
-    val selectedCarModel by viewModel.selectedCarModel.collectAsStateWithLifecycle()
+    val selectedCarModel by viewModel.selectedCarName.collectAsStateWithLifecycle()
     val currentProgressId by appState.currentProgressId.collectAsStateWithLifecycle()
     val currentProgressChildId by appState.currentProgressChildId.collectAsStateWithLifecycle()
     val processEnd by appState.progressEnd.collectAsStateWithLifecycle()
