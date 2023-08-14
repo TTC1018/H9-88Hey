@@ -3,7 +3,6 @@ package softeer.h9.hey.service.car;
 import static org.assertj.core.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.jupiter.api.DisplayName;
@@ -11,7 +10,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 import softeer.h9.hey.domain.car.SelectOption;
-import softeer.h9.hey.dto.car.SubOptionIdDto;
+import softeer.h9.hey.dto.car.DisabledOptionIdDto;
 import softeer.h9.hey.dto.car.request.SelectOptionRequest;
 import softeer.h9.hey.dto.car.response.HGenuineAccessoriesResponse;
 import softeer.h9.hey.dto.car.response.HGenuineAccessoryResponse;
@@ -71,10 +70,10 @@ class SelectOptionServiceTest {
 
 		when(selectOptionRepository.findSubOptionIdsBySelectOptionIds(any()))
 			.thenReturn(List.of(
-				Mockito.mock(SubOptionIdDto.class),
-				Mockito.mock(SubOptionIdDto.class),
-				Mockito.mock(SubOptionIdDto.class),
-				Mockito.mock(SubOptionIdDto.class)));
+				Mockito.mock(DisabledOptionIdDto.class),
+				Mockito.mock(DisabledOptionIdDto.class),
+				Mockito.mock(DisabledOptionIdDto.class),
+				Mockito.mock(DisabledOptionIdDto.class)));
 
 		HGenuineAccessoriesResponse hGenuineAccessoriesResponse = selectOptionService.findHGenuineOption(
 			selectOptionRequest);
