@@ -11,7 +11,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import softeer.h9.hey.domain.car.SelectOptionCategory;
 import softeer.h9.hey.domain.car.SelectOption;
-import softeer.h9.hey.dto.car.SubOptionIdDto;
+import softeer.h9.hey.dto.car.DisabledOptionIdDto;
 
 @SpringBootTest
 @DisplayName("선택 옵션 저장소 테스트")
@@ -62,11 +62,11 @@ public class SelectOptionRepositoryTest {
 
 	@Test
 	@DisplayName("선택한 옵션들에 대한 하위옵션 id 값들을 중복을 제거하여 조회한다.")
-	void findSubOptionIdsBySelectOptionIdsTest() {
+	void findDisabledOptionIdsBySelectOptionIdsTest() {
 		List<String> selectOptionIds = List.of("LST", "US1");
 
-		List<SubOptionIdDto> subOptionIdDtos = repository.findSubOptionIdsBySelectOptionIds(selectOptionIds);
+		List<DisabledOptionIdDto> disabledOptionIdDtos = repository.findSubOptionIdsBySelectOptionIds(selectOptionIds);
 
-		assertThat(subOptionIdDtos).hasSize(8);
+		assertThat(disabledOptionIdDtos).hasSize(1);
 	}
 }
