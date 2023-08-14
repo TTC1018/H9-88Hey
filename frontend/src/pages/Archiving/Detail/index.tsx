@@ -5,7 +5,6 @@ import { DetailHeader } from '@/components/Archiving/DetailHeader';
 import { ArchivingProps } from '@/types/archiving';
 import { combineWithSlash, formatDate } from '@/utils';
 import { DetailDescription } from '@/components/Archiving/DetailDescription';
-import { OptionDescriptionCard } from '@/components/Archiving/OptionDescriptionCard';
 import { OptionList } from '@/components/Archiving/OptionList';
 
 export function Detail() {

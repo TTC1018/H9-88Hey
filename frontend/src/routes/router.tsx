@@ -83,11 +83,16 @@ export const router = createBrowserRouter([
     children: [
       {
         path: 'archiving',
-        element: <Archiving />,
-      },
-      {
-        path: 'detail',
-        element: <Detail />,
+        children: [
+          {
+            path: '',
+            element: <Archiving />,
+          },
+          {
+            path: 'detail',
+            element: <Detail />,
+          },
+        ],
       },
       {
         path: 'mychiving',

@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 interface Props<T> {
   state: T;
 }
-export function useNavigateWithData<T>({ path }: { path: string }) {
+export function useNavigateWithData({ path }: { path: string }) {
   const navigate = useNavigate();
 
   function naviagteWithData<T>({ state }: Props<T>) {

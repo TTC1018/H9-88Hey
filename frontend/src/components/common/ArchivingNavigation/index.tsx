@@ -9,7 +9,7 @@ import { CarLogo } from '@/components/common/CarLogo';
 import * as Styled from './style';
 import { Link } from 'react-router-dom';
 
-type PathType = 'archiving' | 'my-archiving';
+type PathType = 'archiving' | 'mychiving';
 
 export function ArchivingNavigation() {
   const { pathname } = useLocation();

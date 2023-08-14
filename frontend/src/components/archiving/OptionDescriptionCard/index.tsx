@@ -15,20 +15,8 @@ export function OptionDescriptionCard({ props }: Props) {
       <Styled.Text>{name}</Styled.Text>
       <Styled.Line />
       <Styled.ContentWrapper isActive={isActive}>
-        <Styled.SubOptions>
-          {[
-            '후석 승객 알림',
-            '후석 승객 알림',
-            '후석 승객 알림',
-            '후석 승객 알림',
-            '후석 승객 알림',
-            '후석 승객 알림',
-          ].join(' | ')}
-        </Styled.SubOptions>
-        <Styled.Review>
-          승차감이 좋아요 차가 크고 운전하는 시야도 높아서 좋았어요 저는 13개월 아들이 있는데 뒤에 차시트 달아도 널널할
-          것 같습니다.
-        </Styled.Review>
+        <Styled.SubOptions>{subOptions.join(' | ')}</Styled.SubOptions>
+        <Styled.Review>{review}</Styled.Review>
       </Styled.ContentWrapper>
       <Styled.TagWrapper>
         {tags.map(tag => (

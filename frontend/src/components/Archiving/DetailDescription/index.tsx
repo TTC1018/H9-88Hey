@@ -23,7 +23,7 @@ export function DetailDescription({ totalPrice, options, onClickSaveButton, onCl
         </Styled.Encloser>
         <Styled.ButtonBox>
           <SaveButton onClick={onClickSaveButton} />
-          <Styled.Button>이 차량으로 내 차 만들기 시작</Styled.Button>
+          <Styled.Button onClick={onClickStartButton}>이 차량으로 내 차 만들기 시작</Styled.Button>
         </Styled.ButtonBox>
       </Styled.Wrapper>
     </Styled.Container>

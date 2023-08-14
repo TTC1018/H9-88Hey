@@ -2,16 +2,11 @@ import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
 export const Container = styled.div`
-  ${({ theme }) => {
-    const { colors } = theme;
-    return css`
-      width: 1024px;
-      height: 334px;
+  width: 1024px;
+  height: 334px;
 
-      display: flex;
-      justify-content: space-between;
-    `;
-  }}
+  display: flex;
+  justify-content: space-between;
 `;
 
 export const TextWrapper = styled.div`

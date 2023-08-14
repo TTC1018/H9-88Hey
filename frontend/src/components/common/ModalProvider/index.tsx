@@ -1,7 +1,6 @@
 import { Dispatch, ReactNode, SetStateAction, createContext, useState } from 'react';
 
 import { ModalTypeProps } from '@/constants';
-import { useNavigate } from 'react-router-dom';
 
 const DEFAULT_VALUE = { modalType: ModalTypeProps.CLOSE, callbackData: null };
 

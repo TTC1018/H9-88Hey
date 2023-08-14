@@ -5,7 +5,7 @@ interface Props {
 }
 export function SaveButton({ onClick }: Props) {
   return (
-    <Styled.Container viewBox="0 0 52 52" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <Styled.Container onClick={onClick} viewBox="0 0 52 52" fill="none" xmlns="http://www.w3.org/2000/svg">
       <circle cx="26" cy="26" r="26" fill="#E4DCD3" />
       <rect width="24" height="24" transform="translate(14 13)" fill="#E4DCD3" />
       <path
