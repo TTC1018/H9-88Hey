@@ -10,10 +10,13 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navOptions
+import com.softeer.mycarchiving.navigation.ArchivingDestinations
+import com.softeer.mycarchiving.navigation.ArchivingDestinations.*
 import com.softeer.mycarchiving.navigation.MainDestination
 import com.softeer.mycarchiving.navigation.MainDestination.*
 import com.softeer.mycarchiving.navigation.MakingCarDestinations
 import com.softeer.mycarchiving.navigation.MakingCarDestinations.*
+import com.softeer.mycarchiving.ui.archiving.archivingdetail.navigateToArchivingDetail
 import com.softeer.mycarchiving.ui.archiving.navigateToArchive
 import com.softeer.mycarchiving.ui.loading.navigateToLoading
 import com.softeer.mycarchiving.ui.login.navigateToLogin
@@ -54,15 +57,22 @@ class HyundaiAppState(
     val currentMainDestination: MainDestination?
         @Composable get() = when (currentDestination?.route) {
             LOGIN.route -> LOGIN
+
             LOADING.route -> LOADING
+
             MAKING_CAR.route,
             SELECT_MODEL.route,
             SELECT_TRIM.route,
             SELECT_COLOR.route,
             SELECT_OPTION.route,
             SELECT_COMPLETE.route-> MAKING_CAR
+
+            ARCHIVING_MAIN.route,
+            ARCHIVING_DETAIL.route,
             ARCHIVING.route -> ARCHIVING
+
             MY_ARCHIVING.route -> MY_ARCHIVING
+
             else -> null
         }
 
@@ -73,6 +83,13 @@ class HyundaiAppState(
             SELECT_COLOR.route -> SELECT_COLOR
             SELECT_OPTION.route -> SELECT_OPTION
             SELECT_COMPLETE.route -> SELECT_COMPLETE
+            else -> null
+        }
+
+    val currentArchivingDestination: ArchivingDestinations?
+        @Composable get() = when(currentDestination?.route) {
+            ARCHIVING_MAIN.route -> ARCHIVING_MAIN
+            ARCHIVING_DETAIL.route -> ARCHIVING_DETAIL
             else -> null
         }
 
@@ -113,6 +130,14 @@ class HyundaiAppState(
             SELECT_COLOR -> navController.navigateToSelectOption()
             SELECT_OPTION -> navController.navigateToComplete()
             SELECT_COMPLETE -> {/*unused*/}
+            else -> {}
+        }
+    }
+
+    fun navigateToArchivingDestination(archivingDestination: ArchivingDestinations?) {
+        when(archivingDestination) {
+            ARCHIVING_MAIN -> navController.navigateToArchive()
+            ARCHIVING_DETAIL -> navController.navigateToArchivingDetail()
             else -> {}
         }
     }

@@ -19,3 +19,8 @@ enum class MakingCarDestinations(val route: String) {
     SELECT_OPTION( "select_option"),
     SELECT_COMPLETE("select_complete")
 }
+
+enum class ArchivingDestinations(val route: String, val needBottomBar: Boolean) {
+    ARCHIVING_MAIN("archiving_main", false),
+    ARCHIVING_DETAIL("archiving_detail", true)
+}

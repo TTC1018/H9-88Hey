@@ -4,7 +4,10 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
+import androidx.navigation.navigation
+import com.softeer.mycarchiving.navigation.ArchivingDestinations
 import com.softeer.mycarchiving.navigation.MainDestination
+import com.softeer.mycarchiving.ui.archiving.archivingdetail.archivingDetailScreen
 
 fun NavController.navigateToArchive(navOptions: NavOptions? = null) {
     navigate(
@@ -13,9 +16,15 @@ fun NavController.navigateToArchive(navOptions: NavOptions? = null) {
     )
 }
 
-fun NavGraphBuilder.archiveScreen(
-) {
-    composable(route = MainDestination.ARCHIVING.route) {
+fun NavGraphBuilder.makingArchiveGraph() {
+    navigation(startDestination = ArchivingDestinations.ARCHIVING_MAIN.route, route = MainDestination.ARCHIVING.route) {
+        archiveScreen()
+        archivingDetailScreen()
+    }
+}
+
+fun NavGraphBuilder.archiveScreen() {
+    composable(route = ArchivingDestinations.ARCHIVING_MAIN.route) {
         ArchiveRoute()
     }
 }

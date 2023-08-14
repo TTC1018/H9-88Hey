@@ -48,6 +48,7 @@ fun HyundaiBottomBar(
     when(appState.currentMainDestination) {
         MainDestination.ARCHIVING -> ArchiveBottomBar(
             totalPrice = 0,
+            appState = appState,
             onSaveClick = {},
             onButtonClick = {}
         )
@@ -187,34 +188,39 @@ fun MakeCarBottomBar(
 @Composable
 fun ArchiveBottomBar(
     modifier: Modifier = Modifier,
+    appState: HyundaiAppState,
     totalPrice: Int,
     onButtonClick: () -> Unit,
     onSaveClick: () -> Unit,
 ) {
-    BottomBar(
-        modifier = modifier,
-        totalPrice = totalPrice,
-        summaryText = stringResource(id = R.string.archive_total_price),
-        underLineWidth = 35,
-        buttonArea = {
-            Row(
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                ArchiveSaveButton(
-                    modifier = modifier,
-                    onSave = onSaveClick
-                )
-                Spacer(modifier = modifier.width(16.dp))
-                HyundaiButton(
-                    modifier = modifier,
-                    backgroundColor = PrimaryBlue,
-                    textColor = HyundaiLightSand,
-                    text = stringResource(id = R.string.archive_make_my_car),
-                    onClick = onButtonClick
-                )
-            }
+    appState.currentArchivingDestination?.needBottomBar?.let { needBottomBar ->
+        if (needBottomBar) {
+            BottomBar(
+                modifier = modifier,
+                totalPrice = totalPrice,
+                summaryText = stringResource(id = R.string.archive_total_price),
+                underLineWidth = 35,
+                buttonArea = {
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        ArchiveSaveButton(
+                            modifier = modifier,
+                            onSave = onSaveClick
+                        )
+                        Spacer(modifier = modifier.width(16.dp))
+                        HyundaiButton(
+                            modifier = modifier,
+                            backgroundColor = PrimaryBlue,
+                            textColor = HyundaiLightSand,
+                            text = stringResource(id = R.string.archive_make_my_car),
+                            onClick = onButtonClick
+                        )
+                    }
+                }
+            )
         }
-    )
+    }
 }
 
 @Composable
@@ -254,6 +260,7 @@ fun PreviewMakeCarBottomBar() {
 fun PreviewArchiveBottomBar() {
     ArchiveBottomBar(
         modifier = Modifier,
+        appState = rememberHyundaiAppState(),
         totalPrice = 47720000,
         onButtonClick = {},
         onSaveClick = {}
