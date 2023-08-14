@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;
 import softeer.h9.hey.domain.car.SelectOption;
 import softeer.h9.hey.domain.car.SubOption;
-import softeer.h9.hey.dto.car.SubOptionIdDto;
+import softeer.h9.hey.dto.car.DisabledOptionIdDto;
 import softeer.h9.hey.dto.car.request.SelectOptionRequest;
 import softeer.h9.hey.dto.car.response.HGenuineAccessoriesResponse;
 import softeer.h9.hey.dto.car.response.HGenuineAccessoryResponse;
@@ -41,10 +41,11 @@ public class SelectOptionService {
 		String carCode = selectOptionRequest.getCarCode();
 		List<String> selectedOptionCodes = selectOptionRequest.getSelectOption();
 
-		List<SubOptionIdDto> subOptionIdDtos = selectOptionRepository.findSubOptionIdsBySelectOptionIds(selectedOptionCodes);
+		List<DisabledOptionIdDto> disabledOptionIdDtos = selectOptionRepository.findSubOptionIdsBySelectOptionIds(
+			selectedOptionCodes);
 		List<SelectOption> selectOptions = selectOptionRepository.findHGenuineAccessoriesByCarCode(carCode);
 
-		return mapToHGenuineResponse(subOptionIdDtos, selectOptions);
+		return mapToHGenuineResponse(disabledOptionIdDtos, selectOptions);
 	}
 
 	private SelectOptionsResponse mapToResponse(List<SelectOption> selectOptions) {
@@ -55,22 +56,25 @@ public class SelectOptionService {
 		return SelectOptionsResponse.from(selectOptionResponses);
 	}
 
-	private HGenuineAccessoriesResponse mapToHGenuineResponse(List<SubOptionIdDto> subOptionIdDtos, List<SelectOption> selectOptions) {
+	private HGenuineAccessoriesResponse mapToHGenuineResponse(List<DisabledOptionIdDto> disabledOptionIdDtos,
+		List<SelectOption> selectOptions) {
 		List<HGenuineAccessoryResponse> hGenuineAccessoryResponses = selectOptions.stream()
-			.map(selectOption -> HGenuineAccessoryResponse.of(isAvailableOption(selectOption.getSubOptions(), subOptionIdDtos), SelectOptionResponse.from(selectOption)))
+			.map(selectOption -> HGenuineAccessoryResponse.of(
+				isAvailableOption(selectOption, disabledOptionIdDtos),
+				SelectOptionResponse.from(selectOption)))
 			.collect(Collectors.toList());
 		System.out.println(hGenuineAccessoryResponses.size());
 		return HGenuineAccessoriesResponse.of(hGenuineAccessoryResponses);
 	}
 
-	private boolean isAvailableOption(List<SubOption> subOptions, List<SubOptionIdDto> subOptionIdDtos) {
-		if(subOptionIdDtos == null){
+	private boolean isAvailableOption(SelectOption selectOption, List<DisabledOptionIdDto> disabledOptionIdDtos) {
+		if (disabledOptionIdDtos == null) {
 			return true;
 		}
 
-		return !subOptions.stream()
-				.anyMatch(subOption -> subOptionIdDtos.stream()
-					.anyMatch(subOptionIdDto -> subOptionIdDto.getSubOptionId()
-						.equals(subOption.getId())));
+		String selectOptionId = selectOption.getId();
+
+		return !disabledOptionIdDtos.stream()
+			.anyMatch(disabledOptionIdDto -> disabledOptionIdDto.getDisabledOptionId().equals(selectOptionId));
 	}
 }
