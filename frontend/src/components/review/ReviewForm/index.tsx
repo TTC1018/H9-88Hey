@@ -24,7 +24,7 @@ export function ReviewForm({ tags, onClick }: Props) {
         </Styled.TagBox>
         <Styled.TextBox>
           <ReviewTextArea />
-          <ReviewButton text={'다음'} onClick={onClick} isActive />
+          <ReviewButton text={'후기 작성 완료하기'} onClick={onClick} isActive />
         </Styled.TextBox>
       </Styled.Wrapper>
     </Styled.Container>
