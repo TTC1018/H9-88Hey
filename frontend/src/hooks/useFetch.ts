@@ -1,4 +1,4 @@
-import { API_Url } from '@/constants';
+import { API_URL } from '@/constants';
 import { useState, useEffect } from 'react';
 
 interface UseFetchProps<T> {
@@ -17,7 +17,7 @@ export function useFetch<T>({ defaultValue, url }: UseFetchProps<T>) {
 
   async function fetchUsers() {
     try {
-      const response = await fetch(`${API_Url}${url}`);
+      const response = await fetch(`${API_URL}${url}`);
 
       if (!response.ok) {
         throw new Error(`${response.status} ${response.statusText}`);

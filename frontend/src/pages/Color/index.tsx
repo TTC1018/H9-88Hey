@@ -38,7 +38,7 @@ const initialData = {
 };
 
 export function Color() {
-  const { data } = useFetch<ColorDataProps>({ defaultValue: initialData, url: '/model/1/trim/2/color' });
+  const { data } = useFetch<ColorDataProps>({ defaultValue: initialData, url: '/car/color?trimId=1' });
   const [isExternalPage, setIsExternalPage] = useState(true);
   const [externalColorWord, setExternalColorWord] = useState('');
   const [innerColorWord, setInnerColorWord] = useState('');

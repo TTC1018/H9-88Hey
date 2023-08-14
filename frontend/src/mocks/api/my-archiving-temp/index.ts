@@ -1,10 +1,10 @@
 import { rest } from 'msw';
 
 import { data } from './data';
-import { API_Url } from '@/constants';
+import { API_URL } from '@/constants';
 
 export const tempMyChivingHandler = [
-  rest.get(`${API_Url}/mychiving/temp`, (_, res, ctx) => {
+  rest.get(`${API_URL}/mychiving/temp`, (_, res, ctx) => {
     return res(ctx.json({ status: 200, message: '', data }));
   }),
 ];
