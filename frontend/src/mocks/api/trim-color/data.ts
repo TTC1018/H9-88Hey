@@ -1,5 +1,5 @@
 export const data = {
-  exterierColors: [
+  exteriorColors: [
     {
       id: 1,
       name: '어비스 블랙 펄(1, 2, 5)',

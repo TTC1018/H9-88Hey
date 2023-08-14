@@ -17,6 +17,6 @@ export interface InteriorColorsProps {
 }
 
 export interface ColorDataProps {
-  exterierColors: ExterierColorsProps[];
+  exteriorColors: ExterierColorsProps[];
   interiorColors: InteriorColorsProps[];
 }

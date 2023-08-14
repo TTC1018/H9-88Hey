@@ -15,7 +15,7 @@ import { InnerCarImage } from '@/components/color/InnerCarImage';
 import * as Styled from './style';
 
 const initialData = {
-  exterierColors: [
+  exteriorColors: [
     {
       id: 1,
       name: '',
@@ -40,26 +40,20 @@ const initialData = {
 export function Color() {
   const { data } = useFetch<ColorDataProps>({ defaultValue: initialData, url: '/car/color?trimId=1' });
   const [isExternalPage, setIsExternalPage] = useState(true);
-  const [externalColorWord, setExternalColorWord] = useState('');
-  const [innerColorWord, setInnerColorWord] = useState('');
 
   const [selectedExternalIndex, handleSetExternalIndex] = useSelectIndex();
   const [selectedInnerIndex, handleSetInnerIndex] = useSelectIndex();
 
   const {
     name: externalName,
-    colorImageUrl: externalImageUrl,
+    carImagePath: externalCarImage,
     availableInteriorColors,
     tags: externalTags,
     additionalPrice,
-  } = data.exterierColors[selectedExternalIndex];
+  } = data.exteriorColors[selectedExternalIndex];
 
   const availableInnerColorList = data.interiorColors.filter(color => availableInteriorColors.includes(color.id));
-  const {
-    name: innerName,
-    colorImageUrl: innerImageUrl,
-    tags: innerTags,
-  } = availableInnerColorList[selectedInnerIndex];
+  const { name: innerName, carImageUrl: innerCarImage, tags: innerTags } = availableInnerColorList[selectedInnerIndex];
 
   const {
     handleOuterColor,
@@ -69,7 +63,7 @@ export function Color() {
   } = useOutletContext<MyCarLayoutContextProps>();
 
   function updateOuterColor(index: number) {
-    const selectedExteriorColor = data.exterierColors[index];
+    const selectedExteriorColor = data.exteriorColors[index];
 
     handleOuterColor({
       color: selectedExteriorColor.name,
@@ -90,11 +84,11 @@ export function Color() {
   }
 
   useEffect(() => {
-    const outerIndex = data.exterierColors.findIndex(color => color.name === outerColor.title);
+    const outerIndex = data.exteriorColors.findIndex(color => color.name === outerColor.title);
     let innerIndex = -1;
 
     if (outerIndex !== -1) {
-      innerIndex = data.exterierColors[outerIndex].availableInteriorColors.findIndex(
+      innerIndex = data.exteriorColors[outerIndex].availableInteriorColors.findIndex(
         colorId => colorId === innerColor.id
       );
 
@@ -107,25 +101,13 @@ export function Color() {
     }
   }, [data]);
 
-  useEffect(() => {
-    if (externalImageUrl !== '') {
-      setExternalColorWord(externalImageUrl.split('exterior/')[1].slice(0, 3));
-    }
-  }, [externalImageUrl]);
-
-  useEffect(() => {
-    if (innerImageUrl !== '') {
-      setInnerColorWord(innerImageUrl.split('interior/')[1].slice(0, 3));
-    }
-  }, [innerImageUrl]);
-
   function handleClickExternalColor(index: number) {
     handleSetExternalIndex(index)();
     handleSetInnerIndex(0)();
     updateOuterColor(index);
 
     const newAvailableInnerColorList = data.interiorColors.filter(color =>
-      data.exterierColors[index].availableInteriorColors.includes(color.id)
+      data.exteriorColors[index].availableInteriorColors.includes(color.id)
     );
 
     updateInnerColor(newAvailableInnerColorList, 0);
@@ -153,8 +135,8 @@ export function Color() {
   return (
     <Styled.Container>
       <Styled.Wrapper>
-        {isExternalPage ? <ExternalCarImage color={externalColorWord} /> : <InnerCarImage color={innerColorWord} />}
-        <MyCarDescription title={descriptionTitle} price={descriptionPrice} hasTag={true} tags={descriptionTags} />
+        {isExternalPage ? <ExternalCarImage imageUrl={externalCarImage} /> : <InnerCarImage imageUrl={innerCarImage} />}
+        <MyCarDescription title={descriptionTitle} price={descriptionPrice} hasTag={false} />
       </Styled.Wrapper>
       <Styled.Wrapper>
         <Styled.Box>
@@ -164,7 +146,7 @@ export function Color() {
           </Styled.TitleBox>
           <Styled.Division />
           <Styled.ColorBox>
-            {data.exterierColors.map(({ name, colorImageUrl, additionalPrice }, index) => (
+            {data.exteriorColors.map(({ name, colorImageUrl, additionalPrice }, index) => (
               <Styled.ColorCard key={name} onClick={() => handleClickExternalColor(index)}>
                 <Styled.ColorCardRect colorUrl={colorImageUrl} isActive={isSelectedExternalColor(name)} />
                 <Styled.ColorCardName>{name}</Styled.ColorCardName>
