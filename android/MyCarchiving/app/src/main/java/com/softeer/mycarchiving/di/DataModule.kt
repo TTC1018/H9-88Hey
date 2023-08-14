@@ -2,12 +2,17 @@ package com.softeer.mycarchiving.di
 
 import com.softeer.data.datasource.SelectColorDataSource
 import com.softeer.data.datasource.SelectColorRemoteDataSource
+import com.softeer.data.datasource.SelectOptionDataSource
+import com.softeer.data.datasource.SelectOptionRemoteDataSource
 import com.softeer.data.datasource.SelectTrimDataSource
 import com.softeer.data.datasource.SelectTrimRemoteDataSource
 import com.softeer.data.network.SelectColorNetworkApi
+import com.softeer.data.network.SelectOptionNetworkApi
 import com.softeer.data.network.SelectTrimNetworkApi
 import com.softeer.data.repository.SelectColorRepository
 import com.softeer.data.repository.SelectColorRepositoryImpl
+import com.softeer.data.repository.SelectOptionRepository
+import com.softeer.data.repository.SelectOptionRepositoryImpl
 import com.softeer.data.repository.SelectTrimRepository
 import com.softeer.data.repository.SelectTrimRepositoryImpl
 import dagger.Module
@@ -39,5 +44,15 @@ object DataModule {
     @Singleton
     fun provideSelectColorRepository(selectColorDataSource: SelectColorDataSource): SelectColorRepository =
         SelectColorRepositoryImpl(selectColorDataSource)
+
+    @Provides
+    @Singleton
+    fun provideSelectOptionRemoteDataSource(selectOptionNetworkApi: SelectOptionNetworkApi): SelectOptionDataSource =
+        SelectOptionRemoteDataSource(selectOptionNetworkApi)
+
+    @Provides
+    @Singleton
+    fun provideSelectOptionRepository(selectOptionDataSource: SelectOptionDataSource): SelectOptionRepository =
+        SelectOptionRepositoryImpl(selectOptionDataSource)
 
 }
