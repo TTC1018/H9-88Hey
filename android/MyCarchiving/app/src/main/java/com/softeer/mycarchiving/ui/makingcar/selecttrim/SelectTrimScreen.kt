@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -44,6 +45,7 @@ fun SelectTrimRoute(
 
     SelectTrimScreen(
         modifier = modifier,
+        screenProgress = screenProgress,
         options = when (screenProgress) {
             0 -> engines
             1 -> bodyTypes
@@ -57,6 +59,7 @@ fun SelectTrimRoute(
 @Composable
 fun SelectTrimScreen(
     modifier: Modifier,
+    screenProgress: Int,
     options: List<TrimOptionUiModel>,
     onOptionSelect: (TrimOptionUiModel) -> Unit,
 ) {
@@ -105,7 +108,10 @@ fun SelectTrimScreen(
                         maximumTorque = item.maximumTorque,
                         maximumOutput = item.maximumOutput,
                         isSelected = idx == selectedIndex,
-                        onClick = { selectedIndex = idx },
+                        onClick = {
+                            selectedIndex = idx
+                            onOptionSelect(item)
+                        },
                     )
                 }
             }
