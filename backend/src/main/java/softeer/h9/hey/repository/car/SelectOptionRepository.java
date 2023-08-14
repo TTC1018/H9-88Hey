@@ -35,7 +35,7 @@ public class SelectOptionRepository {
 		return findSelectOptions(carCode, SelectOptionCategory.H_GENUINE);
 	}
 
-	public List<DisabledOptionIdDto> findSubOptionIdsBySelectOptionIds(final List<String> selectOptionIds){
+	public List<DisabledOptionIdDto> findDisabledOptionIdsBySelectOptionIds(final List<String> selectOptionIds){
 		if(selectOptionIds == null) {
 			return null;
 		}

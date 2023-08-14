@@ -10,7 +10,7 @@ public class DisabledOptionIdDto {
 		this.disabledOptionId = disabledOptionId;
 	}
 
-	public static DisabledOptionIdDto of(final String subOptionId) {
-		return new DisabledOptionIdDto(subOptionId);
+	public static DisabledOptionIdDto of(final String disabledOptionId) {
+		return new DisabledOptionIdDto(disabledOptionId);
 	}
 }

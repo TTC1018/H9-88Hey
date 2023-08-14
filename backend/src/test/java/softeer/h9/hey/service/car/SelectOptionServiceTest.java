@@ -68,15 +68,14 @@ class SelectOptionServiceTest {
 				Mockito.mock(SelectOption.class),
 				Mockito.mock(SelectOption.class)));
 
-		when(selectOptionRepository.findSubOptionIdsBySelectOptionIds(any()))
+		when(selectOptionRepository.findDisabledOptionIdsBySelectOptionIds(any()))
 			.thenReturn(List.of(
-				Mockito.mock(DisabledOptionIdDto.class),
-				Mockito.mock(DisabledOptionIdDto.class),
-				Mockito.mock(DisabledOptionIdDto.class),
-				Mockito.mock(DisabledOptionIdDto.class)));
+				DisabledOptionIdDto.of("test1234"),
+				DisabledOptionIdDto.of("test1234"),
+				DisabledOptionIdDto.of("test1234"),
+				DisabledOptionIdDto.of("test1234")));
 
-		HGenuineAccessoriesResponse hGenuineAccessoriesResponse = selectOptionService.findHGenuineOption(
-			selectOptionRequest);
+		HGenuineAccessoriesResponse hGenuineAccessoriesResponse = selectOptionService.findHGenuineOption(selectOptionRequest);
 		List<HGenuineAccessoryResponse> hGenuineAccessoryResponses = hGenuineAccessoriesResponse.getSelectOptions();
 
 		assertThat(hGenuineAccessoryResponses).hasSize(7);

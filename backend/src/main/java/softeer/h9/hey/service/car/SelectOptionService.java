@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
 import softeer.h9.hey.domain.car.SelectOption;
-import softeer.h9.hey.domain.car.SubOption;
 import softeer.h9.hey.dto.car.DisabledOptionIdDto;
 import softeer.h9.hey.dto.car.request.SelectOptionRequest;
 import softeer.h9.hey.dto.car.response.HGenuineAccessoriesResponse;
@@ -41,7 +40,7 @@ public class SelectOptionService {
 		String carCode = selectOptionRequest.getCarCode();
 		List<String> selectedOptionCodes = selectOptionRequest.getSelectOption();
 
-		List<DisabledOptionIdDto> disabledOptionIdDtos = selectOptionRepository.findSubOptionIdsBySelectOptionIds(
+		List<DisabledOptionIdDto> disabledOptionIdDtos = selectOptionRepository.findDisabledOptionIdsBySelectOptionIds(
 			selectedOptionCodes);
 		List<SelectOption> selectOptions = selectOptionRepository.findHGenuineAccessoriesByCarCode(carCode);
 

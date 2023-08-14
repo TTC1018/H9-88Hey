@@ -65,7 +65,7 @@ public class SelectOptionRepositoryTest {
 	void findDisabledOptionIdsBySelectOptionIdsTest() {
 		List<String> selectOptionIds = List.of("LST", "US1");
 
-		List<DisabledOptionIdDto> disabledOptionIdDtos = repository.findSubOptionIdsBySelectOptionIds(selectOptionIds);
+		List<DisabledOptionIdDto> disabledOptionIdDtos = repository.findDisabledOptionIdsBySelectOptionIds(selectOptionIds);
 
 		assertThat(disabledOptionIdDtos).hasSize(1);
 	}
