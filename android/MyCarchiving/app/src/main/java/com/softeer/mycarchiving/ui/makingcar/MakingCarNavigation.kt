@@ -6,6 +6,7 @@ import androidx.navigation.NavOptions
 import androidx.navigation.navigation
 import com.softeer.mycarchiving.navigation.MainDestination
 import com.softeer.mycarchiving.navigation.MakingCarDestinations
+import com.softeer.mycarchiving.ui.HyundaiAppState
 import com.softeer.mycarchiving.ui.makingcar.complete.completeScreen
 import com.softeer.mycarchiving.ui.makingcar.selectcolor.selectColorScreen
 import com.softeer.mycarchiving.ui.makingcar.selectmodel.selectModelScreen
@@ -19,11 +20,13 @@ fun NavController.navigateToMakingCar(navOptions: NavOptions? = null) {
     )
 }
 
-fun NavGraphBuilder.makingCarGraph() {
+fun NavGraphBuilder.makingCarGraph(
+    appState: HyundaiAppState,
+) {
     navigation(startDestination = MakingCarDestinations.SELECT_MODEL.route, route = MainDestination.MAKING_CAR.route) {
         selectModelScreen()
-        selectTrimScreen()
-        selectColorScreen()
+        selectTrimScreen(appState = appState)
+        selectColorScreen(appState = appState)
         selectOptionScreen()
         completeScreen()
     }

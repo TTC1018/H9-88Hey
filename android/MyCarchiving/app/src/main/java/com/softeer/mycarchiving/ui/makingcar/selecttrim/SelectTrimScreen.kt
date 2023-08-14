@@ -1,5 +1,6 @@
 package com.softeer.mycarchiving.ui.makingcar.selecttrim
 
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -33,17 +34,17 @@ import com.softeer.mycarchiving.ui.makingcar.MakingCarViewModel
 @Composable
 fun SelectTrimRoute(
     modifier: Modifier = Modifier,
+    screenProgress: Int,
     selectTrimViewModel: SelectTrimViewModel = hiltViewModel(),
     makingCarViewModel: MakingCarViewModel = hiltViewModel(LocalContext.current as MainActivity),
 ) {
     val engines by selectTrimViewModel.engines.collectAsStateWithLifecycle()
     val bodyTypes by selectTrimViewModel.bodyTypes.collectAsStateWithLifecycle()
     val wheels by selectTrimViewModel.wheels.collectAsStateWithLifecycle()
-    val selectTrimProgress by makingCarViewModel.currentProgressChildId.collectAsStateWithLifecycle()
 
     SelectTrimScreen(
         modifier = modifier,
-        options = when (selectTrimProgress) {
+        options = when (screenProgress) {
             0 -> engines
             1 -> bodyTypes
             2 -> wheels

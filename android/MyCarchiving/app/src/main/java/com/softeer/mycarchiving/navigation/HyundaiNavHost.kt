@@ -1,7 +1,10 @@
 package com.softeer.mycarchiving.navigation
 
+import android.util.Log
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.compose.NavHost
 import com.softeer.mycarchiving.ui.HyundaiAppState
 import com.softeer.mycarchiving.ui.archiving.archiveScreen
@@ -20,6 +23,7 @@ fun HyundaiNavHost(
     startDestination: String = MainDestination.LOGIN.route,
 ) {
     val navController = appState.navController
+
     NavHost(
         modifier = modifier,
         navController = navController,
@@ -27,7 +31,7 @@ fun HyundaiNavHost(
     ) {
         loginScreen(onLogin = navController::navigateToLoading)
         loadingScreen(onLoading = navController::navigateToMakingCar)
-        makingCarGraph()
+        makingCarGraph(appState = appState)
         archiveScreen(
             onBackClick = navController::popBackStack,
             onMyCarchiveClick = navController::navigateToMyArchiving

@@ -35,6 +35,7 @@ import com.softeer.mycarchiving.ui.theme.HyundaiLightSand
 @Composable
 fun SelectColorRoute(
     modifier: Modifier = Modifier,
+    screenProgress: Int,
     selectColorViewModel: SelectColorViewModel = hiltViewModel(),
     makingCarViewModel: MakingCarViewModel = hiltViewModel(LocalContext.current as MainActivity)
 ) {
@@ -44,7 +45,6 @@ fun SelectColorRoute(
     val selectedIndex by selectColorViewModel.selectedIndex.collectAsStateWithLifecycle()
     val exteriors by selectColorViewModel.exteriors.collectAsStateWithLifecycle()
     val interiors by selectColorViewModel.interiors.collectAsStateWithLifecycle()
-    val selectColorProgress by makingCarViewModel.currentProgressChildId.collectAsStateWithLifecycle()
 
     // TODO 내장색상 상단 이미지 URL 제대로 오는지 확인
     SelectColorScreen(
@@ -53,7 +53,7 @@ fun SelectColorRoute(
         topImageIndex = topImageIndex,
         category = category,
         selectedIndex = selectedIndex,
-        colorOptions = when (selectColorProgress) {
+        colorOptions = when (screenProgress) {
             0 -> exteriors
             1 -> interiors
             else -> emptyList()
