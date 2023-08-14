@@ -8,6 +8,7 @@ import { BodyType } from '@/pages/Trim/BodyType';
 import { WheelDrive } from '@/pages/Trim/WheelDrive';
 import { MyCarLayout } from '@/components/layout/MyCarLayout';
 import { ErrorBoundary } from '@/components/common/ErrorBoundary';
+import { MyArchivingLayout } from '@/components/layout/MyArchivingLayout';
 
 export const router = createBrowserRouter([
   {
@@ -61,5 +62,13 @@ export const router = createBrowserRouter([
         ],
       },
     ],
+  },
+  {
+    path: 'my-archiving',
+    element: <MyArchivingLayout />,
+  },
+  {
+    path: 'archiving',
+    element: <MyArchivingLayout />,
   },
 ]);
