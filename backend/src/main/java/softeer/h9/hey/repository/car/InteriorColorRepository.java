@@ -19,7 +19,7 @@ public class InteriorColorRepository {
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
     public List<InteriorColor> findAllByTrimId(final int trimId) {
-        String sql = "SELECT DISTINCT i.id AS id, name, color_image_url, interior_color_id AS car_image_url, additional_price, ei.trim_id "
+		String sql = "SELECT DISTINCT i.id AS id, name, color_image_url, interior_image_url AS car_image_url, additional_price, ei.trim_id "
             +
             "FROM interiorColor i,exteriorColor_interiorColor ei " +
                 "WHERE ei.trim_id = :trim_id AND ei.interior_color_id = i.id " +
