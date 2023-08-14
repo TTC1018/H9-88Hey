@@ -2,15 +2,16 @@ import { useEffect, useState } from 'react';
 
 import { useOutletContext } from 'react-router-dom';
 
-import { ColorDataProps, InteriorColorsProps } from '@/types/color';
 import { MyCarLayoutContextProps } from '@/types/trim';
+import { ColorDataProps, InterierColorsProps } from '@/types/color';
 import { useFetch } from '@/hooks/useFetch';
 import { useSelectIndex } from '@/hooks/useSelectedIndex';
 
-import { CheckIcon } from '@/components/color/CheckIcon';
-import { ExternalCarImage } from '@/components/color/ExternalCarImage';
+
+import { CheckIcon } from '@/components/common/CheckIcon';
+import { ExternalCarImage } from '@/components/Color/ExternalCarImage';
 import { MyCarDescription } from '@/components/common/MyCarDescription';
-import { InnerCarImage } from '@/components/color/InnerCarImage';
+import { InnerCarImage } from '@/components/Color/InnerCarImage';
 
 import * as Styled from './style';
 
