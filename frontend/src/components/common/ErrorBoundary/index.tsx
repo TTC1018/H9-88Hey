@@ -1,6 +1,6 @@
 import { Component, ComponentType, ReactNode } from 'react';
 
-import * as style from './style';
+import * as Styled from './style';
 
 type ErrorHandlingComponent<Props> = (props: Props, error?: Error) => ReactNode;
 
@@ -29,15 +29,15 @@ type Props = {
 export const ErrorBoundary = Catch(function ErrorBoundary(props: Props, error?: Error) {
   if (error) {
     return (
-      <style.Container>
-        <style.Wrapper>
-          <style.Image src={'https://www.hyundai.com/static/images/logo.png'} />
-          <style.Head>현대닷컴 접속이 원활하지 않습니다.</style.Head>
-          <style.Body> 일시적인 현상이거나, 네트워크 문제일 수 있으니</style.Body>
-          <style.Body>잠시 후 다시 시도해주세요.</style.Body>
+      <Styled.Container>
+        <Styled.Wrapper>
+          <Styled.Image src={'https://www.hyundai.com/static/images/logo.png'} />
+          <Styled.Head>현대닷컴 접속이 원활하지 않습니다.</Styled.Head>
+          <Styled.Body> 일시적인 현상이거나, 네트워크 문제일 수 있으니</Styled.Body>
+          <Styled.Body>잠시 후 다시 시도해주세요.</Styled.Body>
           <h4>{error.message}</h4>
-        </style.Wrapper>
-      </style.Container>
+        </Styled.Wrapper>
+      </Styled.Container>
     );
   } else {
     return <>{props.children}</>;
