@@ -16,7 +16,7 @@ import lombok.RequiredArgsConstructor;
 import softeer.h9.hey.domain.car.SelectOptionCategory;
 import softeer.h9.hey.domain.car.SelectOption;
 import softeer.h9.hey.domain.car.SubOption;
-import softeer.h9.hey.dto.car.SubOptionIdDto;
+import softeer.h9.hey.dto.car.DisabledOptionIdDto;
 
 @Repository
 @RequiredArgsConstructor
@@ -35,7 +35,7 @@ public class SelectOptionRepository {
 		return findSelectOptions(carCode, SelectOptionCategory.H_GENUINE);
 	}
 
-	public List<SubOptionIdDto> findSubOptionIdsBySelectOptionIds(final List<String> selectOptionIds){
+	public List<DisabledOptionIdDto> findSubOptionIdsBySelectOptionIds(final List<String> selectOptionIds){
 		if(selectOptionIds == null) {
 			return null;
 		}
@@ -44,18 +44,18 @@ public class SelectOptionRepository {
 			.map(id -> "\'" + id + "\'")
 			.collect(Collectors.joining(", "));
 
-		String sql = "SELECT DISTINCT sub_option_id "
-						+ "FROM selectOption_subOption "
-						+ "where select_option_id in ( "
+		String sql = "SELECT DISTINCT disabled_option_id "
+						+ "FROM disabledOption "
+						+ "where selected_option_id in ( "
 						+ selectOptionsString
 						+ ")";
 
-		List<SubOptionIdDto> subOptionIdDtos = new ArrayList<>();
+		List<DisabledOptionIdDto> disabledOptionIdDtos = new ArrayList<>();
 		namedParameterJdbcTemplate.query(sql, result -> {
-			subOptionIdDtos.add(SubOptionIdDto.of(result.getString("sub_option_id")));
+			disabledOptionIdDtos.add(DisabledOptionIdDto.of(result.getString("disabled_option_id")));
 		});
 
-		return subOptionIdDtos;
+		return disabledOptionIdDtos;
 	}
 
 	private List<SelectOption> findSelectOptions(String carCode, SelectOptionCategory selectOptionCategory) {
