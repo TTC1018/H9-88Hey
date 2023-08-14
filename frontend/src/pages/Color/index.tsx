@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 
 import { useOutletContext } from 'react-router-dom';
 
-import { ColorDataProps, InterierColorsProps } from '@/types/color';
+import { ColorDataProps, InteriorColorsProps } from '@/types/color';
 import { MyCarLayoutContextProps } from '@/types/trim';
 import { useFetch } from '@/hooks/useFetch';
 import { useSelectIndex } from '@/hooks/useSelectedIndex';
@@ -26,7 +26,7 @@ const initialData = {
       tags: [''],
     },
   ],
-  interierColors: [
+  interiorColors: [
     {
       id: 0,
       name: '',
@@ -54,7 +54,7 @@ export function Color() {
     additionalPrice,
   } = data.exterierColors[selectedExternalIndex];
 
-  const availableInnerColorList = data.interierColors.filter(color => availableInteriorColors.includes(color.id));
+  const availableInnerColorList = data.interiorColors.filter(color => availableInteriorColors.includes(color.id));
   const {
     name: innerName,
     colorImageUrl: innerImageUrl,
@@ -79,7 +79,7 @@ export function Color() {
     handleCarImageUrl(`${selectedExteriorColor.carImagePath}1.png`);
   }
 
-  function updateInnerColor(list: InterierColorsProps[], index: number) {
+  function updateInnerColor(list: InteriorColorsProps[], index: number) {
     const selectedInteriorColor = list[index];
 
     handleInnerColor({
@@ -124,7 +124,7 @@ export function Color() {
     handleSetInnerIndex(0)();
     updateOuterColor(index);
 
-    const newAvailableInnerColorList = data.interierColors.filter(color =>
+    const newAvailableInnerColorList = data.interiorColors.filter(color =>
       data.exterierColors[index].availableInteriorColors.includes(color.id)
     );
 

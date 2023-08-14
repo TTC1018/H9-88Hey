@@ -8,7 +8,7 @@ export interface ExterierColorsProps {
   tags: string[];
 }
 
-export interface InterierColorsProps {
+export interface InteriorColorsProps {
   id: number;
   name: string;
   carImageUrl: string;
@@ -18,5 +18,5 @@ export interface InterierColorsProps {
 
 export interface ColorDataProps {
   exterierColors: ExterierColorsProps[];
-  interierColors: InterierColorsProps[];
+  interiorColors: InteriorColorsProps[];
 }
