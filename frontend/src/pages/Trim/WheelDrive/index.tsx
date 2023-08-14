@@ -29,7 +29,7 @@ export function WheelDrive() {
     data: { wheelDrives },
   } = useFetch<WheelDriveDataProps>({
     defaultValue: initialData,
-    url: '/car/model/1/wheel-drives',
+    url: '/car/model/1/wheel-drive',
   });
   const initwheelDrives = wheelDrives[0];
 

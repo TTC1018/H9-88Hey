@@ -8,9 +8,9 @@ import { useFetch } from '@/hooks/useFetch';
 import { useSelectIndex } from '@/hooks/useSelectedIndex';
 
 import { CheckIcon } from '@/components/common/CheckIcon';
-import { ExternalCarImage } from '@/components/color/ExternalCarImage';
+import { ExternalCarImage } from '@/components/Color/ExternalCarImage';
 import { MyCarDescription } from '@/components/common/MyCarDescription';
-import { InnerCarImage } from '@/components/color/InnerCarImage';
+import { InnerCarImage } from '@/components/Color/InnerCarImage';
 
 import * as style from './style';
 

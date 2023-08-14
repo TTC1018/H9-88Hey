@@ -7,7 +7,7 @@ import { useFetch } from '@/hooks/useFetch';
 import { useSelectIndex } from '@/hooks/useSelectedIndex';
 
 import { MyCarImageBox } from '@/components/common/MyCarImageBox';
-import { SelectOptionCard } from '@/components/trim/SelectOptionCard';
+import { SelectOptionCard } from '@/components/Trim/SelectOptionCard';
 
 import * as style from './style';
 
