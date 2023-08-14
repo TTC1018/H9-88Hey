@@ -1,6 +1,14 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
+interface OptionCardProps {
+  imageUrl: string;
+}
+
+interface subTitleTextProps {
+  isSaved: boolean;
+}
+
 export const Container = styled.div`
   ${({ theme }) => {
     const { colors } = theme;
@@ -79,10 +87,6 @@ export const SubTitle = styled.div`
   align-items: center;
 `;
 
-interface subTitleTextProps {
-  isSaved: boolean;
-}
-
 export const SubTitleText = styled.span<subTitleTextProps>`
   ${({ theme, isSaved }) => {
     const { colors, fonts } = theme;
@@ -122,10 +126,6 @@ export const OptionBoxText = styled.span`
     `;
   }}
 `;
-
-interface OptionCardProps {
-  imageUrl: string;
-}
 
 export const OptionCard = styled.div<OptionCardProps>`
   ${({ theme, imageUrl }) => {

@@ -1,5 +1,5 @@
 import { useFetch } from '@/hooks/useFetch';
-import { FeedMyChivingDataProps } from '@/types/myChiving';
+import { MyFeedDataProps } from '@/types/myChiving';
 
 import * as Styled from './style';
 
@@ -27,7 +27,7 @@ const initialData = {
 };
 
 export function MyFeed() {
-  const { data } = useFetch<FeedMyChivingDataProps>({ defaultValue: initialData, url: '/mychiving/feed' });
+  const { data } = useFetch<MyFeedDataProps>({ defaultValue: initialData, url: '/mychiving/feed' });
 
   return (
     <Styled.Container>

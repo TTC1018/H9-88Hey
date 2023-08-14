@@ -9,13 +9,13 @@ import { NavIndexContext } from './context';
 import * as Styled from './style';
 
 export function MyArchiving() {
-  const [index, setIndex] = useState(1);
+  const [index, setIndex] = useState(0);
   return (
     <NavIndexContext.Provider value={{ index, setIndex }}>
       <Styled.Container>
         <Styled.Wrapper>
           <MyCarNavigation />
-          {index === 1 ? <MySavedCar /> : <MyFeed />}
+          {index === 0 ? <MySavedCar /> : <MyFeed />}
         </Styled.Wrapper>
       </Styled.Container>
     </NavIndexContext.Provider>

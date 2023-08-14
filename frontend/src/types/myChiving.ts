@@ -1,23 +1,23 @@
-export interface SelectionOptionsProps {
+export interface OptionProps {
   name: string;
   imageUrl: string;
 }
 
-export interface MyArchivingsProps {
+export interface MyChivingProps {
   id: number;
   model: string;
   trim: string;
   isSaved: boolean;
   trimOptions: string[];
   lastModifiedDate: string;
-  selectedOptions: SelectionOptionsProps[];
+  selectedOptions: OptionProps[];
 }
 
 export interface MyChivingDataProps {
-  myarchivings: MyArchivingsProps[];
+  myarchivings: MyChivingProps[];
 }
 
-export interface FeedMyChivingsProps {
+export interface MyFeedProps {
   id: number;
   model: string;
   trim: string;
@@ -26,11 +26,11 @@ export interface FeedMyChivingsProps {
   interiorColor: string;
   exteriorColor: string;
   creatrionDate: string;
-  selectedOptions: SelectionOptionsProps[];
+  selectedOptions: OptionProps[];
   review: string;
   tags: string[];
 }
 
-export interface FeedMyChivingDataProps {
-  archivingsByUser: FeedMyChivingsProps[];
+export interface MyFeedDataProps {
+  archivingsByUser: MyFeedProps[];
 }

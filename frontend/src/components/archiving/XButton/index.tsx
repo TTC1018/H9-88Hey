@@ -1,25 +1,16 @@
-import { useState } from 'react';
 import * as Styled from './style';
 
-interface XButtonProps {
+interface Props {
   onClick: () => void;
 }
 
-export function XButton({ onClick }: XButtonProps) {
-  const [isHover, setIsHover] = useState(false);
-  function handleMouseEnter() {
-    setIsHover(true);
-  }
-  function handleMouseLeave() {
-    setIsHover(false);
-  }
+export function XButton({ onClick }: Props) {
   return (
-    <Styled.Container onClick={onClick} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
-      <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 22 22" fill="none">
+    <Styled.Container onClick={onClick}>
+      <Styled.Svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 22 22" fill="none">
         <path
           d="M11 21C16.5228 21 21 16.5228 21 11C21 5.47715 16.5228 1 11 1C5.47715 1 1 5.47715 1 11C1 16.5228 5.47715 21 11 21Z"
           stroke="#BEBEBE"
-          fill={isHover ? '#545454' : ''}
           strokeLinejoin="round"
         />
         <path
@@ -48,7 +39,7 @@ export function XButton({ onClick }: XButtonProps) {
           strokeLinecap="round"
           strokeLinejoin="round"
         />
-      </svg>
+      </Styled.Svg>
     </Styled.Container>
   );
 }

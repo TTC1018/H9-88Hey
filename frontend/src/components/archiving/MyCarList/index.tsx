@@ -2,7 +2,7 @@ import { XButton } from '@/components/archiving/XButton';
 
 import * as Styled from './style';
 
-interface selectedOptionProps {
+interface SelectedOptionProps {
   name: string;
   imageUrl: string;
 }
@@ -13,16 +13,17 @@ interface MyCarListProps {
   trim: string;
   trimOptions: string[];
   lastModifiedDate: string;
-  selectedOptions: selectedOptionProps[];
+  selectedOptions: SelectedOptionProps[];
 }
 
 export function MyCarList({ isSaved, model, trim, trimOptions, lastModifiedDate, selectedOptions }: MyCarListProps) {
   const modifiedDate = lastModifiedDate.split('-');
   const date = `${modifiedDate[0].slice(2)}년 ${modifiedDate[1]}월 ${modifiedDate[2]}일`;
+  const dateInfoText = isSaved ? `${date}에 만들었어요.` : `${date} 임시저장`;
 
-  function handleClick() {
-    // 모달창 출력
-  }
+  // 모달창 출력
+  function handleClick() {}
+
   return (
     <Styled.Container>
       <Styled.Wrapper>
@@ -37,14 +38,12 @@ export function MyCarList({ isSaved, model, trim, trimOptions, lastModifiedDate,
             <Styled.TrimText>{trimOptions.join(' / ')}</Styled.TrimText>
           </Styled.Title>
           <Styled.SubTitle>
-            <Styled.SubTitleText isSaved={isSaved}>
-              {isSaved ? `${date}에 만들었어요.` : `${date} 임시저장`}
-            </Styled.SubTitleText>
+            <Styled.SubTitleText isSaved={isSaved}>{dateInfoText}</Styled.SubTitleText>
             <XButton onClick={handleClick} />
           </Styled.SubTitle>
         </Styled.MainBox>
         <Styled.OptionBox>
-          {selectedOptions.length !== 0 ? (
+          {selectedOptions.length > 0 ? (
             selectedOptions.map((option, index) => (
               <Styled.OptionCard key={index} imageUrl={option.imageUrl}>
                 <Styled.OptionCardText>{option.name}</Styled.OptionCardText>
