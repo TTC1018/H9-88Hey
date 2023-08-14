@@ -45,7 +45,6 @@ fun SelectTrimRoute(
 
     SelectTrimScreen(
         modifier = modifier,
-        screenProgress = screenProgress,
         options = when (screenProgress) {
             0 -> engines
             1 -> bodyTypes
@@ -59,7 +58,6 @@ fun SelectTrimRoute(
 @Composable
 fun SelectTrimScreen(
     modifier: Modifier,
-    screenProgress: Int,
     options: List<TrimOptionUiModel>,
     onOptionSelect: (TrimOptionUiModel) -> Unit,
 ) {
@@ -140,6 +138,6 @@ fun PreviewSelectTrimScreen() {
                 maximumTorque = "36.2/5,200kgf-m/rpm",
             )
         ),
-        onOptionSelect = {},
+        onOptionSelect = { },
     )
 }
