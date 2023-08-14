@@ -29,5 +29,10 @@ class InteriorColorRepositoryTest {
 			() -> assertNotNull(interiorColors),
 			() -> assertEquals(4, interiorColors.size())
 		);
+
+		for (InteriorColor interiorColor : interiorColors) {
+			assertTrue(interiorColor.getColorImageUrl().startsWith("https://"));
+			assertTrue(interiorColor.getCarImageUrl().startsWith("https://"));
+		}
 	}
 }

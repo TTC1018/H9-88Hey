@@ -1,6 +1,5 @@
 package softeer.h9.hey.controller.car;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -26,7 +25,7 @@ class ColorDataControllerTest {
 
 		mockMvc.perform(
 				get("/car/color")
-					.param("trimId", String.valueOf(trimId)))
+					.param("trim_id", String.valueOf(trimId)))
 			.andExpect(status().isOk())
 			.andExpectAll(
 				jsonPath("$.statusCode").value(200),
