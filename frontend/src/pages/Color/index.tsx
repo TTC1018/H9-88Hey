@@ -70,7 +70,7 @@ export function Color() {
       colorImage: selectedExteriorColor.colorImageUrl,
       price: selectedExteriorColor.additionalPrice,
     });
-    handleCarImageUrl(`${selectedExteriorColor.carImagePath}1.png`);
+    handleCarImageUrl(`${selectedExteriorColor.carImagePath}001.png`);
   }
 
   function updateInnerColor(list: InteriorColorsProps[], index: number) {
