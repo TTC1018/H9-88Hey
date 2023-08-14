@@ -1,8 +1,8 @@
 import { useState } from 'react';
 
-import { MyCarNavigation } from '@/components/archiving/MyCarNavigation';
-import { MySavedCar } from '@/components/archiving/MySavedCar';
-import { MyFeed } from '@/components/archiving/MyFeed';
+import { MyCarNavigation } from '@/components/myChiving/MyCarNavigation';
+import { MySavedCar } from '@/components/myChiving/MySavedCar';
+import { MyFeed } from '@/components/myChiving/MyFeed';
 
 import { NavIndexContext } from './context';
 

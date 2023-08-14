@@ -1,8 +1,8 @@
-import { XButton } from '@/components/archiving/XButton';
+import { XButton } from '@/components/myChiving/XButton';
 
 import * as Styled from './style';
 
-interface SelectedOptionProps {
+interface OptionProps {
   name: string;
   imageUrl: string;
 }
@@ -13,7 +13,7 @@ interface MyCarListProps {
   trim: string;
   trimOptions: string[];
   lastModifiedDate: string;
-  selectedOptions: SelectedOptionProps[];
+  selectedOptions: OptionProps[];
 }
 
 export function MyCarList({ isSaved, model, trim, trimOptions, lastModifiedDate, selectedOptions }: MyCarListProps) {

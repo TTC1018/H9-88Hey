@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { MyChivingDataProps } from '@/types/myChiving';
 import { useFetch } from '@/hooks/useFetch';
 
-import { MyCarList } from '@/components/archiving/MyCarList';
+import { MyCarList } from '@/components/myChiving/MyCarList';
 import { PrevButton } from '@/components/common/PrevButton';
 import { NextButton } from '@/components/common/NextButton';
 
