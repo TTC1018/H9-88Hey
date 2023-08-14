@@ -41,4 +41,16 @@ export const Line = styled.div`
   }}
 `;
 
-export const OptionWrapper = styled.div``;
+export const OptionWrapper = styled.div`
+  width: 100%;
+
+  display: flex;
+  justify-content: center;
+`;
+
+export const OptionBox = styled.div`
+  width: 1024px;
+
+  display: flex;
+  flex-direction: column;
+`;

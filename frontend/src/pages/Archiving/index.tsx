@@ -1,13 +1,13 @@
-import { Fragment, useState } from 'react';
+import { useState } from 'react';
 
 import { useFetch } from '@/hooks/useFetch';
-import { ArchivingCarDataProps, ArchivingDataProps, ArchivingProps } from '@/types/archiving';
+import { ArchivingCarDataProps, ArchivingDataProps } from '@/types/archiving';
 
-import { OptionSearchBar } from '@/components/archiving/OptionSearchBar';
-import { ReviewCard } from '@/components/archiving/ReviewCard';
+import { OptionSearchBar } from '@/components/Archiving/OptionSearchBar';
+import { SearchBar } from '@/components/Archiving/SearchBar';
 
 import * as style from './style';
-import { useNavigateWithData } from '@/hooks/useNavigateWithData';
+import { ReviewList } from '@/components/Archiving/ReviewList';
 
 const initialData = {
   archivings: [
@@ -39,6 +39,7 @@ const initialData = {
 const carInitialData = {
   archivingCars: [{ name: '', options: [''] }],
 };
+
 export function Archiving() {
   const {
     data: { archivings },
@@ -56,33 +57,11 @@ export function Archiving() {
   const [selectedSearchOptions, setSelectedSearchOptions] = useState<Set<string>>(new Set());
   const [selectedCar, setSelectedCar] = useState('전체');
 
-  const { naviagteWithData } = useNavigateWithData({ path: '/archiving/detail' });
-
-  const allOptionsSet = new Set<string>();
-  archivingCars.forEach(item => {
-    item.options.forEach(option => {
-      allOptionsSet.add(option);
-    });
-  });
-  const allOptions = Array.from(allOptionsSet);
+  const cars = ['전체', ...archivingCars.map(car => car.name)];
+  const allOptions = [...new Set(archivingCars.flatMap(item => item.options))];
 
   const currentSelectedCar = archivingCars.find(({ name }) => name === selectedCar);
-
   const options = selectedCar === '전체' ? allOptions : currentSelectedCar!.options;
-
-  const selectedCars = archivings.filter(review => {
-    if (selectedCar === '전체') {
-      return true;
-    }
-    console.log(review.model, selectedCar);
-    return review.model === selectedCar;
-  });
-
-  const selectedReviews = selectedCars.filter(review =>
-    [...selectedSearchOptions].every(option =>
-      review.selectedOptions.some(selectedOption => selectedOption.name === option)
-    )
-  );
 
   function handleSelectOption(option: string) {
     setSelectedSearchOptions(prev => {
@@ -102,55 +81,13 @@ export function Archiving() {
 
   return (
     <style.Container>
-      <style.CarSearchBar>
-        <style.Car key={'전체'} isActive={'전체' === selectedCar} onClick={() => handleSelectCar('전체')}>
-          {'전체'}
-        </style.Car>
-        {archivingCars.map(car => (
-          <style.Car key={car.name} isActive={car.name === selectedCar} onClick={() => handleSelectCar(car.name)}>
-            {car.name}
-          </style.Car>
-        ))}
-      </style.CarSearchBar>
+      <SearchBar selectedCar={selectedCar} onClick={handleSelectCar} cars={cars} />
       <OptionSearchBar options={options} onSelectOption={handleSelectOption} selectOptions={selectedSearchOptions} />
       <style.ReviewWrapper>
-        {selectedReviews.length === 0 ? (
+        {archivings.length === 0 ? (
           <style.InfoBox>조건에 맞는 결과가 없습니다.</style.InfoBox>
         ) : (
-          <>
-            <style.ReviewBox>
-              {selectedReviews.map((review, idx) => {
-                if (idx % 2 === 0)
-                  return (
-                    <style.Enclosure onClick={() => naviagteWithData({ state: review })}>
-                      <ReviewCard
-                        key={idx}
-                        props={review}
-                        isArchiving={true}
-                        selectedSearchOptions={selectedSearchOptions}
-                        onClick={handleSelectOption}
-                      />
-                    </style.Enclosure>
-                  );
-              })}
-            </style.ReviewBox>
-            <style.ReviewBox>
-              {selectedReviews.map((review, idx) => {
-                if (idx % 2 === 1)
-                  return (
-                    <style.Enclosure onClick={() => naviagteWithData({ state: review })}>
-                      <ReviewCard
-                        key={idx}
-                        props={review}
-                        isArchiving={true}
-                        selectedSearchOptions={selectedSearchOptions}
-                        onClick={handleSelectOption}
-                      />
-                    </style.Enclosure>
-                  );
-              })}
-            </style.ReviewBox>
-          </>
+          <ReviewList archivings={archivings} options={selectedSearchOptions} onClick={handleSelectOption} />
         )}
       </style.ReviewWrapper>
     </style.Container>
