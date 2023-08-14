@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
 
 import { MyCarProps } from '@/types/trim';
+import { OptionContextProps } from '@/types/option';
 
 import { Header } from '@/components/common/Header';
 import { Footer } from '@/components/common/Footer';
@@ -44,18 +45,12 @@ export function MyCarLayout() {
     setTrim(prev => ({ ...prev, innerColor: { title: color, imageUrl: colorImage, id } }));
   }
 
-  function addOption({
-    name,
-    price,
-    imageUrl,
-    subOptions,
-  }: {
-    name: string;
-    price: number;
-    imageUrl: string;
-    subOptions: string[];
-  }) {
+  function addOption({ name, price, imageUrl, subOptions }: OptionContextProps) {
     setTrim(prev => ({ ...prev, options: [...prev.options, { name, price, imageUrl, subOptions }] }));
+  }
+
+  function handleCarImageUrl(carImageUrl: string) {
+    setTrim(prev => ({ ...prev, carImageUrl }));
   }
 
   function removeOption(name: string) {
@@ -83,7 +78,16 @@ export function MyCarLayout() {
       <Navigation />
       <Styled.Wrapper isFull={pathname === '/result'}>
         <Outlet
-          context={{ trim, handleTrim, handleOuterColor, handleInnerColor, addOption, removeOption, totalPrice }}
+          context={{
+            trim,
+            totalPrice,
+            handleTrim,
+            handleOuterColor,
+            handleInnerColor,
+            handleCarImageUrl,
+            addOption,
+            removeOption,
+          }}
         />
       </Styled.Wrapper>
       <Footer myCarData={trim} totalPrice={totalPrice} onSetLocalStorage={handleLocalStorage} />

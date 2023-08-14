@@ -6,13 +6,13 @@ import { MyCarLayoutContextProps, TrimDataProps } from '@/types/trim';
 import { useFetch } from '@/hooks/useFetch';
 import { useSelectIndex } from '@/hooks/useSelectedIndex';
 
-import { MyCarImageBox } from '@/components/common/MyCarImageBox';
-import { SelectOptionCard } from '@/components/trim/SelectOptionCard';
+import { MyCarImageBox } from '@/components/Trim/MyCarImageBox';
+import { SelectOptionCard } from '@/components/Trim/SelectOptionCard';
 
 import * as Styled from './style';
 
 const initialData = {
-  carImageURL: [''],
+  carImageUrl: [''],
   trims: [
     {
       id: 0,
@@ -56,7 +56,7 @@ export function Trim() {
     <Styled.Container>
       <MyCarImageBox
         hasOption={true}
-        images={data.carImageURL}
+        images={data.carImageUrl}
         selectedIndex={selectedImageIndex}
         onClick={handleSetImageIndex}
       />

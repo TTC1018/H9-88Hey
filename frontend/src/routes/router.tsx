@@ -8,6 +8,7 @@ import { BodyType } from '@/pages/Trim/BodyType';
 import { WheelDrive } from '@/pages/Trim/WheelDrive';
 import { MyCarLayout } from '@/components/layout/MyCarLayout';
 import { ErrorBoundary } from '@/components/common/ErrorBoundary';
+import { MyArchivingLayout } from '@/components/layout/MyArchivingLayout';
 import { Review } from '@/pages/Review';
 import { Result } from '@/pages/Result';
 
@@ -67,6 +68,14 @@ export const router = createBrowserRouter([
         element: <Result />,
       },
     ],
+  },
+  {
+    path: 'my-archiving',
+    element: <MyArchivingLayout />,
+  },
+  {
+    path: 'archiving',
+    element: <MyArchivingLayout />,
   },
   {
     path: 'review',

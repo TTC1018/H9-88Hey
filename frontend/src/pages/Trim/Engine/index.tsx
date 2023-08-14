@@ -7,7 +7,7 @@ import { useFetch } from '@/hooks/useFetch';
 import { useSelectIndex } from '@/hooks/useSelectedIndex';
 
 import { TrimCard } from '@/components/common/TrimCard';
-import { MyCarImageBox } from '@/components/common/MyCarImageBox';
+import { MyCarImageBox } from '@/components/Trim/MyCarImageBox';
 import { MyCarDescription } from '@/components/common/MyCarDescription';
 
 import * as Styled from './style';
@@ -21,7 +21,7 @@ const initialData = {
       description: '',
       maximumPower: '',
       maximumTorque: '',
-      imageURL: '',
+      imageUrl: '',
     },
   ],
 };
@@ -36,7 +36,7 @@ export function Engine() {
   const initEngines = engines[0];
 
   const [selectedIndex, handleSetIndex] = useSelectIndex();
-  const { imageURL, additionalPrice, name } = engines[selectedIndex];
+  const { imageUrl, additionalPrice, name } = engines[selectedIndex];
 
   const {
     handleTrim,
@@ -65,7 +65,7 @@ export function Engine() {
     <Styled.Container>
       <Styled.Wrapper>
         <Styled.Box>
-          <MyCarImageBox hasOption={false} images={imageURL} />
+          <MyCarImageBox hasOption={false} images={imageUrl} />
           <MyCarDescription title={name} price={additionalPrice} hasTag={false} />
         </Styled.Box>
         <Styled.CardBox>

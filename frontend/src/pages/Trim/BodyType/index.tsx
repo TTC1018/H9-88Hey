@@ -7,7 +7,7 @@ import { useFetch } from '@/hooks/useFetch';
 import { useSelectIndex } from '@/hooks/useSelectedIndex';
 
 import { TrimCard } from '@/components/common/TrimCard';
-import { MyCarImageBox } from '@/components/common/MyCarImageBox';
+import { MyCarImageBox } from '@/components/Trim/MyCarImageBox';
 import { MyCarDescription } from '@/components/common/MyCarDescription';
 
 import * as Styled from './style';
@@ -19,7 +19,7 @@ const initialData = {
       name: '',
       additionalPrice: 0,
       description: '',
-      imageURLs: [''],
+      imageUrls: [''],
     },
   ],
 };
@@ -36,7 +36,7 @@ export function BodyType() {
   const [selectedIndex, handleSetIndex] = useSelectIndex();
   const [selectedImageIndex, handleSetImageIndex] = useSelectIndex();
 
-  const { imageURLs, name, additionalPrice } = bodyTypes[selectedIndex];
+  const { imageUrls, name, additionalPrice } = bodyTypes[selectedIndex];
 
   const {
     handleTrim,
@@ -68,7 +68,7 @@ export function BodyType() {
         <Styled.Box>
           <MyCarImageBox
             hasOption={true}
-            images={imageURLs}
+            images={imageUrls}
             selectedIndex={selectedImageIndex}
             onClick={handleSetImageIndex}
           />
