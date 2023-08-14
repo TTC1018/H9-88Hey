@@ -1,8 +1,10 @@
 import * as Styled from './style';
 
-const totalPrice = 50720000;
+interface Props {
+  totalPrice: number;
+}
 
-export function Footer() {
+export function Footer({ totalPrice }: Props) {
   return (
     <Styled.Container>
       <Styled.Wrapper>

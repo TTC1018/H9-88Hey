@@ -96,8 +96,10 @@ function OptionCard({
   const { trim, addOption, removeOption } = useOutletContext<OptionContextProviderProps>();
 
   function handleClickButton() {
-    setIsButtonActive(!isButtonActive);
-    isButtonActive ? removeOption(name) : addOption({ name, price: additionalPrice });
+    setIsButtonActive(prev => !prev);
+    isButtonActive
+      ? removeOption(name)
+      : addOption({ name, price: additionalPrice, imageUrl, subOptions: subOptionNames });
   }
 
   function handleHoverCard(isHover: boolean) {

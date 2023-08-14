@@ -22,7 +22,7 @@ export function OptionModal({ name, imageUrl, description, onClick }: Props) {
             <Styled.Image src={imageUrl} />
           </Styled.ImageBox>
           <Styled.DescriptionBox>
-            <Styled.Description>{description}</Styled.Description>
+            <Styled.Description dangerouslySetInnerHTML={{ __html: description }}></Styled.Description>
           </Styled.DescriptionBox>
         </Styled.ContentBox>
         <Styled.ButtonBox>

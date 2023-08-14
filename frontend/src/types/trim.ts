@@ -1,3 +1,5 @@
+import { OptionContextProps } from './option';
+
 export interface FeatureProps {
   name: string;
   icon: string;
@@ -48,29 +50,34 @@ export interface WheelDriveDataProps {
   wheelDrives: WheelDriveProps[];
 }
 
+interface MyCarTypeProps {
+  krName: string;
+  enName: string;
+}
+
 interface MyCarDetailProps {
   title: string;
   price: number;
 }
 
 export interface MyCarProps {
+  carType: MyCarTypeProps;
   model: MyCarDetailProps;
   engine: MyCarDetailProps;
   bodyType: MyCarDetailProps;
   wheelDrive: MyCarDetailProps;
   outerColor: { title: string; imageUrl: string; price: number };
   innerColor: { title: string; imageUrl: string; id: number };
+  options: OptionContextProps[];
   carImageUrl: string;
-  options: {
-    name: string;
-    price: number;
-  }[];
+  [key: string]: any;
 }
 
 export interface MyCarLayoutContextProps {
+  trim: MyCarProps;
   handleTrim: ({ key, option, price }: { key: string; option: string; price: number }) => void;
   handleOuterColor: ({ color, colorImage, price }: { color: string; colorImage: string; price: number }) => void;
   handleInnerColor: ({ color, colorImage, id }: { color: string; colorImage: string; id: number }) => void;
+  totalPrice: number;
   handleCarImageUrl: (carImageUrl: string) => void;
-  trim: MyCarProps;
 }
