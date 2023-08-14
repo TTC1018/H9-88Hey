@@ -47,16 +47,21 @@ export function Footer({ myCarData, totalPrice, onSetLocalStorage }: FooterProps
 
   const pathKey = pathname.endsWith('/') ? pathname.slice(0, -1) : pathname;
 
+  function handleNavigate(path: string) {
+    if (path === '') {
+      return;
+    }
+    onSetLocalStorage();
+    navigate(path);
+  }
+
   function handleNextNavigate() {
     const path = NAVIGATION_PATH[pathKey as keyof typeof NAVIGATION_PATH].next;
-    if (path !== '') {
-      onSetLocalStorage();
-      navigate(path);
-    }
+    handleNavigate(path);
   }
   function handlePrevNavigate() {
     const path = NAVIGATION_PATH[pathKey as keyof typeof NAVIGATION_PATH].prev;
-    path !== '' && navigate(path);
+    handleNavigate(path);
   }
 
   if (pathname === '/result') {

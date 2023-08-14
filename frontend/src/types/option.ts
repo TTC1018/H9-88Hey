@@ -44,7 +44,9 @@ export interface OptionContextProviderProps {
   removeOption: (name: string) => void;
 }
 
-interface OptionContextProps {
+export interface OptionContextProps {
   name: string;
   price: number;
+  imageUrl: string;
+  subOptions: string[];
 }

@@ -115,8 +115,9 @@ export const ColorType = styled.p`
 export const Ellipse = styled.img`
   width: 24px;
   height: 24px;
-
   margin-left: 24px;
+
+  border-radius: 50%;
 `;
 
 export const ColorName = styled.p`

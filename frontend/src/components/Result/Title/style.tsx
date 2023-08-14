@@ -13,6 +13,7 @@ export const Container = styled.div`
 
       display: flex;
       justify-content: center;
+      // position: relative;
 
       background-color: ${colors.hyundaiLightSand};
     `;
@@ -72,6 +73,8 @@ export const Image = styled.img`
   height: 465px;
   top: 25px;
   right: 200px;
+  // top: 0;
+  // right: 0;
   z-index: 1;
 
   position: absolute;

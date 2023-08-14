@@ -11,13 +11,15 @@ import { Navigation } from '@/components/common/Navigation';
 import * as Styled from './style';
 
 const DEFAULT_STATE: MyCarProps = {
+  carType: { krName: '펠리세이드', enName: 'Palisade' },
   model: { title: '', price: 0 },
   engine: { title: '', price: 0 },
   bodyType: { title: '', price: 0 },
   wheelDrive: { title: '', price: 0 },
-  outerColor: { title: '', imageUrl: '', price: 0 },
-  innerColor: { title: '', imageUrl: '', id: 1 },
+  outerColor: { title: '', imageUrl: '/src/assets/icons/ellipse_123.png', price: 0 },
+  innerColor: { title: '', imageUrl: '/src/assets/icons/ellipse_567.svg', id: 1 },
   options: [],
+  carImageUrl: 'https://www.hyundai.com/contents/vr360/LX06/exterior/WC9/001.png', // 임시 mock data
 };
 
 export function MyCarLayout() {
@@ -25,8 +27,10 @@ export function MyCarLayout() {
 
   const [trim, setTrim] = useState(DEFAULT_STATE);
 
+  const trimKeys = ['model', 'engine', 'bodyType', 'wheelDrive', 'outerColor'];
+
   const totalPrice =
-    trim.model.price + trim.engine.price + trim.bodyType.price + trim.wheelDrive.price + trim.outerColor.price;
+    trimKeys.reduce((acc, cur) => acc + trim[cur].price, 0) + trim.options.reduce((acc, cur) => acc + cur.price, 0);
 
   function handleTrim({ key, option, price }: { key: string; option: string; price: number }) {
     setTrim(prev => ({ ...prev, [key]: { title: option, price } }));
@@ -40,15 +44,25 @@ export function MyCarLayout() {
     setTrim(prev => ({ ...prev, innerColor: { title: color, imageUrl: colorImage, id } }));
   }
 
-  function addOption({ name, price }: { name: string; price: number }) {
-    setTrim(prev => ({ ...prev, options: [...prev.options, { name, price }] }));
+  function addOption({
+    name,
+    price,
+    imageUrl,
+    subOptions,
+  }: {
+    name: string;
+    price: number;
+    imageUrl: string;
+    subOptions: string[];
+  }) {
+    setTrim(prev => ({ ...prev, options: [...prev.options, { name, price, imageUrl, subOptions }] }));
   }
 
   function removeOption(name: string) {
     setTrim(prev => ({ ...prev, options: prev.options.filter(options => options.name !== name) }));
   }
 
-  function handleLocalStrage() {
+  function handleLocalStorage() {
     localStorage.setItem('carOptions', JSON.stringify(trim));
   }
 
@@ -68,9 +82,11 @@ export function MyCarLayout() {
       <Header />
       <Navigation />
       <Styled.Wrapper isFull={pathname === '/result'}>
-        <Outlet context={{ handleTrim, handleOuterColor, handleInnerColor, addOption, removeOption, trim }} />
+        <Outlet
+          context={{ trim, handleTrim, handleOuterColor, handleInnerColor, addOption, removeOption, totalPrice }}
+        />
       </Styled.Wrapper>
-      <Footer myCarData={trim} totalPrice={totalPrice} onSetLocalStorage={handleLocalStrage} />
+      <Footer myCarData={trim} totalPrice={totalPrice} onSetLocalStorage={handleLocalStorage} />
     </Styled.Container>
   );
 }
