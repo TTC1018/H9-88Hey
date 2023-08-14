@@ -61,7 +61,7 @@ public class SelectOptionRepositoryTest {
 	}
 
 	@Test
-	@DisplayName("선택한 옵션들에 대한 하위옵션 id 값들을 중복을 제거하여 조회한다.")
+	@DisplayName("선택한 옵션들에 대해서 선택 불가능한 옵션 목록을 조회한다.")
 	void findDisabledOptionIdsBySelectOptionIdsTest() {
 		List<String> selectOptionIds = List.of("LST", "US1");
 
