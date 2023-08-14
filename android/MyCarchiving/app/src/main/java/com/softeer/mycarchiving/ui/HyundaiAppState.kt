@@ -17,9 +17,15 @@ import com.softeer.mycarchiving.navigation.MakingCarDestinations.*
 import com.softeer.mycarchiving.ui.archiving.navigateToArchive
 import com.softeer.mycarchiving.ui.loading.navigateToLoading
 import com.softeer.mycarchiving.ui.login.navigateToLogin
+import com.softeer.mycarchiving.ui.makingcar.complete.navigateToComplete
 import com.softeer.mycarchiving.ui.makingcar.navigateToMakingCar
+import com.softeer.mycarchiving.ui.makingcar.selectcolor.navigateToSelectColor
+import com.softeer.mycarchiving.ui.makingcar.selectoption.navigateToSelectOption
+import com.softeer.mycarchiving.ui.makingcar.selecttrim.navigateToSelectTrim
 import com.softeer.mycarchiving.ui.myarchive.navigateToMyArchiving
+import com.softeer.mycarchiving.util.MakeCarProcess
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.flow.MutableStateFlow
 
 @Composable
 fun rememberHyundaiAppState(
@@ -41,7 +47,7 @@ class HyundaiAppState(
     val navController: NavHostController,
     val coroutineScope: CoroutineScope,
 ) {
-    val currentDestination: NavDestination?
+    private val currentDestination: NavDestination?
         @Composable get() = navController
             .currentBackStackEntryAsState().value?.destination
 
@@ -72,6 +78,10 @@ class HyundaiAppState(
 
     val mainDestinations: List<MainDestination> = MainDestination.values().asList()
 
+    val currentProgressId = MutableStateFlow(0)
+    val currentProgressChildId = MutableStateFlow(-1)
+    val progressEnd = MutableStateFlow(false)
+
     fun navigateToMainDestination(mainDestination: MainDestination) {
         val mainNavOptions = navOptions {
             //
@@ -94,6 +104,74 @@ class HyundaiAppState(
             MY_ARCHIVING -> navController.navigateToMyArchiving(mainNavOptions)
             else -> {}
         }
+    }
+
+    fun navigateInMakingCar(currentMakingCarDestination: MakingCarDestinations?) {
+        when(currentMakingCarDestination) {
+            SELECT_MODEL -> navController.navigateToSelectTrim()
+            SELECT_TRIM -> navController.navigateToSelectColor()
+            SELECT_COLOR -> navController.navigateToSelectOption()
+            SELECT_OPTION -> navController.navigateToComplete()
+            SELECT_COMPLETE -> {/*unused*/}
+            else -> {}
+        }
+    }
+
+    fun onNextProgress(navigate: () -> Unit) {
+        // 완성 화면일 경우
+        if (progressEnd.value) {
+            return
+        }
+
+        // 다음 세부 단계가 남았을 경우
+        currentProgressChildId.value.let { childId ->
+            if (childId < MakeCarProcess.makeCarProcess[currentProgressId.value].children.last().id) {
+                if (childId < 0) navigate()
+                currentProgressChildId.value = childId + 1
+                return
+            }
+        }
+
+        // 다음 단계가 남았을 경우
+        currentProgressId.value.let { progressId ->
+            if (progressId < MakeCarProcess.makeCarProcess.last().id) {
+                currentProgressId.value = progressId + 1
+                currentProgressChildId.value = MakeCarProcess.makeCarProcess[progressId + 1].children.first().id
+            } else { // 모든 단계가 끝나는 경우
+                progressEnd.value = true
+            }
+        }
+        navigate()
+    }
+
+    fun onBackProgress() {
+        // 완성 화면일 경우
+        if (progressEnd.value) {
+            progressEnd.value = false
+            navController.popBackStack()
+            return
+        }
+
+        // 이전 세부 단계가 남았을 경우
+        val minChildId = if (MakeCarProcess.makeCarProcess[currentProgressId.value].needNoChild) -1 else 0
+        currentProgressChildId.value.let { childId ->
+            if (childId > minChildId) {
+                currentProgressChildId.value = childId - 1
+                if (childId - 1 < 0) navController.popBackStack()
+                return
+            }
+        }
+
+        // 이전 단계가 남았을 경우
+        currentProgressId.value.let { progressId ->
+            if (progressId > MakeCarProcess.makeCarProcess.first().id) {
+                currentProgressId.value = progressId - 1
+                currentProgressChildId.value = MakeCarProcess.makeCarProcess[progressId - 1].children.last().id
+            } else { // 이전 단계가 없는 경우
+                return
+            }
+        }
+        navController.popBackStack()
     }
 
 }

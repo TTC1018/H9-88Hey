@@ -84,6 +84,7 @@
     <string name="archive_search_condition">차량 검색 조건 설정</string>
     <string name="archive_search_set_car">차량 설정</string>
     <string name="archive_search_set_option">옵션 설정</string>
+    <string name="archive_search_set_option_count">%1$d / %2$d</string>
     <string name="archive_search_select_option">옵션을 선택해 주세요.</string>
     <string name="archive_search_apply_selected_item">선택 항목 적용하기</string>
     <string name="archive_search_apply_options">총 %d개의 옵션 적용하기</string>

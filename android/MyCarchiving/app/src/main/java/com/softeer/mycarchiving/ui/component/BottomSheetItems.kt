@@ -1,22 +1,27 @@
 package com.softeer.mycarchiving.ui.component
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Divider
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -33,7 +38,10 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.softeer.mycarchiving.R
+import com.softeer.mycarchiving.enums.ArchiveSearchPage
+import com.softeer.mycarchiving.enums.ArchiveSearchPage.*
 import com.softeer.mycarchiving.model.common.CarBasicDetailUiModel
 import com.softeer.mycarchiving.model.common.CarBasicUiModel
 import com.softeer.mycarchiving.model.common.SummaryChildUiModel
@@ -44,46 +52,74 @@ import com.softeer.mycarchiving.ui.theme.White
 import com.softeer.mycarchiving.ui.theme.bold18
 import com.softeer.mycarchiving.ui.theme.medium12
 import com.softeer.mycarchiving.ui.theme.medium14
+import com.softeer.mycarchiving.ui.theme.medium16
 import com.softeer.mycarchiving.ui.theme.medium18
 import com.softeer.mycarchiving.ui.theme.regular14
 import com.softeer.mycarchiving.ui.theme.roundCorner
+import com.softeer.mycarchiving.ui.theme.thinGray
 import com.softeer.mycarchiving.util.toPriceString
 
 val detailItems = listOf(
-    CarBasicDetailUiModel(id = 0, detailName = "ISG 시스템", "신호 대기 상황이거나 정차 중일 때 차의 엔진을 일시 정지하여 연비를 향상시키고, 배출가스 발생을 억제하는 시스템입니다."),
-    CarBasicDetailUiModel(id = 1, detailName = "ISG 시스템", "신호 대기 상황이거나 정차 중일 때 차의 엔진을 일시 정지하여 연비를 향상시키고, 배출가스 발생을 억제하는 시스템입니다."),
-    CarBasicDetailUiModel(id = 2, detailName = "ISG 시스템", "신호 대기 상황이거나 정차 중일 때 차의 엔진을 일시 정지하여 연비를 향상시키고, 배출가스 발생을 억제하는 시스템입니다.")
+    CarBasicDetailUiModel(name = "ISG 시스템", "신호 대기 상황이거나 정차 중일 때 차의 엔진을 일시 정지하여 연비를 향상시키고, 배출가스 발생을 억제하는 시스템입니다."),
+    CarBasicDetailUiModel(name = "ISG 시스템", "신호 대기 상황이거나 정차 중일 때 차의 엔진을 일시 정지하여 연비를 향상시키고, 배출가스 발생을 억제하는 시스템입니다."),
+    CarBasicDetailUiModel("ISG 시스템", "신호 대기 상황이거나 정차 중일 때 차의 엔진을 일시 정지하여 연비를 향상시키고, 배출가스 발생을 억제하는 시스템입니다.")
 )
 
-val basicItem1 = CarBasicUiModel(id = 0, name = "파워트레인 성능", detailItems = detailItems)
-val basicItem2 = CarBasicUiModel(id = 1, name = "지능형 안전 기술", detailItems = detailItems)
-val basicItem3 = CarBasicUiModel(id = 2, name = "안전", detailItems = detailItems)
-val basicItem4 = CarBasicUiModel(id = 3, name = "성능", detailItems = detailItems)
+val basicItem1 = CarBasicUiModel(category = "파워트레인 성능", detailItems = detailItems)
+val basicItem2 = CarBasicUiModel(category = "지능형 안전 기술", detailItems = detailItems)
+val basicItem3 = CarBasicUiModel(category = "안전", detailItems = detailItems)
+val basicItem4 = CarBasicUiModel(category = "성능", detailItems = detailItems)
 
 val basicItems = listOf(basicItem1, basicItem2, basicItem3, basicItem4)
 
 @Composable
 fun CarBasicBottomSheetContent(
-    modifier: Modifier,
-    basicItems: List<CarBasicUiModel>
+    modifier: Modifier = Modifier,
+    basicItems: List<CarBasicUiModel>,
+    closeBasicItems: () -> Unit
 ) {
-    LazyColumn(
-        modifier = modifier.padding(top = 32.dp, bottom = 12.dp),
-        verticalArrangement = Arrangement.spacedBy(12.dp)
+    Column(
+        modifier = modifier
+            .fillMaxSize()
+            .background(White)
     ) {
-        items(
-            items = basicItems,
-            key = { it.id },
-            itemContent = {
-                CarBasicItem(modifier = modifier, basicItem = it)
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp, vertical = 20.dp)
+        ) {
+            Text(
+                modifier = Modifier.align(Alignment.Center),
+                text = stringResource(id = R.string.make_car_basic_item),
+                style = medium16
+            )
+            Icon(
+                modifier = Modifier
+                    .align(Alignment.CenterEnd)
+                    .clickable { closeBasicItems() },
+                painter = painterResource(id = R.drawable.ic_close),
+                contentDescription = null
+            )
+        }
+        Divider(thickness = 1.dp, color = thinGray)
+        val scrollState = rememberScrollState()
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .verticalScroll(scrollState)
+                .padding(horizontal = 16.dp, vertical = 32.dp),
+            verticalArrangement = Arrangement.spacedBy(12.dp)
+        ) {
+            basicItems.forEach {
+                CarBasicItem(basicItem = it)
             }
-        )
+        }
     }
 }
 
 @Composable
 fun CarBasicItem(
-    modifier: Modifier,
+    modifier: Modifier = Modifier,
     basicItem: CarBasicUiModel
 ) {
     var showDetail by remember { mutableStateOf(false) }
@@ -92,13 +128,13 @@ fun CarBasicItem(
             modifier = modifier
                 .fillMaxWidth()
                 .background(color = HyundaiLightSand, shape = roundCorner)
-                .padding(all = 12.dp)
-                .clickable { showDetail = !showDetail },
+                .clickable { showDetail = !showDetail }
+                .padding(all = 12.dp),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
-                text = basicItem.name,
+                text = basicItem.category,
                 style = medium14
             )
             Image(
@@ -111,13 +147,13 @@ fun CarBasicItem(
                 colorFilter = ColorFilter.tint(DarkGray)
             )
         }
-        if (showDetail) {
+        AnimatedVisibility(visible = showDetail) {
             Column(
                 modifier = modifier.padding(top = 12.dp, bottom = 6.dp),
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                basicItem.detailItems.forEach { detailItem ->
-                    CarBasicDetailItem(modifier = modifier, detailItem = detailItem)
+                basicItem.detailItems.forEach {
+                    CarBasicDetailItem(detailItem = it)
                 }
             }
         }
@@ -127,18 +163,20 @@ fun CarBasicItem(
 
 @Composable
 fun CarBasicDetailItem(
-    modifier: Modifier,
+    modifier: Modifier = Modifier,
     detailItem: CarBasicDetailUiModel
 ) {
+    var detailDialogShow by remember { mutableStateOf(false) }
     Row(
         modifier = modifier
             .fillMaxWidth()
             .background(color = HyundaiNeutral, shape = roundCorner)
+            .clickable { detailDialogShow = true }
             .padding(all = 8.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Image(
-            modifier = modifier
+            modifier = Modifier
                 .width(94.dp)
                 .height(55.dp)
                 .clip(roundCorner),
@@ -146,10 +184,18 @@ fun CarBasicDetailItem(
             contentDescription = null,
             contentScale = ContentScale.FillBounds
         )
-        Spacer(modifier = modifier.width(17.dp))
+        Spacer(modifier = Modifier.width(17.dp))
         Text(
-            text = detailItem.detailName,
+            text = detailItem.name,
             style = regular14
+        )
+    }
+    if (detailDialogShow) {
+        BasicItemDialog(
+            onDismissRequest = {
+               detailDialogShow = false
+            },
+            detailItem = detailItem
         )
     }
 }
@@ -208,7 +254,7 @@ fun SummaryBottomSheetContent(
     val scrollState = rememberScrollState()
     Column(
         modifier = modifier
-            .fillMaxWidth()
+            .fillMaxSize()
             .background(White)
             .verticalScroll(scrollState)
     ) {
@@ -334,14 +380,151 @@ fun SummaryChild(
     }
 }
 
-@Preview
+
+
+@OptIn(ExperimentalLayoutApi::class)
+@Composable
+fun SearchCarBottomSheetContent(
+    modifier: Modifier = Modifier,
+    currentPage: ArchiveSearchPage,
+    selectedOptions: List<String>,
+    onBackClick: () -> Unit,
+    closeSheet: () -> Unit,
+    onButtonClick: () -> Unit,
+) {
+    Column(
+        modifier = modifier
+            .fillMaxSize()
+            .background(White)
+    ) {
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp, vertical = 20.dp)
+        ) {
+            if (currentPage.needBack) {
+                Icon(
+                    modifier = Modifier
+                        .align(Alignment.CenterStart)
+                        .clickable { onBackClick() },
+                    painter = painterResource(id = R.drawable.ic_back),
+                    contentDescription = null
+                )
+            }
+            Text(
+                modifier = modifier.align(Alignment.Center),
+                text = stringResource(id = currentPage.titleTextId),
+                style = medium16,
+                fontSize = if (currentPage == SEARCH_CONDITION) 16.sp else 14.sp,
+            )
+            Icon(
+                modifier = Modifier
+                    .align(Alignment.CenterEnd)
+                    .clickable { closeSheet() },
+                painter = painterResource(id = R.drawable.ic_close),
+                contentDescription = null
+            )
+        }
+        Divider(thickness = 1.dp, color = thinGray)
+        val scrollState = rememberScrollState()
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .verticalScroll(scrollState)
+                .padding(horizontal = 16.dp, vertical = 32.dp)
+                .weight(1f),
+        ) {
+            when(currentPage) {
+                SEARCH_CONDITION -> {
+                    Text(
+                        text = stringResource(id = R.string.archive_search_set_car),
+                        style = medium16
+                    )
+                    Spacer(modifier = Modifier.height(10.dp))
+                    SearchConditionButton(
+                        selectedCar = "펠리세이드",
+                        onClick = {}
+                    )
+                    Spacer(modifier = Modifier.height(24.dp))
+                    Divider(thickness = 1.dp, color = thinGray)
+                    Spacer(modifier = Modifier.height(24.dp))
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.Bottom
+                    ) {
+                        Text(
+                            text = stringResource(id = R.string.archive_search_set_option),
+                            style = medium16
+                        )
+                        Text(
+                            text = stringResource(id = R.string.archive_search_set_option_count, selectedOptions.size, 15),
+                            style = medium12
+                        )
+                    }
+                    Spacer(modifier = Modifier.height(10.dp))
+                    SearchConditionButton(
+                        onClick = {}
+                    )
+                    Spacer(modifier = Modifier.height(14.dp))
+                    FlowRow(
+                        horizontalArrangement = Arrangement.spacedBy(3.dp)
+                    ) {
+                        selectedOptions.forEach {
+                            SearchConditionChipForDelete(
+                                name = it,
+                                onDelete = {}
+                            )
+                        }
+                    }
+                }
+                SET_CAR -> {
+
+                }
+                SET_OPTION -> {
+
+                }
+            }
+        }
+        Column(
+            modifier = Modifier
+                .padding(start = 16.dp, end = 16.dp, bottom = 20.dp)
+        ) {
+            HyundaiButton(
+                text = if (currentPage == SET_OPTION) {
+                    stringResource(id = R.string.archive_search_apply_options, 0)
+                } else {
+                    stringResource(id = R.string.archive_search_apply_selected_item)
+                },
+                textColor = White,
+                onClick = onButtonClick,
+            )
+        }
+    }
+}
+
+/*@Preview
 @Composable
 fun PreviewCarBasicBottomSheetContent() {
-    CarBasicBottomSheetContent(modifier = Modifier, basicItems = basicItems)
+    CarBasicBottomSheetContent(basicItems = basicItems) {}
 }
 
 @Preview
 @Composable
 fun PreviewSummaryBottomSheetContent() {
     SummaryBottomSheetContent(modifier = Modifier, totalPrice = 47720000)
+}*/
+
+val selectedOptions = listOf("컴포트 2 패키지", "듀얼 와이드 선루프")
+
+@Preview
+@Composable
+fun PreviewSearchCarBottomSheetContent() {
+    SearchCarBottomSheetContent(
+        currentPage = SEARCH_CONDITION,
+        selectedOptions = selectedOptions,
+        onBackClick = {},
+        closeSheet = {},
+        onButtonClick = {},
+    )
 }

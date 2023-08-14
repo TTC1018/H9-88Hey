@@ -15,17 +15,77 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.softeer.mycarchiving.R
+import com.softeer.mycarchiving.navigation.MainDestination
+import com.softeer.mycarchiving.ui.HyundaiAppState
+import com.softeer.mycarchiving.ui.makingcar.MakingCarViewModel
 import com.softeer.mycarchiving.ui.theme.HyundaiSand
 import com.softeer.mycarchiving.ui.theme.PrimaryBlue
 import com.softeer.mycarchiving.ui.theme.medium10
 import com.softeer.mycarchiving.ui.theme.medium14
+import com.softeer.mycarchiving.util.MakeCarProcess
+
+@Composable
+fun HyundaiTopBar(
+    appState: HyundaiAppState,
+) {
+    when(val destination = appState.currentMainDestination) {
+        MainDestination.ARCHIVING -> ArchiveNavigateBar(
+            onStartAreaClick = appState.navController::popBackStack,
+            onEndAreaClick = { appState.navigateToMainDestination(MainDestination.MY_ARCHIVING) }
+        )
+
+        MainDestination.MY_ARCHIVING -> MyArchiveNavigateBar(
+            onStartAreaClick = appState.navController::popBackStack
+        )
+
+        MainDestination.MAKING_CAR -> MakeCarTopBar(appState = appState)
+
+        MainDestination.DRIVER_COMMENT,
+        MainDestination.CONSUMER_COMMENT -> ReviewNavigateBar(
+            onStartAreaClick = appState.navController::popBackStack,
+            onEndAreaClick = { /*앱 종료*/ },
+            isBuyer = destination == MainDestination.CONSUMER_COMMENT
+        )
+
+        else -> @Composable {}
+    }
+}
+
+@Composable
+fun MakeCarTopBar(
+    appState: HyundaiAppState,
+    viewModel: MakingCarViewModel = hiltViewModel(),
+) {
+    val destination = appState.currentMakingCarDestinations
+    val selectedCarModel by viewModel.selectedCarModel.collectAsStateWithLifecycle()
+    val currentProgressId by appState.currentProgressId.collectAsStateWithLifecycle()
+    val currentProgressChildId by appState.currentProgressChildId.collectAsStateWithLifecycle()
+    val processEnd by appState.progressEnd.collectAsStateWithLifecycle()
+    Column {
+        MakeCarNavigateBar(
+            carName = selectedCarModel,
+            onStartAreaClick = appState::onBackProgress,
+            onEndAreaClick = { appState.navigateInMakingCar(currentMakingCarDestination = destination) },
+            isDone = processEnd
+        )
+        ProgressBar(
+            makeCarProcess = MakeCarProcess.makeCarProcess,
+            currentProgressId = currentProgressId,
+            currentChildId = currentProgressChildId,
+            isDone = processEnd
+        )
+    }
+}
 
 @Composable
 fun NavigateBar(

@@ -28,6 +28,7 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
+import androidx.compose.ui.window.DialogProperties
 import com.softeer.mycarchiving.R
 import com.softeer.mycarchiving.model.common.CarBasicDetailUiModel
 import com.softeer.mycarchiving.ui.theme.DarkGray
@@ -40,48 +41,55 @@ import com.softeer.mycarchiving.ui.theme.regular14
 import com.softeer.mycarchiving.ui.theme.roundCorner
 
 val detailItem = CarBasicDetailUiModel(
-    id = 0,
-    detailName = "ISG 시스템",
-    "신호 대기 상황이거나 정차 중일 때 차의 엔진을 일시 정지하여 연비를 향상시키고, 배출가스 발생을 억제하는 시스템입니다."
+    name = "ISG 시스템",
+    description ="신호 대기 상황이거나 정차 중일 때 차의 엔진을 일시 정지하여 연비를 향상시키고, 배출가스 발생을 억제하는 시스템입니다."
 )
 
 @Composable
 fun BasicItemDialog(
-    modifier: Modifier,
+    modifier: Modifier = Modifier,
     onDismissRequest: () -> Unit,
-    detailItem: CarBasicDetailUiModel
+    detailItem: CarBasicDetailUiModel,
 ) {
-    Dialog(onDismissRequest = onDismissRequest) {
+    Dialog(
+        onDismissRequest = onDismissRequest,
+        properties = DialogProperties(
+            usePlatformDefaultWidth = false
+        )
+    ) {
         Surface(
+            modifier = modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp),
             color = White,
             shape = roundCorner
         ) {
             Column(
-                modifier = modifier
+                modifier = Modifier
                     .padding(start = 24.dp, end = 24.dp, top = 24.dp, bottom = 30.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Box(
-                    modifier = modifier.fillMaxWidth()
+                    modifier = Modifier.fillMaxWidth()
                 ) {
                     Text(
-                        modifier = modifier
+                        modifier = Modifier
                             .align(Alignment.Center),
-                        text = detailItem.detailName,
+                        text = detailItem.name,
                         style = medium18,
                         textAlign = TextAlign.Center
                     )
                     Image(
-                        modifier = modifier
+                        modifier = Modifier
                             .align(Alignment.CenterEnd)
                             .clickable { onDismissRequest() },
                         painter = painterResource(id = R.drawable.ic_close_light),
                         contentDescription = null
                     )
                 }
-                Spacer(modifier = modifier.height(12.dp))
+                Spacer(modifier = Modifier.height(12.dp))
                 Image(
-                    modifier = modifier
+                    modifier = Modifier
                         .fillMaxWidth()
                         .height(161.dp)
                         .clip(roundCorner),
@@ -89,9 +97,9 @@ fun BasicItemDialog(
                     contentDescription = null,
                     contentScale = ContentScale.FillBounds
                 )
-                Spacer(modifier = modifier.height(20.dp))
+                Spacer(modifier = Modifier.height(20.dp))
                 Text(
-                    modifier = modifier
+                    modifier = Modifier
                         .fillMaxWidth(),
                     text = detailItem.description,
                     style = regular12
@@ -103,7 +111,7 @@ fun BasicItemDialog(
 
 @Composable
 fun ButtonDialog(
-    modifier: Modifier,
+    modifier: Modifier = Modifier,
     onDismissRequest: () -> Unit,
     description: String,
     annotatedTargetStartIndex: Int,
@@ -117,9 +125,17 @@ fun ButtonDialog(
         }
         append(description.substring(annotatedTargetStartIndex + annotatedTargetLength))
     }
-    Dialog(onDismissRequest = onDismissRequest) {
+    Dialog(
+        onDismissRequest = onDismissRequest,
+        properties = DialogProperties(
+            usePlatformDefaultWidth = false
+        )
+    ) {
         Surface(
-            modifier = modifier.height(186.dp),
+            modifier = modifier
+                .fillMaxWidth()
+                .height(186.dp)
+                .padding(horizontal = 16.dp),
             color = White,
             shape = roundCorner
         ) {
@@ -148,7 +164,7 @@ fun ButtonDialog(
 
 @Composable
 fun FinishMakeCarDialog(
-    modifier: Modifier,
+    modifier: Modifier = Modifier,
     onDismissRequest: () -> Unit,
     onFinish: () -> Unit
 ) {
@@ -161,7 +177,7 @@ fun FinishMakeCarDialog(
     ) {
         Row {
             HyundaiButton(
-                modifier = modifier.width(120.dp),
+                modifier = Modifier.width(120.dp),
                 backgroundColor = LightGray,
                 textColor = DarkGray,
                 text = stringResource(id = R.string.cancel),
@@ -169,7 +185,7 @@ fun FinishMakeCarDialog(
             )
             Spacer(modifier = modifier.width(6.dp))
             HyundaiButton(
-                modifier = modifier,
+                modifier = Modifier,
                 backgroundColor = PrimaryBlue,
                 textColor = White,
                 text = stringResource(id = R.string.make_car_dialog_finish),
@@ -183,7 +199,7 @@ fun FinishMakeCarDialog(
 
 @Composable
 fun DeleteMadeCarDialog(
-    modifier: Modifier,
+    modifier: Modifier = Modifier,
     onDismissRequest: () -> Unit,
     onDelete: () -> Unit,
     carName: String
@@ -197,15 +213,15 @@ fun DeleteMadeCarDialog(
     ) {
         Row {
             HyundaiButton(
-                modifier = modifier.weight(1f),
+                modifier = Modifier.weight(1f),
                 backgroundColor = LightGray,
                 textColor = DarkGray,
                 text = stringResource(id = R.string.cancel),
                 onClick = onDismissRequest
             )
-            Spacer(modifier = modifier.width(6.dp))
+            Spacer(modifier = Modifier.width(6.dp))
             HyundaiButton(
-                modifier = modifier.weight(1f),
+                modifier = Modifier.weight(1f),
                 backgroundColor = PrimaryBlue,
                 textColor = White,
                 text = stringResource(id = R.string.my_dialog_delete),
@@ -217,7 +233,7 @@ fun DeleteMadeCarDialog(
 
 @Composable
 fun MoveMakeCarDialog(
-    modifier: Modifier,
+    modifier: Modifier = Modifier,
     onDismissRequest: () -> Unit,
     onMove: () -> Unit,
     saveDate: String
@@ -231,15 +247,15 @@ fun MoveMakeCarDialog(
     ) {
         Row {
             HyundaiButton(
-                modifier = modifier.width(120.dp),
+                modifier = Modifier.width(120.dp),
                 backgroundColor = LightGray,
                 textColor = DarkGray,
                 text = stringResource(id = R.string.cancel),
                 onClick = onDismissRequest
             )
-            Spacer(modifier = modifier.width(6.dp))
+            Spacer(modifier = Modifier.width(6.dp))
             HyundaiButton(
-                modifier = modifier,
+                modifier = Modifier,
                 backgroundColor = PrimaryBlue,
                 textColor = White,
                 text = stringResource(id = R.string.my_dialog_continue_make),
@@ -252,20 +268,19 @@ fun MoveMakeCarDialog(
 @Preview
 @Composable
 fun PreviewBasicItemDialog() {
-    BasicItemDialog(modifier = Modifier, onDismissRequest = {}, detailItem = detailItem)
+    BasicItemDialog(onDismissRequest = {}, detailItem = detailItem)
 }
 
 @Preview
 @Composable
 fun PreviewFinishMakeCarDialog() {
-    FinishMakeCarDialog(modifier = Modifier, onDismissRequest = {}, onFinish = {})
+    FinishMakeCarDialog(onDismissRequest = {}, onFinish = {})
 }
 
 @Preview
 @Composable
 fun PreviewDeleteMadeCarDialog() {
     DeleteMadeCarDialog(
-        modifier = Modifier,
         onDismissRequest = {},
         onDelete = {},
         carName = "펠리세이드 Le Blanc"
@@ -276,7 +291,6 @@ fun PreviewDeleteMadeCarDialog() {
 @Composable
 fun PreviewMoveMakeCarDialog() {
     MoveMakeCarDialog(
-        modifier = Modifier,
         onDismissRequest = {},
         onMove = {},
         saveDate = "23년 7월 18일"
