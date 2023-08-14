@@ -72,6 +72,10 @@ export function MyCarLayout() {
     setTrim(savedOptions);
   }, []);
 
+  if (pathname === '/') {
+    return <Outlet />;
+  }
+
   return (
     <Styled.Container isFull={pathname === '/result'}>
       <Header />

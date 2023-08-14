@@ -1,26 +1,31 @@
 import { createBrowserRouter } from 'react-router-dom';
 
+import { Login } from '@/pages/Login';
 import { Trim } from '@/pages/Trim';
 import { Color } from '@/pages/Color';
 import { Option } from '@/pages/Option';
 import { Engine } from '@/pages/Trim/Engine';
 import { BodyType } from '@/pages/Trim/BodyType';
 import { WheelDrive } from '@/pages/Trim/WheelDrive';
-import { MyCarLayout } from '@/components/layout/MyCarLayout';
-import { ErrorBoundary } from '@/components/common/ErrorBoundary';
-import { MyChivingLayout } from '@/components/layout/MyChivingLayout';
 import { Review } from '@/pages/Review';
 import { Result } from '@/pages/Result';
+import { ErrorBoundary } from '@/components/common/ErrorBoundary';
+import { MyCarLayout } from '@/components/layout/MyCarLayout';
+import { MyChivingLayout } from '@/components/layout/MyChivingLayout';
 
 export const router = createBrowserRouter([
   {
-    path: '',
+    path: '/',
     element: (
       <ErrorBoundary>
         <MyCarLayout />
       </ErrorBoundary>
     ),
     children: [
+      {
+        path: '',
+        element: <Login />,
+      },
       {
         path: 'trim',
         children: [
@@ -43,11 +48,11 @@ export const router = createBrowserRouter([
         ],
       },
       {
-        path: '/color',
+        path: 'color',
         element: <Color />,
       },
       {
-        path: '/option',
+        path: 'option',
         children: [
           {
             path: '',
@@ -64,7 +69,7 @@ export const router = createBrowserRouter([
         ],
       },
       {
-        path: '/result',
+        path: 'result',
         element: <Result />,
       },
     ],
