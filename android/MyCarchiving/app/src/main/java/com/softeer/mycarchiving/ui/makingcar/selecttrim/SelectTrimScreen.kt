@@ -59,10 +59,18 @@ fun SelectTrimRoute(
 fun SelectTrimScreen(
     modifier: Modifier,
     options: List<TrimOptionUiModel>,
-    onOptionSelect: (TrimOptionUiModel) -> Unit,
+    onOptionSelect: (TrimOptionUiModel, initial: Boolean) -> Unit,
 ) {
     var selectedIndex by remember { mutableStateOf(0) }
     val scrollState = rememberScrollState()
+
+    // 첫 아이템 MakingCarViewModel에 자동 추가
+    LaunchedEffect(options) {
+        selectedIndex = 0 // 전체 화면 갱신되면 첫번째 아이템 선택하기
+        options.getOrNull(selectedIndex)?.let {
+            onOptionSelect(it, true)
+        }
+    }
 
     Column(
         modifier = modifier
@@ -108,7 +116,7 @@ fun SelectTrimScreen(
                         isSelected = idx == selectedIndex,
                         onClick = {
                             selectedIndex = idx
-                            onOptionSelect(item)
+                            onOptionSelect(item, false)
                         },
                     )
                 }
@@ -138,6 +146,6 @@ fun PreviewSelectTrimScreen() {
                 maximumTorque = "36.2/5,200kgf-m/rpm",
             )
         ),
-        onOptionSelect = { },
+        onOptionSelect = { _, _ -> },
     )
 }

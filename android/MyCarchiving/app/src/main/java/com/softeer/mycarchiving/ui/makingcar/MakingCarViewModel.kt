@@ -56,12 +56,15 @@ class MakingCarViewModel @Inject constructor() : ViewModel() {
         _selectedModelInfo.value = selectedModel
     }
 
-    fun updateSelectedTrimOption(trimOptionUiModel: TrimOptionUiModel) {
+    fun updateSelectedTrimOption(trimOptionUiModel: TrimOptionUiModel, initial: Boolean = false) {
         selectedTrimState = mutableStateListOf<TrimOptionUiModel>().apply {
-            addAll(_selectedTrim.value.dropLast(1))
+            if (initial) {
+                addAll(_selectedTrim.value)
+            } else {
+                addAll(_selectedTrim.value.dropLast(1))
+            }
             add(trimOptionUiModel)
         }
         _selectedTrim.value = selectedTrimState
-        Log.d(TAG, _selectedTrim.value.joinToString(" "))
     }
 }
