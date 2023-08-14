@@ -21,18 +21,19 @@ public class DefaultOptionService {
 
 	private final DefaultOptionRepository defaultOptionRepository;
 
-	public DefaultOptionsResponse findAllByCarCode(DefaultOptionRequest defaultOptionRequest) {
+	public DefaultOptionsResponse findAllByCarCode(final DefaultOptionRequest defaultOptionRequest) {
 		String carCode = defaultOptionRequest.getCarCode();
 
 		List<DefaultOption> defaultOptions = defaultOptionRepository.findAllDefaultSubOptionByCarCode(carCode);
 
-		Map<String, List<DefaultSubOptionDto>> defaultOptionDtoList = mapToDefaultSubOptionDtosByCategory(defaultOptions);
+		Map<String, List<DefaultSubOptionDto>> defaultOptionDtoList = mapToDefaultSubOptionDtosByCategory(
+			defaultOptions);
 
 		return DefaultOptionsResponse.of(mapToOptionDtos(defaultOptionDtoList));
 	}
 
 	private static List<DefaultOptionDto> mapToOptionDtos(
-		Map<String, List<DefaultSubOptionDto>> defaultOptionDtoList) {
+		final Map<String, List<DefaultSubOptionDto>> defaultOptionDtoList) {
 		List<DefaultOptionDto> defaultSubOptionDtoList = new ArrayList<>();
 		for (String key : defaultOptionDtoList.keySet()) {
 			defaultSubOptionDtoList.add(DefaultOptionDto.of(key, defaultOptionDtoList.get(key)));
@@ -40,7 +41,8 @@ public class DefaultOptionService {
 		return defaultSubOptionDtoList;
 	}
 
-	private Map<String, List<DefaultSubOptionDto>> mapToDefaultSubOptionDtosByCategory(List<DefaultOption> defaultOptions) {
+	private Map<String, List<DefaultSubOptionDto>> mapToDefaultSubOptionDtosByCategory(
+		final List<DefaultOption> defaultOptions) {
 		Map<String, List<DefaultSubOptionDto>> defaultOptionDtoList = new HashMap<>();
 		for (DefaultOption defaultOption : defaultOptions) {
 			if (!defaultOptionDtoList.containsKey(defaultOption.getCategory())) {
