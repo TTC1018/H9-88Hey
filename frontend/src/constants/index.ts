@@ -15,3 +15,5 @@ export const PATH_LIST = Object.freeze({
   archiving: ARCHIVING,
   'my-archiving': MY_ARCHIVING,
 });
+
+export const MAX_TEXT_LENGTH = 140;

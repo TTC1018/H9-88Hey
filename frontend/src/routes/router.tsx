@@ -9,6 +9,8 @@ import { WheelDrive } from '@/pages/Trim/WheelDrive';
 import { MyCarLayout } from '@/components/layout/MyCarLayout';
 import { ErrorBoundary } from '@/components/common/ErrorBoundary';
 import { MyArchivingLayout } from '@/components/layout/MyArchivingLayout';
+import { Review } from '@/pages/Review';
+import { Result } from '@/pages/Result';
 
 export const router = createBrowserRouter([
   {
@@ -49,17 +51,21 @@ export const router = createBrowserRouter([
         children: [
           {
             path: '',
-            element: <Option key="option" />,
+            element: <Option key="option" apiType="select_option" />,
           },
           {
             path: 'h-genuine-accessories',
-            element: <Option key="h-genuine-accessories" />,
+            element: <Option key="h-genuine-accessories" apiType="h_genuine_accessories" />,
           },
           {
             path: 'n-performance',
-            element: <Option key="n-performance" />,
+            element: <Option key="n-performance" apiType="n_performance" />,
           },
         ],
+      },
+      {
+        path: '/result',
+        element: <Result />,
       },
     ],
   },
@@ -70,5 +76,9 @@ export const router = createBrowserRouter([
   {
     path: 'archiving',
     element: <MyArchivingLayout />,
+  },
+  {
+    path: 'review',
+    element: <Review />,
   },
 ]);

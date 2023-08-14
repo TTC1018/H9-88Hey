@@ -3,10 +3,11 @@ import * as Styled from './style';
 interface Props {
   name: string;
   imageUrl: string;
+  description: string;
   onClick: () => void;
 }
 
-export function OptionModal({ name, imageUrl, onClick }: Props) {
+export function OptionModal({ name, imageUrl, description, onClick }: Props) {
   return (
     <>
       <Styled.Container onClick={onClick} />
@@ -21,10 +22,7 @@ export function OptionModal({ name, imageUrl, onClick }: Props) {
             <Styled.Image src={imageUrl} />
           </Styled.ImageBox>
           <Styled.DescriptionBox>
-            <Styled.Description>
-              신호 대기 상황이거나 정차 중일 때 차의 엔진을 일시 정지하여 연비를 향상시키고, 배출가스 발생을 억제하는
-              시스템입니다.
-            </Styled.Description>
+            <Styled.Description>{description}</Styled.Description>
           </Styled.DescriptionBox>
         </Styled.ContentBox>
         <Styled.ButtonBox>

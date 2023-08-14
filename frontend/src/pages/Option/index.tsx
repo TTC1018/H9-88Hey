@@ -5,12 +5,12 @@ import { isValidIndex } from '@/utils';
 import { OPTION_CARD_LIST_LENGTH } from '@/constants';
 import { useFetch } from '@/hooks/useFetch';
 
-import { OptionImageBox } from '@/components/common/OptionImageBox';
-import { OptionDescription } from '@/components/common/OptionDescription';
-import { OptionDetailCard } from '@/components/common/OptionDetailCard';
-import { OptionCategory } from '@/components/common/OptionCategory';
-import { OptionCardList } from '@/components/common/OptionCardList';
-import { DefaultOptionCardList } from '@/components/common/DefaultOptionCardList';
+import { OptionImageBox } from '@/components/Option/OptionImageBox';
+import { OptionDescription } from '@/components/Option/OptionDescription';
+import { OptionDetailCard } from '@/components/Option/OptionDetailCard';
+import { OptionCategory } from '@/components/Option/OptionCategory';
+import { OptionCardList } from '@/components/Option/OptionCardList';
+import { DefaultOptionCardList } from '@/components/Option/DefaultOptionCardList';
 
 import * as Styled from './style';
 
@@ -34,10 +34,14 @@ const initialData = {
   ],
 };
 
-export function Option() {
+interface Props {
+  apiType: string;
+}
+
+export function Option({ apiType }: Props) {
   const { data } = useFetch<OptionDataProps>({
     defaultValue: initialData,
-    url: '/model/1/trim/2/select_option',
+    url: `/model/1/trim/2/${apiType}`,
   });
 
   const [option, setOption] = useState<OptionProps>({
@@ -129,16 +133,17 @@ export function Option() {
         </Styled.DescriptionBox>
       </Styled.OptionWrapper>
       <Styled.CardWrapper>
-        <OptionCategory menu={menu} onClick={handleChangeMenu} />
-        <OptionCardList
-          isShow={menu === 0}
-          selectedIndex={optionIndex}
-          cardListIndex={cardListIndex}
-          data={cardListData}
-          onClickCard={handleChangeOptionIndex}
-          onClickArrowButton={handleChangeCardListIndex}
-        />
-        <DefaultOptionCardList isShow={menu === 1} />
+        <OptionCategory menu={menu} onClick={handleChangeMenu} isShowDefaultOption={apiType === 'select_option'} />
+        {menu === 0 && (
+          <OptionCardList
+            selectedIndex={optionIndex}
+            cardListIndex={cardListIndex}
+            data={cardListData}
+            onClickCard={handleChangeOptionIndex}
+            onClickArrowButton={handleChangeCardListIndex}
+          />
+        )}
+        {apiType === 'select_option' && menu === 1 && <DefaultOptionCardList />}
       </Styled.CardWrapper>
     </Styled.Container>
   );

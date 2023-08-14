@@ -17,7 +17,8 @@ const NAVIGATION_PATH = {
   '/color': { prev: '/trim/wheel-drive', next: '/option' },
   '/option': { prev: '/color', next: '/option/h-genuine-accessories' },
   '/option/h-genuine-accessories': { prev: '/option', next: '/option/n-performance' },
-  '/option/n-performance': { prev: '/option/h-genuine-accessories', next: '' },
+  '/option/n-performance': { prev: '/option/h-genuine-accessories', next: '/result' },
+  '/result': { prev: '/option/n-performance', next: '' },
 };
 
 interface FooterProps {
@@ -56,6 +57,10 @@ export function Footer({ myCarData, totalPrice, onSetLocalStorage }: FooterProps
   function handlePrevNavigate() {
     const path = NAVIGATION_PATH[pathKey as keyof typeof NAVIGATION_PATH].prev;
     path !== '' && navigate(path);
+  }
+
+  if (pathname === '/result') {
+    return null;
   }
 
   return (

@@ -38,17 +38,6 @@ export interface DefaultOptionProps {
   subOptions: SubOptionProps[];
 }
 
-export interface DefaultSubOptionProps {
-  name: string;
-  imageUrl: string;
-}
-
-export interface DefaultOptionCardDataProps {
-  name: string;
-  imageUrl: string;
-  description?: string;
-}
-
 export interface OptionContextProviderProps {
   trim: MyCarProps;
   addOption: ({ name, price }: OptionContextProps) => void;
