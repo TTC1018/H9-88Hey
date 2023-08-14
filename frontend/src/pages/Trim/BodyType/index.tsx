@@ -19,7 +19,7 @@ const initialData = {
       name: '',
       additionalPrice: 0,
       description: '',
-      imageURLs: [''],
+      imageUrl: '',
     },
   ],
 };
@@ -29,14 +29,13 @@ export function BodyType() {
     data: { bodyTypes },
   } = useFetch<BodyTypeDataProps>({
     defaultValue: initialData,
-    url: '/model/1/body-type',
+    url: '/car/model/1/body-type',
   });
   const initBodyTypes = bodyTypes[0];
 
   const [selectedIndex, handleSetIndex] = useSelectIndex();
-  const [selectedImageIndex, handleSetImageIndex] = useSelectIndex();
 
-  const { imageURLs, name, additionalPrice } = bodyTypes[selectedIndex];
+  const { imageUrl, name, additionalPrice } = bodyTypes[selectedIndex];
 
   const {
     handleTrim,
@@ -46,7 +45,6 @@ export function BodyType() {
   function handleCardClick(index: number, extraCharge: number) {
     return function () {
       handleSetIndex(index)();
-      handleSetImageIndex(0)();
       handleTrim({ key: 'bodyType', option: bodyTypes[index].name, price: extraCharge });
     };
   }
@@ -66,12 +64,7 @@ export function BodyType() {
     <style.Container>
       <style.Wrapper>
         <style.Box>
-          <MyCarImageBox
-            hasOption={true}
-            images={imageURLs}
-            selectedIndex={selectedImageIndex}
-            onClick={handleSetImageIndex}
-          />
+          <MyCarImageBox hasOption={false} images={imageUrl} />
           <MyCarDescription title={name} price={additionalPrice} hasTag={false} />
         </style.Box>
         <style.Box>

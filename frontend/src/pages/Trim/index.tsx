@@ -11,8 +11,7 @@ import { SelectOptionCard } from '@/components/trim/SelectOptionCard';
 
 import * as style from './style';
 
-const initialData = {
-  carImageURL: [''],
+const trimInitialData = {
   trims: [
     {
       id: 0,
@@ -22,9 +21,15 @@ const initialData = {
     },
   ],
 };
-
+const imageInitialData = {
+  carImageUrls: [''],
+};
 export function Trim() {
-  const { data } = useFetch<TrimDataProps>({ defaultValue: initialData, url: '/model/1/trim' });
+  const { data } = useFetch<Pick<TrimDataProps, 'trims'>>({ defaultValue: trimInitialData, url: '/car/model/1/trim' });
+  const { data: images } = useFetch<Pick<TrimDataProps, 'carImageUrls'>>({
+    defaultValue: imageInitialData,
+    url: '/car/model/1/image',
+  });
 
   const [selectedIndex, handleSetIndex] = useSelectIndex();
   const [selectedImageIndex, handleSetImageIndex] = useSelectIndex();
@@ -56,7 +61,7 @@ export function Trim() {
     <style.Container>
       <MyCarImageBox
         hasOption={true}
-        images={data.carImageURL}
+        images={images.carImageUrls}
         selectedIndex={selectedImageIndex}
         onClick={handleSetImageIndex}
       />

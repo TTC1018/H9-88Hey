@@ -1,6 +1,7 @@
 import { Dispatch, ReactNode, SetStateAction, createContext, useState } from 'react';
 
 import { ModalTypeProps } from '@/constants';
+import { useNavigate } from 'react-router-dom';
 
 const DEFAULT_VALUE = { modalType: ModalTypeProps.CLOSE, callbackData: null };
 
@@ -30,7 +31,6 @@ interface Props {
 }
 export function ModalProvider({ children }: Props) {
   const [modalState, setModalState] = useState<StateProps>(DEFAULT_VALUE);
-
   const [isOpen, setIsOpen] = useState(false);
 
   function handleClose() {

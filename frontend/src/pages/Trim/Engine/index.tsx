@@ -21,7 +21,7 @@ const initialData = {
       description: '',
       maximumPower: '',
       maximumTorque: '',
-      imageURL: '',
+      imageUrl: '',
     },
   ],
 };
@@ -31,12 +31,12 @@ export function Engine() {
     data: { engines },
   } = useFetch<EngineDataProps>({
     defaultValue: initialData,
-    url: '/model/1/engine',
+    url: '/car/model/1/engine',
   });
   const initEngines = engines[0];
 
   const [selectedIndex, handleSetIndex] = useSelectIndex();
-  const { imageURL, additionalPrice, name } = engines[selectedIndex];
+  const { imageUrl, additionalPrice, name } = engines[selectedIndex];
 
   const {
     handleTrim,
@@ -65,7 +65,7 @@ export function Engine() {
     <style.Container>
       <style.Wrapper>
         <style.Box>
-          <MyCarImageBox hasOption={false} images={imageURL} />
+          <MyCarImageBox hasOption={false} images={imageUrl} />
           <MyCarDescription title={name} price={additionalPrice} hasTag={false} />
         </style.Box>
         <style.CardBox>

@@ -12,7 +12,7 @@ export function OptionSearchBar({ options, selectOptions, onSelectOption }: Prop
         {options.map(option => {
           const isActive = selectOptions.has(option);
           return (
-            <style.Option isActive={isActive} onClick={() => onSelectOption(option)}>
+            <style.Option key={option} isActive={isActive} onClick={() => onSelectOption(option)}>
               {option}
             </style.Option>
           );

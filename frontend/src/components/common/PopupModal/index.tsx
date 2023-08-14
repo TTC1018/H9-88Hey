@@ -1,9 +1,12 @@
+import { useNavigate } from 'react-router-dom';
+
 import { useModalContext } from '@/hooks/useModalContext';
 
 import * as style from './style';
 
 export function PopupModal() {
   const { modalState, handleClose } = useModalContext();
+  const navigate = useNavigate();
 
   const state = (function () {
     switch (modalState.modalType) {
@@ -12,6 +15,7 @@ export function PopupModal() {
           text: '내 차 만들기 종료',
           isBig: true,
           callback: () => {
+            navigate('/archiving');
             console.log(modalState.callbackData);
           },
           content: <CloseContent />,

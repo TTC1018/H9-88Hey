@@ -1,8 +1,6 @@
 import { RouterProvider } from 'react-router';
 import { ThemeProvider } from '@emotion/react';
 
-import { ModalPortal } from './components/common/ModalPortal';
-import { PopupModal } from './components/common/PopupModal';
 import { ModalProvider } from './components/common/ModalProvider';
 
 import { router } from './routes/router';
@@ -16,9 +14,6 @@ export function App() {
         <GlobalStyle />
         <ModalProvider>
           <RouterProvider router={router} />
-          <ModalPortal>
-            <PopupModal />
-          </ModalPortal>
         </ModalProvider>
       </ThemeProvider>
     </>

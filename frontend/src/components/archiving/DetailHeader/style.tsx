@@ -1,25 +1,25 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
-export const Contaienr = styled.div`
+export const Container = styled.div`
   ${({ theme }) => {
     const { colors } = theme;
     return css`
-      width: 500px;
-      padding: 30px 20px;
+      width: 1024px;
+      height: 334px;
 
-      border-radius: 8px;
-      border: 1px solid ${colors.hyundaiSand};
-      background: #fff;
-
-      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
     `;
   }}
 `;
 
-export const TitleWrapper = styled.div`
+export const TextWrapper = styled.div`
+  width: 381px;
+`;
+
+export const TextBox = styled.div`
   width: 100%;
-  margin-bottom: 10px;
 
   display: flex;
   justify-content: space-between;
@@ -29,7 +29,7 @@ export const Title = styled.p`
   ${({ theme }) => {
     const { fonts } = theme;
     return css`
-      ${fonts.headingBold3}
+      ${fonts.headingBold1}
     `;
   }}
 `;
@@ -38,17 +38,18 @@ export const SubTitle = styled.p`
   ${({ theme }) => {
     const { fonts } = theme;
     return css`
-      ${fonts.bodyRegular3}
+      ${fonts.bodyRegular1}
     `;
   }}
 `;
 
-export const Time = styled.p`
+export const Date = styled.p`
   ${({ theme }) => {
     const { colors, fonts } = theme;
     return css`
       width: 148px;
       height: 24px;
+      margin-top: 6px;
 
       display: flex;
       justify-content: center;
@@ -58,22 +59,17 @@ export const Time = styled.p`
       color: ${colors.hyundaiGold};
 
       border-radius: 16px;
-      background-color: ${colors.hyundaiLightSand};
+      background-color: ${colors.hyundaiSand};
     `;
   }}
 `;
 
-export const TextWrapper = styled.div`
-  width: 100%;
-  gap: 20px;
-
-  display: flex;
-`;
-
-export const TextBox = styled.div`
+export const ColorBox = styled.div`
+  height: 50px;
   gap: 12px;
 
   display: flex;
+  align-items: center;
 `;
 
 export const BodyText = styled.p`
@@ -96,61 +92,38 @@ export const ColorText = styled.p`
   }}
 `;
 
-export const OptionWrapper = styled.div`
-  width: 100%;
-  gap: 8px;
-  margin: 10px 0;
-
-  display: flex;
-`;
-
-export const OptionBox = styled.div`
-  gap: 8px;
-
-  display: flex;
-  flex-wrap: wrap;
-`;
-
-export const Description = styled.p`
+export const Line = styled.hr`
   ${({ theme }) => {
-    const { fonts, colors } = theme;
+    const { colors } = theme;
     return css`
-      padding: 15px 15px;
-      margin: 15px 0;
+      width: 160%;
+      height: 1px;
 
-      border-radius: 8px;
-      background: ${colors.hyundaiLightSand};
-
-      ${fonts.bodyRegular3}
+      background-color: ${colors.mediumGray};
     `;
   }}
 `;
 
-export const TagWrapper = styled.div`
-  gap: 10px;
-
-  display: flex;
-  flex-wrap: wrap;
-`;
-
-export const Tag = styled.p`
+export const Review = styled.div`
   ${({ theme }) => {
     const { fonts, colors } = theme;
     return css`
-      padding: 4px 8px;
-
-      border-radius: 8px;
-      background: ${colors.hyundaiLightSand};
+      margin-top: 15px;
+      padding: 12px 17px;
 
       ${fonts.bodyRegular3}
+
+      background-color: ${colors.hyundaiNeutral};
+      border-radius: 8px;
+      border: 1px solid ${colors.lightGray};
     `;
   }}
 `;
 
+export const Image = styled.img`
+  width: 550px;
+  height: 340px;
+
+  transform: scale(1.6);
+`;
 export const Enclosure = styled.div``;
-
-export const SideBox = styled.div`
-  gap: 10px;
-
-  display: flex;
-`;

@@ -1,76 +1,79 @@
 import { OptionSelectCard } from '@/components/archiving/OptionSelectCard';
-
-import * as style from './style';
 import { DeleteButton } from '@/components/common/DeleteButton';
 
-interface ArchivingProps {
+import * as style from './style';
+import { ArchivingProps } from '@/types/archiving';
+import { combineWithSlash, formatDate } from '@/utils';
+
+interface ArchivingCardProps {
   isArchiving: true;
-  selectedOptions: Set<string>;
+  selectedSearchOptions: Set<string>;
 }
-interface MyChivingProps {
+interface MyChivingCardProps {
   isArchiving: false;
-  selectedOptions?: never[];
+  selectedSearchOptions?: never[];
 }
-type ChivingProps = ArchivingProps | MyChivingProps;
+type ChivingProps = ArchivingCardProps | MyChivingCardProps;
 interface DefaultProps {
-  model: string;
-  trim: string;
-  outerColor: string;
-  innerColor: string;
-  options: string[];
-  date: string;
-  description: string;
-  tags: string[];
+  props: ArchivingProps;
+  onClick: (option: string) => void;
 }
 type Props = DefaultProps & ChivingProps;
-export function ReviewCard({
-  model,
-  trim,
-  outerColor,
-  innerColor,
-  options,
-  selectedOptions,
-  date,
-  description,
-  tags,
-  isArchiving,
-}: Props) {
+export function ReviewCard({ props, isArchiving, onClick, selectedSearchOptions }: Props) {
+  const {
+    isPurchase,
+    model,
+    trim,
+    trimOptions,
+    creationDate,
+    exteriorColor,
+    interiorColor,
+    review,
+    tags,
+    selectedOptions,
+  } = props;
+
+  const dateText = isPurchase ? '구매했어요' : '시승했어요';
+
   return (
     <style.Contaienr>
       <style.TitleWrapper>
         <style.Enclosure>
-          <style.Title>{model}</style.Title>
-          <style.SubTitle>{trim}</style.SubTitle>
+          <style.Title>{`${model} ${trim}`}</style.Title>
+          <style.SubTitle>{combineWithSlash(trimOptions)}</style.SubTitle>
         </style.Enclosure>
         <style.SideBox>
-          <style.Time>{date}</style.Time>
+          <style.Time>
+            {formatDate(creationDate)}에 {dateText}
+          </style.Time>
           {!isArchiving && <DeleteButton />}
         </style.SideBox>
       </style.TitleWrapper>
       <style.TextWrapper>
         <style.TextBox>
           <style.BodyText>외장</style.BodyText>
-          <style.ColorText>{outerColor}</style.ColorText>
+          <style.ColorText>{exteriorColor}</style.ColorText>
         </style.TextBox>
         <style.TextBox>
           <style.BodyText>내장</style.BodyText>
-          <style.ColorText>{innerColor}</style.ColorText>
+          <style.ColorText>{interiorColor}</style.ColorText>
         </style.TextBox>
       </style.TextWrapper>
       <style.OptionWrapper>
         <style.BodyText>선택옵션</style.BodyText>
         <style.OptionBox>
-          {options.map(option => (
-            <OptionSelectCard
-              key={option}
-              isArchiving={isArchiving}
-              isActive={isArchiving ? selectedOptions.has(option) : false}
-              text={option}
-            />
+          {selectedOptions.map(({ name }) => (
+            <style.Enclosure key={name} onClick={() => onClick(name)}>
+              <OptionSelectCard
+                isArchiving={isArchiving}
+                isActive={isArchiving ? selectedSearchOptions.has(name) : false}
+                text={name}
+              />
+            </style.Enclosure>
           ))}
         </style.OptionBox>
       </style.OptionWrapper>
-      <style.Description>{description}</style.Description>
+      <style.Description>{review}</style.Description>
       <style.TagWrapper>
         {tags.map(tag => (
           <style.Tag key={tag}>{tag}</style.Tag>

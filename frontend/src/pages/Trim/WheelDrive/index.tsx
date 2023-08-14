@@ -19,7 +19,7 @@ const initialData = {
       name: '',
       additionalPrice: 0,
       description: '',
-      imageURL: '',
+      imageUrl: '',
     },
   ],
 };
@@ -29,12 +29,12 @@ export function WheelDrive() {
     data: { wheelDrives },
   } = useFetch<WheelDriveDataProps>({
     defaultValue: initialData,
-    url: '/model/1/wheel-drive',
+    url: '/car/model/1/wheel-drives',
   });
   const initwheelDrives = wheelDrives[0];
 
   const [selectedIndex, handleSetIndex] = useSelectIndex();
-  const { name, additionalPrice, imageURL } = wheelDrives[selectedIndex];
+  const { name, additionalPrice, imageUrl } = wheelDrives[selectedIndex];
 
   const {
     handleTrim,
@@ -63,7 +63,7 @@ export function WheelDrive() {
     <style.Container>
       <style.Wrapper>
         <style.Box>
-          <MyCarImageBox hasOption={false} images={imageURL} />
+          <MyCarImageBox hasOption={false} images={imageUrl} />
           <MyCarDescription title={name} price={additionalPrice} hasTag={false} />
         </style.Box>
         <style.Box>

@@ -15,11 +15,16 @@ export const Container = styled.div`
 
 export const ReviewWrapper = styled.div`
   width: 1024px;
-  gap: 30px 0;
+  gap: 30px;
 
   display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
+`;
+
+export const ReviewBox = styled.div`
+  gap: 30px;
+
+  display: flex;
+  flex-direction: column;
 `;
 
 export const CarSearchBar = styled.div`
@@ -89,3 +94,7 @@ export const InfoBox = styled.div`
     `;
   }}
 `;
+
+export const CardBox = styled.div``;
+
+export const Enclosure = styled.div``;

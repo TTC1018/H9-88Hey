@@ -7,7 +7,6 @@ interface Props {
 }
 export const Container = styled.div<Props>`
   ${({ theme, isActive, isArchiving }) => {
-    console.log(isActive, isArchiving);
     const { fonts, colors } = theme;
     return css`
       height: 24px;

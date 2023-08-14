@@ -18,7 +18,6 @@ export function useFetch<T>({ defaultValue, url }: UseFetchProps<T>) {
   async function fetchUsers() {
     try {
       const response = await fetch(`${API_URL}${url}`);
-
       if (!response.ok) {
         throw new Error(`${response.status} ${response.statusText}`);
       }
