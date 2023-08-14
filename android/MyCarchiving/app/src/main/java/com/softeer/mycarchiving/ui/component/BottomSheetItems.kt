@@ -17,6 +17,9 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
@@ -49,6 +52,7 @@ import com.softeer.mycarchiving.model.common.SummaryChildUiModel
 import com.softeer.mycarchiving.ui.theme.DarkGray
 import com.softeer.mycarchiving.ui.theme.HyundaiLightSand
 import com.softeer.mycarchiving.ui.theme.HyundaiNeutral
+import com.softeer.mycarchiving.ui.theme.LightGray
 import com.softeer.mycarchiving.ui.theme.White
 import com.softeer.mycarchiving.ui.theme.bold18
 import com.softeer.mycarchiving.ui.theme.medium12
@@ -57,7 +61,7 @@ import com.softeer.mycarchiving.ui.theme.medium16
 import com.softeer.mycarchiving.ui.theme.medium18
 import com.softeer.mycarchiving.ui.theme.regular14
 import com.softeer.mycarchiving.ui.theme.roundCorner
-import com.softeer.mycarchiving.ui.theme.thinGray
+import com.softeer.mycarchiving.ui.theme.ThinGray
 import com.softeer.mycarchiving.util.toPriceString
 
 val detailItems = listOf(
@@ -102,7 +106,7 @@ fun CarBasicBottomSheetContent(
                 contentDescription = null
             )
         }
-        Divider(thickness = 1.dp, color = thinGray)
+        Divider(thickness = 1.dp, color = ThinGray)
         val scrollState = rememberScrollState()
         Column(
             modifier = Modifier
@@ -387,7 +391,9 @@ fun SummaryChild(
 fun SearchCarBottomSheetContent(
     modifier: Modifier = Modifier,
     currentPage: ArchiveSearchPage,
+    selectedCar: String,
     selectedOptions: List<String>,
+    pendingOptions: List<String>,
     onBackClick: () -> Unit,
     closeSheet: () -> Unit,
     onButtonClick: () -> Unit,
@@ -425,7 +431,7 @@ fun SearchCarBottomSheetContent(
                 contentDescription = null
             )
         }
-        Divider(thickness = 1.dp, color = thinGray)
+        Divider(thickness = 1.dp, color = ThinGray)
         val scrollState = rememberScrollState()
         Column(
             modifier = Modifier
@@ -442,11 +448,11 @@ fun SearchCarBottomSheetContent(
                     )
                     Spacer(modifier = Modifier.height(10.dp))
                     SearchConditionButton(
-                        selectedCar = "펠리세이드",
+                        selectedCar = selectedCar,
                         onClick = {}
                     )
                     Spacer(modifier = Modifier.height(24.dp))
-                    Divider(thickness = 1.dp, color = thinGray)
+                    Divider(thickness = 1.dp, color = ThinGray)
                     Spacer(modifier = Modifier.height(24.dp))
                     Row(
                         modifier = Modifier.fillMaxWidth(),
@@ -488,17 +494,138 @@ fun SearchCarBottomSheetContent(
         }
         Column(
             modifier = Modifier
-                .padding(start = 16.dp, end = 16.dp, bottom = 20.dp)
+                .padding(bottom = 20.dp)
         ) {
-            HyundaiButton(
-                text = if (currentPage == SET_OPTION) {
-                    stringResource(id = R.string.archive_search_apply_options, 0)
-                } else {
-                    stringResource(id = R.string.archive_search_apply_selected_item)
-                },
-                textColor = White,
-                onClick = onButtonClick,
-            )
+            when(currentPage) {
+                SEARCH_CONDITION -> {/*none*/}
+                SET_CAR -> {
+                    Divider(thickness = 1.dp, color = LightGray)
+                    Column(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(start = 16.dp, end = 16.dp, top = 16.dp, bottom = 18.dp)
+                    ) {
+                        Text(
+                            text = stringResource(id = R.string.archive_search_set_car_selected_car),
+                            style = medium14
+                        )
+                        Spacer(modifier = Modifier.height(10.dp))
+                        SearchConditionChip(
+                            name = selectedCar,
+                            isSelect = true,
+                        )
+                    }
+                }
+                SET_OPTION -> {
+                    Divider(thickness = 1.dp, color = LightGray)
+                    Column(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(start = 16.dp, end = 16.dp, top = 16.dp, bottom = 10.dp)
+                    ) {
+                        Text(
+                            text = stringResource(id = R.string.archive_search_set_option_count, pendingOptions.size, 15),
+                            style = medium12
+                        )
+                        Spacer(modifier = Modifier.height(10.dp))
+                        FlowRow(
+                            horizontalArrangement = Arrangement.spacedBy(8.dp)
+                        ) {
+                            pendingOptions.forEach { option ->
+                                 Box(
+                                     modifier = Modifier.padding(bottom = 8.dp)
+                                 ){
+                                    SearchConditionChipForDelete(
+                                        name = option,
+                                        onDelete = {},
+                                    )
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            Box(
+                modifier = Modifier.padding(horizontal = 16.dp)
+            ) {
+                HyundaiButton(
+                    text = if (currentPage == SET_OPTION) {
+                        stringResource(id = R.string.archive_search_apply_options, pendingOptions.size)
+                    } else {
+                        stringResource(id = R.string.archive_search_apply_selected_item)
+                    },
+                    textColor = White,
+                    onClick = onButtonClick,
+                )
+            }
+        }
+    }
+}
+
+@Composable
+fun SearchCarBottomSheetGridItem(
+    modifier: Modifier = Modifier,
+    category: String,
+    options: List<String>,
+) {
+    Column(
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(top = 12.dp, bottom = 20.dp)
+    ) {
+        Text(
+            text = category,
+            style = medium14,
+            color = DarkGray,
+        )
+        Spacer(modifier = Modifier.height(10.dp))
+        LazyVerticalGrid(
+            columns = GridCells.Fixed(count = 2),
+            userScrollEnabled = false,
+            verticalArrangement = Arrangement.spacedBy(10.dp),
+            horizontalArrangement = Arrangement.spacedBy(7.dp)
+        ) {
+            items(options) { option ->
+                SearchConditionChip(
+                    name = option,
+                    onClick = {}
+                )
+            }
+        }
+    }
+}
+
+@OptIn(ExperimentalLayoutApi::class)
+@Composable
+fun SearchCarBottomSheetFlowItem(
+    modifier: Modifier = Modifier,
+    category: String,
+    options: List<String>,
+) {
+    Column(
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(top = 12.dp, bottom = 20.dp)
+    ) {
+        Text(
+            text = category,
+            style = medium14,
+            color = DarkGray,
+        )
+        Spacer(modifier = Modifier.height(10.dp))
+        FlowRow(
+            horizontalArrangement = Arrangement.spacedBy(8.dp),
+        ) {
+            options.forEach { option ->
+                Box(
+                    modifier = Modifier.padding(bottom = 10.dp)
+                ){
+                    SearchConditionChip(
+                        name = option,
+                        onClick = {}
+                    )
+                }
+            }
         }
     }
 }
@@ -540,16 +667,39 @@ fun PreviewSummaryBottomSheetContent() {
     )
 }
 
-val selectedOptions = listOf("컴포트 2 패키지", "듀얼 와이드 선루프")
+val selectedOptions = listOf("컴포트 2 패키지", "듀얼 와이드 선루프", "컴포트 2 패키지", "듀얼 와이드 선루프")
 
 @Preview
 @Composable
 fun PreviewSearchCarBottomSheetContent() {
     SearchCarBottomSheetContent(
-        currentPage = SEARCH_CONDITION,
+        currentPage = SET_OPTION,
+        selectedCar = "펠리세이드",
         selectedOptions = selectedOptions,
+        pendingOptions = selectedOptions,
         onBackClick = {},
         closeSheet = {},
         onButtonClick = {},
+    )
+}
+
+const val category = "SUV"
+val options = listOf("펠리세이드", "베뉴", "디 올 뉴 코나", "디 올 뉴 코나Hybrid", "투싼", "투싼Hybrid")
+
+@Preview
+@Composable
+fun PreviewSearchCarBottomSheetGridItem() {
+    SearchCarBottomSheetGridItem(
+        category = category,
+        options = options
+    )
+}
+
+@Preview
+@Composable
+fun PreviewSearchCarBottomSheetFlowItem() {
+    SearchCarBottomSheetFlowItem(
+        category = category,
+        options = options
     )
 }

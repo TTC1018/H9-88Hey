@@ -23,7 +23,7 @@ val HyundaiBlue = Color(0xFF4062DC)
 val HyundaiActiveBlue = Color(0xFF00AAD2)
 val HyundaiNavy = Color(0xFF385DA2)
 
-val thinGray = Color(0xFFF2F2F2)
+val ThinGray = Color(0xFFF2F2F2)
 val LightGray = Color(0xFFDCDCDC)
 val MediumGray = Color(0xFFBEBEBE)
 val MediumDarkGray = Color(0xFF8B8B8B)

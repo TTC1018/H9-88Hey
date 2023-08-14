@@ -2,7 +2,6 @@ package com.softeer.mycarchiving.ui.component
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -18,6 +17,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -29,6 +29,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.softeer.mycarchiving.R
@@ -172,30 +173,31 @@ fun SearchConditionButton(
 
 @Composable
 fun SearchConditionChip(
-    modifier: Modifier,
+    modifier: Modifier = Modifier,
     name: String,
-    onClick: () -> Unit
+    isSelect: Boolean = false,
+    onClick: (() -> Unit)? = null,
 ) {
-    var isSelect by remember { mutableStateOf(false) }
-    Text(
+    Surface(
         modifier = modifier
             .clickable {
-                isSelect = !isSelect
-                onClick()
-            }
-            .background(
-                color = if (isSelect) HyundaiNavy else HyundaiNeutral,
-                shape = roundCornerSmall
-            )
-            .border(
-                width = if (isSelect) 0.dp else 0.5.dp,
-                color = if (isSelect) HyundaiNavy else LightGray
-            )
-            .padding(horizontal = 12.dp, vertical = 4.dp),
-        text = name,
-        style = regular14,
-        color = if (isSelect) HyundaiLightSand else DarkGray
-    )
+                onClick?.invoke()
+            },
+        color = if (isSelect) HyundaiNavy else HyundaiNeutral,
+        shape = roundCornerSmall,
+        border = BorderStroke(
+            width = if (isSelect) 0.dp else 0.5.dp,
+            color = if (isSelect) HyundaiNavy else LightGray
+        ),
+    ) {
+        Text(
+            modifier = Modifier.padding(horizontal = 12.dp, vertical = 8.dp),
+            text = name,
+            style = regular14,
+            color = if (isSelect) HyundaiLightSand else DarkGray,
+            textAlign = TextAlign.Center
+        )
+    }
 }
 
 @Composable
@@ -295,7 +297,7 @@ fun PreviewSearchConditionButton() {
 @Preview
 @Composable
 fun PreviewSearchConditionChip() {
-    SearchConditionChip(modifier = Modifier, name = "펠리세이드", {})
+    SearchConditionChip(modifier = Modifier, name = "펠리세이드", onClick = {})
 }
 
 @Preview
