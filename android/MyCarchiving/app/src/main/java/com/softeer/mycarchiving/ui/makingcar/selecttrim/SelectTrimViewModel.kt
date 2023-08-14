@@ -7,16 +7,11 @@ import com.softeer.data.model.TrimBodyTypeDto
 import com.softeer.data.model.TrimEngineDto
 import com.softeer.data.model.TrimWheelDto
 import com.softeer.data.repository.SelectTrimRepository
-import com.softeer.mycarchiving.model.OptionCardUiModel
+import com.softeer.mycarchiving.model.TrimOptionUiModel
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.stateIn
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 private val TAG = SelectTrimViewModel::class.simpleName
@@ -55,7 +50,7 @@ class SelectTrimViewModel @Inject constructor(
 }
 
 private fun TrimEngineDto.asOptionUiModel() =
-    OptionCardUiModel(
+    TrimOptionUiModel(
         optionName = name,
         optionDesc = description,
         imageUrl = imageUrl,
@@ -65,7 +60,7 @@ private fun TrimEngineDto.asOptionUiModel() =
     )
 
 private fun TrimBodyTypeDto.asOptionUiModel() =
-    OptionCardUiModel(
+    TrimOptionUiModel(
         optionName = name,
         optionDesc = description,
         imageUrl = imageUrl,
@@ -73,7 +68,7 @@ private fun TrimBodyTypeDto.asOptionUiModel() =
     )
 
 private fun TrimWheelDto.asOptionUiModel() =
-    OptionCardUiModel(
+    TrimOptionUiModel(
         optionName = name,
         optionDesc = description,
         imageUrl = imageUrl,

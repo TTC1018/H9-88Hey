@@ -27,6 +27,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.softeer.mycarchiving.R
+import com.softeer.mycarchiving.model.TrimOptionUiModel
 import com.softeer.mycarchiving.navigation.MainDestination
 import com.softeer.mycarchiving.ui.HyundaiAppState
 import com.softeer.mycarchiving.ui.makingcar.MakingCarViewModel
@@ -136,6 +137,7 @@ fun MakeCarBottomBar(
     val processEnd by appState.progressEnd.collectAsStateWithLifecycle()
     val totalPrice by viewModel.totalPrice.collectAsStateWithLifecycle()
     val showSummary by viewModel.showSummary.collectAsStateWithLifecycle()
+    val trimOptions by viewModel.selectedTrim.collectAsStateWithLifecycle()
 
     BottomBar(
         modifier = modifier,
@@ -170,7 +172,8 @@ fun MakeCarBottomBar(
             scrimColor = Color.Transparent
         ) {
             SummaryBottomSheetContent(
-                totalPrice = totalPrice
+                totalPrice = totalPrice,
+                trimOptions = trimOptions
             )
         }
     }
@@ -236,7 +239,8 @@ fun MyArchiveBottomBar(
 @Composable
 fun PreviewMakeCarBottomBar() {
     MakeCarBottomBar(
-        appState = rememberHyundaiAppState()
+        modifier = Modifier,
+        appState = rememberHyundaiAppState(),
     )
 }
 

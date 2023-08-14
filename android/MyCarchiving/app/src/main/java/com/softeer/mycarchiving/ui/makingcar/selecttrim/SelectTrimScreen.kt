@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -26,7 +27,7 @@ import com.skydoves.landscapist.components.rememberImageComponent
 import com.skydoves.landscapist.glide.GlideImage
 import com.softeer.mycarchiving.MainActivity
 import com.softeer.mycarchiving.R
-import com.softeer.mycarchiving.model.OptionCardUiModel
+import com.softeer.mycarchiving.model.TrimOptionUiModel
 import com.softeer.mycarchiving.ui.component.OptionCardForDetail
 import com.softeer.mycarchiving.ui.component.OptionNameWithDivider
 import com.softeer.mycarchiving.ui.makingcar.MakingCarViewModel
@@ -44,19 +45,23 @@ fun SelectTrimRoute(
 
     SelectTrimScreen(
         modifier = modifier,
+        screenProgress = screenProgress,
         options = when (screenProgress) {
             0 -> engines
             1 -> bodyTypes
             2 -> wheels
             else -> emptyList()
-        }
+        },
+        onOptionSelect = makingCarViewModel::updateSelectedTrimOption
     )
 }
 
 @Composable
 fun SelectTrimScreen(
     modifier: Modifier,
-    options: List<OptionCardUiModel>,
+    screenProgress: Int,
+    options: List<TrimOptionUiModel>,
+    onOptionSelect: (TrimOptionUiModel) -> Unit,
 ) {
     var selectedIndex by remember { mutableStateOf(0) }
     val scrollState = rememberScrollState()
@@ -103,7 +108,10 @@ fun SelectTrimScreen(
                         maximumTorque = item.maximumTorque,
                         maximumOutput = item.maximumOutput,
                         isSelected = idx == selectedIndex,
-                        onClick = { selectedIndex = idx },
+                        onClick = {
+                            selectedIndex = idx
+                            onOptionSelect(item)
+                        },
                     )
                 }
             }
@@ -116,21 +124,22 @@ fun SelectTrimScreen(
 fun PreviewSelectTrimScreen() {
     SelectTrimScreen(
         modifier = Modifier,
-        listOf(
-            OptionCardUiModel(
+        options = listOf(
+            TrimOptionUiModel(
                 optionName = "디젤 2.2",
                 optionDesc = "높은 토크로 파워풀한 드라이빙이 가능하며, 차급대비 연비 효율이 우수합니다.",
                 price = 1480000,
                 maximumOutput = "202/3,800PS/rpm",
                 maximumTorque = "45.0/1,750~2,750kgf-m/rpm",
             ),
-            OptionCardUiModel(
+            TrimOptionUiModel(
                 optionName = "가솔린 3.8",
                 optionDesc = "고마력의 우수한 가속 성능을 확보하여, 넉넉하고 안정감 있는 주행이 가능합니다엔진의 진동이 적어 편안하고 조용한 드라이빙 감성을 제공합니다.",
                 price = 0,
                 maximumOutput = "202/3,800PS/rmp",
                 maximumTorque = "36.2/5,200kgf-m/rpm",
             )
-        )
+        ),
+        onOptionSelect = {},
     )
 }
