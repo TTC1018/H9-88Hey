@@ -122,6 +122,7 @@ fun SelectTrimScreen(
 fun PreviewSelectTrimScreen() {
     SelectTrimScreen(
         modifier = Modifier,
+        screenProgress = 0,
         options = listOf(
             TrimOptionUiModel(
                 optionName = "디젤 2.2",
