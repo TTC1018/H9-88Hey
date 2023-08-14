@@ -16,7 +16,7 @@ public class ColorDataController {
 	private final ColorDataService colorDataService;
 
 	@GetMapping("/car/color")
-	public GlobalResponse<ColorDataResponse> findAvailableColorsByTrimId(@RequestParam final int trimId) {
+	public GlobalResponse<ColorDataResponse> findAvailableColorsByTrimId(@RequestParam("trim_id") final int trimId) {
 		ColorDataResponse colorDataResponse = colorDataService.findAvailableColorsByTrimId(trimId);
 		return GlobalResponse.ok(colorDataResponse);
 	}
