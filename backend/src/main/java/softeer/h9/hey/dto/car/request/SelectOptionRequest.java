@@ -10,12 +10,14 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
 public class SelectOptionRequest {
 	@NotEmpty
 	private String carCode;
 
 	private List<String> selectOption;
+
+	public SelectOptionRequest(String car_code, List<String> select_option) {
+		this.carCode = car_code;
+		this.selectOption = select_option;
+	}
 }
