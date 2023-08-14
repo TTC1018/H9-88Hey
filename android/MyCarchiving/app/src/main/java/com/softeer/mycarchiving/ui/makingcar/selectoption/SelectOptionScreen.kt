@@ -47,18 +47,25 @@ import com.softeer.mycarchiving.ui.theme.medium16
 @Composable
 fun SelectOptionRoute(
     modifier: Modifier = Modifier,
+    screenProgress: Int,
     viewModel: SelectOptionViewModel = hiltViewModel(),
 ) {
     val scrollState = rememberScrollState()
-    val options by viewModel.options.collectAsStateWithLifecycle()
+    val selectOptions by viewModel.selectOptions.collectAsStateWithLifecycle()
+    val nPerformances by viewModel.nPerformances.collectAsStateWithLifecycle()
     val focusedOptionIndex by viewModel.focusedOptionIndex.collectAsStateWithLifecycle()
     val basicItems by viewModel.basicItems.collectAsStateWithLifecycle()
     val showBasicItems by viewModel.showBasicItems.collectAsStateWithLifecycle()
     SelectOptionScreen(
         modifier = modifier,
         scrollState = scrollState,
-        options = options,
-        focusedIndex =  focusedOptionIndex,
+        options = when (screenProgress) {
+            0 -> selectOptions
+            1 -> emptyList()
+            2 -> nPerformances
+            else -> emptyList()
+        },
+        focusedIndex = focusedOptionIndex,
         focusOption = viewModel::focusOptionItem,
         showBasicItems = viewModel::openBasicItems,
         addOption = viewModel::onAddOption,
@@ -140,11 +147,11 @@ fun SelectOptionScreen(
                 .padding(horizontal = 16.dp, vertical = 24.dp)
         ) {
             OptionSelectedInfo(
-                optionName = options[focusedIndex].name,
-                optionTags = options[focusedIndex].tags
+                optionName = options.getOrNull(focusedIndex)?.name ?: "",
+                optionTags = options.getOrNull(focusedIndex)?.tags
             )
             Spacer(modifier = Modifier.height(12.dp))
-            options[focusedIndex].subOptions?.let {
+            options.getOrNull(focusedIndex)?.subOptions?.let {
                 if (it.size > 1) {
                     ExtraOptionCards(options = it)
                 } else {
@@ -158,5 +165,5 @@ fun SelectOptionScreen(
 @Preview
 @Composable
 fun PreviewSelectOptionRoute() {
-    SelectOptionRoute()
+    SelectOptionRoute(screenProgress = 0)
 }

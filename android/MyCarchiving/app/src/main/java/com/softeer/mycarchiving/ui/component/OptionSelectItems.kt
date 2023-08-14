@@ -35,6 +35,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import coil.compose.AsyncImage
 import com.softeer.mycarchiving.R
 import com.softeer.mycarchiving.model.makingcar.SelectOptionUiModel
 import com.softeer.mycarchiving.model.makingcar.SubSelectOptionUiModel
@@ -68,13 +69,13 @@ fun OptionSelectItem(
         color = if (focus) PrimaryBlue10 else HyundaiLightSand
     ) {
         Column {
-            Image(
+            AsyncImage(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(93.dp),
-                painter = painterResource(id = R.drawable.ic_launcher_background),
-                contentDescription = null,
-                contentScale = ContentScale.Crop
+                model = option.imageUrl,
+                contentDescription = "",
+                contentScale = ContentScale.Crop,
             )
             Column(
                 modifier = Modifier
