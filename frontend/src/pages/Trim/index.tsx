@@ -6,7 +6,7 @@ import { MyCarLayoutContextProps, TrimDataProps } from '@/types/trim';
 import { useFetch } from '@/hooks/useFetch';
 import { useSelectIndex } from '@/hooks/useSelectedIndex';
 
-import { MyCarImageBox } from '@/components/common/MyCarImageBox';
+import { MyCarImageBox } from '@/components/trim/MyCarImageBox';
 import { SelectOptionCard } from '@/components/trim/SelectOptionCard';
 
 import * as Styled from './style';
