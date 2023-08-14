@@ -1,12 +1,12 @@
 import { useEffect, useRef, useState } from 'react';
 
-import { ReviewOption } from '@/components/review/ReviewOption';
-import { SlidePrevButton } from '@/components/review/SlidePrevButton';
-import { ReviewDescripion } from '@/components/review/ReviewDescription';
+import { ReviewForm } from '@/components/Review/ReviewForm';
+import { ReviewOption } from '@/components/Review/ReviewOption';
+import { ReviewComplete } from '@/components/Review/ReviewComplete';
+import { SlidePrevButton } from '@/components/Review/SlidePrevButton';
+import { ReviewDescripion } from '@/components/Review/ReviewDescription';
 
 import * as Styled from './style';
-import { ReviewForm } from '@/components/review/ReviewForm';
-import { ReviewComplete } from '@/components/review/ReviewComplete';
 
 const TOTAL_SLIDES = 4; // 나중엔 데이터 보고 할거
 
@@ -25,16 +25,16 @@ export function Review() {
   useEffect(() => {
     if (slideRef.current !== null) {
       slideRef.current.style.transition = 'all 0.4s ease';
-      slideRef.current.style.transform = `translateX(-${currentSlide}00%)`;
+      slideRef.current.style.transform = `translateX(-${currentSlide * 100}%)`;
     }
   }, [currentSlide]);
 
-  const isButtonDisplay = currentSlide === 0 || currentSlide === TOTAL_SLIDES ? false : true;
+  const isButtonShow = currentSlide === 0 || currentSlide === TOTAL_SLIDES ? false : true;
 
   return (
     <Styled.Container>
       <Styled.SliderWrapper>
-        {isButtonDisplay && (
+        {isButtonShow && (
           <Styled.PrevButton>
             <SlidePrevButton onClick={handlePrevSlide} />
           </Styled.PrevButton>
