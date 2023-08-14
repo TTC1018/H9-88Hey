@@ -341,8 +341,11 @@ fun SearchCarBottomSheetContent(
     modifier: Modifier = Modifier,
     currentPage: ArchiveSearchPage,
     selectedCar: String,
+    pendingCar: String,
     selectedOptions: List<String>,
     pendingOptions: List<String>,
+    moveSetCar: () -> Unit,
+    moveSetOption: () -> Unit,
     onBackClick: () -> Unit,
     closeSheet: () -> Unit,
     onButtonClick: () -> Unit,
@@ -358,13 +361,18 @@ fun SearchCarBottomSheetContent(
                 .padding(horizontal = 16.dp, vertical = 20.dp)
         ) {
             if (currentPage.needBack) {
-                Icon(
+                Box(
                     modifier = Modifier
+                        .size(24.dp)
                         .align(Alignment.CenterStart)
                         .clickable { onBackClick() },
-                    painter = painterResource(id = R.drawable.ic_back),
-                    contentDescription = null
-                )
+                    contentAlignment = Alignment.Center
+                ){
+                    Icon(
+                        painter = painterResource(id = R.drawable.ic_back),
+                        contentDescription = null
+                    )
+                }
             }
             Text(
                 modifier = modifier.align(Alignment.Center),
@@ -398,7 +406,7 @@ fun SearchCarBottomSheetContent(
                     Spacer(modifier = Modifier.height(10.dp))
                     SearchConditionButton(
                         selectedCar = selectedCar,
-                        onClick = {}
+                        onClick = { moveSetCar() }
                     )
                     Spacer(modifier = Modifier.height(24.dp))
                     Divider(thickness = 1.dp, color = ThinGray)
@@ -423,17 +431,21 @@ fun SearchCarBottomSheetContent(
                     }
                     Spacer(modifier = Modifier.height(10.dp))
                     SearchConditionButton(
-                        onClick = {}
+                        onClick = { moveSetOption() }
                     )
                     Spacer(modifier = Modifier.height(14.dp))
                     FlowRow(
                         horizontalArrangement = Arrangement.spacedBy(3.dp)
                     ) {
                         selectedOptions.forEach {
-                            SearchConditionChipForDelete(
-                                name = it,
-                                onDelete = {}
-                            )
+                            Box(
+                                modifier = Modifier.padding(bottom = 10.dp)
+                            ){
+                                SearchConditionChipForDelete(
+                                    name = it,
+                                    onDelete = {}
+                                )
+                            }
                         }
                     }
                 }
@@ -464,7 +476,7 @@ fun SearchCarBottomSheetContent(
                         )
                         Spacer(modifier = Modifier.height(10.dp))
                         SearchConditionChip(
-                            name = selectedCar,
+                            name = pendingCar,
                             isSelect = true,
                         )
                     }
@@ -614,88 +626,17 @@ private fun SelectOptionUiModel.extraToSummary(): SummaryChildUiModel =
 
 @Preview
 @Composable
-fun PreviewCarBasicBottomSheetContent() {
-    val detailItems = listOf(
-        CarBasicDetailUiModel(
-            name = "ISG 시스템",
-            "신호 대기 상황이거나 정차 중일 때 차의 엔진을 일시 정지하여 연비를 향상시키고, 배출가스 발생을 억제하는 시스템입니다."
-        ),
-        CarBasicDetailUiModel(
-            name = "ISG 시스템",
-            "신호 대기 상황이거나 정차 중일 때 차의 엔진을 일시 정지하여 연비를 향상시키고, 배출가스 발생을 억제하는 시스템입니다."
-        ),
-        CarBasicDetailUiModel(
-            "ISG 시스템",
-            "신호 대기 상황이거나 정차 중일 때 차의 엔진을 일시 정지하여 연비를 향상시키고, 배출가스 발생을 억제하는 시스템입니다."
-        )
-    )
-
-    val basicItem1 = CarBasicUiModel(category = "파워트레인 성능", detailItems = detailItems)
-    val basicItem2 = CarBasicUiModel(category = "지능형 안전 기술", detailItems = detailItems)
-    val basicItem3 = CarBasicUiModel(category = "안전", detailItems = detailItems)
-    val basicItem4 = CarBasicUiModel(category = "성능", detailItems = detailItems)
-    val basicItems = listOf(basicItem1, basicItem2, basicItem3, basicItem4)
-
-    CarBasicBottomSheetContent(basicItems = basicItems) {}
-}
-
-@Preview
-@Composable
-fun PreviewSummaryBottomSheetContent() {
-    SummaryBottomSheetContent(
-        modifier = Modifier,
-        totalPrice = 47720000,
-        trimOptions = listOf(
-            TrimOptionUiModel(
-                optionName = "디젤 2.2",
-                optionDesc = "높은 토크로 파워풀한 드라이빙이 가능하며, 차급대비 연비 효율이 우수합니다.",
-                imageUrl = "",
-                price = 1480000,
-                maximumOutput = "202/3,800PS/rpm",
-                maximumTorque = "45.0/1,750~2,750kgf-m/rpm"
-            ),
-            TrimOptionUiModel(
-                optionName = "7인승",
-                optionDesc = "기존 8인승 시트(1열 2명, 2열 3명, 3열 3명)에서 2열 가운데 시트를 없애 2열 탑승객의 편의는 물론, 3열 탑승객의 승하차가 편리합니다.",
-                imageUrl = "",
-                price = 0,
-            )
-        ),
-        colorOptions = listOf(
-            ColorOptionUiModel(
-                category = CarColorType.EXTERIOR,
-                optionName = "문라이트 블루펄",
-                imageUrl = "",
-                price = 0,
-                matchingColors = emptyList(),
-                tags = emptyList()
-            )
-        ),
-        extraOptions = listOf(
-            SelectOptionUiModel(
-                id = "",
-                name = "현대스마트센스 Ⅰ",
-                price = 2900000,
-                imageUrl = "",
-                tags = listOf(
-                    "대형견도 문제 없어요",
-                    "가족들도 좋은 옵션👨‍👩‍👧‍👦"
-                ),
-            )
-        ),
-    )
-}
-
-@Preview
-@Composable
 fun PreviewSearchCarBottomSheetContent() {
     val selectedOptions = listOf("컴포트 2 패키지", "듀얼 와이드 선루프", "컴포트 2 패키지", "듀얼 와이드 선루프")
 
     SearchCarBottomSheetContent(
         currentPage = SET_OPTION,
         selectedCar = "펠리세이드",
+        pendingCar = "펠리세이드",
         selectedOptions = selectedOptions,
         pendingOptions = selectedOptions,
+        moveSetCar = {},
+        moveSetOption = {},
         onBackClick = {},
         closeSheet = {},
         onButtonClick = {},

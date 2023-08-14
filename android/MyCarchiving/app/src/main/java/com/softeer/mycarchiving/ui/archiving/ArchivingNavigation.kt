@@ -14,13 +14,8 @@ fun NavController.navigateToArchive(navOptions: NavOptions? = null) {
 }
 
 fun NavGraphBuilder.archiveScreen(
-    onBackClick: () -> Unit,
-    onMyCarchiveClick: () -> Unit,
 ) {
     composable(route = MainDestination.ARCHIVING.route) {
-        ArchiveRoute(
-            onBackClick = { onBackClick() },
-            onMyCarchiveClick = { onMyCarchiveClick() }
-        )
+        ArchiveRoute()
     }
 }
