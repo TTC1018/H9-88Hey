@@ -1,15 +1,15 @@
-import { MyArchiving } from '@/pages/MyArchiving';
+import { MyChiving } from '@/pages/MyChiving';
 import { ArchivingHeader } from '@/components/common/ArchivingHeader';
 import { ArchivingNavigation } from '@/components/common/ArchivingNavigation';
 
 import * as Styled from './style';
 
-export function MyArchivingLayout() {
+export function MyChivingLayout() {
   return (
     <Styled.Container>
       <ArchivingHeader />
       <ArchivingNavigation />
-      <MyArchiving />
+      <MyChiving />
     </Styled.Container>
   );
 }

@@ -2,7 +2,7 @@ import { MouseEvent, useState } from 'react';
 
 import { convertToTwoDigits } from '@/utils';
 
-import { RotateLogo } from '@/components/color/RotateLogo';
+import { RotateLogo } from '@/components/Color/RotateLogo';
 import { PrevButton } from '@/components/common/PrevButton';
 import { NextButton } from '@/components/common/NextButton';
 

@@ -13,7 +13,7 @@ export const MY_ARCHIVING = '마이카이빙';
 
 export const PATH_LIST = Object.freeze({
   archiving: ARCHIVING,
-  'my-archiving': MY_ARCHIVING,
+  mychiving: MY_ARCHIVING,
 });
 
 export const MAX_TEXT_LENGTH = 140;

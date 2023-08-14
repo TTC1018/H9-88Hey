@@ -1,14 +1,14 @@
 import { useState } from 'react';
 
-import { MyCarNavigation } from '@/components/myChiving/MyCarNavigation';
-import { MySavedCar } from '@/components/myChiving/MySavedCar';
-import { MyFeed } from '@/components/myChiving/MyFeed';
+import { MyCarNavigation } from '@/components/MyChiving/MyCarNavigation';
+import { MySavedCar } from '@/components/MyChiving/MySavedCar';
+import { MyFeed } from '@/components/MyChiving/MyFeed';
 
 import { NavIndexContext } from './context';
 
 import * as Styled from './style';
 
-export function MyArchiving() {
+export function MyChiving() {
   const [index, setIndex] = useState(0);
   return (
     <NavIndexContext.Provider value={{ index, setIndex }}>
