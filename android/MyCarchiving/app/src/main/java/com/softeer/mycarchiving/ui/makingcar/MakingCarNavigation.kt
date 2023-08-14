@@ -27,7 +27,7 @@ fun NavGraphBuilder.makingCarGraph(
         selectModelScreen()
         selectTrimScreen(appState = appState)
         selectColorScreen(appState = appState)
-        selectOptionScreen()
+        selectOptionScreen(appState = appState)
         completeScreen()
     }
 }
