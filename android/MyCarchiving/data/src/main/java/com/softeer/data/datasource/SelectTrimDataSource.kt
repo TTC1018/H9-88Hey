@@ -23,7 +23,7 @@ interface SelectTrimDataSource {
     fun getWheelDrives(): Flow<List<TrimWheelDto>>
 }
 
-class SelectTrimRemoteDataSource @Inject constructor(
+class SelectTrimRemoteDataSource (
     val selectTrimNetworkApi: SelectTrimNetworkApi
 ) : SelectTrimDataSource {
     override fun getCarImages(): Flow<List<String>> = flow {
