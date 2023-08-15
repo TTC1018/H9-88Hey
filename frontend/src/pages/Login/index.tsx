@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, ChangeEvent, MouseEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import * as Styled from './style';
@@ -23,12 +23,12 @@ export function Login() {
 
   const navigate = useNavigate();
 
-  function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
+  function handleChange(event: ChangeEvent<HTMLInputElement>) {
     const { name, value } = event.target;
     setAccount(prev => ({ ...prev, [name]: value }));
   }
 
-  async function handleLogin(event: React.MouseEvent<HTMLButtonElement>) {
+  async function handleLogin(event: MouseEvent<HTMLButtonElement>) {
     event.preventDefault();
     try {
       const response = await fetch('/login', {
