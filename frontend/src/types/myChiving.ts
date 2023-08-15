@@ -1,3 +1,5 @@
+import { SelectOptionsProps } from '@/types/archiving';
+
 export interface OptionProps {
   name: string;
   imageUrl: string;
@@ -25,10 +27,11 @@ export interface MyFeedProps {
   trimOptions: string[];
   interiorColor: string;
   exteriorColor: string;
-  creatrionDate: string;
-  selectedOptions: OptionProps[];
+  creationDate: string;
+  selectedOptions: SelectOptionsProps[];
   review: string;
   tags: string[];
+  totalPrice: number;
 }
 
 export interface MyFeedDataProps {
