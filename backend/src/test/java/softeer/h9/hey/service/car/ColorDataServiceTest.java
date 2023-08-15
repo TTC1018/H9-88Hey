@@ -22,7 +22,8 @@ public class ColorDataServiceTest {
 	private final ExteriorColorRepository exteriorColorRepository = Mockito.mock(ExteriorColorRepository.class);
 	private final InteriorColorRepository interiorColorRepository = Mockito.mock(InteriorColorRepository.class);
 	private final AvailableColorRepository availableColorRepository = Mockito.mock(AvailableColorRepository.class);
-	private final ColorDataService colorDataService = new ColorDataService(exteriorColorRepository, interiorColorRepository,
+	private final ColorDataService colorDataService = new ColorDataService(exteriorColorRepository,
+		interiorColorRepository,
 		availableColorRepository);
 
 	@Test

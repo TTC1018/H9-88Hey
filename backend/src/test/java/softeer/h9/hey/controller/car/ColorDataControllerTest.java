@@ -32,7 +32,8 @@ class ColorDataControllerTest {
 				jsonPath("$.data.exteriorColors[0]").exists(),
 				jsonPath("$.data.exteriorColors[0].id").value(1),
 				jsonPath("$.data.exteriorColors[0].name").value("어비스 블랙 펄"),
-				jsonPath("$.data.exteriorColors[0].carImagePath").value("https://88hey-bucket.s3.ap-northeast-2.amazonaws.com/88hey/color/exterior/car/avisblack/"),
+				jsonPath("$.data.exteriorColors[0].carImagePath").value(
+					"https://88hey-bucket.s3.ap-northeast-2.amazonaws.com/88hey/color/exterior/car/avisblack/"),
 				jsonPath("$.data.exteriorColors[0].additionalPrice").value(0),
 				jsonPath("$.data.exteriorColors[0].additionalPrice").value(0),
 				jsonPath("$.data.exteriorColors[0].availableInteriorColors").isArray(),

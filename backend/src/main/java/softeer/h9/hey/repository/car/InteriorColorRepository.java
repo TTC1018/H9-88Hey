@@ -16,21 +16,22 @@ import softeer.h9.hey.domain.car.InteriorColor;
 @RequiredArgsConstructor
 public class InteriorColorRepository {
 
-    private final NamedParameterJdbcTemplate jdbcTemplate;
+	private final NamedParameterJdbcTemplate jdbcTemplate;
 
-    public List<InteriorColor> findAllByTrimId(final int trimId) {
-		String sql = "SELECT DISTINCT i.id AS id, name, color_image_url, interior_image_url AS car_image_url, additional_price, ei.trim_id "
-            +
-            "FROM interiorColor i,exteriorColor_interiorColor ei " +
-                "WHERE ei.trim_id = :trim_id AND ei.interior_color_id = i.id " +
-                "ORDER BY i.id";
-        SqlParameterSource param = new MapSqlParameterSource()
-                .addValue("trim_id", trimId);
+	public List<InteriorColor> findAllByTrimId(final int trimId) {
+		String sql =
+			"SELECT DISTINCT i.id AS id, name, color_image_url, interior_image_url AS car_image_url, additional_price, ei.trim_id "
+				+
+				"FROM interiorColor i,exteriorColor_interiorColor ei " +
+				"WHERE ei.trim_id = :trim_id AND ei.interior_color_id = i.id " +
+				"ORDER BY i.id";
+		SqlParameterSource param = new MapSqlParameterSource()
+			.addValue("trim_id", trimId);
 
-        return jdbcTemplate.query(sql, param, interiorColorRowMapper());
-    }
+		return jdbcTemplate.query(sql, param, interiorColorRowMapper());
+	}
 
-    private RowMapper<InteriorColor> interiorColorRowMapper() {
-        return BeanPropertyRowMapper.newInstance(InteriorColor.class);
-    }
+	private RowMapper<InteriorColor> interiorColorRowMapper() {
+		return BeanPropertyRowMapper.newInstance(InteriorColor.class);
+	}
 }
