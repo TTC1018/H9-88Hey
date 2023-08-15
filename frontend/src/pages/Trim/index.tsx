@@ -30,26 +30,26 @@ export function Trim() {
 
   const {
     handleTrim,
-    trim: { model },
+    myCar: { trim },
   } = useOutletContext<MyCarLayoutContextProps>();
 
   function handleCardClick(index: number, price: number) {
     return () => {
       handleSetIndex(index)();
-      handleTrim({ key: 'model', option: trims[index].name, price: price });
+      handleTrim({ key: 'trim', option: trims[index].name, price: price });
     };
   }
 
   useEffect(() => {
-    if (model.title === '') {
+    if (trim.title === '') {
       const { name, price } = trims[0];
 
-      handleTrim({ key: 'model', option: name, price: price });
+      handleTrim({ key: 'trim', option: name, price: price });
 
       return;
     }
 
-    const index = trims.findIndex(({ name }) => name === model.title);
+    const index = trims.findIndex(({ name }) => name === trim.title);
     index !== -1 && handleSetIndex(index)();
   }, [trims]);
 

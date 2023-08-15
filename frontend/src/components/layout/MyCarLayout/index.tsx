@@ -14,7 +14,7 @@ import * as Styled from './style';
 
 const DEFAULT_STATE: MyCarProps = {
   carType: { krName: '펠리세이드', enName: 'Palisade' },
-  model: { title: '', price: 0 },
+  trim: { title: '', price: 0 },
   engine: { title: '', price: 0 },
   bodyType: { title: '', price: 0 },
   wheelDrive: { title: '', price: 0 },
@@ -27,12 +27,12 @@ const DEFAULT_STATE: MyCarProps = {
 export function MyCarLayout() {
   const { pathname } = useLocation();
 
-  const [trim, setTrim] = useState(DEFAULT_STATE);
+  const [myCar, setMyCar] = useState(DEFAULT_STATE);
 
-  const trimKeys = ['model', 'engine', 'bodyType', 'wheelDrive', 'outerColor'];
+  const trimKeys = ['trim', 'engine', 'bodyType', 'wheelDrive', 'outerColor'];
 
   const calclPrice =
-    trimKeys.reduce((acc, cur) => acc + trim[cur].price, 0) + trim.options.reduce((acc, cur) => acc + cur.price, 0);
+    trimKeys.reduce((acc, cur) => acc + myCar[cur].price, 0) + myCar.options.reduce((acc, cur) => acc + cur.price, 0);
 
   const prevPrice = useRef(calclPrice);
 
@@ -44,42 +44,42 @@ export function MyCarLayout() {
   prevPrice.current = totalPrice;
 
   function handleTrim({ key, option, price }: { key: string; option: string; price: number }) {
-    setTrim(prev => ({ ...prev, [key]: { title: option, price } }));
+    setMyCar(prev => ({ ...prev, [key]: { title: option, price } }));
   }
 
   function handleOuterColor({ color, colorImage, price }: { color: string; colorImage: string; price: number }) {
-    setTrim(prev => ({ ...prev, outerColor: { title: color, imageUrl: colorImage, price } }));
+    setMyCar(prev => ({ ...prev, outerColor: { title: color, imageUrl: colorImage, price } }));
   }
 
   function handleInnerColor({ color, colorImage, id }: { color: string; colorImage: string; id: number }) {
-    setTrim(prev => ({ ...prev, innerColor: { title: color, imageUrl: colorImage, id } }));
+    setMyCar(prev => ({ ...prev, innerColor: { title: color, imageUrl: colorImage, id } }));
   }
 
   function addOption({ name, price, imageUrl, subOptions }: OptionContextProps) {
-    setTrim(prev => ({ ...prev, options: [...prev.options, { name, price, imageUrl, subOptions }] }));
+    setMyCar(prev => ({ ...prev, options: [...prev.options, { name, price, imageUrl, subOptions }] }));
   }
 
   function handleCarImageUrl(carImageUrl: string) {
-    setTrim(prev => ({ ...prev, carImageUrl }));
+    setMyCar(prev => ({ ...prev, carImageUrl }));
   }
 
   function removeOption(name: string) {
-    setTrim(prev => ({ ...prev, options: prev.options.filter(options => options.name !== name) }));
+    setMyCar(prev => ({ ...prev, options: prev.options.filter(options => options.name !== name) }));
   }
 
   function handleLocalStorage() {
-    localStorage.setItem('carOptions', JSON.stringify(trim));
+    localStorage.setItem('myCar', JSON.stringify(myCar));
   }
 
   useEffect(() => {
-    const localStorageData = localStorage.getItem('carOptions');
+    const localStorageData = localStorage.getItem('myCar');
 
     if (localStorageData === null) {
       return;
     }
 
     const savedOptions: MyCarProps = JSON.parse(localStorageData);
-    setTrim(savedOptions);
+    setMyCar(savedOptions);
   }, []);
 
   return (
@@ -89,7 +89,7 @@ export function MyCarLayout() {
       <Styled.Wrapper isFull={pathname === '/result'}>
         <Outlet
           context={{
-            trim,
+            myCar,
             totalPrice,
             handleTrim,
             handleOuterColor,
@@ -100,7 +100,7 @@ export function MyCarLayout() {
           }}
         />
       </Styled.Wrapper>
-      <Footer myCarData={trim} totalPrice={totalPrice} onSetLocalStorage={handleLocalStorage} />
+      <Footer myCarData={myCar} totalPrice={totalPrice} onSetLocalStorage={handleLocalStorage} />
     </Styled.Container>
   );
 }

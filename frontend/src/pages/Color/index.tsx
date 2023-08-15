@@ -63,7 +63,7 @@ export function Color() {
     handleOuterColor,
     handleInnerColor,
     handleCarImageUrl,
-    trim: { outerColor, innerColor },
+    myCar: { outerColor, innerColor },
   } = useOutletContext<MyCarLayoutContextProps>();
 
   function updateOuterColor(index: number) {

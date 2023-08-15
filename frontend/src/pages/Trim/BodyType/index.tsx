@@ -38,7 +38,7 @@ export function BodyType() {
 
   const {
     handleTrim,
-    trim: { bodyType },
+    myCar: { bodyType },
   } = useOutletContext<MyCarLayoutContextProps>();
 
   function handleCardClick(index: number, extraCharge: number) {

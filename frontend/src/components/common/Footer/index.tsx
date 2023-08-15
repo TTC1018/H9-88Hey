@@ -27,9 +27,9 @@ export function Footer({ myCarData, totalPrice, onSetLocalStorage }: FooterProps
     setIsOpen(false);
   }
 
-  const { model, engine, bodyType, wheelDrive, outerColor, innerColor, options } = myCarData;
+  const { trim, engine, bodyType, wheelDrive, outerColor, innerColor, options } = myCarData;
 
-  const trim = `${engine.title}${bodyType.title !== '' ? '/' : ''}${bodyType.title}${
+  const trimOptions = `${engine.title}${bodyType.title !== '' ? '/' : ''}${bodyType.title}${
     wheelDrive.title !== '' ? '/' : ''
   }${wheelDrive.title}`;
 
@@ -60,8 +60,8 @@ export function Footer({ myCarData, totalPrice, onSetLocalStorage }: FooterProps
     <Styled.Container>
       <Styled.TrimWrapper>
         <Styled.Title>트림</Styled.Title>
-        <Styled.CarName>{model.title}</Styled.CarName>
-        <Styled.TrimDetail>{trim}</Styled.TrimDetail>
+        <Styled.CarName>{trim.title}</Styled.CarName>
+        <Styled.TrimDetail>{trimOptions}</Styled.TrimDetail>
       </Styled.TrimWrapper>
       <Styled.Division />
       <Styled.ColorWrapper>

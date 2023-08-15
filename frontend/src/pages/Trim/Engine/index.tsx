@@ -39,7 +39,7 @@ export function Engine() {
 
   const {
     handleTrim,
-    trim: { engine },
+    myCar: { engine },
   } = useOutletContext<MyCarLayoutContextProps>();
 
   function handleCardClick(index: number, extraCharge: number) {

@@ -37,7 +37,7 @@ export function WheelDrive() {
 
   const {
     handleTrim,
-    trim: { wheelDrive },
+    myCar: { wheelDrive },
   } = useOutletContext<MyCarLayoutContextProps>();
 
   function handleCardClick(index: number, additionalPrice: number) {
