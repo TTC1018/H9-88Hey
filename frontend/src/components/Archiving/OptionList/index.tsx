@@ -8,9 +8,10 @@ interface Props {
   options: SelectOptionsProps[];
 }
 export function OptionList({ options }: Props) {
+  const contents: SelectOptionsProps[][] = [[], [], []];
+
   const itemsPerRow = 3;
 
-  const contents: [SelectOptionsProps[], SelectOptionsProps[], SelectOptionsProps[]] = [[], [], []];
   options.forEach((option, index) => {
     contents[index % itemsPerRow].push(option);
   });
@@ -20,8 +21,8 @@ export function OptionList({ options }: Props) {
       {contents.map(content => {
         return (
           <Styled.Wrapper>
-            {content.map(item => {
-              return <OptionDescriptionCard props={item} />;
+            {content.map(props => {
+              return <OptionDescriptionCard props={props} />;
             })}
           </Styled.Wrapper>
         );

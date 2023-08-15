@@ -4,10 +4,10 @@ import { useFetch } from '@/hooks/useFetch';
 import { ArchivingCarDataProps, ArchivingDataProps } from '@/types/archiving';
 
 import { OptionSearchBar } from '@/components/Archiving/OptionSearchBar';
+import { ReviewList } from '@/components/Archiving/ReviewList';
 import { SearchBar } from '@/components/Archiving/SearchBar';
 
 import * as style from './style';
-import { ReviewList } from '@/components/Archiving/ReviewList';
 
 const initialData = {
   archivings: [
@@ -54,17 +54,17 @@ export function Archiving() {
     url: '/archiving/cars',
   });
 
-  const [selectedSearchOptions, setSelectedSearchOptions] = useState<Set<string>>(new Set());
-  const [selectedCar, setSelectedCar] = useState('전체');
+  const [selectedOptions, setSelectedOptions] = useState<Set<string>>(new Set());
+  const [selectedCarName, setSelectedCar] = useState('전체');
 
-  const cars = ['전체', ...archivingCars.map(car => car.name)];
+  const selectCarNames = ['전체', ...archivingCars.map(car => car.name)];
   const allOptions = [...new Set(archivingCars.flatMap(item => item.options))];
 
-  const currentSelectedCar = archivingCars.find(({ name }) => name === selectedCar);
-  const options = selectedCar === '전체' ? allOptions : currentSelectedCar!.options;
+  const selectedCarInfo = archivingCars.find(({ name }) => name === selectedCarName);
+  const options = selectedCarName === '전체' ? allOptions : selectedCarInfo!.options;
 
   function handleSelectOption(option: string) {
-    setSelectedSearchOptions(prev => {
+    setSelectedOptions(prev => {
       if (prev.has(option)) {
         const newSet = new Set(prev);
         newSet.delete(option);
@@ -81,13 +81,13 @@ export function Archiving() {
 
   return (
     <style.Container>
-      <SearchBar selectedCar={selectedCar} onClick={handleSelectCar} cars={cars} />
-      <OptionSearchBar options={options} onSelectOption={handleSelectOption} selectOptions={selectedSearchOptions} />
+      <SearchBar selectedCar={selectedCarName} onClick={handleSelectCar} cars={selectCarNames} />
+      <OptionSearchBar options={options} onSelectOption={handleSelectOption} selectOptions={selectedOptions} />
       <style.ReviewWrapper>
         {archivings.length === 0 ? (
           <style.InfoBox>조건에 맞는 결과가 없습니다.</style.InfoBox>
         ) : (
-          <ReviewList archivings={archivings} options={selectedSearchOptions} onClick={handleSelectOption} />
+          <ReviewList archivings={archivings} options={selectedOptions} onClick={handleSelectOption} />
         )}
       </style.ReviewWrapper>
     </style.Container>

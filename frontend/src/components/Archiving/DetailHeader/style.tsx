@@ -121,4 +121,5 @@ export const Image = styled.img`
 
   transform: scale(1.6);
 `;
+
 export const Enclosure = styled.div``;

@@ -2,10 +2,10 @@ import * as Styled from './style';
 
 interface Props {
   selectedCar: string;
-  onClick: (car: string) => void;
   cars: string[];
+  onClick: (car: string) => void;
 }
-export function SearchBar({ selectedCar, onClick, cars }: Props) {
+export function SearchBar({ selectedCar, cars, onClick }: Props) {
   return (
     <Styled.Container>
       {cars.map(car => (

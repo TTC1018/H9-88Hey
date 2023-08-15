@@ -38,7 +38,3 @@ export const InfoBox = styled.div`
     `;
   }}
 `;
-
-export const CardBox = styled.div``;
-
-export const Enclosure = styled.div``;

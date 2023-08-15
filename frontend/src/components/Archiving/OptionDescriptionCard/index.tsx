@@ -1,7 +1,8 @@
+import { useState } from 'react';
+
 import { SelectOptionsProps } from '@/types/archiving';
 
 import * as Styled from './style';
-import { useState } from 'react';
 
 interface Props {
   props: SelectOptionsProps;
@@ -9,6 +10,7 @@ interface Props {
 export function OptionDescriptionCard({ props }: Props) {
   const { name, imageUrl, subOptions, tags, review } = props;
   const [isActive, setIsActive] = useState(false);
+
   return (
     <Styled.Container>
       <Styled.Image src={imageUrl} />

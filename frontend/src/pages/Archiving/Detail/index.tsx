@@ -1,11 +1,13 @@
 import { useLocation } from 'react-router-dom';
 
-import * as Styled from './style';
-import { DetailHeader } from '@/components/Archiving/DetailHeader';
 import { ArchivingProps } from '@/types/archiving';
 import { combineWithSlash, formatDate } from '@/utils';
-import { DetailDescription } from '@/components/Archiving/DetailDescription';
+
 import { OptionList } from '@/components/Archiving/OptionList';
+import { DetailHeader } from '@/components/Archiving/DetailHeader';
+import { DetailDescription } from '@/components/Archiving/DetailDescription';
+
+import * as Styled from './style';
 
 export function Detail() {
   const location = useLocation();
@@ -26,20 +28,13 @@ export function Detail() {
 
   const options = selectedOptions.map(option => option.name);
 
-  const itemsPerRow = 3; // 각 줄에 표시할 아이템 개수
-
-  const rows = [];
-  for (let i = 0; i < selectedOptions.length; i += itemsPerRow) {
-    rows.push(selectedOptions.slice(i, i + itemsPerRow));
-  }
-
-  const dateText = isPurchase ? '구매했어요' : '시승했어요';
+  const dateText = isPurchase ? '에 구매했어요' : '에 시승했어요';
   return (
     <Styled.Container>
       <Styled.HeaderWrapper>
         <DetailHeader
           title={`${model} ${trim}`}
-          date={formatDate(creationDate) + `에 ${dateText}`}
+          date={formatDate(creationDate) + dateText}
           trimOptions={combineWithSlash(trimOptions)}
           exteriorColor={exteriorColor}
           interiorColor={interiorColor}

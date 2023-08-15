@@ -35,9 +35,9 @@ export function ReviewList({ archivings, options, onClick }: Props) {
 
   return (
     <Styled.Container ref={masonryRef}>
-      {archivings.map((review, idx) => {
+      {archivings.map((review, index) => {
         return (
-          <Styled.Wrapper key={idx} onClick={() => naviagteWithData({ state: review })}>
+          <Styled.Wrapper key={index} onClick={() => naviagteWithData({ state: review })}>
             <ReviewCard props={review} isArchiving={true} selectedSearchOptions={options} onClick={onClick} />
           </Styled.Wrapper>
         );

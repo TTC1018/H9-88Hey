@@ -59,6 +59,7 @@ export const TagWrapper = styled.div`
 
   display: flex;
 `;
+
 export const Tag = styled.p`
   ${({ theme }) => {
     const { fonts, colors } = theme;
@@ -76,17 +77,14 @@ interface Props {
   isActive: boolean;
 }
 export const ContentWrapper = styled.div<Props>`
-  max-height: 0;
-  overflow: hidden;
-  transition: max-height 0.5s ease-out;
-
   ${({ isActive }) => {
-    return (
-      isActive &&
-      css`
-        max-height: 500px;
-      `
-    );
+    return css`
+      max-height: ${isActive ? '500px' : 0};
+
+      overflow: hidden;
+
+      transition: max-height 0.5s ease-out;
+    `;
   }}
 `;
 

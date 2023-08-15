@@ -31,7 +31,6 @@ export function WheelDrive() {
     defaultValue: initialData,
     url: '/car/model/1/wheel-drive',
   });
-  const initwheelDrives = wheelDrives[0];
 
   const [selectedIndex, handleSetIndex] = useSelectIndex();
   const { name, additionalPrice, imageUrl } = wheelDrives[selectedIndex];
@@ -50,12 +49,14 @@ export function WheelDrive() {
 
   useEffect(() => {
     if (wheelDrive.title === '') {
-      handleTrim({ key: 'wheelDrive', option: initwheelDrives.name, price: initwheelDrives.additionalPrice });
+      const { name, additionalPrice } = wheelDrives[0];
+
+      handleTrim({ key: 'wheelDrive', option: name, price: additionalPrice });
 
       return;
     }
 
-    const index = wheelDrives.findIndex(card => card.name === wheelDrive.title);
+    const index = wheelDrives.findIndex(({ name }) => name === wheelDrive.title);
     index !== -1 && handleSetIndex(index)();
   }, [wheelDrives]);
 

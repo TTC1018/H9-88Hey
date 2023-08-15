@@ -31,7 +31,6 @@ export function BodyType() {
     defaultValue: initialData,
     url: '/car/model/1/body-type',
   });
-  const initBodyTypes = bodyTypes[0];
 
   const [selectedIndex, handleSetIndex] = useSelectIndex();
 
@@ -51,12 +50,14 @@ export function BodyType() {
 
   useEffect(() => {
     if (bodyType.title === '') {
-      handleTrim({ key: 'bodyType', option: initBodyTypes.name, price: initBodyTypes.additionalPrice });
+      const { name, additionalPrice } = bodyTypes[0];
+
+      handleTrim({ key: 'bodyType', option: name, price: additionalPrice });
 
       return;
     }
 
-    const index = bodyTypes.findIndex(card => card.name === bodyType.title);
+    const index = bodyTypes.findIndex(({ name }) => name === bodyType.title);
     index !== -1 && handleSetIndex(index)();
   }, [bodyTypes]);
 
