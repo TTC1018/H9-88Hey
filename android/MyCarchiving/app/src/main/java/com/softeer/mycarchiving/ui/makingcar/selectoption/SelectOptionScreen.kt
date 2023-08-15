@@ -61,7 +61,7 @@ fun SelectOptionRoute(
     val hGenuines by viewModel.hGenuines.collectAsStateWithLifecycle()
     val nPerformances by viewModel.nPerformances.collectAsStateWithLifecycle()
     val focusedOptionIndex by viewModel.focusedOptionIndex.collectAsStateWithLifecycle()
-    val basicItems by viewModel.basicItems.collectAsStateWithLifecycle()
+    val basicItems by viewModel.basicOptions.collectAsStateWithLifecycle()
     val showBasicItems by viewModel.showBasicItems.collectAsStateWithLifecycle()
 
     LaunchedEffect(screenProgress) {

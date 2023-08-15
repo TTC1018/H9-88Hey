@@ -29,6 +29,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
+import coil.compose.AsyncImage
 import com.softeer.mycarchiving.R
 import com.softeer.mycarchiving.model.common.CarBasicDetailUiModel
 import com.softeer.mycarchiving.ui.theme.DarkGray
@@ -88,14 +89,14 @@ fun BasicItemDialog(
                     )
                 }
                 Spacer(modifier = Modifier.height(12.dp))
-                Image(
+                AsyncImage(
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(161.dp)
                         .clip(roundCorner),
-                    painter = painterResource(id = R.drawable.ic_launcher_background),
-                    contentDescription = null,
-                    contentScale = ContentScale.FillBounds
+                    model = detailItem.imageUrl,
+                    contentDescription = "",
+                    contentScale = ContentScale.Crop
                 )
                 Spacer(modifier = Modifier.height(20.dp))
                 Text(
