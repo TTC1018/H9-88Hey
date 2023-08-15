@@ -25,7 +25,7 @@ export function OptionDescriptionCard({ props }: Props) {
           <Styled.Tag key={tag}>{tag}</Styled.Tag>
         ))}
       </Styled.TagWrapper>
-      <Styled.Button onClick={() => setIsActive(!isActive)}> 접기 </Styled.Button>
+      <Styled.Button onClick={() => setIsActive(prev => !prev)}> 접기 </Styled.Button>
     </Styled.Container>
   );
 }

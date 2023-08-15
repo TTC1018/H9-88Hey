@@ -13,7 +13,6 @@ interface CarImageProps {
 }
 
 export function ExternalCarImage({ imageUrl }: CarImageProps) {
-  console.log(imageUrl);
   const [isClicked, setIsClicked] = useState(false);
   const [isRotate, setIsRotate] = useState(false);
   const [xPosition, setXPosition] = useState(0);

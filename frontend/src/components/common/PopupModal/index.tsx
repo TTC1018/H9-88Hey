@@ -16,7 +16,6 @@ export function PopupModal() {
           isBig: true,
           callback: () => {
             navigate('/archiving');
-            console.log(modalState.callbackData);
           },
           content: <CloseContent />,
         };
@@ -24,18 +23,14 @@ export function PopupModal() {
         return {
           text: '삭제',
           isBig: false,
-          callback: () => {
-            console.log(modalState.callbackData);
-          },
+          callback: () => {},
           content: <DeleteContent name={modalState.ContentData!} />,
         };
       case 'MOVE':
         return {
           text: '내 차 만들기 이동',
           isBig: true,
-          callback: () => {
-            console.log(modalState.callbackData);
-          },
+          callback: () => {},
           content: <MoveContent date={modalState.ContentData!} />,
         };
     }
