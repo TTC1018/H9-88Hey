@@ -1,9 +1,12 @@
+import { useNavigate } from 'react-router-dom';
+
 import { useModalContext } from '@/hooks/useModalContext';
 
 import * as Styled from './style';
 
 export function PopupModal() {
   const { modalState, handleClose } = useModalContext();
+  const navigate = useNavigate();
 
   const state = (function () {
     switch (modalState.modalType) {
@@ -12,7 +15,7 @@ export function PopupModal() {
           text: '내 차 만들기 종료',
           isBig: true,
           callback: () => {
-            console.log(modalState.callbackData);
+            navigate('/archiving');
           },
           content: <CloseContent />,
         };
@@ -20,18 +23,14 @@ export function PopupModal() {
         return {
           text: '삭제',
           isBig: false,
-          callback: () => {
-            console.log(modalState.callbackData);
-          },
+          callback: () => {},
           content: <DeleteContent name={modalState.ContentData!} />,
         };
       case 'MOVE':
         return {
           text: '내 차 만들기 이동',
           isBig: true,
-          callback: () => {
-            console.log(modalState.callbackData);
-          },
+          callback: () => {},
           content: <MoveContent date={modalState.ContentData!} />,
         };
     }

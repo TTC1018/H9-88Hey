@@ -14,12 +14,12 @@ export function SelectOptionCard({ isActive, name, price, features }: SelectOpti
       <Styled.Title>{name}</Styled.Title>
       <Styled.Line isActive={isActive} />
       <Styled.ImageWrapper>
-        {features.map(({ name, icon }) => {
+        {features.map(({ name, imageUrl }) => {
           const isBig = name.length >= 15;
 
           return (
             <Styled.IconWrapper key={name}>
-              <Styled.Image src={icon} />
+              <Styled.Image src={imageUrl} />
               <Styled.Text isBig={isBig}>{name}</Styled.Text>
             </Styled.IconWrapper>
           );

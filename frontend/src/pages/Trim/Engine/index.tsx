@@ -31,9 +31,8 @@ export function Engine() {
     data: { engines },
   } = useFetch<EngineDataProps>({
     defaultValue: initialData,
-    url: '/model/1/engine',
+    url: '/car/model/1/engine',
   });
-  const initEngines = engines[0];
 
   const [selectedIndex, handleSetIndex] = useSelectIndex();
   const { imageUrl, additionalPrice, name } = engines[selectedIndex];
@@ -52,12 +51,14 @@ export function Engine() {
 
   useEffect(() => {
     if (engine.title === '') {
-      handleTrim({ key: 'engine', option: initEngines.name, price: initEngines.additionalPrice });
+      const { name, additionalPrice } = engines[0];
+
+      handleTrim({ key: 'engine', option: name, price: additionalPrice });
 
       return;
     }
 
-    const index = engines.findIndex(card => card.name === engine.title);
+    const index = engines.findIndex(({ name }) => name === engine.title);
     index !== -1 && handleSetIndex(index)();
   }, [engines]);
 

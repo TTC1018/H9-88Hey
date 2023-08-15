@@ -2,15 +2,20 @@ import { createBrowserRouter } from 'react-router-dom';
 
 import { Trim } from '@/pages/Trim';
 import { Color } from '@/pages/Color';
-import { Option } from '@/pages/Option';
-import { Engine } from '@/pages/Trim/Engine';
-import { BodyType } from '@/pages/Trim/BodyType';
-import { WheelDrive } from '@/pages/Trim/WheelDrive';
-import { MyCarLayout } from '@/components/layout/MyCarLayout';
-import { ErrorBoundary } from '@/components/common/ErrorBoundary';
-import { MyChivingLayout } from '@/components/layout/MyChivingLayout';
 import { Review } from '@/pages/Review';
 import { Result } from '@/pages/Result';
+import { Option } from '@/pages/Option';
+import { Engine } from '@/pages/Trim/Engine';
+import { MyChiving } from '@/pages/MyChiving';
+import { Archiving } from '@/pages/Archiving';
+import { BodyType } from '@/pages/Trim/BodyType';
+import { Detail } from '@/pages/Archiving/Detail';
+import { WheelDrive } from '@/pages/Trim/WheelDrive';
+import { PopupModal } from '@/components/common/PopupModal';
+import { MyCarLayout } from '@/components/layout/MyCarLayout';
+import { ModalPortal } from '@/components/common/ModalPortal';
+import { ErrorBoundary } from '@/components/common/ErrorBoundary';
+import { MyChivingLayout } from '@/components/layout/MyChivingLayout';
 
 export const router = createBrowserRouter([
   {
@@ -18,6 +23,9 @@ export const router = createBrowserRouter([
     element: (
       <ErrorBoundary>
         <MyCarLayout />
+        <ModalPortal>
+          <PopupModal />
+        </ModalPortal>
       </ErrorBoundary>
     ),
     children: [
@@ -70,12 +78,27 @@ export const router = createBrowserRouter([
     ],
   },
   {
-    path: 'mychiving',
+    path: '',
     element: <MyChivingLayout />,
-  },
-  {
-    path: 'archiving',
-    element: <MyChivingLayout />,
+    children: [
+      {
+        path: 'archiving',
+        children: [
+          {
+            path: '',
+            element: <Archiving />,
+          },
+          {
+            path: 'detail',
+            element: <Detail />,
+          },
+        ],
+      },
+      {
+        path: 'mychiving',
+        element: <MyChiving />,
+      },
+    ],
   },
   {
     path: 'review',

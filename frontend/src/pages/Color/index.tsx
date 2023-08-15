@@ -48,12 +48,16 @@ export function Color() {
     name: externalName,
     carImagePath: externalCarImage,
     availableInteriorColors,
-    tags: externalTags,
+    // tags: externalTags,
     additionalPrice,
   } = data.exteriorColors[selectedExternalIndex];
 
   const availableInnerColorList = data.interiorColors.filter(color => availableInteriorColors.includes(color.id));
-  const { name: innerName, carImageUrl: innerCarImage, tags: innerTags } = availableInnerColorList[selectedInnerIndex];
+  const {
+    name: innerName,
+    carImageUrl: innerCarImage,
+    // tags: innerTags
+  } = availableInnerColorList[selectedInnerIndex];
 
   const {
     handleOuterColor,
@@ -130,7 +134,6 @@ export function Color() {
 
   const descriptionTitle = isExternalPage ? externalName : innerName;
   const descriptionPrice = isExternalPage ? additionalPrice : 0;
-  const descriptionTags = isExternalPage ? externalTags : innerTags;
 
   return (
     <Styled.Container>

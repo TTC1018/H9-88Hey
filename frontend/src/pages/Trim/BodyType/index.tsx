@@ -19,7 +19,7 @@ const initialData = {
       name: '',
       additionalPrice: 0,
       description: '',
-      imageUrls: [''],
+      imageUrl: '',
     },
   ],
 };
@@ -29,14 +29,12 @@ export function BodyType() {
     data: { bodyTypes },
   } = useFetch<BodyTypeDataProps>({
     defaultValue: initialData,
-    url: '/model/1/body-type',
+    url: '/car/model/1/body-type',
   });
-  const initBodyTypes = bodyTypes[0];
 
   const [selectedIndex, handleSetIndex] = useSelectIndex();
-  const [selectedImageIndex, handleSetImageIndex] = useSelectIndex();
 
-  const { imageUrls, name, additionalPrice } = bodyTypes[selectedIndex];
+  const { imageUrl, name, additionalPrice } = bodyTypes[selectedIndex];
 
   const {
     handleTrim,
@@ -46,19 +44,20 @@ export function BodyType() {
   function handleCardClick(index: number, extraCharge: number) {
     return function () {
       handleSetIndex(index)();
-      handleSetImageIndex(0)();
       handleTrim({ key: 'bodyType', option: bodyTypes[index].name, price: extraCharge });
     };
   }
 
   useEffect(() => {
     if (bodyType.title === '') {
-      handleTrim({ key: 'bodyType', option: initBodyTypes.name, price: initBodyTypes.additionalPrice });
+      const { name, additionalPrice } = bodyTypes[0];
+
+      handleTrim({ key: 'bodyType', option: name, price: additionalPrice });
 
       return;
     }
 
-    const index = bodyTypes.findIndex(card => card.name === bodyType.title);
+    const index = bodyTypes.findIndex(({ name }) => name === bodyType.title);
     index !== -1 && handleSetIndex(index)();
   }, [bodyTypes]);
 
@@ -66,12 +65,7 @@ export function BodyType() {
     <Styled.Container>
       <Styled.Wrapper>
         <Styled.Box>
-          <MyCarImageBox
-            hasOption={true}
-            images={imageUrls}
-            selectedIndex={selectedImageIndex}
-            onClick={handleSetImageIndex}
-          />
+          <MyCarImageBox hasOption={false} images={imageUrl} />
           <MyCarDescription title={name} price={additionalPrice} hasTag={false} />
         </Styled.Box>
         <Styled.Box>

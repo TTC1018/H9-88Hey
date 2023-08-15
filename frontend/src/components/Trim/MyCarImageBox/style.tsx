@@ -18,7 +18,7 @@ const Image = styled.img`
 
   border-radius: 4px;
 
-  object-fit: fill;
+  object-fit: cover;
 `;
 
 const Wrapper = styled.div`

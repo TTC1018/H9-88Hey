@@ -6,6 +6,8 @@ import { wheelDriveHandler } from './api/wheel-drive';
 import { trimNPerformanceHandler } from './api/trim-n-performance';
 import { trimSelectOptionHandler } from './api/trim-select-option';
 import { trimDefaultOptionHandler } from './api/trim-default-option';
+import { archivingHandler } from './api/archiving';
+import { archivingCarHandler } from './api/archiving-car';
 import { trimHGenuineAccessoriesHandler } from './api/trim-h-genuine-accessories';
 import { savedMyChivingHandler } from './api/my-archiving-saved';
 import { tempMyChivingHandler } from './api/my-archiving-temp';
@@ -21,6 +23,8 @@ export const handlers = [
   ...trimColorHandler,
   ...engineHandler,
   ...bodyTypeHandler,
+  ...archivingHandler,
+  ...archivingCarHandler,
   ...savedMyChivingHandler,
   ...tempMyChivingHandler,
   ...feedMyChivingHandler,

@@ -30,7 +30,6 @@ interface Props {
 }
 export function ModalProvider({ children }: Props) {
   const [modalState, setModalState] = useState<StateProps>(DEFAULT_VALUE);
-
   const [isOpen, setIsOpen] = useState(false);
 
   function handleClose() {

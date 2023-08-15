@@ -11,6 +11,8 @@ const Container = styled.div<ActiveStateProps>`
       width: 391px;
       padding: 18px 23px 20px 23px;
 
+      position: relative;
+
       color: ${isActive ? colors.hyundaiPrimaryBlue : colors.black};
 
       background: ${isActive ? 'rgba(56, 93, 162, 0.1)' : colors.hyundaiLightSand};
@@ -18,6 +20,44 @@ const Container = styled.div<ActiveStateProps>`
       border-radius: 8px;
 
       cursor: pointer;
+
+      &::before,
+      &::after {
+        width: 0;
+        height: 0;
+
+        position: absolute;
+        visibility: hidden;
+
+        border-radius: 8px;
+
+        content: '';
+        transition: 0.2s ease-in-out;
+        transform: translateZ(0);
+      }
+      &::before {
+        top: -2px;
+        left: -2px;
+
+        border-top: 2px solid ${colors.hyundaiPrimaryBlue};
+        border-left: 2px solid ${colors.hyundaiPrimaryBlue};
+      }
+
+      &::after {
+        right: -2px;
+        bottom: -2px;
+
+        border-bottom: 2px solid ${colors.hyundaiPrimaryBlue};
+        border-right: 2px solid ${colors.hyundaiPrimaryBlue};
+      }
+
+      &:hover::before,
+      &:hover::after {
+        width: 100%;
+        height: 100%;
+
+        ${!isActive && 'visibility: visible;'}
+      }
     `;
   }}
 `;
