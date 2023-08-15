@@ -3,6 +3,7 @@ package com.softeer.mycarchiving.ui.makingcar.selectoption
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.softeer.data.model.TrimHGenuineDto
 import com.softeer.data.model.TrimSelectOptionDto
 import com.softeer.data.model.TrimSubOptionDto
 import com.softeer.data.repository.SelectOptionRepository
@@ -15,7 +16,9 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
@@ -46,15 +49,29 @@ class SelectOptionViewModel @Inject constructor(
             initialValue = emptyList()
         )
 
+    val hGenuines = selectOptions.flatMapLatest { selectOptions ->
+        if (_carCode.value.isNotEmpty() && selectOptions.isNotEmpty()) {
+            selectOptionRepository.getHGenuines(_carCode.value, selectOptions.map { it.id })
+        } else {
+            flowOf()
+        }
+    }
+        .map { dtos -> dtos.map { it.selectOption.asSelectOptionUiModel() } }
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(),
+            initialValue = emptyList()
+        )
+
     val nPerformances = _carCode.flatMapLatest { carCode ->
         selectOptionRepository.getNPerformances(carCode)
     }
         .map { dtos -> dtos.map { it.asSelectOptionUiModel() } }
         .stateIn(
-        scope = viewModelScope,
-        started = SharingStarted.WhileSubscribed(),
-        initialValue = emptyList()
-    )
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(),
+            initialValue = emptyList()
+        )
 
     val focusedOptionIndex = MutableStateFlow(0)
 
@@ -102,8 +119,9 @@ class SelectOptionViewModel @Inject constructor(
 
     private fun TrimSelectOptionDto.asSelectOptionUiModel() =
         SelectOptionUiModel(
+            id = id,
             name = name,
-            price = 0,
+            price = price,
             imageUrl = imageUrl,
             tags = tags,
             subOptions = subOptions.map { it.asSubSelectOptionUiModel() }

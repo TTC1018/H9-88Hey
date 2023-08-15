@@ -12,6 +12,18 @@ data class SelectOptionDto(
     val selectOptions: List<TrimSelectOptionDto>
 )
 
+data class HGenuineDto(
+    @SerializedName("selectOptions")
+    val selectOptions: List<TrimHGenuineDto>
+)
+
+data class TrimHGenuineDto(
+    @SerializedName("isAvailable")
+    val isAvailable: Boolean,
+    @SerializedName("selectOption")
+    val selectOption: TrimSelectOptionDto
+)
+
 data class TrimSelectOptionDto(
     @SerializedName("id")
     val id: String,
@@ -19,6 +31,8 @@ data class TrimSelectOptionDto(
     val name: String,
     @SerializedName("imageURL")
     val imageUrl: String,
+    @SerializedName("additionalPrice")
+    val price: Int,
     @SerializedName("tags")
     val tags: List<String>?,
     @SerializedName("subOptions")

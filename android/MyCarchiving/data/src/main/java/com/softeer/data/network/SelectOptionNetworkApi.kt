@@ -2,10 +2,12 @@ package com.softeer.data.network
 
 import com.softeer.data.model.BaseResponse
 import com.softeer.data.model.CarCodeDto
+import com.softeer.data.model.HGenuineDto
 import com.softeer.data.model.SelectOptionDto
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Query
+import retrofit2.http.QueryMap
 
 interface SelectOptionNetworkApi {
     @GET("/car/car-code")
@@ -18,13 +20,17 @@ interface SelectOptionNetworkApi {
 
     @GET("/car/select-option")
     suspend fun getSelectOptions(
-        @Query("carCode") carCode: String
+        @Query("car_code") carCode: String
     ): Response<BaseResponse<SelectOptionDto>>
 
-    // TODO H-GENUINE 선언
+    @GET("/car/h-genuine-accessories")
+    suspend fun getHGenuines(
+        @Query("car_code") carCode: String,
+        @Query("select_option") selectOptions: List<String>
+    ): Response<BaseResponse<HGenuineDto>>
 
     @GET("/car/n-performance")
     suspend fun getNPerformances(
-        @Query("carCode") carCode: String
+        @Query("car_code") carCode: String
     ): Response<BaseResponse<SelectOptionDto>>
 }

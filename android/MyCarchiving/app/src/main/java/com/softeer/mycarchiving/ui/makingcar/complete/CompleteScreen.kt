@@ -136,6 +136,7 @@ fun PreviewCompleteScreen() {
         ),
         selectedOptions = listOf(
             SelectOptionUiModel(
+                id = "",
                 name = "컴포트 II",
                 price = 10900000,
                 imageUrl = "",
@@ -159,6 +160,7 @@ fun PreviewCompleteScreen() {
                 )
             ),
             SelectOptionUiModel(
+                id = "",
                 name = "현대스마트센스 Ⅰ",
                 price = 2900000,
                 imageUrl = "",
