@@ -3,7 +3,8 @@ package com.softeer.mycarchiving.ui.makingcar.selectoption
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.softeer.data.model.TrimHGenuineDto
+import com.softeer.data.model.TrimBasicOptionDto
+import com.softeer.data.model.TrimBasicSubOptionDto
 import com.softeer.data.model.TrimSelectOptionDto
 import com.softeer.data.model.TrimSubOptionDto
 import com.softeer.data.repository.SelectOptionRepository
@@ -16,12 +17,10 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 private val TAG = SelectOptionViewModel::class.simpleName
@@ -75,29 +74,16 @@ class SelectOptionViewModel @Inject constructor(
 
     val focusedOptionIndex = MutableStateFlow(0)
 
-    private val basicDetailItems = listOf(
-        CarBasicDetailUiModel(
-            name = "ISG 시스템",
-            description = "신호 대기 상황이거나 정차 중일 때 차의 엔진을 일시 정지하여 연비를 향상시키고, 배출가스 발생을 억제하는 시스템입니다."
-        ),
-        CarBasicDetailUiModel(
-            name = "ISG 시스템",
-            description = "신호 대기 상황이거나 정차 중일 때 차의 엔진을 일시 정지하여 연비를 향상시키고, 배출가스 발생을 억제하는 시스템입니다."
-        ),
-        CarBasicDetailUiModel(
-            name = "ISG 시스템",
-            description = "신호 대기 상황이거나 정차 중일 때 차의 엔진을 일시 정지하여 연비를 향상시키고, 배출가스 발생을 억제하는 시스템입니다."
+    val basicOptions = _carCode.flatMapLatest { carCode ->
+        selectOptionRepository.getBasicOptions(carCode)
+    }
+        .map { dtos -> dtos.map { it.asCarBasicUiModel() } }
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(),
+            initialValue = emptyList()
         )
-    )
 
-    private val basicItem1 = CarBasicUiModel(category = "파워트레인 성능", detailItems = basicDetailItems)
-    private val basicItem2 = CarBasicUiModel(category = "지능형 안전 기술", detailItems = basicDetailItems)
-    private val basicItem3 = CarBasicUiModel(category = "안전", detailItems = basicDetailItems)
-    private val basicItem4 = CarBasicUiModel(category = "성능", detailItems = basicDetailItems)
-
-    private val _basicItems =
-        MutableStateFlow(listOf(basicItem1, basicItem2, basicItem3, basicItem4))
-    val basicItems: StateFlow<List<CarBasicUiModel>> = _basicItems
     private val _showBasicItems = MutableStateFlow(false)
     val showBasicItems: StateFlow<Boolean> = _showBasicItems
 
@@ -132,5 +118,18 @@ class SelectOptionViewModel @Inject constructor(
             name = name,
             imageUrl = imageUrl,
             description = description,
+        )
+
+    private fun TrimBasicOptionDto.asCarBasicUiModel() =
+        CarBasicUiModel(
+            category = category,
+            detailItems = subOptions.map { it.asCarBasicDetailUiModel() }
+        )
+
+    private fun TrimBasicSubOptionDto.asCarBasicDetailUiModel() =
+        CarBasicDetailUiModel(
+            name = name,
+            description = description,
+            imageUrl = imageUrl
         )
 }
