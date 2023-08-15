@@ -2,6 +2,7 @@ import { MyFeedDataProps } from '@/types/myChiving';
 import { useFetch } from '@/hooks/useFetch';
 
 import { FeedList } from '@/components/MyChiving/FeedList';
+import { NoDataInfo } from '@/components/MyChiving/NoDataInfo';
 
 import * as Styled from './style';
 
@@ -42,10 +43,11 @@ export function MyFeed() {
       {archivingsByUser.length > 0 ? (
         <FeedList myChivings={archivingsByUser} />
       ) : (
-        <Styled.NoDataInfoBox>
-          <Styled.NoDataInfoText>피드에 저장한 차량이 없어요</Styled.NoDataInfoText>
-          <Styled.CreateMyCarButton>아카이빙에서 차량 검색하기</Styled.CreateMyCarButton>
-        </Styled.NoDataInfoBox>
+        <NoDataInfo
+          infoText="피드에 저장한 차량이 없어요"
+          buttonText="아카이빙에서 차량 검색하기"
+          toPath="/archiving"
+        />
       )}
     </Styled.Container>
   );

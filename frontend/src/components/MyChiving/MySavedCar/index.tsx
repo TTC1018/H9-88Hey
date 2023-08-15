@@ -6,6 +6,7 @@ import { useFetch } from '@/hooks/useFetch';
 import { MyCarList } from '@/components/MyChiving/MyCarList';
 import { PrevButton } from '@/components/common/PrevButton';
 import { NextButton } from '@/components/common/NextButton';
+import { NoDataInfo } from '@/components/MyChiving/NoDataInfo';
 
 import * as Styled from './style';
 
@@ -84,10 +85,7 @@ export function MySavedCar() {
           )}
         </Styled.MyCarBox>
       ) : (
-        <Styled.NoDataInfoBox>
-          <Styled.NoDataInfoText>내 차 목록에 저장한 차량이 없어요</Styled.NoDataInfoText>
-          <Styled.CreateMyCarButton>내 차 만들기</Styled.CreateMyCarButton>
-        </Styled.NoDataInfoBox>
+        <NoDataInfo infoText="내 차 목록에 저장한 차량이 없어요" buttonText="내 차 만들기" toPath="/trim" />
       )}
       <NextButton
         width="60"
