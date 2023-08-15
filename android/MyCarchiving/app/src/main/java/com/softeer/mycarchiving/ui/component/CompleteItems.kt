@@ -332,6 +332,7 @@ fun PreviewSelectedOptionThumbnail() {
 fun PreviewSelectedOptionInfo() {
     SelectedOptionInfo(
         optionInfo = SelectOptionUiModel(
+            id = "",
             name = "컴포트 2",
             price = 10900000,
             imageUrl = "",

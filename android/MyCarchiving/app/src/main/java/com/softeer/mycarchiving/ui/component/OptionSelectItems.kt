@@ -282,6 +282,7 @@ fun PreviewOptionSelectItem() {
     OptionSelectItem(
         modifier = Modifier,
         option = SelectOptionUiModel(
+            id = "",
             name = "컴포트 2",
             price = 1090000,
             imageUrl = ""

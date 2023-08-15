@@ -58,6 +58,7 @@ fun SelectOptionRoute(
 ) {
     val scrollState = rememberScrollState()
     val selectOptions by viewModel.selectOptions.collectAsStateWithLifecycle()
+    val hGenuines by viewModel.hGenuines.collectAsStateWithLifecycle()
     val nPerformances by viewModel.nPerformances.collectAsStateWithLifecycle()
     val focusedOptionIndex by viewModel.focusedOptionIndex.collectAsStateWithLifecycle()
     val basicItems by viewModel.basicItems.collectAsStateWithLifecycle()
@@ -72,7 +73,7 @@ fun SelectOptionRoute(
         scrollState = scrollState,
         options = when (screenProgress) {
             0 -> selectOptions
-            1 -> emptyList() // h-genuine 데이터 필요
+            1 -> hGenuines
             2 -> nPerformances
             else -> emptyList()
         },
@@ -192,6 +193,7 @@ fun PreviewSelectOptionScreen() {
         scrollState = rememberScrollState(),
         options = listOf(
             SelectOptionUiModel(
+                id = "",
                 name = "컴포트 2",
                 price = 1090000,
                 imageUrl = "",
@@ -209,6 +211,7 @@ fun PreviewSelectOptionScreen() {
                 ),
             ),
             SelectOptionUiModel(
+                id = "",
                 name = "현대스마트센스 Ⅰ",
                 price = 2900000,
                 imageUrl = "",
