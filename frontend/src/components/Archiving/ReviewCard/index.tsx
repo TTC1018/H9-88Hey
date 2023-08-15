@@ -1,9 +1,10 @@
 import { OptionSelectCard } from '@/components/Archiving/OptionSelectCard';
 import { DeleteButton } from '@/components/common/DeleteButton';
 
-import * as style from './style';
 import { ArchivingProps } from '@/types/archiving';
 import { combineWithSlash, formatDate } from '@/utils';
+
+import * as style from './style';
 
 interface ArchivingCardProps {
   isArchiving: true;

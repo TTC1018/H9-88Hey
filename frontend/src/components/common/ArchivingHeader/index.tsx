@@ -6,10 +6,6 @@ import { HyundaiLogo } from '@/components/common/HyundaiLogo';
 
 import * as Styled from './style';
 
-/* ex) 아카이빙: /archiving
-       마이카이빙: /my-archiving
-*/
-
 type PathType = 'archiving' | 'mychiving';
 
 export function ArchivingHeader() {

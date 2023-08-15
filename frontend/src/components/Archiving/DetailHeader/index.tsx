@@ -23,7 +23,7 @@ export function DetailHeader({ title, date, trimOptions, exteriorColor, interior
         <Styled.ColorBox>
           <Styled.BodyText>외장</Styled.BodyText>
           <Styled.ColorText>{exteriorColor}</Styled.ColorText>
-          <Styled.BodyText>외장</Styled.BodyText>
+          <Styled.BodyText>내장</Styled.BodyText>
           <Styled.ColorText>{interiorColor}</Styled.ColorText>
         </Styled.ColorBox>
         <Styled.Line />
