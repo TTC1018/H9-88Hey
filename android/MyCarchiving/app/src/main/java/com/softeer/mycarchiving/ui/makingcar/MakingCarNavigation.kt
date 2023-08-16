@@ -28,6 +28,6 @@ fun NavGraphBuilder.makingCarGraph(
         selectTrimScreen(appState = appState)
         selectColorScreen(appState = appState)
         selectOptionScreen(appState = appState)
-        completeScreen()
+        completeScreen(onBackProgress = appState::onBackProgress)
     }
 }
