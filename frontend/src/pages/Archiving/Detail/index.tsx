@@ -33,7 +33,7 @@ export function Detail() {
   }: ArchivingProps = {
     ...location.state,
   };
-  console.log(location.state);
+
   const options = selectedOptions.map(option => option.name);
   const dateText = isPurchase ? '에 구매했어요' : '에 시승했어요';
 
