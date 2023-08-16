@@ -75,6 +75,10 @@ export function MyCarLayout() {
     localStorage.setItem('myCar', JSON.stringify(myCar));
   }
 
+  function checkIsResultPage() {
+    return pathname === '/result';
+  }
+
   useEffect(() => {
     const localStorageData = localStorage.getItem('myCar');
 
@@ -86,10 +90,10 @@ export function MyCarLayout() {
   }, []);
 
   return (
-    <Styled.Container isFull={pathname === '/result'}>
+    <Styled.Container isFull={checkIsResultPage()}>
       <Header />
       <Navigation />
-      <Styled.Wrapper isFull={pathname === '/result'}>
+      <Styled.Wrapper isFull={checkIsResultPage()}>
         <Outlet
           context={{
             myCar,
