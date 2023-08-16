@@ -12,9 +12,9 @@ public class SelectOptionRequest {
 
 	private final List<String> selectOptions;
 
-	public SelectOptionRequest(final String car_code, final Integer model_Id, final List<String> select_option) {
+	public SelectOptionRequest(final String car_code, final Integer model_id, final List<String> select_option) {
 		this.carCode = car_code;
-		this.modelId = model_Id;
+		this.modelId = model_id;
 		this.selectOptions = select_option;
 	}
 }
