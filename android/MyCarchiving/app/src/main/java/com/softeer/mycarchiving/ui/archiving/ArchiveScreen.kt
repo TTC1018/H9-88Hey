@@ -1,5 +1,6 @@
 package com.softeer.mycarchiving.ui.archiving
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -12,7 +13,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.ModalBottomSheet
@@ -31,6 +33,8 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.softeer.mycarchiving.R
+import com.softeer.mycarchiving.model.common.CarFeedUiModel
+import com.softeer.mycarchiving.ui.component.ArchiveFeed
 import com.softeer.mycarchiving.ui.component.SearchCarBottomSheetContent
 import com.softeer.mycarchiving.ui.component.SearchDeleteChipFlowList
 import com.softeer.mycarchiving.ui.theme.DarkGray
@@ -52,10 +56,12 @@ fun ArchiveRoute(
     val pendingCarName by archiveViewModel.pendingCarName.collectAsStateWithLifecycle()
     val selectedOptions by archiveViewModel.selectedOptions.collectAsStateWithLifecycle()
     val pendingOptions by archiveViewModel.pendingOptions.collectAsStateWithLifecycle()
+    val carFeeds by archiveViewModel.carFeeds.collectAsStateWithLifecycle()
     ArchiveScreen(
         modifier = modifier,
         selectedCar = selectedCarName,
         selectedOptions = selectedOptions,
+        carFeeds = carFeeds,
         openSearchSheet = archiveViewModel::openSearchSheet
     )
     if (showSearchSheet) {
@@ -89,8 +95,10 @@ fun ArchiveScreen(
     modifier: Modifier,
     selectedCar: String,
     selectedOptions: List<String>,
-    openSearchSheet: () -> Unit
+    carFeeds: List<CarFeedUiModel>,
+    openSearchSheet: () -> Unit,
 ) {
+    val scrollState = rememberScrollState()
     Column(
         modifier = modifier.fillMaxSize()
     ) {
@@ -120,32 +128,40 @@ fun ArchiveScreen(
                     contentDescription = null
                 )
             }
-            Spacer(modifier = Modifier.height(20.dp))
-            Text(
-                text = stringResource(id = R.string.archive_get_selected_option),
-                style = medium14,
-                color = DarkGray
-            )
-            Spacer(modifier = Modifier.height(8.dp))
-            SearchDeleteChipFlowList(
-                options = selectedOptions,
-                horizontalSpace = 4
-            )
+            AnimatedVisibility(visible = !scrollState.canScrollBackward) {
+                Column {
+                    Spacer(modifier = Modifier.height(20.dp))
+                    Text(
+                        text = stringResource(id = R.string.archive_get_selected_option),
+                        style = medium14,
+                        color = DarkGray
+                    )
+                    Spacer(modifier = Modifier.height(8.dp))
+                    SearchDeleteChipFlowList(
+                        options = selectedOptions,
+                        horizontalSpace = 4
+                    )
+                }
+            }
         }
-        LazyColumn(
+
+        Column(
             modifier = Modifier
                 .fillMaxSize()
                 .background(color = HyundaiLightSand)
-                .padding(horizontal = 16.dp, vertical = 20.dp)
+                .padding(start = 16.dp, end = 16.dp, bottom = 20.dp)
+                .verticalScroll(scrollState),
+            verticalArrangement = Arrangement.spacedBy(11.dp)
         ) {
-            stickyHeader {
-                Text(
-                    text = stringResource(id = R.string.archive_get_recent_review, selectedCar),
-                    style = medium14,
-                    color = DarkGray
-                )
+            Spacer(modifier = Modifier.height(10.dp))
+            Text(
+                text = stringResource(id = R.string.archive_get_recent_review, selectedCar),
+                style = medium14,
+                color = DarkGray
+            )
+            carFeeds.forEach {
+                ArchiveFeed(carFeedUiModel = it, selectedOptions = selectedOptions)
             }
-
         }
     }
 }
