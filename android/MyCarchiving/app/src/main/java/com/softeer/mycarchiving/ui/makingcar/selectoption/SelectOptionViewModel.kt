@@ -102,6 +102,7 @@ class SelectOptionViewModel @Inject constructor(
 
     private fun TrimSelectOptionDto.asSelectOptionUiModel() =
         SelectOptionUiModel(
+            isAvailable = isAvailable,
             id = id,
             name = name,
             price = price,
