@@ -1,6 +1,5 @@
 package com.softeer.mycarchiving.ui.makingcar.selectcolor
 
-import android.util.Log
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -53,7 +52,7 @@ fun SelectColorRoute(
     val interiors by selectColorViewModel.interiors.collectAsStateWithLifecycle()
     val selectedColor by makingCarViewModel.selectedColor.collectAsStateWithLifecycle()
 
-    LaunchedEffect(screenProgress) {
+    LaunchedEffect(key1 = screenProgress, key2 = exteriors, key3 = interiors) {
         val colorOptions = when (screenProgress) {
             0 -> exteriors
             1 -> interiors
@@ -61,14 +60,14 @@ fun SelectColorRoute(
         }
 
         val isInitial = selectedColor.getOrNull(screenProgress) == null
-        if (isInitial) {
-            selectColorViewModel.changeSelectedColor(0) // 화면 처음 진입 시 첫 색상 자동 선택
+        if (isInitial) { // 화면 처음 진입 시 첫 색상 자동 선택 및 등록
+            selectColorViewModel.changeSelectedColor(0)
             makingCarViewModel.updateSelectedColorOption(
                 colorOptions.firstOrNull(),
                 screenProgress,
                 isInitial
             )
-        } else {
+        } else { // 이미 진입했던 화면이면 이전에 선택한 데이터 로드
             colorOptions
                 .indexOfFirst { it.optionName == selectedColor.getOrNull(screenProgress)?.optionName }
                 .takeIf { index -> index >= 0 }
@@ -100,7 +99,8 @@ fun SelectColorRoute(
         onLeftClick = { selectColorViewModel.changeTopImageIndex(false) },
         onRightClick = { selectColorViewModel.changeTopImageIndex(true) },
         onColorSelect = selectColorViewModel::changeSelectedColor,
-        onSaveColor = makingCarViewModel::updateSelectedColorOption
+        onSaveColor = makingCarViewModel::updateSelectedColorOption,
+        onSaveImageUrl = makingCarViewModel::updateCarImageUrl
     )
 }
 
@@ -118,8 +118,15 @@ fun SelectColorScreen(
     onRightClick: () -> Unit,
     onColorSelect: (Int) -> Unit,
     onSaveColor: (ColorOptionUiModel, Int, Boolean) -> Unit,
+    onSaveImageUrl: (String) -> Unit,
 ) {
     val selectedColor = colorOptions.getOrNull(selectedIndex)
+
+    LaunchedEffect(topImagePath) { // 내차만들기 완성에서 보여줄 URL
+        if (screenProgress == 0) {
+            onSaveImageUrl(topImagePath)
+        }
+    }
 
     Column(
         modifier = modifier
@@ -239,6 +246,7 @@ fun PreviewSelectColorScreen() {
         onLeftClick = {},
         onRightClick = {},
         onColorSelect = {},
-        onSaveColor = { _, _, _ -> }
+        onSaveColor = { _, _, _ -> },
+        onSaveImageUrl = {}
     )
 }

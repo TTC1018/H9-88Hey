@@ -56,6 +56,10 @@ class MakingCarViewModel @Inject constructor() : ViewModel() {
         _totalPrice.value += selectedModel.price
     }
 
+    fun updateCarImageUrl(imageUrl: String) {
+        _selectedCarImage.value = "${imageUrl}001.png"
+    }
+
     fun updateSelectedTrimOption(
         trimOptionUiModel: TrimOptionUiModel,
         progress: Int,
