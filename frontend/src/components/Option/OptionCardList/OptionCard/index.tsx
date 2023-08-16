@@ -34,7 +34,7 @@ export function OptionCard({
   const [isButtonActive, setIsButtonActive] = useState(false);
   const [isHover, setIsHover] = useState(false);
 
-  const { trim, addOption, removeOption } = useOutletContext<OptionContextProviderProps>();
+  const { myCar, addOption, removeOption } = useOutletContext<OptionContextProviderProps>();
 
   function handleClickButton(isBlur: boolean) {
     if (isBlur) {
@@ -57,7 +57,7 @@ export function OptionCard({
   }
 
   useEffect(() => {
-    const isOptionIncluded = trim.options.some(option => option.name === name);
+    const isOptionIncluded = myCar.options.some(option => option.name === name);
     setIsButtonActive(isOptionIncluded);
   }, [name]);
 

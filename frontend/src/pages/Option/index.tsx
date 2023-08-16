@@ -1,5 +1,7 @@
 import { useState, useEffect, MouseEvent } from 'react';
 
+import { useLocation } from 'react-router-dom';
+
 import { OptionDataProps, OptionProps, SubOptionProps, OptionCardDataProps } from '@/types/option';
 import { isValidIndex } from '@/utils';
 import { OPTION_CARD_LIST_LENGTH } from '@/constants';
@@ -43,9 +45,11 @@ interface Props {
 }
 
 export function Option({ apiType }: Props) {
+  const { search } = useLocation();
+
   const { data } = useFetch<OptionDataProps>({
     defaultValue: initialData,
-    url: `/car/${apiType}?car_code=LXJJ8MST5`, // 임시 car_code
+    url: `/car/${apiType}${search}`,
   });
 
   const [option, setOption] = useState<OptionProps>({
