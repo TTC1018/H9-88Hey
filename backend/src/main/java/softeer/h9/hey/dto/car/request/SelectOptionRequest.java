@@ -2,19 +2,23 @@ package softeer.h9.hey.dto.car.request;
 
 import java.util.List;
 
+import javax.validation.constraints.NotEmpty;
+
 import lombok.Getter;
 
 @Getter
 public class SelectOptionRequest {
-
+	@NotEmpty
 	private final String carCode;
-	private final Integer modelId;
 
 	private final List<String> selectOptions;
 
-	public SelectOptionRequest(final String car_code, final Integer model_id, final List<String> select_option) {
+	private SelectOptionRequest(String car_code, List<String> select_option) {
 		this.carCode = car_code;
-		this.modelId = model_id;
 		this.selectOptions = select_option;
+	}
+
+	public static final SelectOptionRequest of(String carCode, List<String> selectOptions) {
+		return new SelectOptionRequest(carCode, selectOptions);
 	}
 }
