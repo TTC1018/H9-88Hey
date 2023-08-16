@@ -32,10 +32,11 @@ export function MyCarLayout() {
 
   const [myCar, setMyCar] = useState<MyCarProps>(localStorageData === null ? DEFAULT_STATE : localStorageData);
 
-  const trimKeys = ['trim', 'engine', 'bodyType', 'wheelDrive', 'outerColor'];
+  const myCarKeysWithPrice = ['trim', 'engine', 'bodyType', 'wheelDrive', 'outerColor'];
 
   const calclPrice =
-    trimKeys.reduce((acc, cur) => acc + myCar[cur].price, 0) + myCar.options.reduce((acc, cur) => acc + cur.price, 0);
+    myCarKeysWithPrice.reduce((acc, cur) => acc + myCar[cur].price, 0) +
+    myCar.options.reduce((acc, cur) => acc + cur.price, 0);
 
   const prevPrice = useRef(calclPrice);
 
