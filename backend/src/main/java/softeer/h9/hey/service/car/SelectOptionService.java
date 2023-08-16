@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import softeer.h9.hey.domain.car.SelectOption;
 import softeer.h9.hey.dto.car.DisabledOptionIdDto;
 import softeer.h9.hey.dto.car.SelectOptionByModelDto;
+import softeer.h9.hey.dto.car.request.SelectOptionNormalRequest;
 import softeer.h9.hey.dto.car.request.SelectOptionRequest;
 import softeer.h9.hey.dto.car.response.HGenuineAccessoriesResponse;
 import softeer.h9.hey.dto.car.response.HGenuineAccessoryResponse;
@@ -22,7 +23,7 @@ import softeer.h9.hey.repository.car.SelectOptionRepository;
 public class SelectOptionService {
 	private final SelectOptionRepository selectOptionRepository;
 
-	public SelectOptionByModelIdResponse findAllSelectOptionByModelId(final SelectOptionRequest request) {
+	public SelectOptionByModelIdResponse findAllSelectOptionByModelId(final SelectOptionNormalRequest request) {
 		int modelId = request.getModelId();
 
 		List<SelectOptionByModelDto> selectOptions = selectOptionRepository.findAllSelectOptionByModelId(

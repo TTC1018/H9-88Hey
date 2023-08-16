@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
+import softeer.h9.hey.dto.car.request.SelectOptionNormalRequest;
 import softeer.h9.hey.dto.car.response.HGenuineAccessoriesResponse;
 import softeer.h9.hey.dto.car.response.SelectOptionByModelIdResponse;
 import softeer.h9.hey.dto.global.response.GlobalResponse;
@@ -20,8 +21,8 @@ public class SelectOptionController {
 
 	@GetMapping("/car/select-options")
 	public GlobalResponse<SelectOptionByModelIdResponse> getSelectOptionsByModelId(
-		SelectOptionRequest selectOptionRequest) {
-		SelectOptionByModelIdResponse response = selectOptionService.findAllSelectOptionByModelId(selectOptionRequest);
+		SelectOptionNormalRequest selectOptionNormalRequest) {
+		SelectOptionByModelIdResponse response = selectOptionService.findAllSelectOptionByModelId(selectOptionNormalRequest);
 		return GlobalResponse.ok(response);
 	}
 
