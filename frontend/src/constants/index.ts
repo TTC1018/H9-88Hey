@@ -15,7 +15,8 @@ export const NAVIGATION_PATH = {
   '/color': { prev: '/trim/wheel-drive', next: '/option' },
   '/option': { prev: '/color', next: '/option/h-genuine-accessories' },
   '/option/h-genuine-accessories': { prev: '/option', next: '/option/n-performance' },
-  '/option/n-performance': { prev: '/option/h-genuine-accessories', next: '' },
+  '/option/n-performance': { prev: '/option/h-genuine-accessories', next: '/result' },
+  '/result': { prev: '', next: '' },
 };
 
 export const ARCHIVING = '아카이빙';
