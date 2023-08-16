@@ -4,7 +4,6 @@ import { useOutletContext } from 'react-router-dom';
 
 import { MyCarLayoutContextProps, TrimDataProps } from '@/types/trim';
 import { useFetch } from '@/hooks/useFetch';
-import { useCacheQuery } from '@/hooks/useCacheQuery';
 import { useSelectIndex } from '@/hooks/useSelectedIndex';
 
 import { SelectOptionCard } from '@/components/Trim/SelectOptionCard';
@@ -27,14 +26,6 @@ export function Trim() {
     data: { trims },
   } = useFetch<Pick<TrimDataProps, 'trims'>>({ defaultValue: trimInitialData, url: '/car/model/1/trim' });
 
-  // const {
-  //   data: { trims },
-  // } = useCacheQuery<Pick<TrimDataProps, 'trims'>>({
-  //   defaultValue: trimInitialData,
-  //   url: '/car/model/1/trim',
-  //   stateTime: 10000,
-  //   key: 'trims',
-  // });
   const [selectedIndex, handleSetIndex] = useSelectIndex();
 
   const {
@@ -53,7 +44,7 @@ export function Trim() {
     if (trim.title === '') {
       const { name, price, id } = trims[0];
 
-      handleTrim({ key: 'trim', option: name, price: price, id: id });
+      handleTrim({ key: 'trim', option: name, price, id });
 
       return;
     }

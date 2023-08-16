@@ -53,7 +53,7 @@ export function Engine() {
     if (engine.title === '') {
       const { name, additionalPrice, id } = engines[0];
 
-      handleTrim({ key: 'engine', option: name, price: additionalPrice, id: id });
+      handleTrim({ key: 'engine', option: name, price: additionalPrice, id });
 
       return;
     }

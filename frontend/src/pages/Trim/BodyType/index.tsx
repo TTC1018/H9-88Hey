@@ -52,7 +52,7 @@ export function BodyType() {
     if (bodyType.title === '') {
       const { name, additionalPrice, id } = bodyTypes[0];
 
-      handleTrim({ key: 'bodyType', option: name, price: additionalPrice, id: id });
+      handleTrim({ key: 'bodyType', option: name, price: additionalPrice, id });
 
       return;
     }

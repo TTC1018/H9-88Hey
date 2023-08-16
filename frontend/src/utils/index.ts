@@ -48,7 +48,7 @@ export function getLocalStorage(key: string) {
 }
 
 export function checkIsOption(path: string) {
-  const splitedPath = path.split('/');
+  const splittedPath = path.split('/');
 
-  return splitedPath[1] === 'option';
+  return splittedPath[1] === 'option';
 }

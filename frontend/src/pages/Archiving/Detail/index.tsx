@@ -35,7 +35,7 @@ export function Detail() {
   };
 
   const options = selectedOptions.map(option => option.name);
-  const dateText = isPurchase ? '에 구매했어요' : '에 시승했어요';
+  const dateText = `에 ${isPurchase ? '구매' : '시승'}했어요`;
 
   const { handleOpen } = useModalContext();
   function handleNavigate() {

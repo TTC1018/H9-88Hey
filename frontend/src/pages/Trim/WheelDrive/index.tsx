@@ -51,7 +51,7 @@ export function WheelDrive() {
     if (wheelDrive.title === '') {
       const { name, additionalPrice, id } = wheelDrives[0];
 
-      handleTrim({ key: 'wheelDrive', option: name, price: additionalPrice, id: id });
+      handleTrim({ key: 'wheelDrive', option: name, price: additionalPrice, id });
 
       return;
     }
