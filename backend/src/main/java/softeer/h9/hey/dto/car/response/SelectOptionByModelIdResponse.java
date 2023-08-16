@@ -13,7 +13,7 @@ public class SelectOptionByModelIdResponse {
 		SelectOptions = selectOptions;
 	}
 
-	public SelectOptionByModelIdResponse from(List<SelectOptionByModelDto> selectOptions) {
+	public static SelectOptionByModelIdResponse from(List<SelectOptionByModelDto> selectOptions) {
 		return new SelectOptionByModelIdResponse(selectOptions);
 	}
 }

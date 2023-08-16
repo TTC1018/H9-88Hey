@@ -24,7 +24,7 @@ import softeer.h9.hey.dto.car.SelectOptionByModelDto;
 public class SelectOptionRepository {
 	private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
-	public List<SelectOptionByModelDto> findAllSelectOptionByModelId(final int modelId) {
+	public List<SelectOptionByModelDto> findAllSelectOptionByModelId(final Integer modelId) {
 		String sql = "SELECT id, name, category FROM selectOption";
 
 		List<SelectOption> selectOptions;
