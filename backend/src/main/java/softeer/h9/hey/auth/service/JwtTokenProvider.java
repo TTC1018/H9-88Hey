@@ -7,9 +7,11 @@ import java.util.Date;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.JwtParser;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
+import softeer.h9.hey.auth.exception.InvalidTokenException;
 
 @Component
 public class JwtTokenProvider {
@@ -45,6 +47,15 @@ public class JwtTokenProvider {
 			.setSubject(userId)
 			.setIssuedAt(new Date(System.currentTimeMillis()))
 			.setExpiration(new Date(System.currentTimeMillis() + accessTokenExpiredTimeMs))
+			.signWith(secretKey)
+			.compact();
+	}
+
+	public String generateRefreshToken(String userId) {
+		return Jwts.builder()
+			.setSubject(userId)
+			.setIssuedAt(new Date(System.currentTimeMillis()))
+			.setExpiration(new Date(System.currentTimeMillis() + refreshTokenExpiredTimeMs))
 			.signWith(secretKey)
 			.compact();
 	}
