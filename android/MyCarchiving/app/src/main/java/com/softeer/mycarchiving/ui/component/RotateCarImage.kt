@@ -1,5 +1,6 @@
 package com.softeer.mycarchiving.ui.component
 
+import android.util.Log
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
@@ -14,9 +15,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -24,11 +23,9 @@ import coil.ImageLoader
 import coil.compose.AsyncImage
 import coil.memory.MemoryCache
 import coil.request.ImageRequest
-import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
-import com.bumptech.glide.integration.compose.GlideImage
 import kotlinx.coroutines.launch
 
-
+private val TAG = "RotateCarImage"
 
 @Composable
 fun RotateCarImage(
@@ -44,20 +41,36 @@ fun RotateCarImage(
         ImageLoader.Builder(context)
             .memoryCache {
                 MemoryCache.Builder(context)
-                    .maxSizePercent(0.25)
+                    .maxSizePercent(0.4)
                     .build()
             }.build()
     }
 
     // image preload
     LaunchedEffect(imagePath) {
-        for (imageNum in 1..60) {
-            launch {
-                imageLoader.enqueue(
-                    ImageRequest.Builder(context)
-                        .data(imagePath.imagePathToUrl(imageNum))
-                        .build()
-                )
+        // 이전 이미지 29개
+        launch {
+            for (imageNum in selectedIndex + 1 until selectedIndex + 30) {
+                launch {
+                    imageLoader.execute(
+                        ImageRequest.Builder(context)
+                            .data(imagePath.imagePathToUrl((imageNum.mod(60)) + 1))
+                            .build()
+                    )
+                }
+            }
+        }
+
+        // 다음 이미지 30개
+        launch {
+            for (imageNum in selectedIndex - 1 downTo  selectedIndex - 30) {
+                launch {
+                    imageLoader.execute(
+                        ImageRequest.Builder(context)
+                            .data(imagePath.imagePathToUrl((imageNum.mod(60)) + 1))
+                            .build()
+                    )
+                }
             }
         }
     }
@@ -65,7 +78,7 @@ fun RotateCarImage(
     Box(
         modifier = modifier
             .fillMaxWidth()
-            .height(260.dp)
+            .height(200.dp)
     ) {
         AsyncImage(
             modifier = Modifier
