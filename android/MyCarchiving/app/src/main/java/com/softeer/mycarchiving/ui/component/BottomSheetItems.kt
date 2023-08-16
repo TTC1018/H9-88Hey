@@ -434,20 +434,10 @@ fun SearchCarBottomSheetContent(
                         onClick = { moveSetOption() }
                     )
                     Spacer(modifier = Modifier.height(14.dp))
-                    FlowRow(
-                        horizontalArrangement = Arrangement.spacedBy(3.dp)
-                    ) {
-                        selectedOptions.forEach {
-                            Box(
-                                modifier = Modifier.padding(bottom = 10.dp)
-                            ){
-                                SearchConditionChipForDelete(
-                                    name = it,
-                                    onDelete = {}
-                                )
-                            }
-                        }
-                    }
+                    SearchDeleteChipFlowList(
+                        options = selectedOptions,
+                        horizontalSpace = 4
+                    )
                 }
                 SET_CAR -> {
 
@@ -497,20 +487,10 @@ fun SearchCarBottomSheetContent(
                             style = medium12
                         )
                         Spacer(modifier = Modifier.height(10.dp))
-                        FlowRow(
-                            horizontalArrangement = Arrangement.spacedBy(8.dp)
-                        ) {
-                            pendingOptions.forEach { option ->
-                                Box(
-                                    modifier = Modifier.padding(bottom = 8.dp)
-                                ) {
-                                    SearchConditionChipForDelete(
-                                        name = option,
-                                        onDelete = {},
-                                    )
-                                }
-                            }
-                        }
+                        SearchDeleteChipFlowList(
+                            options = pendingOptions,
+                            horizontalSpace = 8
+                        )
                     }
                 }
             }
@@ -597,6 +577,28 @@ fun SearchCarBottomSheetFlowItem(
                         onClick = {}
                     )
                 }
+            }
+        }
+    }
+}
+
+@OptIn(ExperimentalLayoutApi::class)
+@Composable
+fun SearchDeleteChipFlowList(
+    options: List<String>,
+    horizontalSpace: Int,
+) {
+    FlowRow(
+        horizontalArrangement = Arrangement.spacedBy(horizontalSpace.dp)
+    ) {
+        options.forEach { option ->
+            Box(
+                modifier = Modifier.padding(bottom = 8.dp)
+            ) {
+                SearchConditionChipForDelete(
+                    name = option,
+                    onDelete = {},
+                )
             }
         }
     }
