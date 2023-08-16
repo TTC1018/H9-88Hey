@@ -13,15 +13,42 @@ import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
 
 import lombok.RequiredArgsConstructor;
-import softeer.h9.hey.domain.car.SelectOptionCategory;
 import softeer.h9.hey.domain.car.SelectOption;
+import softeer.h9.hey.domain.car.SelectOptionCategory;
 import softeer.h9.hey.domain.car.SubOption;
 import softeer.h9.hey.dto.car.DisabledOptionIdDto;
+import softeer.h9.hey.dto.car.SelectOptionByModelDto;
 
 @Repository
 @RequiredArgsConstructor
 public class SelectOptionRepository {
 	private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
+
+	public List<SelectOptionByModelDto> findAllSelectOptionByModelId(final int modelId) {
+		String sql = "SELECT id, name, category FROM selectOption";
+
+		List<SelectOption> selectOptions;
+
+		selectOptions = namedParameterJdbcTemplate.query(sql, (rs, rowNum) -> {
+				SelectOption selectOption = new SelectOption();
+				selectOption.setId(rs.getString("id"));
+				selectOption.setName(rs.getString("name"));
+				selectOption.setSelectOptionCategory(SelectOptionCategory.findByName(rs.getString("category")));
+				return selectOption;
+			}
+		);
+
+		return mapToSelectOptionByModelDtos(selectOptions);
+	}
+
+	private List<SelectOptionByModelDto> mapToSelectOptionByModelDtos(List<SelectOption> selectOptions) {
+		List<SelectOptionByModelDto> selectOptionByModelDtos = new ArrayList<>();
+		for (SelectOption selectOption : selectOptions) {
+			selectOptionByModelDtos.add(SelectOptionByModelDto.of(selectOption.getId(), selectOption.getName(),
+				selectOption.getSelectOptionCategory().getName()));
+		}
+		return selectOptionByModelDtos;
+	}
 
 	public List<SelectOption> findSelectOptionsByCarCode(String carCode) {
 		return findSelectOptions(carCode, SelectOptionCategory.SELECT_OPTION);
@@ -35,8 +62,8 @@ public class SelectOptionRepository {
 		return findSelectOptions(carCode, SelectOptionCategory.H_GENUINE);
 	}
 
-	public List<DisabledOptionIdDto> findDisabledOptionIdsBySelectOptionIds(final List<String> selectOptionIds){
-		if(selectOptionIds == null) {
+	public List<DisabledOptionIdDto> findDisabledOptionIdsBySelectOptionIds(final List<String> selectOptionIds) {
+		if (selectOptionIds == null) {
 			return null;
 		}
 
@@ -45,10 +72,10 @@ public class SelectOptionRepository {
 			.collect(Collectors.joining(", "));
 
 		String sql = "SELECT DISTINCT disabled_option_id "
-						+ "FROM disabledOption "
-						+ "where selected_option_id in ( "
-						+ selectOptionsString
-						+ ")";
+			+ "FROM disabledOption "
+			+ "where selected_option_id in ( "
+			+ selectOptionsString
+			+ ")";
 
 		List<DisabledOptionIdDto> disabledOptionIdDtos = new ArrayList<>();
 		namedParameterJdbcTemplate.query(sql, result -> {
@@ -111,6 +138,14 @@ public class SelectOptionRepository {
 		selectOption.setName(rs.getString("selectOption.name"));
 		selectOption.setImageUrl(rs.getString("selectOption.image_url"));
 		selectOption.setAdditionalPrice(rs.getInt("selectOption.additional_price"));
+		return selectOption;
+	}
+
+	private SelectOption mapSelectNormalOption(ResultSet rs) throws SQLException {
+		SelectOption selectOption = new SelectOption();
+		selectOption.setId(rs.getString("id"));
+		selectOption.setSelectOptionCategory(SelectOptionCategory.findByName(rs.getString("category")));
+		selectOption.setName(rs.getString("name"));
 		return selectOption;
 	}
 }
