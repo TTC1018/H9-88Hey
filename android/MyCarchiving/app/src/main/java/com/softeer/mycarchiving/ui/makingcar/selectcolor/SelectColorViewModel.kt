@@ -79,6 +79,14 @@ class SelectColorViewModel @Inject constructor(
         _selectedIndex.value = selected
     }
 
+    fun changeCategory(screenProgress: Int) {
+        _category.value = when (screenProgress) {
+            0 -> "외장 색상"
+            1 -> "내장 색상"
+            else -> ""
+        }
+    }
+
     private fun TrimExteriorCarColor.asColorOptionUiModel() =
         ColorOptionUiModel(
             category = CarColorType.EXTERIOR,

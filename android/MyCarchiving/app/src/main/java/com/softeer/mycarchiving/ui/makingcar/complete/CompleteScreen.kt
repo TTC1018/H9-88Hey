@@ -36,7 +36,7 @@ fun CompleteRoute(
     val carImage by makingCarViewModel.selectedCarImage.observeAsState()
     val selectedModelInfo by makingCarViewModel.selectedModelInfo.observeAsState()
     val totalPrice by makingCarViewModel.totalPrice.collectAsStateWithLifecycle()
-    val colors by makingCarViewModel.selectedColor.observeAsState()
+    val colors by makingCarViewModel.selectedColor.collectAsStateWithLifecycle()
     val selectedTrims by makingCarViewModel.selectedTrim.collectAsStateWithLifecycle()
     val selectedOptions by makingCarViewModel.selectedExtraOptions.observeAsState()
 
