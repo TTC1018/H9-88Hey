@@ -1,7 +1,8 @@
-import { useState } from 'react';
+import { MutableRefObject, useState } from 'react';
 
 import { useLocation, useNavigate } from 'react-router-dom';
 
+import { checkIsOption } from '@/utils';
 import { MyCarProps } from '@/types/trim';
 import { NAVIGATION_PATH, TAG_CHIP_MAX_NUMBER } from '@/constants';
 
@@ -12,12 +13,14 @@ import * as Styled from './style';
 interface FooterProps {
   myCarData: MyCarProps;
   totalPrice: number;
+  carCode: MutableRefObject<string>;
   onSetLocalStorage: () => void;
 }
 
-export function Footer({ myCarData, totalPrice, onSetLocalStorage }: FooterProps) {
+export function Footer({ myCarData, totalPrice, carCode, onSetLocalStorage }: FooterProps) {
   const { pathname } = useLocation();
   const navigate = useNavigate();
+
   const [isOpen, setIsOpen] = useState(false);
 
   function handleOpenModal() {
@@ -27,9 +30,9 @@ export function Footer({ myCarData, totalPrice, onSetLocalStorage }: FooterProps
     setIsOpen(false);
   }
 
-  const { model, engine, bodyType, wheelDrive, outerColor, innerColor, options } = myCarData;
+  const { trim, engine, bodyType, wheelDrive, outerColor, innerColor, options } = myCarData;
 
-  const trim = `${engine.title}${bodyType.title !== '' ? '/' : ''}${bodyType.title}${
+  const trimOptions = `${engine.title}${bodyType.title !== '' ? '/' : ''}${bodyType.title}${
     wheelDrive.title !== '' ? '/' : ''
   }${wheelDrive.title}`;
 
@@ -39,7 +42,18 @@ export function Footer({ myCarData, totalPrice, onSetLocalStorage }: FooterProps
     if (path === '') {
       return;
     }
+
     onSetLocalStorage();
+
+    if (checkIsOption(path)) {
+      navigate({
+        pathname: path,
+        search: `?car_code=${carCode.current}`,
+      });
+
+      return;
+    }
+
     navigate(path);
   }
 
@@ -60,8 +74,8 @@ export function Footer({ myCarData, totalPrice, onSetLocalStorage }: FooterProps
     <Styled.Container>
       <Styled.TrimWrapper>
         <Styled.Title>트림</Styled.Title>
-        <Styled.CarName>{model.title}</Styled.CarName>
-        <Styled.TrimDetail>{trim}</Styled.TrimDetail>
+        <Styled.CarName>{trim.title}</Styled.CarName>
+        <Styled.TrimDetail>{trimOptions}</Styled.TrimDetail>
       </Styled.TrimWrapper>
       <Styled.Division />
       <Styled.ColorWrapper>

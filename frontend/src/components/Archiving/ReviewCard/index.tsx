@@ -35,7 +35,7 @@ export function ReviewCard({ props, isArchiving, onClick, selectedSearchOptions 
     selectedOptions,
   } = props;
 
-  const dateText = isPurchase ? '구매했어요' : '시승했어요';
+  const dateText = `에 ${isPurchase ? '구매' : '시승'}했어요`;
 
   return (
     <style.Contaienr>

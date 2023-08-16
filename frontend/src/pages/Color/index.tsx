@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 
 import { useOutletContext } from 'react-router-dom';
 
-import { MyCarLayoutContextProps } from '@/types/trim';
+import { CarCodeProps, MyCarLayoutContextProps } from '@/types/trim';
 import { ColorDataProps, InteriorColorsProps } from '@/types/color';
 import { useFetch } from '@/hooks/useFetch';
 import { useSelectIndex } from '@/hooks/useSelectedIndex';
@@ -36,9 +36,22 @@ const initialData = {
     },
   ],
 };
-
 export function Color() {
+  const {
+    handleOuterColor,
+    handleInnerColor,
+    handleCarImageUrl,
+    carCode,
+    myCar: { trim, engine, wheelDrive, bodyType, outerColor, innerColor },
+  } = useOutletContext<MyCarLayoutContextProps>();
+
   const { data } = useFetch<ColorDataProps>({ defaultValue: initialData, url: '/car/color?trim_id=1' });
+
+  const { data: carCodeData } = useFetch<CarCodeProps>({
+    defaultValue: { carCode: '' },
+    url: `/car/car-code?trim_id=${trim.id}&engine_id=${engine.id}&body_type_id=${bodyType.id}&wheel_drive_id=${wheelDrive.id}`,
+  });
+
   const [isExternalPage, setIsExternalPage] = useState(true);
 
   const [selectedExternalIndex, handleSetExternalIndex] = useSelectIndex();
@@ -58,13 +71,6 @@ export function Color() {
     carImageUrl: innerCarImage,
     // tags: innerTags
   } = availableInnerColorList[selectedInnerIndex];
-
-  const {
-    handleOuterColor,
-    handleInnerColor,
-    handleCarImageUrl,
-    trim: { outerColor, innerColor },
-  } = useOutletContext<MyCarLayoutContextProps>();
 
   function updateOuterColor(index: number) {
     const selectedExteriorColor = data.exteriorColors[index];
@@ -104,6 +110,12 @@ export function Color() {
       updateInnerColor(availableInnerColorList, 0);
     }
   }, [data]);
+
+  useEffect(() => {
+    if (carCodeData.carCode !== '') {
+      carCode.current = carCodeData.carCode;
+    }
+  }, [carCodeData]);
 
   function handleClickExternalColor(index: number) {
     handleSetExternalIndex(index)();
