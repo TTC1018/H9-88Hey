@@ -2,6 +2,7 @@ package softeer.h9.hey.auth.service;
 
 import java.nio.charset.StandardCharsets;
 import java.security.Key;
+import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -37,5 +38,14 @@ public class JwtTokenProvider {
 		return Jwts.parserBuilder()
 			.setSigningKey(secretKey)
 			.build();
+	}
+
+	public String generateAccessToken(String userId) {
+		return Jwts.builder()
+			.setSubject(userId)
+			.setIssuedAt(new Date(System.currentTimeMillis()))
+			.setExpiration(new Date(System.currentTimeMillis() + accessTokenExpiredTimeMs))
+			.signWith(secretKey)
+			.compact();
 	}
 }
