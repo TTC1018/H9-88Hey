@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
 import softeer.h9.hey.dto.car.response.HGenuineAccessoriesResponse;
+import softeer.h9.hey.dto.car.response.SelectOptionByModelIdResponse;
 import softeer.h9.hey.dto.global.response.GlobalResponse;
 import softeer.h9.hey.dto.car.request.SelectOptionRequest;
 import softeer.h9.hey.service.car.SelectOptionService;
@@ -16,6 +17,13 @@ import softeer.h9.hey.dto.car.response.SelectOptionsResponse;
 @RequiredArgsConstructor
 public class SelectOptionController {
 	private final SelectOptionService selectOptionService;
+
+	@GetMapping("/car/select-options")
+	public GlobalResponse<SelectOptionByModelIdResponse> getSelectOptionsByModelId(
+		SelectOptionRequest selectOptionRequest) {
+		SelectOptionByModelIdResponse response = selectOptionService.findAllSelectOptionByModelId(selectOptionRequest);
+		return GlobalResponse.ok(response);
+	}
 
 	@GetMapping("/car/select-option")
 	public GlobalResponse<SelectOptionsResponse> getAvailableSelectOptions(SelectOptionRequest selectOptionRequest) {
@@ -33,8 +41,10 @@ public class SelectOptionController {
 	}
 
 	@GetMapping("/car/h-genuine-accessories")
-	public GlobalResponse<HGenuineAccessoriesResponse> getAvailableHGenuineOption(@Valid final SelectOptionRequest selectOptionRequest) {
-		HGenuineAccessoriesResponse hGenuineAccessoriesResponse = selectOptionService.findHGenuineOption(selectOptionRequest);
+	public GlobalResponse<HGenuineAccessoriesResponse> getAvailableHGenuineOption(
+		@Valid final SelectOptionRequest selectOptionRequest) {
+		HGenuineAccessoriesResponse hGenuineAccessoriesResponse = selectOptionService.findHGenuineOption(
+			selectOptionRequest);
 		return GlobalResponse.ok(hGenuineAccessoriesResponse);
 	}
 }
