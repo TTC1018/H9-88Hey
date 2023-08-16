@@ -54,8 +54,8 @@ fun ArchiveRoute(
     val currentSheetPage by archiveViewModel.currentSheetPage.collectAsStateWithLifecycle()
     val ableCars by archiveViewModel.ableCars.collectAsStateWithLifecycle()
     val selectedCar by archiveViewModel.selectedCar.collectAsStateWithLifecycle()
-    val pendingCarName by archiveViewModel.pendingCarName.collectAsStateWithLifecycle()
-    val totalOptionsSize by archiveViewModel.totalOptionsSize.collectAsStateWithLifecycle()
+    val pendingCar by archiveViewModel.pendingCar.collectAsStateWithLifecycle()
+ /*   val totalOptionsSize by archiveViewModel.totalOptionsSize.collectAsStateWithLifecycle()*/
     val appliedOptions by archiveViewModel.appliedOptions.collectAsStateWithLifecycle()
     val selectedOptions by archiveViewModel.selectedOptions.collectAsStateWithLifecycle()
     val pendingOptions by archiveViewModel.pendingOptions.collectAsStateWithLifecycle()
@@ -81,12 +81,12 @@ fun ArchiveRoute(
             SearchCarBottomSheetContent(
                 currentPage = currentSheetPage,
                 selectedCar = selectedCar,
-                pendingCar = pendingCarName,
+                pendingCar = pendingCar,
                 ableCars = ableCars,
                 selectedOptions = selectedOptions,
                 pendingOptions = pendingOptions,
                 ableOptions = ableOptions,
-                ableOptionsSize = totalOptionsSize,
+                ableOptionsSize = archiveViewModel.totalOptionsSize,
                 onOptionChipClick = archiveViewModel::onOptionChipClick,
                 deleteSelectedOptionChip = archiveViewModel::deleteSelectedOption,
                 deletePendingOptionChip = archiveViewModel::deletePendingOption,

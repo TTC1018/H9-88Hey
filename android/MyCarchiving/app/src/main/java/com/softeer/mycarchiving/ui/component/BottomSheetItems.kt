@@ -395,7 +395,6 @@ fun SearchCarBottomSheetContent(
             )
         }
         Divider(thickness = 1.dp, color = ThinGray)
-        val setCarScrollState = rememberScrollState()
         val setOptionsScrollState = rememberScrollState()
         when(currentPage) {
             SEARCH_CONDITION -> {
@@ -451,11 +450,12 @@ fun SearchCarBottomSheetContent(
                 Column(
                     modifier = Modifier
                         .fillMaxSize()
-                        .verticalScroll(setCarScrollState)
                         .padding(horizontal = 16.dp, vertical = 12.dp)
                         .weight(1f),
                 ) {
-
+                    ableCars.forEach {
+                        SearchCarBottomSheetGridItem(searchOptionUiModel = it)
+                    }
                 }
             }
             SET_OPTION -> {

@@ -12,7 +12,7 @@ import kotlinx.coroutines.flow.StateFlow
 import javax.inject.Inject
 
 @HiltViewModel
-class ArchiveViewModel @Inject constructor(): ViewModel() {
+class ArchiveViewModel @Inject constructor() : ViewModel() {
 
     private val feed = CarFeedUiModel(
         model = "팰리세이드",
@@ -37,43 +37,82 @@ class ArchiveViewModel @Inject constructor(): ViewModel() {
         listOf(
             SearchOptionUiModel(
                 category = "수소 / 전기차",
-                options = listOf(SearchOption(name = "넥쏘"), SearchOption(name = "디 올 뉴 코나 Electric"), SearchOption(name = "아이오닉 6"), SearchOption(name = "포터 I Electric"), SearchOption(name = "포터 II Electric"), SearchOption(name = "포터 II Electric 특장차"))
+                options = listOf(
+                    SearchOption(name = "넥쏘"),
+                    SearchOption(name = "디 올 뉴 코나 Electric"),
+                    SearchOption(name = "아이오닉 6"),
+                    SearchOption(name = "포터 I Electric"),
+                    SearchOption(name = "포터 II Electric"),
+                    SearchOption(name = "포터 II Electric 특장차")
+                )
             ),
             SearchOptionUiModel(
                 category = "승용차",
-                options = listOf(SearchOption(name = "쏘나타 디 엣지"), SearchOption(name = "쏘나타 디 엣지 Hybrid"), SearchOption(name = "더 뉴 아반떼"), SearchOption(name = "더 뉴 아반떼 Hybrid"), SearchOption(name = "디 올 뉴 그랜저"), SearchOption(name = "디 올 뉴 그랜저 Hybrid"))
+                options = listOf(
+                    SearchOption(name = "쏘나타 디 엣지"),
+                    SearchOption(name = "쏘나타 디 엣지 Hybrid"),
+                    SearchOption(name = "더 뉴 아반떼"),
+                    SearchOption(name = "더 뉴 아반떼 Hybrid"),
+                    SearchOption(name = "디 올 뉴 그랜저"),
+                    SearchOption(name = "디 올 뉴 그랜저 Hybrid")
+                )
             ),
             SearchOptionUiModel(
                 category = "SUV",
-                options = listOf(SearchOption(name = "팰리세이드"), SearchOption(name = "베뉴"), SearchOption(name = "디 올 뉴 코나"), SearchOption(name = "디 올 뉴 코나 Hybrid"), SearchOption(name = "투싼"), SearchOption(name = "투싼 Hybrid"))
+                options = listOf(
+                    SearchOption(name = "팰리세이드", isSelect = true),
+                    SearchOption(name = "베뉴"),
+                    SearchOption(name = "디 올 뉴 코나"),
+                    SearchOption(name = "디 올 뉴 코나 Hybrid"),
+                    SearchOption(name = "투싼"),
+                    SearchOption(name = "투싼 Hybrid")
+                )
             ),
         )
     )
     val ableCars: StateFlow<List<SearchOptionUiModel>> = _ableCars
 
-    private val _selectedCar = MutableStateFlow(SearchOption(name = "펠리세이드"))
+    private val _selectedCar = MutableStateFlow(SearchOption(name = "팰리세이드", isSelect = true))
     val selectedCar: StateFlow<SearchOption> = _selectedCar
-    val pendingCarName = MutableStateFlow(_selectedCar.value)
+
+    private val _pendingCar = MutableStateFlow(_selectedCar.value)
+    val pendingCar: StateFlow<SearchOption> = _pendingCar
 
     private val _ableOptions = MutableStateFlow(
         listOf(
             SearchOptionUiModel(
                 category = "선택 옵션",
-                options = listOf(SearchOption(name = "주차 보조 시스템 ||"), SearchOption(name = "주차 보조 시스템 ||"), SearchOption(name = "주차 보조 시스템 ||"), SearchOption(name = "주차 보조 시스템 ||"))
+                options = listOf(
+                    SearchOption(name = "주차 보조 시스템 ||"),
+                    SearchOption(name = "주차 보조 시스템 ||"),
+                    SearchOption(name = "주차 보조 시스템 ||"),
+                    SearchOption(name = "주차 보조 시스템 ||")
+                )
             ),
             SearchOptionUiModel(
                 category = "H Genuine Accessories",
-                options = listOf(SearchOption(name = "듀얼 머플러 패키지"), SearchOption(name = "사이드스텝"), SearchOption(name = "빌트인 공기청정기"), SearchOption(name = "듀얼 머플러 패키지"), SearchOption(name = "사이드스텝"), SearchOption(name = "빌트인 공기청정기"))
+                options = listOf(
+                    SearchOption(name = "듀얼 머플러 패키지"),
+                    SearchOption(name = "사이드스텝"),
+                    SearchOption(name = "빌트인 공기청정기"),
+                    SearchOption(name = "듀얼 머플러 패키지"),
+                    SearchOption(name = "사이드스텝"),
+                    SearchOption(name = "빌트인 공기청정기")
+                )
             ),
             SearchOptionUiModel(
                 category = "N Performance",
-                options = listOf(SearchOption(name = "20인치 다크 스퍼터링 휠"), SearchOption(name = "20인치 블랙톤 전면 가공휠"), SearchOption(name = "알콘 단조브레이크 휠 패키지"))
+                options = listOf(
+                    SearchOption(name = "20인치 다크 스퍼터링 휠"),
+                    SearchOption(name = "20인치 블랙톤 전면 가공휠"),
+                    SearchOption(name = "알콘 단조브레이크 휠 패키지")
+                )
             )
         )
     )
     val ableOptions: StateFlow<List<SearchOptionUiModel>> = _ableOptions
 
-    val totalOptionsSize = MutableStateFlow(0)
+    val totalOptionsSize = _ableOptions.value.sumOf { it.options.size }
 
     private val _appliedOptions = MutableStateFlow(emptyList<SearchOption>())
     val appliedOptions: StateFlow<List<SearchOption>> = _appliedOptions
@@ -81,14 +120,13 @@ class ArchiveViewModel @Inject constructor(): ViewModel() {
     private val _selectedOptions = MutableStateFlow(emptyList<SearchOption>())
     val selectedOptions: StateFlow<List<SearchOption>> = _selectedOptions
 
-    private val _pendingOptions =  MutableStateFlow(emptyList<SearchOption>())
+    private val _pendingOptions = MutableStateFlow(emptyList<SearchOption>())
     val pendingOptions: StateFlow<List<SearchOption>> = _pendingOptions
 
     private val _carFeeds = MutableStateFlow(listOf(feed, feed, feed, feed, feed, feed, feed))
     val carFeeds: StateFlow<List<CarFeedUiModel>> = _carFeeds
 
     fun openSearchSheet() {
-        initAbleOptions()
         _selectedOptions.value = _appliedOptions.value
         _currentSheetPage.value = SEARCH_CONDITION
         _showSearchSheet.value = true
@@ -113,15 +151,17 @@ class ArchiveViewModel @Inject constructor(): ViewModel() {
     }
 
     fun onSheetButtonClick() {
-        when(currentSheetPage.value) {
+        when (currentSheetPage.value) {
             SEARCH_CONDITION -> {
                 /*검색 API에 적용*/
                 _appliedOptions.value = _selectedOptions.value
                 closeSearchSheet()
             }
+
             SET_CAR -> {
                 onSheetBackClick()
             }
+
             SET_OPTION -> {
                 _selectedOptions.value = _pendingOptions.value
                 onSheetBackClick()
@@ -130,14 +170,11 @@ class ArchiveViewModel @Inject constructor(): ViewModel() {
     }
 
     private fun initAbleOptions() {
-        var totalSize = 0
-        for(ableOption in _ableOptions.value) {
-            for (option in ableOption.options) {
-                option.isSelect = _selectedOptions.value.contains(option)
-                totalSize++
+        _ableOptions.value.forEach { ableOption ->
+            ableOption.options.forEach { option ->
+                option.isSelect = option in _appliedOptions.value
             }
         }
-        totalOptionsSize.value = totalSize
     }
 
     fun onOptionChipClick(option: SearchOption) {
