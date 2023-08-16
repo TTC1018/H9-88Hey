@@ -6,7 +6,7 @@ export interface OptionDataProps {
 
 export interface OptionProps {
   isAvailable?: boolean;
-  id: number;
+  id: string;
   name: string;
   additionalPrice: number;
   imageUrl: string;
@@ -15,7 +15,7 @@ export interface OptionProps {
 }
 
 export interface SubOptionProps {
-  id: number;
+  id: string;
   name: string;
   imageUrl: string;
   description: string;
@@ -23,7 +23,7 @@ export interface SubOptionProps {
 
 export interface OptionCardDataProps {
   isAvailable?: boolean;
-  id: number;
+  id: string;
   index: number;
   name: string;
   additionalPrice: number;
@@ -47,6 +47,7 @@ export interface OptionContextProviderProps {
 }
 
 export interface OptionContextProps {
+  id: string;
   name: string;
   price: number;
   imageUrl: string;

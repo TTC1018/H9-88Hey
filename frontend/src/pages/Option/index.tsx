@@ -20,14 +20,14 @@ const initialData = {
   selectOptions: [
     {
       isAvailable: true,
-      id: 1,
+      id: '',
       name: '',
       imageUrl: '',
       additionalPrice: 0,
       tags: [],
       subOptions: [
         {
-          id: 1,
+          id: '',
           name: '',
           imageUrl: '',
           description: '',
@@ -54,7 +54,7 @@ export function Option({ apiType }: Props) {
 
   const [option, setOption] = useState<OptionProps>({
     isAvailable: true,
-    id: 1,
+    id: '',
     name: '',
     additionalPrice: 0,
     imageUrl: '',
@@ -62,7 +62,7 @@ export function Option({ apiType }: Props) {
     subOptions: [],
   });
   const [subOption, setSubOption] = useState<SubOptionProps>({
-    id: 1,
+    id: '',
     name: '',
     imageUrl: '',
     description: '',

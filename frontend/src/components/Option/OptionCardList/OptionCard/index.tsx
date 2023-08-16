@@ -11,6 +11,7 @@ import * as Styled from './style';
 interface Props {
   isBlur: boolean;
   index: number;
+  id: string;
   name: string;
   additionalPrice: number;
   imageUrl: string;
@@ -23,6 +24,7 @@ interface Props {
 export function OptionCard({
   isBlur,
   index,
+  id,
   name,
   additionalPrice,
   imageUrl,
@@ -47,7 +49,7 @@ export function OptionCard({
       removeOption(name);
       onChangeCount(-1, index);
     } else {
-      addOption({ name, price: additionalPrice, imageUrl, subOptions: subOptionNames });
+      addOption({ id, name, price: additionalPrice, imageUrl, subOptions: subOptionNames });
       onChangeCount(1, index);
     }
   }
