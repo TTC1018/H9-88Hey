@@ -17,6 +17,7 @@ import * as Styled from './style';
 const initialData = {
   selectOptions: [
     {
+      isAvailable: true,
       id: 1,
       name: '',
       imageUrl: '',
@@ -44,10 +45,11 @@ interface Props {
 export function Option({ apiType }: Props) {
   const { data } = useFetch<OptionDataProps>({
     defaultValue: initialData,
-    url: `/car/${apiType}?car_code=LXJJ8MST5`,
+    url: `/car/${apiType}?car_code=LXJJ8MST5`, // 임시 car_code
   });
 
   const [option, setOption] = useState<OptionProps>({
+    isAvailable: true,
     id: 1,
     name: '',
     additionalPrice: 0,
@@ -94,22 +96,29 @@ export function Option({ apiType }: Props) {
     setCardListIndex(index);
   }
 
+  function checkIsSelectOptionPage() {
+    return apiType === 'select-option';
+  }
+
   useEffect(() => {
     const { selectOptions } = data;
 
-    const { id, name, additionalPrice, imageUrl, tags, subOptions } = selectOptions[optionIndex];
+    const { isAvailable, id, name, additionalPrice, imageUrl, tags, subOptions } = selectOptions[optionIndex];
 
     const subOption = subOptions[subOptionIndex];
-    const cardListData = selectOptions.map(({ id, name, additionalPrice, imageUrl, subOptions }, index) => ({
-      id,
-      index,
-      name,
-      additionalPrice,
-      imageUrl,
-      subOptionNames: subOptions.map(({ name }) => name),
-    }));
+    const cardListData = selectOptions.map(
+      ({ isAvailable, id, name, additionalPrice, imageUrl, subOptions }, index) => ({
+        isAvailable,
+        id,
+        index,
+        name,
+        additionalPrice,
+        imageUrl,
+        subOptionNames: subOptions.map(({ name }) => name),
+      })
+    );
 
-    setOption({ id, name, additionalPrice, imageUrl, tags: tags || initialTags, subOptions });
+    setOption({ isAvailable, id, name, additionalPrice, imageUrl, tags: tags || initialTags, subOptions });
     setSubOption({
       id: subOption.id,
       name: subOption.name,
@@ -137,7 +146,7 @@ export function Option({ apiType }: Props) {
         </Styled.DescriptionBox>
       </Styled.OptionWrapper>
       <Styled.CardWrapper>
-        <OptionCategory menu={menu} onClick={handleChangeMenu} isShowDefaultOption={apiType === 'select-option'} />
+        <OptionCategory menu={menu} onClick={handleChangeMenu} isShowDefaultOption={checkIsSelectOptionPage()} />
         {menu === 0 && (
           <OptionCardList
             selectedIndex={optionIndex}
@@ -147,7 +156,7 @@ export function Option({ apiType }: Props) {
             onClickArrowButton={handleChangeCardListIndex}
           />
         )}
-        {apiType === 'select-option' && menu === 1 && <DefaultOptionCardList />}
+        {checkIsSelectOptionPage() && menu === 1 && <DefaultOptionCardList />}
       </Styled.CardWrapper>
     </Styled.Container>
   );

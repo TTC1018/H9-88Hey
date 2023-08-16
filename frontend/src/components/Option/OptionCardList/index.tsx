@@ -23,17 +23,29 @@ interface Props {
 export function OptionCardList({ selectedIndex, cardListIndex, data, onClickCard, onClickArrowButton }: Props) {
   const [cardList, setCardList] = useState<OptionCardDataProps[]>([]);
   const [selectedCount, setSelectedCount] = useState(0);
-  const [lastAddedIndex, setLastAddedIndex] = useState<number | null>(null);
+  const [lastAddedCardIndex, setLastAddedCardIndex] = useState<number | null>(null);
 
   const { pathname } = useLocation();
 
   function handleSelectedCount(step: number, index: number) {
     setSelectedCount(prev => prev + step);
-    setLastAddedIndex(index);
+    setLastAddedCardIndex(index);
   }
 
-  function isWheelSelected() {
+  function checkIsWheelSelected() {
     return pathname === '/option/n-performance' && selectedCount === 1;
+  }
+
+  function checkIsBlur(isAvailable: boolean | undefined, index: number) {
+    if (pathname === '/option') {
+      return false;
+    }
+
+    if (pathname === '/option/h-genuine-accessories') {
+      return !isAvailable;
+    } else {
+      return checkIsWheelSelected() && index !== lastAddedCardIndex;
+    }
   }
 
   useEffect(() => {
@@ -53,9 +65,9 @@ export function OptionCardList({ selectedIndex, cardListIndex, data, onClickCard
         onClick={() => onClickArrowButton(cardListIndex - 1, data.length)}
         isShow={isIndexLargeThanZero(cardListIndex)}
       />
-      {cardList.map(({ index, name, additionalPrice, imageUrl, subOptionNames }) => (
+      {cardList.map(({ isAvailable, index, name, additionalPrice, imageUrl, subOptionNames }) => (
         <OptionCard
-          isBlur={isWheelSelected() && index !== lastAddedIndex}
+          isBlur={checkIsBlur(isAvailable, index)}
           index={index}
           name={name}
           additionalPrice={additionalPrice}
