@@ -10,6 +10,7 @@ import * as Styled from './style';
 
 export function MyChiving() {
   const [index, setIndex] = useState(0);
+
   return (
     <NavIndexContext.Provider value={{ index, setIndex }}>
       <Styled.Container>

@@ -11,9 +11,7 @@ import { Archiving } from '@/pages/Archiving';
 import { BodyType } from '@/pages/Trim/BodyType';
 import { Detail } from '@/pages/Archiving/Detail';
 import { WheelDrive } from '@/pages/Trim/WheelDrive';
-import { PopupModal } from '@/components/common/PopupModal';
 import { MyCarLayout } from '@/components/layout/MyCarLayout';
-import { ModalPortal } from '@/components/common/ModalPortal';
 import { ErrorBoundary } from '@/components/common/ErrorBoundary';
 import { MyChivingLayout } from '@/components/layout/MyChivingLayout';
 
@@ -23,9 +21,6 @@ export const router = createBrowserRouter([
     element: (
       <ErrorBoundary>
         <MyCarLayout />
-        <ModalPortal>
-          <PopupModal />
-        </ModalPortal>
       </ErrorBoundary>
     ),
     children: [

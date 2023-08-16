@@ -34,7 +34,7 @@ export function ReviewCard({ props, isArchiving, onClick, selectedSearchOptions 
     selectedOptions,
   } = props;
 
-  const dateText = isPurchase ? '구매했어요' : '시승했어요';
+  const dateText = `에 ${isPurchase ? '구매' : '시승'}했어요`;
 
   return (
     <style.Contaienr>
@@ -44,9 +44,7 @@ export function ReviewCard({ props, isArchiving, onClick, selectedSearchOptions 
           <style.SubTitle>{combineWithSlash(trimOptions)}</style.SubTitle>
         </style.Enclosure>
         <style.SideBox>
-          <style.Time>
-            {formatDate(creationDate)}에 {dateText}
-          </style.Time>
+          <style.Time>{formatDate(creationDate) + dateText}</style.Time>
           {!isArchiving && <DeleteButton />}
         </style.SideBox>
       </style.TitleWrapper>

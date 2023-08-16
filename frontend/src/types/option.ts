@@ -41,7 +41,7 @@ export interface DefaultOptionProps {
 }
 
 export interface OptionContextProviderProps {
-  trim: MyCarProps;
+  myCar: MyCarProps;
   addOption: ({ name, price }: OptionContextProps) => void;
   removeOption: (name: string) => void;
 }

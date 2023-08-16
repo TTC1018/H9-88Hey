@@ -2,6 +2,7 @@ import { RouterProvider } from 'react-router';
 import { ThemeProvider } from '@emotion/react';
 
 import { ModalProvider } from './components/common/ModalProvider';
+import { CacheProvider } from './CacheProvider';
 
 import { router } from './routes/router';
 import { theme } from './styles/theme';
@@ -12,9 +13,11 @@ export function App() {
     <>
       <ThemeProvider theme={theme}>
         <GlobalStyle />
-        <ModalProvider>
-          <RouterProvider router={router} />
-        </ModalProvider>
+        <CacheProvider>
+          <ModalProvider>
+            <RouterProvider router={router} />
+          </ModalProvider>
+        </CacheProvider>
       </ThemeProvider>
     </>
   );
