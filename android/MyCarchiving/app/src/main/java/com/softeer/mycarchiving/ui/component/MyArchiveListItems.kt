@@ -28,11 +28,10 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.softeer.mycarchiving.R
+import com.softeer.mycarchiving.enums.CarFeedType
 import com.softeer.mycarchiving.ui.theme.AlertPrimary
-import com.softeer.mycarchiving.ui.theme.AlertSecondary
 import com.softeer.mycarchiving.ui.theme.Black
 import com.softeer.mycarchiving.ui.theme.DarkGray
-import com.softeer.mycarchiving.ui.theme.HyundaiGold
 import com.softeer.mycarchiving.ui.theme.HyundaiLightSand
 import com.softeer.mycarchiving.ui.theme.HyundaiNeutral
 import com.softeer.mycarchiving.ui.theme.HyundaiSand
@@ -44,8 +43,6 @@ import com.softeer.mycarchiving.ui.theme.medium14
 import com.softeer.mycarchiving.ui.theme.regular12
 import com.softeer.mycarchiving.ui.theme.regular14
 import com.softeer.mycarchiving.ui.theme.roundCorner
-import com.softeer.mycarchiving.ui.theme.roundCornerMedium
-import com.softeer.mycarchiving.ui.theme.roundCornerMinimum
 import com.softeer.mycarchiving.ui.theme.roundCornerSmall
 
 private val imageNames = listOf("컴포트 ||","컴포트 ||","컴포트 ||")
@@ -95,14 +92,10 @@ fun MadeCarItem(
                 style = bold18,
                 overflow = TextOverflow.Ellipsis
             )
-            MyArchiveDateChip(
+            CarFeedDateChip(
                 modifier = modifier,
-                chipText = if (isTempSaved) {
-                    stringResource(id = R.string.my_temp_save_date, madeDate)
-                } else {
-                    stringResource(id = R.string.my_temp_save_date, madeDate)
-                },
-                isTempSaved = isTempSaved
+                date = madeDate,
+                feedType = if (isTempSaved) CarFeedType.TEMP_SAVE else CarFeedType.MADE
             )
             Spacer(modifier = modifier.width(5.dp))
             XCircle(modifier = modifier, onClick = onDelete)
@@ -124,25 +117,6 @@ fun MadeCarItem(
             )
         }
     }
-}
-
-@Composable
-fun MyArchiveDateChip(
-    modifier: Modifier,
-    chipText: String,
-    isTempSaved: Boolean
-) {
-    Text(
-        modifier = modifier
-            .background(
-                color = if (isTempSaved) AlertSecondary else HyundaiLightSand,
-                shape = roundCornerMedium
-            )
-            .padding(horizontal = 12.dp, vertical = 4.dp),
-        text = chipText,
-        style = medium12,
-        color = if (isTempSaved) AlertPrimary else HyundaiGold
-    )
 }
 
 @Composable
@@ -178,7 +152,7 @@ fun MadeCarImageItem(
     }
 }
 
-@Composable
+/*@Composable
 fun SavedCarItem(
     modifier: Modifier,
     carName: String,
@@ -223,10 +197,10 @@ fun SavedCarItem(
                 overflow = TextOverflow.Ellipsis
             )
             Spacer(modifier = modifier.width(4.dp))
-            MyArchiveDateChip(
+            CarFeedDateChip(
                 modifier = modifier,
-                chipText = stringResource(id = R.string.archive_test_drive_date, madeDate),
-                isTempSaved = false
+                date = madeDate,
+                feedType = CarFeedType.TEST_DRIVE
             )
         }
         Spacer(modifier = modifier.height(13.dp))
@@ -263,10 +237,10 @@ fun SavedCarItem(
                 style = medium14
             )
             Spacer(modifier = modifier.width(7.dp))
-            SavedCarOptionChip(modifier = modifier, name = selectedOptions[0])
+            CarFeedOptionChip(modifier = modifier, name = selectedOptions[0])
             Spacer(modifier = modifier.width(4.dp))
             if (selectedOptions.size > 1) {
-                SavedCarOptionChip(modifier = modifier, name = selectedOptions[1])
+                CarFeedOptionChip(modifier = modifier, name = selectedOptions[1])
                 Spacer(modifier = modifier.width(4.dp))
             }
             if (selectedOptions.size > 2) {
@@ -288,21 +262,7 @@ fun SavedCarItem(
             overflow = TextOverflow.Ellipsis
         )
     }
-}
-
-@Composable
-fun SavedCarOptionChip(
-    modifier: Modifier,
-    name: String
-) {
-    Text(
-        modifier = modifier
-            .background(color = HyundaiSand, shape = roundCornerMinimum)
-            .padding(horizontal = 10.dp, vertical = 3.dp),
-        text = name,
-        style = regular14
-    )
-}
+}*/
 
 @Preview
 @Composable
@@ -319,6 +279,7 @@ fun PreviewMadeCarItem() {
     )
 }
 
+/*
 @Preview
 @Composable
 fun PreviewSavedCarItem() {
@@ -334,4 +295,4 @@ fun PreviewSavedCarItem() {
         onItemClick = {},
         onDelete = {}
     )
-}
+}*/
