@@ -42,6 +42,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.compose.AsyncImage
 import com.softeer.mycarchiving.R
 import com.softeer.mycarchiving.enums.ArchiveSearchPage
 import com.softeer.mycarchiving.enums.ArchiveSearchPage.*
@@ -180,13 +181,13 @@ fun CarBasicDetailItem(
             .padding(all = 8.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Image(
+        AsyncImage(
             modifier = Modifier
                 .width(94.dp)
                 .height(55.dp)
                 .clip(roundCorner),
-            painter = painterResource(id = R.drawable.ic_launcher_background),
-            contentDescription = null,
+            model = detailItem.imageUrl,
+            contentDescription = "",
             contentScale = ContentScale.FillBounds
         )
         Spacer(modifier = Modifier.width(17.dp))

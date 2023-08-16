@@ -1,6 +1,7 @@
 package com.softeer.data.datasource
 
 import android.util.Log
+import com.softeer.data.model.TrimBasicOptionDto
 import com.softeer.data.model.TrimHGenuineDto
 import com.softeer.data.model.TrimSelectOptionDto
 import com.softeer.data.network.SelectOptionNetworkApi
@@ -17,6 +18,8 @@ interface SelectOptionDataSource {
     fun getHGenuines(carCode: String, selectOptions: List<String>): Flow<List<TrimHGenuineDto>>
 
     fun getNPerformances(carCode: String): Flow<List<TrimSelectOptionDto>>
+
+    fun getBasicOptions(carCode: String): Flow<List<TrimBasicOptionDto>>
 }
 
 class SelectOptionRemoteDataSource(
@@ -64,6 +67,17 @@ class SelectOptionRemoteDataSource(
 
         if (response.isSuccessful && nPerformances != null) {
             emit(nPerformances)
+        } else {
+            emit(emptyList())
+        }
+    }
+
+    override fun getBasicOptions(carCode: String): Flow<List<TrimBasicOptionDto>> = flow {
+        val response = selectOptionNetworkApi.getBasicOptions(carCode)
+        val basicOptions = response.body()?.data?.defaultOptions
+
+        if (response.isSuccessful && basicOptions != null) {
+            emit(basicOptions)
         } else {
             emit(emptyList())
         }

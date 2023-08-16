@@ -1,6 +1,7 @@
 package com.softeer.data.network
 
 import com.softeer.data.model.BaseResponse
+import com.softeer.data.model.BasicOptionDto
 import com.softeer.data.model.CarCodeDto
 import com.softeer.data.model.HGenuineDto
 import com.softeer.data.model.SelectOptionDto
@@ -33,4 +34,9 @@ interface SelectOptionNetworkApi {
     suspend fun getNPerformances(
         @Query("car_code") carCode: String
     ): Response<BaseResponse<SelectOptionDto>>
+
+    @GET("/car/default-option")
+    suspend fun getBasicOptions(
+        @Query("car_code") carCode: String
+    ): Response<BaseResponse<BasicOptionDto>>
 }
