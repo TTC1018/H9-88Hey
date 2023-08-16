@@ -1,3 +1,4 @@
+import { MutableRefObject } from 'react';
 import { OptionContextProps } from './option';
 
 export interface FeatureProps {
@@ -60,12 +61,16 @@ interface MyCarDetailProps {
   price: number;
 }
 
+interface MyCarDetailPropsWithId extends MyCarDetailProps {
+  id: number;
+}
+
 export interface MyCarProps {
   carType: MyCarTypeProps;
-  model: MyCarDetailProps;
-  engine: MyCarDetailProps;
-  bodyType: MyCarDetailProps;
-  wheelDrive: MyCarDetailProps;
+  trim: MyCarDetailPropsWithId;
+  engine: MyCarDetailPropsWithId;
+  bodyType: MyCarDetailPropsWithId;
+  wheelDrive: MyCarDetailPropsWithId;
   outerColor: { title: string; imageUrl: string; price: number };
   innerColor: { title: string; imageUrl: string; id: number };
   options: OptionContextProps[];
@@ -74,10 +79,15 @@ export interface MyCarProps {
 }
 
 export interface MyCarLayoutContextProps {
-  trim: MyCarProps;
-  handleTrim: ({ key, option, price }: { key: string; option: string; price: number }) => void;
+  myCar: MyCarProps;
+  carCode: MutableRefObject<string>;
+  handleTrim: ({ key, option, price, id }: { key: string; option: string; price: number; id: number }) => void;
   handleOuterColor: ({ color, colorImage, price }: { color: string; colorImage: string; price: number }) => void;
   handleInnerColor: ({ color, colorImage, id }: { color: string; colorImage: string; id: number }) => void;
   totalPrice: number;
   handleCarImageUrl: (carImageUrl: string) => void;
+}
+
+export interface CarCodeProps {
+  carCode: string;
 }

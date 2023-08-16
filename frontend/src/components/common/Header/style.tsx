@@ -113,6 +113,8 @@ const ButtonBox = styled.div`
 
       background-color: ${colors.black};
       border-radius: 80px;
+
+      cursor: pointer;
     `;
   }}
 `;
