@@ -31,8 +31,7 @@ class MakingCarViewModel @Inject constructor() : ViewModel() {
     private val _selectedColor = MutableLiveData<List<ColorOptionUiModel>>()
     val selectedColor: LiveData<List<ColorOptionUiModel>> = _selectedColor
 
-    private var selectedTrimState = mutableStateListOf<TrimOptionUiModel>()
-    private val _selectedTrim = MutableStateFlow<List<TrimOptionUiModel>>(selectedTrimState)
+    private val _selectedTrim = MutableStateFlow<MutableList<TrimOptionUiModel>>(mutableListOf())
     val selectedTrim: StateFlow<List<TrimOptionUiModel>> = _selectedTrim
 
     private val _selectedExtraOptions = MutableLiveData<List<SelectOptionUiModel>>()
@@ -54,17 +53,18 @@ class MakingCarViewModel @Inject constructor() : ViewModel() {
 
     fun updateSelectedModelInfo(selectedModel: SelectModelUiModel) {
         _selectedModelInfo.value = selectedModel
+        _totalPrice.value += selectedModel.price
     }
 
-    fun updateSelectedTrimOption(trimOptionUiModel: TrimOptionUiModel, initial: Boolean = false) {
-        selectedTrimState = mutableStateListOf<TrimOptionUiModel>().apply {
-            if (initial) {
-                addAll(_selectedTrim.value)
-            } else {
-                addAll(_selectedTrim.value.dropLast(1))
-            }
-            add(trimOptionUiModel)
+    fun updateSelectedTrimOption(
+        trimOptionUiModel: TrimOptionUiModel,
+        progress: Int,
+        initial: Boolean = false
+    ) {
+        if (_selectedTrim.value.getOrNull(progress) == null) { // 그대로 추가하면 될 때
+            _selectedTrim.value.add(trimOptionUiModel)
+        } else if (initial.not()) { // 이미 기록된 데이터가 있는데 변경하려 할 때
+            _selectedTrim.value[progress] = trimOptionUiModel
         }
-        _selectedTrim.value = selectedTrimState
     }
 }

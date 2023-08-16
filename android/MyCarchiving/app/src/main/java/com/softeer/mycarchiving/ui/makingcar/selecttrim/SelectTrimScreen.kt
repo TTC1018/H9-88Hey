@@ -42,15 +42,19 @@ fun SelectTrimRoute(
     val engines by selectTrimViewModel.engines.collectAsStateWithLifecycle()
     val bodyTypes by selectTrimViewModel.bodyTypes.collectAsStateWithLifecycle()
     val wheels by selectTrimViewModel.wheels.collectAsStateWithLifecycle()
+    val selectedTrims by makingCarViewModel.selectedTrim.collectAsStateWithLifecycle()
 
     SelectTrimScreen(
         modifier = modifier,
+        screenProgress = screenProgress,
         options = when (screenProgress) {
             0 -> engines
             1 -> bodyTypes
             2 -> wheels
             else -> emptyList()
         },
+        savedTrim = selectedTrims.getOrNull(screenProgress),
+        isInitial = selectedTrims.getOrNull(screenProgress) == null,
         onOptionSelect = makingCarViewModel::updateSelectedTrimOption
     )
 }
@@ -58,17 +62,31 @@ fun SelectTrimRoute(
 @Composable
 fun SelectTrimScreen(
     modifier: Modifier,
+    screenProgress: Int,
     options: List<TrimOptionUiModel>,
-    onOptionSelect: (TrimOptionUiModel, initial: Boolean) -> Unit,
+    savedTrim: TrimOptionUiModel?,
+    isInitial: Boolean,
+    onOptionSelect: (TrimOptionUiModel, progress: Int, initial: Boolean) -> Unit,
 ) {
     var selectedIndex by remember { mutableStateOf(0) }
     val scrollState = rememberScrollState()
 
-    // 첫 아이템 MakingCarViewModel에 자동 추가
+    // 아이템 자동 추가 or 이전 선택 아이템 불러오기
     LaunchedEffect(options) {
-        selectedIndex = 0 // 전체 화면 갱신되면 첫번째 아이템 선택하기
+        if (isInitial) {
+            // 처음 화면 갱신되면 첫번째 아이템 선택하기
+            selectedIndex = 0
+        } else {
+            // 이미 선택한 적이 있는 영역이라면 미리 선택한 아이템 선택
+            options.indexOfFirst { it.optionName == savedTrim?.optionName }
+                .takeIf { index -> index >= 0 }
+                ?.let { savedIndex ->
+                    selectedIndex = savedIndex
+                }
+        }
+
         options.getOrNull(selectedIndex)?.let {
-            onOptionSelect(it, true)
+            onOptionSelect(it, screenProgress, isInitial)
         }
     }
 
@@ -116,7 +134,7 @@ fun SelectTrimScreen(
                         isSelected = idx == selectedIndex,
                         onClick = {
                             selectedIndex = idx
-                            onOptionSelect(item, false)
+                            onOptionSelect(item, screenProgress, isInitial)
                         },
                     )
                 }
@@ -130,6 +148,7 @@ fun SelectTrimScreen(
 fun PreviewSelectTrimScreen() {
     SelectTrimScreen(
         modifier = Modifier,
+        screenProgress = 0,
         options = listOf(
             TrimOptionUiModel(
                 optionName = "디젤 2.2",
@@ -146,6 +165,8 @@ fun PreviewSelectTrimScreen() {
                 maximumTorque = "36.2/5,200kgf-m/rpm",
             )
         ),
-        onOptionSelect = { _, _ -> },
+        savedTrim = null,
+        isInitial = false,
+        onOptionSelect = { _, _, _ -> },
     )
 }

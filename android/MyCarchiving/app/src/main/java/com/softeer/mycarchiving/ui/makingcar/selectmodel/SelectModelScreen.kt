@@ -12,8 +12,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -21,28 +23,33 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.skydoves.landscapist.animation.crossfade.CrossfadePlugin
 import com.skydoves.landscapist.components.rememberImageComponent
 import com.skydoves.landscapist.glide.GlideImage
+import com.softeer.mycarchiving.MainActivity
 import com.softeer.mycarchiving.R
 import com.softeer.mycarchiving.model.makingcar.SelectModelUiModel
 import com.softeer.mycarchiving.ui.component.CarImageSelectItem
 import com.softeer.mycarchiving.ui.component.OptionCardForModel
+import com.softeer.mycarchiving.ui.makingcar.MakingCarViewModel
 import com.softeer.mycarchiving.ui.theme.White
 
 @Composable
 fun SelectModelRoute(
     modifier: Modifier = Modifier,
-    viewModel: SelectModelViewModel = hiltViewModel()
+    viewModel: SelectModelViewModel = hiltViewModel(),
+    sharedViewModel: MakingCarViewModel = hiltViewModel(LocalContext.current as MainActivity)
 ) {
     val carModels by viewModel.carModels.collectAsStateWithLifecycle()
     val carImages by viewModel.carImages.collectAsStateWithLifecycle()
     val focusedImageIndex by viewModel.focusedImageIndex.collectAsStateWithLifecycle()
     val scrollState = rememberScrollState()
+
     SelectModelScreen(
         modifier = modifier,
         scrollState = scrollState,
         carModels = carModels,
         carImages = carImages,
         focusedImageIndex = focusedImageIndex,
-        onCarImageClick = viewModel::onCarImageClick
+        onCarImageClick = viewModel::onCarImageClick,
+        onModelSelect = sharedViewModel::updateSelectedModelInfo
     )
 }
 
@@ -54,8 +61,13 @@ fun SelectModelScreen(
     carModels: List<SelectModelUiModel>,
     carImages: List<String>,
     focusedImageIndex: Int,
-    onCarImageClick: (Int) -> Unit
+    onCarImageClick: (Int) -> Unit,
+    onModelSelect: (SelectModelUiModel) -> Unit,
 ) {
+    LaunchedEffect(carModels) {
+        carModels.firstOrNull()?.let { onModelSelect(it) } // 첫번째 모델 자동 선택
+    }
+
     Column(
         modifier = modifier
             .fillMaxWidth()
