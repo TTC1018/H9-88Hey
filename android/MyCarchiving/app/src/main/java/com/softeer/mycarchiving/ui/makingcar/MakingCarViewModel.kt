@@ -28,10 +28,10 @@ class MakingCarViewModel @Inject constructor() : ViewModel() {
     private val _selectedCarImage = MutableLiveData<String>()
     val selectedCarImage: LiveData<String> = _selectedCarImage
 
-    private val _selectedColor = MutableStateFlow<MutableList<ColorOptionUiModel>>(mutableListOf())
+    private val _selectedColor = MutableStateFlow<List<ColorOptionUiModel>>(mutableListOf())
     val selectedColor: StateFlow<List<ColorOptionUiModel>> = _selectedColor
 
-    private val _selectedTrim = MutableStateFlow<MutableList<TrimOptionUiModel>>(mutableListOf())
+    private val _selectedTrim = MutableStateFlow<List<TrimOptionUiModel>>(mutableListOf())
     val selectedTrim: StateFlow<List<TrimOptionUiModel>> = _selectedTrim
 
     private val _selectedExtraOptions = MutableLiveData<List<SelectOptionUiModel>>()
@@ -66,9 +66,14 @@ class MakingCarViewModel @Inject constructor() : ViewModel() {
         initial: Boolean = false
     ) {
         if (_selectedTrim.value.getOrNull(progress) == null) { // 그대로 추가하면 될 때
-            _selectedTrim.value.add(trimOptionUiModel)
+            _selectedTrim.value += listOf(trimOptionUiModel)
+            _totalPrice.value += trimOptionUiModel.price
         } else if (initial.not()) { // 이미 기록된 데이터가 있는데 변경하려 할 때
-            _selectedTrim.value[progress] = trimOptionUiModel
+            _totalPrice.value -= _selectedTrim.value.getOrNull(progress)?.price ?: 0
+            _selectedTrim.value = _selectedTrim.value.run {
+                slice(0 until progress) + listOf(trimOptionUiModel) + slice(progress + 1 until size)
+            }
+            _totalPrice.value += _selectedTrim.value.getOrNull(progress)?.price ?: 0
         }
     }
 
@@ -79,9 +84,14 @@ class MakingCarViewModel @Inject constructor() : ViewModel() {
     ) {
         if (colorOptionUiModel != null) {
             if (_selectedColor.value.getOrNull(progress) == null) {
-                _selectedColor.value.add(colorOptionUiModel)
+                _selectedColor.value += listOf(colorOptionUiModel)
+                _totalPrice.value += colorOptionUiModel.price
             } else if (initial.not()) {
-                _selectedColor.value[progress] = colorOptionUiModel
+                _totalPrice.value -= _selectedColor.value.getOrNull(progress)?.price ?: 0
+                _selectedColor.value = _selectedColor.value.run {
+                    slice(0 until progress) + listOf(colorOptionUiModel) + slice(progress + 1 until size)
+                }
+                _totalPrice.value += _selectedColor.value.getOrNull(progress)?.price ?: 0
             }
         }
     }
