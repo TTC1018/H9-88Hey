@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 
 import { Outlet, useLocation } from 'react-router-dom';
 
+import { getLocalStorage } from '@/utils';
 import { MyCarProps } from '@/types/trim';
 import { OptionContextProps } from '@/types/option';
 
@@ -14,20 +15,22 @@ import * as Styled from './style';
 
 const DEFAULT_STATE: MyCarProps = {
   carType: { krName: '펠리세이드', enName: 'Palisade' },
-  trim: { title: '', price: 0 },
-  engine: { title: '', price: 0 },
-  bodyType: { title: '', price: 0 },
-  wheelDrive: { title: '', price: 0 },
+  trim: { title: '', price: 0, id: 0 },
+  engine: { title: '', price: 0, id: 0 },
+  bodyType: { title: '', price: 0, id: 0 },
+  wheelDrive: { title: '', price: 0, id: 0 },
   outerColor: { title: '', imageUrl: '/src/assets/icons/ellipse_123.png', price: 0 },
   innerColor: { title: '', imageUrl: '/src/assets/icons/ellipse_567.svg', id: 1 },
   options: [],
   carImageUrl: 'https://www.hyundai.com/contents/vr360/LX06/exterior/WC9/001.png', // 임시 mock data
 };
-
 export function MyCarLayout() {
   const { pathname } = useLocation();
+  const carCode = useRef('');
 
-  const [myCar, setMyCar] = useState(DEFAULT_STATE);
+  const localStorageData = getLocalStorage('myCar');
+
+  const [myCar, setMyCar] = useState<MyCarProps>(localStorageData === null ? DEFAULT_STATE : localStorageData);
 
   const trimKeys = ['trim', 'engine', 'bodyType', 'wheelDrive', 'outerColor'];
 
@@ -43,8 +46,8 @@ export function MyCarLayout() {
 
   prevPrice.current = totalPrice;
 
-  function handleTrim({ key, option, price }: { key: string; option: string; price: number }) {
-    setMyCar(prev => ({ ...prev, [key]: { title: option, price } }));
+  function handleTrim({ key, option, price, id }: { key: string; option: string; price: number; id: number }) {
+    setMyCar(prev => ({ ...prev, [key]: { title: option, price, id } }));
   }
 
   function handleOuterColor({ color, colorImage, price }: { color: string; colorImage: string; price: number }) {
@@ -77,7 +80,6 @@ export function MyCarLayout() {
     if (localStorageData === null) {
       return;
     }
-
     const savedOptions: MyCarProps = JSON.parse(localStorageData);
     setMyCar(savedOptions);
   }, []);
@@ -90,6 +92,7 @@ export function MyCarLayout() {
         <Outlet
           context={{
             myCar,
+            carCode,
             totalPrice,
             handleTrim,
             handleOuterColor,
@@ -100,7 +103,7 @@ export function MyCarLayout() {
           }}
         />
       </Styled.Wrapper>
-      <Footer myCarData={myCar} totalPrice={totalPrice} onSetLocalStorage={handleLocalStorage} />
+      <Footer myCarData={myCar} totalPrice={totalPrice} onSetLocalStorage={handleLocalStorage} carCode={carCode} />
     </Styled.Container>
   );
 }

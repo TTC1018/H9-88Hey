@@ -42,3 +42,13 @@ export function hasJongSeong(word: string) {
 
   return (unicode - hangeulStart) % 28 > 0;
 }
+
+export function getLocalStorage(key: string) {
+  return JSON.parse(localStorage.getItem(key)!);
+}
+
+export function checkIsOption(path: string) {
+  const splitedPath = path.split('/');
+
+  return splitedPath[1] === 'option';
+}

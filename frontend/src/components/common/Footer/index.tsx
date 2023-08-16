@@ -1,7 +1,8 @@
-import { useState } from 'react';
+import { MutableRefObject, useState } from 'react';
 
 import { useLocation, useNavigate } from 'react-router-dom';
 
+import { checkIsOption } from '@/utils';
 import { MyCarProps } from '@/types/trim';
 import { NAVIGATION_PATH, TAG_CHIP_MAX_NUMBER } from '@/constants';
 
@@ -12,12 +13,14 @@ import * as Styled from './style';
 interface FooterProps {
   myCarData: MyCarProps;
   totalPrice: number;
+  carCode: MutableRefObject<string>;
   onSetLocalStorage: () => void;
 }
 
-export function Footer({ myCarData, totalPrice, onSetLocalStorage }: FooterProps) {
+export function Footer({ myCarData, totalPrice, carCode, onSetLocalStorage }: FooterProps) {
   const { pathname } = useLocation();
   const navigate = useNavigate();
+
   const [isOpen, setIsOpen] = useState(false);
 
   function handleOpenModal() {
@@ -39,7 +42,18 @@ export function Footer({ myCarData, totalPrice, onSetLocalStorage }: FooterProps
     if (path === '') {
       return;
     }
+
     onSetLocalStorage();
+
+    if (checkIsOption(path)) {
+      navigate({
+        pathname: path,
+        search: `?car_code=${carCode.current}`,
+      });
+
+      return;
+    }
+
     navigate(path);
   }
 
