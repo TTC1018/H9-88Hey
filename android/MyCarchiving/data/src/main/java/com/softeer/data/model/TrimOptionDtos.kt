@@ -50,7 +50,7 @@ data class TrimSelectOptionDto(
     val id: String,
     @SerializedName("name")
     val name: String,
-    @SerializedName("imageURL")
+    @SerializedName("imageUrl")
     val imageUrl: String,
     @SerializedName("additionalPrice")
     val price: Int,
@@ -65,7 +65,7 @@ data class TrimSubOptionDto(
     val id: String,
     @SerializedName("name")
     val name: String,
-    @SerializedName("imageURL")
+    @SerializedName("imageUrl")
     val imageUrl: String,
     @SerializedName("description")
     val description: String,
