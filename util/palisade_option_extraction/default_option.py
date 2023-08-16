@@ -6,7 +6,7 @@ option_dictionary = defaultdict()
 saleModelCodes = ["LXJJ7DST5", "LXJJ7DAT5", "LXJJ7DBT5", "LXJJ7DCT5",
                   "LXJJ7MST5", "LXJJ7MAT5", "LXJJ7MBT5", "LXJJ7MCT5",
                   "LXJJ8DST5", "LXJJ8DAT5", "LXJJ8DBT5", "LXJJ8DCT5",
-                  "LXJJ8MST5", "LXJJ7MAT5", "LXJJ7MBT5", "LXJJ7MCT5",
+                  "LXJJ8MST5", "LXJJ8MAT5", "LXJJ8MBT5", "LXJJ8MCT5",
                   "LXJJ7DSA5", "LXJJ7DAA5", "LXJJ7DBA5", "LXJJ7DCA5",
                   "LXJJ8DSA5", "LXJJ8DAA5", "LXJJ8DBA5", "LXJJ8DCA5",
                   "LXJJ8MSA5", "LXJJ8MAA5", "LXJJ8MBA5", "LXJJ8MCA5",
