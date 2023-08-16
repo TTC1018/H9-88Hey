@@ -1,11 +1,10 @@
-import { OptionSelectCard } from '@/components/Archiving/OptionSelectCard';
-import { DeleteButton } from '@/components/common/DeleteButton';
-
 import { ArchivingProps } from '@/types/archiving';
 import { combineWithSlash, formatDate } from '@/utils';
 
-import * as style from './style';
+import { OptionSelectCard } from '@/components/Archiving/OptionSelectCard';
 import { XButton } from '@/components/MyChiving/XButton';
+
+import * as style from './style';
 
 interface ArchivingCardProps {
   isArchiving: true;
