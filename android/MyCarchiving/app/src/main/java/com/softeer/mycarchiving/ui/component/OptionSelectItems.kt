@@ -3,7 +3,6 @@ package com.softeer.mycarchiving.ui.component
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -30,7 +29,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -110,11 +108,9 @@ fun OptionSelectedInfo(
     optionName: String,
     optionTags: List<String>?
 ) {
-    Column {
+    Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
         OptionHeadText(optionName = optionName)
-        Spacer(modifier = Modifier.height(8.dp))
         OptionHeadComment()
-        Spacer(modifier = Modifier.height(8.dp))
         FlowRow(
             verticalAlignment = Alignment.Top,
             horizontalArrangement = Arrangement.spacedBy(8.dp)

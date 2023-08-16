@@ -11,11 +11,11 @@ import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -43,6 +43,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
+import com.softeer.data.CarColorType
 import com.softeer.mycarchiving.R
 import com.softeer.mycarchiving.enums.ArchiveSearchPage
 import com.softeer.mycarchiving.enums.ArchiveSearchPage.*
@@ -50,6 +51,7 @@ import com.softeer.mycarchiving.model.TrimOptionUiModel
 import com.softeer.mycarchiving.model.common.CarBasicDetailUiModel
 import com.softeer.mycarchiving.model.common.CarBasicUiModel
 import com.softeer.mycarchiving.model.common.SummaryChildUiModel
+import com.softeer.mycarchiving.model.makingcar.ColorOptionUiModel
 import com.softeer.mycarchiving.ui.theme.DarkGray
 import com.softeer.mycarchiving.ui.theme.HyundaiLightSand
 import com.softeer.mycarchiving.ui.theme.HyundaiNeutral
@@ -206,29 +208,6 @@ fun CarBasicDetailItem(
     }
 }
 
-val summaryFirst = listOf(
-    SummaryChildUiModel(
-        name = "펠리세이드 Le Blanc(르블랑)",
-        price = "47,3400,000",
-        needPlus = false
-    ),
-    SummaryChildUiModel(
-        name = "디젤 2.2 / 4WD / 7인승",
-        price = "1,090,000",
-    )
-)
-
-val summarySecond = listOf(
-    SummaryChildUiModel(
-        name = "문라이트 블루펄",
-        colorPosition = "외장"
-    ),
-    SummaryChildUiModel(
-        name = "퀼팅 천연(블랙)",
-        colorPosition = "내장",
-    )
-)
-
 val summaryThird = listOf(
     SummaryChildUiModel(
         name = "컴포트 ||",
@@ -257,6 +236,7 @@ fun SummaryBottomSheetContent(
     modifier: Modifier = Modifier,
     totalPrice: Int,
     trimOptions: List<TrimOptionUiModel>,
+    colorOptions: List<ColorOptionUiModel>,
 ) {
     val scrollState = rememberScrollState()
     Column(
@@ -281,7 +261,7 @@ fun SummaryBottomSheetContent(
         SummaryLabel(
             modifier = modifier,
             labelName = stringResource(id = R.string.summary_color),
-            summaryChildren = summarySecond
+            summaryChildren = colorOptions.map { it.colorToSummary() }
         )
         SummaryLabel(
             modifier = modifier,
@@ -358,15 +338,17 @@ fun SummaryChild(
                 text = summaryChild.colorPosition,
                 style = medium14
             )
-            Spacer(modifier = modifier.width(12.dp))
-            Image(
-                modifier = modifier
-                    .size(16.dp)
+            Spacer(modifier = Modifier.width(12.dp))
+            AsyncImage(
+                modifier = Modifier
+                    .width(16.dp)
+                    .aspectRatio(1f)
                     .clip(CircleShape),
-                painter = painterResource(id = R.drawable.ic_launcher_background),
-                contentDescription = null
+                model = summaryChild.imageUrl,
+                contentDescription = "",
+                contentScale = ContentScale.Crop
             )
-            Spacer(modifier = modifier.width(12.dp))
+            Spacer(modifier = Modifier.width(12.dp))
         }
         Text(
             text = summaryChild.name,
@@ -374,7 +356,7 @@ fun SummaryChild(
         )
         if (summaryChild.price != null) {
             Text(
-                modifier = modifier.weight(1f),
+                modifier = Modifier.weight(1f),
                 text = if (summaryChild.needPlus) {
                     stringResource(id = R.string.plus_price_won, summaryChild.price)
                 } else {
@@ -637,6 +619,15 @@ private fun List<TrimOptionUiModel>.trimsToSummary(): List<SummaryChildUiModel> 
             ?: 0)) to (acc.second + trimOptionUiModel.optionName + " / ")
     }.run { listOf(SummaryChildUiModel(name = second.dropLast(3), price = first.toPriceString())) }
 
+private fun ColorOptionUiModel.colorToSummary(): SummaryChildUiModel =
+    SummaryChildUiModel(
+        name = optionName,
+        colorPosition = category.type.take(2),
+        imageUrl = imageUrl,
+        price = price.toPriceString(),
+    )
+
+
 @Preview
 @Composable
 fun PreviewCarBasicBottomSheetContent() {
@@ -653,7 +644,7 @@ fun PreviewSummaryBottomSheetContent() {
             TrimOptionUiModel(
                 optionName = "디젤 2.2",
                 optionDesc = "높은 토크로 파워풀한 드라이빙이 가능하며, 차급대비 연비 효율이 우수합니다.",
-                imageUrl = null,
+                imageUrl = "",
                 price = 1480000,
                 maximumOutput = "202/3,800PS/rpm",
                 maximumTorque = "45.0/1,750~2,750kgf-m/rpm"
@@ -661,8 +652,18 @@ fun PreviewSummaryBottomSheetContent() {
             TrimOptionUiModel(
                 optionName = "7인승",
                 optionDesc = "기존 8인승 시트(1열 2명, 2열 3명, 3열 3명)에서 2열 가운데 시트를 없애 2열 탑승객의 편의는 물론, 3열 탑승객의 승하차가 편리합니다.",
-                imageUrl = null,
+                imageUrl = "",
                 price = 0,
+            )
+        ),
+        colorOptions = listOf(
+            ColorOptionUiModel(
+                category = CarColorType.EXTERIOR,
+                optionName = "문라이트 블루펄",
+                imageUrl = "",
+                price = 0,
+                matchingColors = emptyList(),
+                tags = emptyList()
             )
         ),
     )
