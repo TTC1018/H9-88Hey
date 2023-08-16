@@ -52,3 +52,11 @@ export function checkIsOption(path: string) {
 
   return splittedPath[1] === 'option';
 }
+
+export function checkIsHGenuineAccessoriesPage(path: string) {
+  return path === '/option/h-genuine-accessories';
+}
+
+export function checkIsNPerformancePage(path: string) {
+  return path === '/option/n-performance';
+}

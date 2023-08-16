@@ -3,7 +3,12 @@ import { useState, useEffect, MouseEvent } from 'react';
 import { useLocation } from 'react-router-dom';
 
 import { OptionCardDataProps } from '@/types/option';
-import { isIndexLargeThanZero, isIndexSmallThanMaxIndex } from '@/utils';
+import {
+  isIndexLargeThanZero,
+  isIndexSmallThanMaxIndex,
+  checkIsHGenuineAccessoriesPage,
+  checkIsNPerformancePage,
+} from '@/utils';
 import { OPTION_CARD_LIST_LENGTH } from '@/constants';
 
 import { OptionCard } from './OptionCard';
@@ -33,7 +38,7 @@ export function OptionCardList({ selectedIndex, cardListIndex, data, onClickCard
   }
 
   function checkIsWheelSelected() {
-    return pathname === '/option/n-performance' && selectedCount === 1;
+    return checkIsNPerformancePage(pathname) && selectedCount === 1;
   }
 
   function checkIsBlur(isAvailable: boolean | undefined, index: number) {
@@ -41,7 +46,7 @@ export function OptionCardList({ selectedIndex, cardListIndex, data, onClickCard
       return false;
     }
 
-    if (pathname === '/option/h-genuine-accessories') {
+    if (checkIsHGenuineAccessoriesPage(pathname)) {
       return !isAvailable;
     } else {
       return checkIsWheelSelected() && index !== lastAddedCardIndex;
