@@ -20,6 +20,8 @@ export const Container = styled.div`
       background-color: #fff;
       border: 1px solid ${colors.hyundaiSand};
       border-radius: 8px;
+
+      cursor: pointer;
     `;
   }}
 `;

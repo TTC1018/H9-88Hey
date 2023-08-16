@@ -1,3 +1,7 @@
+import { MouseEvent } from 'react';
+
+import { formatDate } from '@/utils';
+
 import { XButton } from '@/components/MyChiving/XButton';
 
 import * as Styled from './style';
@@ -7,6 +11,11 @@ interface OptionProps {
   imageUrl: string;
 }
 
+interface ClickEventDataProps {
+  deleteText: string;
+  moveText: string;
+}
+
 interface MyCarListProps {
   isSaved: boolean;
   model: string;
@@ -14,15 +23,23 @@ interface MyCarListProps {
   trimOptions: string[];
   lastModifiedDate: string;
   selectedOptions: OptionProps[];
+  onClick: (data: ClickEventDataProps, event: MouseEvent<HTMLDivElement>) => void;
 }
 
-export function MyCarList({ isSaved, model, trim, trimOptions, lastModifiedDate, selectedOptions }: MyCarListProps) {
-  const modifiedDate = lastModifiedDate.split('-');
-  const date = `${modifiedDate[0].slice(2)}년 ${modifiedDate[1]}월 ${modifiedDate[2]}일`;
+export function MyCarList({
+  isSaved,
+  model,
+  trim,
+  trimOptions,
+  lastModifiedDate,
+  selectedOptions,
+  onClick,
+}: MyCarListProps) {
+  const date = formatDate(lastModifiedDate);
   const dateInfoText = isSaved ? `${date}에 만들었어요.` : `${date} 임시저장`;
 
   return (
-    <Styled.Container>
+    <Styled.Container onClick={event => onClick({ deleteText: `${model} ${trim}`, moveText: `${date}` }, event)}>
       <Styled.Wrapper>
         <Styled.InfoBox>
           {!isSaved && <Styled.InfoText>저장하지 않고 나간 차량이 있어요.</Styled.InfoText>}
