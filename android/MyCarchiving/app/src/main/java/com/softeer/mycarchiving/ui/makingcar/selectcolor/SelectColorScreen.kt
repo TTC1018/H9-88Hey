@@ -6,12 +6,13 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -21,6 +22,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import coil.compose.AsyncImage
+import coil.request.ImageRequest
 import com.softeer.mycarchiving.MainActivity
 import com.softeer.data.CarColorType
 import com.softeer.mycarchiving.model.makingcar.ColorOptionUiModel
@@ -32,6 +35,7 @@ import com.softeer.mycarchiving.ui.component.OptionSelectedInfo
 import com.softeer.mycarchiving.ui.component.RotateCarImage
 import com.softeer.mycarchiving.ui.makingcar.MakingCarViewModel
 import com.softeer.mycarchiving.ui.theme.HyundaiLightSand
+import kotlinx.coroutines.launch
 
 @Composable
 fun SelectColorRoute(
@@ -40,17 +44,27 @@ fun SelectColorRoute(
     selectColorViewModel: SelectColorViewModel = hiltViewModel(),
     makingCarViewModel: MakingCarViewModel = hiltViewModel(LocalContext.current as MainActivity)
 ) {
-    val imageUrls by selectColorViewModel.imageUrls.collectAsStateWithLifecycle()
+    val carImageUrls by selectColorViewModel.imageUrls.collectAsStateWithLifecycle()
+    val interiorImageUrls by selectColorViewModel.interiorImageUrls.collectAsStateWithLifecycle()
     val category by selectColorViewModel.category.collectAsStateWithLifecycle()
     val topImageIndex by selectColorViewModel.topImageIndex.collectAsStateWithLifecycle()
     val selectedIndex by selectColorViewModel.selectedIndex.collectAsStateWithLifecycle()
     val exteriors by selectColorViewModel.exteriors.collectAsStateWithLifecycle()
     val interiors by selectColorViewModel.interiors.collectAsStateWithLifecycle()
 
+    LaunchedEffect(screenProgress) {
+        selectColorViewModel.changeSelectedColor(0) // 화면 변경 시 첫번째 색으로 자동 설정
+    }
+
     // TODO 내장색상 상단 이미지 URL 제대로 오는지 확인
     SelectColorScreen(
         modifier = modifier,
-        topImagePath = imageUrls.getOrNull(selectedIndex) ?: "",
+        screenProgress = screenProgress,
+        topImagePath = when (screenProgress) {
+            0 -> carImageUrls.getOrNull(selectedIndex) ?: ""
+            1 -> interiorImageUrls.getOrNull(selectedIndex) ?: ""
+            else -> ""
+        },
         topImageIndex = topImageIndex,
         category = category,
         selectedIndex = selectedIndex,
@@ -68,6 +82,7 @@ fun SelectColorRoute(
 @Composable
 fun SelectColorScreen(
     modifier: Modifier,
+    screenProgress: Int,
     topImagePath: String,
     topImageIndex: Int,
     category: String,
@@ -86,9 +101,10 @@ fun SelectColorScreen(
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
         if (selectedColor != null) {
-            RotateCarImage(
-                imagePath = topImagePath,
-                selectedIndex = topImageIndex,
+            SelectColorTopArea(
+                screenProgress = screenProgress,
+                topImagePath = topImagePath,
+                topImageIndex = topImageIndex,
                 onLeftClick = onLeftClick,
                 onRightClick = onRightClick,
             )
@@ -124,7 +140,41 @@ fun SelectColorScreen(
             )
         }
     }
+}
 
+@Composable
+fun SelectColorTopArea(
+    modifier: Modifier = Modifier,
+    screenProgress: Int,
+    topImagePath: String,
+    topImageIndex: Int,
+    onLeftClick: () -> Unit,
+    onRightClick: () -> Unit,
+) {
+    when (screenProgress) {
+        0 -> {
+            RotateCarImage(
+                modifier = modifier,
+                imagePath = topImagePath,
+                selectedIndex = topImageIndex,
+                onLeftClick = onLeftClick,
+                onRightClick = onRightClick,
+            )
+        }
+
+        1 -> {
+            AsyncImage(
+                modifier = modifier
+                    .fillMaxWidth()
+                    .height(200.dp),
+                model = ImageRequest.Builder(LocalContext.current)
+                    .data(topImagePath)
+                    .crossfade(true)
+                    .build(),
+                contentDescription = ""
+            )
+        }
+    }
 }
 
 @Preview(widthDp = 375, heightDp = 646)
@@ -132,6 +182,7 @@ fun SelectColorScreen(
 fun PreviewSelectColorScreen() {
     SelectColorScreen(
         modifier = Modifier,
+        screenProgress = 0,
         topImagePath = "",
         topImageIndex = 0,
         category = "외장 색상",

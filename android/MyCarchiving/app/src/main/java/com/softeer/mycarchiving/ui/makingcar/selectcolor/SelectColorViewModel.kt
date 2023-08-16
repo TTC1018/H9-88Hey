@@ -34,7 +34,10 @@ class SelectColorViewModel @Inject constructor(
                         }
                     }
                     is TrimInteriorCarColor -> {
-                        _interiors.value = it.map { dto -> (dto as TrimInteriorCarColor).asColorOptionUiModel() }
+                        _interiors.value = it.map { dto ->
+                            _interiorImageUrls.value = _interiorImageUrls.value + listOf((dto as TrimInteriorCarColor).carImageUrl)
+                            dto.asColorOptionUiModel()
+                        }
                     }
                     else -> {}
                 }
@@ -50,6 +53,9 @@ class SelectColorViewModel @Inject constructor(
 
     private val _imageUrls = MutableStateFlow<List<String>>(emptyList())
     val imageUrls: StateFlow<List<String>> = _imageUrls
+
+    private val _interiorImageUrls = MutableStateFlow<List<String>>(emptyList())
+    val interiorImageUrls: StateFlow<List<String>> = _interiorImageUrls
 
     private val _topImageIndex = MutableStateFlow(0)
     val topImageIndex: StateFlow<Int> = _topImageIndex
@@ -67,7 +73,6 @@ class SelectColorViewModel @Inject constructor(
             } else {
                 (_topImageIndex.value - 1).mod(IMAGE_COUNT)
             }
-        Log.d(TAG, _topImageIndex.value.toString())
     }
 
     fun changeSelectedColor(selected: Int) {
