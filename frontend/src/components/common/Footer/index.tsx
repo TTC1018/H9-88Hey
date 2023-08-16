@@ -2,7 +2,7 @@ import { MutableRefObject, useState } from 'react';
 
 import { useLocation, useNavigate } from 'react-router-dom';
 
-import { checkIsOption } from '@/utils';
+import { checkIsOption, checkIsHGenuineAccessoriesPage } from '@/utils';
 import { MyCarProps } from '@/types/trim';
 import { NAVIGATION_PATH, TAG_CHIP_MAX_NUMBER } from '@/constants';
 
@@ -45,10 +45,22 @@ export function Footer({ myCarData, totalPrice, carCode, onSetLocalStorage }: Fo
 
     onSetLocalStorage();
 
+    const carCodeQuery = `?car_code=${carCode.current}`;
+    let optionQuery = '';
+
+    /*
+     * 선택 옵션 페이지에서 옵션 카드 선택이 모두 끝난 후 쿼리 스트링을 한번만 생성한다.
+     * 따라서 여기서는 useRef를 사용하지 않는다.
+     */
+    if (checkIsHGenuineAccessoriesPage(path)) {
+      const optionIds = options.map(({ id }) => id);
+      optionQuery = optionIds.reduce((acc, cur) => `${acc}&select_option=${cur}`, '');
+    }
+
     if (checkIsOption(path)) {
       navigate({
         pathname: path,
-        search: `?car_code=${carCode.current}`,
+        search: `${carCodeQuery}${optionQuery}`,
       });
 
       return;
