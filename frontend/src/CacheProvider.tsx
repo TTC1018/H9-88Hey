@@ -1,8 +1,8 @@
 import { PropsWithChildren, createContext } from 'react';
 
-import { cacheContextProps } from './types/cache';
+import { CacheContextProps } from './types/cache';
 
-export const CacheContext = createContext<cacheContextProps>({
+export const CacheContext = createContext<CacheContextProps>({
   cachedDatas: new Map(),
 });
 

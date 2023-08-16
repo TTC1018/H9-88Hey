@@ -5,6 +5,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { ModalType } from '@/constants';
 import { ArchivingProps } from '@/types/archiving';
 import { combineWithSlash, formatDate } from '@/utils';
+import { useModalContext } from '@/hooks/useModalContext';
 
 import { PopupModal } from '@/components/common/PopupModal';
 import { ModalPortal } from '@/components/common/ModalPortal';
@@ -13,7 +14,6 @@ import { DetailHeader } from '@/components/Archiving/DetailHeader';
 import { DetailDescription } from '@/components/Archiving/DetailDescription';
 
 import * as Styled from './style';
-import { useModalContext } from '@/hooks/useModalContext';
 
 export function Detail() {
   const location = useLocation();

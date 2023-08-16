@@ -3,6 +3,6 @@ export interface dataProps {
   data: any;
 }
 
-export interface cacheContextProps {
+export interface CacheContextProps {
   cachedDatas: Map<string, dataProps>;
 }
