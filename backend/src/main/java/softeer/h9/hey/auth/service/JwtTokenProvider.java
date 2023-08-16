@@ -59,4 +59,15 @@ public class JwtTokenProvider {
 			.signWith(secretKey)
 			.compact();
 	}
+
+	public String getSubjectFromToken(String jwt) {
+		try {
+			return jwtParser
+				.parseClaimsJws(jwt)
+				.getBody()
+				.getSubject();
+		} catch (JwtException e) {
+			throw new InvalidTokenException();
+		}
+	}
 }
