@@ -1,5 +1,7 @@
 package com.softeer.mycarchiving.ui.component
 
+import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -109,21 +111,30 @@ fun CarBasicItemButton(
 @Composable
 fun OptionAddButton(
     modifier: Modifier,
+    isSelect: Boolean,
     onClick: () -> Unit
 ) {
-    var isSelect by remember { mutableStateOf(false) }
+    val animatedTextColor by animateColorAsState(
+        targetValue = if (isSelect) HyundaiNeutral else HyundaiNavy,
+        animationSpec = tween(durationMillis = 500),
+        label = ""
+    )
+    val animatedSurfaceColor by animateColorAsState(
+        targetValue = if (isSelect) HyundaiNavy else HyundaiNeutral,
+        animationSpec = tween(durationMillis = 500),
+        label = ""
+    )
+
     Button(
         modifier = modifier
             .fillMaxWidth()
             .wrapContentHeight(),
-        colors = if (isSelect) {
-            ButtonDefaults.buttonColors(containerColor = HyundaiNavy, contentColor = HyundaiNeutral)
-        } else {
-            ButtonDefaults.buttonColors(containerColor = HyundaiNeutral, contentColor = HyundaiNavy)
-        },
+        colors = ButtonDefaults.buttonColors(
+            containerColor = animatedSurfaceColor,
+            contentColor = animatedTextColor
+        ),
         border = if (isSelect) null else BorderStroke(width = 1.dp, color = HyundaiNavy),
         onClick = {
-            isSelect = !isSelect
             onClick()
         },
         shape = roundCorner,
@@ -131,7 +142,7 @@ fun OptionAddButton(
         Text(
             text = if (isSelect) stringResource(id = R.string.make_car_add_done) else stringResource(id = R.string.make_car_add),
             style = medium14,
-            color = if (isSelect) HyundaiNeutral else HyundaiNavy
+            color = animatedTextColor
         )
         if (isSelect) {
             Icon(
@@ -158,7 +169,7 @@ fun SearchConditionButton(
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
         Text(
-            text =  selectedCar ?: stringResource(id = R.string.archive_search_select_option),
+            text = selectedCar ?: stringResource(id = R.string.archive_search_select_option),
             style = if (selectedCar != null) medium14 else regular14,
             color = if (selectedCar != null) Black else MediumGray
         )
@@ -285,7 +296,11 @@ fun PreviewCarBasicItemButton() {
 @Preview
 @Composable
 fun PreviewOptionAddButton() {
-    OptionAddButton(modifier = Modifier, onClick = {})
+    OptionAddButton(
+        modifier = Modifier,
+        isSelect = false,
+        onClick = {}
+    )
 }
 
 @Preview

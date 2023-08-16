@@ -140,6 +140,7 @@ fun MakeCarBottomBar(
     val showSummary by viewModel.showSummary.collectAsStateWithLifecycle()
     val trimOptions by viewModel.selectedTrim.collectAsStateWithLifecycle()
     val colorOptions by viewModel.selectedColor.collectAsStateWithLifecycle()
+    val totalExtraOption by viewModel.totalExtraOptions.collectAsStateWithLifecycle()
 
     BottomBar(
         modifier = modifier,
@@ -176,7 +177,8 @@ fun MakeCarBottomBar(
             SummaryBottomSheetContent(
                 totalPrice = totalPrice,
                 trimOptions = trimOptions,
-                colorOptions = colorOptions
+                colorOptions = colorOptions,
+                extraOptions = totalExtraOption
             )
         }
     }

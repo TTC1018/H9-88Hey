@@ -52,6 +52,7 @@ import com.softeer.mycarchiving.model.common.CarBasicDetailUiModel
 import com.softeer.mycarchiving.model.common.CarBasicUiModel
 import com.softeer.mycarchiving.model.common.SummaryChildUiModel
 import com.softeer.mycarchiving.model.makingcar.ColorOptionUiModel
+import com.softeer.mycarchiving.model.makingcar.SelectOptionUiModel
 import com.softeer.mycarchiving.ui.theme.DarkGray
 import com.softeer.mycarchiving.ui.theme.HyundaiLightSand
 import com.softeer.mycarchiving.ui.theme.HyundaiNeutral
@@ -66,19 +67,6 @@ import com.softeer.mycarchiving.ui.theme.regular14
 import com.softeer.mycarchiving.ui.theme.roundCorner
 import com.softeer.mycarchiving.ui.theme.ThinGray
 import com.softeer.mycarchiving.util.toPriceString
-
-val detailItems = listOf(
-    CarBasicDetailUiModel(name = "ISG 시스템", "신호 대기 상황이거나 정차 중일 때 차의 엔진을 일시 정지하여 연비를 향상시키고, 배출가스 발생을 억제하는 시스템입니다."),
-    CarBasicDetailUiModel(name = "ISG 시스템", "신호 대기 상황이거나 정차 중일 때 차의 엔진을 일시 정지하여 연비를 향상시키고, 배출가스 발생을 억제하는 시스템입니다."),
-    CarBasicDetailUiModel("ISG 시스템", "신호 대기 상황이거나 정차 중일 때 차의 엔진을 일시 정지하여 연비를 향상시키고, 배출가스 발생을 억제하는 시스템입니다.")
-)
-
-val basicItem1 = CarBasicUiModel(category = "파워트레인 성능", detailItems = detailItems)
-val basicItem2 = CarBasicUiModel(category = "지능형 안전 기술", detailItems = detailItems)
-val basicItem3 = CarBasicUiModel(category = "안전", detailItems = detailItems)
-val basicItem4 = CarBasicUiModel(category = "성능", detailItems = detailItems)
-
-val basicItems = listOf(basicItem1, basicItem2, basicItem3, basicItem4)
 
 @Composable
 fun CarBasicBottomSheetContent(
@@ -201,35 +189,12 @@ fun CarBasicDetailItem(
     if (detailDialogShow) {
         BasicItemDialog(
             onDismissRequest = {
-               detailDialogShow = false
+                detailDialogShow = false
             },
             detailItem = detailItem
         )
     }
 }
-
-val summaryThird = listOf(
-    SummaryChildUiModel(
-        name = "컴포트 ||",
-        price = "1,090,000",
-    ),
-    SummaryChildUiModel(
-        name = "컴포트 ||",
-        price = "1,090,000",
-    ),
-    SummaryChildUiModel(
-        name = "컴포트 ||",
-        price = "1,090,000",
-    ),
-    SummaryChildUiModel(
-        name = "컴포트 ||",
-        price = "1,090,000",
-    ),
-    SummaryChildUiModel(
-        name = "컴포트 ||",
-        price = "1,090,000",
-    ),
-)
 
 @Composable
 fun SummaryBottomSheetContent(
@@ -237,6 +202,7 @@ fun SummaryBottomSheetContent(
     totalPrice: Int,
     trimOptions: List<TrimOptionUiModel>,
     colorOptions: List<ColorOptionUiModel>,
+    extraOptions: List<SelectOptionUiModel>,
 ) {
     val scrollState = rememberScrollState()
     Column(
@@ -267,7 +233,7 @@ fun SummaryBottomSheetContent(
             modifier = modifier,
             labelName = stringResource(id = R.string.selected_option),
             needCount = true,
-            summaryChildren = summaryThird
+            summaryChildren = extraOptions.map { it.extraToSummary() }
         )
     }
 }
@@ -423,7 +389,7 @@ fun SearchCarBottomSheetContent(
                 .padding(horizontal = 16.dp, vertical = 32.dp)
                 .weight(1f),
         ) {
-            when(currentPage) {
+            when (currentPage) {
                 SEARCH_CONDITION -> {
                     Text(
                         text = stringResource(id = R.string.archive_search_set_car),
@@ -447,7 +413,11 @@ fun SearchCarBottomSheetContent(
                             style = medium16
                         )
                         Text(
-                            text = stringResource(id = R.string.archive_search_set_option_count, selectedOptions.size, 15),
+                            text = stringResource(
+                                id = R.string.archive_search_set_option_count,
+                                selectedOptions.size,
+                                15
+                            ),
                             style = medium12
                         )
                     }
@@ -479,8 +449,8 @@ fun SearchCarBottomSheetContent(
             modifier = Modifier
                 .padding(bottom = 20.dp)
         ) {
-            when(currentPage) {
-                SEARCH_CONDITION -> {/*none*/}
+            when (currentPage) {
+                SEARCH_CONDITION -> {/*none*/ }
                 SET_CAR -> {
                     Divider(thickness = 1.dp, color = LightGray)
                     Column(
@@ -507,7 +477,11 @@ fun SearchCarBottomSheetContent(
                             .padding(start = 16.dp, end = 16.dp, top = 16.dp, bottom = 10.dp)
                     ) {
                         Text(
-                            text = stringResource(id = R.string.archive_search_set_option_count, pendingOptions.size, 15),
+                            text = stringResource(
+                                id = R.string.archive_search_set_option_count,
+                                pendingOptions.size,
+                                15
+                            ),
                             style = medium12
                         )
                         Spacer(modifier = Modifier.height(10.dp))
@@ -515,9 +489,9 @@ fun SearchCarBottomSheetContent(
                             horizontalArrangement = Arrangement.spacedBy(8.dp)
                         ) {
                             pendingOptions.forEach { option ->
-                                 Box(
-                                     modifier = Modifier.padding(bottom = 8.dp)
-                                 ){
+                                Box(
+                                    modifier = Modifier.padding(bottom = 8.dp)
+                                ) {
                                     SearchConditionChipForDelete(
                                         name = option,
                                         onDelete = {},
@@ -533,7 +507,10 @@ fun SearchCarBottomSheetContent(
             ) {
                 HyundaiButton(
                     text = if (currentPage == SET_OPTION) {
-                        stringResource(id = R.string.archive_search_apply_options, pendingOptions.size)
+                        stringResource(
+                            id = R.string.archive_search_apply_options,
+                            pendingOptions.size
+                        )
                     } else {
                         stringResource(id = R.string.archive_search_apply_selected_item)
                     },
@@ -602,7 +579,7 @@ fun SearchCarBottomSheetFlowItem(
             options.forEach { option ->
                 Box(
                     modifier = Modifier.padding(bottom = 10.dp)
-                ){
+                ) {
                     SearchConditionChip(
                         name = option,
                         onClick = {}
@@ -627,10 +604,38 @@ private fun ColorOptionUiModel.colorToSummary(): SummaryChildUiModel =
         price = price.toPriceString(),
     )
 
+private fun SelectOptionUiModel.extraToSummary(): SummaryChildUiModel =
+    SummaryChildUiModel(
+        name = name,
+        price = price.toPriceString(),
+        imageUrl = imageUrl,
+    )
+
 
 @Preview
 @Composable
 fun PreviewCarBasicBottomSheetContent() {
+    val detailItems = listOf(
+        CarBasicDetailUiModel(
+            name = "ISG 시스템",
+            "신호 대기 상황이거나 정차 중일 때 차의 엔진을 일시 정지하여 연비를 향상시키고, 배출가스 발생을 억제하는 시스템입니다."
+        ),
+        CarBasicDetailUiModel(
+            name = "ISG 시스템",
+            "신호 대기 상황이거나 정차 중일 때 차의 엔진을 일시 정지하여 연비를 향상시키고, 배출가스 발생을 억제하는 시스템입니다."
+        ),
+        CarBasicDetailUiModel(
+            "ISG 시스템",
+            "신호 대기 상황이거나 정차 중일 때 차의 엔진을 일시 정지하여 연비를 향상시키고, 배출가스 발생을 억제하는 시스템입니다."
+        )
+    )
+
+    val basicItem1 = CarBasicUiModel(category = "파워트레인 성능", detailItems = detailItems)
+    val basicItem2 = CarBasicUiModel(category = "지능형 안전 기술", detailItems = detailItems)
+    val basicItem3 = CarBasicUiModel(category = "안전", detailItems = detailItems)
+    val basicItem4 = CarBasicUiModel(category = "성능", detailItems = detailItems)
+    val basicItems = listOf(basicItem1, basicItem2, basicItem3, basicItem4)
+
     CarBasicBottomSheetContent(basicItems = basicItems) {}
 }
 
@@ -666,14 +671,26 @@ fun PreviewSummaryBottomSheetContent() {
                 tags = emptyList()
             )
         ),
+        extraOptions = listOf(
+            SelectOptionUiModel(
+                id = "",
+                name = "현대스마트센스 Ⅰ",
+                price = 2900000,
+                imageUrl = "",
+                tags = listOf(
+                    "대형견도 문제 없어요",
+                    "가족들도 좋은 옵션👨‍👩‍👧‍👦"
+                ),
+            )
+        ),
     )
 }
-
-val selectedOptions = listOf("컴포트 2 패키지", "듀얼 와이드 선루프", "컴포트 2 패키지", "듀얼 와이드 선루프")
 
 @Preview
 @Composable
 fun PreviewSearchCarBottomSheetContent() {
+    val selectedOptions = listOf("컴포트 2 패키지", "듀얼 와이드 선루프", "컴포트 2 패키지", "듀얼 와이드 선루프")
+
     SearchCarBottomSheetContent(
         currentPage = SET_OPTION,
         selectedCar = "펠리세이드",

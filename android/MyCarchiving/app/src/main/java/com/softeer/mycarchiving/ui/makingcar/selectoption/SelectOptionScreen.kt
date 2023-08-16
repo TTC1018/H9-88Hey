@@ -35,6 +35,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
+import com.softeer.mycarchiving.MainActivity
 import com.softeer.mycarchiving.R
 import com.softeer.mycarchiving.model.makingcar.SelectOptionUiModel
 import com.softeer.mycarchiving.model.makingcar.SubSelectOptionUiModel
@@ -44,6 +45,7 @@ import com.softeer.mycarchiving.ui.component.ExtraOptionCard
 import com.softeer.mycarchiving.ui.component.ExtraOptionCards
 import com.softeer.mycarchiving.ui.component.OptionSelectItem
 import com.softeer.mycarchiving.ui.component.OptionSelectedInfo
+import com.softeer.mycarchiving.ui.makingcar.MakingCarViewModel
 import com.softeer.mycarchiving.ui.theme.DarkGray
 import com.softeer.mycarchiving.ui.theme.HyundaiLightSand
 import com.softeer.mycarchiving.ui.theme.White
@@ -55,6 +57,7 @@ fun SelectOptionRoute(
     modifier: Modifier = Modifier,
     screenProgress: Int,
     viewModel: SelectOptionViewModel = hiltViewModel(),
+    sharedViewModel: MakingCarViewModel = hiltViewModel(LocalContext.current as MainActivity)
 ) {
     val scrollState = rememberScrollState()
     val selectOptions by viewModel.selectOptions.collectAsStateWithLifecycle()
@@ -63,6 +66,9 @@ fun SelectOptionRoute(
     val focusedOptionIndex by viewModel.focusedOptionIndex.collectAsStateWithLifecycle()
     val basicItems by viewModel.basicOptions.collectAsStateWithLifecycle()
     val showBasicItems by viewModel.showBasicItems.collectAsStateWithLifecycle()
+    val selectedExtras by sharedViewModel.selectedExtraOptions.collectAsStateWithLifecycle()
+    val selectedHGenuines by sharedViewModel.selectedHGenuines.collectAsStateWithLifecycle()
+    val selectedNPerformance by sharedViewModel.selectedNPerformance.collectAsStateWithLifecycle()
 
     LaunchedEffect(screenProgress) {
         viewModel.focusOptionItem(0) // 화면 변할 때마다 focus된 아이템 초기화
@@ -71,16 +77,23 @@ fun SelectOptionRoute(
     SelectOptionScreen(
         modifier = modifier,
         scrollState = scrollState,
+        screenProgress = screenProgress,
         options = when (screenProgress) {
             0 -> selectOptions
             1 -> hGenuines
             2 -> nPerformances
             else -> emptyList()
         },
+        selectedOptions = when (screenProgress) {
+            0 -> selectedExtras
+            1 -> selectedHGenuines
+            2 -> selectedNPerformance
+            else -> emptyList()
+        },
         focusedIndex = focusedOptionIndex,
         focusOption = viewModel::focusOptionItem,
         showBasicItems = viewModel::openBasicItems,
-        addOption = viewModel::onAddOption,
+        onAddOption = sharedViewModel::updateSelectedExtraOption,
     )
     if (showBasicItems) {
         ModalBottomSheet(
@@ -103,11 +116,13 @@ fun SelectOptionRoute(
 fun SelectOptionScreen(
     modifier: Modifier,
     scrollState: ScrollState,
+    screenProgress: Int,
     options: List<SelectOptionUiModel>,
+    selectedOptions: List<SelectOptionUiModel>?,
     focusedIndex: Int,
     focusOption: (Int) -> Unit,
     showBasicItems: () -> Unit,
-    addOption: () -> Unit,
+    onAddOption: (SelectOptionUiModel, Int) -> Unit,
 ) {
     Column(
         modifier = modifier
@@ -144,8 +159,9 @@ fun SelectOptionScreen(
                         OptionSelectItem(
                             modifier = modifier,
                             option = option,
-                            onAddClick = addOption,
                             focus = focusedIndex == idx,
+                            isAdded = selectedOptions?.contains(option) ?: false,
+                            onAddClick = { onAddOption(option, screenProgress) },
                             onFocus = { focusOption(idx) }
                         )
                     }
@@ -191,6 +207,7 @@ fun PreviewSelectOptionScreen() {
     SelectOptionScreen(
         modifier = Modifier,
         scrollState = rememberScrollState(),
+        screenProgress = 0,
         options = listOf(
             SelectOptionUiModel(
                 id = "",
@@ -221,9 +238,21 @@ fun PreviewSelectOptionScreen() {
                 ),
             )
         ),
+        selectedOptions = listOf(
+            SelectOptionUiModel(
+                id = "",
+                name = "현대스마트센스 Ⅰ",
+                price = 2900000,
+                imageUrl = "",
+                tags = listOf(
+                    "대형견도 문제 없어요",
+                    "가족들도 좋은 옵션👨‍👩‍👧‍👦"
+                ),
+            )
+        ),
             focusedIndex = 0,
             focusOption = {},
             showBasicItems = {},
-            addOption = {}
+            onAddOption = {_, _ ->}
     )
 }

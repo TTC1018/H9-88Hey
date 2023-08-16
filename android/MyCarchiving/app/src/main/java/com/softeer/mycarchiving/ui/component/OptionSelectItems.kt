@@ -1,6 +1,8 @@
 package com.softeer.mycarchiving.ui.component
 
+import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.animateContentSize
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
@@ -26,6 +28,7 @@ import androidx.compose.material3.Divider
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
@@ -53,10 +56,22 @@ import com.softeer.mycarchiving.util.toPriceString
 fun OptionSelectItem(
     modifier: Modifier = Modifier,
     option: SelectOptionUiModel,
-    onAddClick: () -> Unit,
     focus: Boolean,
+    isAdded: Boolean,
+    onAddClick: () -> Unit,
     onFocus: () -> Unit,
 ) {
+    val animatedSurfaceColor by animateColorAsState(
+        targetValue = if (focus) PrimaryBlue10 else HyundaiLightSand,
+        animationSpec = tween(durationMillis = 500),
+        label = ""
+    )
+    val animatedTextColor by animateColorAsState(
+        targetValue = if (focus) PrimaryBlue else Black,
+        animationSpec = tween(durationMillis = 500),
+        label = ""
+    )
+
     Surface(
         modifier = modifier
             .width(160.dp)
@@ -64,7 +79,7 @@ fun OptionSelectItem(
             .clickable { onFocus() },
         shape = roundCorner,
         border = if (focus) BorderStroke(width = 2.dp, color = PrimaryBlue) else null,
-        color = if (focus) PrimaryBlue10 else HyundaiLightSand
+        color = animatedSurfaceColor
     ) {
         Column {
             AsyncImage(
@@ -85,18 +100,25 @@ fun OptionSelectItem(
                     Text(
                         text = option.name,
                         style = medium14,
-                        color = if (focus) PrimaryBlue else Black
+                        color = animatedTextColor
                     )
                     Spacer(modifier = modifier.height(5.dp))
                     Text(
                         modifier = modifier
                             .align(Alignment.End),
-                        text = stringResource(id = R.string.plus_space_price_won, option.price.toPriceString()),
+                        text = stringResource(
+                            id = R.string.plus_space_price_won,
+                            option.price.toPriceString()
+                        ),
                         style = medium14,
-                        color = if (focus) PrimaryBlue else Black
+                        color = animatedTextColor
                     )
                 }
-                OptionAddButton(modifier = modifier, onClick = onAddClick)
+                OptionAddButton(
+                    modifier = modifier,
+                    isSelect = isAdded,
+                    onClick = onAddClick
+                )
             }
         }
     }
@@ -283,8 +305,9 @@ fun PreviewOptionSelectItem() {
             price = 1090000,
             imageUrl = ""
         ),
-        onAddClick = {},
         focus = true,
+        isAdded = false,
+        onAddClick = {},
         onFocus = {}
     )
 }

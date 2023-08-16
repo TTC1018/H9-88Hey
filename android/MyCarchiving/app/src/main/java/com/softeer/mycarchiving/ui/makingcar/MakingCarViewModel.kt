@@ -1,17 +1,19 @@
 package com.softeer.mycarchiving.ui.makingcar
 
-import android.util.Log
-import androidx.compose.runtime.mutableStateListOf
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.softeer.mycarchiving.model.TrimOptionUiModel
 import com.softeer.mycarchiving.model.makingcar.ColorOptionUiModel
 import com.softeer.mycarchiving.model.makingcar.SelectModelUiModel
 import com.softeer.mycarchiving.model.makingcar.SelectOptionUiModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.stateIn
 import javax.inject.Inject
 
 private val TAG = MakingCarViewModel::class.simpleName
@@ -28,14 +30,32 @@ class MakingCarViewModel @Inject constructor() : ViewModel() {
     private val _selectedCarImage = MutableLiveData<String>()
     val selectedCarImage: LiveData<String> = _selectedCarImage
 
-    private val _selectedColor = MutableStateFlow<List<ColorOptionUiModel>>(mutableListOf())
+    private val _selectedColor = MutableStateFlow<List<ColorOptionUiModel>>(emptyList())
     val selectedColor: StateFlow<List<ColorOptionUiModel>> = _selectedColor
 
-    private val _selectedTrim = MutableStateFlow<List<TrimOptionUiModel>>(mutableListOf())
+    private val _selectedTrim = MutableStateFlow<List<TrimOptionUiModel>>(emptyList())
     val selectedTrim: StateFlow<List<TrimOptionUiModel>> = _selectedTrim
 
-    private val _selectedExtraOptions = MutableLiveData<List<SelectOptionUiModel>>()
-    val selectedExtraOptions: LiveData<List<SelectOptionUiModel>> = _selectedExtraOptions
+    private val _selectedExtraOptions = MutableStateFlow<List<SelectOptionUiModel>>(emptyList())
+    val selectedExtraOptions: StateFlow<List<SelectOptionUiModel>> = _selectedExtraOptions
+
+    private val _selectedHGenuines = MutableStateFlow<List<SelectOptionUiModel>>(emptyList())
+    val selectedHGenuines: StateFlow<List<SelectOptionUiModel>> = _selectedHGenuines
+
+    private val _selectedNPerformance = MutableStateFlow<List<SelectOptionUiModel>>(emptyList())
+    val selectedNPerformance: StateFlow<List<SelectOptionUiModel>> = _selectedNPerformance
+
+    val totalExtraOptions = combine(
+        flow = _selectedExtraOptions,
+        flow2 = _selectedHGenuines,
+        flow3 = _selectedNPerformance
+    ) { extras, hGenuines, nPerformance ->
+        extras + hGenuines + nPerformance
+    }.stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.WhileSubscribed(),
+        initialValue = emptyList()
+    )
 
     private val _totalPrice = MutableStateFlow(0)
     val totalPrice: StateFlow<Int> = _totalPrice
@@ -71,7 +91,7 @@ class MakingCarViewModel @Inject constructor() : ViewModel() {
         } else if (initial.not()) { // 이미 기록된 데이터가 있는데 변경하려 할 때
             _totalPrice.value -= _selectedTrim.value.getOrNull(progress)?.price ?: 0
             _selectedTrim.value = _selectedTrim.value.run {
-                slice(0 until progress) + listOf(trimOptionUiModel) + slice(progress + 1 until size)
+                toMutableList().apply { set(progress, trimOptionUiModel) }
             }
             _totalPrice.value += _selectedTrim.value.getOrNull(progress)?.price ?: 0
         }
@@ -89,9 +109,53 @@ class MakingCarViewModel @Inject constructor() : ViewModel() {
             } else if (initial.not()) {
                 _totalPrice.value -= _selectedColor.value.getOrNull(progress)?.price ?: 0
                 _selectedColor.value = _selectedColor.value.run {
-                    slice(0 until progress) + listOf(colorOptionUiModel) + slice(progress + 1 until size)
+                    toMutableList().apply { set(progress, colorOptionUiModel) }
                 }
                 _totalPrice.value += _selectedColor.value.getOrNull(progress)?.price ?: 0
+            }
+        }
+    }
+
+    fun updateSelectedExtraOption(extraOption: SelectOptionUiModel, progress: Int) {
+        when (progress) {
+            0 -> {
+                _selectedExtraOptions.value = _selectedExtraOptions.value.run {
+                    if (this == null) {
+                        _totalPrice.value += extraOption.price
+                        listOf(extraOption)
+                    } else {
+                        if (find { it.id == extraOption.id } != null) {
+                            _totalPrice.value -= extraOption.price
+                            toMutableList().apply { remove(extraOption) }
+                        } else {
+                            _totalPrice.value += extraOption.price
+                            this + listOf(extraOption)
+                        }
+                    }
+                }
+            }
+
+            1 -> {
+                _selectedHGenuines.value = _selectedHGenuines.value.run {
+                    if (this == null) {
+                        _totalPrice.value += extraOption.price
+                        listOf(extraOption)
+                    } else {
+                        if (find { it.id == extraOption.id } != null) {
+                            _totalPrice.value -= extraOption.price
+                            toMutableList().apply { remove(extraOption) }
+                        } else {
+                            _totalPrice.value += extraOption.price
+                            this + listOf(extraOption)
+                        }
+                    }
+                }
+            }
+
+            2 -> { // NPerformance는 한개만
+                _totalPrice.value -= _selectedNPerformance.value?.firstOrNull()?.price ?: 0
+                _selectedNPerformance.value = listOf(extraOption)
+                _totalPrice.value += extraOption.price
             }
         }
     }

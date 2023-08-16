@@ -40,7 +40,7 @@ fun CompleteRoute(
     val totalPrice by makingCarViewModel.totalPrice.collectAsStateWithLifecycle()
     val colors by makingCarViewModel.selectedColor.collectAsStateWithLifecycle()
     val selectedTrims by makingCarViewModel.selectedTrim.collectAsStateWithLifecycle()
-    val selectedOptions by makingCarViewModel.selectedExtraOptions.observeAsState()
+    val extraOptions by makingCarViewModel.totalExtraOptions.collectAsStateWithLifecycle()
 
     CompleteScreen(
         modifier = modifier,
@@ -48,9 +48,9 @@ fun CompleteRoute(
         carImage = carImage ?: "",
         modelName = selectedModelInfo?.name ?: stringResource(id = R.string.error_no_model),
         totalPrice = totalPrice,
-        colors = colors ?: emptyList(),
+        colors = colors,
         trimOptions = selectedTrims.map { it.optionName },
-        selectedOptions = selectedOptions ?: emptyList()
+        selectedOptions = extraOptions
     )
 }
 
