@@ -31,7 +31,7 @@ const initialData = {
 export function DefaultOptionCardList() {
   const { data } = useFetch<DefaultOptionDataProps>({
     defaultValue: initialData,
-    url: '/model/1/trim/2/default_option',
+    url: `/car/default-option?car_code=LXJJ8MST5`,
   });
 
   const [categories, setCategories] = useState<string[]>([]);

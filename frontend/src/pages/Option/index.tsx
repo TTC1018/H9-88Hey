@@ -34,6 +34,9 @@ const initialData = {
   ],
 };
 
+// 현재 API에서 tags를 null로 주고 있기 때문에 그동안 임시로 사용할 용도
+const initialTags = ['여름에 쓰기 좋아요☀️', '옵션값 뽑았어요👍', '편리해요☺️'];
+
 interface Props {
   apiType: string;
 }
@@ -41,7 +44,7 @@ interface Props {
 export function Option({ apiType }: Props) {
   const { data } = useFetch<OptionDataProps>({
     defaultValue: initialData,
-    url: `/model/1/trim/2/${apiType}`,
+    url: `/car/${apiType}?car_code=LXJJ8MST5`,
   });
 
   const [option, setOption] = useState<OptionProps>({
@@ -95,6 +98,7 @@ export function Option({ apiType }: Props) {
     const { selectOptions } = data;
 
     const { id, name, additionalPrice, imageUrl, tags, subOptions } = selectOptions[optionIndex];
+
     const subOption = subOptions[subOptionIndex];
     const cardListData = selectOptions.map(({ id, name, additionalPrice, imageUrl, subOptions }, index) => ({
       id,
@@ -105,7 +109,7 @@ export function Option({ apiType }: Props) {
       subOptionNames: subOptions.map(({ name }) => name),
     }));
 
-    setOption({ id, name, additionalPrice, imageUrl, tags, subOptions });
+    setOption({ id, name, additionalPrice, imageUrl, tags: tags || initialTags, subOptions });
     setSubOption({
       id: subOption.id,
       name: subOption.name,
@@ -133,7 +137,7 @@ export function Option({ apiType }: Props) {
         </Styled.DescriptionBox>
       </Styled.OptionWrapper>
       <Styled.CardWrapper>
-        <OptionCategory menu={menu} onClick={handleChangeMenu} isShowDefaultOption={apiType === 'select_option'} />
+        <OptionCategory menu={menu} onClick={handleChangeMenu} isShowDefaultOption={apiType === 'select-option'} />
         {menu === 0 && (
           <OptionCardList
             selectedIndex={optionIndex}
@@ -143,7 +147,7 @@ export function Option({ apiType }: Props) {
             onClickArrowButton={handleChangeCardListIndex}
           />
         )}
-        {apiType === 'select_option' && menu === 1 && <DefaultOptionCardList />}
+        {apiType === 'select-option' && menu === 1 && <DefaultOptionCardList />}
       </Styled.CardWrapper>
     </Styled.Container>
   );
