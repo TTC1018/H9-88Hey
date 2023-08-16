@@ -1,4 +1,5 @@
-import { MyChiving } from '@/pages/MyChiving';
+import { Outlet } from 'react-router-dom';
+
 import { ArchivingHeader } from '@/components/common/ArchivingHeader';
 import { ArchivingNavigation } from '@/components/common/ArchivingNavigation';
 
@@ -9,7 +10,7 @@ export function MyChivingLayout() {
     <Styled.Container>
       <ArchivingHeader />
       <ArchivingNavigation />
-      <MyChiving />
+      <Outlet />
     </Styled.Container>
   );
 }

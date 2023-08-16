@@ -6,11 +6,7 @@ import { HyundaiLogo } from '@/components/common/HyundaiLogo';
 
 import * as Styled from './style';
 
-/* ex) 아카이빙: /archiving
-       마이카이빙: /my-archiving
-*/
-
-type PathType = 'archiving' | 'my-archiving';
+type PathType = 'archiving' | 'mychiving';
 
 export function ArchivingHeader() {
   const { pathname } = useLocation();
@@ -29,7 +25,7 @@ export function ArchivingHeader() {
         </Styled.Box>
         <Styled.Box>
           <Styled.CarNameText>팰리세이드</Styled.CarNameText>
-          <Link to={isArchivingPage ? '/my-archiving' : '/archiving'}>
+          <Link to={isArchivingPage ? '/mychiving' : '/archiving'}>
             <Styled.Button>{isArchivingPage ? '마이카이빙' : '아카이빙'}</Styled.Button>
           </Link>
         </Styled.Box>

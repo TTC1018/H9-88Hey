@@ -1,11 +1,12 @@
-import { API_URL } from '@/constants';
 import { useState, useEffect } from 'react';
+
+import { API_URL } from '@/constants';
 
 interface UseFetchProps<T> {
   defaultValue: T;
   url: string;
 }
-interface ResponseType<T> {
+interface ResponseProps<T> {
   status: number;
   message: string;
   data: T;
@@ -15,15 +16,14 @@ export function useFetch<T>({ defaultValue, url }: UseFetchProps<T>) {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState('');
 
-  async function fetchUsers() {
+  async function fetcher() {
     try {
       const response = await fetch(`${API_URL}${url}`);
-
       if (!response.ok) {
         throw new Error(`${response.status} ${response.statusText}`);
       }
 
-      const { data } = (await response.json()) as ResponseType<T>;
+      const { data } = (await response.json()) as ResponseProps<T>;
 
       setData(data);
     } catch (error) {
@@ -41,7 +41,7 @@ export function useFetch<T>({ defaultValue, url }: UseFetchProps<T>) {
   }
 
   useEffect(() => {
-    fetchUsers();
+    fetcher();
   }, []);
 
   return { data, isLoading, error };

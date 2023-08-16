@@ -2,7 +2,7 @@ import { OptionContextProps } from './option';
 
 export interface FeatureProps {
   name: string;
-  icon: string;
+  imageUrl: string;
 }
 interface TrimProps {
   id: number;
@@ -11,7 +11,7 @@ interface TrimProps {
   trimFeatures: FeatureProps[];
 }
 export interface TrimDataProps {
-  carImageUrl: string[];
+  carImageUrls: string[];
   trims: TrimProps[];
 }
 
@@ -31,7 +31,7 @@ export interface EngineDataProps {
 interface BodyTypeProps {
   id: number;
   name: string;
-  imageUrls: string[];
+  imageUrl: string;
   additionalPrice: number;
   description: string;
 }

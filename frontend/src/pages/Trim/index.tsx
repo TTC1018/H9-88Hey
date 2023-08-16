@@ -6,13 +6,12 @@ import { MyCarLayoutContextProps, TrimDataProps } from '@/types/trim';
 import { useFetch } from '@/hooks/useFetch';
 import { useSelectIndex } from '@/hooks/useSelectedIndex';
 
-import { MyCarImageBox } from '@/components/Trim/MyCarImageBox';
 import { SelectOptionCard } from '@/components/Trim/SelectOptionCard';
+import { TrimCarImageBox } from '@/components/Trim/TrimCarImageBox';
 
 import * as Styled from './style';
 
-const initialData = {
-  carImageUrl: [''],
+const trimInitialData = {
   trims: [
     {
       id: 0,
@@ -22,12 +21,12 @@ const initialData = {
     },
   ],
 };
-
 export function Trim() {
-  const { data } = useFetch<TrimDataProps>({ defaultValue: initialData, url: '/model/1/trim' });
+  const {
+    data: { trims },
+  } = useFetch<Pick<TrimDataProps, 'trims'>>({ defaultValue: trimInitialData, url: '/car/model/1/trim' });
 
   const [selectedIndex, handleSetIndex] = useSelectIndex();
-  const [selectedImageIndex, handleSetImageIndex] = useSelectIndex();
 
   const {
     handleTrim,
@@ -37,31 +36,28 @@ export function Trim() {
   function handleCardClick(index: number, price: number) {
     return () => {
       handleSetIndex(index)();
-      handleTrim({ key: 'model', option: data.trims[index].name, price: price });
+      handleTrim({ key: 'model', option: trims[index].name, price: price });
     };
   }
 
   useEffect(() => {
     if (model.title === '') {
-      handleTrim({ key: 'model', option: data.trims[0].name, price: data.trims[0].price });
+      const { name, price } = trims[0];
+
+      handleTrim({ key: 'model', option: name, price: price });
 
       return;
     }
 
-    const index = data.trims.findIndex(card => card.name === model.title);
+    const index = trims.findIndex(({ name }) => name === model.title);
     index !== -1 && handleSetIndex(index)();
-  }, [data]);
+  }, [trims]);
 
   return (
     <Styled.Container>
-      <MyCarImageBox
-        hasOption={true}
-        images={data.carImageUrl}
-        selectedIndex={selectedImageIndex}
-        onClick={handleSetImageIndex}
-      />
+      <TrimCarImageBox />
       <Styled.Wrapper>
-        {data.trims.map(({ id, name, price, trimFeatures }, index) => (
+        {trims.map(({ id, name, price, trimFeatures }, index) => (
           <Styled.Box key={id} onClick={handleCardClick(index, price)}>
             <SelectOptionCard isActive={index === selectedIndex} name={name} price={price} features={trimFeatures} />
           </Styled.Box>

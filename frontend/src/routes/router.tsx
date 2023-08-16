@@ -11,6 +11,11 @@ import { Review } from '@/pages/Review';
 import { Result } from '@/pages/Result';
 import { ErrorBoundary } from '@/components/common/ErrorBoundary';
 import { MyCarLayout } from '@/components/layout/MyCarLayout';
+import { MyChiving } from '@/pages/MyChiving';
+import { Archiving } from '@/pages/Archiving';
+import { Detail } from '@/pages/Archiving/Detail';
+import { PopupModal } from '@/components/common/PopupModal';
+import { ModalPortal } from '@/components/common/ModalPortal';
 import { MyChivingLayout } from '@/components/layout/MyChivingLayout';
 
 export const router = createBrowserRouter([
@@ -19,6 +24,9 @@ export const router = createBrowserRouter([
     element: (
       <ErrorBoundary>
         <MyCarLayout />
+        <ModalPortal>
+          <PopupModal />
+        </ModalPortal>
       </ErrorBoundary>
     ),
     children: [
@@ -75,12 +83,27 @@ export const router = createBrowserRouter([
     ],
   },
   {
-    path: 'mychiving',
+    path: '',
     element: <MyChivingLayout />,
-  },
-  {
-    path: 'archiving',
-    element: <MyChivingLayout />,
+    children: [
+      {
+        path: 'archiving',
+        children: [
+          {
+            path: '',
+            element: <Archiving />,
+          },
+          {
+            path: 'detail',
+            element: <Detail />,
+          },
+        ],
+      },
+      {
+        path: 'mychiving',
+        element: <MyChiving />,
+      },
+    ],
   },
   {
     path: 'review',

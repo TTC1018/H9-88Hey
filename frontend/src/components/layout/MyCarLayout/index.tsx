@@ -1,10 +1,11 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import { Outlet, useLocation } from 'react-router-dom';
 
 import { MyCarProps } from '@/types/trim';
 import { OptionContextProps } from '@/types/option';
 
+import { useCountPrice } from '@/hooks/useCountPrice';
 import { Header } from '@/components/common/Header';
 import { Footer } from '@/components/common/Footer';
 import { Navigation } from '@/components/common/Navigation';
@@ -30,8 +31,17 @@ export function MyCarLayout() {
 
   const trimKeys = ['model', 'engine', 'bodyType', 'wheelDrive', 'outerColor'];
 
-  const totalPrice =
+  const calclPrice =
     trimKeys.reduce((acc, cur) => acc + trim[cur].price, 0) + trim.options.reduce((acc, cur) => acc + cur.price, 0);
+
+  const prevPrice = useRef(calclPrice);
+
+  const totalPrice = useCountPrice({
+    prevPrice: prevPrice.current,
+    nextPrice: calclPrice,
+  });
+
+  prevPrice.current = totalPrice;
 
   function handleTrim({ key, option, price }: { key: string; option: string; price: number }) {
     setTrim(prev => ({ ...prev, [key]: { title: option, price } }));
