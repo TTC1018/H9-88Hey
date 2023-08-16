@@ -9,6 +9,6 @@ import retrofit2.http.Query
 interface SelectColorNetworkApi {
 
     @GET("/car/color")
-    suspend fun getCarColors(@Query("trimId") trimId: Int = 1): Response<BaseResponse<CarColorDto>>
+    suspend fun getCarColors(@Query("trim_id") trimId: Int = 1): Response<BaseResponse<CarColorDto>>
 
 }
