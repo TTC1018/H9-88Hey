@@ -89,14 +89,16 @@ class SelectOptionControllerTest {
 			.andExpect(status().isOk())
 			.andExpectAll(
 				jsonPath("$.data.selectOptions").exists(),
+				jsonPath("$.data.selectOptions[0].id").exists(),
+				jsonPath("$.data.selectOptions[0].name").exists(),
+				jsonPath("$.data.selectOptions[0].imageUrl").exists(),
 				jsonPath("$.data.selectOptions[0].isAvailable").exists(),
-				jsonPath("$.data.selectOptions[0].selectOption").exists(),
-				jsonPath("$.data.selectOptions[0].selectOption.additionalPrice").exists(),
-				jsonPath("$.data.selectOptions[0].selectOption.subOptions[0]").exists(),
-				jsonPath("$.data.selectOptions[0].selectOption.subOptions[0].id").exists(),
-				jsonPath("$.data.selectOptions[0].selectOption.subOptions[0].name").exists(),
-				jsonPath("$.data.selectOptions[0].selectOption.subOptions[0].imageUrl").exists(),
-				jsonPath("$.data.selectOptions[0].selectOption.subOptions[0].description").exists()
+				jsonPath("$.data.selectOptions[0].additionalPrice").exists(),
+				jsonPath("$.data.selectOptions[0].subOptions[0]").exists(),
+				jsonPath("$.data.selectOptions[0].subOptions[0].id").exists(),
+				jsonPath("$.data.selectOptions[0].subOptions[0].name").exists(),
+				jsonPath("$.data.selectOptions[0].subOptions[0].imageUrl").exists(),
+				jsonPath("$.data.selectOptions[0].subOptions[0].description").exists()
 			);
 	}
 }
