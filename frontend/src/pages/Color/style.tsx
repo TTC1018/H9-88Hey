@@ -9,11 +9,30 @@ export const Container = styled.div`
   align-items: center;
 `;
 
-export const Wrapper = styled.div`
+export const ImageWrapper = styled.div`
   gap: 30px;
 
   display: flex;
   flex-direction: column;
+`;
+
+export const ColorWrapper = styled.div`
+  width: 400px;
+  height: 580px;
+  gap: 30px;
+
+  display: flex;
+  flex-direction: column;
+`;
+
+export const ColorEnclosure = styled.div`
+  padding-right: 6px;
+
+  overflow-y: scroll;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
 `;
 
 export const Box = styled.div``;
