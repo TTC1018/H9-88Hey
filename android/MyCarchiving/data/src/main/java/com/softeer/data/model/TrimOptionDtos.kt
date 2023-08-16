@@ -12,11 +12,6 @@ data class SelectOptionDto(
     val selectOptions: List<TrimSelectOptionDto>
 )
 
-data class HGenuineDto(
-    @SerializedName("selectOptions")
-    val selectOptions: List<TrimHGenuineDto>
-)
-
 data class BasicOptionDto(
     @SerializedName("defaultOptions")
     val defaultOptions: List<TrimBasicOptionDto>
@@ -38,14 +33,9 @@ data class TrimBasicSubOptionDto(
     val description: String
 )
 
-data class TrimHGenuineDto(
-    @SerializedName("isAvailable")
-    val isAvailable: Boolean,
-    @SerializedName("selectOption")
-    val selectOption: TrimSelectOptionDto
-)
-
 data class TrimSelectOptionDto(
+    @SerializedName("isAvailable")
+    val isAvailable: Boolean?,
     @SerializedName("id")
     val id: String,
     @SerializedName("name")

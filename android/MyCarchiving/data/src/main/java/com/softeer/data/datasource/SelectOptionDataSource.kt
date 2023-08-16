@@ -2,7 +2,6 @@ package com.softeer.data.datasource
 
 import android.util.Log
 import com.softeer.data.model.TrimBasicOptionDto
-import com.softeer.data.model.TrimHGenuineDto
 import com.softeer.data.model.TrimSelectOptionDto
 import com.softeer.data.network.SelectOptionNetworkApi
 import kotlinx.coroutines.flow.Flow
@@ -15,7 +14,7 @@ interface SelectOptionDataSource {
 
     fun getSelectOptions(carCode: String): Flow<List<TrimSelectOptionDto>>
 
-    fun getHGenuines(carCode: String, selectOptions: List<String>): Flow<List<TrimHGenuineDto>>
+    fun getHGenuines(carCode: String, selectOptions: List<String>): Flow<List<TrimSelectOptionDto>>
 
     fun getNPerformances(carCode: String): Flow<List<TrimSelectOptionDto>>
 
@@ -50,7 +49,7 @@ class SelectOptionRemoteDataSource(
     override fun getHGenuines(
         carCode: String,
         selectOptions: List<String>
-    ): Flow<List<TrimHGenuineDto>> = flow {
+    ): Flow<List<TrimSelectOptionDto>> = flow {
         val response = selectOptionNetworkApi.getHGenuines(carCode, selectOptions)
         val hGenuines = response.body()?.data?.selectOptions
 

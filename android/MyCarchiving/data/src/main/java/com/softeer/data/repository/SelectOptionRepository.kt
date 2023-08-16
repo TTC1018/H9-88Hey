@@ -3,7 +3,6 @@ package com.softeer.data.repository
 import com.softeer.data.datasource.SelectOptionDataSource
 import com.softeer.data.model.BasicOptionDto
 import com.softeer.data.model.TrimBasicOptionDto
-import com.softeer.data.model.TrimHGenuineDto
 import com.softeer.data.model.TrimSelectOptionDto
 import kotlinx.coroutines.flow.Flow
 
@@ -12,7 +11,7 @@ interface SelectOptionRepository {
 
     fun getSelectOptions(carCode: String): Flow<List<TrimSelectOptionDto>>
 
-    fun getHGenuines(carCode: String, selectOptions: List<String>): Flow<List<TrimHGenuineDto>>
+    fun getHGenuines(carCode: String, selectOptions: List<String>): Flow<List<TrimSelectOptionDto>>
 
     fun getNPerformances(carCode: String): Flow<List<TrimSelectOptionDto>>
 

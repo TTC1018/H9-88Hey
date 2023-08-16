@@ -55,7 +55,7 @@ class SelectOptionViewModel @Inject constructor(
             flowOf()
         }
     }
-        .map { dtos -> dtos.map { it.selectOption.asSelectOptionUiModel() } }
+        .map { dtos -> dtos.map { it.asSelectOptionUiModel() } }
         .stateIn(
             scope = viewModelScope,
             started = SharingStarted.WhileSubscribed(),
