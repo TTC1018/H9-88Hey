@@ -19,7 +19,6 @@ export const ImageWrapper = styled.div`
 export const ColorWrapper = styled.div`
   width: 400px;
   height: 580px;
-  gap: 30px;
 
   display: flex;
   flex-direction: column;
@@ -27,6 +26,10 @@ export const ColorWrapper = styled.div`
 
 export const ColorEnclosure = styled.div`
   padding-right: 6px;
+  gap: 30px;
+
+  display: flex;
+  flex-direction: column;
 
   overflow-y: scroll;
 
