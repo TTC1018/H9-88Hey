@@ -65,18 +65,15 @@ export function OptionCardList({ selectedIndex, cardListIndex, data, onClickCard
         onClick={() => onClickArrowButton(cardListIndex - 1, data.length)}
         isShow={isIndexLargeThanZero(cardListIndex)}
       />
-      {cardList.map(({ isAvailable, index, name, additionalPrice, imageUrl, subOptionNames }) => (
+      {cardList.map(({ isAvailable, index, ...props }) => (
         <OptionCard
           isBlur={checkIsBlur(isAvailable, index)}
           index={index}
-          name={name}
-          additionalPrice={additionalPrice}
-          imageUrl={imageUrl}
-          subOptionNames={subOptionNames}
           isCardActive={index === selectedIndex}
           onClickCard={onClickCard}
           onChangeCount={handleSelectedCount}
           key={index}
+          {...props}
         />
       ))}
       <NextButton
