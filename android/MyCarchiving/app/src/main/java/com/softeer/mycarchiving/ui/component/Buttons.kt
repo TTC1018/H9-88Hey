@@ -35,6 +35,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.softeer.mycarchiving.R
+import com.softeer.mycarchiving.model.archiving.SearchOption
 import com.softeer.mycarchiving.ui.theme.AlertPrimary
 import com.softeer.mycarchiving.ui.theme.Black
 import com.softeer.mycarchiving.ui.theme.DarkGray
@@ -163,8 +164,8 @@ fun SearchConditionButton(
         modifier = modifier
             .fillMaxWidth()
             .background(color = HyundaiLightSand, shape = roundCorner)
-            .padding(all = 12.dp)
-            .clickable { onClick() },
+            .clickable { onClick() }
+            .padding(all = 12.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
@@ -185,8 +186,7 @@ fun SearchConditionButton(
 @Composable
 fun SearchConditionChip(
     modifier: Modifier = Modifier,
-    name: String,
-    isSelect: Boolean = false,
+    searchOption: SearchOption,
     onClick: (() -> Unit)? = null,
 ) {
     Surface(
@@ -194,18 +194,18 @@ fun SearchConditionChip(
             .clickable {
                 onClick?.invoke()
             },
-        color = if (isSelect) HyundaiNavy else HyundaiNeutral,
+        color = if (searchOption.isSelect) HyundaiNavy else HyundaiNeutral,
         shape = roundCornerSmall,
         border = BorderStroke(
-            width = if (isSelect) 0.dp else 0.5.dp,
-            color = if (isSelect) HyundaiNavy else LightGray
+            width = if (searchOption.isSelect) 0.dp else 0.5.dp,
+            color = if (searchOption.isSelect) HyundaiNavy else LightGray
         ),
     ) {
         Text(
             modifier = Modifier.padding(horizontal = 12.dp, vertical = 8.dp),
-            text = name,
+            text = searchOption.name,
             style = regular14,
-            color = if (isSelect) HyundaiLightSand else DarkGray,
+            color = if (searchOption.isSelect) HyundaiLightSand else DarkGray,
             textAlign = TextAlign.Center
         )
     }
@@ -312,7 +312,7 @@ fun PreviewSearchConditionButton() {
 @Preview
 @Composable
 fun PreviewSearchConditionChip() {
-    SearchConditionChip(modifier = Modifier, name = "펠리세이드", onClick = {})
+    SearchConditionChip(modifier = Modifier, searchOption = SearchOption(name = "팰리세이드"))
 }
 
 @Preview

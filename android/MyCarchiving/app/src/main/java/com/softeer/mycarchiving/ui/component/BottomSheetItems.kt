@@ -39,7 +39,6 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
@@ -48,6 +47,8 @@ import com.softeer.mycarchiving.R
 import com.softeer.mycarchiving.enums.ArchiveSearchPage
 import com.softeer.mycarchiving.enums.ArchiveSearchPage.*
 import com.softeer.mycarchiving.model.TrimOptionUiModel
+import com.softeer.mycarchiving.model.archiving.SearchOption
+import com.softeer.mycarchiving.model.archiving.SearchOptionUiModel
 import com.softeer.mycarchiving.model.common.CarBasicDetailUiModel
 import com.softeer.mycarchiving.model.common.CarBasicUiModel
 import com.softeer.mycarchiving.model.common.SummaryChildUiModel
@@ -335,15 +336,20 @@ fun SummaryChild(
     }
 }
 
-@OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun SearchCarBottomSheetContent(
     modifier: Modifier = Modifier,
     currentPage: ArchiveSearchPage,
-    selectedCar: String,
-    pendingCar: String,
-    selectedOptions: List<String>,
-    pendingOptions: List<String>,
+    selectedCar: SearchOption,
+    pendingCar: SearchOption,
+    ableCars: List<SearchOptionUiModel>,
+    selectedOptions: List<SearchOption>,
+    pendingOptions: List<SearchOption>,
+    ableOptions: List<SearchOptionUiModel>,
+    ableOptionsSize: Int,
+    onOptionChipClick: (SearchOption) -> Unit,
+    deleteSelectedOptionChip: (SearchOption) -> Unit,
+    deletePendingOptionChip: (SearchOption) -> Unit,
     moveSetCar: () -> Unit,
     moveSetOption: () -> Unit,
     onBackClick: () -> Unit,
@@ -389,23 +395,23 @@ fun SearchCarBottomSheetContent(
             )
         }
         Divider(thickness = 1.dp, color = ThinGray)
-        val scrollState = rememberScrollState()
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .verticalScroll(scrollState)
-                .padding(horizontal = 16.dp, vertical = 32.dp)
-                .weight(1f),
-        ) {
-            when (currentPage) {
-                SEARCH_CONDITION -> {
+        val setCarScrollState = rememberScrollState()
+        val setOptionsScrollState = rememberScrollState()
+        when(currentPage) {
+            SEARCH_CONDITION -> {
+                Column(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(horizontal = 16.dp, vertical = 32.dp)
+                        .weight(1f),
+                ) {
                     Text(
                         text = stringResource(id = R.string.archive_search_set_car),
                         style = medium16
                     )
                     Spacer(modifier = Modifier.height(10.dp))
                     SearchConditionButton(
-                        selectedCar = selectedCar,
+                        selectedCar = selectedCar.name,
                         onClick = { moveSetCar() }
                     )
                     Spacer(modifier = Modifier.height(24.dp))
@@ -424,7 +430,7 @@ fun SearchCarBottomSheetContent(
                             text = stringResource(
                                 id = R.string.archive_search_set_option_count,
                                 selectedOptions.size,
-                                15
+                                ableOptionsSize
                             ),
                             style = medium12
                         )
@@ -436,14 +442,39 @@ fun SearchCarBottomSheetContent(
                     Spacer(modifier = Modifier.height(14.dp))
                     SearchDeleteChipFlowList(
                         options = selectedOptions,
-                        horizontalSpace = 4
+                        horizontalSpace = 4,
+                        deleteChip = deleteSelectedOptionChip
                     )
                 }
-                SET_CAR -> {
+            }
+            SET_CAR -> {
+                Column(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .verticalScroll(setCarScrollState)
+                        .padding(horizontal = 16.dp, vertical = 12.dp)
+                        .weight(1f),
+                ) {
 
                 }
-                SET_OPTION -> {
-
+            }
+            SET_OPTION -> {
+                Column(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .verticalScroll(setOptionsScrollState)
+                        .padding(horizontal = 16.dp, vertical = 12.dp)
+                        .weight(1f),
+                ) {
+                    ableOptions.forEachIndexed { index, option ->
+                        SearchCarBottomSheetFlowItem(
+                            searchOptionUiModel = option,
+                            onChipClick = onOptionChipClick
+                        )
+                        if (index < ableOptions.size - 1) {
+                            Divider(thickness = 1.dp, color = ThinGray)
+                        }
+                    }
                 }
             }
         }
@@ -465,32 +496,28 @@ fun SearchCarBottomSheetContent(
                             style = medium14
                         )
                         Spacer(modifier = Modifier.height(10.dp))
-                        SearchConditionChip(
-                            name = pendingCar,
-                            isSelect = true,
-                        )
+                        SearchConditionChip(searchOption = pendingCar)
                     }
                 }
                 SET_OPTION -> {
-                    Divider(thickness = 1.dp, color = LightGray)
-                    Column(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(start = 16.dp, end = 16.dp, top = 16.dp, bottom = 10.dp)
-                    ) {
-                        Text(
-                            text = stringResource(
-                                id = R.string.archive_search_set_option_count,
-                                pendingOptions.size,
-                                15
-                            ),
-                            style = medium12
-                        )
-                        Spacer(modifier = Modifier.height(10.dp))
-                        SearchDeleteChipFlowList(
-                            options = pendingOptions,
-                            horizontalSpace = 8
-                        )
+                    AnimatedVisibility(visible = pendingOptions.isNotEmpty()) {
+                        Divider(thickness = 1.dp, color = LightGray)
+                        Column(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(start = 16.dp, end = 16.dp, top = 16.dp, bottom = 10.dp)
+                        ) {
+                            Text(
+                                text = stringResource(id = R.string.archive_search_set_option_count, pendingOptions.size, ableOptionsSize),
+                                style = medium12
+                            )
+                            Spacer(modifier = Modifier.height(10.dp))
+                            SearchDeleteChipFlowList(
+                                options = pendingOptions,
+                                horizontalSpace = 8,
+                                deleteChip = deletePendingOptionChip
+                            )
+                        }
                     }
                 }
             }
@@ -517,8 +544,7 @@ fun SearchCarBottomSheetContent(
 @Composable
 fun SearchCarBottomSheetGridItem(
     modifier: Modifier = Modifier,
-    category: String,
-    options: List<String>,
+    searchOptionUiModel: SearchOptionUiModel,
 ) {
     Column(
         modifier = modifier
@@ -526,7 +552,7 @@ fun SearchCarBottomSheetGridItem(
             .padding(top = 12.dp, bottom = 20.dp)
     ) {
         Text(
-            text = category,
+            text = searchOptionUiModel.category,
             style = medium14,
             color = DarkGray,
         )
@@ -537,9 +563,9 @@ fun SearchCarBottomSheetGridItem(
             verticalArrangement = Arrangement.spacedBy(10.dp),
             horizontalArrangement = Arrangement.spacedBy(7.dp)
         ) {
-            items(options) { option ->
+            items(searchOptionUiModel.options) { option ->
                 SearchConditionChip(
-                    name = option,
+                    searchOption = option,
                     onClick = {}
                 )
             }
@@ -551,8 +577,8 @@ fun SearchCarBottomSheetGridItem(
 @Composable
 fun SearchCarBottomSheetFlowItem(
     modifier: Modifier = Modifier,
-    category: String,
-    options: List<String>,
+    searchOptionUiModel: SearchOptionUiModel,
+    onChipClick: (SearchOption) -> Unit
 ) {
     Column(
         modifier = modifier
@@ -560,7 +586,7 @@ fun SearchCarBottomSheetFlowItem(
             .padding(top = 12.dp, bottom = 20.dp)
     ) {
         Text(
-            text = category,
+            text = searchOptionUiModel.category,
             style = medium14,
             color = DarkGray,
         )
@@ -568,13 +594,13 @@ fun SearchCarBottomSheetFlowItem(
         FlowRow(
             horizontalArrangement = Arrangement.spacedBy(8.dp),
         ) {
-            options.forEach { option ->
+            searchOptionUiModel.options.forEach { option ->
                 Box(
                     modifier = Modifier.padding(bottom = 10.dp)
                 ) {
                     SearchConditionChip(
-                        name = option,
-                        onClick = {}
+                        searchOption = option,
+                        onClick = { onChipClick(option) },
                     )
                 }
             }
@@ -585,8 +611,9 @@ fun SearchCarBottomSheetFlowItem(
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun SearchDeleteChipFlowList(
-    options: List<String>,
+    options: List<SearchOption>,
     horizontalSpace: Int,
+    deleteChip: (SearchOption) -> Unit,
 ) {
     FlowRow(
         horizontalArrangement = Arrangement.spacedBy(horizontalSpace.dp)
@@ -596,8 +623,8 @@ fun SearchDeleteChipFlowList(
                 modifier = Modifier.padding(bottom = 8.dp)
             ) {
                 SearchConditionChipForDelete(
-                    name = option,
-                    onDelete = {},
+                    name = option.name,
+                    onDelete = { deleteChip(option) },
                 )
             }
         }
@@ -626,7 +653,7 @@ private fun SelectOptionUiModel.extraToSummary(): SummaryChildUiModel =
     )
 
 
-@Preview
+/*@Preview
 @Composable
 fun PreviewSearchCarBottomSheetContent() {
     val selectedOptions = listOf("컴포트 2 패키지", "듀얼 와이드 선루프", "컴포트 2 패키지", "듀얼 와이드 선루프")
@@ -643,12 +670,9 @@ fun PreviewSearchCarBottomSheetContent() {
         closeSheet = {},
         onButtonClick = {},
     )
-}
+}*/
 
-const val category = "SUV"
-val options = listOf("펠리세이드", "베뉴", "디 올 뉴 코나", "디 올 뉴 코나Hybrid", "투싼", "투싼Hybrid")
-
-@Preview
+/*@Preview
 @Composable
 fun PreviewSearchCarBottomSheetGridItem() {
     SearchCarBottomSheetGridItem(
@@ -664,4 +688,4 @@ fun PreviewSearchCarBottomSheetFlowItem() {
         category = category,
         options = options
     )
-}
+}*/

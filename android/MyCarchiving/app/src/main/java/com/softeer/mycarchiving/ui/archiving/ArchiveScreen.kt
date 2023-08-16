@@ -1,7 +1,6 @@
 package com.softeer.mycarchiving.ui.archiving
 
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -33,6 +32,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.softeer.mycarchiving.R
+import com.softeer.mycarchiving.model.archiving.SearchOption
 import com.softeer.mycarchiving.model.common.CarFeedUiModel
 import com.softeer.mycarchiving.ui.component.ArchiveFeed
 import com.softeer.mycarchiving.ui.component.SearchCarBottomSheetContent
@@ -52,16 +52,21 @@ fun ArchiveRoute(
 ) {
     val showSearchSheet by archiveViewModel.showSearchSheet.collectAsStateWithLifecycle()
     val currentSheetPage by archiveViewModel.currentSheetPage.collectAsStateWithLifecycle()
-    val selectedCarName by archiveViewModel.selectedCarName.collectAsStateWithLifecycle()
+    val ableCars by archiveViewModel.ableCars.collectAsStateWithLifecycle()
+    val selectedCar by archiveViewModel.selectedCar.collectAsStateWithLifecycle()
     val pendingCarName by archiveViewModel.pendingCarName.collectAsStateWithLifecycle()
+    val totalOptionsSize by archiveViewModel.totalOptionsSize.collectAsStateWithLifecycle()
+    val appliedOptions by archiveViewModel.appliedOptions.collectAsStateWithLifecycle()
     val selectedOptions by archiveViewModel.selectedOptions.collectAsStateWithLifecycle()
     val pendingOptions by archiveViewModel.pendingOptions.collectAsStateWithLifecycle()
+    val ableOptions by archiveViewModel.ableOptions.collectAsStateWithLifecycle()
     val carFeeds by archiveViewModel.carFeeds.collectAsStateWithLifecycle()
     ArchiveScreen(
         modifier = modifier,
-        selectedCar = selectedCarName,
-        selectedOptions = selectedOptions,
+        selectedCar = selectedCar,
+        selectedOptions = appliedOptions,
         carFeeds = carFeeds,
+        deleteSelectedChip = archiveViewModel::deleteAppliedOption,
         openSearchSheet = archiveViewModel::openSearchSheet
     )
     if (showSearchSheet) {
@@ -75,10 +80,16 @@ fun ArchiveRoute(
         ) {
             SearchCarBottomSheetContent(
                 currentPage = currentSheetPage,
-                selectedCar = selectedCarName,
+                selectedCar = selectedCar,
                 pendingCar = pendingCarName,
+                ableCars = ableCars,
                 selectedOptions = selectedOptions,
                 pendingOptions = pendingOptions,
+                ableOptions = ableOptions,
+                ableOptionsSize = totalOptionsSize,
+                onOptionChipClick = archiveViewModel::onOptionChipClick,
+                deleteSelectedOptionChip = archiveViewModel::deleteSelectedOption,
+                deletePendingOptionChip = archiveViewModel::deletePendingOption,
                 moveSetCar = archiveViewModel::moveSetCarSheet,
                 moveSetOption = archiveViewModel::moveSetOptionSheet,
                 onBackClick = archiveViewModel::onSheetBackClick,
@@ -89,13 +100,13 @@ fun ArchiveRoute(
     }
 }
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun ArchiveScreen(
     modifier: Modifier,
-    selectedCar: String,
-    selectedOptions: List<String>,
+    selectedCar: SearchOption,
+    selectedOptions: List<SearchOption>,
     carFeeds: List<CarFeedUiModel>,
+    deleteSelectedChip: (SearchOption) -> Unit,
     openSearchSheet: () -> Unit,
 ) {
     val scrollState = rememberScrollState()
@@ -119,7 +130,7 @@ fun ArchiveScreen(
             ) {
                 Text(
                     modifier = Modifier.weight(1f),
-                    text = selectedCar,
+                    text = selectedCar.name,
                     style = medium18,
                     overflow = TextOverflow.Ellipsis
                 )
@@ -128,7 +139,7 @@ fun ArchiveScreen(
                     contentDescription = null
                 )
             }
-            AnimatedVisibility(visible = !scrollState.canScrollBackward) {
+            AnimatedVisibility(visible = !scrollState.canScrollBackward && selectedOptions.isNotEmpty()) {
                 Column {
                     Spacer(modifier = Modifier.height(20.dp))
                     Text(
@@ -139,7 +150,8 @@ fun ArchiveScreen(
                     Spacer(modifier = Modifier.height(8.dp))
                     SearchDeleteChipFlowList(
                         options = selectedOptions,
-                        horizontalSpace = 4
+                        horizontalSpace = 4,
+                        deleteChip = deleteSelectedChip
                     )
                 }
             }
@@ -155,12 +167,12 @@ fun ArchiveScreen(
         ) {
             Spacer(modifier = Modifier.height(10.dp))
             Text(
-                text = stringResource(id = R.string.archive_get_recent_review, selectedCar),
+                text = stringResource(id = R.string.archive_get_recent_review, selectedCar.name),
                 style = medium14,
                 color = DarkGray
             )
             carFeeds.forEach {
-                ArchiveFeed(carFeedUiModel = it, selectedOptions = selectedOptions)
+                ArchiveFeed(carFeedUiModel = it)
             }
         }
     }
