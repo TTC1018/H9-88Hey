@@ -1,5 +1,6 @@
 package com.softeer.mycarchiving.ui.archiving
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -34,9 +35,12 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.softeer.mycarchiving.R
 import com.softeer.mycarchiving.model.archiving.SearchOption
 import com.softeer.mycarchiving.model.common.CarFeedUiModel
+import com.softeer.mycarchiving.navigation.ArchivingDestinations
+import com.softeer.mycarchiving.ui.HyundaiAppState
 import com.softeer.mycarchiving.ui.component.ArchiveFeed
 import com.softeer.mycarchiving.ui.component.SearchCarBottomSheetContent
 import com.softeer.mycarchiving.ui.component.SearchDeleteChipFlowList
+import com.softeer.mycarchiving.ui.rememberHyundaiAppState
 import com.softeer.mycarchiving.ui.theme.DarkGray
 import com.softeer.mycarchiving.ui.theme.HyundaiLightSand
 import com.softeer.mycarchiving.ui.theme.White
@@ -49,13 +53,13 @@ import com.softeer.mycarchiving.ui.theme.roundCorner
 fun ArchiveRoute(
     modifier: Modifier = Modifier,
     archiveViewModel: ArchiveViewModel = hiltViewModel(),
+    appState: HyundaiAppState,
 ) {
     val showSearchSheet by archiveViewModel.showSearchSheet.collectAsStateWithLifecycle()
     val currentSheetPage by archiveViewModel.currentSheetPage.collectAsStateWithLifecycle()
     val ableCars by archiveViewModel.ableCars.collectAsStateWithLifecycle()
     val selectedCar by archiveViewModel.selectedCar.collectAsStateWithLifecycle()
     val pendingCar by archiveViewModel.pendingCar.collectAsStateWithLifecycle()
- /*   val totalOptionsSize by archiveViewModel.totalOptionsSize.collectAsStateWithLifecycle()*/
     val appliedOptions by archiveViewModel.appliedOptions.collectAsStateWithLifecycle()
     val selectedOptions by archiveViewModel.selectedOptions.collectAsStateWithLifecycle()
     val pendingOptions by archiveViewModel.pendingOptions.collectAsStateWithLifecycle()
@@ -67,7 +71,8 @@ fun ArchiveRoute(
         selectedOptions = appliedOptions,
         carFeeds = carFeeds,
         deleteSelectedChip = archiveViewModel::deleteAppliedOption,
-        openSearchSheet = archiveViewModel::openSearchSheet
+        openSearchSheet = archiveViewModel::openSearchSheet,
+        onFeedClick = { appState.navigateToArchivingDestination(ArchivingDestinations.ARCHIVING_DETAIL) }
     )
     if (showSearchSheet) {
         ModalBottomSheet(
@@ -98,6 +103,9 @@ fun ArchiveRoute(
             )
         }
     }
+    BackHandler {
+        appState.navController.popBackStack()
+    }
 }
 
 @Composable
@@ -108,6 +116,7 @@ fun ArchiveScreen(
     carFeeds: List<CarFeedUiModel>,
     deleteSelectedChip: (SearchOption) -> Unit,
     openSearchSheet: () -> Unit,
+    onFeedClick: () -> Unit
 ) {
     val scrollState = rememberScrollState()
     Column(
@@ -156,7 +165,6 @@ fun ArchiveScreen(
                 }
             }
         }
-
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -172,7 +180,7 @@ fun ArchiveScreen(
                 color = DarkGray
             )
             carFeeds.forEach {
-                ArchiveFeed(carFeedUiModel = it)
+                ArchiveFeed(carFeedUiModel = it, onFeedClick = onFeedClick)
             }
         }
     }
@@ -181,5 +189,5 @@ fun ArchiveScreen(
 @Preview
 @Composable
 fun PreviewArchiveRoute() {
-    ArchiveRoute()
+    ArchiveRoute(appState = rememberHyundaiAppState())
 }

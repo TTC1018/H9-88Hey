@@ -2,6 +2,7 @@ package com.softeer.mycarchiving.ui.component
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
@@ -39,12 +40,14 @@ import com.softeer.mycarchiving.util.toDateString
 fun ArchiveFeed(
     modifier: Modifier = Modifier,
     carFeedUiModel: CarFeedUiModel,
+    onFeedClick: () -> Unit,
 ) {
     Column(
         modifier = modifier
             .fillMaxWidth()
             .background(color = White, shape = roundCorner)
             .border(width = 1.dp, color = HyundaiSand, shape = roundCorner)
+            .clickable { onFeedClick() }
             .padding(horizontal = 16.dp, vertical = 22.dp)
     ) {
         Row(
@@ -153,5 +156,6 @@ fun PreviewArchiveFeed() {
             review = "승차감이 좋아요 차가 크고 운전하는 시야도 높아서 좋았어요 저는 13개월 아들이 있는데 뒤에 차시트 달아도 널널할 것 같습니다. 다른 주차 관련 옵션도 괜찮아요.",
             tags = listOf("편리해요😉", "이것만 있으면 나도 주차고수🚘", "대형견도 문제 없어요🐶")
         ),
+        onFeedClick = {}
     )
 }
