@@ -8,9 +8,12 @@ import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;
 import softeer.h9.hey.domain.car.SelectOption;
 import softeer.h9.hey.dto.car.DisabledOptionIdDto;
+import softeer.h9.hey.dto.car.SelectOptionByModelDto;
+import softeer.h9.hey.dto.car.request.SelectOptionNormalRequest;
 import softeer.h9.hey.dto.car.request.SelectOptionRequest;
 import softeer.h9.hey.dto.car.response.HGenuineAccessoriesResponse;
 import softeer.h9.hey.dto.car.response.HGenuineAccessoryResponse;
+import softeer.h9.hey.dto.car.response.SelectOptionByModelIdResponse;
 import softeer.h9.hey.dto.car.response.SelectOptionResponse;
 import softeer.h9.hey.dto.car.response.SelectOptionsResponse;
 import softeer.h9.hey.repository.car.SelectOptionRepository;
@@ -19,6 +22,15 @@ import softeer.h9.hey.repository.car.SelectOptionRepository;
 @RequiredArgsConstructor
 public class SelectOptionService {
 	private final SelectOptionRepository selectOptionRepository;
+
+	public SelectOptionByModelIdResponse findAllSelectOptionByModelId(final SelectOptionNormalRequest request) {
+		int modelId = request.getModelId();
+
+		List<SelectOptionByModelDto> selectOptions = selectOptionRepository.findAllSelectOptionByModelId(
+			modelId);
+
+		return SelectOptionByModelIdResponse.from(selectOptions);
+	}
 
 	public SelectOptionsResponse findSelectOption(SelectOptionRequest selectOptionRequest) {
 		String carCode = selectOptionRequest.getCarCode();
