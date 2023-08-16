@@ -1,5 +1,6 @@
 package com.softeer.mycarchiving.ui.makingcar.selectcolor
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.runtime.getValue
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
@@ -18,6 +19,10 @@ fun NavGraphBuilder.selectColorScreen(
 ) {
     composable(route = MakingCarDestinations.SELECT_COLOR.route) {
         val screenProgress by appState.currentProgressChildId.collectAsStateWithLifecycle()
+
+        BackHandler {
+            appState.onBackProgress()
+        }
 
         SelectColorRoute(
             screenProgress = screenProgress
