@@ -132,6 +132,10 @@ export const Description = styled.div`
 
       color: ${colors.hyundaiPrimaryBlue};
       ${fonts.bodyRegular3}
+      overflow-y: scroll;
+      ::-webkit-scrollbar {
+        display: none;
+      }
     `;
   }}
 `;
