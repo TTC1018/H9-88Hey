@@ -9,14 +9,14 @@ import softeer.h9.hey.domain.car.SubOption;
 public class SubOptionResponses {
 	private String id;
 	private String name;
-	private String imageURL;
+	private String imageUrl;
 	private String description;
 
 	public static SubOptionResponses from(SubOption subOption) {
 		return SubOptionResponses.builder()
 			.id(subOption.getId())
 			.name(subOption.getName())
-			.imageURL(subOption.getImageUrl())
+			.imageUrl(subOption.getImageUrl())
 			.description(subOption.getDescription())
 			.build();
 	}

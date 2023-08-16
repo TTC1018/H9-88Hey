@@ -15,7 +15,7 @@ import softeer.h9.hey.domain.car.SubOption;
 public class SelectOptionResponse {
 	private final String id;
 	private final String name;
-	private final String imageURL;
+	private final String imageUrl;
 	private final int additionalPrice;
 
 	private final List<TagResponse> tags;
@@ -28,7 +28,7 @@ public class SelectOptionResponse {
 		return SelectOptionResponse.builder()
 			.id(selectOption.getId())
 			.name(selectOption.getName())
-			.imageURL(selectOption.getImageUrl())
+			.imageUrl(selectOption.getImageUrl())
 			.additionalPrice(selectOption.getAdditionalPrice())
 			// #TODO 태그 넣기
 			.tags(null)

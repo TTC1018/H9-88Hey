@@ -20,9 +20,9 @@ class EngineServiceTest {
 	@Test
 	void searchEngineTest() {
 		int modelId = 1;
-		Engine engine1 = new Engine(1, 10000, modelId, "name", "imageURL", "descprition", "maximumPower",
+		Engine engine1 = new Engine(1, 10000, modelId, "name", "imageUrl", "descprition", "maximumPower",
 			"maximumTorque");
-		Engine engine2 = new Engine(2, 10000, modelId, "name", "imageURL", "descprition", "maximumPower",
+		Engine engine2 = new Engine(2, 10000, modelId, "name", "imageUrl", "descprition", "maximumPower",
 			"maximumTorque");
 		when(engineRepository.findByModelId(modelId)).thenReturn(List.of(engine1, engine2));
 
