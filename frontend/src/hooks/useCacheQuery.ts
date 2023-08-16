@@ -2,7 +2,7 @@ import { useState, useEffect, useContext } from 'react';
 
 import { API_URL } from '@/constants';
 
-import { CacheContext } from '@/cacheProvider';
+import { CacheContext } from '@/CacheProvider';
 
 interface UseQueryProps<T> {
   defaultValue: T;

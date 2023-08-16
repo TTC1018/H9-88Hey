@@ -23,18 +23,18 @@ const trimInitialData = {
   ],
 };
 export function Trim() {
-  // const {
-  //   data: { trims },
-  // } = useFetch<Pick<TrimDataProps, 'trims'>>({ defaultValue: trimInitialData, url: '/car/model/1/trim' });
-
   const {
     data: { trims },
-  } = useCacheQuery<Pick<TrimDataProps, 'trims'>>({
-    defaultValue: trimInitialData,
-    url: '/car/model/1/trim',
-    stateTime: 10000,
-    key: 'trims',
-  });
+  } = useFetch<Pick<TrimDataProps, 'trims'>>({ defaultValue: trimInitialData, url: '/car/model/1/trim' });
+
+  // const {
+  //   data: { trims },
+  // } = useCacheQuery<Pick<TrimDataProps, 'trims'>>({
+  //   defaultValue: trimInitialData,
+  //   url: '/car/model/1/trim',
+  //   stateTime: 10000,
+  //   key: 'trims',
+  // });
   const [selectedIndex, handleSetIndex] = useSelectIndex();
 
   const {

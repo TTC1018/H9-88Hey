@@ -2,7 +2,7 @@ import { RouterProvider } from 'react-router';
 import { ThemeProvider } from '@emotion/react';
 
 import { ModalProvider } from './components/common/ModalProvider';
-import { CacheProvider } from './cacheProvider';
+import { CacheProvider } from './CacheProvider';
 
 import { router } from './routes/router';
 import { theme } from './styles/theme';
