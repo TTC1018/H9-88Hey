@@ -72,7 +72,8 @@ class SelectOptionViewModel @Inject constructor(
             initialValue = emptyList()
         )
 
-    val focusedOptionIndex = MutableStateFlow(0)
+    private val _focusedOptionIndex = MutableStateFlow(0)
+    val focusedOptionIndex: StateFlow<Int> = _focusedOptionIndex
 
     val basicOptions = _carCode.flatMapLatest { carCode ->
         selectOptionRepository.getBasicOptions(carCode)
@@ -88,7 +89,7 @@ class SelectOptionViewModel @Inject constructor(
     val showBasicItems: StateFlow<Boolean> = _showBasicItems
 
     fun focusOptionItem(idx: Int) {
-        focusedOptionIndex.value = idx
+        _focusedOptionIndex.value = idx
     }
 
     fun openBasicItems() {
@@ -97,10 +98,6 @@ class SelectOptionViewModel @Inject constructor(
 
     fun closeBasicItems() {
         _showBasicItems.value = false
-    }
-
-    fun onAddOption() {
-
     }
 
     private fun TrimSelectOptionDto.asSelectOptionUiModel() =

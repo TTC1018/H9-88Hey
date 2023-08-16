@@ -9,6 +9,7 @@ import com.softeer.mycarchiving.model.makingcar.SelectModelUiModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import javax.inject.Inject
@@ -33,10 +34,11 @@ class SelectModelViewModel @Inject constructor(
             initialValue = emptyList()
         )
 
-    val focusedImageIndex = MutableStateFlow(0)
+    private val _focusedImageIndex = MutableStateFlow(0)
+    val focusedImageIndex: StateFlow<Int> = _focusedImageIndex
 
     fun onCarImageClick(index: Int) {
-        focusedImageIndex.value = index
+        _focusedImageIndex.value = index
     }
 
     private fun TrimModelDto.asSelectModelUiModel(): SelectModelUiModel =
