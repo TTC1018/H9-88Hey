@@ -26,15 +26,32 @@ export const TitleText = styled.span<TitleTextProps>`
 
       &::after {
         width: 100%;
-        height: 6px;
+        height: ${isActive ? '6px' : '0px'};
         left: 0;
         bottom: -14px;
 
         position: absolute;
 
-        background-color: ${isActive ? colors.black : colors.hyundaiLightSand};
+        background-color: ${colors.black};
+
+        transform-origin: center;
+        transform: ${isActive ? 'scaleX(1)' : 'scaleX(0)'};
+        transition: transform 0.25s ease-out;
 
         content: '';
+      }
+
+      &:hover {
+        font-weight: bold;
+        color: ${colors.black};
+
+        cursor: pointer;
+      }
+      &:hover:after {
+        height: 6px;
+
+        transform: scaleX(1);
+        transform-origin: center;
       }
     `;
   }}
