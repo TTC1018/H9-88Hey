@@ -22,6 +22,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Surface
@@ -116,7 +117,7 @@ fun OptionSelectedInfo(
         OptionHeadComment()
         Spacer(modifier = Modifier.height(8.dp))
         FlowRow(
-            verticalAlignment = Alignment.Top,
+            verticalArrangement = Arrangement.Top,
             horizontalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             optionTags?.forEach { tagString ->
@@ -132,9 +133,11 @@ fun ExtraOptionCards(
     modifier: Modifier = Modifier,
     options: List<SubSelectOptionUiModel>
 ) {
+    val pagerState = rememberPagerState { options.size }
+
     HorizontalPager(
         modifier = modifier,
-        pageCount = options.size,
+        state = pagerState,
         pageSpacing = 16.dp
     ) { pageNum ->
         ExtraOptionCard(
