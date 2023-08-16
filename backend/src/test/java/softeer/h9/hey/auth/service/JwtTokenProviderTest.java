@@ -43,7 +43,7 @@ class JwtTokenProviderTest {
 
 	@Test
 	@DisplayName("토큰이 조작되면 유효하지 않은 토큰으로 판단한다.")
-	void validateForgeryTokenTest() throws InterruptedException {
+	void validateForgeryTokenTest() {
 		String userId = "userId";
 
 		String jwt = jwtTokenProvider.generateAccessToken(userId) + "abc";
