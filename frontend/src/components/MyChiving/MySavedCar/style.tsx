@@ -1,8 +1,7 @@
-import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
 export const Contianer = styled.div`
-  height: 500px;
+  // height: 500px;
   gap: 15px;
 
   display: flex;

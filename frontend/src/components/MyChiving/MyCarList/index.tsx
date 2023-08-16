@@ -1,3 +1,7 @@
+import { ModalTypeProps } from '@/constants';
+
+import { useModalContext } from '@/hooks/useModalContext';
+
 import { XButton } from '@/components/MyChiving/XButton';
 
 import * as Styled from './style';
@@ -20,9 +24,11 @@ export function MyCarList({ isSaved, model, trim, trimOptions, lastModifiedDate,
   const modifiedDate = lastModifiedDate.split('-');
   const date = `${modifiedDate[0].slice(2)}년 ${modifiedDate[1]}월 ${modifiedDate[2]}일`;
   const dateInfoText = isSaved ? `${date}에 만들었어요.` : `${date} 임시저장`;
+  const { handleOpen } = useModalContext();
 
-  // 모달창 출력
-  function handleClick() {}
+  function handleXButtonClick(title: string) {
+    handleOpen({ modalType: ModalTypeProps.DELETE, callbackData: null, ContentData: title });
+  }
 
   return (
     <Styled.Container>
@@ -39,7 +45,7 @@ export function MyCarList({ isSaved, model, trim, trimOptions, lastModifiedDate,
           </Styled.Title>
           <Styled.SubTitle>
             <Styled.SubTitleText isSaved={isSaved}>{dateInfoText}</Styled.SubTitleText>
-            <XButton onClick={handleClick} />
+            <XButton onClick={() => handleXButtonClick(`${model} ${trim}`)} />
           </Styled.SubTitle>
         </Styled.MainBox>
         <Styled.OptionBox>

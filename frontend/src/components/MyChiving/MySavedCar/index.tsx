@@ -1,11 +1,7 @@
-import { useState } from 'react';
-
 import { MyChivingDataProps } from '@/types/myChiving';
 import { useFetch } from '@/hooks/useFetch';
 
 import { MyCarList } from '@/components/MyChiving/MyCarList';
-import { PrevButton } from '@/components/common/PrevButton';
-import { NextButton } from '@/components/common/NextButton';
 import { NoDataInfo } from '@/components/MyChiving/NoDataInfo';
 
 import * as Styled from './style';
@@ -53,48 +49,25 @@ export function MySavedCar() {
   const { data: savedData } = useFetch<MyChivingDataProps>({ defaultValue: savedInitialData, url: '/mychiving' });
   const allData = [...tempData.myarchivings, ...savedData.myarchivings];
 
-  const [page, setPage] = useState(0);
-  const rangeArray = Array.from({ length: 4 }, (_, index) => index + page * 4);
-
   return (
     <Styled.Contianer>
-      <PrevButton
-        width="60"
-        height="60"
-        onClick={() => {
-          setPage(prev => prev - 1);
-        }}
-        isShow={page !== 0}
-      />
       {allData.length > 0 ? (
         <Styled.MyCarBox>
-          {rangeArray.map(index =>
-            index < allData.length ? (
-              <MyCarList
-                key={allData[index].id}
-                isSaved={allData[index].isSaved}
-                model={allData[index].model}
-                trim={allData[index].trim}
-                trimOptions={allData[index].trimOptions}
-                lastModifiedDate={allData[index].lastModifiedDate}
-                selectedOptions={allData[index].selectedOptions}
-              />
-            ) : (
-              <Styled.EmptyBox key={index}></Styled.EmptyBox>
-            )
-          )}
+          {allData.map(value => (
+            <MyCarList
+              key={value.id}
+              isSaved={value.isSaved}
+              model={value.model}
+              trim={value.trim}
+              trimOptions={value.trimOptions}
+              lastModifiedDate={value.lastModifiedDate}
+              selectedOptions={value.selectedOptions}
+            />
+          ))}
         </Styled.MyCarBox>
       ) : (
         <NoDataInfo infoText="내 차 목록에 저장한 차량이 없어요" buttonText="내 차 만들기" toPath="/trim" />
       )}
-      <NextButton
-        width="60"
-        height="60"
-        onClick={() => {
-          setPage(prev => prev + 1);
-        }}
-        isShow={page !== Math.floor(allData.length < 1 ? 0 : Math.floor((allData.length - 1) / 4))}
-      />
     </Styled.Contianer>
   );
 }

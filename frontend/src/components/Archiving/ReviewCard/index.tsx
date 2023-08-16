@@ -5,6 +5,7 @@ import { ArchivingProps } from '@/types/archiving';
 import { combineWithSlash, formatDate } from '@/utils';
 
 import * as style from './style';
+import { XButton } from '@/components/MyChiving/XButton';
 
 interface ArchivingCardProps {
   isArchiving: true;
@@ -47,7 +48,13 @@ export function ReviewCard({ props, isArchiving, onClick, selectedSearchOptions 
           <style.Time>
             {formatDate(creationDate)}에 {dateText}
           </style.Time>
-          {!isArchiving && <DeleteButton />}
+          {!isArchiving && (
+            <XButton
+              onClick={() => {
+                console.log(123);
+              }}
+            />
+          )}
         </style.SideBox>
       </style.TitleWrapper>
       <style.TextWrapper>
