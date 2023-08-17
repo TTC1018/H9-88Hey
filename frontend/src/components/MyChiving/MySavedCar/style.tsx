@@ -1,6 +1,7 @@
 import styled from '@emotion/styled';
 
 export const Contianer = styled.div`
+  margin-top: 25px;
   gap: 15px;
 
   display: flex;

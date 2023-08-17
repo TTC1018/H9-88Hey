@@ -100,6 +100,7 @@ const ColorCircle = styled.div<ColorCircleProps>`
       flex-shrink: 0;
 
       background-image: url(${imageUrl});
+      background-position: center;
       border-radius: 50%;
     `;
   }}

@@ -2,6 +2,8 @@ import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
 export const Container = styled.div`
+  margin-top: 25px;
+
   display: flex;
   align-items: center;
   justify-content: center;

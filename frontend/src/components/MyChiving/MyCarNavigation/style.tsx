@@ -1,9 +1,23 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
-export const Container = styled.div``;
+export const Container = styled.div`
+  width: 100vw;
+  top: 0;
+  padding: 20px 0 0 0;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: sticky;
+
+  background-color: #fff;
+
+  z-index: 1;
+`;
 
 export const Wrapper = styled.div`
+  width: 1024px;
   gap: 25px;
 
   display: flex;
@@ -42,7 +56,6 @@ export const TitleText = styled.span<TitleTextProps>`
       }
 
       &:hover {
-        font-weight: bold;
         color: ${colors.black};
 
         cursor: pointer;
@@ -63,7 +76,7 @@ export const Division = styled.div`
     return css`
       width: 100%;
       height: 6px;
-      margin: 8px 0 25px 0;
+      margin: 8px 0 0 0;
 
       background-color: ${colors.hyundaiLightSand};
     `;
