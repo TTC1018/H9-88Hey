@@ -1,8 +1,9 @@
-export interface dataProps {
+export interface DataProps {
+  status: 'new' | 'resolved' | 'rejected';
   dataUpdatedAt: Date;
   data: any;
 }
 
 export interface CacheContextProps {
-  cachedDatas: Map<string, dataProps>;
+  cachedDatas: Map<string, DataProps>;
 }
