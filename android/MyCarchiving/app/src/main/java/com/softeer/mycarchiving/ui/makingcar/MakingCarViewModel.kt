@@ -72,8 +72,10 @@ class MakingCarViewModel @Inject constructor() : ViewModel() {
     }
 
     fun updateSelectedModelInfo(selectedModel: SelectModelUiModel) {
-        _selectedModelInfo.value = selectedModel
-        _totalPrice.value += selectedModel.price
+        if (_selectedModelInfo.value == null) {
+            _selectedModelInfo.value = selectedModel
+            _totalPrice.value += selectedModel.price
+        }
     }
 
     fun updateCarImageUrl(imageUrl: String) {
