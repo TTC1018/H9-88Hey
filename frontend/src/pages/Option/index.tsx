@@ -3,7 +3,7 @@ import { useState, useEffect, MouseEvent } from 'react';
 import { useLocation } from 'react-router-dom';
 
 import { OptionDataProps, OptionProps, SubOptionProps, OptionCardDataProps } from '@/types/option';
-import { isValidIndex } from '@/utils';
+import { isValidIndex, checkIsSelectOptionPage } from '@/utils';
 import { OPTION_CARD_LIST_LENGTH } from '@/constants';
 import { useFetch } from '@/hooks/useFetch';
 
@@ -45,7 +45,7 @@ interface Props {
 }
 
 export function Option({ apiType }: Props) {
-  const { search } = useLocation();
+  const { pathname, search } = useLocation();
 
   const { data } = useFetch<OptionDataProps>({
     defaultValue: initialData,
@@ -100,10 +100,6 @@ export function Option({ apiType }: Props) {
     setCardListIndex(index);
   }
 
-  function checkIsSelectOptionPage() {
-    return apiType === 'select-option';
-  }
-
   useEffect(() => {
     const { selectOptions } = data;
 
@@ -150,7 +146,11 @@ export function Option({ apiType }: Props) {
         </Styled.DescriptionBox>
       </Styled.OptionWrapper>
       <Styled.CardWrapper>
-        <OptionCategory menu={menu} onClick={handleChangeMenu} isShowDefaultOption={checkIsSelectOptionPage()} />
+        <OptionCategory
+          menu={menu}
+          onClick={handleChangeMenu}
+          isShowDefaultOption={checkIsSelectOptionPage(pathname)}
+        />
         {menu === 0 && (
           <OptionCardList
             selectedIndex={optionIndex}
@@ -160,7 +160,7 @@ export function Option({ apiType }: Props) {
             onClickArrowButton={handleChangeCardListIndex}
           />
         )}
-        {checkIsSelectOptionPage() && menu === 1 && <DefaultOptionCardList />}
+        {checkIsSelectOptionPage(pathname) && menu === 1 && <DefaultOptionCardList />}
       </Styled.CardWrapper>
     </Styled.Container>
   );

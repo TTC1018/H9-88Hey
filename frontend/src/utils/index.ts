@@ -53,6 +53,10 @@ export function checkIsOptionPage(path: string) {
   return splittedPath[1] === 'option';
 }
 
+export function checkIsSelectOptionPage(path: string) {
+  return path === '/option';
+}
+
 export function checkIsHGenuineAccessoriesPage(path: string) {
   return path === '/option/h-genuine-accessories';
 }
