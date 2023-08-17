@@ -1,5 +1,9 @@
 package com.softeer.mycarchiving.ui.makingcar.selectmodel
 
+import androidx.compose.animation.scaleIn
+import androidx.compose.animation.scaleOut
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideOutHorizontally
 import androidx.lifecycle.ViewModelStoreOwner
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
@@ -13,7 +17,11 @@ fun NavController.navigateToSelectModel(navOptions: NavOptions? = null) {
 }
 
 fun NavGraphBuilder.selectModelScreen(viewModelStoreOwner: ViewModelStoreOwner) {
-    composable(route = MakingCarDestinations.SELECT_MODEL.route) {
+    composable(
+        route = MakingCarDestinations.SELECT_MODEL.route,
+        enterTransition = { slideInHorizontally(initialOffsetX = { -it }) },
+        exitTransition = { slideOutHorizontally(targetOffsetX = { -it } ) }
+    ) {
         SelectModelRoute(viewModelOwner = viewModelStoreOwner)
     }
 }

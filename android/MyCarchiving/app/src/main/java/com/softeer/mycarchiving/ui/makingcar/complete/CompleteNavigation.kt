@@ -1,6 +1,8 @@
 package com.softeer.mycarchiving.ui.makingcar.complete
 
 import androidx.activity.compose.BackHandler
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideOutHorizontally
 import androidx.lifecycle.ViewModelStoreOwner
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
@@ -16,7 +18,11 @@ fun NavGraphBuilder.completeScreen(
     viewModelStoreOwner: ViewModelStoreOwner,
     onBackProgress: () -> Unit
 ) {
-    composable(route = MakingCarDestinations.SELECT_COMPLETE.route) {
+    composable(
+        route = MakingCarDestinations.SELECT_COMPLETE.route,
+        enterTransition = { slideInHorizontally(initialOffsetX = { -it }) },
+        exitTransition = { slideOutHorizontally(targetOffsetX = { -it } ) }
+    ) {
         BackHandler {
             onBackProgress()
         }

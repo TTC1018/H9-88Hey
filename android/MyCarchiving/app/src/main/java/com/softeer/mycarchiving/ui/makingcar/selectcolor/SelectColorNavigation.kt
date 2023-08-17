@@ -1,6 +1,8 @@
 package com.softeer.mycarchiving.ui.makingcar.selectcolor
 
 import androidx.activity.compose.BackHandler
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.runtime.getValue
 import androidx.lifecycle.ViewModelStoreOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -20,7 +22,11 @@ fun NavGraphBuilder.selectColorScreen(
     viewModelStoreOwner: ViewModelStoreOwner,
     onBackProgress: () -> Unit,
 ) {
-    composable(route = MakingCarDestinations.SELECT_COLOR.route) {
+    composable(
+        route = MakingCarDestinations.SELECT_COLOR.route,
+        enterTransition = { slideInHorizontally(initialOffsetX = { -it }) },
+        exitTransition = { slideOutHorizontally(targetOffsetX = { -it } ) }
+    ) {
         BackHandler {
             onBackProgress()
         }
