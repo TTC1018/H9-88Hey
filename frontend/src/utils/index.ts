@@ -66,6 +66,7 @@ export function checkIsNPerformancePage(path: string) {
   return path === '/option/n-performance';
 }
 
+// DEPRECATED
 export function checkOptionsChanged(options: OptionContextProps[]) {
   const selectOptions = options.filter(({ path }) => path === '/option');
 
@@ -73,4 +74,9 @@ export function checkOptionsChanged(options: OptionContextProps[]) {
   const prevSelectOptions = globalOptions.filter(({ path }) => path === '/option');
 
   return JSON.stringify(selectOptions) !== JSON.stringify(prevSelectOptions);
+}
+
+export function isHGenuineAccessoriesSelected(options: OptionContextProps[]) {
+  const hGenuineAccessories = options.filter(({ path }) => path === '/option/h-genuine-accessories');
+  return hGenuineAccessories.length > 0;
 }

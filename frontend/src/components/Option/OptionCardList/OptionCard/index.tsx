@@ -3,8 +3,13 @@ import { useState, useEffect, useRef, MouseEvent, WheelEvent } from 'react';
 import { useOutletContext, useLocation } from 'react-router-dom';
 
 import { OptionContextProviderProps } from '@/types/option';
+import { checkIsSelectOptionPage, isHGenuineAccessoriesSelected } from '@/utils';
+import { useModalContext } from '@/hooks/useModalContext';
+import { ModalType } from '@/constants';
 
 import { OptionCardHover } from '@/components/Option/OptionCardList/OptionCardHover';
+import { ModalPortal } from '@/components/common/ModalPortal';
+import { PopupModal } from '@/components/common/PopupModal';
 
 import * as Styled from './style';
 
@@ -34,14 +39,22 @@ export function OptionCard({
   const [isButtonActive, setIsButtonActive] = useState(false);
   const [isHover, setIsHover] = useState(false);
 
-  const { myCar, addOption, removeOption } = useOutletContext<OptionContextProviderProps>();
+  const { myCar, addOption, removeOption, clearHGenuineAccessories } = useOutletContext<OptionContextProviderProps>();
+  const { options } = myCar;
 
   const childRef = useRef<HTMLUListElement | null>(null);
 
   const { pathname } = useLocation();
 
+  const { handleOpen } = useModalContext();
+
   function handleClickButton(isBlur: boolean) {
     if (isBlur) {
+      return;
+    }
+
+    if (checkIsSelectOptionPage(pathname) && isHGenuineAccessoriesSelected(options)) {
+      handleOpen();
       return;
     }
 
@@ -62,6 +75,18 @@ export function OptionCard({
     if (childRef.current !== null) {
       const childElement = childRef.current;
       childElement.scrollBy({ top: event.deltaY, behavior: 'auto' });
+    }
+  }
+
+  function handleClearHGenuineAccessories() {
+    clearHGenuineAccessories();
+
+    setIsButtonActive(prev => !prev);
+
+    if (isButtonActive) {
+      removeOption(name);
+    } else {
+      addOption({ id, name, price: additionalPrice, imageUrl, subOptions: subOptionNames, path: pathname });
     }
   }
 
@@ -89,6 +114,9 @@ export function OptionCard({
         onMouseLeave={() => handleHoverCard(false)}
         onWheel={event => handleWheel(event)}
       />
+      <ModalPortal>
+        <PopupModal type={ModalType.CLEAR} onClick={handleClearHGenuineAccessories} />
+      </ModalPortal>
     </Styled.OptionCardWrapper>
   );
 }

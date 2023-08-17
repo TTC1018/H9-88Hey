@@ -2,7 +2,7 @@ import { MutableRefObject, useState } from 'react';
 
 import { useLocation, useNavigate } from 'react-router-dom';
 
-import { checkIsOptionPage, checkIsHGenuineAccessoriesPage, checkOptionsChanged } from '@/utils';
+import { checkIsOptionPage, checkIsHGenuineAccessoriesPage } from '@/utils';
 import { MyCarProps } from '@/types/trim';
 import { NAVIGATION_PATH, TAG_CHIP_MAX_NUMBER } from '@/constants';
 
@@ -56,10 +56,6 @@ export function Footer({ myCarData, totalPrice, carCode, onSetLocalStorage, clea
 
         optionQuery += `&select_option=${id}`;
       });
-
-      if (checkOptionsChanged(options)) {
-        clearHGenuineAccessories();
-      }
     }
 
     onSetLocalStorage();

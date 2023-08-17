@@ -4,6 +4,7 @@ export enum ModalType {
   CLOSE = 'CLOSE',
   DELETE = 'DELETE',
   MOVE = 'MOVE',
+  CLEAR = 'CLEAR',
 }
 export const TAG_CHIP_MAX_NUMBER = 3;
 export const API_URL = import.meta.env.VITE_API_URL;
