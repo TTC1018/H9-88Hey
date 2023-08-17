@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { Suspense, useEffect, useRef, useState } from 'react';
 
 import { Outlet, useLocation } from 'react-router-dom';
 
@@ -12,6 +12,7 @@ import { Footer } from '@/components/common/Footer';
 import { Navigation } from '@/components/common/Navigation';
 
 import * as Styled from './style';
+import { Loading } from '@/components/common/Loading';
 
 const DEFAULT_STATE: MyCarProps = {
   carType: { krName: '펠리세이드', enName: 'Palisade' },
@@ -90,19 +91,21 @@ export function MyCarLayout() {
       <Header />
       <Navigation />
       <Styled.Wrapper isFull={pathname === '/result'}>
-        <Outlet
-          context={{
-            myCar,
-            carCode,
-            totalPrice,
-            handleTrim,
-            handleOuterColor,
-            handleInnerColor,
-            handleCarImageUrl,
-            addOption,
-            removeOption,
-          }}
-        />
+        <Suspense fallback={<Loading />}>
+          <Outlet
+            context={{
+              myCar,
+              carCode,
+              totalPrice,
+              handleTrim,
+              handleOuterColor,
+              handleInnerColor,
+              handleCarImageUrl,
+              addOption,
+              removeOption,
+            }}
+          />
+        </Suspense>
       </Styled.Wrapper>
       <Footer myCarData={myCar} totalPrice={totalPrice} onSetLocalStorage={handleLocalStorage} carCode={carCode} />
     </Styled.Container>

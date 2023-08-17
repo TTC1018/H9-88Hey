@@ -3,28 +3,16 @@ import { useEffect } from 'react';
 import { useOutletContext } from 'react-router-dom';
 
 import { MyCarLayoutContextProps, TrimDataProps } from '@/types/trim';
-import { useFetch } from '@/hooks/useFetch';
 import { useSelectIndex } from '@/hooks/useSelectedIndex';
+import { useFetchSuspense } from '@/hooks/useFetchSuspense';
 
 import { SelectOptionCard } from '@/components/Trim/SelectOptionCard';
 import { TrimCarImageBox } from '@/components/Trim/TrimCarImageBox';
 
 import * as Styled from './style';
 
-const trimInitialData = {
-  trims: [
-    {
-      id: 0,
-      name: '',
-      price: 0,
-      trimFeatures: [],
-    },
-  ],
-};
 export function Trim() {
-  const {
-    data: { trims },
-  } = useFetch<Pick<TrimDataProps, 'trims'>>({ defaultValue: trimInitialData, url: '/car/model/1/trim' });
+  const { trims } = useFetchSuspense<TrimDataProps>({ url: '/car/model/1/trim', key: ['trim'], staleTIme: 2000 });
 
   const [selectedIndex, handleSetIndex] = useSelectIndex();
 
