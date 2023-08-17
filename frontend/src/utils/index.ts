@@ -1,3 +1,4 @@
+import { OptionContextProps } from '@/types/option';
 import { OPTION_CARD_LIST_LENGTH } from '@/constants';
 
 export function convertToTwoDigits(index: number) {
@@ -63,4 +64,13 @@ export function checkIsHGenuineAccessoriesPage(path: string) {
 
 export function checkIsNPerformancePage(path: string) {
   return path === '/option/n-performance';
+}
+
+export function checkOptionsChanged(options: OptionContextProps[]) {
+  const selectOptions = options.filter(({ path }) => path === '/option');
+
+  const globalOptions: OptionContextProps[] = JSON.parse(getLocalStorage('myCar')).options;
+  const prevSelectOptions = globalOptions.filter(({ path }) => path === '/option');
+
+  return JSON.stringify(selectOptions) !== JSON.stringify(prevSelectOptions);
 }

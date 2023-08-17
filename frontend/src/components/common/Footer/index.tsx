@@ -2,9 +2,8 @@ import { MutableRefObject, useState } from 'react';
 
 import { useLocation, useNavigate } from 'react-router-dom';
 
-import { checkIsOptionPage, checkIsHGenuineAccessoriesPage, getLocalStorage } from '@/utils';
+import { checkIsOptionPage, checkIsHGenuineAccessoriesPage, checkOptionsChanged } from '@/utils';
 import { MyCarProps } from '@/types/trim';
-import { OptionContextProps } from '@/types/option';
 import { NAVIGATION_PATH, TAG_CHIP_MAX_NUMBER } from '@/constants';
 
 import { EstimateModal } from './EstimateModal';
@@ -50,8 +49,7 @@ export function Footer({ myCarData, totalPrice, carCode, onSetLocalStorage, clea
     let optionQuery = '';
 
     if (checkIsHGenuineAccessoriesPage(path)) {
-      const optionItems = options.map(({ id, path }) => ({ id, path }));
-      optionItems.forEach(({ id, path }) => {
+      options.forEach(({ id, path }) => {
         if (path !== '/option') {
           return;
         }
@@ -59,13 +57,7 @@ export function Footer({ myCarData, totalPrice, carCode, onSetLocalStorage, clea
         optionQuery += `&option_id=${id}`;
       });
 
-      const selectOptions = options.map(({ id, path }) => ({ id, path })).filter(({ path }) => path === '/option');
-      const globalOptions: OptionContextProps[] = JSON.parse(getLocalStorage('myCar')).options;
-      const prevSelectOptions = globalOptions
-        .map(({ id, path }) => ({ id, path }))
-        .filter(option => option.path === '/option');
-
-      if (JSON.stringify(selectOptions) !== JSON.stringify(prevSelectOptions)) {
+      if (checkOptionsChanged(options)) {
         clearHGenuineAccessories();
       }
     }
