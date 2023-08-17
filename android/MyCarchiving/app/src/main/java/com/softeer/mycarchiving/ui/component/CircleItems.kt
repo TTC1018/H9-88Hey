@@ -74,7 +74,7 @@ fun CheckCircle(
 
 @Composable
 fun XCircle(
-    modifier: Modifier,
+    modifier: Modifier = Modifier,
     onClick: () -> Unit
 ) {
     Box(
@@ -85,7 +85,7 @@ fun XCircle(
         contentAlignment = Alignment.Center
     ) {
         Icon(
-            modifier = modifier.size(15.dp),
+            modifier = Modifier.size(15.dp),
             painter = painterResource(id = R.drawable.ic_close),
             contentDescription = null,
             tint = MediumGray
