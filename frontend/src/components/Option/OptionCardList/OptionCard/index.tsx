@@ -1,4 +1,4 @@
-import { useState, useEffect, MouseEvent } from 'react';
+import { useState, useEffect, useRef, MouseEvent, WheelEvent } from 'react';
 
 import { useOutletContext } from 'react-router-dom';
 
@@ -38,6 +38,8 @@ export function OptionCard({
 
   const { myCar, addOption, removeOption } = useOutletContext<OptionContextProviderProps>();
 
+  const childRef = useRef<HTMLUListElement | null>(null);
+
   function handleClickButton(isBlur: boolean) {
     if (isBlur) {
       return;
@@ -58,6 +60,13 @@ export function OptionCard({
     setIsHover(isHover);
   }
 
+  function handleWheel(event: WheelEvent<HTMLDivElement>) {
+    if (childRef.current !== null) {
+      const childElement = childRef.current;
+      childElement.scrollBy({ top: event.deltaY, behavior: 'auto' });
+    }
+  }
+
   useEffect(() => {
     const isOptionIncluded = myCar.options.some(option => option.name === name);
     setIsButtonActive(isOptionIncluded);
@@ -76,10 +85,11 @@ export function OptionCard({
         </Styled.ButtonBox>
         {isButtonActive && <Styled.Icon src={'/src/assets/icons/icon_done.svg'} />}
       </Styled.DescriptionWrapper>
-      {isHover && <OptionCardHover subOptionNames={subOptionNames} />}
+      {isHover && <OptionCardHover subOptionNames={subOptionNames} ref={childRef} />}
       <Styled.OptionCardHoverArea
         onMouseEnter={() => handleHoverCard(true)}
         onMouseLeave={() => handleHoverCard(false)}
+        onWheel={event => handleWheel(event)}
       />
     </Styled.OptionCardWrapper>
   );

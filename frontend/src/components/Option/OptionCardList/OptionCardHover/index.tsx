@@ -1,17 +1,22 @@
+import { Ref, forwardRef, FC } from 'react';
+
 import * as Styled from './style';
 
 interface Props {
   subOptionNames: string[];
+  ref: Ref<HTMLUListElement>;
 }
 
-export function OptionCardHover({ subOptionNames }: Props) {
+export const OptionCardHover: FC<Props> = forwardRef((props, ref) => {
+  const { subOptionNames } = props;
+
   return (
     <Styled.Container>
-      <Styled.Wrapper>
+      <Styled.DescriptionWrapper ref={ref}>
         {subOptionNames.map((name, index) => (
-          <Styled.DescriptionHover key={index}>·{name}</Styled.DescriptionHover>
+          <Styled.DescriptionHover key={index}>{name}</Styled.DescriptionHover>
         ))}
-      </Styled.Wrapper>
+      </Styled.DescriptionWrapper>
     </Styled.Container>
   );
-}
+});

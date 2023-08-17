@@ -1,5 +1,11 @@
+import { ForwardedRef } from 'react';
+
 import styled from '@emotion/styled';
 import { css } from '@emotion/react';
+
+interface Props {
+  ref: ForwardedRef<HTMLUListElement>;
+}
 
 export const Container = styled.div`
   width: 160px;
@@ -14,9 +20,15 @@ export const Container = styled.div`
   background: rgba(35, 35, 35, 0.75);
 `;
 
-export const Wrapper = styled.ul`
+export const DescriptionWrapper = styled.ul<Props>`
+  width: 160px;
+  height: 140px;
   padding: 21px 15px 0 30px;
-  overflow: hidden;
+
+  overflow-y: scroll;
+  ::-webkit-scrollbar {
+    display: none;
+  }
 
   list-style-type: disc;
   list-style-position: outside;
@@ -27,12 +39,8 @@ export const DescriptionHover = styled.li`
     const { fonts } = theme;
 
     return css`
-      overflow: hidden;
-
       color: #fff;
       ${fonts.bodyRegular4}
-      text-overflow: ellipsis;
-      white-space: nowrap;
     `;
   }}
 `;
