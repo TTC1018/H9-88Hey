@@ -8,7 +8,7 @@ import lombok.RequiredArgsConstructor;
 @Builder
 @RequiredArgsConstructor
 public class User {
-	private final Integer id;
+	private Integer id;
 	private final String userId;
 	private final String password;
 }
