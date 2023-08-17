@@ -54,7 +54,7 @@ export function Footer({ myCarData, totalPrice, carCode, onSetLocalStorage, clea
           return;
         }
 
-        optionQuery += `&option_id=${id}`;
+        optionQuery += `&select_option=${id}`;
       });
 
       if (checkOptionsChanged(options)) {
