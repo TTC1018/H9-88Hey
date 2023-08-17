@@ -1,5 +1,9 @@
 package com.softeer.mycarchiving.ui.makingcar.selectmodel
 
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -14,6 +18,8 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
@@ -31,7 +37,9 @@ import com.softeer.mycarchiving.model.makingcar.SelectModelUiModel
 import com.softeer.mycarchiving.ui.component.CarImageSelectItem
 import com.softeer.mycarchiving.ui.component.OptionCardForModel
 import com.softeer.mycarchiving.ui.makingcar.MakingCarViewModel
+import com.softeer.mycarchiving.ui.makingcar.loading.LoadingScreen
 import com.softeer.mycarchiving.ui.theme.White
+import com.softeer.mycarchiving.util.fadeInAndOut
 
 @Composable
 fun SelectModelRoute(
@@ -71,54 +79,68 @@ fun SelectModelScreen(
         carModels.firstOrNull()?.let { onModelSelect(it) } // 첫번째 모델 자동 선택
     }
 
-    Column(
-        modifier = modifier
-            .fillMaxWidth()
-            .background(color = White)
-            .verticalScroll(scrollState)
+    AnimatedContent(
+        targetState = carModels,
+        transitionSpec = { fadeInAndOut() },
+        label = ""
     ) {
-        GlideImage(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(254.dp),
-            imageModel = { carImages.getOrNull(focusedImageIndex) },
-            previewPlaceholder = R.drawable.ic_launcher_background,
-            component = rememberImageComponent {
-                +CrossfadePlugin(
-                    duration = 1000
-                )
+        when {
+            it.isEmpty() -> {
+                LoadingScreen(modifier = modifier, {})
             }
-        )
-        Column(
-            modifier = Modifier.padding(all = 16.dp)
-        ) {
-            FlowRow(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween,
-            ) {
-                for (i in carImages.indices) {
-                    CarImageSelectItem(
-                        modifier = modifier,
-                        onItemClick = { onCarImageClick(i) },
-                        isSelect = i == focusedImageIndex,
-                        imageUrl = carImages[i]
+            else -> {
+                Column(
+                    modifier = modifier
+                        .fillMaxWidth()
+                        .background(color = White)
+                        .verticalScroll(scrollState)
+                ) {
+                    GlideImage(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(254.dp),
+                        imageModel = { carImages.getOrNull(focusedImageIndex) },
+                        previewPlaceholder = R.drawable.ic_launcher_background,
+                        component = rememberImageComponent {
+                            +CrossfadePlugin(
+                                duration = 1000
+                            )
+                        }
                     )
-                }
-            }
-            Column(
-                modifier = Modifier.padding(vertical = 12.dp),
-                verticalArrangement = Arrangement.spacedBy(8.dp)
-            ) {
-                carModels.forEachIndexed { index, carModel ->
-                    OptionCardForModel(
-                        carModelIndex = index,
-                        carModel = carModel,
-                        isExpanded = index == 0
-                    )
+                    Column(
+                        modifier = Modifier.padding(all = 16.dp)
+                    ) {
+                        FlowRow(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.SpaceBetween,
+                        ) {
+                            for (i in carImages.indices) {
+                                CarImageSelectItem(
+                                    modifier = modifier,
+                                    onItemClick = { onCarImageClick(i) },
+                                    isSelect = i == focusedImageIndex,
+                                    imageUrl = carImages[i]
+                                )
+                            }
+                        }
+                        Column(
+                            modifier = Modifier.padding(vertical = 12.dp),
+                            verticalArrangement = Arrangement.spacedBy(8.dp)
+                        ) {
+                            carModels.forEachIndexed { index, carModel ->
+                                OptionCardForModel(
+                                    carModelIndex = index,
+                                    carModel = carModel,
+                                    isExpanded = index == 0
+                                )
+                            }
+                        }
+                    }
                 }
             }
         }
     }
+
 }
 
 @Preview

@@ -1,6 +1,10 @@
 package com.softeer.mycarchiving.ui.makingcar.selecttrim
 
 import android.util.Log
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -32,6 +36,8 @@ import com.softeer.mycarchiving.model.TrimOptionUiModel
 import com.softeer.mycarchiving.ui.component.OptionCardForDetail
 import com.softeer.mycarchiving.ui.component.OptionNameWithDivider
 import com.softeer.mycarchiving.ui.makingcar.MakingCarViewModel
+import com.softeer.mycarchiving.ui.makingcar.loading.LoadingScreen
+import com.softeer.mycarchiving.util.fadeInAndOut
 
 @Composable
 fun SelectTrimRoute(
@@ -92,57 +98,70 @@ fun SelectTrimScreen(
         }
     }
 
-    Column(
-        modifier = modifier
-            .fillMaxWidth()
-            .verticalScroll(scrollState),
+    AnimatedContent(
+        targetState = options,
+        transitionSpec = { fadeInAndOut() },
+        label = ""
     ) {
-        GlideImage(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(200.dp),
-            imageModel = { options.getOrNull(selectedIndex)?.imageUrl },
-            imageOptions = ImageOptions(
-                contentScale = ContentScale.FillBounds
-            ),
-            previewPlaceholder = R.drawable.ic_launcher_background,
-            component = rememberImageComponent {
-                +CrossfadePlugin(
-                    duration = 1000
-                )
-            }
-        )
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp),
-        ) {
-            OptionNameWithDivider(optionName = options.getOrNull(selectedIndex)?.optionName ?: "")
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth(),
-                verticalArrangement = Arrangement.spacedBy(16.dp),
-            ) {
-                options.forEachIndexed { idx, item ->
-                    OptionCardForDetail(
-                        optionNum = idx + 1,
-                        optionName = item.optionName,
-                        price = item.price ?: 0,
-                        descFirst = if (item.maximumOutput != null) item.optionDesc else null,
-                        descSecond = if (item.maximumOutput == null) item.optionDesc else null,
-                        maximumTorque = item.maximumTorque,
-                        maximumOutput = item.maximumOutput,
-                        isSelected = idx == selectedIndex,
-                        onClick = {
-                            selectedIndex = idx
-                            onOptionSelect(item, screenProgress, isInitial)
-                        },
+        when {
+            it.isEmpty() -> LoadingScreen {}
+            else -> {
+                Column(
+                    modifier = modifier
+                        .fillMaxWidth()
+                        .verticalScroll(scrollState),
+                ) {
+                    GlideImage(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(200.dp),
+                        imageModel = { options.getOrNull(selectedIndex)?.imageUrl },
+                        imageOptions = ImageOptions(
+                            contentScale = ContentScale.FillBounds
+                        ),
+                        previewPlaceholder = R.drawable.ic_launcher_background,
+                        component = rememberImageComponent {
+                            +CrossfadePlugin(
+                                duration = 1000
+                            )
+                        }
                     )
+                    Column(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(16.dp),
+                        verticalArrangement = Arrangement.spacedBy(16.dp),
+                    ) {
+                        OptionNameWithDivider(optionName = options.getOrNull(selectedIndex)?.optionName ?: "")
+                        Column(
+                            modifier = Modifier
+                                .fillMaxWidth(),
+                            verticalArrangement = Arrangement.spacedBy(16.dp),
+                        ) {
+                            options.forEachIndexed { idx, item ->
+                                OptionCardForDetail(
+                                    optionNum = idx + 1,
+                                    optionName = item.optionName,
+                                    price = item.price ?: 0,
+                                    descFirst = if (item.maximumOutput != null) item.optionDesc else null,
+                                    descSecond = if (item.maximumOutput == null) item.optionDesc else null,
+                                    maximumTorque = item.maximumTorque,
+                                    maximumOutput = item.maximumOutput,
+                                    isSelected = idx == selectedIndex,
+                                    onClick = {
+                                        selectedIndex = idx
+                                        onOptionSelect(item, screenProgress, isInitial)
+                                    },
+                                )
+                            }
+                        }
+                    }
                 }
             }
         }
     }
+
+
 }
 
 @Preview

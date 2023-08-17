@@ -1,5 +1,11 @@
 package com.softeer.mycarchiving.ui.makingcar.selectoption
 
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.core.FastOutSlowInEasing
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -36,7 +42,6 @@ import androidx.lifecycle.ViewModelStoreOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
-import com.softeer.mycarchiving.MainActivity
 import com.softeer.mycarchiving.R
 import com.softeer.mycarchiving.model.makingcar.SelectOptionUiModel
 import com.softeer.mycarchiving.model.makingcar.SubSelectOptionUiModel
@@ -47,10 +52,13 @@ import com.softeer.mycarchiving.ui.component.ExtraOptionCards
 import com.softeer.mycarchiving.ui.component.OptionSelectItem
 import com.softeer.mycarchiving.ui.component.OptionSelectedInfo
 import com.softeer.mycarchiving.ui.makingcar.MakingCarViewModel
+import com.softeer.mycarchiving.ui.makingcar.loading.LoadingScreen
 import com.softeer.mycarchiving.ui.theme.DarkGray
 import com.softeer.mycarchiving.ui.theme.HyundaiLightSand
 import com.softeer.mycarchiving.ui.theme.White
 import com.softeer.mycarchiving.ui.theme.medium16
+import com.softeer.mycarchiving.util.fadeInAndOut
+import kotlin.time.Duration
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -126,81 +134,97 @@ fun SelectOptionScreen(
     showBasicItems: () -> Unit,
     onAddOption: (SelectOptionUiModel, Int) -> Unit,
 ) {
-    Column(
-        modifier = modifier
-            .fillMaxWidth()
-            .background(color = White)
-            .verticalScroll(scrollState)
+
+    AnimatedContent(
+        targetState = options,
+        transitionSpec = { fadeInAndOut() },
+        label = "",
     ) {
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(start = 16.dp, top = 14.dp, bottom = 24.dp)
-        ) {
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Text(
-                    text = stringResource(id = R.string.make_car_selected_option, options.size),
-                    style = medium16,
-                    color = DarkGray
-                )
-                Box(modifier = Modifier.padding(end = 16.dp)) {
-                    CarBasicItemButton(onClick = showBasicItems)
-                }
-            }
-            Spacer(modifier = Modifier.height(13.dp))
-            LazyRow(
-                horizontalArrangement = Arrangement.spacedBy(6.dp)
-            ) {
-                itemsIndexed(
-                    items = options,
-                    itemContent = { idx, option ->
-                        OptionSelectItem(
-                            modifier = modifier,
-                            option = option,
-                            focus = focusedIndex == idx,
-                            isAdded = selectedOptions?.contains(option) ?: false,
-                            onAddClick = { onAddOption(option, screenProgress) },
-                            onFocus = { focusOption(idx) }
-                        )
+        when {
+            it.isEmpty() -> LoadingScreen {}
+            else -> {
+                Column(
+                    modifier = modifier
+                        .fillMaxWidth()
+                        .background(color = White)
+                        .verticalScroll(scrollState)
+                ) {
+                    Column(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(start = 16.dp, top = 14.dp, bottom = 24.dp)
+                    ) {
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.SpaceBetween,
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Text(
+                                text = stringResource(
+                                    id = R.string.make_car_selected_option,
+                                    options.size
+                                ),
+                                style = medium16,
+                                color = DarkGray
+                            )
+                            Box(modifier = Modifier.padding(end = 16.dp)) {
+                                CarBasicItemButton(onClick = showBasicItems)
+                            }
+                        }
+                        Spacer(modifier = Modifier.height(13.dp))
+                        LazyRow(
+                            horizontalArrangement = Arrangement.spacedBy(6.dp)
+                        ) {
+                            itemsIndexed(
+                                items = options,
+                                itemContent = { idx, option ->
+                                    OptionSelectItem(
+                                        modifier = modifier,
+                                        option = option,
+                                        focus = focusedIndex == idx,
+                                        isAdded = selectedOptions?.contains(option) ?: false,
+                                        onAddClick = { onAddOption(option, screenProgress) },
+                                        onFocus = { focusOption(idx) }
+                                    )
+                                }
+                            )
+                        }
                     }
-                )
-            }
-        }
-        Divider(thickness = 6.dp, color = HyundaiLightSand)
-        AsyncImage(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(220.dp),
-            model = ImageRequest.Builder(LocalContext.current)
-                .data(options.getOrNull(focusedIndex)?.imageUrl)
-                .crossfade(true)
-                .build(),
-            contentDescription = "",
-            contentScale = ContentScale.Crop
-        )
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 16.dp, vertical = 24.dp)
-        ) {
-            OptionSelectedInfo(
-                optionName = options.getOrNull(focusedIndex)?.name ?: "",
-                optionTags = options.getOrNull(focusedIndex)?.tags
-            )
-            Spacer(modifier = Modifier.height(12.dp))
-            options.getOrNull(focusedIndex)?.subOptions?.let {
-                if (it.size > 1) {
-                    ExtraOptionCards(options = it)
-                } else {
-                    ExtraOptionCard(option = it[0], optionsSize = 1)
+                    Divider(thickness = 6.dp, color = HyundaiLightSand)
+                    AsyncImage(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(220.dp),
+                        model = ImageRequest.Builder(LocalContext.current)
+                            .data(options.getOrNull(focusedIndex)?.imageUrl)
+                            .crossfade(true)
+                            .build(),
+                        contentDescription = "",
+                        contentScale = ContentScale.Crop
+                    )
+                    Column(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 16.dp, vertical = 24.dp)
+                    ) {
+                        OptionSelectedInfo(
+                            optionName = options.getOrNull(focusedIndex)?.name ?: "",
+                            optionTags = options.getOrNull(focusedIndex)?.tags
+                        )
+                        Spacer(modifier = Modifier.height(12.dp))
+                        options.getOrNull(focusedIndex)?.subOptions?.let {
+                            if (it.size > 1) {
+                                ExtraOptionCards(options = it)
+                            } else {
+                                ExtraOptionCard(option = it[0], optionsSize = 1)
+                            }
+                        }
+                    }
                 }
             }
         }
     }
+
 }
 
 @Preview
@@ -252,9 +276,9 @@ fun PreviewSelectOptionScreen() {
                 ),
             )
         ),
-            focusedIndex = 0,
-            focusOption = {},
-            showBasicItems = {},
-            onAddOption = {_, _ ->}
+        focusedIndex = 0,
+        focusOption = {},
+        showBasicItems = {},
+        onAddOption = { _, _ -> }
     )
 }
