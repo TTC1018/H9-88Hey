@@ -137,6 +137,9 @@ const style = css`
   * {
     box-sizing: border-box;
   }
+  *::-webkit-scrollbar {
+    display: none;
+  }
 
   @font-face {
     font-family: HyundaiSansBold;

@@ -1,7 +1,6 @@
 import { MouseEvent } from 'react';
 
 import { formatDate } from '@/utils';
-
 import { XButton } from '@/components/MyChiving/XButton';
 
 import * as Styled from './style';
@@ -53,7 +52,7 @@ export function MyCarList({
           </Styled.Title>
           <Styled.SubTitle>
             <Styled.SubTitleText isSaved={isSaved}>{dateInfoText}</Styled.SubTitleText>
-            <XButton onClick={() => {}} />
+            <XButton />
           </Styled.SubTitle>
         </Styled.MainBox>
         <Styled.OptionBox>

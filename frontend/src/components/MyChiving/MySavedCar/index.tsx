@@ -1,4 +1,5 @@
-import { Fragment, MouseEvent, useState } from 'react';
+import { Fragment, MouseEvent, useRef } from 'react';
+
 import { useNavigate } from 'react-router-dom';
 
 import { ModalType } from '@/constants';
@@ -52,12 +53,6 @@ const tempInitialData = {
   ],
 };
 
-interface Props {
-  type: ModalType;
-  contents?: string;
-  onClick: () => void;
-}
-
 interface ClickEventDataProps {
   deleteText: string;
   moveText: string;
@@ -71,7 +66,7 @@ export function MySavedCar() {
   const { data: savedData } = useFetch<MyChivingDataProps>({ defaultValue: savedInitialData, url: '/mychiving' });
   const allData = [...tempData.myarchivings, ...savedData.myarchivings];
 
-  const [modalInfo, setModalInfo] = useState<Props>({
+  const modalInfo = useRef({
     type: ModalType.CLOSE,
     contents: '',
     onClick: () => {},
@@ -85,13 +80,13 @@ export function MySavedCar() {
   function handleDeleteList() {}
 
   function handleClick(data: ClickEventDataProps, event: MouseEvent<HTMLDivElement>) {
-    const el = event.target as Element;
-    const deleteButton = el.closest('button');
+    const element = event.target as Element;
+    const deleteButton = element.closest('button');
 
     if (deleteButton) {
-      setModalInfo({ type: ModalType.DELETE, contents: data.deleteText, onClick: handleDeleteList });
+      modalInfo.current = { type: ModalType.DELETE, contents: data.deleteText, onClick: handleDeleteList };
     } else {
-      setModalInfo({ type: ModalType.MOVE, contents: data.moveText, onClick: handleNavigate });
+      modalInfo.current = { type: ModalType.MOVE, contents: data.moveText, onClick: handleNavigate };
     }
     handleOpen();
   }
@@ -119,7 +114,11 @@ export function MySavedCar() {
         )}
       </Styled.Contianer>
       <ModalPortal>
-        <PopupModal type={modalInfo.type} onClick={modalInfo.onClick} contents={modalInfo.contents} />
+        <PopupModal
+          type={modalInfo.current.type}
+          onClick={modalInfo.current.onClick}
+          contents={modalInfo.current.contents}
+        />
       </ModalPortal>
     </Fragment>
   );
