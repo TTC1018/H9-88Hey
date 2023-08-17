@@ -6,6 +6,7 @@ import { checkIsOption } from '@/utils';
 import { MyCarProps } from '@/types/trim';
 import { NAVIGATION_PATH, TAG_CHIP_MAX_NUMBER } from '@/constants';
 
+import { ColorCircle } from '@/components/common/ColorCircle';
 import { EstimateModal } from './EstimateModal';
 
 import * as Styled from './style';
@@ -83,14 +84,14 @@ export function Footer({ myCarData, totalPrice, carCode, onSetLocalStorage }: Fo
         <Styled.ColorBox>
           <Styled.ColorTitle>외장</Styled.ColorTitle>
           <Styled.ColorName>
-            <Styled.ColorCircle imageUrl={outerColor.imageUrl || ''} />
+            <ColorCircle imageUrl={outerColor.imageUrl || ''} />
             <Styled.ColorNameText>{outerColor.title}</Styled.ColorNameText>
           </Styled.ColorName>
         </Styled.ColorBox>
         <Styled.ColorBox>
           <Styled.ColorTitle>내장</Styled.ColorTitle>
           <Styled.ColorName>
-            <Styled.ColorCircle imageUrl={innerColor.imageUrl || ''} />
+            <ColorCircle imageUrl={innerColor.imageUrl || ''} />
             <Styled.ColorNameText>{innerColor.title}</Styled.ColorNameText>
           </Styled.ColorName>
         </Styled.ColorBox>
