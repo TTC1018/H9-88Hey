@@ -1,14 +1,19 @@
 package softeer.h9.hey.auth.domain;
 
-import lombok.Builder;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Getter
-@Builder
-@RequiredArgsConstructor
+@Setter
+@NoArgsConstructor
 public class User {
 	private Integer id;
-	private final String userId;
-	private final String password;
+	private String userId;
+	private String password;
+
+	public User(String userId, String password) {
+		this.userId = userId;
+		this.password = password;
+	}
 }
