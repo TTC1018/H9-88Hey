@@ -16,7 +16,7 @@ import com.softeer.mycarchiving.ui.myarchive.myArchivingScreen
 fun HyundaiNavHost(
     modifier: Modifier = Modifier,
     appState: HyundaiAppState,
-    startDestination: String = MainDestination.ARCHIVING.route,
+    startDestination: String = MainDestination.LOGIN.route,
 ) {
     val navController = appState.navController
 
