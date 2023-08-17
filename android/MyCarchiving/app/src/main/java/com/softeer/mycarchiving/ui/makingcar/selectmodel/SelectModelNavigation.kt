@@ -22,7 +22,7 @@ fun NavGraphBuilder.selectModelScreen(
         route = MakingCarDestinations.SELECT_MODEL.route,
         enterTransition = { slideInHorizontally(initialOffsetX = { it }) },
         exitTransition = { slideOutHorizontally(targetOffsetX = { -it }) },
-        popEnterTransition = { slideInHorizontally(initialOffsetX = { 0 }) },
+        popEnterTransition = { slideInHorizontally(initialOffsetX = { -it }) },
         popExitTransition = { slideOutHorizontally(targetOffsetX = { it }) }
     ) {
         BackHandler {

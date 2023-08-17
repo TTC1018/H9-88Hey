@@ -23,7 +23,7 @@ fun NavGraphBuilder.selectTrimScreen(
         route = MakingCarDestinations.SELECT_TRIM.route,
         enterTransition = { slideInHorizontally(initialOffsetX = { it }) },
         exitTransition = { slideOutHorizontally(targetOffsetX = { -it }) },
-        popEnterTransition = { slideInHorizontally(initialOffsetX = { 0 }) },
+        popEnterTransition = { slideInHorizontally(initialOffsetX = { -it }) },
         popExitTransition = { slideOutHorizontally(targetOffsetX = { it }) }
     ) {
         BackHandler {

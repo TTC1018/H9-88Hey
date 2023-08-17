@@ -23,7 +23,7 @@ fun NavGraphBuilder.selectColorScreen(
         route = MakingCarDestinations.SELECT_COLOR.route,
         enterTransition = { slideInHorizontally(initialOffsetX = { it }) },
         exitTransition = { slideOutHorizontally(targetOffsetX = { -it }) },
-        popEnterTransition = { slideInHorizontally(initialOffsetX = { 0 }) },
+        popEnterTransition = { slideInHorizontally(initialOffsetX = { -it }) },
         popExitTransition = { slideOutHorizontally(targetOffsetX = { it }) }
     ) {
         BackHandler {
