@@ -36,27 +36,27 @@ export function WheelDrive() {
   const { name, additionalPrice, imageUrl } = wheelDrives[selectedIndex];
 
   const {
-    handleTrim,
+    handleTrimOption,
     myCar: { wheelDrive },
   } = useOutletContext<MyCarLayoutContextProps>();
 
-  function handleCardClick(index: number, additionalPrice: number, id: number) {
+  function handleCardClick(name: string, additionalPrice: number, id: number, index: number) {
     return () => {
       handleSetIndex(index)();
-      handleTrim({ key: 'wheelDrive', option: wheelDrives[index].name, price: additionalPrice, id: id });
+      handleTrimOption({ key: 'wheelDrive', name, additionalPrice, id });
     };
   }
 
   useEffect(() => {
-    if (wheelDrive.title === '') {
+    if (wheelDrive.name === '') {
       const { name, additionalPrice, id } = wheelDrives[0];
 
-      handleTrim({ key: 'wheelDrive', option: name, price: additionalPrice, id });
+      handleTrimOption({ key: 'wheelDrive', name, additionalPrice, id });
 
       return;
     }
 
-    const index = wheelDrives.findIndex(({ name }) => name === wheelDrive.title);
+    const index = wheelDrives.findIndex(({ name }) => name === wheelDrive.name);
     index !== -1 && handleSetIndex(index)();
   }, [wheelDrives]);
 
@@ -69,7 +69,7 @@ export function WheelDrive() {
         </Styled.Box>
         <Styled.Box>
           {wheelDrives.map(({ name, additionalPrice, description, id }, index) => (
-            <Styled.Enclosure key={id} onClick={handleCardClick(index, additionalPrice, id)}>
+            <Styled.Enclosure key={id} onClick={handleCardClick(name, additionalPrice, id, index)}>
               <TrimCard
                 isActive={index === selectedIndex}
                 title={name}

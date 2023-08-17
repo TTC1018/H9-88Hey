@@ -3,7 +3,13 @@ import { useEffect, useRef, useState } from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
 
 import { getLocalStorage } from '@/utils';
-import { MyCarProps } from '@/types/trim';
+import {
+  ExteriorColorDataProps,
+  HandleTrimOptionProps,
+  InteriorColorDataProps,
+  MyCarProps,
+  TrimBaseProps,
+} from '@/types/trim';
 import { OptionContextProps } from '@/types/option';
 
 import { useCountPrice } from '@/hooks/useCountPrice';
@@ -15,12 +21,12 @@ import * as Styled from './style';
 
 const DEFAULT_STATE: MyCarProps = {
   carType: { krName: '펠리세이드', enName: 'Palisade' },
-  trim: { title: '', price: 0, id: 0 },
-  engine: { title: '', price: 0, id: 0 },
-  bodyType: { title: '', price: 0, id: 0 },
-  wheelDrive: { title: '', price: 0, id: 0 },
-  outerColor: { title: '', imageUrl: '/src/assets/icons/ellipse_123.png', price: 0 },
-  innerColor: { title: '', imageUrl: '/src/assets/icons/ellipse_567.svg', id: 1 },
+  trim: { name: '', price: 0, id: 0 },
+  engine: { name: '', additionalPrice: 0, id: 0 },
+  bodyType: { name: '', additionalPrice: 0, id: 0 },
+  wheelDrive: { name: '', additionalPrice: 0, id: 0 },
+  exteriorColor: { name: '', colorImageUrl: '/src/assets/icons/ellipse_123.png', additionalPrice: 0 },
+  interiorColor: { name: '', colorImageUrl: '/src/assets/icons/ellipse_567.svg', id: 1 },
   options: [],
   carImageUrl: 'https://www.hyundai.com/contents/vr360/LX06/exterior/WC9/001.png', // 임시 mock data
 };
@@ -32,10 +38,11 @@ export function MyCarLayout() {
 
   const [myCar, setMyCar] = useState<MyCarProps>(localStorageData === null ? DEFAULT_STATE : localStorageData);
 
-  const myCarKeysWithPrice = ['trim', 'engine', 'bodyType', 'wheelDrive', 'outerColor'];
+  const myCarKeysWithPrice = ['engine', 'bodyType', 'wheelDrive', 'exteriorColor'];
 
   const calclPrice =
-    myCarKeysWithPrice.reduce((acc, cur) => acc + myCar[cur].price, 0) +
+    myCar.trim.price +
+    myCarKeysWithPrice.reduce((acc, cur) => acc + myCar[cur].additionalPrice, 0) +
     myCar.options.reduce((acc, cur) => acc + cur.price, 0);
 
   const prevPrice = useRef(calclPrice);
@@ -47,20 +54,24 @@ export function MyCarLayout() {
 
   prevPrice.current = totalPrice;
 
-  function handleTrim({ key, option, price, id }: { key: string; option: string; price: number; id: number }) {
-    setMyCar(prev => ({ ...prev, [key]: { title: option, price, id } }));
+  function handleTrim(props: TrimBaseProps) {
+    setMyCar(prev => ({ ...prev, trim: props }));
   }
 
-  function handleOuterColor({ color, colorImage, price }: { color: string; colorImage: string; price: number }) {
-    setMyCar(prev => ({ ...prev, outerColor: { title: color, imageUrl: colorImage, price } }));
+  function handleTrimOption({ key, ...props }: HandleTrimOptionProps) {
+    setMyCar(prev => ({ ...prev, [key]: props }));
   }
 
-  function handleInnerColor({ color, colorImage, id }: { color: string; colorImage: string; id: number }) {
-    setMyCar(prev => ({ ...prev, innerColor: { title: color, imageUrl: colorImage, id } }));
+  function handleExteriorColor(props: ExteriorColorDataProps) {
+    setMyCar(prev => ({ ...prev, exteriorColor: props }));
   }
 
-  function addOption({ name, price, imageUrl, subOptions }: OptionContextProps) {
-    setMyCar(prev => ({ ...prev, options: [...prev.options, { name, price, imageUrl, subOptions }] }));
+  function handleInteriorColor(props: InteriorColorDataProps) {
+    setMyCar(prev => ({ ...prev, interiorColor: props }));
+  }
+
+  function addOption(props: OptionContextProps) {
+    setMyCar(prev => ({ ...prev, options: [...prev.options, props] }));
   }
 
   function handleCarImageUrl(carImageUrl: string) {
@@ -96,8 +107,9 @@ export function MyCarLayout() {
             carCode,
             totalPrice,
             handleTrim,
-            handleOuterColor,
-            handleInnerColor,
+            handleTrimOption,
+            handleExteriorColor,
+            handleInteriorColor,
             handleCarImageUrl,
             addOption,
             removeOption,

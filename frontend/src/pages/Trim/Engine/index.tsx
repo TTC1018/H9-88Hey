@@ -38,27 +38,27 @@ export function Engine() {
   const { imageUrl, additionalPrice, name } = engines[selectedIndex];
 
   const {
-    handleTrim,
+    handleTrimOption,
     myCar: { engine },
   } = useOutletContext<MyCarLayoutContextProps>();
 
-  function handleCardClick(index: number, extraCharge: number, id: number) {
+  function handleCardClick(additionalPrice: number, id: number, name: string, index: number) {
     return () => {
       handleSetIndex(index)();
-      handleTrim({ key: 'engine', option: engines[index].name, price: extraCharge, id: id });
+      handleTrimOption({ key: 'engine', name, additionalPrice, id });
     };
   }
 
   useEffect(() => {
-    if (engine.title === '') {
+    if (engine.name === '') {
       const { name, additionalPrice, id } = engines[0];
 
-      handleTrim({ key: 'engine', option: name, price: additionalPrice, id });
+      handleTrimOption({ key: 'engine', name, additionalPrice, id });
 
       return;
     }
 
-    const index = engines.findIndex(({ name }) => name === engine.title);
+    const index = engines.findIndex(({ name }) => name === engine.name);
     index !== -1 && handleSetIndex(index)();
   }, [engines]);
 
@@ -71,7 +71,7 @@ export function Engine() {
         </Styled.Box>
         <Styled.CardBox>
           {engines.map(({ name, additionalPrice, description, maximumPower, maximumTorque, id }, index) => (
-            <Styled.Enclosure key={id} onClick={handleCardClick(index, additionalPrice, id)}>
+            <Styled.Enclosure key={id} onClick={handleCardClick(additionalPrice, id, name, index)}>
               <TrimCard
                 isActive={index === selectedIndex}
                 title={name}

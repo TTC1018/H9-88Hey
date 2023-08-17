@@ -38,11 +38,11 @@ const initialData = {
 };
 export function Color() {
   const {
-    handleOuterColor,
-    handleInnerColor,
+    handleExteriorColor,
+    handleInteriorColor,
     handleCarImageUrl,
     carCode,
-    myCar: { trim, engine, wheelDrive, bodyType, outerColor, innerColor },
+    myCar: { trim, engine, wheelDrive, bodyType, exteriorColor, interiorColor },
   } = useOutletContext<MyCarLayoutContextProps>();
 
   const { data } = useFetch<ColorDataProps>({ defaultValue: initialData, url: '/car/color?trim_id=1' });
@@ -73,39 +73,39 @@ export function Color() {
   } = availableInnerColorList[selectedInnerIndex];
 
   function updateOuterColor(index: number) {
-    const selectedExteriorColor = data.exteriorColors[index];
+    const { name, colorImageUrl, additionalPrice, carImagePath } = data.exteriorColors[index];
 
-    handleOuterColor({
-      color: selectedExteriorColor.name,
-      colorImage: selectedExteriorColor.colorImageUrl,
-      price: selectedExteriorColor.additionalPrice,
+    handleExteriorColor({
+      name,
+      colorImageUrl,
+      additionalPrice,
     });
-    handleCarImageUrl(`${selectedExteriorColor.carImagePath}001.png`);
+    handleCarImageUrl(`${carImagePath}001.png`);
   }
 
   function updateInnerColor(list: InteriorColorsProps[], index: number) {
-    const selectedInteriorColor = list[index];
+    const { name, colorImageUrl, id } = list[index];
 
-    handleInnerColor({
-      color: selectedInteriorColor.name,
-      colorImage: selectedInteriorColor.colorImageUrl,
-      id: selectedInteriorColor.id,
+    handleInteriorColor({
+      name,
+      colorImageUrl,
+      id,
     });
   }
 
   useEffect(() => {
-    const outerIndex = data.exteriorColors.findIndex(color => color.name === outerColor.title);
+    const outerIndex = data.exteriorColors.findIndex(color => color.name === exteriorColor.name);
     let innerIndex = -1;
 
     if (outerIndex !== -1) {
       innerIndex = data.exteriorColors[outerIndex].availableInteriorColors.findIndex(
-        colorId => colorId === innerColor.id
+        colorId => colorId === interiorColor.id
       );
 
       handleSetExternalIndex(outerIndex)();
       innerIndex !== -1 && handleSetInnerIndex(innerIndex)();
     }
-    if (outerColor.title === '') {
+    if (exteriorColor.name === '') {
       updateOuterColor(0);
       updateInnerColor(availableInnerColorList, 0);
     }

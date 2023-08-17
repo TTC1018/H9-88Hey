@@ -33,23 +33,23 @@ export function Trim() {
     myCar: { trim },
   } = useOutletContext<MyCarLayoutContextProps>();
 
-  function handleCardClick(index: number, price: number, id: number) {
+  function handleCardClick(name: string, price: number, id: number, index: number) {
     return () => {
       handleSetIndex(index)();
-      handleTrim({ key: 'trim', option: trims[index].name, price: price, id: id });
+      handleTrim({ name, price, id });
     };
   }
 
   useEffect(() => {
-    if (trim.title === '') {
+    if (trim.name === '') {
       const { name, price, id } = trims[0];
 
-      handleTrim({ key: 'trim', option: name, price, id });
+      handleTrim({ name, price, id });
 
       return;
     }
 
-    const index = trims.findIndex(({ name }) => name === trim.title);
+    const index = trims.findIndex(({ name }) => name === trim.name);
     index !== -1 && handleSetIndex(index)();
   }, [trims]);
 
@@ -58,7 +58,7 @@ export function Trim() {
       <TrimCarImageBox />
       <Styled.Wrapper>
         {trims.map(({ id, name, price, trimFeatures }, index) => (
-          <Styled.Box key={id} onClick={handleCardClick(index, price, id)}>
+          <Styled.Box key={id} onClick={handleCardClick(name, price, id, index)}>
             <SelectOptionCard isActive={index === selectedIndex} name={name} price={price} features={trimFeatures} />
           </Styled.Box>
         ))}

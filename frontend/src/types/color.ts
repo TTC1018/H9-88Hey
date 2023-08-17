@@ -1,4 +1,4 @@
-export interface ExterierColorsProps {
+export interface ExteriorColorsProps {
   id: number;
   name: string;
   carImagePath: string;
@@ -17,6 +17,6 @@ export interface InteriorColorsProps {
 }
 
 export interface ColorDataProps {
-  exteriorColors: ExterierColorsProps[];
+  exteriorColors: ExteriorColorsProps[];
   interiorColors: InteriorColorsProps[];
 }
