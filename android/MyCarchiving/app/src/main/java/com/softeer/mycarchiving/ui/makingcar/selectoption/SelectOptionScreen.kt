@@ -151,6 +151,7 @@ fun SelectOptionScreen(
             }
             Spacer(modifier = Modifier.height(13.dp))
             LazyRow(
+                modifier = Modifier.padding(end = 16.dp),
                 horizontalArrangement = Arrangement.spacedBy(6.dp)
             ) {
                 itemsIndexed(
