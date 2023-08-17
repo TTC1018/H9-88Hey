@@ -7,25 +7,25 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import softeer.h9.hey.dto.archiving.EngineDto;
+import softeer.h9.hey.dto.archiving.WheelDriveDto;
 
 @SpringBootTest
-@DisplayName("아카이빙 Engine Repository 테스트")
-class ArchivingEngineRepositoryTest {
+@DisplayName("아카이빙 WheelDrive Repository 테스트")
+class ArchivingWheelDriveRepositoryTest {
 
 	@Autowired
-	private ArchivingEngineRepository repository;
+	private ArchivingWheelDriveRepository repository;
 
-	@DisplayName("아카이빙 car code기반으로 Engine을 조회한다.")
+	@DisplayName("아카이빙 car code기반으로 WheelDrive을 조회한다.")
 	@Test
 	void findByCarCode() {
 		String carCode = "LXJJ7MCT5";
 
-		EngineDto dto = repository.findByCarCode(carCode);
+		WheelDriveDto dto = repository.findByCarCode(carCode);
 
 		assertAll(
 			() -> assertEquals(1, dto.getId()),
-			() -> assertEquals("디젤 2.2", dto.getName()),
+			() -> assertEquals("2WD", dto.getName()),
 			() -> assertEquals(0, dto.getAdditionalPrice())
 		);
 	}
