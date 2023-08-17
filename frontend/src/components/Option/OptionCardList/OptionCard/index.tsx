@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef, MouseEvent, WheelEvent } from 'react';
 
-import { useOutletContext } from 'react-router-dom';
+import { useOutletContext, useLocation } from 'react-router-dom';
 
 import { OptionContextProviderProps } from '@/types/option';
 
@@ -40,6 +40,8 @@ export function OptionCard({
 
   const childRef = useRef<HTMLUListElement | null>(null);
 
+  const { pathname } = useLocation();
+
   function handleClickButton(isBlur: boolean) {
     if (isBlur) {
       return;
@@ -51,7 +53,7 @@ export function OptionCard({
       removeOption(name);
       onChangeCount(-1, index);
     } else {
-      addOption({ id, name, price: additionalPrice, imageUrl, subOptions: subOptionNames });
+      addOption({ id, name, price: additionalPrice, imageUrl, subOptions: subOptionNames, path: pathname });
       onChangeCount(1, index);
     }
   }

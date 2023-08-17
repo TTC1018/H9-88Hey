@@ -62,8 +62,8 @@ export function MyCarLayout() {
     setMyCar(prev => ({ ...prev, innerColor: { title: color, imageUrl: colorImage, id } }));
   }
 
-  function addOption({ id, name, price, imageUrl, subOptions }: OptionContextProps) {
-    setMyCar(prev => ({ ...prev, options: [...prev.options, { id, name, price, imageUrl, subOptions }] }));
+  function addOption({ id, name, price, imageUrl, subOptions, path }: OptionContextProps) {
+    setMyCar(prev => ({ ...prev, options: [...prev.options, { id, name, price, imageUrl, subOptions, path }] }));
   }
 
   function handleCarImageUrl(carImageUrl: string) {
