@@ -18,7 +18,6 @@ interface Props {
   subOptionNames: string[];
   isCardActive: boolean;
   onClickCard: (index: number, event: MouseEvent<HTMLDivElement>) => void;
-  onChangeCount: (step: number, index: number) => void;
 }
 
 export function OptionCard({
@@ -31,7 +30,6 @@ export function OptionCard({
   subOptionNames,
   isCardActive,
   onClickCard,
-  onChangeCount,
 }: Props) {
   const [isButtonActive, setIsButtonActive] = useState(false);
   const [isHover, setIsHover] = useState(false);
@@ -51,10 +49,8 @@ export function OptionCard({
 
     if (isButtonActive) {
       removeOption(name);
-      onChangeCount(-1, index);
     } else {
       addOption({ id, name, price: additionalPrice, imageUrl, subOptions: subOptionNames, path: pathname });
-      onChangeCount(1, index);
     }
   }
 

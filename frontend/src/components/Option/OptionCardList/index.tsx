@@ -1,8 +1,9 @@
 import { useState, useEffect, MouseEvent } from 'react';
 
-import { useLocation } from 'react-router-dom';
+import { useLocation, useOutletContext } from 'react-router-dom';
 
 import { OptionCardDataProps } from '@/types/option';
+import { MyCarLayoutContextProps } from '@/types/trim';
 import {
   isIndexLargeThanZero,
   isIndexSmallThanMaxIndex,
@@ -27,21 +28,24 @@ interface Props {
 
 export function OptionCardList({ selectedIndex, cardListIndex, data, onClickCard, onClickArrowButton }: Props) {
   const [cardList, setCardList] = useState<OptionCardDataProps[]>([]);
-  const [selectedCount, setSelectedCount] = useState(0);
-  const [lastAddedCardIndex, setLastAddedCardIndex] = useState<number | null>(null);
 
   const { pathname } = useLocation();
 
-  function handleSelectedCount(step: number, index: number) {
-    setSelectedCount(prev => prev + step);
-    setLastAddedCardIndex(index);
+  const { myCar } = useOutletContext<MyCarLayoutContextProps>();
+
+  function checkIsNPerformanceSelected() {
+    return myCar.options.filter(option => option.path === '/option/n-performance').length === 1;
+  }
+
+  function getNPerformanceId() {
+    return myCar.options.find(option => option.path === '/option/n-performance')?.id;
   }
 
   function checkIsWheelSelected() {
-    return checkIsNPerformancePage(pathname) && selectedCount === 1;
+    return checkIsNPerformancePage(pathname) && checkIsNPerformanceSelected();
   }
 
-  function checkIsBlur(isAvailable: boolean | undefined, index: number) {
+  function checkIsBlur(isAvailable: boolean | undefined, id: string) {
     if (pathname === '/option') {
       return false;
     }
@@ -49,7 +53,7 @@ export function OptionCardList({ selectedIndex, cardListIndex, data, onClickCard
     if (checkIsHGenuineAccessoriesPage(pathname)) {
       return !isAvailable;
     } else {
-      return checkIsWheelSelected() && index !== lastAddedCardIndex;
+      return checkIsWheelSelected() && id !== getNPerformanceId();
     }
   }
 
@@ -70,14 +74,14 @@ export function OptionCardList({ selectedIndex, cardListIndex, data, onClickCard
         onClick={() => onClickArrowButton(cardListIndex - 1, data.length)}
         isShow={isIndexLargeThanZero(cardListIndex)}
       />
-      {cardList.map(({ isAvailable, index, ...props }) => (
+      {cardList.map(({ isAvailable, index, id, ...props }) => (
         <OptionCard
-          isBlur={checkIsBlur(isAvailable, index)}
+          isBlur={checkIsBlur(isAvailable, id)}
           index={index}
           isCardActive={index === selectedIndex}
           onClickCard={onClickCard}
-          onChangeCount={handleSelectedCount}
           key={index}
+          id={id}
           {...props}
         />
       ))}
