@@ -1,6 +1,6 @@
 package softeer.h9.hey.domain.archiving;
 
-import java.sql.Date;
+import java.time.LocalDate;
 
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -15,7 +15,7 @@ import lombok.ToString;
 public class Archiving {
 	private Long id;
 	private Boolean isPurchase;
-	private Date createdAt;
+	private LocalDate createdAt;
 	private String review;
 	public String carNormalTypesId;
 }
