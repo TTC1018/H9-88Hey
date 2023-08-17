@@ -17,7 +17,7 @@ class AuthServiceTest {
 	void joinTest() {
 		JoinRequest joinRequest = new JoinRequest("userId", "password");
 
-		JoinResponse joinResponse = authService.join(joinRequest);
+		TokenResponse tokenResponse = authService.join(joinRequest);
 
 		Assertions.assertThat(tokenResponse.getAccessToken).isNotNull();
 		Assertions.assertThat(tokenResponse.getRefreshToken).isNotNull();
