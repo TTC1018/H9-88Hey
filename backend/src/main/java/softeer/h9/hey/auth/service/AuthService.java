@@ -3,6 +3,7 @@ package softeer.h9.hey.auth.service;
 import java.util.Optional;
 
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
 import softeer.h9.hey.auth.domain.User;
@@ -10,9 +11,11 @@ import softeer.h9.hey.auth.dto.request.JoinRequest;
 import softeer.h9.hey.auth.dto.request.LoginRequest;
 import softeer.h9.hey.auth.dto.response.TokenResponse;
 import softeer.h9.hey.auth.exception.JoinException;
+import softeer.h9.hey.auth.exception.LoginException;
 import softeer.h9.hey.auth.repository.UserRepository;
 
 @Component
+@Transactional
 @RequiredArgsConstructor
 public class AuthService {
 
@@ -24,12 +27,7 @@ public class AuthService {
 		validateUniqueUserId(user.getUserId());
 
 		user = userRepository.save(user);
-		String userPk = String.valueOf(user.getId());
-
-		String accessToken = jwtTokenProvider.generateAccessToken(userPk);
-		String refreshToken = jwtTokenProvider.generateRefreshToken(userPk);
-
-		return new TokenResponse(accessToken, refreshToken);
+		return getTokenResponse(user);
 	}
 
 	private User mapToUser(JoinRequest joinRequest) {
@@ -43,24 +41,36 @@ public class AuthService {
 		}
 	}
 
-	public TokenResponse login(LoginRequest joinRequest1) {
-		return null;
+	public TokenResponse login(LoginRequest loginRequest) {
+		String userId = loginRequest.getUserId();
+		String password = loginRequest.getPassword();
+
+		User user = validatedUser(userId);
+		checkPassword(password, user);
+
+		return getTokenResponse(user);
 	}
-	// 회원 가입 기능  --- Response OK
-	// 멤버 도메인 정의 -> O
-	// 멤버 가입 기능 ->
-	// userId 중복 확인 테스트
-	// 비밀번호 Secret 하게 암호화 하는 기능 BCy~~
 
-	// 로그인 기능 -> /auth/login
-	// User 정보 조회, 비밀번호 확인 테스트
+	private TokenResponse getTokenResponse(User user) {
+		String userPk = String.valueOf(user.getId());
 
-	// Access Token과 Refresh Token을 함께 전달.
-	// Access Token 발급 기능   END
-	// Refresh Token 발급 기능. END
+		String accessToken = jwtTokenProvider.generateAccessToken(userPk);
+		String refreshToken = jwtTokenProvider.generateRefreshToken(userPk);
 
-	// Access 토큰 재 발급 기능 (Refresh 토큰 필요) -> Access 토큰 재발급시 Refresh 토큰 재발급
-	//auth/access-token
+		return new TokenResponse(accessToken, refreshToken);
+	}
 
-	// 토큰을 DB에 저장
+	private static void checkPassword(String password, User user) {
+		if (!user.getPassword().equals(password)) {
+			throw new LoginException();
+		}
+	}
+
+	private User validatedUser(String userId) {
+		Optional<User> optionalUser = userRepository.findByUserId(userId);
+		if (optionalUser.isEmpty()) {
+			throw new LoginException();
+		}
+		return optionalUser.get();
+	}
 }
