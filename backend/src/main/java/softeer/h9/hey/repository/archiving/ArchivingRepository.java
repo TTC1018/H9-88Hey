@@ -9,13 +9,12 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
 
-import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import softeer.h9.hey.domain.archiving.Archiving;
 import softeer.h9.hey.dto.archiving.request.ArchivingRequest;
 
 @Repository
-@RequiredArgsConstructor(access = AccessLevel.PROTECTED)
+@RequiredArgsConstructor
 public class ArchivingRepository {
 
 	private final NamedParameterJdbcTemplate jdbcTemplate;

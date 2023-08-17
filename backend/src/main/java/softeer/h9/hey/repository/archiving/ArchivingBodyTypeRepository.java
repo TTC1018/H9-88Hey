@@ -6,12 +6,11 @@ import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import softeer.h9.hey.dto.archiving.BodyTypeDto;
 
 @Repository
-@RequiredArgsConstructor(access = AccessLevel.PROTECTED)
+@RequiredArgsConstructor
 public class ArchivingBodyTypeRepository {
 
 	private final NamedParameterJdbcTemplate jdbcTemplate;
