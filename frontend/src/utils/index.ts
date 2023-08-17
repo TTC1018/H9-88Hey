@@ -47,7 +47,7 @@ export function getLocalStorage(key: string) {
   return JSON.parse(localStorage.getItem(key)!);
 }
 
-export function checkIsOption(path: string) {
+export function checkIsOptionPage(path: string) {
   const splittedPath = path.split('/');
 
   return splittedPath[1] === 'option';

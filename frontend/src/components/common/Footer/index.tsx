@@ -2,7 +2,7 @@ import { MutableRefObject, useState } from 'react';
 
 import { useLocation, useNavigate } from 'react-router-dom';
 
-import { checkIsOption, checkIsHGenuineAccessoriesPage } from '@/utils';
+import { checkIsOptionPage, checkIsHGenuineAccessoriesPage } from '@/utils';
 import { MyCarProps } from '@/types/trim';
 import { NAVIGATION_PATH, TAG_CHIP_MAX_NUMBER } from '@/constants';
 
@@ -57,7 +57,7 @@ export function Footer({ myCarData, totalPrice, carCode, onSetLocalStorage }: Fo
       optionQuery = optionIds.reduce((acc, cur) => `${acc}&select_option=${cur}`, '');
     }
 
-    if (checkIsOption(path)) {
+    if (checkIsOptionPage(path)) {
       navigate({
         pathname: path,
         search: `${carCodeQuery}${optionQuery}`,
