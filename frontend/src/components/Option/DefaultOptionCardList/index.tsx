@@ -56,7 +56,6 @@ export function DefaultOptionCardList() {
     setCardListIndex(0);
   }
 
-  // TODO: 커스텀 훅으로 빼기
   function handleChangeCardListIndex(index: number, length: number) {
     if (!isValidIndex(index, Math.ceil(length / OPTION_CARD_LIST_LENGTH) - 1)) {
       return;
@@ -73,7 +72,6 @@ export function DefaultOptionCardList() {
     setIsShowModal(false);
   }
 
-  // TODO: 커스텀 훅으로 빼기
   useEffect(() => {
     const { defaultOptions } = data;
 
