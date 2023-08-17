@@ -218,7 +218,6 @@ fun ExtraOptionTitle(
         modifier = modifier
             .fillMaxWidth(),
         horizontalArrangement = Arrangement.spacedBy(8.dp),
-        verticalAlignment = Alignment.CenterVertically
     ) {
         if (isMultiple) {
             ProgressNumberCircle(
@@ -229,10 +228,11 @@ fun ExtraOptionTitle(
         }
         Row(
             modifier = Modifier
-                .weight(0.9f),
+                .weight(1f),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             Text(
+                modifier = Modifier.weight(1f),
                 style = bold18,
                 color = PrimaryBlue,
                 text = optionName
