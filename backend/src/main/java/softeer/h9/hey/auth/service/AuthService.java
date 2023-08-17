@@ -2,7 +2,7 @@ package softeer.h9.hey.auth.service;
 
 import java.util.Optional;
 
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
@@ -14,7 +14,7 @@ import softeer.h9.hey.auth.exception.JoinException;
 import softeer.h9.hey.auth.exception.LoginException;
 import softeer.h9.hey.auth.repository.UserRepository;
 
-@Component
+@Service
 @Transactional
 @RequiredArgsConstructor
 public class AuthService {
