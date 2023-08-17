@@ -1,7 +1,10 @@
 package softeer.h9.hey.auth.repository;
 
+import java.util.Map;
 import java.util.Optional;
 
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
@@ -37,6 +40,16 @@ public class UserRepositoryImpl implements UserRepository {
 
 	@Override
 	public Optional<User> findByUserId(String userId) {
-		return null;
+		String sql = "select * from `user` where user_id = :userId";
+
+		Map<String, Object> params = Map.of("userId", userId);
+
+		return namedParameterJdbcTemplate.query(sql, params, userRowMapper())
+			.stream()
+			.findAny();
+	}
+
+	private RowMapper<User> userRowMapper() {
+		return BeanPropertyRowMapper.newInstance(User.class);
 	}
 }
