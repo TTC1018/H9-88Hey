@@ -5,17 +5,19 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Setter
 @RequiredArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
+@ToString
 public class TrimDto {
 	private Integer id;
 	private String name;
-	private Integer additionalPrice;
+	private Integer price;
 
-	public static TrimDto of(final Integer id, final String name, final Integer additionalPrice) {
-		return new TrimDto(id, name, additionalPrice);
+	public static TrimDto of(final Integer id, final String name, final Integer price) {
+		return new TrimDto(id, name, price);
 	}
 }
