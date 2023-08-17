@@ -42,12 +42,6 @@ export function Footer({ myCarData, totalPrice, carCode, onSetLocalStorage, clea
   const pathKey = pathname.endsWith('/') ? pathname.slice(0, -1) : pathname;
 
   function handleNavigate(path: string) {
-    const selectOptions = options.map(({ id, path }) => ({ id, path })).filter(({ path }) => path === '/option');
-    const globalOptions: OptionContextProps[] = JSON.parse(getLocalStorage('myCar')).options;
-    const prevSelectOptions = globalOptions
-      .map(({ id, path }) => ({ id, path }))
-      .filter(option => option.path === '/option');
-
     if (path === '') {
       return;
     }
@@ -64,6 +58,12 @@ export function Footer({ myCarData, totalPrice, carCode, onSetLocalStorage, clea
 
         optionQuery += `&option_id=${id}`;
       });
+
+      const selectOptions = options.map(({ id, path }) => ({ id, path })).filter(({ path }) => path === '/option');
+      const globalOptions: OptionContextProps[] = JSON.parse(getLocalStorage('myCar')).options;
+      const prevSelectOptions = globalOptions
+        .map(({ id, path }) => ({ id, path }))
+        .filter(option => option.path === '/option');
 
       if (JSON.stringify(selectOptions) !== JSON.stringify(prevSelectOptions)) {
         clearHGenuineAccessories();
