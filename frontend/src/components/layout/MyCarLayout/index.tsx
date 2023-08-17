@@ -74,6 +74,12 @@ export function MyCarLayout() {
     setMyCar(prev => ({ ...prev, options: prev.options.filter(options => options.name !== name) }));
   }
 
+  function clearHGenuineAccessories() {
+    const clearedOptions = myCar.options.filter(option => option.path !== '/option/h-genuine-accessories');
+
+    setMyCar(prev => ({ ...prev, options: clearedOptions }));
+  }
+
   function handleLocalStorage() {
     localStorage.setItem('myCar', JSON.stringify(myCar));
   }
@@ -108,10 +114,17 @@ export function MyCarLayout() {
             handleCarImageUrl,
             addOption,
             removeOption,
+            clearHGenuineAccessories,
           }}
         />
       </Styled.Wrapper>
-      <Footer myCarData={myCar} totalPrice={totalPrice} onSetLocalStorage={handleLocalStorage} carCode={carCode} />
+      <Footer
+        myCarData={myCar}
+        totalPrice={totalPrice}
+        onSetLocalStorage={handleLocalStorage}
+        carCode={carCode}
+        clearHGenuineAccessories={clearHGenuineAccessories}
+      />
     </Styled.Container>
   );
 }

@@ -2,8 +2,9 @@ import { MutableRefObject, useState } from 'react';
 
 import { useLocation, useNavigate } from 'react-router-dom';
 
-import { checkIsOptionPage, checkIsHGenuineAccessoriesPage } from '@/utils';
+import { checkIsOptionPage, checkIsHGenuineAccessoriesPage, getLocalStorage } from '@/utils';
 import { MyCarProps } from '@/types/trim';
+import { OptionContextProps } from '@/types/option';
 import { NAVIGATION_PATH, TAG_CHIP_MAX_NUMBER } from '@/constants';
 
 import { EstimateModal } from './EstimateModal';
@@ -15,9 +16,10 @@ interface FooterProps {
   totalPrice: number;
   carCode: MutableRefObject<string>;
   onSetLocalStorage: () => void;
+  clearHGenuineAccessories: () => void;
 }
 
-export function Footer({ myCarData, totalPrice, carCode, onSetLocalStorage }: FooterProps) {
+export function Footer({ myCarData, totalPrice, carCode, onSetLocalStorage, clearHGenuineAccessories }: FooterProps) {
   const { pathname } = useLocation();
   const navigate = useNavigate();
 
@@ -26,6 +28,7 @@ export function Footer({ myCarData, totalPrice, carCode, onSetLocalStorage }: Fo
   function handleOpenModal() {
     setIsOpen(true);
   }
+
   function handleCloseModal() {
     setIsOpen(false);
   }
@@ -39,23 +42,35 @@ export function Footer({ myCarData, totalPrice, carCode, onSetLocalStorage }: Fo
   const pathKey = pathname.endsWith('/') ? pathname.slice(0, -1) : pathname;
 
   function handleNavigate(path: string) {
+    const selectOptions = options.map(({ id, path }) => ({ id, path })).filter(({ path }) => path === '/option');
+    const globalOptions: OptionContextProps[] = JSON.parse(getLocalStorage('myCar')).options;
+    const prevSelectOptions = globalOptions
+      .map(({ id, path }) => ({ id, path }))
+      .filter(option => option.path === '/option');
+
     if (path === '') {
       return;
     }
 
-    onSetLocalStorage();
-
     const carCodeQuery = `?car_code=${carCode.current}`;
     let optionQuery = '';
 
-    /*
-     * 선택 옵션 페이지에서 옵션 카드 선택이 모두 끝난 후 쿼리 스트링을 한번만 생성한다.
-     * 따라서 여기서는 useRef를 사용하지 않는다.
-     */
     if (checkIsHGenuineAccessoriesPage(path)) {
-      const optionIds = options.map(({ id }) => id);
-      optionQuery = optionIds.reduce((acc, cur) => `${acc}&select_option=${cur}`, '');
+      const optionItems = options.map(({ id, path }) => ({ id, path }));
+      optionItems.forEach(({ id, path }) => {
+        if (path !== '/option') {
+          return;
+        }
+
+        optionQuery += `&option_id=${id}`;
+      });
+
+      if (JSON.stringify(selectOptions) !== JSON.stringify(prevSelectOptions)) {
+        clearHGenuineAccessories();
+      }
     }
+
+    onSetLocalStorage();
 
     if (checkIsOptionPage(path)) {
       localStorage.setItem('carCode', carCode.current);
@@ -73,6 +88,7 @@ export function Footer({ myCarData, totalPrice, carCode, onSetLocalStorage }: Fo
     const path = NAVIGATION_PATH[pathKey as keyof typeof NAVIGATION_PATH].next;
     handleNavigate(path);
   }
+
   function handlePrevNavigate() {
     const path = NAVIGATION_PATH[pathKey as keyof typeof NAVIGATION_PATH].prev;
     handleNavigate(path);

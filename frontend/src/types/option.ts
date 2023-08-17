@@ -44,6 +44,7 @@ export interface OptionContextProviderProps {
   myCar: MyCarProps;
   addOption: (option: OptionContextProps) => void;
   removeOption: (name: string) => void;
+  clearHGenuineAccessories: () => void;
 }
 
 export interface OptionContextProps {
