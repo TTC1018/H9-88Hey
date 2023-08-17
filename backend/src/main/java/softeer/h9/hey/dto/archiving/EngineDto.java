@@ -1,17 +1,21 @@
 package softeer.h9.hey.dto.archiving;
 
 import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Getter
-@RequiredArgsConstructor(access = AccessLevel.PROTECTED)
+@Setter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor(access = AccessLevel.PROTECTED)
 public class EngineDto {
-	private final Integer id;
-	private final String name;
-	private final String additionalPrice;
+	private Integer id;
+	private String name;
+	private Integer additionalPrice;
 
-	public static EngineDto of(final Integer id, final String name, final String additionalPrice) {
+	public static EngineDto of(final Integer id, final String name, final Integer additionalPrice) {
 		return new EngineDto(id, name, additionalPrice);
 	}
 }
