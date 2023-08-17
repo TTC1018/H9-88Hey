@@ -65,7 +65,10 @@ fun NavGraphBuilder.makingCarGraph(
                     navController = appState.makingCarNavController,
                     startDestination = MakingCarDestinations.SELECT_MODEL.route
                 ) {
-                    selectModelScreen(viewModelStoreOwner = makingCarViewModelOwner)
+                    selectModelScreen(
+                        viewModelStoreOwner = makingCarViewModelOwner,
+                        onBackProgress = appState::onBackProgress
+                    )
                     selectTrimScreen(
                         screenProgress = screenProgress,
                         viewModelStoreOwner = makingCarViewModelOwner,
