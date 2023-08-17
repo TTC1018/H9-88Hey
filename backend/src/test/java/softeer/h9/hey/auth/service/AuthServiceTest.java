@@ -61,9 +61,9 @@ class AuthServiceTest {
 		LoginRequest loginRequest = new LoginRequest(user.getUserId(), user.getPassword());
 
 		when(userRepository.findByUserId(userId)).thenReturn(Optional.of(user));
-		TokenResponse tokenResponse = authService.login(loginRequest);
 		when(tokenProvider.generateAccessToken(anyString())).thenReturn("accessToken");
 		when(tokenProvider.generateRefreshToken(anyString())).thenReturn("refreshToken");
+		TokenResponse tokenResponse = authService.login(loginRequest);
 
 		Assertions.assertThat(tokenResponse.getAccessToken()).isNotNull();
 		Assertions.assertThat(tokenResponse.getRefreshToken()).isNotNull();
