@@ -8,7 +8,7 @@ export default defineConfig({
   server: {
     proxy: {
       '/dev': {
-        target: 'http://ec2-3-38-162-121.ap-northeast-2.compute.amazonaws.com:8080',
+        target: 'http://api.88hey.site:8080',
         changeOrigin: true,
         rewrite: path => path.replace(/^\/dev/, ''),
       },
