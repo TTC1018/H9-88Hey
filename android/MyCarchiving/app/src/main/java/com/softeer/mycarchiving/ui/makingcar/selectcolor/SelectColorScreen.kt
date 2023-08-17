@@ -129,10 +129,7 @@ fun SelectColorScreen(
     }
 
     Column(
-        modifier = modifier
-            .fillMaxSize()
-            .padding(16.dp),
-        verticalArrangement = Arrangement.spacedBy(16.dp)
+        modifier = modifier.fillMaxSize()
     ) {
         if (selectedColor != null) {
             SelectColorTopArea(
@@ -142,32 +139,39 @@ fun SelectColorScreen(
                 onLeftClick = onLeftClick,
                 onRightClick = onRightClick,
             )
-            Row(
+            Column(
                 modifier = Modifier
-                    .fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
+                    .fillMaxSize()
+                    .padding(all = 16.dp),
+                verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
-                OptionHeadText(optionName = category)
-                OptionRegular14Text(optionName = selectedColor.optionName)
-            }
-            LazyRow {
-                itemsIndexed(colorOptions) { idx, item ->
-                    CarColorSelectItem(
-                        onItemClick = {
-                            onColorSelect(idx)
-                            onSaveColor(item, screenProgress, isInitial)
-                        },
-                        imageUrl = item.imageUrl,
-                        selected = selectedColor.imageUrl == item.imageUrl,
-                    )
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    OptionHeadText(optionName = category)
+                    OptionRegular14Text(optionName = selectedColor.optionName)
                 }
+                LazyRow {
+                    itemsIndexed(colorOptions) { idx, item ->
+                        CarColorSelectItem(
+                            onItemClick = {
+                                onColorSelect(idx)
+                                onSaveColor(item, screenProgress, isInitial)
+                            },
+                            imageUrl = item.imageUrl,
+                            selected = selectedColor.imageUrl == item.imageUrl,
+                        )
+                    }
+                }
+                OptionInfoDivider(thickness = 4.dp, color = HyundaiLightSand)
+                OptionSelectedInfo(
+                    optionName = selectedColor.optionName,
+                    optionTags = selectedColor.tags
+                )
             }
-            OptionInfoDivider(thickness = 4.dp, color = HyundaiLightSand)
-            OptionSelectedInfo(
-                optionName = selectedColor.optionName,
-                optionTags = selectedColor.tags
-            )
         }
         AnimatedVisibility(visible = selectedColor == null) {
             Text(

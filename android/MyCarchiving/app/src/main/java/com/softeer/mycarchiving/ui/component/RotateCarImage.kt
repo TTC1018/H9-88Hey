@@ -1,6 +1,7 @@
 package com.softeer.mycarchiving.ui.component
 
-import android.util.Log
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
@@ -9,20 +10,31 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.size
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.ImageLoader
 import coil.compose.AsyncImage
 import coil.memory.MemoryCache
 import coil.request.ImageRequest
+import com.softeer.mycarchiving.R
+import com.softeer.mycarchiving.ui.theme.DarkGray
+import com.softeer.mycarchiving.ui.theme.White
+import com.softeer.mycarchiving.ui.theme.medium12
 import kotlinx.coroutines.launch
 
 private val TAG = "RotateCarImage"
@@ -75,11 +87,38 @@ fun RotateCarImage(
         }
     }
 
+    val colorStops = arrayOf(
+        0.4f to White,
+        1f to Color.Transparent
+    )
+
     Box(
         modifier = modifier
             .fillMaxWidth()
             .height(200.dp)
     ) {
+        Image(
+            modifier = Modifier
+                .align(Alignment.BottomCenter)
+                .offset(y = (-22).dp),
+            painter = painterResource(id = R.drawable.ic_rotate_footer),
+            contentDescription = null
+        )
+        Box(
+            modifier = Modifier
+                .align(Alignment.BottomCenter)
+                .size(50.dp)
+                .background(
+                    brush = Brush.radialGradient(colorStops = colorStops),
+                ),
+            contentAlignment = Alignment.Center
+        ) {
+            Text(
+                text = "360",
+                style = medium12,
+                color = DarkGray,
+            )
+        }
         AsyncImage(
             modifier = Modifier
                 .fillMaxSize(),

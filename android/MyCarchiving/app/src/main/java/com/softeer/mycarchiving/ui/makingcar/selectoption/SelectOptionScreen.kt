@@ -25,6 +25,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
@@ -50,6 +51,7 @@ import com.softeer.mycarchiving.ui.theme.DarkGray
 import com.softeer.mycarchiving.ui.theme.HyundaiLightSand
 import com.softeer.mycarchiving.ui.theme.White
 import com.softeer.mycarchiving.ui.theme.medium16
+import com.softeer.mycarchiving.ui.theme.roundCorner
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -149,8 +151,9 @@ fun SelectOptionScreen(
                     CarBasicItemButton(onClick = showBasicItems)
                 }
             }
-            Spacer(modifier = Modifier.height(13.dp))
+            Spacer(modifier = Modifier.height(16.dp))
             LazyRow(
+                modifier = Modifier.padding(end = 16.dp),
                 horizontalArrangement = Arrangement.spacedBy(6.dp)
             ) {
                 itemsIndexed(
@@ -169,27 +172,28 @@ fun SelectOptionScreen(
             }
         }
         Divider(thickness = 6.dp, color = HyundaiLightSand)
-        AsyncImage(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(220.dp),
-            model = ImageRequest.Builder(LocalContext.current)
-                .data(options.getOrNull(focusedIndex)?.imageUrl)
-                .crossfade(true)
-                .build(),
-            contentDescription = "",
-            contentScale = ContentScale.Crop
-        )
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 16.dp, vertical = 24.dp)
+                .padding(horizontal = 16.dp, vertical = 24.dp),
+            verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
             OptionSelectedInfo(
                 optionName = options.getOrNull(focusedIndex)?.name ?: "",
                 optionTags = options.getOrNull(focusedIndex)?.tags
             )
-            Spacer(modifier = Modifier.height(12.dp))
+            AsyncImage(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(220.dp)
+                    .clip(shape = roundCorner),
+                model = ImageRequest.Builder(LocalContext.current)
+                    .data(options.getOrNull(focusedIndex)?.imageUrl)
+                    .crossfade(true)
+                    .build(),
+                contentDescription = "",
+                contentScale = ContentScale.Crop
+            )
             options.getOrNull(focusedIndex)?.subOptions?.let {
                 if (it.size > 1) {
                     ExtraOptionCards(options = it)
