@@ -1,5 +1,6 @@
 package com.softeer.mycarchiving.ui.makingcar.selectcolor
 
+import android.util.Log
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Arrangement
@@ -26,7 +27,6 @@ import androidx.lifecycle.ViewModelStoreOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
-import com.softeer.mycarchiving.MainActivity
 import com.softeer.data.CarColorType
 import com.softeer.mycarchiving.model.makingcar.ColorOptionUiModel
 import com.softeer.mycarchiving.ui.component.CarColorSelectItem
@@ -126,9 +126,9 @@ fun SelectColorScreen(
     onSaveImageUrl: (String) -> Unit,
 ) {
     val selectedColor = colorOptions.getOrNull(selectedIndex)
-
-    LaunchedEffect(topImagePath) { // 내차만들기 완성에서 보여줄 URL
+    LaunchedEffect(topImagePath) {
         if (screenProgress == 0) {
+            // 내차만들기 완성에서 보여줄 URL
             onSaveImageUrl(topImagePath)
         }
     }
@@ -139,8 +139,7 @@ fun SelectColorScreen(
         label = ""
     ) {
         when {
-            it.isEmpty() -> LoadingScreen {}
-            else -> {
+            it.isNotEmpty() -> {
                 Column(
                     modifier = modifier
                         .fillMaxSize()
@@ -193,6 +192,8 @@ fun SelectColorScreen(
                     }
                 }
             }
+
+            else -> LoadingScreen {}
         }
     }
 }
