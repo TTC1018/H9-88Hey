@@ -2,6 +2,7 @@ package com.softeer.mycarchiving.ui.makingcar.selectoption
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.runtime.getValue
+import androidx.lifecycle.ViewModelStoreOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
@@ -14,14 +15,19 @@ fun NavController.navigateToSelectOption(navOptions: NavOptions? = null) {
     navigate(MakingCarDestinations.SELECT_OPTION.route, navOptions)
 }
 
-fun NavGraphBuilder.selectOptionScreen(appState: HyundaiAppState) {
+fun NavGraphBuilder.selectOptionScreen(
+    screenProgress: Int,
+    viewModelStoreOwner: ViewModelStoreOwner,
+    onBackProgress: () -> Unit,
+) {
     composable(route = MakingCarDestinations.SELECT_OPTION.route) {
-        val screenProgress by appState.currentProgressChildId.collectAsStateWithLifecycle()
-
         BackHandler {
-            appState.onBackProgress()
+            onBackProgress()
         }
 
-        SelectOptionRoute(screenProgress = screenProgress)
+        SelectOptionRoute(
+            screenProgress = screenProgress,
+            viewModelStoreOwner = viewModelStoreOwner
+        )
     }
 }

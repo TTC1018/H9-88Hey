@@ -19,7 +19,9 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.ViewModelStoreOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation.NavBackStackEntry
 import com.skydoves.landscapist.animation.crossfade.CrossfadePlugin
 import com.skydoves.landscapist.components.rememberImageComponent
 import com.skydoves.landscapist.glide.GlideImage
@@ -34,8 +36,9 @@ import com.softeer.mycarchiving.ui.theme.White
 @Composable
 fun SelectModelRoute(
     modifier: Modifier = Modifier,
+    viewModelOwner: ViewModelStoreOwner,
     viewModel: SelectModelViewModel = hiltViewModel(),
-    sharedViewModel: MakingCarViewModel = hiltViewModel(LocalContext.current as MainActivity)
+    sharedViewModel: MakingCarViewModel = hiltViewModel(viewModelOwner)
 ) {
     val carModels by viewModel.carModels.collectAsStateWithLifecycle()
     val carImages by viewModel.carImages.collectAsStateWithLifecycle()
@@ -93,7 +96,7 @@ fun SelectModelScreen(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween,
             ) {
-                for(i in carImages.indices) {
+                for (i in carImages.indices) {
                     CarImageSelectItem(
                         modifier = modifier,
                         onItemClick = { onCarImageClick(i) },
@@ -120,6 +123,19 @@ fun SelectModelScreen(
 
 @Preview
 @Composable
-fun PreviewSelectModelRoute() {
-    SelectModelRoute()
+fun PreviewSelectModelScreen() {
+    SelectModelScreen(
+        scrollState = rememberScrollState(),
+        carModels = listOf(
+            SelectModelUiModel(
+                name = "르블랑",
+                price = 40000000,
+                features = emptyList()
+            )
+        ),
+        carImages = emptyList(),
+        focusedImageIndex = 0,
+        onCarImageClick = {},
+        onModelSelect = {},
+    )
 }

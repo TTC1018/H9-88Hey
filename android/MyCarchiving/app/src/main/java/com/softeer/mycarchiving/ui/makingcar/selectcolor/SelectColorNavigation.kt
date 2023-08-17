@@ -2,6 +2,7 @@ package com.softeer.mycarchiving.ui.makingcar.selectcolor
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.runtime.getValue
+import androidx.lifecycle.ViewModelStoreOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
@@ -15,17 +16,18 @@ fun NavController.navigateToSelectColor(navOptions: NavOptions? = null) {
 }
 
 fun NavGraphBuilder.selectColorScreen(
-    appState: HyundaiAppState
+    screenProgress: Int,
+    viewModelStoreOwner: ViewModelStoreOwner,
+    onBackProgress: () -> Unit,
 ) {
     composable(route = MakingCarDestinations.SELECT_COLOR.route) {
-        val screenProgress by appState.currentProgressChildId.collectAsStateWithLifecycle()
-
         BackHandler {
-            appState.onBackProgress()
+            onBackProgress()
         }
 
         SelectColorRoute(
-            screenProgress = screenProgress
+            screenProgress = screenProgress,
+            viewModelStoreOwner = viewModelStoreOwner,
         )
     }
 }

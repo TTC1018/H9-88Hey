@@ -21,6 +21,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.ViewModelStoreOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
@@ -40,8 +41,9 @@ import com.softeer.mycarchiving.ui.theme.HyundaiLightSand
 fun SelectColorRoute(
     modifier: Modifier = Modifier,
     screenProgress: Int,
+    viewModelStoreOwner: ViewModelStoreOwner,
     selectColorViewModel: SelectColorViewModel = hiltViewModel(),
-    makingCarViewModel: MakingCarViewModel = hiltViewModel(LocalContext.current as MainActivity)
+    makingCarViewModel: MakingCarViewModel = hiltViewModel(viewModelStoreOwner)
 ) {
     val carImageUrls by selectColorViewModel.imageUrls.collectAsStateWithLifecycle()
     val interiorImageUrls by selectColorViewModel.interiorImageUrls.collectAsStateWithLifecycle()

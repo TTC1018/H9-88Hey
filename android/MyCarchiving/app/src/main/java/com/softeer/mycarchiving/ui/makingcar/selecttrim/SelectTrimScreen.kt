@@ -20,6 +20,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.ViewModelStoreOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.skydoves.landscapist.ImageOptions
 import com.skydoves.landscapist.animation.crossfade.CrossfadePlugin
@@ -36,8 +37,9 @@ import com.softeer.mycarchiving.ui.makingcar.MakingCarViewModel
 fun SelectTrimRoute(
     modifier: Modifier = Modifier,
     screenProgress: Int,
+    viewModelOwner: ViewModelStoreOwner,
     selectTrimViewModel: SelectTrimViewModel = hiltViewModel(),
-    makingCarViewModel: MakingCarViewModel = hiltViewModel(LocalContext.current as MainActivity),
+    makingCarViewModel: MakingCarViewModel = hiltViewModel(viewModelOwner),
 ) {
     val engines by selectTrimViewModel.engines.collectAsStateWithLifecycle()
     val bodyTypes by selectTrimViewModel.bodyTypes.collectAsStateWithLifecycle()

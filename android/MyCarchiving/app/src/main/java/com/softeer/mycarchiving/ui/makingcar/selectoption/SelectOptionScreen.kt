@@ -32,6 +32,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.ViewModelStoreOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
@@ -56,8 +57,9 @@ import com.softeer.mycarchiving.ui.theme.medium16
 fun SelectOptionRoute(
     modifier: Modifier = Modifier,
     screenProgress: Int,
+    viewModelStoreOwner: ViewModelStoreOwner,
     viewModel: SelectOptionViewModel = hiltViewModel(),
-    sharedViewModel: MakingCarViewModel = hiltViewModel(LocalContext.current as MainActivity)
+    sharedViewModel: MakingCarViewModel = hiltViewModel(viewModelStoreOwner)
 ) {
     val scrollState = rememberScrollState()
     val selectOptions by viewModel.selectOptions.collectAsStateWithLifecycle()

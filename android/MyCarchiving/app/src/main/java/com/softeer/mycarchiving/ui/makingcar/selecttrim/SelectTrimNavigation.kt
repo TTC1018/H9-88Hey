@@ -2,6 +2,7 @@ package com.softeer.mycarchiving.ui.makingcar.selecttrim
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.runtime.getValue
+import androidx.lifecycle.ViewModelStoreOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
@@ -15,17 +16,18 @@ fun NavController.navigateToSelectTrim(navOptions: NavOptions? = null) {
 }
 
 fun NavGraphBuilder.selectTrimScreen(
-    appState: HyundaiAppState
+    screenProgress: Int,
+    viewModelStoreOwner: ViewModelStoreOwner,
+    onBackProgress: () -> Unit
 ) {
     composable(route = MakingCarDestinations.SELECT_TRIM.route) {
-        val screenProgress by appState.currentProgressChildId.collectAsStateWithLifecycle()
-
         BackHandler {
-            appState.onBackProgress()
+            onBackProgress()
         }
 
         SelectTrimRoute(
             screenProgress = screenProgress,
+            viewModelOwner = viewModelStoreOwner,
         )
     }
 }

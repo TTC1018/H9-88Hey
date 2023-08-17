@@ -15,22 +15,8 @@ import com.softeer.mycarchiving.ui.component.HyundaiTopBar
 fun HyundaiApp(
     appState: HyundaiAppState = rememberHyundaiAppState(),
 ) {
-    Scaffold(
-        modifier = Modifier,
-        topBar = {
-            HyundaiTopBar(appState = appState)
-        },
-        bottomBar = {
-            HyundaiBottomBar(appState = appState)
-        }
-    ) { padding ->
-        Column(
-            Modifier
-                .fillMaxSize()
-                .padding(padding)
-        ) {
-            HyundaiNavHost(appState = appState)
-        }
-    }
-
+    HyundaiNavHost(
+        modifier = Modifier.fillMaxSize(),
+        appState = appState
+    )
 }
