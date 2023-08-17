@@ -44,7 +44,7 @@ export function hasJongSeong(word: string) {
 }
 
 export function getLocalStorage(key: string) {
-  return JSON.parse(localStorage.getItem(key)!);
+  return localStorage.getItem(key)!;
 }
 
 export function checkIsOptionPage(path: string) {

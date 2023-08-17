@@ -26,11 +26,14 @@ const DEFAULT_STATE: MyCarProps = {
 };
 export function MyCarLayout() {
   const { pathname } = useLocation();
+
+  const myCarData = JSON.parse(getLocalStorage('myCar'));
+  const carCodeData = getLocalStorage('carCode');
+
+  const [myCar, setMyCar] = useState<MyCarProps>(myCarData === null ? DEFAULT_STATE : myCarData);
+
   const carCode = useRef('');
-
-  const localStorageData = getLocalStorage('myCar');
-
-  const [myCar, setMyCar] = useState<MyCarProps>(localStorageData === null ? DEFAULT_STATE : localStorageData);
+  carCode.current = carCodeData === null ? '' : carCodeData;
 
   const myCarKeysWithPrice = ['trim', 'engine', 'bodyType', 'wheelDrive', 'outerColor'];
 
@@ -80,12 +83,12 @@ export function MyCarLayout() {
   }
 
   useEffect(() => {
-    const localStorageData = localStorage.getItem('myCar');
+    const myCarData = localStorage.getItem('myCar');
 
-    if (localStorageData === null) {
+    if (myCarData === null) {
       return;
     }
-    const savedOptions: MyCarProps = JSON.parse(localStorageData);
+    const savedOptions: MyCarProps = JSON.parse(myCarData);
     setMyCar(savedOptions);
   }, []);
 

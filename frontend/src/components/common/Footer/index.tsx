@@ -58,11 +58,11 @@ export function Footer({ myCarData, totalPrice, carCode, onSetLocalStorage }: Fo
     }
 
     if (checkIsOptionPage(path)) {
+      localStorage.setItem('carCode', carCode.current);
       navigate({
         pathname: path,
         search: `${carCodeQuery}${optionQuery}`,
       });
-
       return;
     }
 
