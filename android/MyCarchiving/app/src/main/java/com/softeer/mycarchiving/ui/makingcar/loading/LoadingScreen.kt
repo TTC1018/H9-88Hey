@@ -1,6 +1,5 @@
-package com.softeer.mycarchiving.ui.loading
+package com.softeer.mycarchiving.ui.makingcar.loading
 
-import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -12,24 +11,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.hilt.navigation.compose.hiltViewModel
 import coil.ImageLoader
 import coil.compose.rememberAsyncImagePainter
 import coil.decode.ImageDecoderDecoder
 import com.softeer.mycarchiving.R
-import com.softeer.mycarchiving.ui.makingcar.selectmodel.SelectModelViewModel
-
-@Composable
-internal fun LoadingRoute(
-    modifier: Modifier = Modifier,
-    onLoading: () -> Unit,
-    selectModelViewModel: SelectModelViewModel = hiltViewModel(),
-) {
-    LoadingScreen(
-        modifier = modifier,
-        onLoading = onLoading,
-    )
-}
 
 @Composable
 internal fun LoadingScreen(

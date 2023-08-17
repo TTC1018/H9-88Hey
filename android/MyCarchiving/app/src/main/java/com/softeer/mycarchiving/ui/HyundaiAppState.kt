@@ -22,11 +22,11 @@ import com.softeer.mycarchiving.navigation.MakingCarDestinations
 import com.softeer.mycarchiving.navigation.MakingCarDestinations.*
 import com.softeer.mycarchiving.ui.archiving.archivingdetail.navigateToArchivingDetail
 import com.softeer.mycarchiving.ui.archiving.navigateToArchive
-import com.softeer.mycarchiving.ui.loading.navigateToLoading
 import com.softeer.mycarchiving.ui.login.navigateToLogin
 import com.softeer.mycarchiving.ui.makingcar.complete.navigateToComplete
 import com.softeer.mycarchiving.ui.makingcar.navigateToMakingCar
 import com.softeer.mycarchiving.ui.makingcar.selectcolor.navigateToSelectColor
+import com.softeer.mycarchiving.ui.makingcar.selectmodel.navigateToSelectModel
 import com.softeer.mycarchiving.ui.makingcar.selectoption.navigateToSelectOption
 import com.softeer.mycarchiving.ui.makingcar.selecttrim.navigateToSelectTrim
 import com.softeer.mycarchiving.ui.myarchive.navigateToMyArchiving
@@ -116,7 +116,6 @@ class HyundaiAppState(
 
         when (mainDestination) {
             LOGIN -> navController.navigateToLogin(mainNavOptions)
-            LOADING -> navController.navigateToLoading(mainNavOptions)
             MAKING_CAR -> navController.navigateToMakingCar(mainNavOptions)
             ARCHIVING -> navController.navigateToArchive(mainNavOptions)
             MY_ARCHIVING -> navController.navigateToMyArchiving(mainNavOptions)
