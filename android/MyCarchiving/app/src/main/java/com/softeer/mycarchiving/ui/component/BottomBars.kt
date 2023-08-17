@@ -1,5 +1,6 @@
 package com.softeer.mycarchiving.ui.component
 
+import androidx.compose.animation.core.animateIntAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -27,11 +28,9 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.softeer.mycarchiving.R
-import com.softeer.mycarchiving.model.TrimOptionUiModel
 import com.softeer.mycarchiving.navigation.MainDestination
 import com.softeer.mycarchiving.ui.HyundaiAppState
 import com.softeer.mycarchiving.ui.makingcar.MakingCarViewModel
-import com.softeer.mycarchiving.ui.makingcar.selectoption.SelectOptionViewModel
 import com.softeer.mycarchiving.ui.rememberHyundaiAppState
 import com.softeer.mycarchiving.ui.theme.Black
 import com.softeer.mycarchiving.ui.theme.HyundaiLightSand
@@ -73,6 +72,8 @@ fun BottomBar(
     buttonArea: @Composable () -> Unit,
     onShowSummary: (() -> Unit)? = null,
 ) {
+    val animatedPrice by animateIntAsState(targetValue = totalPrice)
+
     Column(
         modifier = modifier
             .fillMaxWidth()
@@ -110,7 +111,7 @@ fun BottomBar(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    text = totalPrice.toPriceString(),
+                    text = animatedPrice.toPriceString(),
                     style = bold18
                 )
                 Spacer(modifier = modifier.width(3.dp))
@@ -138,6 +139,8 @@ fun MakeCarBottomBar(
     val totalPrice by viewModel.totalPrice.collectAsStateWithLifecycle()
     val showSummary by viewModel.showSummary.collectAsStateWithLifecycle()
     val trimOptions by viewModel.selectedTrim.collectAsStateWithLifecycle()
+    val colorOptions by viewModel.selectedColor.collectAsStateWithLifecycle()
+    val totalExtraOption by viewModel.totalExtraOptions.collectAsStateWithLifecycle()
 
     BottomBar(
         modifier = modifier,
@@ -173,7 +176,9 @@ fun MakeCarBottomBar(
         ) {
             SummaryBottomSheetContent(
                 totalPrice = totalPrice,
-                trimOptions = trimOptions
+                trimOptions = trimOptions,
+                colorOptions = colorOptions,
+                extraOptions = totalExtraOption
             )
         }
     }

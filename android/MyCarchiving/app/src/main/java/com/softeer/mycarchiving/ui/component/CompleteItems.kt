@@ -26,19 +26,20 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import coil.compose.AsyncImage
+import coil.request.ImageRequest
 import com.skydoves.landscapist.ImageOptions
 import com.skydoves.landscapist.glide.GlideImage
 import com.softeer.data.CarColorType
 import com.softeer.mycarchiving.R
-import com.softeer.mycarchiving.model.makingcar.ColorOptionSimpleUiModel
 import com.softeer.mycarchiving.model.makingcar.ColorOptionUiModel
-import com.softeer.mycarchiving.model.makingcar.CompleteOptionUiModel
 import com.softeer.mycarchiving.model.makingcar.SelectOptionUiModel
 import com.softeer.mycarchiving.model.makingcar.SubSelectOptionUiModel
 import com.softeer.mycarchiving.ui.theme.HyundaiLightSand
@@ -274,11 +275,15 @@ fun CompleteBanner(
                 )
             )
             OptionRegular10Text(text = stringResource(id = R.string.make_car_done_description))
-            GlideImage(
+            AsyncImage(
                 modifier = Modifier
                     .fillMaxWidth(),
-                imageModel = { imageUrl },
-                previewPlaceholder = R.drawable.ic_launcher_background
+                model = ImageRequest.Builder(LocalContext.current)
+                    .data(imageUrl)
+                    .crossfade(true)
+                    .build(),
+                contentDescription = "",
+                contentScale = ContentScale.FillWidth
             )
         }
     }

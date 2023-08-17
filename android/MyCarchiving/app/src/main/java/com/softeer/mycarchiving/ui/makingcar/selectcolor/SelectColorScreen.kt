@@ -35,7 +35,6 @@ import com.softeer.mycarchiving.ui.component.OptionSelectedInfo
 import com.softeer.mycarchiving.ui.component.RotateCarImage
 import com.softeer.mycarchiving.ui.makingcar.MakingCarViewModel
 import com.softeer.mycarchiving.ui.theme.HyundaiLightSand
-import kotlinx.coroutines.launch
 
 @Composable
 fun SelectColorRoute(
@@ -51,12 +50,35 @@ fun SelectColorRoute(
     val selectedIndex by selectColorViewModel.selectedIndex.collectAsStateWithLifecycle()
     val exteriors by selectColorViewModel.exteriors.collectAsStateWithLifecycle()
     val interiors by selectColorViewModel.interiors.collectAsStateWithLifecycle()
+    val selectedColor by makingCarViewModel.selectedColor.collectAsStateWithLifecycle()
 
-    LaunchedEffect(screenProgress) {
-        selectColorViewModel.changeSelectedColor(0) // 화면 변경 시 첫번째 색으로 자동 설정
+    LaunchedEffect(key1 = screenProgress, key2 = exteriors, key3 = interiors) {
+        val colorOptions = when (screenProgress) {
+            0 -> exteriors
+            1 -> interiors
+            else -> emptyList()
+        }
+
+        val isInitial = selectedColor.getOrNull(screenProgress) == null
+        if (isInitial) { // 화면 처음 진입 시 첫 색상 자동 선택 및 등록
+            selectColorViewModel.changeSelectedColor(0)
+            makingCarViewModel.updateSelectedColorOption(
+                colorOptions.firstOrNull(),
+                screenProgress,
+                isInitial
+            )
+        } else { // 이미 진입했던 화면이면 이전에 선택한 데이터 로드
+            colorOptions
+                .indexOfFirst { it.optionName == selectedColor.getOrNull(screenProgress)?.optionName }
+                .takeIf { index -> index >= 0 }
+                ?.let { savedIndex ->
+                    selectColorViewModel.changeSelectedColor(savedIndex)
+                }
+        }
+
+        selectColorViewModel.changeCategory(screenProgress)
     }
 
-    // TODO 내장색상 상단 이미지 URL 제대로 오는지 확인
     SelectColorScreen(
         modifier = modifier,
         screenProgress = screenProgress,
@@ -73,9 +95,12 @@ fun SelectColorRoute(
             1 -> interiors
             else -> emptyList()
         },
+        isInitial = selectedColor.getOrNull(screenProgress) == null,
         onLeftClick = { selectColorViewModel.changeTopImageIndex(false) },
         onRightClick = { selectColorViewModel.changeTopImageIndex(true) },
         onColorSelect = selectColorViewModel::changeSelectedColor,
+        onSaveColor = makingCarViewModel::updateSelectedColorOption,
+        onSaveImageUrl = makingCarViewModel::updateCarImageUrl
     )
 }
 
@@ -88,11 +113,20 @@ fun SelectColorScreen(
     category: String,
     selectedIndex: Int,
     colorOptions: List<ColorOptionUiModel>,
+    isInitial: Boolean,
     onLeftClick: () -> Unit,
     onRightClick: () -> Unit,
     onColorSelect: (Int) -> Unit,
+    onSaveColor: (ColorOptionUiModel, Int, Boolean) -> Unit,
+    onSaveImageUrl: (String) -> Unit,
 ) {
     val selectedColor = colorOptions.getOrNull(selectedIndex)
+
+    LaunchedEffect(topImagePath) { // 내차만들기 완성에서 보여줄 URL
+        if (screenProgress == 0) {
+            onSaveImageUrl(topImagePath)
+        }
+    }
 
     Column(
         modifier = modifier
@@ -120,7 +154,10 @@ fun SelectColorScreen(
             LazyRow {
                 itemsIndexed(colorOptions) { idx, item ->
                     CarColorSelectItem(
-                        onItemClick = { onColorSelect(idx) },
+                        onItemClick = {
+                            onColorSelect(idx)
+                            onSaveColor(item, screenProgress, isInitial)
+                        },
                         imageUrl = item.imageUrl,
                         selected = selectedColor.imageUrl == item.imageUrl,
                     )
@@ -134,7 +171,9 @@ fun SelectColorScreen(
         }
         AnimatedVisibility(visible = selectedColor == null) {
             Text(
-                modifier = Modifier.align(Alignment.CenterHorizontally),
+                modifier = Modifier
+                    .fillMaxSize()
+                    .align(Alignment.CenterHorizontally),
                 text = "네트워크 오류 발생",
                 textAlign = TextAlign.Center
             )
@@ -203,8 +242,11 @@ fun PreviewSelectColorScreen() {
                 ),
             )
         ),
+        isInitial = false,
         onLeftClick = {},
         onRightClick = {},
         onColorSelect = {},
+        onSaveColor = { _, _, _ -> },
+        onSaveImageUrl = {}
     )
 }

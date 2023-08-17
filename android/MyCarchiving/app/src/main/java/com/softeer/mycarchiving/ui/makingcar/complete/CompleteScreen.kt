@@ -9,12 +9,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.softeer.data.CarColorType
+import com.softeer.mycarchiving.MainActivity
 import com.softeer.mycarchiving.R
 import com.softeer.mycarchiving.model.makingcar.ColorOptionUiModel
 import com.softeer.mycarchiving.model.makingcar.SelectOptionUiModel
@@ -30,15 +32,15 @@ import com.softeer.mycarchiving.ui.theme.LightGray
 @Composable
 fun CompleteRoute(
     modifier: Modifier = Modifier,
-    makingCarViewModel: MakingCarViewModel = hiltViewModel(),
+    makingCarViewModel: MakingCarViewModel = hiltViewModel(LocalContext.current as MainActivity),
 ) {
     val carName by makingCarViewModel.selectedCarName.collectAsStateWithLifecycle()
     val carImage by makingCarViewModel.selectedCarImage.observeAsState()
     val selectedModelInfo by makingCarViewModel.selectedModelInfo.observeAsState()
     val totalPrice by makingCarViewModel.totalPrice.collectAsStateWithLifecycle()
-    val colors by makingCarViewModel.selectedColor.observeAsState()
+    val colors by makingCarViewModel.selectedColor.collectAsStateWithLifecycle()
     val selectedTrims by makingCarViewModel.selectedTrim.collectAsStateWithLifecycle()
-    val selectedOptions by makingCarViewModel.selectedExtraOptions.observeAsState()
+    val extraOptions by makingCarViewModel.totalExtraOptions.collectAsStateWithLifecycle()
 
     CompleteScreen(
         modifier = modifier,
@@ -46,9 +48,9 @@ fun CompleteRoute(
         carImage = carImage ?: "",
         modelName = selectedModelInfo?.name ?: stringResource(id = R.string.error_no_model),
         totalPrice = totalPrice,
-        colors = colors ?: emptyList(),
+        colors = colors,
         trimOptions = selectedTrims.map { it.optionName },
-        selectedOptions = selectedOptions ?: emptyList()
+        selectedOptions = extraOptions
     )
 }
 

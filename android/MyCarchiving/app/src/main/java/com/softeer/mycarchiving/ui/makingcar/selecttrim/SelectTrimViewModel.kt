@@ -45,8 +45,6 @@ class SelectTrimViewModel @Inject constructor(
             initialValue = emptyList(),
         )
 
-
-
 }
 
 private fun TrimEngineDto.asOptionUiModel() =

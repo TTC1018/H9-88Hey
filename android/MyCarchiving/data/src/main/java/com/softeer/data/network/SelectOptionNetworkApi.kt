@@ -3,7 +3,6 @@ package com.softeer.data.network
 import com.softeer.data.model.BaseResponse
 import com.softeer.data.model.BasicOptionDto
 import com.softeer.data.model.CarCodeDto
-import com.softeer.data.model.HGenuineDto
 import com.softeer.data.model.SelectOptionDto
 import retrofit2.Response
 import retrofit2.http.GET
@@ -28,7 +27,7 @@ interface SelectOptionNetworkApi {
     suspend fun getHGenuines(
         @Query("car_code") carCode: String,
         @Query("select_option") selectOptions: List<String>
-    ): Response<BaseResponse<HGenuineDto>>
+    ): Response<BaseResponse<SelectOptionDto>>
 
     @GET("/car/n-performance")
     suspend fun getNPerformances(
