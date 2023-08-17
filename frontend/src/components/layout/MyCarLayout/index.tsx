@@ -40,6 +40,17 @@ export function MyCarLayout() {
 
   const prevPrice = useRef(calclPrice);
 
+  const [isSavingNow, setIsSavingNow] = useState(false);
+  if (isSavingNow) {
+    setTimeout(() => {
+      setIsSavingNow(false);
+    }, 2000);
+  }
+
+  function setAutoSaving() {
+    setIsSavingNow(true);
+  }
+
   const totalPrice = useCountPrice({
     prevPrice: prevPrice.current,
     nextPrice: calclPrice,
@@ -87,7 +98,7 @@ export function MyCarLayout() {
 
   return (
     <Styled.Container isFull={pathname === '/result'}>
-      <Header />
+      <Header isSaving={isSavingNow} />
       <Navigation />
       <Styled.Wrapper isFull={pathname === '/result'}>
         <Outlet
@@ -104,7 +115,13 @@ export function MyCarLayout() {
           }}
         />
       </Styled.Wrapper>
-      <Footer myCarData={myCar} totalPrice={totalPrice} onSetLocalStorage={handleLocalStorage} carCode={carCode} />
+      <Footer
+        myCarData={myCar}
+        setDisplayAutoSaving={setAutoSaving}
+        totalPrice={totalPrice}
+        onSetLocalStorage={handleLocalStorage}
+        carCode={carCode}
+      />
     </Styled.Container>
   );
 }

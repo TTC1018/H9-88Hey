@@ -1,4 +1,4 @@
-import { css } from '@emotion/react';
+import { css, keyframes } from '@emotion/react';
 import styled from '@emotion/styled';
 
 const Container = styled.header`
@@ -73,10 +73,29 @@ const InfoBox = styled.div`
   gap: 25px;
 `;
 
-const AutoSavingBox = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 5px;
+const showAutoSaving = keyframes`
+  0%{
+    transform: translateY(8px);
+  }
+  100%{
+    transform: translateY(0);
+  }
+`;
+
+interface AutoSavingBoxProps {
+  isDisplay: boolean;
+}
+
+const AutoSavingBox = styled.div<AutoSavingBoxProps>`
+  ${({ isDisplay }) => {
+    return css`
+      display: ${isDisplay ? 'flex' : 'none'};
+      align-items: center;
+      gap: 5px;
+
+      animation: ${showAutoSaving} 0.2s linear;
+    `;
+  }}
 `;
 
 const AutoSavingText = styled.span`

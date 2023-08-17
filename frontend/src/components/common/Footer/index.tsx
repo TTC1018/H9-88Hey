@@ -16,9 +16,10 @@ interface FooterProps {
   totalPrice: number;
   carCode: MutableRefObject<string>;
   onSetLocalStorage: () => void;
+  setDisplayAutoSaving: () => void;
 }
 
-export function Footer({ myCarData, totalPrice, carCode, onSetLocalStorage }: FooterProps) {
+export function Footer({ myCarData, totalPrice, carCode, onSetLocalStorage, setDisplayAutoSaving }: FooterProps) {
   const { pathname } = useLocation();
   const navigate = useNavigate();
 
@@ -61,10 +62,12 @@ export function Footer({ myCarData, totalPrice, carCode, onSetLocalStorage }: Fo
   function handleNextNavigate() {
     const path = NAVIGATION_PATH[pathKey as keyof typeof NAVIGATION_PATH].next;
     handleNavigate(path);
+    setDisplayAutoSaving();
   }
   function handlePrevNavigate() {
     const path = NAVIGATION_PATH[pathKey as keyof typeof NAVIGATION_PATH].prev;
     handleNavigate(path);
+    setDisplayAutoSaving();
   }
 
   if (pathname === '/result') {
