@@ -26,7 +26,6 @@ import androidx.lifecycle.ViewModelStoreOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
-import com.softeer.mycarchiving.MainActivity
 import com.softeer.data.CarColorType
 import com.softeer.mycarchiving.model.makingcar.ColorOptionUiModel
 import com.softeer.mycarchiving.ui.component.CarColorSelectItem
@@ -141,57 +140,57 @@ fun SelectColorScreen(
         when {
             it.isEmpty() -> LoadingScreen {}
             else -> {
-              Column(
-                modifier = modifier.fillMaxSize()
+                Column(
+                    modifier = modifier.fillMaxSize()
                 ) {
-                if (selectedColor != null) {
-                    SelectColorTopArea(
-                        screenProgress = screenProgress,
-                        topImagePath = topImagePath,
-                        topImageIndex = topImageIndex,
-                        onLeftClick = onLeftClick,
-                        onRightClick = onRightClick,
-                    )
-                    Column(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .padding(all = 16.dp),
-                        verticalArrangement = Arrangement.spacedBy(16.dp)
-                    ) {
-                        Row(
+                    if (selectedColor != null) {
+                        SelectColorTopArea(
+                            screenProgress = screenProgress,
+                            topImagePath = topImagePath,
+                            topImageIndex = topImageIndex,
+                            onLeftClick = onLeftClick,
+                            onRightClick = onRightClick,
+                        )
+                        Column(
                             modifier = Modifier
-                                .fillMaxWidth(),
-                            horizontalArrangement = Arrangement.SpaceBetween,
-                            verticalAlignment = Alignment.CenterVertically
+                                .fillMaxSize()
+                                .padding(all = 16.dp),
+                            verticalArrangement = Arrangement.spacedBy(16.dp)
                         ) {
-                            OptionHeadText(optionName = category)
-                            OptionRegular14Text(optionName = selectedColor.optionName)
-                          }
-                          LazyRow {
-                              itemsIndexed(colorOptions) { idx, item ->
-                                  CarColorSelectItem(
-                                      onItemClick = {
-                                          onColorSelect(idx)
-                                          onSaveColor(item, screenProgress, isInitial)
-                                      },
-                                      imageUrl = item.imageUrl,
-                                      selected = selectedColor.imageUrl == item.imageUrl,
-                                  )
-                              }
-                          }
-                          OptionInfoDivider(thickness = 4.dp, color = HyundaiLightSand)
-                          OptionSelectedInfo(
-                              optionName = selectedColor.optionName,
-                              optionTags = selectedColor.tags
-                          )
-                      }
+                            Row(
+                                modifier = Modifier
+                                    .fillMaxWidth(),
+                                horizontalArrangement = Arrangement.SpaceBetween,
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                OptionHeadText(optionName = category)
+                                OptionRegular14Text(optionName = selectedColor.optionName)
+                            }
+                            LazyRow {
+                                itemsIndexed(colorOptions) { idx, item ->
+                                    CarColorSelectItem(
+                                        onItemClick = {
+                                            onColorSelect(idx)
+                                            onSaveColor(item, screenProgress, isInitial)
+                                        },
+                                        imageUrl = item.imageUrl,
+                                        selected = selectedColor.imageUrl == item.imageUrl,
+                                    )
+                                }
+                            }
+                            OptionInfoDivider(thickness = 4.dp, color = HyundaiLightSand)
+                            OptionSelectedInfo(
+                                optionName = selectedColor.optionName,
+                                optionTags = selectedColor.tags
+                            )
+                        }
+                    }
                 }
+            }
         }
         AnimatedVisibility(visible = selectedColor == null) {
             Text(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .align(Alignment.CenterHorizontally),
+                modifier = Modifier.fillMaxSize(),
                 text = "네트워크 오류 발생",
                 textAlign = TextAlign.Center
             )

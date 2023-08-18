@@ -1,11 +1,6 @@
 package com.softeer.mycarchiving.ui.makingcar.selectoption
 
 import androidx.compose.animation.AnimatedContent
-import androidx.compose.animation.core.FastOutSlowInEasing
-import androidx.compose.animation.core.tween
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
-import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -60,7 +55,6 @@ import com.softeer.mycarchiving.ui.theme.White
 import com.softeer.mycarchiving.ui.theme.medium16
 import com.softeer.mycarchiving.ui.theme.roundCorner
 import com.softeer.mycarchiving.util.fadeInAndOut
-import kotlin.time.Duration
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -175,6 +169,7 @@ fun SelectOptionScreen(
                         }
                         Spacer(modifier = Modifier.height(13.dp))
                         LazyRow(
+                            modifier = Modifier.padding(end = 16.dp),
                             horizontalArrangement = Arrangement.spacedBy(6.dp)
                         ) {
                             itemsIndexed(
@@ -193,27 +188,28 @@ fun SelectOptionScreen(
                         }
                     }
                     Divider(thickness = 6.dp, color = HyundaiLightSand)
-                    AsyncImage(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height(220.dp),
-                        model = ImageRequest.Builder(LocalContext.current)
-                            .data(options.getOrNull(focusedIndex)?.imageUrl)
-                            .crossfade(true)
-                            .build(),
-                        contentDescription = "",
-                        contentScale = ContentScale.Crop
-                    )
                     Column(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(horizontal = 16.dp, vertical = 24.dp)
+                            .padding(horizontal = 16.dp, vertical = 24.dp),
+                        verticalArrangement = Arrangement.spacedBy(12.dp)
                     ) {
                         OptionSelectedInfo(
                             optionName = options.getOrNull(focusedIndex)?.name ?: "",
                             optionTags = options.getOrNull(focusedIndex)?.tags
                         )
-                        Spacer(modifier = Modifier.height(12.dp))
+                        AsyncImage(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(220.dp)
+                                .clip(shape = roundCorner),
+                            model = ImageRequest.Builder(LocalContext.current)
+                                .data(options.getOrNull(focusedIndex)?.imageUrl)
+                                .crossfade(true)
+                                .build(),
+                            contentDescription = "",
+                            contentScale = ContentScale.Crop
+                        )
                         options.getOrNull(focusedIndex)?.subOptions?.let {
                             if (it.size > 1) {
                                 ExtraOptionCards(options = it)
