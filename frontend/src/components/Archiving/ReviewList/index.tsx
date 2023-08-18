@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react';
 
 import { ArchivingProps } from '@/types/archiving';
+import { masonryLayout } from '@/utils/masonryLayout';
 import { useNavigateWithData } from '@/hooks/useNavigateWithData';
 
 import { ReviewCard } from '@/components/Archiving/ReviewCard';
@@ -17,28 +18,16 @@ export function ReviewList({ archivings, options, onClick }: Props) {
 
   const { naviagteWithData } = useNavigateWithData({ path: '/archiving/detail' });
 
-  function masonryLayout() {
-    const masonryItems = masonryRef.current?.childNodes;
-
-    masonryItems?.forEach(item => {
-      const element = item as HTMLElement;
-      const innerElement = element.children[0];
-      const innerElementHeight = innerElement.getBoundingClientRect().height;
-
-      element.style.gridRowEnd = `span ${Math.ceil((innerElementHeight + 10) / 50)}`;
-    });
-  }
-
   useEffect(() => {
-    masonryLayout();
+    masonryLayout({ element: masonryRef });
   }, [archivings]);
 
   return (
     <Styled.Container ref={masonryRef}>
-      {archivings.map((review, index) => {
+      {archivings.map((archiving, index) => {
         return (
-          <Styled.Wrapper key={index} onClick={() => naviagteWithData({ state: review })}>
-            <ReviewCard props={review} isArchiving={true} selectedSearchOptions={options} onClick={onClick} />
+          <Styled.Wrapper key={index} onClick={() => naviagteWithData({ state: archiving })}>
+            <ReviewCard props={archiving} isArchiving={true} selectedSearchOptions={options} onClick={onClick} />
           </Styled.Wrapper>
         );
       })}

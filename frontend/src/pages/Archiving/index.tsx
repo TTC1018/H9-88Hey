@@ -1,67 +1,47 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 
 import { useFetch } from '@/hooks/useFetch';
-import { ArchivingCarDataProps, ArchivingDataProps } from '@/types/archiving';
+import { useInfiniteFetch } from '@/hooks/useInfiniteFetch';
+import { useInfiniteScroll } from '@/hooks/useInfiniteScroll';
+import { ArchivingCarDataProps } from '@/types/archiving';
 
 import { OptionSearchBar } from '@/components/Archiving/OptionSearchBar';
 import { ReviewList } from '@/components/Archiving/ReviewList';
 import { SearchBar } from '@/components/Archiving/SearchBar';
 
-import * as style from './style';
-
-const initialData = {
-  archivings: [
-    {
-      id: 1,
-      model: '',
-      trim: '',
-      isPurchase: false,
-      trimOptions: [''],
-      interiorColor: '',
-      exteriorColor: '',
-      creationDate: '',
-      selectedOptions: [
-        {
-          name: '',
-          imageUrl: '',
-          subOptions: [''],
-          tags: [''],
-          review: '',
-        },
-      ],
-      review: '',
-      tags: [''],
-      totalPrice: 0,
-    },
-  ],
-};
+import * as Styled from './style';
 
 const carInitialData = {
-  archivingCars: [{ name: '', options: [''] }],
+  selectOptions: [{ id: '', name: '', category: '' }],
 };
 
 export function Archiving() {
+  const fetchMoreElement = useRef<HTMLDivElement>(null);
+  const intersecting = useInfiniteScroll(fetchMoreElement);
+
   const {
-    data: { archivings },
-  } = useFetch<ArchivingDataProps>({
-    defaultValue: initialData,
-    url: '/archiving?model=1&options=1&options=2',
-  });
-  const {
-    data: { archivingCars },
+    data: { selectOptions },
   } = useFetch<ArchivingCarDataProps>({
     defaultValue: carInitialData,
-    url: '/archiving/cars',
+    url: '/car/select-options?model_id=1',
+  });
+
+  const { data: archivings } = useInfiniteFetch({
+    key: 'archivings',
+    url: '/archiving?model_id=1&select_option=CO2&select_option=DUP&limit=8',
+    defaultValue: [],
+    offset: 0,
+    intersecting,
   });
 
   const [selectedOptions, setSelectedOptions] = useState<Set<string>>(new Set());
   const [selectedCarName, setSelectedCar] = useState('전체');
 
-  const selectCarNames = ['전체', ...archivingCars.map(car => car.name)];
-  const allOptions = [...new Set(archivingCars.flatMap(item => item.options))];
+  const selectCarNames = ['전체', '펠리세이드', '베뉴', '코나', '싼타페', '그랜저', '아반떼', '아이오닉'];
+  const allOptions = [...new Set(selectOptions.flatMap(item => item.name))];
 
-  const selectedCarInfo = archivingCars.find(({ name }) => name === selectedCarName);
-  const options = selectedCarName === '전체' ? allOptions : selectedCarInfo!.options;
+  // 임시로 자름
+  const options = allOptions.slice(0, allOptions.length - 4);
 
   function handleSelectOption(option: string) {
     setSelectedOptions(prev => {
@@ -80,16 +60,19 @@ export function Archiving() {
   }
 
   return (
-    <style.Container>
-      <SearchBar selectedCar={selectedCarName} onClick={handleSelectCar} cars={selectCarNames} />
-      <OptionSearchBar options={options} onSelectOption={handleSelectOption} selectOptions={selectedOptions} />
-      <style.ReviewWrapper>
+    <Styled.Container>
+      <Styled.HeaderWrapper>
+        <SearchBar selectedCar={selectedCarName} onClick={handleSelectCar} cars={selectCarNames} />
+        <OptionSearchBar options={options} onSelectOption={handleSelectOption} selectOptions={selectedOptions} />
+      </Styled.HeaderWrapper>
+      <Styled.ReviewWrapper>
         {archivings.length === 0 ? (
-          <style.InfoBox>조건에 맞는 결과가 없습니다.</style.InfoBox>
+          <Styled.InfoBox>조건에 맞는 결과가 없습니다.</Styled.InfoBox>
         ) : (
           <ReviewList archivings={archivings} options={selectedOptions} onClick={handleSelectOption} />
         )}
-      </style.ReviewWrapper>
-    </style.Container>
+      </Styled.ReviewWrapper>
+      <div ref={fetchMoreElement} />
+    </Styled.Container>
   );
 }
