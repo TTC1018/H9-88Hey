@@ -23,6 +23,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -61,14 +62,15 @@ fun RotateCarImage(
 
     LaunchedEffect(imagePath) {
         loadCounter = 0
-        imageLoader.memoryCache?.clear()
         // 다음 이미지 30개
         launch {
             for (imageNum in selectedIndex until selectedIndex + IMAGE_360_SIZE.div(2)) {
                 launch {
+                    val imageUrl = imagePath.imagePathToUrl((imageNum.mod(IMAGE_360_SIZE)) + 1)
                     imageLoader.execute(
                         ImageRequest.Builder(context)
-                            .data(imagePath.imagePathToUrl((imageNum.mod(IMAGE_360_SIZE)) + 1))
+                            .data(imageUrl)
+                            .memoryCacheKey(imageUrl)
                             .listener { _, _ -> loadCounter++ }
                             .build()
                     )
@@ -80,9 +82,11 @@ fun RotateCarImage(
         launch {
             for (imageNum in selectedIndex - 1 downTo selectedIndex - IMAGE_360_SIZE.div(2)) {
                 launch {
+                    val imageUrl = imagePath.imagePathToUrl((imageNum.mod(IMAGE_360_SIZE)) + 1)
                     imageLoader.execute(
                         ImageRequest.Builder(context)
-                            .data(imagePath.imagePathToUrl((imageNum.mod(IMAGE_360_SIZE)) + 1))
+                            .data(imageUrl)
+                            .memoryCacheKey(imageUrl)
                             .listener { _, _ -> loadCounter++ }
                             .build()
                     )
@@ -110,7 +114,8 @@ fun RotateCarImage(
                             .fillMaxSize(),
                         model = imagePath.imagePathToUrl(selectedIndex + 1),
                         contentDescription = "",
-                        imageLoader = imageLoader
+                        imageLoader = imageLoader,
+                        contentScale = ContentScale.Fit
                     )
                 }
 
