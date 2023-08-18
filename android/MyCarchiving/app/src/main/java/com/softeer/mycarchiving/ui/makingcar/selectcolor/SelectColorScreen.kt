@@ -2,7 +2,6 @@ package com.softeer.mycarchiving.ui.makingcar.selectcolor
 
 import android.util.Log
 import androidx.compose.animation.AnimatedContent
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -12,20 +11,20 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.ViewModelStoreOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
+import coil.imageLoader
 import coil.request.ImageRequest
 import com.softeer.data.CarColorType
 import com.softeer.mycarchiving.model.makingcar.ColorOptionUiModel
@@ -82,6 +81,18 @@ fun SelectColorRoute(
         }
 
         selectColorViewModel.changeCategory(screenProgress)
+    }
+
+    val context = LocalContext.current
+    LaunchedEffect(interiorImageUrls) {
+        interiorImageUrls.forEach { imageUrl ->
+            context.imageLoader.execute(
+                ImageRequest.Builder(context)
+                    .data(imageUrl)
+                    .memoryCacheKey(imageUrl)
+                    .build()
+            )
+        }
     }
 
     SelectColorScreen(
@@ -141,7 +152,9 @@ fun SelectColorScreen(
         when {
             it.isNotEmpty() -> {
                 Column(
-                    modifier = modifier.fillMaxSize()
+                    modifier = modifier
+                        .fillMaxSize(),
+                    verticalArrangement = Arrangement.spacedBy(16.dp)
                 ) {
                     if (selectedColor != null) {
                         SelectColorTopArea(
@@ -153,8 +166,8 @@ fun SelectColorScreen(
                         )
                         Column(
                             modifier = Modifier
-                                .fillMaxSize()
-                                .padding(all = 16.dp),
+                                .fillMaxWidth()
+                                .padding(16.dp),
                             verticalArrangement = Arrangement.spacedBy(16.dp)
                         ) {
                             Row(
@@ -190,13 +203,6 @@ fun SelectColorScreen(
 
             else -> LoadingScreen {}
         }
-        AnimatedVisibility(visible = selectedColor == null) {
-            Text(
-                modifier = Modifier.fillMaxSize(),
-                text = "네트워크 오류 발생",
-                textAlign = TextAlign.Center
-            )
-        }
     }
 }
 
@@ -229,7 +235,8 @@ fun SelectColorTopArea(
                     .data(topImagePath)
                     .crossfade(true)
                     .build(),
-                contentDescription = ""
+                contentDescription = "",
+                contentScale = ContentScale.FillBounds
             )
         }
     }
