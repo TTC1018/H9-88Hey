@@ -31,19 +31,28 @@ const DEFAULT_STATE: MyCarProps = {
   options: [],
   carImageUrl: 'https://www.hyundai.com/contents/vr360/LX06/exterior/WC9/001.png', // 임시 mock data
 };
-interface actionType<T> {
-  type: MyCarActionTypeProps;
-  props: T;
-}
-function reducer<T>(state: MyCarProps, action: actionType<T>): MyCarProps {
+type ActionType =
+  | {
+      type: MyCarActionTypeProps.TRIM;
+      props: TrimBaseProps;
+    }
+  | { type: MyCarActionTypeProps.TRIM_OPTION; props: HandleTrimOptionProps }
+  | { type: MyCarActionTypeProps.EXTERIOR_COLOR; props: ExteriorColorDataProps }
+  | { type: MyCarActionTypeProps.INTERIOR_COLOR; props: InteriorColorDataProps }
+  | { type: MyCarActionTypeProps.ADD_OPTION; props: OptionContextProps }
+  | { type: MyCarActionTypeProps.REMOVE_OPTION; props: string }
+  | { type: MyCarActionTypeProps.CAR_IMAGE_URL; props: string }
+  | { type: MyCarActionTypeProps.SAVE_OPTION; props: MyCarProps };
+
+function reducer(state: MyCarProps, action: ActionType): MyCarProps {
   switch (action.type) {
     case 'TRIM':
       return {
         ...state,
-        trim: action.props as TrimBaseProps,
+        trim: action.props,
       };
     case 'TRIM_OPTION':
-      const { key, ...props } = action.props as HandleTrimOptionProps;
+      const { key, ...props } = action.props;
       return {
         ...state,
         [key]: props,
@@ -51,18 +60,18 @@ function reducer<T>(state: MyCarProps, action: actionType<T>): MyCarProps {
     case 'EXTERIOR_COLOR':
       return {
         ...state,
-        exteriorColor: action.props as ExteriorColorDataProps,
+        exteriorColor: action.props,
       };
     case 'INTERIOR_COLOR':
-      return { ...state, interiorColor: action.props as InteriorColorDataProps };
+      return { ...state, interiorColor: action.props };
     case 'ADD_OPTION':
-      return { ...state, options: [...state.options, action.props as OptionContextProps] };
+      return { ...state, options: [...state.options, action.props] };
     case 'REMOVE_OPTION':
       return { ...state, options: state.options.filter(options => options.name !== action.props) };
     case 'CAR_IMAGE_URL':
-      return { ...state, carImageUrl: action.props as string };
+      return { ...state, carImageUrl: action.props };
     case 'SAVE_OPTION':
-      return action.props as MyCarProps;
+      return action.props;
     default:
       return state;
   }
@@ -73,8 +82,6 @@ export function MyCarLayout() {
 
   const localStorageData = getLocalStorage('myCar');
   const [myCar, dispatch] = useReducer(reducer, localStorageData === null ? DEFAULT_STATE : localStorageData);
-
-  // const [myCar, setMyCar] = useState<MyCarProps>(localStorageData === null ? DEFAULT_STATE : localStorageData);
 
   const myCarKeysWithPrice = ['engine', 'bodyType', 'wheelDrive', 'exteriorColor'];
 
@@ -131,6 +138,7 @@ export function MyCarLayout() {
       return;
     }
     const savedOptions: MyCarProps = JSON.parse(localStorageData);
+
     dispatch({ type: MyCarActionTypeProps.SAVE_OPTION, props: savedOptions });
   }, []);
 
@@ -144,13 +152,7 @@ export function MyCarLayout() {
             myCar,
             carCode,
             totalPrice,
-            handleTrim,
-            handleTrimOption,
-            handleExteriorColor,
-            handleInteriorColor,
-            handleCarImageUrl,
-            addOption,
-            removeOption,
+            dispatch,
           }}
         />
       </Styled.Wrapper>
