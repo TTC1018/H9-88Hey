@@ -1,18 +1,20 @@
-package softeer.h9.hey.dto.archiving;
+package softeer.h9.hey.domain.archiving;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Setter
 @NoArgsConstructor
-public class SelectedOptionDto {
+@ToString
+public class SelectedOption {
 	private String id;
 	private String name;
 	private String imageUrl;
 	private String review;
 	private Integer additionalPrice;
-	private SimpleSubOptionDto subOptions;
-	private TagsDto tags;
+	private String subOption;
+	private String tag;
 }
