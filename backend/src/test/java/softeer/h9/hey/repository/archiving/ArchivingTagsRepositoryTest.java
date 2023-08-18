@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import softeer.h9.hey.dto.archiving.TagsDto;
+import softeer.h9.hey.domain.archiving.Tags;
 
 @SpringBootTest
 @DisplayName("ArchivingTags Repository 테스트")
@@ -23,7 +23,7 @@ class ArchivingTagsRepositoryTest {
 	void findBySelectOptionId() {
 		Integer id = 32;
 
-		TagsDto tagDto = repository.findBySelectOptionId(id);
+		Tags tagDto = repository.findBySelectOptionId(id);
 
 		List<String> tags = tagDto.getTags();
 
@@ -41,7 +41,7 @@ class ArchivingTagsRepositoryTest {
 	void findByArchivingId() {
 		Long id = 479893076433545675L;
 
-		TagsDto tagDto = repository.findByArchivingId(id);
+		Tags tagDto = repository.findByArchivingId(id);
 
 		List<String> tags = tagDto.getTags();
 

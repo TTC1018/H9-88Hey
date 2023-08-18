@@ -11,7 +11,7 @@ import org.springframework.stereotype.Repository;
 
 import lombok.RequiredArgsConstructor;
 import softeer.h9.hey.domain.car.Tag;
-import softeer.h9.hey.dto.archiving.TagsDto;
+import softeer.h9.hey.domain.archiving.Tags;
 
 @Repository
 @RequiredArgsConstructor
@@ -19,7 +19,7 @@ public class ArchivingTagsRepository {
 
 	private final NamedParameterJdbcTemplate jdbcTemplate;
 
-	public TagsDto findBySelectOptionId(final Integer selectOptionId) {
+	public Tags findBySelectOptionId(final Integer selectOptionId) {
 		String sql = "SELECT tag.content "
 			+ "FROM tag "
 			+ "LEFT JOIN selectOption_selectedTag on tag.id = selectOption_selectedTag.tag_id "
@@ -29,10 +29,10 @@ public class ArchivingTagsRepository {
 			.addValue("selectOptionId", selectOptionId);
 
 		List<Tag> tags = jdbcTemplate.query(sql, params, rowMapper());
-		return TagsDto.of(mapToString(tags));
+		return Tags.of(mapToString(tags));
 	}
 
-	public TagsDto findByArchivingId(final Long archivingId) {
+	public Tags findByArchivingId(final Long archivingId) {
 		String sql = "SELECT tag.content "
 			+ "FROM tag "
 			+ "LEFT JOIN archiving_selectedTag on tag.id = archiving_selectedTag.tag_id "
@@ -42,7 +42,7 @@ public class ArchivingTagsRepository {
 			.addValue("archivingId", archivingId);
 
 		List<Tag> tags = jdbcTemplate.query(sql, params, rowMapper());
-		return TagsDto.of(mapToString(tags));
+		return Tags.of(mapToString(tags));
 	}
 
 	private List<String> mapToString(List<Tag> tags) {

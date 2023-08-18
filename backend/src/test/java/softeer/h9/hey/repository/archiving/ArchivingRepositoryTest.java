@@ -27,8 +27,7 @@ class ArchivingRepositoryTest {
 		List<String> selectOptions = List.of("2VS", "BIC");
 		ArchivingRequest request = ArchivingRequest.of(modelId, offset, limit, selectOptions);
 
-		List<Archiving> archivings = repository.findArchivingIdByCondition(request);
-
+		List<Archiving> archivings = repository.findArchivingIdByCondition(modelId, offset, limit, selectOptions);
 
 		assertTrue(limit <= archivings.size());
 		// 오름차순 정렬 테스트
