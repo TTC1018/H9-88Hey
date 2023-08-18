@@ -18,7 +18,6 @@ const initialData = {
       category: '',
       subOptions: [
         {
-          id: 1,
           name: '',
           imageUrl: '',
           description: '',
