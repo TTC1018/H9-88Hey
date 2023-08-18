@@ -1,6 +1,5 @@
-package com.softeer.mycarchiving.ui.archiving
+package com.softeer.mycarchiving.ui.archiving.archivingmain
 
-import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -35,12 +34,9 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.softeer.mycarchiving.R
 import com.softeer.mycarchiving.model.archiving.SearchOption
 import com.softeer.mycarchiving.model.common.CarFeedUiModel
-import com.softeer.mycarchiving.navigation.ArchivingDestinations
-import com.softeer.mycarchiving.ui.HyundaiAppState
 import com.softeer.mycarchiving.ui.component.ArchiveFeed
 import com.softeer.mycarchiving.ui.component.SearchCarBottomSheetContent
 import com.softeer.mycarchiving.ui.component.SearchDeleteChipFlowList
-import com.softeer.mycarchiving.ui.rememberHyundaiAppState
 import com.softeer.mycarchiving.ui.theme.DarkGray
 import com.softeer.mycarchiving.ui.theme.HyundaiLightSand
 import com.softeer.mycarchiving.ui.theme.White
@@ -53,7 +49,7 @@ import com.softeer.mycarchiving.ui.theme.roundCorner
 fun ArchiveRoute(
     modifier: Modifier = Modifier,
     archiveViewModel: ArchiveViewModel = hiltViewModel(),
-    appState: HyundaiAppState,
+    moveDetailPage: () -> Unit,
 ) {
     val showSearchSheet by archiveViewModel.showSearchSheet.collectAsStateWithLifecycle()
     val currentSheetPage by archiveViewModel.currentSheetPage.collectAsStateWithLifecycle()
@@ -72,7 +68,7 @@ fun ArchiveRoute(
         carFeeds = carFeeds,
         deleteSelectedChip = archiveViewModel::deleteAppliedOption,
         openSearchSheet = archiveViewModel::openSearchSheet,
-        onFeedClick = { appState.navigateToArchivingDestination(ArchivingDestinations.ARCHIVING_DETAIL) }
+        onFeedClick = moveDetailPage
     )
     if (showSearchSheet) {
         ModalBottomSheet(
@@ -102,9 +98,6 @@ fun ArchiveRoute(
                 onButtonClick = archiveViewModel::onSheetButtonClick
             )
         }
-    }
-    BackHandler {
-        appState.navController.popBackStack()
     }
 }
 
@@ -189,5 +182,5 @@ fun ArchiveScreen(
 @Preview
 @Composable
 fun PreviewArchiveRoute() {
-    ArchiveRoute(appState = rememberHyundaiAppState())
+    ArchiveRoute(moveDetailPage = {})
 }

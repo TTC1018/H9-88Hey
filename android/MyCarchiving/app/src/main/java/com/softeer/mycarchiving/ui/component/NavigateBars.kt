@@ -39,11 +39,13 @@ import com.softeer.mycarchiving.util.MakeCarProcess
 fun HyundaiTopBar(
     appState: HyundaiAppState,
 ) {
-    when(val destination = appState.currentMainDestination) {
-        MainDestination.ARCHIVING -> ArchiveNavigateBar(
-            onStartAreaClick = appState.navController::popBackStack,
-            onEndAreaClick = { appState.navigateToMainDestination(MainDestination.MY_ARCHIVING) }
-        )
+/*    when(val destination = appState.currentMainDestination) {
+        MainDestination.ARCHIVING -> {
+*//*            ArchiveNavigateBar(
+                onStartAreaClick = appState.navController::popBackStack,
+                onEndAreaClick = { appState.navigateToMainDestination(MainDestination.MY_ARCHIVING) }
+            )*//*
+        }
 
         MainDestination.MY_ARCHIVING -> MyArchiveNavigateBar(
             onStartAreaClick = appState.navController::popBackStack
@@ -60,12 +62,12 @@ fun HyundaiTopBar(
         MainDestination.DRIVER_COMMENT,
         MainDestination.CONSUMER_COMMENT -> ReviewNavigateBar(
             onStartAreaClick = appState.navController::popBackStack,
-            onEndAreaClick = { /*앱 종료*/ },
+            onEndAreaClick = { *//*앱 종료*//* },
             isBuyer = destination == MainDestination.CONSUMER_COMMENT
         )
 
         else -> @Composable {}
-    }
+    }*/
 }
 
 @Composable
@@ -75,7 +77,6 @@ fun MakeCarTopBar(
     viewModel: MakingCarViewModel =
         viewModelStoreOwner?.run { hiltViewModel(this) } ?: hiltViewModel(),
 ) {
-    val destination = appState.currentMakingCarDestinations
     val selectedCarModel by viewModel.selectedCarName.collectAsStateWithLifecycle()
     val currentProgressId = appState.currentProgressId
     val currentProgressChildId = appState.currentProgressChildId
@@ -84,7 +85,13 @@ fun MakeCarTopBar(
         MakeCarNavigateBar(
             carName = selectedCarModel,
             onStartAreaClick = appState::onBackProgress,
-            onEndAreaClick = { appState.navigateInMakingCar(currentMakingCarDestination = destination) },
+            onEndAreaClick = {
+                 if (processEnd) {
+                     appState.navigateToMainDestination(MainDestination.MY_ARCHIVING)
+                 } else {
+                     appState.navigateToMainDestination(MainDestination.ARCHIVING)
+                 }
+            },
             isDone = processEnd
         )
         ProgressBar(
