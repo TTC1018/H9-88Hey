@@ -19,6 +19,19 @@ public class ArchivingTagsRepository {
 
 	private final NamedParameterJdbcTemplate jdbcTemplate;
 
+	public TagsDto findBySelectOptionId(final Integer selectOptionId) {
+		String sql = "SELECT tag.content "
+			+ "FROM tag "
+			+ "LEFT JOIN selectOption_selectedTag on tag.id = selectOption_selectedTag.tag_id "
+			+ "WHERE selectOption_selectedTag.archiving_selectOption_id = :selectOptionId ";
+
+		MapSqlParameterSource params = new MapSqlParameterSource()
+			.addValue("selectOptionId", selectOptionId);
+
+		List<Tag> tags = jdbcTemplate.query(sql, params, rowMapper());
+		return TagsDto.of(mapToString(tags));
+	}
+
 	public TagsDto findByArchivingId(final Long archivingId) {
 		String sql = "SELECT tag.content "
 			+ "FROM tag "
