@@ -5,6 +5,7 @@ import java.util.List;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import softeer.h9.hey.domain.archiving.Tags;
 
 @Getter
 @Setter
@@ -16,12 +17,12 @@ public class ArchivingDto {
 	private boolean isPurchase;
 	private String review;
 	private Integer totalPrice;
-	private TagsDto tags;
+	private Tags tags;
 	private TrimDto trim;
 	private EngineDto engine;
 	private BodyTypeDto bodyType;
 	private WheelDriveDto wheelDrive;
 	private InteriorColorDto interiorColor;
 	private ExteriorColorDto exteriorColor;
-	private List<SelectedOptionDto> selectedOptions;
+	private List<ArchivingSelectedOptionDto> selectedOptions;
 }
