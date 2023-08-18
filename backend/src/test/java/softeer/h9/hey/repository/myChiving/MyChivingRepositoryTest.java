@@ -62,7 +62,7 @@ class MyChivingRepositoryTest {
 			assertThat(result.getInt("interior_color_id")).isEqualTo(1);
 		});
 
-		String selectOptionSql = "SELECT * FROM myArchiving_selectOption WHERE id = :id";
+		String selectOptionSql = "SELECT * FROM myArchiving_selectOption WHERE myArchiving_id = :id";
 
 		namedParameterJdbcTemplate.query(selectOptionSql, sqlParameterSource, result -> {
 			assertThat(result.getString("select_option_id")).isIn(selectOptionIdList);
