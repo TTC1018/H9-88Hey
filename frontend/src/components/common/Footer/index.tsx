@@ -97,8 +97,8 @@ export function Footer({ myCarData, totalPrice, carCode, onSetLocalStorage }: Fo
       </Styled.ColorWrapper>
       <Styled.Division />
       <Styled.OptionWrapper>
-        <Styled.Title onClick={handleOpenModal}>선택 옵션</Styled.Title>
-        <Styled.OptionBox>
+        <Styled.Title>선택 옵션</Styled.Title>
+        <Styled.OptionBox onClick={handleOpenModal}>
           {options.slice(0, TAG_CHIP_MAX_NUMBER).map(({ name }) => (
             <Styled.Option key={name}>{name}</Styled.Option>
           ))}

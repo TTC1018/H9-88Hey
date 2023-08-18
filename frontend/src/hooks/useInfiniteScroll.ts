@@ -1,6 +1,6 @@
 import { RefObject, useCallback, useEffect, useRef, useState } from 'react';
 
-export const useInfiniteScroll = (targetElement: RefObject<HTMLDivElement>) => {
+export function useInfiniteScroll(targetElement: RefObject<HTMLDivElement>) {
   const observerRef = useRef<IntersectionObserver | null>(null);
   const [intersecting, setIntersecting] = useState(false);
 
@@ -20,4 +20,4 @@ export const useInfiniteScroll = (targetElement: RefObject<HTMLDivElement>) => {
   }, [targetElement.current]);
 
   return intersecting;
-};
+}
