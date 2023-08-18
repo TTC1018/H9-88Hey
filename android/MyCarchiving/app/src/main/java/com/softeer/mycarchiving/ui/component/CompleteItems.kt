@@ -5,7 +5,6 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -14,10 +13,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Divider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -45,7 +42,6 @@ import com.softeer.mycarchiving.model.makingcar.SubSelectOptionUiModel
 import com.softeer.mycarchiving.ui.theme.HyundaiLightSand
 import com.softeer.mycarchiving.ui.theme.HyundaiSand
 import com.softeer.mycarchiving.ui.theme.LightGray
-import com.softeer.mycarchiving.ui.theme.MediumGray
 import com.softeer.mycarchiving.ui.theme.medium14
 import com.softeer.mycarchiving.ui.theme.medium16
 import com.softeer.mycarchiving.ui.theme.medium18
@@ -109,20 +105,6 @@ fun CompleteOptionPriceText(
     )
 }
 
-@Composable
-fun SelectedOptionDivider(
-    modifier: Modifier = Modifier,
-) {
-    Divider(
-        modifier = modifier
-            .width(1.dp)
-            .fillMaxHeight(),
-        thickness = 1.dp,
-        color = MediumGray
-    )
-}
-
-
 // TODO 슬래시를 기준으로 글자가 구분되어야 할듯
 @Composable
 fun SelectedOptionSubs(
@@ -132,7 +114,9 @@ fun SelectedOptionSubs(
     Text(
         modifier = modifier,
         style = regular12,
-        text = text
+        text = text,
+        maxLines = 2,
+        overflow = TextOverflow.Ellipsis
     )
 }
 
@@ -143,30 +127,24 @@ fun SelectedOptionInfo(
     thumbnailUrl: String?
 ) {
     Column(
-        modifier = modifier
-            .fillMaxWidth()
+        modifier = modifier.fillMaxWidth()
     ) {
         Row(
             modifier = modifier
                 .fillMaxWidth()
                 .heightIn(max = 120.dp)
-                .padding(top = 10.dp, bottom = 10.dp),
+                .padding(vertical = 10.dp),
             horizontalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             SelectedOptionThumbnail(imageUrl = thumbnailUrl)
             Column(
-                modifier = Modifier
-                    .fillMaxHeight(),
-                verticalArrangement = Arrangement.SpaceAround
+                modifier = Modifier.fillMaxHeight(),
+                verticalArrangement = Arrangement.SpaceBetween
             ) {
-                Row(
-                    modifier = Modifier
-                        .height(IntrinsicSize.Min),
-                    horizontalArrangement = Arrangement
-                        .spacedBy(8.dp)
+                Column(
+                    verticalArrangement = Arrangement.spacedBy(6.dp)
                 ) {
                     SelectedOptionHeadText(text = optionInfo.name)
-                    SelectedOptionDivider()
                     SelectedOptionPriceText(price = optionInfo.price)
                 }
                 SelectedOptionSubs(text = optionInfo.subOptions?.joinToString(" / ") { it.name } ?: "")
@@ -210,7 +188,7 @@ fun CompleteCarCard(
         verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
         CompleteCarTitleText(text = "$carName $modelName")
-        OptionRegular14Text(optionName = options.joinToString("/"))
+        OptionRegular14Text(optionName = options.joinToString(" / "))
         CompleteOptionPriceText(modifier = Modifier.fillMaxWidth(), price = price)
         OptionInfoDivider(thickness = 1.dp, color = HyundaiSand)
         colors.forEach {
@@ -264,7 +242,7 @@ fun CompleteBanner(
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(16.dp),
+                .padding(top = 26.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(16.dp),
         ) {
@@ -297,11 +275,13 @@ fun CompleteBannerBackground(
         modifier = modifier
             .fillMaxWidth()
             .fillMaxHeight(fraction = 0.8f)
+            .padding(horizontal = 16.dp)
     ) {
         Image(
             modifier = Modifier.fillMaxSize(),
             painter = painterResource(id = R.drawable.bg_complete_car),
-            contentDescription = ""
+            contentDescription = "",
+            contentScale = ContentScale.FillBounds
         )
     }
 }

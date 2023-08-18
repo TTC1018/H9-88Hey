@@ -35,6 +35,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
@@ -62,11 +63,6 @@ fun OptionSelectItem(
     onAddClick: () -> Unit,
     onFocus: () -> Unit,
 ) {
-    val animatedSurfaceColor by animateColorAsState(
-        targetValue = if (focus) PrimaryBlue10 else HyundaiLightSand,
-        animationSpec = tween(durationMillis = 500),
-        label = ""
-    )
     val animatedTextColor by animateColorAsState(
         targetValue = if (focus) PrimaryBlue else Black,
         animationSpec = tween(durationMillis = 500),
@@ -80,7 +76,7 @@ fun OptionSelectItem(
             .clickable { onFocus() },
         shape = roundCorner,
         border = if (focus) BorderStroke(width = 2.dp, color = PrimaryBlue) else null,
-        color = animatedSurfaceColor
+        color = if (focus) PrimaryBlue10 else HyundaiLightSand
     ) {
         Column {
             AsyncImage(
@@ -94,19 +90,20 @@ fun OptionSelectItem(
             Column(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(start = 9.dp, end = 9.dp, top = 10.dp, bottom = 3.dp),
+                    .padding(start = 9.dp, end = 9.dp, top = 10.dp, bottom = 8.dp),
                 verticalArrangement = Arrangement.SpaceBetween
             ) {
                 Column {
                     Text(
+                        modifier = Modifier.fillMaxWidth(),
                         text = option.name,
                         style = medium14,
-                        color = animatedTextColor
+                        color = animatedTextColor,
+                        overflow = TextOverflow.Ellipsis,
+                        maxLines = 1
                     )
                     Spacer(modifier = modifier.height(5.dp))
                     Text(
-                        modifier = modifier
-                            .align(Alignment.End),
                         text = stringResource(
                             id = R.string.plus_space_price_won,
                             option.price.toPriceString()
@@ -116,7 +113,6 @@ fun OptionSelectItem(
                     )
                 }
                 OptionAddButton(
-                    modifier = modifier,
                     isSelect = isAdded,
                     onClick = onAddClick
                 )
@@ -222,7 +218,6 @@ fun ExtraOptionTitle(
         modifier = modifier
             .fillMaxWidth(),
         horizontalArrangement = Arrangement.spacedBy(8.dp),
-        verticalAlignment = Alignment.CenterVertically
     ) {
         if (isMultiple) {
             ProgressNumberCircle(
@@ -233,10 +228,11 @@ fun ExtraOptionTitle(
         }
         Row(
             modifier = Modifier
-                .weight(0.9f),
+                .weight(1f),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             Text(
+                modifier = Modifier.weight(1f),
                 style = bold18,
                 color = PrimaryBlue,
                 text = optionName

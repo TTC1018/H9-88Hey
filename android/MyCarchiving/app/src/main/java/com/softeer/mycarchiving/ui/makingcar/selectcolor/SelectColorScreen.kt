@@ -141,20 +141,23 @@ fun SelectColorScreen(
         when {
             it.isEmpty() -> LoadingScreen {}
             else -> {
-                Column(
-                    modifier = modifier
-                        .fillMaxSize()
-                        .padding(16.dp),
-                    verticalArrangement = Arrangement.spacedBy(16.dp)
+              Column(
+                modifier = modifier.fillMaxSize()
                 ) {
-                    if (selectedColor != null) {
-                        SelectColorTopArea(
-                            screenProgress = screenProgress,
-                            topImagePath = topImagePath,
-                            topImageIndex = topImageIndex,
-                            onLeftClick = onLeftClick,
-                            onRightClick = onRightClick,
-                        )
+                if (selectedColor != null) {
+                    SelectColorTopArea(
+                        screenProgress = screenProgress,
+                        topImagePath = topImagePath,
+                        topImageIndex = topImageIndex,
+                        onLeftClick = onLeftClick,
+                        onRightClick = onRightClick,
+                    )
+                    Column(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(all = 16.dp),
+                        verticalArrangement = Arrangement.spacedBy(16.dp)
+                    ) {
                         Row(
                             modifier = Modifier
                                 .fillMaxWidth(),
@@ -163,36 +166,35 @@ fun SelectColorScreen(
                         ) {
                             OptionHeadText(optionName = category)
                             OptionRegular14Text(optionName = selectedColor.optionName)
-                        }
-                        LazyRow {
-                            itemsIndexed(colorOptions) { idx, item ->
-                                CarColorSelectItem(
-                                    onItemClick = {
-                                        onColorSelect(idx)
-                                        onSaveColor(item, screenProgress, isInitial)
-                                    },
-                                    imageUrl = item.imageUrl,
-                                    selected = selectedColor.imageUrl == item.imageUrl,
-                                )
-                            }
-                        }
-                        OptionInfoDivider(thickness = 4.dp, color = HyundaiLightSand)
-                        OptionSelectedInfo(
-                            optionName = selectedColor.optionName,
-                            optionTags = selectedColor.tags
-                        )
-                    }
-                    AnimatedVisibility(visible = selectedColor == null) {
-                        Text(
-                            modifier = Modifier
-                                .fillMaxSize()
-                                .align(Alignment.CenterHorizontally),
-                            text = "네트워크 오류 발생",
-                            textAlign = TextAlign.Center
-                        )
-                    }
+                          }
+                          LazyRow {
+                              itemsIndexed(colorOptions) { idx, item ->
+                                  CarColorSelectItem(
+                                      onItemClick = {
+                                          onColorSelect(idx)
+                                          onSaveColor(item, screenProgress, isInitial)
+                                      },
+                                      imageUrl = item.imageUrl,
+                                      selected = selectedColor.imageUrl == item.imageUrl,
+                                  )
+                              }
+                          }
+                          OptionInfoDivider(thickness = 4.dp, color = HyundaiLightSand)
+                          OptionSelectedInfo(
+                              optionName = selectedColor.optionName,
+                              optionTags = selectedColor.tags
+                          )
+                      }
                 }
-            }
+        }
+        AnimatedVisibility(visible = selectedColor == null) {
+            Text(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .align(Alignment.CenterHorizontally),
+                text = "네트워크 오류 발생",
+                textAlign = TextAlign.Center
+            )
         }
     }
 }
