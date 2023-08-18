@@ -62,6 +62,7 @@ fun RotateCarImage(
 
     LaunchedEffect(imagePath) {
         loadCounter = 0
+        imageLoader.memoryCache?.clear()
         // 다음 이미지 30개
         launch {
             for (imageNum in selectedIndex until selectedIndex + IMAGE_360_SIZE.div(2)) {
