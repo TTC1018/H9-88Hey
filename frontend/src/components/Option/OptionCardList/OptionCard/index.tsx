@@ -4,11 +4,10 @@ import { useOutletContext, useLocation } from 'react-router-dom';
 
 import { OptionContextProviderProps } from '@/types/option';
 import { checkIsSelectOptionPage, isHGenuineAccessoriesSelected } from '@/utils';
-import { useModalContext } from '@/hooks/useModalContext';
 import { ModalType } from '@/constants';
 
 import { OptionCardHover } from '@/components/Option/OptionCardList/OptionCardHover';
-import { ModalPortal } from '@/components/common/ModalPortal';
+import { ModalPortal } from '@/components/Option/ModalPortal';
 import { PopupModal } from '@/components/common/PopupModal';
 
 import * as Styled from './style';
@@ -38,6 +37,7 @@ export function OptionCard({
 }: Props) {
   const [isButtonActive, setIsButtonActive] = useState(false);
   const [isHover, setIsHover] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
 
   const { myCar, addOption, removeOption, clearHGenuineAccessories } = useOutletContext<OptionContextProviderProps>();
   const { options } = myCar;
@@ -46,25 +46,21 @@ export function OptionCard({
 
   const { pathname } = useLocation();
 
-  const { handleOpen } = useModalContext();
-
   function handleClickButton(isBlur: boolean) {
     if (isBlur) {
       return;
     }
 
     if (checkIsSelectOptionPage(pathname) && isHGenuineAccessoriesSelected(options)) {
-      handleOpen();
+      setIsOpen(true);
       return;
     }
 
     setIsButtonActive(prev => !prev);
 
-    if (isButtonActive) {
-      removeOption(name);
-    } else {
-      addOption({ id, name, price: additionalPrice, imageUrl, subOptions: subOptionNames, path: pathname });
-    }
+    isButtonActive
+      ? removeOption(name)
+      : addOption({ id, name, price: additionalPrice, imageUrl, subOptions: subOptionNames, path: pathname });
   }
 
   function handleHoverCard(isHover: boolean) {
@@ -83,11 +79,11 @@ export function OptionCard({
 
     setIsButtonActive(prev => !prev);
 
-    if (isButtonActive) {
-      removeOption(name);
-    } else {
-      addOption({ id, name, price: additionalPrice, imageUrl, subOptions: subOptionNames, path: pathname });
-    }
+    isButtonActive
+      ? removeOption(name)
+      : addOption({ id, name, price: additionalPrice, imageUrl, subOptions: subOptionNames, path: pathname });
+
+    setIsOpen(false);
   }
 
   useEffect(() => {
@@ -114,7 +110,7 @@ export function OptionCard({
         onMouseLeave={() => handleHoverCard(false)}
         onWheel={event => handleWheel(event)}
       />
-      <ModalPortal>
+      <ModalPortal isOpen={isOpen} handleClose={() => setIsOpen(false)}>
         <PopupModal type={ModalType.CLEAR} onClick={handleClearHGenuineAccessories} />
       </ModalPortal>
     </Styled.OptionCardWrapper>
