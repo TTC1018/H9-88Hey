@@ -2,11 +2,11 @@ import { Fragment, MouseEvent, useRef } from 'react';
 
 import { useNavigate } from 'react-router-dom';
 
-import { ModalType } from '@/constants';
-
-import { MyChivingDataProps } from '@/types/myChiving';
+import { MyCarProps } from '@/types/trim';
+import { MyChivingDataProps, MyChivingProps } from '@/types/myChiving';
 import { useFetch } from '@/hooks/useFetch';
 import { useModalContext } from '@/hooks/useModalContext';
+import { ModalType } from '@/constants';
 
 import { MyCarList } from '@/components/MyChiving/MyCarList';
 import { NoDataInfo } from '@/components/MyChiving/NoDataInfo';
@@ -15,38 +15,70 @@ import { ModalPortal } from '@/components/common/ModalPortal';
 
 import * as Styled from './style';
 
-const savedInitialData = {
-  myarchivings: [
-    {
-      id: 111,
-      model: '',
-      trim: '',
-      isSaved: true,
-      trimOptions: [''],
-      lastModifiedDate: '',
-      selectedOptions: [
-        {
-          name: '',
-          imageUrl: '',
-        },
-      ],
-    },
-  ],
+type MatchPathType = Record<string, string>;
+
+const matchPath: MatchPathType = {
+  model: '/trim',
+  trim: '/trim',
+  engine: '/trim/engine',
+  bodyType: '/trim/body-type',
+  wheelDrive: '/trim/wheel-drive',
+  interiorColor: '/color',
+  exteriorColor: '/color',
+  selectedOptions: '/option',
 };
 
-const tempInitialData = {
-  myarchivings: [
+const initialData = {
+  nextOffset: 1,
+  mychivings: [
     {
-      id: 222,
-      model: '',
-      trim: '',
+      myChivingId: 1,
+      lastModifiedDate: '2023-07-19',
       isSaved: false,
-      trimOptions: [''],
-      lastModifiedDate: '',
+      totalPrice: 0,
+      model: {
+        id: 1,
+        name: '',
+      },
+      trim: {
+        id: 1,
+        name: '',
+        price: 0,
+      },
+      engine: {
+        id: 1,
+        name: '',
+        additionalPrice: 0,
+      },
+      bodyType: {
+        id: 1,
+        name: '',
+        additionalPrice: 0,
+      },
+      wheelDrive: {
+        id: 1,
+        name: '',
+        additionalPrice: 0,
+      },
+      interiorColor: {
+        id: 1,
+        name: '',
+        colorImageUrl: '',
+      },
+      exteriorColor: {
+        id: 1,
+        name: '',
+        carImageUrl: '',
+        colorImageUrl: '',
+        additionalPrice: 0,
+      },
       selectedOptions: [
         {
+          id: '',
           name: '',
           imageUrl: '',
+          subOptions: [''],
+          additionalPrice: 0,
         },
       ],
     },
@@ -62,9 +94,12 @@ export function MySavedCar() {
   const { handleOpen } = useModalContext();
   const navigate = useNavigate();
 
-  const { data: tempData } = useFetch<MyChivingDataProps>({ defaultValue: tempInitialData, url: '/mychiving/temp' });
-  const { data: savedData } = useFetch<MyChivingDataProps>({ defaultValue: savedInitialData, url: '/mychiving' });
-  const allData = [...tempData.myarchivings, ...savedData.myarchivings];
+  const { data: myChivingData } = useFetch<MyChivingDataProps>({
+    defaultValue: initialData,
+    url: '/mychiving?limit=4&offset=0',
+  });
+
+  const { mychivings } = myChivingData;
 
   const modalInfo = useRef({
     type: ModalType.CLOSE,
@@ -72,21 +107,54 @@ export function MySavedCar() {
     onClick: () => {},
   });
 
-  function handleNavigate() {
-    navigate('/trim');
+  const myCar: MyCarProps = {
+    carType: { krName: '펠리세이드', enName: 'Palisade' },
+    trim: { name: '', price: 0, id: 0 },
+    engine: { name: '', additionalPrice: 0, id: 0 },
+    bodyType: { name: '', additionalPrice: 0, id: 0 },
+    wheelDrive: { name: '', additionalPrice: 0, id: 0 },
+    exteriorColor: { name: '', colorImageUrl: '', additionalPrice: 0 },
+    interiorColor: { name: '', colorImageUrl: '', id: 1 },
+    options: [],
+    carImageUrl: '',
+  };
+
+  function handleNavigate(myChiving: MyChivingProps) {
+    const { trim, engine, bodyType, wheelDrive, exteriorColor, interiorColor, selectedOptions } = myChiving;
+    const savedMyCar: MyCarProps = {
+      ...myCar,
+      trim: trim !== null ? trim : myCar.trim,
+      engine: engine !== null ? engine : myCar.engine,
+      bodyType: bodyType !== null ? bodyType : myCar.bodyType,
+      wheelDrive: wheelDrive !== null ? wheelDrive : myCar.wheelDrive,
+      exteriorColor: exteriorColor !== null ? exteriorColor : myCar.exteriorColor,
+      interiorColor: interiorColor !== null ? interiorColor : myCar.interiorColor,
+      options: selectedOptions !== null ? [...selectedOptions] : myCar.options,
+    };
+    if (myChiving.isSaved) {
+      localStorage.setItem('carType', JSON.stringify(savedMyCar));
+      navigate('/result');
+    } else {
+      const targetIndex = Object.values(myChiving).findIndex(value => value === null);
+      const lastIndex = Object.values(myChiving).length - 1;
+      const targetPath = Object.keys(myChiving)[targetIndex === -1 ? lastIndex : targetIndex];
+
+      localStorage.setItem('carType', JSON.stringify(savedMyCar));
+      navigate(matchPath[targetPath]);
+    }
   }
 
   // 목록 제거 함수
   function handleDeleteList() {}
 
-  function handleClick(data: ClickEventDataProps, event: MouseEvent<HTMLDivElement>) {
+  function handleClick(myChiving: MyChivingProps, data: ClickEventDataProps, event: MouseEvent<HTMLDivElement>) {
     const element = event.target as Element;
     const deleteButton = element.closest('button');
 
     if (deleteButton) {
       modalInfo.current = { type: ModalType.DELETE, contents: data.deleteText, onClick: handleDeleteList };
     } else {
-      modalInfo.current = { type: ModalType.MOVE, contents: data.moveText, onClick: handleNavigate };
+      modalInfo.current = { type: ModalType.MOVE, contents: data.moveText, onClick: () => handleNavigate(myChiving) };
     }
     handleOpen();
   }
@@ -94,17 +162,20 @@ export function MySavedCar() {
   return (
     <Fragment>
       <Styled.Contianer>
-        {allData.length > 0 ? (
+        {mychivings.length > 0 ? (
           <Styled.MyCarBox>
-            {allData.map((data, index) => (
+            {mychivings.map((data, index) => (
               <MyCarList
                 key={index}
                 isSaved={data.isSaved}
-                model={data.model}
-                trim={data.trim}
-                trimOptions={data.trimOptions}
+                model={data.model?.name || ''}
+                trim={data.trim?.name || ''}
+                engine={data.engine?.name || ''}
+                bodyType={data.bodyType?.name || ''}
+                wheelDrive={data.wheelDrive?.name || ''}
                 lastModifiedDate={data.lastModifiedDate}
                 selectedOptions={data.selectedOptions}
+                myChiving={data}
                 onClick={handleClick}
               />
             ))}

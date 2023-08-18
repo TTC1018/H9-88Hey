@@ -1,6 +1,8 @@
 import { MouseEvent } from 'react';
 
 import { formatDate } from '@/utils';
+import { MyChivingProps } from '@/types/myChiving';
+
 import { XButton } from '@/components/MyChiving/XButton';
 
 import * as Styled from './style';
@@ -17,28 +19,39 @@ interface ClickEventDataProps {
 
 interface MyCarListProps {
   isSaved: boolean;
-  model: string;
-  trim: string;
-  trimOptions: string[];
   lastModifiedDate: string;
-  selectedOptions: OptionProps[];
-  onClick: (data: ClickEventDataProps, event: MouseEvent<HTMLDivElement>) => void;
+  model?: string;
+  trim?: string;
+  engine?: string;
+  bodyType?: string;
+  wheelDrive?: string;
+  selectedOptions?: OptionProps[];
+  myChiving: MyChivingProps;
+  onClick: (myChiving: MyChivingProps, data: ClickEventDataProps, event: MouseEvent<HTMLDivElement>) => void;
 }
 
 export function MyCarList({
   isSaved,
   model,
   trim,
-  trimOptions,
+  engine,
+  bodyType,
+  wheelDrive,
   lastModifiedDate,
   selectedOptions,
+  myChiving,
   onClick,
 }: MyCarListProps) {
   const date = formatDate(lastModifiedDate);
   const dateInfoText = isSaved ? `${date}에 만들었어요.` : `${date} 임시저장`;
+  const trimOptions = `${engine}${bodyType !== '' ? ' / ' : ''}${bodyType}${
+    wheelDrive !== '' ? ' / ' : ''
+  }${wheelDrive}`;
 
   return (
-    <Styled.Container onClick={event => onClick({ deleteText: `${model} ${trim}`, moveText: `${date}` }, event)}>
+    <Styled.Container
+      onClick={event => onClick(myChiving, { deleteText: `${model} ${trim}`, moveText: `${date}` }, event)}
+    >
       <Styled.Wrapper>
         <Styled.InfoBox>
           {!isSaved && <Styled.InfoText>저장하지 않고 나간 차량이 있어요.</Styled.InfoText>}
@@ -48,7 +61,7 @@ export function MyCarList({
             <Styled.TitleText>
               {model} {trim}
             </Styled.TitleText>
-            <Styled.TrimText>{trimOptions.join(' / ')}</Styled.TrimText>
+            <Styled.TrimText>{trimOptions}</Styled.TrimText>
           </Styled.Title>
           <Styled.SubTitle>
             <Styled.SubTitleText isSaved={isSaved}>{dateInfoText}</Styled.SubTitleText>
@@ -56,7 +69,7 @@ export function MyCarList({
           </Styled.SubTitle>
         </Styled.MainBox>
         <Styled.OptionBox>
-          {selectedOptions.length > 0 ? (
+          {selectedOptions && selectedOptions.length > 0 ? (
             selectedOptions.map((option, index) => (
               <Styled.OptionCard key={index} imageUrl={option.imageUrl}>
                 <Styled.OptionCardText>{option.name}</Styled.OptionCardText>

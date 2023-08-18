@@ -40,13 +40,14 @@ export interface DefaultOptionProps {
 
 export interface OptionContextProviderProps {
   myCar: MyCarProps;
-  addOption: ({ name, price }: OptionContextProps) => void;
+  addOption: ({ name, additionalPrice }: OptionContextProps) => void;
   removeOption: (name: string) => void;
 }
 
 export interface OptionContextProps {
+  id: string;
   name: string;
-  price: number;
+  additionalPrice: number;
   imageUrl: string;
   subOptions: string[];
 }
