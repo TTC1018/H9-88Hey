@@ -10,6 +10,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+import org.springframework.transaction.annotation.Transactional;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -19,7 +20,8 @@ class MyChivingControllerTest {
 	private MockMvc mockMvc;
 
 	@Test
-	@DisplayName("최종 저 시에 해당 저장건에 대한 마이카이빙 id를 반환해야 한다")
+	@DisplayName("최종 저장 시에 해당 저장건에 대한 마이카이빙 id를 반환해야 한다")
+	@Transactional
 	void saveMyCarToMyChiving() throws Exception {
 		mockMvc.perform(MockMvcRequestBuilders.post("/mychiving")
 				.contentType("application/json")
@@ -40,7 +42,8 @@ class MyChivingControllerTest {
 	}
 
 	@Test
-	@DisplayName("")
+	@DisplayName("최초 임시저장 시에 새로운 마이카이빙 id를 반환해야 한다")
+	@Transactional
 	void temporarySaveMyCarToMyChiving() throws Exception {
 		mockMvc.perform(MockMvcRequestBuilders.post("/mychiving/temp")
 				.contentType("application/json")
