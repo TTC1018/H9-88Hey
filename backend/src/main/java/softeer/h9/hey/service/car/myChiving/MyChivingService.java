@@ -1,4 +1,4 @@
-package softeer.h9.hey.service.car;
+package softeer.h9.hey.service.car.myChiving;
 
 import java.util.List;
 
@@ -6,10 +6,10 @@ import org.springframework.stereotype.Service;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import softeer.h9.hey.dto.car.request.MyChivingSaveRequest;
-import softeer.h9.hey.dto.car.request.MyChivingTempSaveRequest;
-import softeer.h9.hey.dto.car.response.MyChivingIdResponse;
-import softeer.h9.hey.repository.car.MyChivingRepository;
+import softeer.h9.hey.dto.myChiving.request.MyChivingSaveRequest;
+import softeer.h9.hey.dto.myChiving.request.MyChivingTempSaveRequest;
+import softeer.h9.hey.dto.myChiving.response.MyChivingIdResponse;
+import softeer.h9.hey.repository.car.myChiving.MyChivingRepository;
 
 @Service
 @RequiredArgsConstructor

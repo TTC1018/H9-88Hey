@@ -1,6 +1,4 @@
-package softeer.h9.hey.dto.car.response;
-
-import java.util.List;
+package softeer.h9.hey.dto.myChiving.response;
 
 import lombok.Getter;
 
