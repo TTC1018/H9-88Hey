@@ -81,3 +81,14 @@ export interface MyCarLayoutContextProps {
 export interface CarCodeProps {
   carCode: string;
 }
+
+export enum MyCarActionTypeProps {
+  'TRIM' = 'TRIM',
+  'TRIM_OPTION' = 'TRIM_OPTION',
+  'EXTERIOR_COLOR' = 'EXTERIOR_COLOR',
+  'INTERIOR_COLOR' = 'INTERIOR_COLOR',
+  'ADD_OPTION' = 'ADD_OPTION',
+  'REMOVE_OPTION' = 'REMOVE_OPTION',
+  'SAVE_OPTION' = 'SAVE_OPTION',
+  'CAR_IMAGE_URL' = 'CAR_IMAGE_URL',
+}

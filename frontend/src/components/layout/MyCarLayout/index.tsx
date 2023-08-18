@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useReducer, useRef, useState } from 'react';
 
 import { Outlet, useLocation } from 'react-router-dom';
 
@@ -7,12 +7,13 @@ import {
   ExteriorColorDataProps,
   HandleTrimOptionProps,
   InteriorColorDataProps,
+  MyCarActionTypeProps,
   MyCarProps,
   TrimBaseProps,
 } from '@/types/trim';
 import { OptionContextProps } from '@/types/option';
-
 import { useCountPrice } from '@/hooks/useCountPrice';
+
 import { Header } from '@/components/common/Header';
 import { Footer } from '@/components/common/Footer';
 import { Navigation } from '@/components/common/Navigation';
@@ -30,13 +31,50 @@ const DEFAULT_STATE: MyCarProps = {
   options: [],
   carImageUrl: 'https://www.hyundai.com/contents/vr360/LX06/exterior/WC9/001.png', // 임시 mock data
 };
+interface actionType<T> {
+  type: MyCarActionTypeProps;
+  props: T;
+}
+function reducer<T>(state: MyCarProps, action: actionType<T>): MyCarProps {
+  switch (action.type) {
+    case 'TRIM':
+      return {
+        ...state,
+        trim: action.props as TrimBaseProps,
+      };
+    case 'TRIM_OPTION':
+      const { key, ...props } = action.props as HandleTrimOptionProps;
+      return {
+        ...state,
+        [key]: props,
+      };
+    case 'EXTERIOR_COLOR':
+      return {
+        ...state,
+        exteriorColor: action.props as ExteriorColorDataProps,
+      };
+    case 'INTERIOR_COLOR':
+      return { ...state, interiorColor: action.props as InteriorColorDataProps };
+    case 'ADD_OPTION':
+      return { ...state, options: [...state.options, action.props as OptionContextProps] };
+    case 'REMOVE_OPTION':
+      return { ...state, options: state.options.filter(options => options.name !== action.props) };
+    case 'CAR_IMAGE_URL':
+      return { ...state, carImageUrl: action.props as string };
+    case 'SAVE_OPTION':
+      return action.props as MyCarProps;
+    default:
+      return state;
+  }
+}
 export function MyCarLayout() {
   const { pathname } = useLocation();
   const carCode = useRef('');
 
   const localStorageData = getLocalStorage('myCar');
+  const [myCar, dispatch] = useReducer(reducer, localStorageData === null ? DEFAULT_STATE : localStorageData);
 
-  const [myCar, setMyCar] = useState<MyCarProps>(localStorageData === null ? DEFAULT_STATE : localStorageData);
+  // const [myCar, setMyCar] = useState<MyCarProps>(localStorageData === null ? DEFAULT_STATE : localStorageData);
 
   const myCarKeysWithPrice = ['engine', 'bodyType', 'wheelDrive', 'exteriorColor'];
 
@@ -54,33 +92,33 @@ export function MyCarLayout() {
 
   prevPrice.current = totalPrice;
 
-  function handleTrim(props: TrimBaseProps) {
-    setMyCar(prev => ({ ...prev, trim: props }));
-  }
+  // function handleTrim(props: TrimBaseProps) {
+  //   setMyCar(prev => ({ ...prev, trim: props }));
+  // }
 
-  function handleTrimOption({ key, ...props }: HandleTrimOptionProps) {
-    setMyCar(prev => ({ ...prev, [key]: props }));
-  }
+  // function handleTrimOption({ key, ...props }: HandleTrimOptionProps) {
+  //   setMyCar(prev => ({ ...prev, [key]: props }));
+  // }
 
-  function handleExteriorColor(props: ExteriorColorDataProps) {
-    setMyCar(prev => ({ ...prev, exteriorColor: props }));
-  }
+  // function handleExteriorColor(props: ExteriorColorDataProps) {
+  //   setMyCar(prev => ({ ...prev, exteriorColor: props }));
+  // }
 
-  function handleInteriorColor(props: InteriorColorDataProps) {
-    setMyCar(prev => ({ ...prev, interiorColor: props }));
-  }
+  // function handleInteriorColor(props: InteriorColorDataProps) {
+  //   setMyCar(prev => ({ ...prev, interiorColor: props }));
+  // }
 
-  function addOption(props: OptionContextProps) {
-    setMyCar(prev => ({ ...prev, options: [...prev.options, props] }));
-  }
+  // function addOption(props: OptionContextProps) {
+  //   setMyCar(prev => ({ ...prev, options: [...prev.options, props] }));
+  // }
 
-  function handleCarImageUrl(carImageUrl: string) {
-    setMyCar(prev => ({ ...prev, carImageUrl }));
-  }
+  // function handleCarImageUrl(carImageUrl: string) {
+  //   setMyCar(prev => ({ ...prev, carImageUrl }));
+  // }
 
-  function removeOption(name: string) {
-    setMyCar(prev => ({ ...prev, options: prev.options.filter(options => options.name !== name) }));
-  }
+  // function removeOption(name: string) {
+  //   setMyCar(prev => ({ ...prev, options: prev.options.filter(options => options.name !== name) }));
+  // }
 
   function handleLocalStorage() {
     localStorage.setItem('myCar', JSON.stringify(myCar));
@@ -93,7 +131,7 @@ export function MyCarLayout() {
       return;
     }
     const savedOptions: MyCarProps = JSON.parse(localStorageData);
-    setMyCar(savedOptions);
+    dispatch({ type: MyCarActionTypeProps.SAVE_OPTION, props: savedOptions });
   }, []);
 
   return (
