@@ -10,7 +10,7 @@ import lombok.RequiredArgsConstructor;
 import softeer.h9.hey.dto.myChiving.request.MyChivingSaveRequest;
 import softeer.h9.hey.dto.myChiving.request.MyChivingTempSaveRequest;
 import softeer.h9.hey.dto.myChiving.response.MyChivingIdResponse;
-import softeer.h9.hey.service.car.myChiving.MyChivingService;
+import softeer.h9.hey.service.myChiving.MyChivingService;
 import softeer.h9.hey.dto.global.response.GlobalResponse;
 
 @RestController

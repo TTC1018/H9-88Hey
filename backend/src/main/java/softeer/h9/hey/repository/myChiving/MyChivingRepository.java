@@ -1,4 +1,4 @@
-package softeer.h9.hey.repository.car;
+package softeer.h9.hey.repository.myChiving;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -13,6 +13,8 @@ import org.springframework.transaction.annotation.Transactional;
 import com.github.f4b6a3.tsid.TsidCreator;
 
 import lombok.RequiredArgsConstructor;
+import softeer.h9.hey.domain.myChiving.MyChiving;
+import softeer.h9.hey.dto.myChiving.MyChivingSaveDto;
 
 @RequiredArgsConstructor
 @Repository
@@ -21,9 +23,17 @@ public class MyChivingRepository {
 	private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
 	@Transactional
-	public Long saveMyCarToMyChiving(final Long id, final Integer engineId, final Integer trimId,
-		final Integer bodyTypeId, final Integer wheelTypeId, final Integer exteriorColorId,
-		final Integer interiorColorId, final List<String> selectOptionIdList, final boolean isSubmit) {
+	public Long saveMyCarToMyChiving(final MyChivingSaveDto myChivingSaveDto) {
+		Long id = myChivingSaveDto.getId();
+		Integer userId = myChivingSaveDto.getUserId();
+		Integer engineId = myChivingSaveDto.getEngineId();
+		Integer trimId = myChivingSaveDto.getTrimId();
+		Integer bodyTypeId = myChivingSaveDto.getBodyTypeId();
+		Integer wheelTypeId = myChivingSaveDto.getWheelTypeId();
+		Integer exteriorColorId = myChivingSaveDto.getExteriorColorId();
+		Integer interiorColorId = myChivingSaveDto.getInteriorColorId();
+		List<String> selectOptionIdList = myChivingSaveDto.getSelectOptionIdList();
+		boolean isSubmit = myChivingSaveDto.isSubmitted();
 
 		//myArchiving update용 sql 선언
 		StringBuilder sqlBuilder = new StringBuilder();
@@ -38,7 +48,7 @@ public class MyChivingRepository {
 		//파라미터 초기화
 		myArchivingParams
 			.addValue("id", myChivingId)
-			.addValue("userId",1)
+			.addValue("userId", userId)
 			.addValue("engineId", engineId)
 			.addValue("trimId", trimId)
 			.addValue("bodyTypeId", bodyTypeId)
