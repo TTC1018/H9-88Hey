@@ -5,6 +5,7 @@ import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
@@ -29,8 +30,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -58,7 +62,6 @@ fun RotateCarImage(
     onRightClick: () -> Unit,
 ) {
     val context = LocalContext.current
-    val interactionSource = remember { MutableInteractionSource() }
     val imageLoader = remember {
         ImageLoader.Builder(context)
             .memoryCache {
@@ -111,10 +114,20 @@ fun RotateCarImage(
         1f to Color.Transparent
     )
 
+    val imageWidth = LocalConfiguration.current.screenWidthDp
     Box(
         modifier = modifier
             .fillMaxWidth()
-            .height(200.dp),
+            .height(200.dp)
+            .pointerInput(Unit) {
+                detectDragGestures { change, dragAmount ->
+                    Log.d(TAG, dragAmount.x.toString())
+                    when {
+                        dragAmount.x >= imageWidth.div(IMAGE_360_SIZE) -> onRightClick()
+                        dragAmount.x <= -imageWidth.div(IMAGE_360_SIZE) -> onLeftClick()
+                    }
+                }
+            },
         contentAlignment = Alignment.Center
     ) {
         Image(
@@ -169,26 +182,6 @@ fun RotateCarImage(
                     )
                 }
             }
-        }
-        Row(
-            modifier = Modifier.fillMaxSize()
-        ) {
-            Box(
-                modifier = Modifier
-                    .fillMaxHeight()
-                    .weight(1f)
-                    .clickable(interactionSource = interactionSource, indication = null) {
-                        onLeftClick()
-                    }
-            )
-            Box(
-                modifier = Modifier
-                    .fillMaxHeight()
-                    .weight(1f)
-                    .clickable(interactionSource = interactionSource, indication = null) {
-                        onRightClick()
-                    }
-            )
         }
     }
 }
