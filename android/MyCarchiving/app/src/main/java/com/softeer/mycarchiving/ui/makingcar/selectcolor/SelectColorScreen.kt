@@ -37,11 +37,17 @@ import com.softeer.mycarchiving.ui.component.RotateCarImage
 import com.softeer.mycarchiving.ui.makingcar.MakingCarViewModel
 import com.softeer.mycarchiving.ui.makingcar.loading.LoadingScreen
 import com.softeer.mycarchiving.ui.theme.HyundaiLightSand
+import com.softeer.mycarchiving.util.TRIM_COLOR
+import com.softeer.mycarchiving.util.TRIM_EXTERIOR
+import com.softeer.mycarchiving.util.TRIM_EXTRA
+import com.softeer.mycarchiving.util.TRIM_INTERIOR
+import com.softeer.mycarchiving.util.TRIM_OPTION
 import com.softeer.mycarchiving.util.fadeInAndOut
 
 @Composable
 fun SelectColorRoute(
     modifier: Modifier = Modifier,
+    mainProgress: Int,
     screenProgress: Int,
     viewModelStoreOwner: ViewModelStoreOwner,
     selectColorViewModel: SelectColorViewModel = hiltViewModel(),
@@ -57,9 +63,9 @@ fun SelectColorRoute(
     val selectedColor by makingCarViewModel.selectedColor.collectAsStateWithLifecycle()
 
     LaunchedEffect(key1 = screenProgress, key2 = exteriors, key3 = interiors) {
-        val colorOptions = when (screenProgress) {
-            0 -> exteriors
-            1 -> interiors
+        val colorOptions = when (mainProgress to screenProgress) {
+            TRIM_COLOR to TRIM_EXTERIOR -> exteriors
+            TRIM_COLOR to TRIM_INTERIOR, TRIM_OPTION to TRIM_EXTRA -> interiors
             else -> emptyList()
         }
 
@@ -97,18 +103,21 @@ fun SelectColorRoute(
 
     SelectColorScreen(
         modifier = modifier,
+        mainProgress = mainProgress,
         screenProgress = screenProgress,
-        topImagePath = when (screenProgress) {
-            0 -> carImageUrls.getOrNull(selectedIndex) ?: ""
-            1 -> interiorImageUrls.getOrNull(selectedIndex) ?: ""
+        topImagePath = when (mainProgress to screenProgress) {
+            TRIM_COLOR to TRIM_EXTERIOR -> carImageUrls.getOrNull(selectedIndex) ?: ""
+            TRIM_COLOR to TRIM_INTERIOR,
+            TRIM_OPTION to TRIM_EXTRA -> interiorImageUrls.getOrNull(selectedIndex) ?: ""
             else -> ""
         },
         topImageIndex = topImageIndex,
         category = category,
         selectedIndex = selectedIndex,
-        colorOptions = when (screenProgress) {
-            0 -> exteriors
-            1 -> interiors
+        colorOptions = when (mainProgress to screenProgress) {
+            TRIM_COLOR to TRIM_EXTERIOR -> exteriors
+            TRIM_COLOR to TRIM_INTERIOR,
+            TRIM_OPTION to TRIM_EXTRA -> interiors
             else -> emptyList()
         },
         isInitial = selectedColor.getOrNull(screenProgress) == null,
@@ -123,6 +132,7 @@ fun SelectColorRoute(
 @Composable
 fun SelectColorScreen(
     modifier: Modifier,
+    mainProgress: Int,
     screenProgress: Int,
     topImagePath: String,
     topImageIndex: Int,
@@ -138,7 +148,7 @@ fun SelectColorScreen(
 ) {
     val selectedColor = colorOptions.getOrNull(selectedIndex)
     LaunchedEffect(topImagePath) {
-        if (screenProgress == 0) {
+        if (mainProgress == TRIM_COLOR && screenProgress == TRIM_EXTERIOR) {
             // 내차만들기 완성에서 보여줄 URL
             onSaveImageUrl(topImagePath)
         }
@@ -158,6 +168,7 @@ fun SelectColorScreen(
                 ) {
                     if (selectedColor != null) {
                         SelectColorTopArea(
+                            mainProgress = mainProgress,
                             screenProgress = screenProgress,
                             topImagePath = topImagePath,
                             topImageIndex = topImageIndex,
@@ -209,14 +220,15 @@ fun SelectColorScreen(
 @Composable
 fun SelectColorTopArea(
     modifier: Modifier = Modifier,
+    mainProgress: Int,
     screenProgress: Int,
     topImagePath: String,
     topImageIndex: Int,
     onLeftClick: () -> Unit,
     onRightClick: () -> Unit,
 ) {
-    when (screenProgress) {
-        0 -> {
+    when (mainProgress to screenProgress) {
+        TRIM_COLOR to TRIM_EXTERIOR -> {
             RotateCarImage(
                 modifier = modifier,
                 imagePath = topImagePath,
@@ -226,7 +238,7 @@ fun SelectColorTopArea(
             )
         }
 
-        1 -> {
+        TRIM_COLOR to TRIM_INTERIOR, TRIM_OPTION to TRIM_EXTRA -> {
             AsyncImage(
                 modifier = modifier
                     .fillMaxWidth()
@@ -247,6 +259,7 @@ fun SelectColorTopArea(
 fun PreviewSelectColorScreen() {
     SelectColorScreen(
         modifier = Modifier,
+        mainProgress = 0,
         screenProgress = 0,
         topImagePath = "",
         topImageIndex = 0,
