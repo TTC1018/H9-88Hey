@@ -137,9 +137,6 @@ export const Description = styled.div<Props>`
       color: ${isEmpty ? 'rgba(0, 44, 95, 0.40)' : colors.hyundaiPrimaryBlue};
       ${fonts.bodyRegular3}
       overflow-y: scroll;
-      ::-webkit-scrollbar {
-        display: none;
-      }
     `;
   }}
 `;
