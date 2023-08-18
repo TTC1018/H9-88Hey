@@ -31,7 +31,7 @@ import coil.compose.AsyncImage
 import coil.memory.MemoryCache
 import coil.request.ImageRequest
 import com.softeer.mycarchiving.ui.theme.PrimaryBlue
-import com.softeer.mycarchiving.util.fadeInAndOut
+import com.softeer.mycarchiving.util.scaleInAndOut
 import kotlinx.coroutines.launch
 
 private val TAG = "RotateCarImage"
@@ -98,7 +98,7 @@ fun RotateCarImage(
     ) {
         AnimatedContent(
             targetState = loadEnded,
-            transitionSpec = { fadeInAndOut() },
+            transitionSpec = { scaleInAndOut() },
             contentAlignment = Alignment.Center,
             label = ""
         ) {
