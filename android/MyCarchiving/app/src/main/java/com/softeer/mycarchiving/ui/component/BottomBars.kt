@@ -29,6 +29,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.ViewModelStoreOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.softeer.mycarchiving.R
+import com.softeer.mycarchiving.navigation.MyArchiveDestinations.*
 import com.softeer.mycarchiving.ui.HyundaiAppState
 import com.softeer.mycarchiving.ui.makingcar.MakingCarViewModel
 import com.softeer.mycarchiving.ui.rememberHyundaiAppState
@@ -228,13 +229,11 @@ fun ArchiveBottomBar(
 
 @Composable
 fun MyArchiveBottomBar(
-    modifier: Modifier = Modifier,
-    totalPrice: Int,
-    onButtonClick: () -> Unit,
+    modifier: Modifier = Modifier
 ) {
     BottomBar(
         modifier = modifier,
-        totalPrice = totalPrice,
+        totalPrice = 0,
         summaryText = stringResource(id = R.string.archive_total_price),
         underLineWidth = 35,
         buttonArea = {
@@ -243,7 +242,7 @@ fun MyArchiveBottomBar(
                 backgroundColor = PrimaryBlue,
                 textColor = HyundaiLightSand,
                 text = stringResource(id = R.string.purchase_car),
-                onClick = onButtonClick
+                onClick = {/*unused*/}
             )
         }
     )
@@ -268,11 +267,7 @@ fun PreviewArchiveBottomBar() {
 @Preview
 @Composable
 fun PreviewMyArchiveBottomBar() {
-    MyArchiveBottomBar(
-        modifier = Modifier,
-        totalPrice = 47720000,
-        onButtonClick = {},
-    )
+    MyArchiveBottomBar()
 }
 
 

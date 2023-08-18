@@ -8,7 +8,7 @@ import com.softeer.mycarchiving.ui.archiving.makingArchiveGraph
 import com.softeer.mycarchiving.ui.login.loginScreen
 import com.softeer.mycarchiving.ui.makingcar.makingCarGraph
 import com.softeer.mycarchiving.ui.makingcar.navigateToMakingCar
-import com.softeer.mycarchiving.ui.myarchive.myArchivingScreen
+import com.softeer.mycarchiving.ui.myarchive.makingMyArchiveGraph
 
 @Composable
 fun HyundaiNavHost(
@@ -26,6 +26,6 @@ fun HyundaiNavHost(
         loginScreen(onLogin = navController::navigateToMakingCar)
         makingCarGraph(appState = appState)
         makingArchiveGraph(appState = appState)
-        myArchivingScreen(onBackClick = navController::popBackStack)
+        makingMyArchiveGraph(appState = appState)
     }
 }
