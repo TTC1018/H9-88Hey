@@ -29,7 +29,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.ViewModelStoreOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.softeer.mycarchiving.R
-import com.softeer.mycarchiving.navigation.MainDestination
 import com.softeer.mycarchiving.ui.HyundaiAppState
 import com.softeer.mycarchiving.ui.makingcar.MakingCarViewModel
 import com.softeer.mycarchiving.ui.rememberHyundaiAppState
@@ -46,13 +45,15 @@ import com.softeer.mycarchiving.util.toPriceString
 fun HyundaiBottomBar(
     appState: HyundaiAppState,
 ) {
-    when (appState.currentMainDestination) {
-        MainDestination.ARCHIVING -> ArchiveBottomBar(
-            totalPrice = 0,
-            appState = appState,
-            onSaveClick = {},
-            onButtonClick = {}
-        )
+/*    when (appState.currentMainDestination) {
+        MainDestination.ARCHIVING -> {
+*//*            ArchiveBottomBar(
+                totalPrice = 0,
+                appState = appState,
+                onSaveClick = {},
+                onButtonClick = {}
+            )*//*
+        }
 
         MainDestination.MY_ARCHIVING -> MyArchiveBottomBar(
             totalPrice = 0,
@@ -69,7 +70,7 @@ fun HyundaiBottomBar(
 
         MainDestination.DRIVER_COMMENT, MainDestination.CONSUMER_COMMENT -> {}
         else -> @Composable {}
-    }
+    }*/
 }
 
 @Composable
@@ -198,39 +199,31 @@ fun MakeCarBottomBar(
 @Composable
 fun ArchiveBottomBar(
     modifier: Modifier = Modifier,
-    appState: HyundaiAppState,
-    totalPrice: Int,
-    onButtonClick: () -> Unit,
-    onSaveClick: () -> Unit,
 ) {
-    appState.currentArchivingDestination?.needBottomBar?.let { needBottomBar ->
-        if (needBottomBar) {
-            BottomBar(
-                modifier = modifier,
-                totalPrice = totalPrice,
-                summaryText = stringResource(id = R.string.archive_total_price),
-                underLineWidth = 35,
-                buttonArea = {
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        ArchiveSaveButton(
-                            modifier = modifier,
-                            onSave = onSaveClick
-                        )
-                        Spacer(modifier = modifier.width(16.dp))
-                        HyundaiButton(
-                            modifier = modifier,
-                            backgroundColor = PrimaryBlue,
-                            textColor = HyundaiLightSand,
-                            text = stringResource(id = R.string.archive_make_my_car),
-                            onClick = onButtonClick
-                        )
-                    }
-                }
-            )
+    BottomBar(
+        modifier = modifier,
+        totalPrice = 0,
+        summaryText = stringResource(id = R.string.archive_total_price),
+        underLineWidth = 35,
+        buttonArea = {
+            Row(
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                ArchiveSaveButton(
+                    modifier = modifier,
+                    onSave = {}
+                )
+                Spacer(modifier = modifier.width(16.dp))
+                HyundaiButton(
+                    modifier = modifier,
+                    backgroundColor = PrimaryBlue,
+                    textColor = HyundaiLightSand,
+                    text = stringResource(id = R.string.archive_make_my_car),
+                    onClick = {}
+                )
+            }
         }
-    }
+    )
 }
 
 @Composable
@@ -269,13 +262,7 @@ fun PreviewMakeCarBottomBar() {
 @Preview
 @Composable
 fun PreviewArchiveBottomBar() {
-    ArchiveBottomBar(
-        modifier = Modifier,
-        appState = rememberHyundaiAppState(),
-        totalPrice = 47720000,
-        onButtonClick = {},
-        onSaveClick = {}
-    )
+    ArchiveBottomBar()
 }
 
 @Preview

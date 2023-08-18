@@ -9,7 +9,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.navigation.NavDestination
-import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
@@ -21,12 +20,12 @@ import com.softeer.mycarchiving.navigation.MainDestination.*
 import com.softeer.mycarchiving.navigation.MakingCarDestinations
 import com.softeer.mycarchiving.navigation.MakingCarDestinations.*
 import com.softeer.mycarchiving.ui.archiving.archivingdetail.navigateToArchivingDetail
+import com.softeer.mycarchiving.ui.archiving.archivingmain.navigateToArchiveMain
 import com.softeer.mycarchiving.ui.archiving.navigateToArchive
 import com.softeer.mycarchiving.ui.login.navigateToLogin
 import com.softeer.mycarchiving.ui.makingcar.complete.navigateToComplete
 import com.softeer.mycarchiving.ui.makingcar.navigateToMakingCar
 import com.softeer.mycarchiving.ui.makingcar.selectcolor.navigateToSelectColor
-import com.softeer.mycarchiving.ui.makingcar.selectmodel.navigateToSelectModel
 import com.softeer.mycarchiving.ui.makingcar.selectoption.navigateToSelectOption
 import com.softeer.mycarchiving.ui.makingcar.selecttrim.navigateToSelectTrim
 import com.softeer.mycarchiving.ui.myarchive.navigateToMyArchiving
@@ -38,6 +37,7 @@ fun rememberHyundaiAppState(
     coroutineScope: CoroutineScope = rememberCoroutineScope(),
     navController: NavHostController = rememberNavController(),
     makingCarNavController: NavHostController = rememberNavController(),
+    archivingNavController: NavHostController = rememberNavController(),
 ): HyundaiAppState {
     return remember(
         navController,
@@ -45,6 +45,7 @@ fun rememberHyundaiAppState(
         HyundaiAppState(
             navController = navController,
             makingCarNavController = makingCarNavController,
+            archivingNavController = archivingNavController,
             coroutineScope = coroutineScope,
         )
     }
@@ -54,6 +55,7 @@ fun rememberHyundaiAppState(
 class HyundaiAppState(
     val navController: NavHostController,
     val makingCarNavController: NavHostController,
+    val archivingNavController: NavHostController,
     val coroutineScope: CoroutineScope,
 ) {
     private val currentDestination: NavDestination?
@@ -64,16 +66,18 @@ class HyundaiAppState(
         @Composable get() = makingCarNavController
             .currentBackStackEntryAsState().value?.destination
 
+    private val currentArchivingDestination: NavDestination?
+        @Composable get() = archivingNavController
+            .currentBackStackEntryAsState().value?.destination
+
     val currentMainDestination: MainDestination?
         @Composable get() = when (currentDestination?.route) {
             LOGIN.route -> LOGIN
-            MAKING_CAR.route,
-            ARCHIVING_MAIN.route,
-            ARCHIVING_DETAIL.route,
+            MAKING_CAR.route -> MAKING_CAR
             ARCHIVING.route -> ARCHIVING
-
             MY_ARCHIVING.route -> MY_ARCHIVING
-
+            DRIVER_COMMENT.route -> DRIVER_COMMENT
+            CONSUMER_COMMENT.route -> CONSUMER_COMMENT
             else -> null
         }
 
@@ -87,8 +91,8 @@ class HyundaiAppState(
             else -> null
         }
 
-    val currentArchivingDestination: ArchivingDestinations?
-        @Composable get() = when(currentDestination?.route) {
+    val currentArchivingDestinations: ArchivingDestinations?
+        @Composable get() = when(currentArchivingDestination?.route) {
             ARCHIVING_MAIN.route -> ARCHIVING_MAIN
             ARCHIVING_DETAIL.route -> ARCHIVING_DETAIL
             else -> null
@@ -103,9 +107,9 @@ class HyundaiAppState(
     fun navigateToMainDestination(mainDestination: MainDestination) {
         val mainNavOptions = navOptions {
             //
-            popUpTo(navController.graph.findStartDestination().id) {
+            /*popUpTo(navController.graph.findStartDestination().id) {
                 saveState = true
-            }
+            }*/
 
             // 같은 장소로 또 이동했을 때 백스택에 중복으로 쌓이는 것을 방지
             launchSingleTop = true
@@ -136,8 +140,8 @@ class HyundaiAppState(
 
     fun navigateToArchivingDestination(archivingDestination: ArchivingDestinations?) {
         when(archivingDestination) {
-            ARCHIVING_MAIN -> navController.navigateToArchive()
-            ARCHIVING_DETAIL -> navController.navigateToArchivingDetail()
+            ARCHIVING_MAIN -> archivingNavController.navigateToArchiveMain()
+            ARCHIVING_DETAIL -> archivingNavController.navigateToArchivingDetail()
             else -> {}
         }
     }
