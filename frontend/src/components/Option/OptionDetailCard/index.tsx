@@ -24,11 +24,13 @@ export function OptionDetailCard({ index, length, name, description, onClick }: 
           <Styled.Ellipse>{convertToTwoDigits(index)}</Styled.Ellipse>
           <Styled.Title>{name}</Styled.Title>
         </Styled.TitleBox>
-        <Styled.OrderBox>
-          <Styled.Order>
-            {index + 1}/{length}
-          </Styled.Order>
-        </Styled.OrderBox>
+        <Styled.Flex>
+          <Styled.OrderBox>
+            <Styled.Order>
+              {index + 1}/{length}
+            </Styled.Order>
+          </Styled.OrderBox>
+        </Styled.Flex>
       </Styled.TitleWrapper>
       <Styled.Line />
       <Styled.DescriptionWrapper>
