@@ -1,5 +1,6 @@
 package com.softeer.mycarchiving.ui.makingcar.selectcolor
 
+import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -21,6 +22,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.ViewModelStoreOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
@@ -34,14 +36,17 @@ import com.softeer.mycarchiving.ui.component.OptionRegular14Text
 import com.softeer.mycarchiving.ui.component.OptionSelectedInfo
 import com.softeer.mycarchiving.ui.component.RotateCarImage
 import com.softeer.mycarchiving.ui.makingcar.MakingCarViewModel
+import com.softeer.mycarchiving.ui.makingcar.loading.LoadingScreen
 import com.softeer.mycarchiving.ui.theme.HyundaiLightSand
+import com.softeer.mycarchiving.util.fadeInAndOut
 
 @Composable
 fun SelectColorRoute(
     modifier: Modifier = Modifier,
     screenProgress: Int,
+    viewModelStoreOwner: ViewModelStoreOwner,
     selectColorViewModel: SelectColorViewModel = hiltViewModel(),
-    makingCarViewModel: MakingCarViewModel = hiltViewModel(LocalContext.current as MainActivity)
+    makingCarViewModel: MakingCarViewModel = hiltViewModel(viewModelStoreOwner)
 ) {
     val carImageUrls by selectColorViewModel.imageUrls.collectAsStateWithLifecycle()
     val interiorImageUrls by selectColorViewModel.interiorImageUrls.collectAsStateWithLifecycle()
@@ -128,50 +133,59 @@ fun SelectColorScreen(
         }
     }
 
-    Column(
-        modifier = modifier.fillMaxSize()
+    AnimatedContent(
+        targetState = colorOptions,
+        transitionSpec = { fadeInAndOut() },
+        label = ""
     ) {
-        if (selectedColor != null) {
-            SelectColorTopArea(
-                screenProgress = screenProgress,
-                topImagePath = topImagePath,
-                topImageIndex = topImageIndex,
-                onLeftClick = onLeftClick,
-                onRightClick = onRightClick,
-            )
-            Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(all = 16.dp),
-                verticalArrangement = Arrangement.spacedBy(16.dp)
-            ) {
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.CenterVertically
+        when {
+            it.isEmpty() -> LoadingScreen {}
+            else -> {
+              Column(
+                modifier = modifier.fillMaxSize()
                 ) {
-                    OptionHeadText(optionName = category)
-                    OptionRegular14Text(optionName = selectedColor.optionName)
+                if (selectedColor != null) {
+                    SelectColorTopArea(
+                        screenProgress = screenProgress,
+                        topImagePath = topImagePath,
+                        topImageIndex = topImageIndex,
+                        onLeftClick = onLeftClick,
+                        onRightClick = onRightClick,
+                    )
+                    Column(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(all = 16.dp),
+                        verticalArrangement = Arrangement.spacedBy(16.dp)
+                    ) {
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth(),
+                            horizontalArrangement = Arrangement.SpaceBetween,
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            OptionHeadText(optionName = category)
+                            OptionRegular14Text(optionName = selectedColor.optionName)
+                          }
+                          LazyRow {
+                              itemsIndexed(colorOptions) { idx, item ->
+                                  CarColorSelectItem(
+                                      onItemClick = {
+                                          onColorSelect(idx)
+                                          onSaveColor(item, screenProgress, isInitial)
+                                      },
+                                      imageUrl = item.imageUrl,
+                                      selected = selectedColor.imageUrl == item.imageUrl,
+                                  )
+                              }
+                          }
+                          OptionInfoDivider(thickness = 4.dp, color = HyundaiLightSand)
+                          OptionSelectedInfo(
+                              optionName = selectedColor.optionName,
+                              optionTags = selectedColor.tags
+                          )
+                      }
                 }
-                LazyRow {
-                    itemsIndexed(colorOptions) { idx, item ->
-                        CarColorSelectItem(
-                            onItemClick = {
-                                onColorSelect(idx)
-                                onSaveColor(item, screenProgress, isInitial)
-                            },
-                            imageUrl = item.imageUrl,
-                            selected = selectedColor.imageUrl == item.imageUrl,
-                        )
-                    }
-                }
-                OptionInfoDivider(thickness = 4.dp, color = HyundaiLightSand)
-                OptionSelectedInfo(
-                    optionName = selectedColor.optionName,
-                    optionTags = selectedColor.tags
-                )
-            }
         }
         AnimatedVisibility(visible = selectedColor == null) {
             Text(

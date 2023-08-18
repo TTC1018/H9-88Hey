@@ -15,6 +15,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.ViewModelStoreOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.softeer.data.CarColorType
 import com.softeer.mycarchiving.MainActivity
@@ -34,7 +35,8 @@ import com.softeer.mycarchiving.ui.theme.ThinGray
 @Composable
 fun CompleteRoute(
     modifier: Modifier = Modifier,
-    makingCarViewModel: MakingCarViewModel = hiltViewModel(LocalContext.current as MainActivity),
+    viewModelStoreOwner: ViewModelStoreOwner,
+    makingCarViewModel: MakingCarViewModel = hiltViewModel(viewModelStoreOwner),
 ) {
     val carName by makingCarViewModel.selectedCarName.collectAsStateWithLifecycle()
     val carImage by makingCarViewModel.selectedCarImage.observeAsState()

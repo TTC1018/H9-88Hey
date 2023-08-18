@@ -26,6 +26,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.ViewModelStoreOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.softeer.mycarchiving.R
 import com.softeer.mycarchiving.navigation.MainDestination
@@ -45,7 +46,7 @@ import com.softeer.mycarchiving.util.toPriceString
 fun HyundaiBottomBar(
     appState: HyundaiAppState,
 ) {
-    when(appState.currentMainDestination) {
+    when (appState.currentMainDestination) {
         MainDestination.ARCHIVING -> ArchiveBottomBar(
             totalPrice = 0,
             appState = appState,
@@ -58,7 +59,14 @@ fun HyundaiBottomBar(
             onButtonClick = {}
         )
 
-        MainDestination.MAKING_CAR -> MakeCarBottomBar(appState = appState)
+        MainDestination.MAKING_CAR -> {
+            // MakingCarNavigation.kt으로 이동
+//            MakeCarBottomBar(
+//                appState = appState,
+//                viewModelStoreOwner = viewModelStoreOwner
+//            )
+        }
+
         MainDestination.DRIVER_COMMENT, MainDestination.CONSUMER_COMMENT -> {}
         else -> @Composable {}
     }
@@ -133,10 +141,12 @@ fun BottomBar(
 fun MakeCarBottomBar(
     modifier: Modifier = Modifier,
     appState: HyundaiAppState,
-    viewModel: MakingCarViewModel = hiltViewModel(),
+    viewModelStoreOwner: ViewModelStoreOwner?,
+    viewModel: MakingCarViewModel =
+        viewModelStoreOwner?.run { hiltViewModel(this) } ?: hiltViewModel(),
 ) {
     val destination = appState.currentMakingCarDestinations
-    val processEnd by appState.progressEnd.collectAsStateWithLifecycle()
+    val processEnd = appState.progressEnd
     val totalPrice by viewModel.totalPrice.collectAsStateWithLifecycle()
     val showSummary by viewModel.showSummary.collectAsStateWithLifecycle()
     val trimOptions by viewModel.selectedTrim.collectAsStateWithLifecycle()
@@ -252,6 +262,7 @@ fun PreviewMakeCarBottomBar() {
     MakeCarBottomBar(
         modifier = Modifier,
         appState = rememberHyundaiAppState(),
+        viewModelStoreOwner = null,
     )
 }
 

@@ -23,6 +23,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.ViewModelStoreOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.softeer.mycarchiving.R
 import com.softeer.mycarchiving.navigation.MainDestination
@@ -48,7 +49,13 @@ fun HyundaiTopBar(
             onStartAreaClick = appState.navController::popBackStack
         )
 
-        MainDestination.MAKING_CAR -> MakeCarTopBar(appState = appState)
+        MainDestination.MAKING_CAR -> {
+            // MakingCarNavigation.kt로 이전
+//            MakeCarTopBar(
+//                appState = appState,
+//                viewModelStoreOwner = viewModelStoreOwner
+//            )
+        }
 
         MainDestination.DRIVER_COMMENT,
         MainDestination.CONSUMER_COMMENT -> ReviewNavigateBar(
@@ -64,13 +71,15 @@ fun HyundaiTopBar(
 @Composable
 fun MakeCarTopBar(
     appState: HyundaiAppState,
-    viewModel: MakingCarViewModel = hiltViewModel(),
+    viewModelStoreOwner: ViewModelStoreOwner?,
+    viewModel: MakingCarViewModel =
+        viewModelStoreOwner?.run { hiltViewModel(this) } ?: hiltViewModel(),
 ) {
     val destination = appState.currentMakingCarDestinations
     val selectedCarModel by viewModel.selectedCarName.collectAsStateWithLifecycle()
-    val currentProgressId by appState.currentProgressId.collectAsStateWithLifecycle()
-    val currentProgressChildId by appState.currentProgressChildId.collectAsStateWithLifecycle()
-    val processEnd by appState.progressEnd.collectAsStateWithLifecycle()
+    val currentProgressId = appState.currentProgressId
+    val currentProgressChildId = appState.currentProgressChildId
+    val processEnd = appState.progressEnd
     Column {
         MakeCarNavigateBar(
             carName = selectedCarModel,

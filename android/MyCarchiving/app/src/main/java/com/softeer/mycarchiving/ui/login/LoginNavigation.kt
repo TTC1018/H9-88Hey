@@ -1,5 +1,6 @@
 package com.softeer.mycarchiving.ui.login
 
+import androidx.compose.animation.scaleOut
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
@@ -13,7 +14,10 @@ fun NavController.navigateToLogin(navOptions: NavOptions? = null) {
 fun NavGraphBuilder.loginScreen(
     onLogin: () -> Unit
 ) {
-    composable(route = MainDestination.LOGIN.route) {
+    composable(
+        route = MainDestination.LOGIN.route,
+        exitTransition = { scaleOut() }
+    ) {
         LoginRoute(
             onLogin = onLogin
         )
