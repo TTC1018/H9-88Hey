@@ -8,6 +8,8 @@ interface Props {
 }
 
 export function OptionModal({ name, imageUrl, description, onClick }: Props) {
+  const processedDescription = description === '-' ? '' : description;
+
   return (
     <>
       <Styled.Container onClick={onClick} />
@@ -22,7 +24,7 @@ export function OptionModal({ name, imageUrl, description, onClick }: Props) {
             <Styled.Image src={imageUrl} />
           </Styled.ImageBox>
           <Styled.DescriptionBox>
-            <Styled.Description dangerouslySetInnerHTML={{ __html: description }}></Styled.Description>
+            <Styled.Description dangerouslySetInnerHTML={{ __html: processedDescription }}></Styled.Description>
           </Styled.DescriptionBox>
         </Styled.ContentBox>
         <Styled.ButtonBox>

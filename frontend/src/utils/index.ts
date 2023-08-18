@@ -1,3 +1,4 @@
+import { OptionContextProps } from '@/types/option';
 import { OPTION_CARD_LIST_LENGTH } from '@/constants';
 
 export function convertToTwoDigits(index: number) {
@@ -41,4 +42,41 @@ export function hasJongSeong(word: string) {
   }
 
   return (unicode - hangeulStart) % 28 > 0;
+}
+
+export function getLocalStorage(key: string) {
+  return localStorage.getItem(key)!;
+}
+
+export function checkIsOptionPage(path: string) {
+  const splittedPath = path.split('/');
+
+  return splittedPath[1] === 'option';
+}
+
+export function checkIsSelectOptionPage(path: string) {
+  return path === '/option';
+}
+
+export function checkIsHGenuineAccessoriesPage(path: string) {
+  return path === '/option/h-genuine-accessories';
+}
+
+export function checkIsNPerformancePage(path: string) {
+  return path === '/option/n-performance';
+}
+
+// DEPRECATED
+export function checkOptionsChanged(options: OptionContextProps[]) {
+  const selectOptions = options.filter(({ path }) => path === '/option');
+
+  const globalOptions: OptionContextProps[] = JSON.parse(getLocalStorage('myCar')).options;
+  const prevSelectOptions = globalOptions.filter(({ path }) => path === '/option');
+
+  return JSON.stringify(selectOptions) !== JSON.stringify(prevSelectOptions);
+}
+
+export function isHGenuineAccessoriesSelected(options: OptionContextProps[]) {
+  const hGenuineAccessories = options.filter(({ path }) => path === '/option/h-genuine-accessories');
+  return hGenuineAccessories.length > 0;
 }

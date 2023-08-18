@@ -1,7 +1,8 @@
-import { useState } from 'react';
+import { MutableRefObject, useState } from 'react';
 
 import { useLocation, useNavigate } from 'react-router-dom';
 
+import { checkIsOptionPage, checkIsHGenuineAccessoriesPage } from '@/utils';
 import { MyCarProps } from '@/types/trim';
 import { NAVIGATION_PATH, TAG_CHIP_MAX_NUMBER } from '@/constants';
 
@@ -12,24 +13,28 @@ import * as Styled from './style';
 interface FooterProps {
   myCarData: MyCarProps;
   totalPrice: number;
+  carCode: MutableRefObject<string>;
   onSetLocalStorage: () => void;
+  clearHGenuineAccessories: () => void;
 }
 
-export function Footer({ myCarData, totalPrice, onSetLocalStorage }: FooterProps) {
+export function Footer({ myCarData, totalPrice, carCode, onSetLocalStorage, clearHGenuineAccessories }: FooterProps) {
   const { pathname } = useLocation();
   const navigate = useNavigate();
+
   const [isOpen, setIsOpen] = useState(false);
 
   function handleOpenModal() {
     setIsOpen(true);
   }
+
   function handleCloseModal() {
     setIsOpen(false);
   }
 
-  const { model, engine, bodyType, wheelDrive, outerColor, innerColor, options } = myCarData;
+  const { trim, engine, bodyType, wheelDrive, outerColor, innerColor, options } = myCarData;
 
-  const trim = `${engine.title}${bodyType.title !== '' ? '/' : ''}${bodyType.title}${
+  const trimOptions = `${engine.title}${bodyType.title !== '' ? '/' : ''}${bodyType.title}${
     wheelDrive.title !== '' ? '/' : ''
   }${wheelDrive.title}`;
 
@@ -39,7 +44,31 @@ export function Footer({ myCarData, totalPrice, onSetLocalStorage }: FooterProps
     if (path === '') {
       return;
     }
+
+    const carCodeQuery = `?car_code=${carCode.current}`;
+    let optionQuery = '';
+
+    if (checkIsHGenuineAccessoriesPage(path)) {
+      options.forEach(({ id, path }) => {
+        if (path !== '/option') {
+          return;
+        }
+
+        optionQuery += `&select_option=${id}`;
+      });
+    }
+
     onSetLocalStorage();
+
+    if (checkIsOptionPage(path)) {
+      localStorage.setItem('carCode', carCode.current);
+      navigate({
+        pathname: path,
+        search: `${carCodeQuery}${optionQuery}`,
+      });
+      return;
+    }
+
     navigate(path);
   }
 
@@ -47,6 +76,7 @@ export function Footer({ myCarData, totalPrice, onSetLocalStorage }: FooterProps
     const path = NAVIGATION_PATH[pathKey as keyof typeof NAVIGATION_PATH].next;
     handleNavigate(path);
   }
+
   function handlePrevNavigate() {
     const path = NAVIGATION_PATH[pathKey as keyof typeof NAVIGATION_PATH].prev;
     handleNavigate(path);
@@ -60,8 +90,8 @@ export function Footer({ myCarData, totalPrice, onSetLocalStorage }: FooterProps
     <Styled.Container>
       <Styled.TrimWrapper>
         <Styled.Title>트림</Styled.Title>
-        <Styled.CarName>{model.title}</Styled.CarName>
-        <Styled.TrimDetail>{trim}</Styled.TrimDetail>
+        <Styled.CarName>{trim.title}</Styled.CarName>
+        <Styled.TrimDetail>{trimOptions}</Styled.TrimDetail>
       </Styled.TrimWrapper>
       <Styled.Division />
       <Styled.ColorWrapper>
@@ -83,8 +113,8 @@ export function Footer({ myCarData, totalPrice, onSetLocalStorage }: FooterProps
       </Styled.ColorWrapper>
       <Styled.Division />
       <Styled.OptionWrapper>
-        <Styled.Title onClick={handleOpenModal}>선택 옵션</Styled.Title>
-        <Styled.OptionBox>
+        <Styled.Title>선택 옵션</Styled.Title>
+        <Styled.OptionBox onClick={handleOpenModal}>
           {options.slice(0, TAG_CHIP_MAX_NUMBER).map(({ name }) => (
             <Styled.Option key={name}>{name}</Styled.Option>
           ))}

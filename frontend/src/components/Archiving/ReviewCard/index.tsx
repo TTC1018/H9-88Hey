@@ -23,9 +23,11 @@ type Props = DefaultProps & ChivingProps;
 export function ReviewCard({ props, isArchiving, onClick, selectedSearchOptions }: Props) {
   const {
     isPurchase,
-    model,
+    modelName,
     trim,
-    trimOptions,
+    engine,
+    bodyType,
+    wheelDrive,
     creationDate,
     exteriorColor,
     interiorColor,
@@ -34,30 +36,28 @@ export function ReviewCard({ props, isArchiving, onClick, selectedSearchOptions 
     selectedOptions,
   } = props;
 
-  const dateText = isPurchase ? '구매했어요' : '시승했어요';
+  const dateText = `에 ${isPurchase ? '구매' : '시승'}했어요`;
 
   return (
     <style.Contaienr>
       <style.TitleWrapper>
         <style.Enclosure>
-          <style.Title>{`${model} ${trim}`}</style.Title>
-          <style.SubTitle>{combineWithSlash(trimOptions)}</style.SubTitle>
+          <style.Title>{`${modelName} ${trim.name}`}</style.Title>
+          <style.SubTitle>{combineWithSlash([engine.name, bodyType.name, wheelDrive.name])}</style.SubTitle>
         </style.Enclosure>
         <style.SideBox>
-          <style.Time>
-            {formatDate(creationDate)}에 {dateText}
-          </style.Time>
+          <style.Time>{formatDate(creationDate) + dateText}</style.Time>
           {!isArchiving && <DeleteButton />}
         </style.SideBox>
       </style.TitleWrapper>
       <style.TextWrapper>
         <style.TextBox>
           <style.BodyText>외장</style.BodyText>
-          <style.ColorText>{exteriorColor}</style.ColorText>
+          <style.ColorText>{exteriorColor.name}</style.ColorText>
         </style.TextBox>
         <style.TextBox>
           <style.BodyText>내장</style.BodyText>
-          <style.ColorText>{interiorColor}</style.ColorText>
+          <style.ColorText>{interiorColor.name}</style.ColorText>
         </style.TextBox>
       </style.TextWrapper>
       <style.OptionWrapper>

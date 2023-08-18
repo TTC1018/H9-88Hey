@@ -1,44 +1,49 @@
-import { useNavigate } from 'react-router-dom';
+import { ModalType } from '@/constants';
 
 import { useModalContext } from '@/hooks/useModalContext';
 
 import * as Styled from './style';
 
-export function PopupModal() {
-  const { modalState, handleClose } = useModalContext();
-  const navigate = useNavigate();
+interface Props {
+  type: ModalType;
+  contents?: string;
+  onClick: () => void;
+}
+export function PopupModal({ type, contents, onClick }: Props) {
+  const { handleClose } = useModalContext();
 
   const state = (function () {
-    switch (modalState.modalType) {
+    switch (type) {
       case 'CLOSE':
         return {
           text: '내 차 만들기 종료',
           isBig: true,
-          callback: () => {
-            navigate('/archiving');
-          },
           content: <CloseContent />,
         };
       case 'DELETE':
         return {
           text: '삭제',
           isBig: false,
-          callback: () => {},
-          content: <DeleteContent name={modalState.ContentData!} />,
+          content: <DeleteContent name={contents!} />,
         };
       case 'MOVE':
         return {
           text: '내 차 만들기 이동',
           isBig: true,
-          callback: () => {},
-          content: <MoveContent date={modalState.ContentData!} />,
+          content: <MoveContent date={contents!} />,
+        };
+      case 'CLEAR':
+        return {
+          text: '초기화',
+          isBig: true,
+          content: <ClearContent />,
         };
     }
   })();
 
   function handleConfirm() {
     handleClose();
-    state?.callback();
+    onClick();
   }
 
   return (
@@ -49,7 +54,7 @@ export function PopupModal() {
           취소
         </Styled.CancleButton>
         <Styled.ConfirmButton isBig={state!.isBig} onClick={handleConfirm}>
-          {state!.text}
+          {state?.text}
         </Styled.ConfirmButton>
       </Styled.ButtonWrapper>
     </Styled.Container>
@@ -96,6 +101,15 @@ function CloseContent() {
         <Styled.Text>에</Styled.Text>
       </Styled.Fragment>
       <Styled.Text>저장해둘게요</Styled.Text>
+    </Styled.TextWrapper>
+  );
+}
+
+function ClearContent() {
+  return (
+    <Styled.TextWrapper>
+      <Styled.Text>선택했던 H Genuine Accessories 옵션이 모두 초기화됩니다.</Styled.Text>
+      <Styled.Text>그래도 계속하시겠어요?</Styled.Text>
     </Styled.TextWrapper>
   );
 }

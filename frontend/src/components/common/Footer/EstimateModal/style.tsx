@@ -18,8 +18,9 @@ export const Container = styled.div`
 
 export const ModalContainer = styled.div`
   width: 476px;
-  top: 50%;
   left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
 
   position: fixed;
 
@@ -27,7 +28,27 @@ export const ModalContainer = styled.div`
   background: #fff;
   box-shadow: -2px 0px 12px 0px rgba(78, 81, 94, 0.25);
 
-  transform: translate(-50%, -50%);
+  animation: appear 0.8s cubic-bezier(0.77, 0, 0.175, 1) forwards;
+
+  @keyframes appear {
+    from {
+      opacity: 0;
+      transform: translate(-50%, -48%);
+    }
+    to {
+      opacity: 1;
+      transform: translate(-50%, -50%);
+    }
+  }
+`;
+
+export const Icon = styled.img`
+  top: 28px;
+  right: 16px;
+
+  position: absolute;
+
+  cursor: pointer;
 `;
 
 export const Header = styled.div`

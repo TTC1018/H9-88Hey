@@ -1,38 +1,14 @@
 import styled from '@emotion/styled';
 import { css } from '@emotion/react';
 
-interface OptionCardContainerProps {
-  isBlur: boolean;
-}
-
 interface OptionCardProps {
   isCardActive: boolean;
 }
 
 interface ButtonProps {
+  isBlur: boolean;
   isButtonActive: boolean;
 }
-
-export const Container = styled.div`
-  width: 1098px;
-  height: 197px;
-  margin-top: 24px;
-  gap: 6px;
-
-  display: flex;
-  position: relative;
-
-  transform: translateX(-54px);
-`;
-
-export const OptionCardContainer = styled.div<OptionCardContainerProps>`
-  ${({ isBlur }) => {
-    return css`
-      opacity: ${isBlur ? 0.5 : 1};
-      pointer-events: ${isBlur ? 'none' : 'auto'};
-    `;
-  }}
-`;
 
 export const OptionCardWrapper = styled.div<OptionCardProps>`
   ${({ theme, isCardActive }) => {
@@ -92,7 +68,7 @@ export const ButtonBox = styled.div`
 `;
 
 export const Button = styled.button<ButtonProps>`
-  ${({ theme, isButtonActive }) => {
+  ${({ theme, isBlur, isButtonActive }) => {
     const { colors, fonts } = theme;
 
     return css`
@@ -112,6 +88,7 @@ export const Button = styled.button<ButtonProps>`
       border: 1px solid #385da2;
 
       background-color: ${isButtonActive ? '#385da2' : colors.hyundaiNeutral};
+      opacity: ${isBlur ? 0.4 : 1};
     `;
   }}
 `;
@@ -135,29 +112,6 @@ export const OptionCardHover = styled.div`
   border-radius: 8px;
   border: 0;
   background: rgba(35, 35, 35, 0.75);
-`;
-
-export const DescriptionHoverWrapper = styled.ul`
-  padding: 21px 15px 0 30px;
-  overflow: hidden;
-
-  list-style-type: disc;
-  list-style-position: outside;
-`;
-
-export const DescriptionHover = styled.li`
-  ${({ theme }) => {
-    const { fonts } = theme;
-
-    return css`
-      overflow: hidden;
-
-      color: #fff;
-      ${fonts.bodyRegular4}
-      text-overflow: ellipsis;
-      white-space: nowrap;
-    `;
-  }}
 `;
 
 export const OptionCardHoverArea = styled.div`

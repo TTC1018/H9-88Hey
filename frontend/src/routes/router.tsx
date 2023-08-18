@@ -9,13 +9,11 @@ import { BodyType } from '@/pages/Trim/BodyType';
 import { WheelDrive } from '@/pages/Trim/WheelDrive';
 import { Review } from '@/pages/Review';
 import { Result } from '@/pages/Result';
-import { ErrorBoundary } from '@/components/common/ErrorBoundary';
-import { MyCarLayout } from '@/components/layout/MyCarLayout';
 import { MyChiving } from '@/pages/MyChiving';
 import { Archiving } from '@/pages/Archiving';
 import { Detail } from '@/pages/Archiving/Detail';
-import { PopupModal } from '@/components/common/PopupModal';
-import { ModalPortal } from '@/components/common/ModalPortal';
+import { ErrorBoundary } from '@/components/common/ErrorBoundary';
+import { MyCarLayout } from '@/components/layout/MyCarLayout';
 import { MyChivingLayout } from '@/components/layout/MyChivingLayout';
 
 export const router = createBrowserRouter([
@@ -24,9 +22,6 @@ export const router = createBrowserRouter([
     element: (
       <ErrorBoundary>
         <MyCarLayout />
-        <ModalPortal>
-          <PopupModal />
-        </ModalPortal>
       </ErrorBoundary>
     ),
     children: [
@@ -64,15 +59,15 @@ export const router = createBrowserRouter([
         children: [
           {
             path: '',
-            element: <Option key="option" apiType="select_option" />,
+            element: <Option key="option" apiType="select-option" />,
           },
           {
             path: 'h-genuine-accessories',
-            element: <Option key="h-genuine-accessories" apiType="h_genuine_accessories" />,
+            element: <Option key="h-genuine-accessories" apiType="h-genuine-accessories" />,
           },
           {
             path: 'n-performance',
-            element: <Option key="n-performance" apiType="n_performance" />,
+            element: <Option key="n-performance" apiType="n-performance" />,
           },
         ],
       },

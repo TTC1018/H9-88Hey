@@ -38,21 +38,21 @@ export function BodyType() {
 
   const {
     handleTrim,
-    trim: { bodyType },
+    myCar: { bodyType },
   } = useOutletContext<MyCarLayoutContextProps>();
 
-  function handleCardClick(index: number, extraCharge: number) {
+  function handleCardClick(index: number, extraCharge: number, id: number) {
     return function () {
       handleSetIndex(index)();
-      handleTrim({ key: 'bodyType', option: bodyTypes[index].name, price: extraCharge });
+      handleTrim({ key: 'bodyType', option: bodyTypes[index].name, price: extraCharge, id: id });
     };
   }
 
   useEffect(() => {
     if (bodyType.title === '') {
-      const { name, additionalPrice } = bodyTypes[0];
+      const { name, additionalPrice, id } = bodyTypes[0];
 
-      handleTrim({ key: 'bodyType', option: name, price: additionalPrice });
+      handleTrim({ key: 'bodyType', option: name, price: additionalPrice, id });
 
       return;
     }
@@ -69,8 +69,8 @@ export function BodyType() {
           <MyCarDescription title={name} price={additionalPrice} hasTag={false} />
         </Styled.Box>
         <Styled.Box>
-          {bodyTypes.map(({ name, additionalPrice, description }, index) => (
-            <Styled.Enclosure key={name} onClick={handleCardClick(index, additionalPrice)}>
+          {bodyTypes.map(({ name, additionalPrice, description, id }, index) => (
+            <Styled.Enclosure key={id} onClick={handleCardClick(index, additionalPrice, id)}>
               <TrimCard
                 isActive={index === selectedIndex}
                 title={name}
