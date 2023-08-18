@@ -14,6 +14,9 @@ interface OptionDetailCardProps {
 }
 
 export function OptionDetailCard({ index, length, name, description, onClick }: OptionDetailCardProps) {
+  const isEmpty = description === '-';
+  const processedDescription = isEmpty ? '패키지 하위 옵션에 대한 설명이 없어요' : description;
+
   return (
     <Styled.Container>
       <Styled.TitleWrapper>
@@ -30,7 +33,10 @@ export function OptionDetailCard({ index, length, name, description, onClick }: 
       <Styled.Line />
       <Styled.DescriptionWrapper>
         <PrevButton width="48" height="48" onClick={() => onClick(index - 1)} />
-        <Styled.Description>{description}</Styled.Description>
+        <Styled.Description
+          isEmpty={isEmpty}
+          dangerouslySetInnerHTML={{ __html: processedDescription }}
+        ></Styled.Description>
         <NextButton width="48" height="48" onClick={() => onClick(index + 1)} />
       </Styled.DescriptionWrapper>
     </Styled.Container>

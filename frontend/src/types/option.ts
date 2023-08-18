@@ -5,7 +5,8 @@ export interface OptionDataProps {
 }
 
 export interface OptionProps {
-  id: number;
+  isAvailable?: boolean;
+  id: string;
   name: string;
   additionalPrice: number;
   imageUrl: string;
@@ -14,14 +15,15 @@ export interface OptionProps {
 }
 
 export interface SubOptionProps {
-  id: number;
+  id?: string;
   name: string;
   imageUrl: string;
   description: string;
 }
 
 export interface OptionCardDataProps {
-  id: number;
+  isAvailable?: boolean;
+  id: string;
   index: number;
   name: string;
   additionalPrice: number;
@@ -40,8 +42,9 @@ export interface DefaultOptionProps {
 
 export interface OptionContextProviderProps {
   myCar: MyCarProps;
-  addOption: ({ name, additionalPrice }: OptionContextProps) => void;
+  addOption: (option: OptionContextProps) => void;
   removeOption: (name: string) => void;
+  clearHGenuineAccessories: () => void;
 }
 
 export interface OptionContextProps {
@@ -50,4 +53,5 @@ export interface OptionContextProps {
   additionalPrice: number;
   imageUrl: string;
   subOptions: string[];
+  path: string;
 }

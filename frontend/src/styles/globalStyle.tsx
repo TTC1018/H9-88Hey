@@ -136,6 +136,11 @@ const style = css`
   }
   * {
     box-sizing: border-box;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  *::-webkit-scrollbar {
+    display: none;
   }
   *::-webkit-scrollbar {
     display: none;

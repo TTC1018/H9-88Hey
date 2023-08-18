@@ -134,6 +134,8 @@ const OptionBox = styled.div`
 
   display: flex;
   align-items: center;
+
+  cursor: pointer;
 `;
 
 const Option = styled.div`

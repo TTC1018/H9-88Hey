@@ -2,7 +2,7 @@ import { MutableRefObject, useState } from 'react';
 
 import { useLocation, useNavigate } from 'react-router-dom';
 
-import { checkIsOption } from '@/utils';
+import { checkIsOptionPage, checkIsHGenuineAccessoriesPage } from '@/utils';
 import { MyCarProps } from '@/types/trim';
 import { NAVIGATION_PATH, TAG_CHIP_MAX_NUMBER } from '@/constants';
 
@@ -17,9 +17,17 @@ interface FooterProps {
   carCode: MutableRefObject<string>;
   onSetLocalStorage: () => void;
   setDisplayAutoSaving: () => void;
+  clearHGenuineAccessories: () => void;
 }
 
-export function Footer({ myCarData, totalPrice, carCode, onSetLocalStorage, setDisplayAutoSaving }: FooterProps) {
+export function Footer({
+  myCarData,
+  totalPrice,
+  carCode,
+  onSetLocalStorage,
+  setDisplayAutoSaving,
+  clearHGenuineAccessories,
+}: FooterProps) {
   const { pathname } = useLocation();
   const navigate = useNavigate();
 
@@ -28,15 +36,16 @@ export function Footer({ myCarData, totalPrice, carCode, onSetLocalStorage, setD
   function handleOpenModal() {
     setIsOpen(true);
   }
+
   function handleCloseModal() {
     setIsOpen(false);
   }
 
   const { trim, engine, bodyType, wheelDrive, outerColor, innerColor, options } = myCarData;
 
-  const trimOptions = `${engine.title}${bodyType.title !== '' ? '/' : ''}${bodyType.title}${
-    wheelDrive.title !== '' ? '/' : ''
-  }${wheelDrive.title}`;
+  const trimOptions = `${engine.name}${bodyType.name !== '' ? '/' : ''}${bodyType.name}${
+    wheelDrive.name !== '' ? '/' : ''
+  }${wheelDrive.name}`;
 
   const pathKey = pathname.endsWith('/') ? pathname.slice(0, -1) : pathname;
 
@@ -45,14 +54,27 @@ export function Footer({ myCarData, totalPrice, carCode, onSetLocalStorage, setD
       return;
     }
 
+    const carCodeQuery = `?car_code=${carCode.current}`;
+    let optionQuery = '';
+
+    if (checkIsHGenuineAccessoriesPage(path)) {
+      options.forEach(({ id, path }) => {
+        if (path !== '/option') {
+          return;
+        }
+
+        optionQuery += `&select_option=${id}`;
+      });
+    }
+
     onSetLocalStorage();
 
-    if (checkIsOption(path)) {
+    if (checkIsOptionPage(path)) {
+      localStorage.setItem('carCode', carCode.current);
       navigate({
         pathname: path,
-        search: `?car_code=${carCode.current}`,
+        search: `${carCodeQuery}${optionQuery}`,
       });
-
       return;
     }
 
@@ -64,6 +86,7 @@ export function Footer({ myCarData, totalPrice, carCode, onSetLocalStorage, setD
     handleNavigate(path);
     setDisplayAutoSaving();
   }
+
   function handlePrevNavigate() {
     const path = NAVIGATION_PATH[pathKey as keyof typeof NAVIGATION_PATH].prev;
     handleNavigate(path);
@@ -78,7 +101,7 @@ export function Footer({ myCarData, totalPrice, carCode, onSetLocalStorage, setD
     <Styled.Container>
       <Styled.TrimWrapper>
         <Styled.Title>트림</Styled.Title>
-        <Styled.CarName>{trim.title}</Styled.CarName>
+        <Styled.CarName>{trim.name}</Styled.CarName>
         <Styled.TrimDetail>{trimOptions}</Styled.TrimDetail>
       </Styled.TrimWrapper>
       <Styled.Division />
@@ -101,8 +124,8 @@ export function Footer({ myCarData, totalPrice, carCode, onSetLocalStorage, setD
       </Styled.ColorWrapper>
       <Styled.Division />
       <Styled.OptionWrapper>
-        <Styled.Title onClick={handleOpenModal}>선택 옵션</Styled.Title>
-        <Styled.OptionBox>
+        <Styled.Title>선택 옵션</Styled.Title>
+        <Styled.OptionBox onClick={handleOpenModal}>
           {options.slice(0, TAG_CHIP_MAX_NUMBER).map(({ name }) => (
             <Styled.Option key={name}>{name}</Styled.Option>
           ))}

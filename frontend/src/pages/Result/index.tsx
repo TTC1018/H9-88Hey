@@ -13,15 +13,15 @@ import { Footer } from '@/components/Result/Footer';
 import * as Styled from './style';
 
 export function Result() {
-  const { trim, totalPrice } = useOutletContext<MyCarLayoutContextProps>();
-  const { krName, enName } = trim.carType;
+  const { myCar, totalPrice } = useOutletContext<MyCarLayoutContextProps>();
+  const { krName, enName } = myCar.carType;
 
   return (
     <Styled.Container>
-      <Title krName={krName} enName={enName} />
+      <Title krName={krName} enName={enName} imageUrl={myCar.carImageUrl} />
       <TitleLine />
-      <Summary trim={trim} />
-      <OptionCardList options={trim.options} />
+      <Summary myCar={myCar} />
+      <OptionCardList options={myCar.options} />
       <MenuLine />
       <Menu />
       <Footer totalPrice={totalPrice} />

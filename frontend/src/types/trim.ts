@@ -92,6 +92,7 @@ export interface MyCarLayoutContextProps {
   handleInnerColor: ({ color, colorImage, id }: { color: string; colorImage: string; id: number }) => void;
   totalPrice: number;
   handleCarImageUrl: (carImageUrl: string) => void;
+  clearHGenuineAccessories: () => void;
 }
 
 export interface CarCodeProps {
