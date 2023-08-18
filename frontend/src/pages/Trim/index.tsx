@@ -12,7 +12,7 @@ import { TrimCarImageBox } from '@/components/Trim/TrimCarImageBox';
 import * as Styled from './style';
 
 export function Trim() {
-  const { trims } = useFetchSuspense<TrimDataProps>({ url: '/car/model/1/trim', key: ['trim'], staleTIme: 2000 });
+  const { trims } = useFetchSuspense<TrimDataProps>({ url: '/car/model/1/trim', key: ['trim'], staleTime: 2000 });
 
   const [selectedIndex, handleSetIndex] = useSelectIndex();
 

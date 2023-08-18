@@ -3,9 +3,9 @@ import { useCache } from './useCache';
 
 interface Props {
   url: string;
-  fetchOptions?: object;
+  fetchOptions?: RequestInit;
   key: string[];
-  staleTIme: number;
+  staleTime: number;
 }
 interface ResponseProps<T> {
   status: number;
@@ -20,13 +20,13 @@ function checkIsStale(dataUpdatedAt: Date, staleTime: number) {
   return currentTime - lastUpdatedTime < staleTime;
 }
 
-export function useFetchSuspense<T>({ url, fetchOptions = {}, key, staleTIme }: Props) {
+export function useFetchSuspense<T>({ url, fetchOptions = {}, key, staleTime }: Props) {
   const { getCache, setCache } = useCache();
 
   const value = getCache({ key }) || { status: 'new', data: null, dataUpdatedAt: new Date() };
 
   if (value.status === 'resolved') {
-    if (checkIsStale(value.dataUpdatedAt, staleTIme)) {
+    if (checkIsStale(value.dataUpdatedAt, staleTime)) {
       return value.data as T;
     }
   }

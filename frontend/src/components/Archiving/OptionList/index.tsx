@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react';
 
+import { masonryLayout } from '@/utils/masonryLayout';
 import { SelectOptionsProps } from '@/types/archiving';
-import { useMasonryLayout } from '@/hooks/useMasonryLayout';
 
 import { OptionDescriptionCard } from '@/components/Archiving/OptionDescriptionCard';
 
@@ -14,7 +14,7 @@ export function OptionList({ options }: Props) {
   const masonryRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    useMasonryLayout({ element: masonryRef });
+    masonryLayout({ element: masonryRef });
   }, [options]);
 
   return (

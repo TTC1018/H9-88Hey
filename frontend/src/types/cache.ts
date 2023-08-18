@@ -5,5 +5,5 @@ export interface DataProps {
 }
 
 export interface CacheContextProps {
-  cachedDatas: Map<string, DataProps>;
+  cachedDataList: Map<string, DataProps>;
 }

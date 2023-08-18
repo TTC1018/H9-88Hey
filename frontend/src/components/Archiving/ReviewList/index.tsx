@@ -1,8 +1,8 @@
 import { useEffect, useRef } from 'react';
 
 import { ArchivingProps } from '@/types/archiving';
+import { masonryLayout } from '@/utils/masonryLayout';
 import { useNavigateWithData } from '@/hooks/useNavigateWithData';
-import { useMasonryLayout } from '@/hooks/useMasonryLayout';
 
 import { ReviewCard } from '@/components/Archiving/ReviewCard';
 
@@ -19,7 +19,7 @@ export function ReviewList({ archivings, options, onClick }: Props) {
   const { naviagteWithData } = useNavigateWithData({ path: '/archiving/detail' });
 
   useEffect(() => {
-    useMasonryLayout({ element: masonryRef });
+    masonryLayout({ element: masonryRef });
   }, [archivings]);
 
   return (
