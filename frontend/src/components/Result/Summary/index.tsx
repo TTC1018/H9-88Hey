@@ -4,13 +4,13 @@ import { hasJongSeong } from '@/utils';
 import * as Styled from './style';
 
 interface Props {
-  trim: MyCarProps;
+  myCar: MyCarProps;
 }
 
-export function Summary({ trim }: Props) {
-  const { carType, model, engine, wheelDrive, bodyType, outerColor, innerColor } = trim;
+export function Summary({ myCar }: Props) {
+  const { carType, trim, engine, wheelDrive, bodyType, outerColor, innerColor } = myCar;
   const { krName } = carType;
-  const price = model.price + engine.price + wheelDrive.price + bodyType.price + outerColor.price;
+  const price = trim.price + engine.price + wheelDrive.price + bodyType.price + outerColor.price;
 
   return (
     <>
@@ -23,7 +23,7 @@ export function Summary({ trim }: Props) {
       <Styled.Flex>
         <Styled.SummaryWrapper>
           <Styled.Name>
-            {krName} {model.title}
+            {krName} {trim.title}
           </Styled.Name>
           <Styled.DetailWrapper>
             <Styled.Trim>

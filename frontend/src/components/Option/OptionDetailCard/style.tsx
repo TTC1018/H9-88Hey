@@ -1,6 +1,10 @@
 import styled from '@emotion/styled';
 import { css } from '@emotion/react';
 
+interface Props {
+  isEmpty: boolean;
+}
+
 export const Container = styled.div`
   ${({ theme }) => {
     const { colors } = theme;
@@ -122,16 +126,20 @@ export const DescriptionWrapper = styled.div`
   display: flex;
 `;
 
-export const Description = styled.div`
-  ${({ theme }) => {
+export const Description = styled.div<Props>`
+  ${({ theme, isEmpty }) => {
     const { colors, fonts } = theme;
 
     return css`
       width: 380px;
       height: 61px;
 
-      color: ${colors.hyundaiPrimaryBlue};
+      color: ${isEmpty ? 'rgba(0, 44, 95, 0.40)' : colors.hyundaiPrimaryBlue};
       ${fonts.bodyRegular3}
+      overflow-y: scroll;
+      ::-webkit-scrollbar {
+        display: none;
+      }
     `;
   }}
 `;

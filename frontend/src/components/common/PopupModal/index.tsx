@@ -32,6 +32,12 @@ export function PopupModal({ type, contents, onClick }: Props) {
           isBig: true,
           content: <MoveContent date={contents!} />,
         };
+      case 'CLEAR':
+        return {
+          text: '초기화',
+          isBig: true,
+          content: <ClearContent />,
+        };
     }
   })();
 
@@ -95,6 +101,15 @@ function CloseContent() {
         <Styled.Text>에</Styled.Text>
       </Styled.Fragment>
       <Styled.Text>저장해둘게요</Styled.Text>
+    </Styled.TextWrapper>
+  );
+}
+
+function ClearContent() {
+  return (
+    <Styled.TextWrapper>
+      <Styled.Text>선택했던 H Genuine Accessories 옵션이 모두 초기화됩니다.</Styled.Text>
+      <Styled.Text>그래도 계속하시겠어요?</Styled.Text>
     </Styled.TextWrapper>
   );
 }

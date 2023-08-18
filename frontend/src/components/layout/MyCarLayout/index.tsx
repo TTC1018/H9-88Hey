@@ -27,11 +27,14 @@ const DEFAULT_STATE: MyCarProps = {
 };
 export function MyCarLayout() {
   const { pathname } = useLocation();
+
+  const myCarData = JSON.parse(getLocalStorage('myCar'));
+  const carCodeData = getLocalStorage('carCode');
+
+  const [myCar, setMyCar] = useState<MyCarProps>(myCarData === null ? DEFAULT_STATE : myCarData);
+
   const carCode = useRef('');
-
-  const localStorageData = getLocalStorage('myCar');
-
-  const [myCar, setMyCar] = useState<MyCarProps>(localStorageData === null ? DEFAULT_STATE : localStorageData);
+  carCode.current = carCodeData === null ? '' : carCodeData;
 
   const myCarKeysWithPrice = ['trim', 'engine', 'bodyType', 'wheelDrive', 'outerColor'];
 
@@ -60,37 +63,47 @@ export function MyCarLayout() {
     setMyCar(prev => ({ ...prev, innerColor: { title: color, imageUrl: colorImage, id } }));
   }
 
-  function addOption({ name, price, imageUrl, subOptions }: OptionContextProps) {
-    setMyCar(prev => ({ ...prev, options: [...prev.options, { name, price, imageUrl, subOptions }] }));
-  }
-
   function handleCarImageUrl(carImageUrl: string) {
     setMyCar(prev => ({ ...prev, carImageUrl }));
+  }
+
+  function addOption({ id, name, price, imageUrl, subOptions, path }: OptionContextProps) {
+    setMyCar(prev => ({ ...prev, options: [...prev.options, { id, name, price, imageUrl, subOptions, path }] }));
   }
 
   function removeOption(name: string) {
     setMyCar(prev => ({ ...prev, options: prev.options.filter(options => options.name !== name) }));
   }
 
+  function clearHGenuineAccessories() {
+    const clearedOptions = myCar.options.filter(option => option.path !== '/option/h-genuine-accessories');
+
+    setMyCar(prev => ({ ...prev, options: clearedOptions }));
+  }
+
   function handleLocalStorage() {
     localStorage.setItem('myCar', JSON.stringify(myCar));
   }
 
-  useEffect(() => {
-    const localStorageData = localStorage.getItem('myCar');
+  function checkIsResultPage() {
+    return pathname === '/result';
+  }
 
-    if (localStorageData === null) {
+  useEffect(() => {
+    const myCarData = localStorage.getItem('myCar');
+
+    if (myCarData === null) {
       return;
     }
-    const savedOptions: MyCarProps = JSON.parse(localStorageData);
+    const savedOptions: MyCarProps = JSON.parse(myCarData);
     setMyCar(savedOptions);
   }, []);
 
   return (
-    <Styled.Container isFull={pathname === '/result'}>
+    <Styled.Container isFull={checkIsResultPage()}>
       <Header />
       <Navigation />
-      <Styled.Wrapper isFull={pathname === '/result'}>
+      <Styled.Wrapper isFull={checkIsResultPage()}>
         <Suspense fallback={<Loading />}>
           <Outlet
             context={{
@@ -103,11 +116,18 @@ export function MyCarLayout() {
               handleCarImageUrl,
               addOption,
               removeOption,
+              clearHGenuineAccessories,
             }}
           />
         </Suspense>
       </Styled.Wrapper>
-      <Footer myCarData={myCar} totalPrice={totalPrice} onSetLocalStorage={handleLocalStorage} carCode={carCode} />
+      <Footer
+        myCarData={myCar}
+        totalPrice={totalPrice}
+        onSetLocalStorage={handleLocalStorage}
+        carCode={carCode}
+        clearHGenuineAccessories={clearHGenuineAccessories}
+      />
     </Styled.Container>
   );
 }

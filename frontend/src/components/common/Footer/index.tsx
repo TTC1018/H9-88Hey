@@ -2,7 +2,7 @@ import { MutableRefObject, useState } from 'react';
 
 import { useLocation, useNavigate } from 'react-router-dom';
 
-import { checkIsOption } from '@/utils';
+import { checkIsOptionPage, checkIsHGenuineAccessoriesPage } from '@/utils';
 import { MyCarProps } from '@/types/trim';
 import { NAVIGATION_PATH, TAG_CHIP_MAX_NUMBER } from '@/constants';
 
@@ -15,9 +15,10 @@ interface FooterProps {
   totalPrice: number;
   carCode: MutableRefObject<string>;
   onSetLocalStorage: () => void;
+  clearHGenuineAccessories: () => void;
 }
 
-export function Footer({ myCarData, totalPrice, carCode, onSetLocalStorage }: FooterProps) {
+export function Footer({ myCarData, totalPrice, carCode, onSetLocalStorage, clearHGenuineAccessories }: FooterProps) {
   const { pathname } = useLocation();
   const navigate = useNavigate();
 
@@ -26,6 +27,7 @@ export function Footer({ myCarData, totalPrice, carCode, onSetLocalStorage }: Fo
   function handleOpenModal() {
     setIsOpen(true);
   }
+
   function handleCloseModal() {
     setIsOpen(false);
   }
@@ -43,14 +45,27 @@ export function Footer({ myCarData, totalPrice, carCode, onSetLocalStorage }: Fo
       return;
     }
 
+    const carCodeQuery = `?car_code=${carCode.current}`;
+    let optionQuery = '';
+
+    if (checkIsHGenuineAccessoriesPage(path)) {
+      options.forEach(({ id, path }) => {
+        if (path !== '/option') {
+          return;
+        }
+
+        optionQuery += `&select_option=${id}`;
+      });
+    }
+
     onSetLocalStorage();
 
-    if (checkIsOption(path)) {
+    if (checkIsOptionPage(path)) {
+      localStorage.setItem('carCode', carCode.current);
       navigate({
         pathname: path,
-        search: `?car_code=${carCode.current}`,
+        search: `${carCodeQuery}${optionQuery}`,
       });
-
       return;
     }
 
@@ -61,6 +76,7 @@ export function Footer({ myCarData, totalPrice, carCode, onSetLocalStorage }: Fo
     const path = NAVIGATION_PATH[pathKey as keyof typeof NAVIGATION_PATH].next;
     handleNavigate(path);
   }
+
   function handlePrevNavigate() {
     const path = NAVIGATION_PATH[pathKey as keyof typeof NAVIGATION_PATH].prev;
     handleNavigate(path);
