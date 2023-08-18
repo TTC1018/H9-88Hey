@@ -20,10 +20,12 @@ export function Detail() {
   const navigate = useNavigate();
 
   const {
-    model,
+    modelName,
     trim,
     creationDate,
-    trimOptions,
+    engine,
+    bodyType,
+    wheelDrive,
     exteriorColor,
     interiorColor,
     review,
@@ -37,8 +39,32 @@ export function Detail() {
   const options = selectedOptions.map(option => option.name);
   const dateText = `에 ${isPurchase ? '구매' : '시승'}했어요`;
 
+  const myCar = {
+    carType: { krName: '펠리세이드', enName: 'Palisade' },
+    trim: { title: trim.name, price: trim.price, id: trim.id },
+    engine: { title: engine.name, price: engine.additionalPrice, id: engine.id },
+    bodyType: { title: bodyType.name, price: bodyType.additionalPrice, id: bodyType.id },
+    wheelDrive: { title: wheelDrive.name, price: wheelDrive.additionalPrice, id: wheelDrive.id },
+    outerColor: {
+      title: exteriorColor.name,
+      imageUrl: exteriorColor.colorImageUrl,
+      price: exteriorColor.additionalPrice,
+    },
+    innerColor: { title: interiorColor.name, imageUrl: interiorColor.colorImageUrl, id: interiorColor.id },
+    options: selectedOptions.map(option => {
+      return {
+        name: option.name,
+        price: option.additionalPrice,
+        imageUrl: option.imageUrl,
+        subOptions: option.subOptions,
+      };
+    }),
+    carImageUrl: exteriorColor.carImageUrl,
+  };
+
   const { handleOpen } = useModalContext();
   function handleNavigate() {
+    localStorage.setItem('myCar', JSON.stringify(myCar));
     navigate('/trim');
   }
 
@@ -47,11 +73,11 @@ export function Detail() {
       <Styled.Container>
         <Styled.HeaderWrapper>
           <DetailHeader
-            title={`${model} ${trim}`}
+            title={`${modelName} ${trim.name}`}
             date={formatDate(creationDate) + dateText}
-            trimOptions={combineWithSlash(trimOptions)}
-            exteriorColor={exteriorColor}
-            interiorColor={interiorColor}
+            trimOptions={combineWithSlash([engine.name, bodyType.name, wheelDrive.name])}
+            exteriorColor={exteriorColor.name}
+            interiorColor={interiorColor.name}
             review={review}
             imageUrl="https://www.hyundai.com/contents/vr360/LX06/exterior/A2B/001.png"
           />
