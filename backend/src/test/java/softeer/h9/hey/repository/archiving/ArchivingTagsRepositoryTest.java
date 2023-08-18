@@ -18,6 +18,24 @@ class ArchivingTagsRepositoryTest {
 	@Autowired
 	private ArchivingTagsRepository repository;
 
+	@DisplayName("선택 옵션 id에 따른 선택 태그들을 조회한다.")
+	@Test
+	void findBySelectOptionId() {
+		Integer id = 32;
+
+		TagsDto tagDto = repository.findBySelectOptionId(id);
+
+		List<String> tags = tagDto.getTags();
+
+		System.out.println(tags.toString());
+
+		assertAll(
+			() -> assertTrue(tags.contains("깨끗하게 유지할 수 있어요\uD83E\uDDF9")),
+			() -> assertTrue(tags.contains("마음에 들어요\uD83D\uDE04")),
+			() -> assertTrue(tags.contains("뒷좌석도 편안해요"))
+		);
+	}
+
 	@DisplayName("아카이빙 id에 따른 선택 태그들을 조회한다.")
 	@Test
 	void findByArchivingId() {
