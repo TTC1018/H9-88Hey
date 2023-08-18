@@ -1,11 +1,7 @@
 package com.softeer.mycarchiving.ui.makingcar.selectoption
 
+import android.util.Log
 import androidx.compose.animation.AnimatedContent
-import androidx.compose.animation.core.FastOutSlowInEasing
-import androidx.compose.animation.core.tween
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
-import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -28,7 +24,11 @@ import androidx.compose.material3.SheetState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -40,7 +40,9 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.ViewModelStoreOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import coil.ImageLoader
 import coil.compose.AsyncImage
+import coil.memory.MemoryCache
 import coil.request.ImageRequest
 import com.softeer.mycarchiving.R
 import com.softeer.mycarchiving.model.makingcar.SelectOptionUiModel
@@ -58,7 +60,6 @@ import com.softeer.mycarchiving.ui.theme.HyundaiLightSand
 import com.softeer.mycarchiving.ui.theme.White
 import com.softeer.mycarchiving.ui.theme.medium16
 import com.softeer.mycarchiving.util.fadeInAndOut
-import kotlin.time.Duration
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -134,15 +135,44 @@ fun SelectOptionScreen(
     showBasicItems: () -> Unit,
     onAddOption: (SelectOptionUiModel, Int) -> Unit,
 ) {
+    val context = LocalContext.current
+    var imageLoadCounter by remember { mutableIntStateOf(0) }
+    val imageLoadEnded by remember(imageLoadCounter) {
+        derivedStateOf {
+            imageLoadCounter != 0 && imageLoadCounter == options.size
+        }
+    }
+    val imageLoader = remember {
+        ImageLoader.Builder(context)
+            .memoryCache {
+                MemoryCache.Builder(context)
+                    .maxSizePercent(0.25)
+                    .build()
+            }
+            .build()
+    }
+
+    LaunchedEffect(options) {
+        imageLoadCounter = 0
+        options.forEach { option ->
+            imageLoader.execute(
+                ImageRequest.Builder(context)
+                    .data(option.imageUrl)
+                    .memoryCacheKey(option.imageUrl)
+                    .listener { _, _ -> imageLoadCounter++  }
+                    .build()
+            )
+        }
+    }
+
 
     AnimatedContent(
-        targetState = options,
+        targetState = imageLoadEnded,
         transitionSpec = { fadeInAndOut() },
         label = "",
     ) {
-        when {
-            it.isEmpty() -> LoadingScreen {}
-            else -> {
+        when (it) {
+            true -> {
                 Column(
                     modifier = modifier
                         .fillMaxWidth()
@@ -200,7 +230,8 @@ fun SelectOptionScreen(
                             .crossfade(true)
                             .build(),
                         contentDescription = "",
-                        contentScale = ContentScale.Crop
+                        contentScale = ContentScale.Crop,
+                        imageLoader = imageLoader
                     )
                     Column(
                         modifier = Modifier
@@ -222,6 +253,7 @@ fun SelectOptionScreen(
                     }
                 }
             }
+            false -> LoadingScreen {}
         }
     }
 
