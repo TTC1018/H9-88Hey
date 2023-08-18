@@ -21,9 +21,11 @@ import com.softeer.mycarchiving.ui.theme.PrimaryBlue
 import androidx.compose.ui.res.painterResource
 import com.softeer.mycarchiving.R
 import com.softeer.mycarchiving.ui.theme.HyundaiActiveBlue
+import com.softeer.mycarchiving.ui.theme.HyundaiLightSand
 import com.softeer.mycarchiving.ui.theme.HyundaiNeutral
 import com.softeer.mycarchiving.ui.theme.MediumGray
 import com.softeer.mycarchiving.ui.theme.White
+import com.softeer.mycarchiving.ui.theme.bold12
 import com.softeer.mycarchiving.ui.theme.medium12
 
 @Composable
@@ -93,6 +95,35 @@ fun XCircle(
     }
 }
 
+@Composable
+fun SelectFillNumberCircle(
+    modifier: Modifier = Modifier,
+    numberText: String,
+    isFill: Boolean = false
+) {
+    Box(
+        modifier = modifier
+            .size(22.dp)
+            .background(
+                color = if (isFill) PrimaryBlue else HyundaiNeutral,
+                shape = CircleShape
+            )
+            .border(
+                width = 2.dp,
+                color = if (isFill) HyundaiNeutral else PrimaryBlue,
+                shape = CircleShape
+            ),
+        contentAlignment = Alignment.Center
+    ) {
+        Text(
+            text = numberText,
+            color = if (isFill) HyundaiLightSand else PrimaryBlue,
+            style = bold12,
+            textAlign = TextAlign.Center,
+        )
+    }
+}
+
 @Preview
 @Composable
 fun PreviewProgressNumberCircle() {
@@ -113,4 +144,10 @@ fun PreviewCheckCircle() {
 @Composable
 fun PreviewXCircle() {
     XCircle(modifier = Modifier, onClick = {})
+}
+
+@Preview
+@Composable
+fun PreviewSelectFillNumberCircle() {
+    SelectFillNumberCircle(numberText = "01", isFill = true)
 }

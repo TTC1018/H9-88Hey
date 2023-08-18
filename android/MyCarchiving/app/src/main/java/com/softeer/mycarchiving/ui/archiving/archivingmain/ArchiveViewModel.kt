@@ -1,4 +1,4 @@
-package com.softeer.mycarchiving.ui.archiving
+package com.softeer.mycarchiving.ui.archiving.archivingmain
 
 import androidx.lifecycle.ViewModel
 import com.softeer.mycarchiving.enums.ArchiveSearchPage
