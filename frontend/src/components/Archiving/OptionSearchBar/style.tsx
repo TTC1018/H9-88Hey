@@ -9,7 +9,7 @@ export const Conatiner = styled.div`
   ${({ theme }) => {
     const { colors } = theme;
     return css`
-      height: 122px;
+      height: 135px;
       width: 100vw;
 
       display: flex;
@@ -23,9 +23,10 @@ export const Conatiner = styled.div`
 
 export const Wrapper = styled.div`
   width: 1024px;
-  gap: 20px;
+  gap: 10px;
 
   display: flex;
+  justify-content: center;
   flex-wrap: wrap;
 `;
 
@@ -48,7 +49,6 @@ export const Option = styled.div<Props>`
       background-color: ${isActive ? '#385DA2' : '#fff'};
 
       cursor: pointer;
-
       &:hover {
         font-weight: bold;
         color: ${colors.hyundaiNeutral};

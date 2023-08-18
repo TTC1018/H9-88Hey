@@ -58,6 +58,7 @@ export const TagWrapper = styled.div`
   gap: 8px;
 
   display: flex;
+  flex-wrap: wrap;
 `;
 
 export const Tag = styled.p`
@@ -73,21 +74,6 @@ export const Tag = styled.p`
   }}
 `;
 
-interface Props {
-  isActive: boolean;
-}
-export const ContentWrapper = styled.div<Props>`
-  ${({ isActive }) => {
-    return css`
-      max-height: ${isActive ? '500px' : 0};
-
-      overflow: hidden;
-
-      transition: max-height 0.5s ease-out;
-    `;
-  }}
-`;
-
 export const Line = styled.hr`
   ${({ theme }) => {
     const { colors } = theme;
@@ -98,5 +84,3 @@ export const Line = styled.hr`
     `;
   }}
 `;
-
-export const Button = styled.button``;

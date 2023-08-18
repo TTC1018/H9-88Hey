@@ -20,7 +20,7 @@ export function EstimateModal({ onClick, myCarData, totalPrice }: Props) {
       <Styled.Container onClick={onClick} />
       <Styled.ModalContainer>
         <Styled.Header>견적요약보기</Styled.Header>
-
+        <Styled.Icon src="/src/assets/icons/icon_close.svg" onClick={onClick} />
         <Styled.TitleWrapper>
           <Styled.Title>총 견적 금액</Styled.Title>
           <Styled.Price>{totalPrice.toLocaleString()} 원</Styled.Price>

@@ -2,7 +2,7 @@ import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
 export const Container = styled.div`
-  width: 100vw;
+  width: 100%;
 
   display: flex;
   flex-direction: column;
@@ -10,18 +10,23 @@ export const Container = styled.div`
   align-items: center;
 `;
 
-export const ReviewWrapper = styled.div`
-  width: 1024px;
-  gap: 30px;
+export const HeaderWrapper = styled.div`
+  top: 0;
 
+  position: sticky;
   display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  background-color: #fff;
 `;
 
-export const ReviewBox = styled.div`
-  gap: 30px;
+export const ReviewWrapper = styled.div`
+  width: 1024px;
+  margin-top: 50px;
 
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  display: flex;
 `;
 
 export const InfoBox = styled.div`
