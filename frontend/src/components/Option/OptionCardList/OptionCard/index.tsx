@@ -104,7 +104,7 @@ export function OptionCard({
         </Styled.ButtonBox>
         {isButtonActive && <Styled.Icon src={'/src/assets/icons/icon_done.svg'} />}
       </Styled.DescriptionWrapper>
-      {isHover && <OptionCardHover subOptionNames={subOptionNames} ref={childRef} />}
+      {isHover && <OptionCardHover subOptionNames={subOptionNames} childRef={childRef} />}
       <Styled.OptionCardHoverArea
         onMouseEnter={() => handleHoverCard(true)}
         onMouseLeave={() => handleHoverCard(false)}
