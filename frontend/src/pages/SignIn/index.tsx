@@ -14,7 +14,7 @@ interface AuthResponse {
   user: User;
 }
 
-export function Login() {
+export function SignIn() {
   const [account, setAccount] = useState({
     id: '',
     password: '',
