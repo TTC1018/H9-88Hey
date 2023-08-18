@@ -15,6 +15,7 @@ fun NavController.navigateToSelectOption(navOptions: NavOptions? = null) {
 }
 
 fun NavGraphBuilder.selectOptionScreen(
+    mainProgress: Int,
     screenProgress: Int,
     viewModelStoreOwner: ViewModelStoreOwner,
     onBackProgress: () -> Unit,
@@ -31,6 +32,7 @@ fun NavGraphBuilder.selectOptionScreen(
         }
 
         SelectOptionRoute(
+            mainProgress = mainProgress,
             screenProgress = screenProgress,
             viewModelStoreOwner = viewModelStoreOwner
         )

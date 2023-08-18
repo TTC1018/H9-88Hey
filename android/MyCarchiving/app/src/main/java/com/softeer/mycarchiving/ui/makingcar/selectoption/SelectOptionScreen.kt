@@ -61,12 +61,17 @@ import com.softeer.mycarchiving.ui.theme.HyundaiLightSand
 import com.softeer.mycarchiving.ui.theme.White
 import com.softeer.mycarchiving.ui.theme.medium16
 import com.softeer.mycarchiving.ui.theme.roundCorner
+import com.softeer.mycarchiving.util.TRIM_EXTRA
+import com.softeer.mycarchiving.util.TRIM_HGENUINE
+import com.softeer.mycarchiving.util.TRIM_NPERFORMANCE
+import com.softeer.mycarchiving.util.TRIM_OPTION
 import com.softeer.mycarchiving.util.fadeInAndOut
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SelectOptionRoute(
     modifier: Modifier = Modifier,
+    mainProgress: Int,
     screenProgress: Int,
     viewModelStoreOwner: ViewModelStoreOwner,
     viewModel: SelectOptionViewModel = hiltViewModel(),
@@ -91,10 +96,10 @@ fun SelectOptionRoute(
         modifier = modifier,
         scrollState = scrollState,
         screenProgress = screenProgress,
-        options = when (screenProgress) {
-            0 -> selectOptions
-            1 -> hGenuines
-            2 -> nPerformances
+        options = when (mainProgress to screenProgress) {
+            TRIM_OPTION to TRIM_EXTRA -> selectOptions
+            TRIM_OPTION to TRIM_HGENUINE -> hGenuines
+            TRIM_OPTION to TRIM_NPERFORMANCE -> nPerformances
             else -> emptyList()
         },
         selectedOptions = when (screenProgress) {

@@ -15,6 +15,7 @@ fun NavController.navigateToSelectTrim(navOptions: NavOptions? = null) {
 }
 
 fun NavGraphBuilder.selectTrimScreen(
+    mainProgress: Int,
     screenProgress: Int,
     viewModelStoreOwner: ViewModelStoreOwner,
     onBackProgress: () -> Unit
@@ -31,6 +32,7 @@ fun NavGraphBuilder.selectTrimScreen(
         }
 
         SelectTrimRoute(
+            mainProgress = mainProgress,
             screenProgress = screenProgress,
             viewModelOwner = viewModelStoreOwner,
         )

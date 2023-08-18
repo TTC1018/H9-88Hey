@@ -37,11 +37,18 @@ import com.softeer.mycarchiving.ui.component.OptionCardForDetail
 import com.softeer.mycarchiving.ui.component.OptionNameWithDivider
 import com.softeer.mycarchiving.ui.makingcar.MakingCarViewModel
 import com.softeer.mycarchiving.ui.makingcar.loading.LoadingScreen
+import com.softeer.mycarchiving.util.TRIM_BODY_TYPE
+import com.softeer.mycarchiving.util.TRIM_COLOR
+import com.softeer.mycarchiving.util.TRIM_DRIVING_SYSTEM
+import com.softeer.mycarchiving.util.TRIM_ENGINE
+import com.softeer.mycarchiving.util.TRIM_EXTERIOR
+import com.softeer.mycarchiving.util.TRIM_SELECT
 import com.softeer.mycarchiving.util.fadeInAndOut
 
 @Composable
 fun SelectTrimRoute(
     modifier: Modifier = Modifier,
+    mainProgress: Int,
     screenProgress: Int,
     viewModelOwner: ViewModelStoreOwner,
     selectTrimViewModel: SelectTrimViewModel = hiltViewModel(),
@@ -55,10 +62,10 @@ fun SelectTrimRoute(
     SelectTrimScreen(
         modifier = modifier,
         screenProgress = screenProgress,
-        options = when (screenProgress) {
-            0 -> engines
-            1 -> bodyTypes
-            2 -> wheels
+        options = when (mainProgress to screenProgress) {
+            TRIM_SELECT to TRIM_ENGINE -> engines
+            TRIM_SELECT to TRIM_BODY_TYPE -> bodyTypes
+            TRIM_SELECT to TRIM_DRIVING_SYSTEM, TRIM_COLOR to TRIM_EXTERIOR -> wheels
             else -> emptyList()
         },
         savedTrim = selectedTrims.getOrNull(screenProgress),

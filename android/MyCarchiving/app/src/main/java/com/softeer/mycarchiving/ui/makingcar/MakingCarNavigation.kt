@@ -36,6 +36,7 @@ fun NavGraphBuilder.makingCarGraph(
     composable(
         route = MainDestination.MAKING_CAR.route
     ) {
+        val mainProgress = appState.currentProgressId
         val screenProgress = appState.currentProgressChildId
         val makingCarViewModelOwner: ViewModelStoreOwner = remember(it) {
             appState.navController.getBackStackEntry(MainDestination.MAKING_CAR.route)
@@ -70,16 +71,19 @@ fun NavGraphBuilder.makingCarGraph(
                         onBackProgress = appState::onBackProgress
                     )
                     selectTrimScreen(
+                        mainProgress = mainProgress,
                         screenProgress = screenProgress,
                         viewModelStoreOwner = makingCarViewModelOwner,
                         onBackProgress = appState::onBackProgress
                     )
                     selectColorScreen(
+                        mainProgress = mainProgress,
                         screenProgress = screenProgress,
                         viewModelStoreOwner = makingCarViewModelOwner,
                         onBackProgress = appState::onBackProgress
                     )
                     selectOptionScreen(
+                        mainProgress = mainProgress,
                         screenProgress = screenProgress,
                         viewModelStoreOwner = makingCarViewModelOwner,
                         onBackProgress = appState::onBackProgress

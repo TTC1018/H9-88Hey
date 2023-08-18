@@ -15,6 +15,7 @@ fun NavController.navigateToSelectColor(navOptions: NavOptions? = null) {
 }
 
 fun NavGraphBuilder.selectColorScreen(
+    mainProgress: Int,
     screenProgress: Int,
     viewModelStoreOwner: ViewModelStoreOwner,
     onBackProgress: () -> Unit,
@@ -31,6 +32,7 @@ fun NavGraphBuilder.selectColorScreen(
         }
 
         SelectColorRoute(
+            mainProgress = mainProgress,
             screenProgress = screenProgress,
             viewModelStoreOwner = viewModelStoreOwner,
         )
