@@ -1,17 +1,15 @@
 package com.softeer.mycarchiving.ui.makingcar.selectoption
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.softeer.data.model.TrimBasicOptionDto
-import com.softeer.data.model.TrimBasicSubOptionDto
-import com.softeer.data.model.TrimSelectOptionDto
-import com.softeer.data.model.TrimSubOptionDto
-import com.softeer.data.repository.SelectOptionRepository
-import com.softeer.mycarchiving.model.common.CarBasicDetailUiModel
-import com.softeer.mycarchiving.model.common.CarBasicUiModel
-import com.softeer.mycarchiving.model.makingcar.SelectOptionUiModel
-import com.softeer.mycarchiving.model.makingcar.SubSelectOptionUiModel
+import com.softeer.domain.model.CarBasicOption
+import com.softeer.domain.model.CarExtraOption
+import com.softeer.domain.usecase.makingcar.GetBasicOptionsUseCase
+import com.softeer.domain.usecase.makingcar.GetCarCodeUseCase
+import com.softeer.domain.usecase.makingcar.GetExtraOptionsUseCase
+import com.softeer.domain.usecase.makingcar.GetHGenuinesUseCase
+import com.softeer.domain.usecase.makingcar.GetNPerformancesUseCase
+import com.softeer.mycarchiving.mapper.asUiModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -28,10 +26,14 @@ private val TAG = SelectOptionViewModel::class.simpleName
 @OptIn(ExperimentalCoroutinesApi::class)
 @HiltViewModel
 class SelectOptionViewModel @Inject constructor(
-    private val selectOptionRepository: SelectOptionRepository
+    getCarCodeUseCase: GetCarCodeUseCase,
+    getExtrasUseCase: GetExtraOptionsUseCase,
+    getHGenuinesUseCase: GetHGenuinesUseCase,
+    getNPerformancesUseCase: GetNPerformancesUseCase,
+    getBasicUseCase: GetBasicOptionsUseCase
 ) : ViewModel() {
 
-    private val _carCode = selectOptionRepository.getCarCode()
+    private val _carCode = getCarCodeUseCase()
         .stateIn(
             scope = viewModelScope,
             started = SharingStarted.WhileSubscribed(),
@@ -39,9 +41,9 @@ class SelectOptionViewModel @Inject constructor(
         )
 
     val selectOptions = _carCode.flatMapLatest { carCode ->
-        selectOptionRepository.getSelectOptions(carCode)
+        getExtrasUseCase(carCode)
     }
-        .map { dtos -> dtos.map { it.asSelectOptionUiModel() } }
+        .map { it.map(CarExtraOption::asUiModel) }
         .stateIn(
             scope = viewModelScope,
             started = SharingStarted.WhileSubscribed(),
@@ -50,12 +52,12 @@ class SelectOptionViewModel @Inject constructor(
 
     val hGenuines = selectOptions.flatMapLatest { selectOptions ->
         if (_carCode.value.isNotEmpty() && selectOptions.isNotEmpty()) {
-            selectOptionRepository.getHGenuines(_carCode.value, selectOptions.map { it.id })
+            getHGenuinesUseCase(_carCode.value, selectOptions.map { it.id })
         } else {
             flowOf()
         }
     }
-        .map { dtos -> dtos.map { it.asSelectOptionUiModel() } }
+        .map { it.map(CarExtraOption::asUiModel) }
         .stateIn(
             scope = viewModelScope,
             started = SharingStarted.WhileSubscribed(),
@@ -63,9 +65,9 @@ class SelectOptionViewModel @Inject constructor(
         )
 
     val nPerformances = _carCode.flatMapLatest { carCode ->
-        selectOptionRepository.getNPerformances(carCode)
+        getNPerformancesUseCase(carCode)
     }
-        .map { dtos -> dtos.map { it.asSelectOptionUiModel() } }
+        .map { it.map(CarExtraOption::asUiModel) }
         .stateIn(
             scope = viewModelScope,
             started = SharingStarted.WhileSubscribed(),
@@ -76,9 +78,9 @@ class SelectOptionViewModel @Inject constructor(
     val focusedOptionIndex: StateFlow<Int> = _focusedOptionIndex
 
     val basicOptions = _carCode.flatMapLatest { carCode ->
-        selectOptionRepository.getBasicOptions(carCode)
+        getBasicUseCase(carCode)
     }
-        .map { dtos -> dtos.map { it.asCarBasicUiModel() } }
+        .map { it.map(CarBasicOption::asUiModel) }
         .stateIn(
             scope = viewModelScope,
             started = SharingStarted.WhileSubscribed(),
@@ -99,35 +101,4 @@ class SelectOptionViewModel @Inject constructor(
     fun closeBasicItems() {
         _showBasicItems.value = false
     }
-
-    private fun TrimSelectOptionDto.asSelectOptionUiModel() =
-        SelectOptionUiModel(
-            isAvailable = isAvailable,
-            id = id,
-            name = name,
-            price = price,
-            imageUrl = imageUrl,
-            tags = tags,
-            subOptions = subOptions.map { it.asSubSelectOptionUiModel() }
-        )
-
-    private fun TrimSubOptionDto.asSubSelectOptionUiModel() =
-        SubSelectOptionUiModel(
-            name = name,
-            imageUrl = imageUrl,
-            description = description,
-        )
-
-    private fun TrimBasicOptionDto.asCarBasicUiModel() =
-        CarBasicUiModel(
-            category = category,
-            detailItems = subOptions.map { it.asCarBasicDetailUiModel() }
-        )
-
-    private fun TrimBasicSubOptionDto.asCarBasicDetailUiModel() =
-        CarBasicDetailUiModel(
-            name = name,
-            description = description,
-            imageUrl = imageUrl
-        )
 }

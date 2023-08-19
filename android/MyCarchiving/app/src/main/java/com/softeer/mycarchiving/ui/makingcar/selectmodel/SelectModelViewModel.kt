@@ -2,10 +2,10 @@ package com.softeer.mycarchiving.ui.makingcar.selectmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.softeer.data.model.TrimModelDto
-import com.softeer.data.repository.SelectTrimRepository
-import com.softeer.mycarchiving.model.makingcar.ModelFeatureUiModel
-import com.softeer.mycarchiving.model.makingcar.SelectModelUiModel
+import com.softeer.domain.model.ModelOption
+import com.softeer.domain.usecase.makingcar.GetCarModelImagesUseCase
+import com.softeer.domain.usecase.makingcar.GetCarModelsUseCase
+import com.softeer.mycarchiving.mapper.asSelectModelUiModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -16,18 +16,19 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SelectModelViewModel @Inject constructor(
-    private val selectTrimRepository: SelectTrimRepository
+    getModelsUseCase: GetCarModelsUseCase,
+    getImageUrlsUseCase: GetCarModelImagesUseCase,
 ) : ViewModel() {
 
-    val carModels = selectTrimRepository.getModels()
-        .map { dtos -> dtos.map { it.asSelectModelUiModel() } }
+    val carModels = getModelsUseCase()
+        .map { it.map(ModelOption::asSelectModelUiModel) }
         .stateIn(
             scope = viewModelScope,
             started = SharingStarted.WhileSubscribed(),
             initialValue = emptyList()
         )
 
-    val carImages = selectTrimRepository.getCarImageUrls()
+    val carImages = getImageUrlsUseCase()
         .stateIn(
             scope = viewModelScope,
             started = SharingStarted.WhileSubscribed(),
@@ -40,16 +41,4 @@ class SelectModelViewModel @Inject constructor(
     fun onCarImageClick(index: Int) {
         _focusedImageIndex.value = index
     }
-
-    private fun TrimModelDto.asSelectModelUiModel(): SelectModelUiModel =
-        SelectModelUiModel(
-            name = name,
-            price = price,
-            features = modelFeatures.map { featureDto ->
-                ModelFeatureUiModel(
-                    name = featureDto.name,
-                    imageUrl = featureDto.imageUrl
-                )
-            }
-        )
 }

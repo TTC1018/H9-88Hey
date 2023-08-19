@@ -7,7 +7,6 @@ import com.softeer.data.model.TrimWheelDto
 import com.softeer.data.network.SelectTrimNetworkApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
-import javax.inject.Inject
 
 private val TAG = SelectTrimDataSource::class.simpleName
 

@@ -9,12 +9,12 @@ import com.softeer.data.datasource.SelectTrimRemoteDataSource
 import com.softeer.data.network.SelectColorNetworkApi
 import com.softeer.data.network.SelectOptionNetworkApi
 import com.softeer.data.network.SelectTrimNetworkApi
-import com.softeer.data.repository.SelectColorRepository
 import com.softeer.data.repository.SelectColorRepositoryImpl
-import com.softeer.data.repository.SelectOptionRepository
 import com.softeer.data.repository.SelectOptionRepositoryImpl
-import com.softeer.data.repository.SelectTrimRepository
 import com.softeer.data.repository.SelectTrimRepositoryImpl
+import com.softeer.domain.repository.SelectColorRepository
+import com.softeer.domain.repository.SelectOptionRepository
+import com.softeer.domain.repository.SelectTrimRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

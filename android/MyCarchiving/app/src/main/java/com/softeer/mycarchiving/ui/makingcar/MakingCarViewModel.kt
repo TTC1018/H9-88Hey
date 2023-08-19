@@ -122,40 +122,30 @@ class MakingCarViewModel @Inject constructor() : ViewModel() {
         when (progress) {
             0 -> {
                 _selectedExtraOptions.value = _selectedExtraOptions.value.run {
-                    if (this == null) {
-                        _totalPrice.value += extraOption.price
-                        listOf(extraOption)
+                    if (find { it.id == extraOption.id } != null) {
+                        _totalPrice.value -= extraOption.price
+                        toMutableList().apply { remove(extraOption) }
                     } else {
-                        if (find { it.id == extraOption.id } != null) {
-                            _totalPrice.value -= extraOption.price
-                            toMutableList().apply { remove(extraOption) }
-                        } else {
-                            _totalPrice.value += extraOption.price
-                            this + listOf(extraOption)
-                        }
+                        _totalPrice.value += extraOption.price
+                        this + listOf(extraOption)
                     }
                 }
             }
 
             1 -> {
                 _selectedHGenuines.value = _selectedHGenuines.value.run {
-                    if (this == null) {
-                        _totalPrice.value += extraOption.price
-                        listOf(extraOption)
+                    if (find { it.id == extraOption.id } != null) {
+                        _totalPrice.value -= extraOption.price
+                        toMutableList().apply { remove(extraOption) }
                     } else {
-                        if (find { it.id == extraOption.id } != null) {
-                            _totalPrice.value -= extraOption.price
-                            toMutableList().apply { remove(extraOption) }
-                        } else {
-                            _totalPrice.value += extraOption.price
-                            this + listOf(extraOption)
-                        }
+                        _totalPrice.value += extraOption.price
+                        this + listOf(extraOption)
                     }
                 }
             }
 
             2 -> { // NPerformance는 한개만
-                _totalPrice.value -= _selectedNPerformance.value?.firstOrNull()?.price ?: 0
+                _totalPrice.value -= _selectedNPerformance.value.firstOrNull()?.price ?: 0
                 _selectedNPerformance.value = listOf(extraOption)
                 _totalPrice.value += extraOption.price
             }
