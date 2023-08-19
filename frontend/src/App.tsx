@@ -3,6 +3,7 @@ import { ThemeProvider } from '@emotion/react';
 
 import { ModalProvider } from './components/common/ModalProvider';
 import { CacheProvider } from './CacheProvider';
+import { AuthProvider } from './AuthProvider';
 
 import { router } from './routes/router';
 import { theme } from './styles/theme';
@@ -14,9 +15,11 @@ export function App() {
       <ThemeProvider theme={theme}>
         <GlobalStyle />
         <CacheProvider>
-          <ModalProvider>
-            <RouterProvider router={router} />
-          </ModalProvider>
+          <AuthProvider>
+            <ModalProvider>
+              <RouterProvider router={router} />
+            </ModalProvider>
+          </AuthProvider>
         </CacheProvider>
       </ThemeProvider>
     </>
