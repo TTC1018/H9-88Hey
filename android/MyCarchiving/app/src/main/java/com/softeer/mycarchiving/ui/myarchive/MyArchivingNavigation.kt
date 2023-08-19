@@ -14,9 +14,9 @@ import com.softeer.mycarchiving.navigation.MainDestination
 import com.softeer.mycarchiving.navigation.MyArchiveDestinations.*
 import com.softeer.mycarchiving.ui.HyundaiAppState
 import com.softeer.mycarchiving.ui.component.MyArchiveNavigateBar
-import com.softeer.mycarchiving.ui.myarchive.myarchivedetail.myArchiveDetailScreen
-import com.softeer.mycarchiving.ui.myarchive.myarchivemade.myArchiveMadeScreen
-import com.softeer.mycarchiving.ui.myarchive.myarchivesave.myArchiveSaveScreen
+import com.softeer.mycarchiving.ui.myarchive.detail.myArchiveDetailScreen
+import com.softeer.mycarchiving.ui.myarchive.made.myArchiveMadeScreen
+import com.softeer.mycarchiving.ui.myarchive.save.myArchiveSaveScreen
 
 fun NavController.navigateToMyArchiving(navOptions: NavOptions? = null) {
     navigate(MainDestination.MY_ARCHIVING.route, navOptions)
