@@ -53,6 +53,24 @@ public class TagRepository {
 		return jdbcTemplate.query(sql, params, rowMapper());
 	}
 
+	public List<String> findTopBySelectOptionId(final String id, final int limit) {
+		String sql = "SELECT tag.content "
+			+ "FROM tag "
+			+ "         LEFT JOIN selectOption_selectedTag on tag.id = selectOption_selectedTag.tag_id "
+			+ "         LEFT JOIN archiving_selectOption "
+			+ "                   on selectOption_selectedTag.archiving_selectOption_id = archiving_selectOption.id "
+			+ "WHERE select_option_id = :selectOptionId "
+			+ "GROUP BY tag.id "
+			+ "ORDER BY COUNT(tag.id) DESC "
+			+ "LIMIT :limit";
+
+		SqlParameterSource params = new MapSqlParameterSource()
+			.addValue("selectOptionId", id)
+			.addValue("limit", limit);
+
+		return jdbcTemplate.query(sql, params, rowMapper());
+	}
+
 	private RowMapper<String> rowMapper() {
 		return (rs, rowNum) -> rs.getString("content");
 	}
