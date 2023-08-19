@@ -3,11 +3,11 @@ package com.softeer.mycarchiving.ui.makingcar.selecttrim
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.softeer.data.model.TrimBodyTypeDto
-import com.softeer.data.model.TrimEngineDto
-import com.softeer.data.model.TrimWheelDto
-import com.softeer.data.repository.SelectTrimRepository
-import com.softeer.mycarchiving.model.TrimOptionUiModel
+import com.softeer.domain.model.TrimOption
+import com.softeer.domain.usecase.makingcar.GetBodyTypesUseCase
+import com.softeer.domain.usecase.makingcar.GetEngineOptionsUseCase
+import com.softeer.domain.usecase.makingcar.GetWheelDrivesUseCase
+import com.softeer.mycarchiving.mapper.asUiModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.map
@@ -18,27 +18,29 @@ private val TAG = SelectTrimViewModel::class.simpleName
 
 @HiltViewModel
 class SelectTrimViewModel @Inject constructor(
-    private val selectTrimRepository: SelectTrimRepository
+    getEnginesUseCase: GetEngineOptionsUseCase,
+    getBodyTypesUseCase: GetBodyTypesUseCase,
+    getWheelDrivesUseCase: GetWheelDrivesUseCase,
 ) : ViewModel() {
 
-    val engines = selectTrimRepository.getEngines()
-        .map { dtos -> dtos.map { it.asOptionUiModel() } }
+    val engines = getEnginesUseCase()
+        .map { it.map(TrimOption::asUiModel) }
         .stateIn(
             scope = viewModelScope,
             started = SharingStarted.WhileSubscribed(),
             initialValue = emptyList(),
         )
 
-    val bodyTypes = selectTrimRepository.getBodyTypes()
-        .map { dtos -> dtos.map { it.asOptionUiModel() } }
+    val bodyTypes = getBodyTypesUseCase()
+        .map { it.map(TrimOption::asUiModel) }
         .stateIn(
             scope = viewModelScope,
             started = SharingStarted.WhileSubscribed(),
             initialValue = emptyList(),
         )
 
-    val wheels = selectTrimRepository.getWheelDrives()
-        .map { dtos -> dtos.map { it.asOptionUiModel() } }
+    val wheels = getWheelDrivesUseCase()
+        .map { it.map(TrimOption::asUiModel) }
         .stateIn(
             scope = viewModelScope,
             started = SharingStarted.WhileSubscribed(),
@@ -46,29 +48,3 @@ class SelectTrimViewModel @Inject constructor(
         )
 
 }
-
-private fun TrimEngineDto.asOptionUiModel() =
-    TrimOptionUiModel(
-        optionName = name,
-        optionDesc = description,
-        imageUrl = imageUrl,
-        price = price,
-        maximumOutput = maximumPower,
-        maximumTorque = maximumTorque,
-    )
-
-private fun TrimBodyTypeDto.asOptionUiModel() =
-    TrimOptionUiModel(
-        optionName = name,
-        optionDesc = description,
-        imageUrl = imageUrl,
-        price = price,
-    )
-
-private fun TrimWheelDto.asOptionUiModel() =
-    TrimOptionUiModel(
-        optionName = name,
-        optionDesc = description,
-        imageUrl = imageUrl,
-        price = price,
-    )
