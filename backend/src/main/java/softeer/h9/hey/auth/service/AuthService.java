@@ -28,39 +28,39 @@ public class AuthService {
 
 	public TokenResponse join(JoinRequest joinRequest) {
 		User user = mapToUser(joinRequest);
-		validateUniqueUserId(user.getUserId());
+		validateUniqueEmail(user.getEmail());
 
 		user = userRepository.save(user);
-		return getTokenResponse(user.getId());
+		return makeTokenResponse(user.getId());
 	}
 
 	private User mapToUser(JoinRequest joinRequest) {
-		return new User(joinRequest.getUserId(), joinRequest.getPassword(), joinRequest.getUserName());
+		return new User(joinRequest.getEmail(), joinRequest.getPassword(), joinRequest.getUserName());
 	}
 
-	private void validateUniqueUserId(String userId) {
-		Optional<User> optionalUser = userRepository.findByUserId(userId);
+	private void validateUniqueEmail(String email) {
+		Optional<User> optionalUser = userRepository.findByEmail(email);
 		if (optionalUser.isPresent()) {
 			throw new JoinException();
 		}
 	}
 
 	public TokenResponse login(LoginRequest loginRequest) {
-		String userId = loginRequest.getUserId();
+		String email = loginRequest.getEmail();
 		String password = loginRequest.getPassword();
 
-		User user = validatedUser(userId);
+		User user = getValidatedUser(email);
 		checkPassword(password, user);
 
-		return getTokenResponse(user.getId());
+		return makeTokenResponse(user.getId());
 	}
 
-	private TokenResponse getTokenResponse(int userId) {
-		String userPk = String.valueOf(userId);
+	private TokenResponse makeTokenResponse(int userPk) {
+		String userId = String.valueOf(userPk);
 
-		String accessToken = jwtTokenProvider.generateAccessToken(userPk);
-		String refreshToken = jwtTokenProvider.generateRefreshToken(userPk);
-		refreshTokenRepository.save(new RefreshTokenEntity(Integer.parseInt(userPk), refreshToken));
+		String accessToken = jwtTokenProvider.generateAccessToken(userId);
+		String refreshToken = jwtTokenProvider.generateRefreshToken(userId);
+		refreshTokenRepository.save(new RefreshTokenEntity(Integer.parseInt(userId), refreshToken));
 
 		return new TokenResponse(accessToken, refreshToken);
 	}
@@ -71,8 +71,8 @@ public class AuthService {
 		}
 	}
 
-	private User validatedUser(String userId) {
-		Optional<User> optionalUser = userRepository.findByUserId(userId);
+	private User getValidatedUser(String email) {
+		Optional<User> optionalUser = userRepository.findByEmail(email);
 		if (optionalUser.isEmpty()) {
 			throw new LoginException();
 		}
@@ -82,6 +82,6 @@ public class AuthService {
 	public TokenResponse republishAccessToken(AccessTokenRequest accessTokenRequest) {
 		String refreshToken = accessTokenRequest.getRefreshToken();
 		String userId = jwtTokenProvider.getSubjectFromToken(refreshToken);
-		return getTokenResponse(Integer.parseInt(userId));
+		return makeTokenResponse(Integer.parseInt(userId));
 	}
 }

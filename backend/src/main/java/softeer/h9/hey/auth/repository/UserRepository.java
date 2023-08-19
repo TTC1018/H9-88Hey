@@ -7,5 +7,5 @@ import softeer.h9.hey.auth.domain.User;
 public interface UserRepository {
 	User save(User user);
 
-	Optional<User> findByUserId(String userId);
+	Optional<User> findByEmail(String email);
 }

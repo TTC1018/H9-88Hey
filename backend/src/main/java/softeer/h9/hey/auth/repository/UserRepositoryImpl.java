@@ -23,11 +23,11 @@ public class UserRepositoryImpl implements UserRepository {
 
 	@Override
 	public User save(User user) {
-		String sql = "INSERT INTO `user`(user_id, password, name, created_at) "
-			+ "values (:userId, :password, :name, NOW())";
+		String sql = "INSERT INTO `user`(email, password, name, created_at) "
+			+ "values (:email, :password, :name, NOW())";
 
 		SqlParameterSource param = new MapSqlParameterSource()
-			.addValue("userId", user.getUserId())
+			.addValue("email", user.getEmail())
 			.addValue("name", user.getName())
 			.addValue("password", user.getPassword());
 
@@ -40,10 +40,10 @@ public class UserRepositoryImpl implements UserRepository {
 	}
 
 	@Override
-	public Optional<User> findByUserId(String userId) {
-		String sql = "select * from `user` where user_id = :userId";
+	public Optional<User> findByEmail(String email) {
+		String sql = "select * from `user` where email = :email";
 
-		Map<String, Object> params = Map.of("userId", userId);
+		Map<String, Object> params = Map.of("email", email);
 
 		return namedParameterJdbcTemplate.query(sql, params, userRowMapper())
 			.stream()
