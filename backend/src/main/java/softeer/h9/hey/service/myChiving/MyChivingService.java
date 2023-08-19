@@ -39,7 +39,7 @@ public class MyChivingService {
 
 		Long myChivingId = myChivingRepository.saveMyCarToMyChiving(myChivingSaveDto);
 
-		return MyChivingIdResponse.of(myChivingId);
+		return MyChivingIdResponse.from(myChivingId);
 	}
 
 	//임시 저장
@@ -52,7 +52,7 @@ public class MyChivingService {
 
 		Long myChivingId = myChivingRepository.saveMyCarToMyChiving(myChivingSaveDto);
 
-		return MyChivingIdResponse.of(myChivingId);
+		return MyChivingIdResponse.from(myChivingId);
 	}
 
 }

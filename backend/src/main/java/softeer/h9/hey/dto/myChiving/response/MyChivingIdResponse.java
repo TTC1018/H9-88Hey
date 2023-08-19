@@ -10,7 +10,7 @@ public class MyChivingIdResponse {
 		this.myChivingId = myChivingId;
 	}
 
-	public static MyChivingIdResponse of(final Long myChivingId) {
+	public static MyChivingIdResponse from(final Long myChivingId) {
 		return new MyChivingIdResponse(myChivingId);
 	}
 }
