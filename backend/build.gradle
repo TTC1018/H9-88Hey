@@ -27,6 +27,8 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 
 	implementation 'org.springframework.boot:spring-boot-starter-jdbc'
+    implementation 'com.github.f4b6a3:tsid-creator:5.2.4'
+	implementation 'com.github.f4b6a3:tsid-creator:5.2.4'
 	runtimeOnly 'com.mysql:mysql-connector-j'
 
 	implementation 'org.springdoc:springdoc-openapi-ui:1.6.9'
