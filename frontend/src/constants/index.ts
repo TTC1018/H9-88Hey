@@ -39,4 +39,5 @@ export enum MyCarActionType {
   'REMOVE_OPTION' = 'REMOVE_OPTION',
   'SAVE_OPTION' = 'SAVE_OPTION',
   'CAR_IMAGE_URL' = 'CAR_IMAGE_URL',
+  'CLEAR_OPTION' = 'CLEAR_OPTION',
 }

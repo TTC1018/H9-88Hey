@@ -4,13 +4,14 @@ import { useOutletContext, useLocation } from 'react-router-dom';
 
 import { OptionContextProviderProps } from '@/types/option';
 import { checkIsSelectOptionPage, isHGenuineAccessoriesSelected } from '@/utils';
-import { ModalType } from '@/constants';
+import { ModalType, MyCarActionType } from '@/constants';
 
 import { OptionCardHover } from '@/components/Option/OptionCardList/OptionCardHover';
 import { ModalPortal } from '@/components/Option/ModalPortal';
 import { PopupModal } from '@/components/common/PopupModal';
 
 import * as Styled from './style';
+import { MyCarLayoutContextProps } from '@/types/trim';
 
 interface Props {
   isBlur: boolean;
@@ -39,7 +40,7 @@ export function OptionCard({
   const [isHover, setIsHover] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
 
-  const { myCar, addOption, removeOption, clearHGenuineAccessories } = useOutletContext<OptionContextProviderProps>();
+  const { myCar, dispatch, clearHGenuineAccessories } = useOutletContext<MyCarLayoutContextProps>();
   const { options } = myCar;
 
   const childRef = useRef<HTMLUListElement | null>(null);
@@ -59,8 +60,11 @@ export function OptionCard({
     setIsButtonActive(prev => !prev);
 
     isButtonActive
-      ? removeOption(name)
-      : addOption({ id, name, price: additionalPrice, imageUrl, subOptions: subOptionNames, path: pathname });
+      ? dispatch({ type: MyCarActionType.REMOVE_OPTION, props: name })
+      : dispatch({
+          type: MyCarActionType.ADD_OPTION,
+          props: { id, name, additionalPrice, imageUrl, subOptions: subOptionNames, path: pathname },
+        });
   }
 
   function handleHoverCard(isHover: boolean) {
@@ -80,8 +84,11 @@ export function OptionCard({
     setIsButtonActive(prev => !prev);
 
     isButtonActive
-      ? removeOption(name)
-      : addOption({ id, name, price: additionalPrice, imageUrl, subOptions: subOptionNames, path: pathname });
+      ? dispatch({ type: MyCarActionType.REMOVE_OPTION, props: name })
+      : dispatch({
+          type: MyCarActionType.ADD_OPTION,
+          props: { id, name, additionalPrice, imageUrl, subOptions: subOptionNames, path: pathname },
+        });
 
     setIsOpen(false);
   }
