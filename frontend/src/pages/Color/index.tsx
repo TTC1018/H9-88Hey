@@ -42,7 +42,7 @@ export function Color() {
     handleInnerColor,
     handleCarImageUrl,
     carCode,
-    myCar: { trim, engine, wheelDrive, bodyType, outerColor, innerColor },
+    myCar: { trim, engine, wheelDrive, bodyType, exteriorColor, interiorColor },
   } = useOutletContext<MyCarLayoutContextProps>();
 
   const { data } = useFetch<ColorDataProps>({ defaultValue: initialData, url: '/car/color?trim_id=1' });
@@ -94,18 +94,18 @@ export function Color() {
   }
 
   useEffect(() => {
-    const outerIndex = data.exteriorColors.findIndex(color => color.name === outerColor.title);
+    const outerIndex = data.exteriorColors.findIndex(color => color.name === exteriorColor.name);
     let innerIndex = -1;
 
     if (outerIndex !== -1) {
       innerIndex = data.exteriorColors[outerIndex].availableInteriorColors.findIndex(
-        colorId => colorId === innerColor.id
+        colorId => colorId === interiorColor.id
       );
 
       handleSetExternalIndex(outerIndex)();
       innerIndex !== -1 && handleSetInnerIndex(innerIndex)();
     }
-    if (outerColor.title === '') {
+    if (exteriorColor.name === '') {
       updateOuterColor(0);
       updateInnerColor(availableInnerColorList, 0);
     }
