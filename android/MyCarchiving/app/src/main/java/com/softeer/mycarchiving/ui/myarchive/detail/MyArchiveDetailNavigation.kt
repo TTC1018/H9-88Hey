@@ -1,4 +1,4 @@
-package com.softeer.mycarchiving.ui.myarchive.myarchivesave
+package com.softeer.mycarchiving.ui.myarchive.detail
 
 import androidx.activity.compose.BackHandler
 import androidx.navigation.NavController
@@ -7,20 +7,19 @@ import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
 import com.softeer.mycarchiving.navigation.MyArchiveDestinations
 
-fun NavController.navigateToMyArchiveSave(navOptions: NavOptions? = null) {
-    navigate(MyArchiveDestinations.MY_ARCHIVE_SAVE.route, navOptions)
+fun NavController.navigateToMyArchiveDetail(navOptions: NavOptions? = null) {
+    navigate(MyArchiveDestinations.MY_ARCHIVE_DETAIL.route, navOptions)
 }
 
-fun NavGraphBuilder.myArchiveSaveScreen(
-    moveDetailPage: () -> Unit,
+fun NavGraphBuilder.myArchiveDetailScreen(
     onBackClick: () -> Unit,
 ) {
     composable(
-        route = MyArchiveDestinations.MY_ARCHIVE_SAVE.route
+        route = MyArchiveDestinations.MY_ARCHIVE_DETAIL.route
     ) {
         BackHandler {
             onBackClick()
         }
-        MyArchiveSaveRoute()
+        MyArchiveDetailRoute()
     }
 }

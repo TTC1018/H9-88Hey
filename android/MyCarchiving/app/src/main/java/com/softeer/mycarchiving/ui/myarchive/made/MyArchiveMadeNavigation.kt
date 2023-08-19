@@ -1,4 +1,4 @@
-package com.softeer.mycarchiving.ui.myarchive.myarchivemade
+package com.softeer.mycarchiving.ui.myarchive.made
 
 import androidx.activity.compose.BackHandler
 import androidx.navigation.NavController

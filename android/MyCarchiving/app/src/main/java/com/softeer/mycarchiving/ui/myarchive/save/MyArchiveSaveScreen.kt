@@ -1,17 +1,17 @@
-package com.softeer.mycarchiving.ui.myarchive.myarchivedetail
+package com.softeer.mycarchiving.ui.myarchive.save
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 
 @Composable
-fun MyArchiveDetailRoute(
+fun MyArchiveSaveRoute(
     modifier: Modifier = Modifier
 ) {
-    MyArchiveDetailScreen(modifier = modifier)
+    MyArchiveSaveScreen(modifier = modifier)
 }
 
 @Composable
-fun MyArchiveDetailScreen(
+fun MyArchiveSaveScreen(
     modifier: Modifier
 ) {
 
