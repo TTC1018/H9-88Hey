@@ -1,6 +1,5 @@
 package softeer.h9.hey.auth.controller;
 
-import static org.assertj.core.api.Assertions.*;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -17,7 +16,6 @@ import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -25,7 +23,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import softeer.h9.hey.auth.domain.User;
 import softeer.h9.hey.auth.dto.request.JoinRequest;
 import softeer.h9.hey.auth.dto.request.LoginRequest;
-import softeer.h9.hey.auth.dto.response.RefreshTokenResponse;
 import softeer.h9.hey.auth.exception.LoginException;
 import softeer.h9.hey.auth.repository.UserRepository;
 
@@ -47,19 +44,18 @@ class AuthControllerTest {
 	@Test
 	@DisplayName("회원가입 요청 정상처리")
 	void signUpTest() throws Exception {
-		MvcResult mvcResult = mockMvc.perform(
+		String userName = "userName";
+
+		mockMvc.perform(
 				post("/auth/sign-up")
 					.contentType(MediaType.APPLICATION_JSON)
-					.content(objectMapper.writeValueAsString(new JoinRequest("email", "password", "userName"))))
+					.content(objectMapper.writeValueAsString(new JoinRequest("email", "password", userName))))
 			.andExpect(status().isOk())
-			.andReturn();
-
-		byte[] contentAsByteArray = mvcResult.getResponse().getContentAsByteArray();
-		RefreshTokenResponse response = objectMapper.readValue(contentAsByteArray, RefreshTokenResponse.class);
-
-		assertThat(mvcResult.getResponse().getHeader("Authorization")).startsWith("Bearer ");
-		assertThat(response.getRefreshToken()).isNotNull();
-		assertThat(response.getUserName()).isEqualTo("userName");
+			.andExpectAll(
+				jsonPath("$.data.accessToken").exists(),
+				jsonPath("$.data.refreshToken").exists(),
+				jsonPath("$.data.userName").value(userName)
+			);
 	}
 
 	@Test
@@ -80,19 +76,16 @@ class AuthControllerTest {
 	@Test
 	@DisplayName("로그인 요청을 정상적으로 처리한다.")
 	void signInTest() throws Exception {
-		MvcResult mvcResult = mockMvc.perform(
+		mockMvc.perform(
 				post("/auth/signin")
 					.contentType(MediaType.APPLICATION_JSON)
 					.content(objectMapper.writeValueAsString(new LoginRequest("email", "testPassword"))))
 			.andExpect(status().isOk())
-			.andReturn();
-
-		byte[] contentAsByteArray = mvcResult.getResponse().getContentAsByteArray();
-		RefreshTokenResponse response = objectMapper.readValue(contentAsByteArray, RefreshTokenResponse.class);
-
-		assertThat(mvcResult.getResponse().getHeader("Authorization")).startsWith("Bearer ");
-		assertThat(response.getRefreshToken()).isNotNull();
-		assertThat(response.getUserName()).isEqualTo("userName");
+			.andExpectAll(
+				jsonPath("$.data.accessToken").exists(),
+				jsonPath("$.data.refreshToken").exists(),
+				jsonPath("$.data.userName").exists()
+			);
 	}
 
 	@Test
