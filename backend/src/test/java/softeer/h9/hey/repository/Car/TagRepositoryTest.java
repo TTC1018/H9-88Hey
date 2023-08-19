@@ -26,4 +26,15 @@ class TagRepositoryTest {
 
 		assertTrue(limit >= tags.size());
 	}
+
+	@Test
+	@DisplayName("외장 색상 id와 limit를 통해 상위 태그를 조회한다.")
+	void findTopByExteriorColorId() {
+		int limit = 3;
+		int exteriorColorId = 1;
+
+		List<String> tags = repository.findTopByExteriorColorId(exteriorColorId, limit);
+
+		assertTrue(limit >= tags.size());
+	}
 }
