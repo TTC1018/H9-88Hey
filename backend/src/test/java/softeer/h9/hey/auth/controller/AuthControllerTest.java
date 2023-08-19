@@ -77,7 +77,7 @@ class AuthControllerTest {
 					.content(objectMapper.writeValueAsString(new JoinRequest("email", "testPassword", "userName"))))
 			.andExpect(status().isConflict())
 			.andExpect(jsonPath("$.statusCode").value(HttpStatus.CONFLICT.value()))
-			.andExpect(jsonPath("$.message").value(JoinException.LOGIN_FAIL_MESSAGE));
+			.andExpect(jsonPath("$.message").value(JoinException.DUPLICATED_EMAIL_MESSAGE));
 	}
 
 	@Test
