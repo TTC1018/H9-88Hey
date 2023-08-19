@@ -1,5 +1,7 @@
 package softeer.h9.hey.auth.controller;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -7,6 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
+import softeer.h9.hey.auth.dto.request.AccessTokenRequest;
 import softeer.h9.hey.auth.dto.request.JoinRequest;
 import softeer.h9.hey.auth.dto.request.LoginRequest;
 import softeer.h9.hey.auth.dto.response.TokenResponse;
@@ -18,6 +21,8 @@ import softeer.h9.hey.dto.global.response.GlobalResponse;
 @RequiredArgsConstructor(access = AccessLevel.PROTECTED)
 public class AuthController {
 
+	public static final String BEARER = "Bearer ";
+	public static final String AUTHORIZATION = "Authorization";
 	private final AuthService authService;
 
 	@PostMapping("/signup")
@@ -29,6 +34,15 @@ public class AuthController {
 	@PostMapping("/signin")
 	public GlobalResponse<TokenResponse> login(@RequestBody LoginRequest loginRequest) {
 		TokenResponse tokenResponse = authService.login(loginRequest);
+		return GlobalResponse.ok(tokenResponse);
+	}
+
+	@PostMapping("/access-token")
+	public GlobalResponse<TokenResponse> getAccessToken(HttpServletRequest request) {
+		String refreshToken = request.getHeader(AUTHORIZATION).substring(BEARER.length());
+		AccessTokenRequest accessTokenRequest = new AccessTokenRequest(refreshToken);
+
+		TokenResponse tokenResponse = authService.republishAccessToken(accessTokenRequest);
 		return GlobalResponse.ok(tokenResponse);
 	}
 }
