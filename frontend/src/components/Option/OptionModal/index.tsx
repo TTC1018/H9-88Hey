@@ -9,6 +9,7 @@ interface Props {
 
 export function OptionModal({ name, imageUrl, description, onClick }: Props) {
   const processedDescription = description === '-' ? '' : description;
+  const descriptions = processedDescription.split('<br>');
 
   return (
     <>
@@ -24,7 +25,11 @@ export function OptionModal({ name, imageUrl, description, onClick }: Props) {
             <Styled.Image src={imageUrl} />
           </Styled.ImageBox>
           <Styled.DescriptionBox>
-            <Styled.Description dangerouslySetInnerHTML={{ __html: processedDescription }}></Styled.Description>
+            <Styled.Description>
+              {descriptions.map((description, index) => (
+                <p key={index}>{description}</p>
+              ))}
+            </Styled.Description>
           </Styled.DescriptionBox>
         </Styled.ContentBox>
         <Styled.ButtonBox>
