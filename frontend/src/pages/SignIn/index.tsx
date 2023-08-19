@@ -1,10 +1,10 @@
 import { useState, ChangeEvent, MouseEvent } from 'react';
+
 import { useNavigate } from 'react-router-dom';
 
 import * as Styled from './style';
 
 interface User {
-  id: string;
   username: string;
 }
 
@@ -46,24 +46,17 @@ export function SignIn() {
     }
   }
 
-  function handleLogout() {
-    setUser(null);
-    localStorage.removeItem('accessToken');
-    localStorage.removeItem('refreshToken');
-  }
-
   return (
     <>
       {user !== null ? (
         navigate('/trim')
       ) : (
         <Styled.Container>
+          <Styled.HyundaiLogo src="/src/assets/icons/signin_hyundai_logo.svg" />
           <Styled.Form>
-            <input type="text" name="id" placeholder="아이디" onChange={handleChange} />
-            <input type="password" name="password" placeholder="비밀번호" onChange={handleChange} />
-            <button onClick={event => handleLogin(event)}>로그인</button>
-            <button onClick={() => handleLogout()}>로그아웃</button>
-            <button onClick={() => setUser({ id: 'sukam09', username: '이승원' })}>setUser Test Button</button>
+            <Styled.Input type="text" name="id" placeholder="이메일 주소" onChange={handleChange} />
+            <Styled.Input type="password" name="password" placeholder="비밀번호" onChange={handleChange} />
+            <Styled.Button onClick={event => handleLogin(event)}>로그인</Styled.Button>
           </Styled.Form>
         </Styled.Container>
       )}
