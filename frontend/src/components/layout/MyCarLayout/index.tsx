@@ -2,7 +2,7 @@ import { Suspense, useEffect, useRef, useState } from 'react';
 
 import { Outlet, useLocation } from 'react-router-dom';
 
-import { getLocalStorage } from '@/utils';
+import { checkIsResultPage, getLocalStorage } from '@/utils';
 import { MyCarProps } from '@/types/trim';
 import { OptionContextProps } from '@/types/option';
 
@@ -100,10 +100,6 @@ export function MyCarLayout() {
     localStorage.setItem('myCar', JSON.stringify(myCar));
   }
 
-  function checkIsResultPage() {
-    return pathname === '/result';
-  }
-
   useEffect(() => {
     const myCarData = localStorage.getItem('myCar');
 
@@ -115,10 +111,10 @@ export function MyCarLayout() {
   }, []);
 
   return (
-    <Styled.Container isFull={checkIsResultPage()}>
+    <Styled.Container isFull={checkIsResultPage(pathname)}>
       <Header isSaving={isSavingNow} />
       <Navigation />
-      <Styled.Wrapper isFull={checkIsResultPage()}>
+      <Styled.Wrapper isFull={checkIsResultPage(pathname)}>
         <Suspense fallback={<Loading />}>
           <Outlet
             context={{
