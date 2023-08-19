@@ -11,7 +11,6 @@ import org.springframework.stereotype.Repository;
 
 import lombok.RequiredArgsConstructor;
 import softeer.h9.hey.domain.archiving.Archiving;
-import softeer.h9.hey.dto.archiving.request.ArchivingRequest;
 
 @Repository
 @RequiredArgsConstructor
@@ -19,25 +18,10 @@ public class ArchivingRepository {
 
 	private final NamedParameterJdbcTemplate jdbcTemplate;
 
-	public List<Archiving> findArchivingIdByCondition(final ArchivingRequest request) {
-		int modelId = request.getModelId();
-		int limit = request.getLimit();
-		int offset = request.getOffset();
-		List<String> selectOptions = request.getSelectOptions();
+	public List<Archiving> findArchivingIdByCondition(final int modelId, final int limit, final int offset,
+		final List<String> selectOptions) {
 
-		String sql = "SELECT archiving.id, archiving.is_purchase, archiving.created_at, archiving.review, archiving.car_normal_types_id\n"
-			+ "FROM archiving, carNormalTypes, trim, model "
-			+ "WHERE archiving.id IN "
-			+ "      (SELECT archiving_selectOption.archiving_id "
-			+ "       FROM archiving_selectOption "
-			+ "       WHERE archiving_selectOption.select_option_id IN (:selectOptions) "
-			+ "       GROUP BY archiving_selectOption.archiving_id "
-			+ "       HAVING COUNT(DISTINCT archiving_selectOption.select_option_id) = :count) "
-			+ "AND archiving.car_normal_types_id = carNormalTypes.id "
-			+ "AND carNormalTypes.trim_id = trim.id "
-			+ "AND model_id = (:modelId)"
-			+ "ORDER BY archiving.id DESC "
-			+ "LIMIT :limit OFFSET :offset";
+		String sql = initializeSql(selectOptions);
 
 		SqlParameterSource params = new MapSqlParameterSource()
 			.addValue("selectOptions", selectOptions)
@@ -47,6 +31,33 @@ public class ArchivingRepository {
 			.addValue("offset", calcOffset(limit, offset));
 
 		return jdbcTemplate.query(sql, params, archivingRowMapper());
+	}
+
+	private String initializeSql(final List<String> selectOptions) {
+		if (selectOptions.isEmpty()) {
+			return
+				"SELECT archiving.id, model.name AS model_name ,archiving.is_purchase, archiving.created_at, archiving.review, archiving.car_normal_types_id\n"
+					+ "FROM archiving, carNormalTypes, trim, model "
+					+ "WHERE archiving.car_normal_types_id = carNormalTypes.id "
+					+ "AND carNormalTypes.trim_id = trim.id "
+					+ "AND model_id = (:modelId)"
+					+ "ORDER BY archiving.id DESC "
+					+ "LIMIT :limit OFFSET :offset";
+		}
+		return
+			"SELECT archiving.id, model.name AS model_name ,archiving.is_purchase, archiving.created_at, archiving.review, archiving.car_normal_types_id\n"
+				+ "FROM archiving, carNormalTypes, trim, model "
+				+ "WHERE archiving.id IN "
+				+ "      (SELECT archiving_selectOption.archiving_id "
+				+ "       FROM archiving_selectOption "
+				+ "       WHERE archiving_selectOption.select_option_id IN (:selectOptions) "
+				+ "       GROUP BY archiving_selectOption.archiving_id "
+				+ "       HAVING COUNT(DISTINCT archiving_selectOption.select_option_id) = :count) "
+				+ "AND archiving.car_normal_types_id = carNormalTypes.id "
+				+ "AND carNormalTypes.trim_id = trim.id "
+				+ "AND model_id = (:modelId)"
+				+ "ORDER BY archiving.id DESC "
+				+ "LIMIT :limit OFFSET :offset";
 	}
 
 	private int calcOffset(final int limit, final int offset) {
