@@ -27,4 +27,11 @@ public class GlobalResponse<T> {
 			.data(body)
 			.build();
 	}
+
+	public static GlobalResponse<?> error(HttpStatus httpStatus, String message) {
+		return GlobalResponse.builder()
+			.statusCode(httpStatus.value())
+			.message(message)
+			.build();
+	}
 }
