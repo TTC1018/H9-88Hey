@@ -24,20 +24,20 @@ class UserRepositoryTest {
 	@Test
 	@DisplayName("유저를 저장한다.")
 	void createUserTest() {
-		User user = new User("userId", "password", "name");
+		User user = new User("email", "password", "name");
 
 		User savedUser = userRepository.save(user);
 
-		assertThat(savedUser.getUserId()).isNotNull();
+		assertThat(savedUser.getEmail()).isNotNull();
 	}
 
 	@Test
 	@DisplayName("유저 ID를 통해 User를 조회한다.")
 	void findUserByIdTest() {
-		User user = new User("userId", "password", "name");
+		User user = new User("email", "password", "name");
 		userRepository.save(user);
 
-		Optional<User> findUser = userRepository.findByUserId(user.getUserId());
+		Optional<User> findUser = userRepository.findByEmail(user.getEmail());
 
 		assertTrue(findUser.isPresent());
 	}

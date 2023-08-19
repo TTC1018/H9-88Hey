@@ -29,15 +29,16 @@ class AuthServiceTest {
 	@Test
 	@DisplayName("아이디와 비밀번호를 전달하여 회원가입을 한다.")
 	void joinTest() {
-		JoinRequest joinRequest = new JoinRequest("userId", "password", "name");
+		JoinRequest joinRequest = new JoinRequest("email", "password", "name");
 
-		User user = new User("userId", "password", "name");
+		User user = new User("email", "password", "name");
 		user.setId(1);
 		when(tokenProvider.generateAccessToken(anyString())).thenReturn("accessToken");
 		when(tokenProvider.generateRefreshToken(anyString())).thenReturn("refreshToken");
 		when(userRepository.save(any())).thenReturn(user);
 
 		TokenResponse tokenResponse = authService.join(joinRequest);
+
 
 		Assertions.assertThat(tokenResponse.getAccessToken()).isNotNull();
 		Assertions.assertThat(tokenResponse.getRefreshToken()).isNotNull();
@@ -46,10 +47,10 @@ class AuthServiceTest {
 	@Test
 	@DisplayName("똑같은 ID로 회원 가입 요청이 들어올 경우 예외를 던진다.")
 	void duplicateJoinTest() {
-		String userId = "userId";
-		JoinRequest joinRequest = new JoinRequest(userId, "password", "name");
+		String email = "email";
+		JoinRequest joinRequest = new JoinRequest(email, "password", "name");
 
-		when(userRepository.findByUserId(userId)).thenReturn(Optional.of(mock(User.class)));
+		when(userRepository.findByEmail(email)).thenReturn(Optional.of(mock(User.class)));
 
 		Assertions.assertThatThrownBy(() -> authService.join(joinRequest))
 			.isInstanceOf(JoinException.class);
@@ -58,15 +59,15 @@ class AuthServiceTest {
 	@Test
 	@DisplayName("로그인 테스트")
 	void loginTest() {
-		String userId = "userId";
+		String email = "email";
 		String password = "password";
 		String name = "name";
-		User user = new User(userId, password, name);
-
+		User user = new User(email, password, name);
 		user.setId(1);
-		LoginRequest loginRequest = new LoginRequest(user.getUserId(), user.getPassword());
 
-		when(userRepository.findByUserId(userId)).thenReturn(Optional.of(user));
+		LoginRequest loginRequest = new LoginRequest(user.getEmail(), user.getPassword());
+
+		when(userRepository.findByEmail(email)).thenReturn(Optional.of(user));
 		when(tokenProvider.generateAccessToken(anyString())).thenReturn("accessToken");
 		when(tokenProvider.generateRefreshToken(anyString())).thenReturn("refreshToken");
 		TokenResponse tokenResponse = authService.login(loginRequest);
@@ -78,14 +79,14 @@ class AuthServiceTest {
 	@Test
 	@DisplayName("비밀번호가 틀린 경우 로그인 실패 테스트")
 	void loginFailTest1() {
-		String userId = "userId";
+		String email = "email";
 		String password = "password";
 		String name = "name";
-		User user = new User(userId, password, name);
+		User user = new User(email, password, name);
 
-		LoginRequest loginRequest = new LoginRequest(userId, "wrongPassword");
+		LoginRequest loginRequest = new LoginRequest(email, "wrongPassword");
 
-		when(userRepository.findByUserId(userId)).thenReturn(Optional.of(user));
+		when(userRepository.findByEmail(email)).thenReturn(Optional.of(user));
 
 		Assertions.assertThatThrownBy(() -> authService.login(loginRequest))
 			.isInstanceOf(LoginException.class);
@@ -94,10 +95,10 @@ class AuthServiceTest {
 	@Test
 	@DisplayName("요청 ID로 등록된 회원이 없는 경우 로그인 실패 테스트")
 	void loginFailTest2() {
-		String userId = "userId";
-		LoginRequest loginRequest = new LoginRequest(userId, "password");
+		String email = "email";
+		LoginRequest loginRequest = new LoginRequest(email, "password");
 
-		when(userRepository.findByUserId(userId)).thenReturn(Optional.empty());
+		when(userRepository.findByEmail(email)).thenReturn(Optional.empty());
 
 		Assertions.assertThatThrownBy(() -> authService.login(loginRequest))
 			.isInstanceOf(LoginException.class);
