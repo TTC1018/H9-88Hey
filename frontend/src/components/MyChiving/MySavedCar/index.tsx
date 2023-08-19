@@ -98,7 +98,6 @@ export function MySavedCar() {
     defaultValue: initialData,
     url: '/mychiving?limit=4&offset=0',
   });
-  console.log(myChivingData);
   const [myChivings, setMyChivings] = useState<MyChivingProps[]>([]);
 
   const modalInfo = useRef({
@@ -133,21 +132,20 @@ export function MySavedCar() {
       carImageUrl: exteriorColor ? exteriorColor.carImageUrl : '',
     };
 
+    localStorage.setItem('myCar', JSON.stringify(savedMyCar));
     if (myChiving.isSaved) {
-      localStorage.setItem('myCar', JSON.stringify(savedMyCar));
       navigate('/result');
     } else {
       const targetIndex = Object.values(myChiving).findIndex(value => value === null);
       const lastIndex = Object.values(myChiving).length - 1;
       const targetPath = Object.keys(myChiving)[targetIndex === -1 ? lastIndex : targetIndex];
 
-      localStorage.setItem('myCar', JSON.stringify(savedMyCar));
       navigate(matchPath[targetPath]);
     }
   }
 
   function handleDeleteList(myChiving: MyChivingProps) {
-    const updatedMyChivings = myChivings.filter(myCar => myCar.myChivingId !== myChiving.myChivingId);
+    const updatedMyChivings = myChivings.filter(({ myChivingId }) => myChivingId !== myChiving.myChivingId);
     setMyChivings(updatedMyChivings);
   }
 

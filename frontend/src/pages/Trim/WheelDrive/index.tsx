@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 import { useOutletContext } from 'react-router-dom';
 
 import { fetcher } from '@/utils/fetcher';
-import { MyCarActionType } from '@/constants';
+import { MyCarActionType, apiPath, cacheKey } from '@/constants';
 import { useFetchSuspense } from '@/hooks/useFetchSuspense';
 import { useSelectIndex } from '@/hooks/useSelectedIndex';
 import { MyCarLayoutContextProps, WheelDriveDataProps } from '@/types/trim';
@@ -14,14 +14,10 @@ import { MyCarDescription } from '@/components/common/MyCarDescription';
 
 import * as Styled from './style';
 
-function wheelDriveFetcher() {
-  return fetcher<WheelDriveDataProps>({ url: '/car/model/1/wheel-drive' });
-}
-
 export function WheelDrive() {
   const { wheelDrives } = useFetchSuspense<WheelDriveDataProps>({
-    fetcher: wheelDriveFetcher,
-    key: ['wheelDrives'],
+    fetcher: () => fetcher<WheelDriveDataProps>({ url: apiPath.wheelDrive(1) }),
+    key: cacheKey.wheelDrive(1),
   });
 
   const [selectedIndex, handleSetIndex] = useSelectIndex();

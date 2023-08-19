@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 
 import { useOutletContext } from 'react-router-dom';
 
-import { MyCarActionType } from '@/constants';
+import { MyCarActionType, apiPath, cacheKey } from '@/constants';
 import { fetcher } from '@/utils/fetcher';
 import { useFetchSuspense } from '@/hooks/useFetchSuspense';
 import { useSelectIndex } from '@/hooks/useSelectedIndex';
@@ -14,14 +14,10 @@ import { MyCarDescription } from '@/components/common/MyCarDescription';
 
 import * as Styled from './style';
 
-function bodyTypeFetcher() {
-  return fetcher<BodyTypeDataProps>({ url: '/car/model/1/body-type' });
-}
-
 export function BodyType() {
   const { bodyTypes } = useFetchSuspense<BodyTypeDataProps>({
-    fetcher: bodyTypeFetcher,
-    key: ['bodyTypes'],
+    fetcher: () => fetcher<BodyTypeDataProps>({ url: apiPath.bodyType(1) }),
+    key: cacheKey.bodyType(1),
   });
   const [selectedIndex, handleSetIndex] = useSelectIndex();
 

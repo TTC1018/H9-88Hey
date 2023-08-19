@@ -1,31 +1,20 @@
 import { TrimDataProps } from '@/types/trim';
-import { useFetch } from '@/hooks/useFetch';
 import { useSelectIndex } from '@/hooks/useSelectedIndex';
 
 import { MyCarImageBox } from '@/components/Trim/MyCarImageBox';
+import { useFetchSuspense } from '@/hooks/useFetchSuspense';
+import { fetcher } from '@/utils/fetcher';
+import { apiPath, cacheKey } from '@/constants';
 
-const imageInitialData = {
-  carImageUrls: [''],
-};
 export function TrimCarImageBox() {
-  // const { carImageUrls } = useFetchSuspense<Pick<TrimDataProps, 'carImageUrls'>>({
-  //   url: '/car/model/1/image',
-  //   key: ['images'],
-  //   staleTime: 3000,
-  // });
-  const { data: images } = useFetch<Pick<TrimDataProps, 'carImageUrls'>>({
-    defaultValue: imageInitialData,
-    url: '/car/model/1/image',
+  const { carImageUrls } = useFetchSuspense<Pick<TrimDataProps, 'carImageUrls'>>({
+    fetcher: () => fetcher<Pick<TrimDataProps, 'carImageUrls'>>({ url: apiPath.image(1) }),
+    key: cacheKey.image(1),
   });
 
   const [selectedIndex, handleSetIndex] = useSelectIndex();
 
   return (
-    <MyCarImageBox
-      hasOption={true}
-      images={images.carImageUrls}
-      selectedIndex={selectedIndex}
-      onClick={handleSetIndex}
-    />
+    <MyCarImageBox hasOption={true} images={carImageUrls} selectedIndex={selectedIndex} onClick={handleSetIndex} />
   );
 }

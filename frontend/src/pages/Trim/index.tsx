@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 import { useOutletContext } from 'react-router-dom';
 
 import { fetcher } from '@/utils/fetcher';
-import { MyCarActionType } from '@/constants';
+import { MyCarActionType, apiPath, cacheKey } from '@/constants';
 import { useSelectIndex } from '@/hooks/useSelectedIndex';
 import { useFetchSuspense } from '@/hooks/useFetchSuspense';
 import { MyCarLayoutContextProps, TrimDataProps } from '@/types/trim';
@@ -13,10 +13,6 @@ import { TrimCarImageBox } from '@/components/Trim/TrimCarImageBox';
 
 import * as Styled from './style';
 
-function trimFetcher() {
-  return fetcher<TrimDataProps>({ url: '/car/model/1/trim' });
-}
-
 export function Trim() {
   const [selectedIndex, handleSetIndex] = useSelectIndex();
   const {
@@ -25,8 +21,8 @@ export function Trim() {
   } = useOutletContext<MyCarLayoutContextProps>();
 
   const { trims } = useFetchSuspense<TrimDataProps>({
-    fetcher: trimFetcher,
-    key: ['trim'],
+    fetcher: () => fetcher<TrimDataProps>({ url: apiPath.trim(1) }),
+    key: cacheKey.trim(1),
   });
 
   function handleCardClick(name: string, price: number, id: number, index: number) {

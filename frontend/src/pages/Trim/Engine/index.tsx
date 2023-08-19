@@ -3,20 +3,16 @@ import { useEffect } from 'react';
 import { useOutletContext } from 'react-router-dom';
 
 import { EngineDataProps, MyCarLayoutContextProps } from '@/types/trim';
-import { MyCarActionType } from '@/constants';
+import { fetcher } from '@/utils/fetcher';
+import { MyCarActionType, apiPath, cacheKey } from '@/constants';
 import { useSelectIndex } from '@/hooks/useSelectedIndex';
+import { useFetchSuspense } from '@/hooks/useFetchSuspense';
 
 import { TrimCard } from '@/components/common/TrimCard';
 import { MyCarImageBox } from '@/components/Trim/MyCarImageBox';
 import { MyCarDescription } from '@/components/common/MyCarDescription';
 
 import * as Styled from './style';
-import { useFetchSuspense } from '@/hooks/useFetchSuspense';
-import { fetcher } from '@/utils/fetcher';
-
-function engineFetcher() {
-  return fetcher<EngineDataProps>({ url: '/car/model/1/engine' });
-}
 
 export function Engine() {
   const {
@@ -27,8 +23,8 @@ export function Engine() {
   const [selectedIndex, handleSetIndex] = useSelectIndex();
 
   const { engines } = useFetchSuspense<EngineDataProps>({
-    fetcher: engineFetcher,
-    key: ['engine'],
+    fetcher: () => fetcher<EngineDataProps>({ url: apiPath.engine(1) }),
+    key: cacheKey.engine(1),
   });
 
   const { imageUrl, additionalPrice, name } = engines[selectedIndex];

@@ -41,3 +41,49 @@ export enum MyCarActionType {
   'CAR_IMAGE_URL' = 'CAR_IMAGE_URL',
   'CLEAR_OPTION' = 'CLEAR_OPTION',
 }
+
+const routePath = {
+  trim: () => '/trim',
+  engine: () => `${routePath.trim()}/engine`,
+  bodyType: () => `${routePath.trim()}/body-type`,
+  wheelDrive: () => `${routePath.trim()}/wheel-drive`,
+  color: () => '/color',
+  option: () => '/option',
+  hGenuineAccessories: () => `${routePath.option()}/h-genuine-accessories`,
+  nPerformance: () => `${routePath.option()}/n-performance`,
+  result: () => '/result',
+  archiving: () => '/archiving',
+  detail: () => `${routePath.archiving()}/detail`,
+  mychiving: () => '/mychiving',
+};
+
+export const apiPath = {
+  carBase: () => '/car',
+  trimBase: () => `${apiPath.carBase()}/model`,
+  trim: (modelId: number) => `${apiPath.trimBase()}/${modelId}/trim`,
+  image: (modelId: number) => `${apiPath.trimBase()}/${modelId}/image`,
+  engine: (modelId: number) => `${apiPath.trimBase()}/${modelId}/engine`,
+  bodyType: (modelId: number) => `${apiPath.trimBase()}/${modelId}/body-type`,
+  wheelDrive: (modelId: number) => `${apiPath.trimBase()}/${modelId}/wheel-drive`,
+  color: (trimId: number) => `${apiPath.carBase()}/color?trim_id=${trimId}`,
+  carCode: (trimId: number, engineId: number, bodyTypeId: number, wheelDriveId: number) =>
+    `${apiPath.carBase()}/car-code?trim_id=${trimId}&engine_id=${engineId}&body_type_id=${bodyTypeId}&wheel_drive_id=${wheelDriveId}`,
+  option: (routePath: string, search: string) => `${apiPath.carBase()}/${routePath}${search}`,
+};
+
+export const cacheKey = {
+  trim: (modelId: number) => ['trim', `${modelId}`],
+  image: (modelId: number) => ['image', `${modelId}`],
+  engine: (modelId: number) => ['engine', `${modelId}`],
+  bodyType: (modelId: number) => ['bodyType', `${modelId}`],
+  wheelDrive: (modelId: number) => ['wheelDrive', `${modelId}`],
+  color: (trimId: number) => ['color', `${trimId}`],
+  carCode: (trimId: number, engineId: number, bodyTypeId: number, wheelDriveId: number) => [
+    'carCode',
+    `${trimId}`,
+    `${engineId}`,
+    `${bodyTypeId}`,
+    `${wheelDriveId}`,
+  ],
+  option: (routePath: string, search: string) => ['option', `${routePath}`, `${search}`],
+};

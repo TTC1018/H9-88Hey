@@ -18,7 +18,6 @@ interface MyCarListProps {
 }
 
 export function MyCarList({ myChiving, onClick }: MyCarListProps) {
-  console.log(myChiving);
   const { isSaved, model, trim, engine, bodyType, wheelDrive, lastModifiedDate, selectedOptions } = myChiving;
 
   const date = formatDate(lastModifiedDate);

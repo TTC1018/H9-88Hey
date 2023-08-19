@@ -3,7 +3,7 @@ import { useState, useEffect, MouseEvent } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 import { fetcher } from '@/utils/fetcher';
-import { OPTION_CARD_LIST_LENGTH } from '@/constants';
+import { OPTION_CARD_LIST_LENGTH, apiPath, cacheKey } from '@/constants';
 import { useFetchSuspense } from '@/hooks/useFetchSuspense';
 import { isValidIndex, checkIsSelectOptionPage } from '@/utils';
 import { OptionDataProps, OptionProps, SubOptionProps, OptionCardDataProps } from '@/types/option';
@@ -28,8 +28,8 @@ export function Option({ apiType }: Props) {
   const navigate = useNavigate();
   const { pathname, search } = useLocation();
   const { selectOptions } = useFetchSuspense<OptionDataProps>({
-    fetcher: () => fetcher<OptionDataProps>({ url: `/car/${apiType}${search}` }),
-    key: ['option', `${apiType}`, `${search}`],
+    fetcher: () => fetcher<OptionDataProps>({ url: apiPath.option(apiType, search) }),
+    key: cacheKey.option(apiType, search),
   });
 
   const [option, setOption] = useState<OptionProps>({

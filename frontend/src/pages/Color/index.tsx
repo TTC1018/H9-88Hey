@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { useOutletContext } from 'react-router-dom';
 
 import { fetcher } from '@/utils/fetcher';
-import { MyCarActionType } from '@/constants';
+import { MyCarActionType, apiPath, cacheKey } from '@/constants';
 import { useSelectIndex } from '@/hooks/useSelectedIndex';
 import { useFetchSuspense } from '@/hooks/useFetchSuspense';
 import { ColorDataProps, InteriorColorsProps } from '@/types/color';
@@ -24,16 +24,16 @@ export function Color() {
   } = useOutletContext<MyCarLayoutContextProps>();
 
   const { exteriorColors, interiorColors } = useFetchSuspense<ColorDataProps>({
-    fetcher: () => fetcher<ColorDataProps>({ url: `/car/color?trim_id=${trim.id}` }),
-    key: ['color', `${trim.id}`],
+    fetcher: () => fetcher<ColorDataProps>({ url: apiPath.color(trim.id) }),
+    key: cacheKey.color(trim.id),
   });
 
   const { carCode: carCodeData } = useFetchSuspense<CarCodeProps>({
     fetcher: () =>
       fetcher<CarCodeProps>({
-        url: `/car/car-code?trim_id=${trim.id}&engine_id=${engine.id}&body_type_id=${bodyType.id}&wheel_drive_id=${wheelDrive.id}`,
+        url: apiPath.carCode(trim.id, engine.id, bodyType.id, wheelDrive.id),
       }),
-    key: ['carCode', `${trim.id}`, `${engine.id}`, `${bodyType.id}`, `${wheelDrive.id}`],
+    key: cacheKey.carCode(trim.id, engine.id, bodyType.id, wheelDrive.id),
   });
 
   const [isExternalPage, setIsExternalPage] = useState(true);
