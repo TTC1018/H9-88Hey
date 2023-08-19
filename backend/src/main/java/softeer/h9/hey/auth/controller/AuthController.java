@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import softeer.h9.hey.auth.dto.request.JoinRequest;
+import softeer.h9.hey.auth.dto.request.LoginRequest;
 import softeer.h9.hey.auth.dto.response.TokenResponse;
 import softeer.h9.hey.auth.service.AuthService;
 import softeer.h9.hey.dto.global.response.GlobalResponse;
@@ -22,6 +23,12 @@ public class AuthController {
 	@PostMapping("/signup")
 	public GlobalResponse<TokenResponse> join(@RequestBody JoinRequest joinRequest) {
 		TokenResponse tokenResponse = authService.join(joinRequest);
+		return GlobalResponse.ok(tokenResponse);
+	}
+
+	@PostMapping("/signin")
+	public GlobalResponse<TokenResponse> login(@RequestBody LoginRequest loginRequest) {
+		TokenResponse tokenResponse = authService.login(loginRequest);
 		return GlobalResponse.ok(tokenResponse);
 	}
 }
