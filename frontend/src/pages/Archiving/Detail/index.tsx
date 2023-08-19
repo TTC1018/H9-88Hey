@@ -74,7 +74,7 @@ export function Detail() {
             exteriorColor={exteriorColor.name}
             interiorColor={interiorColor.name}
             review={review}
-            imageUrl="https://www.hyundai.com/contents/vr360/LX06/exterior/A2B/001.png"
+            imageUrl={`${exteriorColor.carImageUrl}001.png`}
           />
         </Styled.HeaderWrapper>
         <Styled.DescriptionWrapper>

@@ -25,7 +25,7 @@ export function Title({ krName, enName, imageUrl }: Props) {
             <Styled.Description>마이카이빙에서 볼 수 있어요</Styled.Description>
           </Styled.DescriptionWrapper>
         </Styled.TitleWrapper>
-        <Styled.Image src={imageUrl} />
+        <Styled.Image src={`${imageUrl}001.png`} />
       </Styled.Box>
     </Styled.Container>
   );

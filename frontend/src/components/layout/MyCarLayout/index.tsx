@@ -1,4 +1,4 @@
-import { Suspense, useReducer, useRef } from 'react';
+import { Suspense, useEffect, useReducer, useRef } from 'react';
 
 import { Outlet, useLocation } from 'react-router-dom';
 
@@ -95,15 +95,15 @@ export function MyCarLayout() {
     return pathname === '/result';
   }
 
-  // useEffect(() => {
-  //   const myCarData = localStorage.getItem('myCar');
+  useEffect(() => {
+    const myCarData = localStorage.getItem('myCar');
 
-  //   if (myCarData === null) {
-  //     return;
-  //   }
-  //   const savedOptions: MyCarProps = JSON.parse(myCarData);
-  //   dispatch({ type: MyCarActionType.SAVE_OPTION, props: savedOptions });
-  // }, []);
+    if (myCarData === null) {
+      return;
+    }
+    const savedOptions: MyCarProps = JSON.parse(myCarData);
+    dispatch({ type: MyCarActionType.SAVE_OPTION, props: savedOptions });
+  }, []);
 
   return (
     <Styled.Container isFull={checkIsResultPage()}>

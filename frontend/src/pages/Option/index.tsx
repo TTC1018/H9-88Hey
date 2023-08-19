@@ -1,6 +1,6 @@
 import { useState, useEffect, MouseEvent } from 'react';
 
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 import { fetcher } from '@/utils/fetcher';
 import { OPTION_CARD_LIST_LENGTH } from '@/constants';
@@ -25,6 +25,7 @@ interface Props {
 }
 
 export function Option({ apiType }: Props) {
+  const navigate = useNavigate();
   const { pathname, search } = useLocation();
   const { selectOptions } = useFetchSuspense<OptionDataProps>({
     fetcher: () => fetcher<OptionDataProps>({ url: `/car/${apiType}${search}` }),
@@ -80,6 +81,11 @@ export function Option({ apiType }: Props) {
   }
 
   useEffect(() => {
+    if (selectOptions.length === 0) {
+      navigate('/result');
+
+      return;
+    }
     const { isAvailable, id, name, additionalPrice, imageUrl, tags, subOptions } = selectOptions[optionIndex];
 
     const subOption = subOptions[subOptionIndex];

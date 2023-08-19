@@ -4,12 +4,12 @@ import { useLocation, useNavigate } from 'react-router-dom';
 
 import { checkIsOptionPage, checkIsHGenuineAccessoriesPage } from '@/utils';
 import { MyCarProps } from '@/types/trim';
+import { useCountPrice } from '@/hooks/useCountPrice';
 import { NAVIGATION_PATH, TAG_CHIP_MAX_NUMBER } from '@/constants';
 
 import { EstimateModal } from './EstimateModal';
 
 import * as Styled from './style';
-import { useCountPrice } from '@/hooks/useCountPrice';
 
 interface FooterProps {
   myCarData: MyCarProps;
