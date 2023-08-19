@@ -35,6 +35,24 @@ public class TagRepository {
 		return jdbcTemplate.query(sql, params, rowMapper());
 	}
 
+	public List<String> findTopByExteriorColorId(final int id, final int limit) {
+		String sql = "SELECT tag.content "
+			+ "FROM tag "
+			+ "         LEFT JOIN exteriorColor_selectedTag on tag.id = exteriorColor_selectedTag.tag_id "
+			+ "         LEFT JOIN archiving_exteriorColor "
+			+ "                   on exteriorColor_selectedTag.archiving_exteriorColor_id = archiving_exteriorColor.id "
+			+ "WHERE exterior_color_id = :exteriorColorId "
+			+ "GROUP BY tag.id "
+			+ "ORDER BY COUNT(tag.id) DESC "
+			+ "LIMIT :limit";
+
+		SqlParameterSource params = new MapSqlParameterSource()
+			.addValue("exteriorColorId", id)
+			.addValue("limit", limit);
+
+		return jdbcTemplate.query(sql, params, rowMapper());
+	}
+
 	private RowMapper<String> rowMapper() {
 		return (rs, rowNum) -> rs.getString("content");
 	}
