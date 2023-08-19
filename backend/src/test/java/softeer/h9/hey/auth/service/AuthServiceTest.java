@@ -10,18 +10,21 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 import softeer.h9.hey.auth.domain.User;
+import softeer.h9.hey.auth.dto.request.AccessTokenRequest;
 import softeer.h9.hey.auth.dto.request.JoinRequest;
 import softeer.h9.hey.auth.dto.request.LoginRequest;
 import softeer.h9.hey.auth.dto.response.TokenResponse;
 import softeer.h9.hey.auth.exception.JoinException;
 import softeer.h9.hey.auth.exception.LoginException;
+import softeer.h9.hey.auth.repository.RefreshTokenRepository;
 import softeer.h9.hey.auth.repository.UserRepository;
 
 @DisplayName("인증 관련 서비스 기능 테스트")
 class AuthServiceTest {
 	private final JwtTokenProvider tokenProvider = Mockito.mock(JwtTokenProvider.class);
 	private final UserRepository userRepository = Mockito.mock(UserRepository.class);
-	private final AuthService authService = new AuthService(tokenProvider, userRepository);
+	private final RefreshTokenRepository refreshTokenRepository = Mockito.mock(RefreshTokenRepository.class);
+	private final AuthService authService = new AuthService(tokenProvider, userRepository, refreshTokenRepository);
 
 	@Test
 	@DisplayName("아이디와 비밀번호를 전달하여 회원가입을 한다.")
@@ -58,6 +61,7 @@ class AuthServiceTest {
 		String userId = "userId";
 		String password = "password";
 		User user = new User(userId, password);
+		user.setId(1);
 		LoginRequest loginRequest = new LoginRequest(user.getUserId(), user.getPassword());
 
 		when(userRepository.findByUserId(userId)).thenReturn(Optional.of(user));
@@ -94,5 +98,19 @@ class AuthServiceTest {
 
 		Assertions.assertThatThrownBy(() -> authService.login(loginRequest))
 			.isInstanceOf(LoginException.class);
+	}
+
+	@Test
+	@DisplayName("Access Token 재발급 요청 기능")
+	void republishAccessTokenTest() {
+		AccessTokenRequest accessTokenRequest = new AccessTokenRequest("republishToken123");
+
+		when(tokenProvider.generateAccessToken(anyString())).thenReturn("accessToken");
+		when(tokenProvider.generateRefreshToken(anyString())).thenReturn("refreshToken");
+		when(tokenProvider.getSubjectFromToken(anyString())).thenReturn("1");
+		TokenResponse tokenResponse = authService.republishAccessToken(accessTokenRequest);
+
+		Assertions.assertThat(tokenResponse.getAccessToken()).isNotNull();
+		Assertions.assertThat(tokenResponse.getRefreshToken()).isNotNull();
 	}
 }
