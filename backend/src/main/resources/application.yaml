@@ -10,6 +10,6 @@ auth:
     token:
       secret-key: ${JWT_TOKEN_SECRET_KEY}
       access:
-        expire-length: ${ACCESS_TOKEN_EXPIRED_TIME_MS}
+        expire-time: ${ACCESS_TOKEN_EXPIRED_TIME_MS}
       refresh:
-        expire-length: ${REFRESH_TOKEN_EXPIRED_TIME_MS}
+        expire-time: ${REFRESH_TOKEN_EXPIRED_TIME_MS}
