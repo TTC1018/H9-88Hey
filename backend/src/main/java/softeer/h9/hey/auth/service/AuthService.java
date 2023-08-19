@@ -1,5 +1,6 @@
 package softeer.h9.hey.auth.service;
 
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
@@ -22,6 +23,9 @@ import softeer.h9.hey.auth.repository.UserRepository;
 @RequiredArgsConstructor
 public class AuthService {
 
+	public static final String USER_NAME = "userName";
+	public static final String SUBJECT = "sub";
+
 	private final JwtTokenProvider jwtTokenProvider;
 	private final UserRepository userRepository;
 	private final RefreshTokenRepository refreshTokenRepository;
@@ -31,7 +35,7 @@ public class AuthService {
 		validateUniqueEmail(user.getEmail());
 
 		user = userRepository.save(user);
-		return makeTokenResponse(user.getId());
+		return makeTokenResponse(user.getId(), user.getName());
 	}
 
 	private User mapToUser(JoinRequest joinRequest) {
@@ -52,17 +56,17 @@ public class AuthService {
 		User user = getValidatedUser(email);
 		checkPassword(password, user);
 
-		return makeTokenResponse(user.getId());
+		return makeTokenResponse(user.getId(), user.getName());
 	}
 
-	private TokenResponse makeTokenResponse(int userPk) {
-		String userId = String.valueOf(userPk);
+	private TokenResponse makeTokenResponse(int userPk, String userName) {
+		Map<String, Object> claims = Map.of(USER_NAME, userName);
 
-		String accessToken = jwtTokenProvider.generateAccessToken(userId);
-		String refreshToken = jwtTokenProvider.generateRefreshToken(userId);
-		refreshTokenRepository.save(new RefreshTokenEntity(Integer.parseInt(userId), refreshToken));
+		String accessToken = jwtTokenProvider.generateAccessToken(userPk, claims);
+		String refreshToken = jwtTokenProvider.generateRefreshToken(userPk, claims);
+		refreshTokenRepository.save(new RefreshTokenEntity(userPk, refreshToken));
 
-		return new TokenResponse(accessToken, refreshToken);
+		return new TokenResponse(accessToken, refreshToken, userName);
 	}
 
 	private static void checkPassword(String password, User user) {
@@ -81,7 +85,9 @@ public class AuthService {
 
 	public TokenResponse republishAccessToken(AccessTokenRequest accessTokenRequest) {
 		String refreshToken = accessTokenRequest.getRefreshToken();
-		String userId = jwtTokenProvider.getSubjectFromToken(refreshToken);
-		return makeTokenResponse(Integer.parseInt(userId));
+		Map<String, Object> claims = jwtTokenProvider.getClaimsFromToken(refreshToken);
+		int userId = Integer.parseInt((String)claims.get(SUBJECT));
+		String userName = (String)claims.get(USER_NAME);
+		return makeTokenResponse(userId, userName);
 	}
 }

@@ -3,6 +3,7 @@ package softeer.h9.hey.auth.service;
 import java.nio.charset.StandardCharsets;
 import java.security.Key;
 import java.util.Date;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -42,30 +43,31 @@ public class JwtTokenProvider {
 			.build();
 	}
 
-	public String generateAccessToken(String userId) {
+	public String generateAccessToken(int subject, Map<String, Object> claims) {
 		return Jwts.builder()
-			.setSubject(userId)
+			.setSubject(String.valueOf(subject))
+			.addClaims(claims)
 			.setIssuedAt(new Date(System.currentTimeMillis()))
 			.setExpiration(new Date(System.currentTimeMillis() + accessTokenExpiredTimeMs))
 			.signWith(secretKey)
 			.compact();
 	}
 
-	public String generateRefreshToken(String userId) {
+	public String generateRefreshToken(int subject, Map<String, Object> claims) {
 		return Jwts.builder()
-			.setSubject(userId)
+			.setSubject(String.valueOf(subject))
+			.addClaims(claims)
 			.setIssuedAt(new Date(System.currentTimeMillis()))
 			.setExpiration(new Date(System.currentTimeMillis() + refreshTokenExpiredTimeMs))
 			.signWith(secretKey)
 			.compact();
 	}
 
-	public String getSubjectFromToken(String jwt) {
+	public Map<String, Object> getClaimsFromToken(String jwt) {
 		try {
 			return jwtParser
 				.parseClaimsJws(jwt)
-				.getBody()
-				.getSubject();
+				.getBody();
 		} catch (JwtException e) {
 			throw new InvalidTokenException();
 		}

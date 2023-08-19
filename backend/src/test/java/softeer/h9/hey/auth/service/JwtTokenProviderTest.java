@@ -3,6 +3,8 @@ package softeer.h9.hey.auth.service;
 import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.util.Map;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -13,42 +15,53 @@ class JwtTokenProviderTest {
 	public static final String SECRET_KEY = "testKey_1234567890_test_12341234";
 	public static final int ACCESS_TOKEN_EXPIRED_TIME_MS = 1000;
 	public static final int REFRESH_TOKEN_EXPIRED_TIME_MS = 2000;
+	public static final String USER_NAME = "userName";
+	public static final String SUBJECT = "sub";
 
 	private final JwtTokenProvider jwtTokenProvider =
 		new JwtTokenProvider(SECRET_KEY, ACCESS_TOKEN_EXPIRED_TIME_MS, REFRESH_TOKEN_EXPIRED_TIME_MS);
 
 	@Test
-	@DisplayName("특정 userID를 담은 JWT Access, Refresh 토큰을 생성한다.")
+	@DisplayName("user의 PK와 name을 담은 JWT Access, Refresh 토큰을 생성한다.")
 	void generateTokenTest() {
-		String userId = "userId";
+		int userId = 1;
+		String userName = "userName123";
+		Map<String, Object> claims = Map.of(USER_NAME, userName);
 
-		String accessToken = jwtTokenProvider.generateAccessToken(userId);
-		String refreshToken = jwtTokenProvider.generateRefreshToken(userId);
+		String accessToken = jwtTokenProvider.generateAccessToken(1, claims);
+		String refreshToken = jwtTokenProvider.generateRefreshToken(1, claims);
 
-		assertEquals(userId, jwtTokenProvider.getSubjectFromToken(accessToken));
-		assertEquals(userId, jwtTokenProvider.getSubjectFromToken(refreshToken));
+		Map<String, Object> accessClaims = jwtTokenProvider.getClaimsFromToken(accessToken);
+		Map<String, Object> refreshClaims = jwtTokenProvider.getClaimsFromToken(refreshToken);
+
+		assertEquals(String.valueOf(userId), accessClaims.get(SUBJECT));
+		assertEquals(userName, accessClaims.get(USER_NAME));
+		assertEquals(String.valueOf(userId), refreshClaims.get(SUBJECT));
+		assertEquals(userName, refreshClaims.get(USER_NAME));
 	}
 
 	@Test
 	@DisplayName("AccessToken의 만료 시간이 지나면 유효하지 않은 토큰으로 판단한다.")
 	void validateExpiredTimeTest() throws InterruptedException {
-		String userId = "userId";
+		int userId = 1;
+		Map<String, Object> claims = Map.of(USER_NAME, "userName");
 
-		String jwt = jwtTokenProvider.generateAccessToken(userId);
+		String jwt = jwtTokenProvider.generateAccessToken(userId, claims);
 		Thread.sleep(1500);
 
-		assertThatThrownBy(() -> jwtTokenProvider.getSubjectFromToken(jwt))
+		assertThatThrownBy(() -> jwtTokenProvider.getClaimsFromToken(jwt))
 			.isInstanceOf(InvalidTokenException.class);
 	}
 
 	@Test
 	@DisplayName("토큰이 조작되면 유효하지 않은 토큰으로 판단한다.")
 	void validateForgeryTokenTest() {
-		String userId = "userId";
+		int userId = 1;
+		Map<String, Object> claims = Map.of(USER_NAME, "userName");
 
-		String jwt = jwtTokenProvider.generateAccessToken(userId) + "abc";
+		String jwt = jwtTokenProvider.generateAccessToken(userId, claims) + "abc";
 
-		assertThatThrownBy(() -> jwtTokenProvider.getSubjectFromToken(jwt))
+		assertThatThrownBy(() -> jwtTokenProvider.getClaimsFromToken(jwt))
 			.isInstanceOf(InvalidTokenException.class);
 	}
 }

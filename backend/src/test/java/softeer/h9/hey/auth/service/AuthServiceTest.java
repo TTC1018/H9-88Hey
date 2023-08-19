@@ -2,6 +2,7 @@ package softeer.h9.hey.auth.service;
 
 import static org.mockito.Mockito.*;
 
+import java.util.Map;
 import java.util.Optional;
 
 import org.assertj.core.api.Assertions;
@@ -33,12 +34,11 @@ class AuthServiceTest {
 
 		User user = new User("email", "password", "name");
 		user.setId(1);
-		when(tokenProvider.generateAccessToken(anyString())).thenReturn("accessToken");
-		when(tokenProvider.generateRefreshToken(anyString())).thenReturn("refreshToken");
+		when(tokenProvider.generateAccessToken(anyInt(), any())).thenReturn("accessToken");
+		when(tokenProvider.generateRefreshToken(anyInt(), any())).thenReturn("refreshToken");
 		when(userRepository.save(any())).thenReturn(user);
 
 		TokenResponse tokenResponse = authService.join(joinRequest);
-
 
 		Assertions.assertThat(tokenResponse.getAccessToken()).isNotNull();
 		Assertions.assertThat(tokenResponse.getRefreshToken()).isNotNull();
@@ -68,8 +68,8 @@ class AuthServiceTest {
 		LoginRequest loginRequest = new LoginRequest(user.getEmail(), user.getPassword());
 
 		when(userRepository.findByEmail(email)).thenReturn(Optional.of(user));
-		when(tokenProvider.generateAccessToken(anyString())).thenReturn("accessToken");
-		when(tokenProvider.generateRefreshToken(anyString())).thenReturn("refreshToken");
+		when(tokenProvider.generateAccessToken(anyInt(), any())).thenReturn("accessToken");
+		when(tokenProvider.generateRefreshToken(anyInt(), any())).thenReturn("refreshToken");
 		TokenResponse tokenResponse = authService.login(loginRequest);
 
 		Assertions.assertThat(tokenResponse.getAccessToken()).isNotNull();
@@ -109,9 +109,10 @@ class AuthServiceTest {
 	void republishAccessTokenTest() {
 		AccessTokenRequest accessTokenRequest = new AccessTokenRequest("republishToken123");
 
-		when(tokenProvider.generateAccessToken(anyString())).thenReturn("accessToken");
-		when(tokenProvider.generateRefreshToken(anyString())).thenReturn("refreshToken");
-		when(tokenProvider.getSubjectFromToken(anyString())).thenReturn("1");
+		when(tokenProvider.generateAccessToken(anyInt(), any())).thenReturn("accessToken");
+		when(tokenProvider.generateRefreshToken(anyInt(), any())).thenReturn("refreshToken");
+		when(tokenProvider.getClaimsFromToken(anyString()))
+			.thenReturn(Map.of("sub", "1", "userName", "userName123"));
 		TokenResponse tokenResponse = authService.republishAccessToken(accessTokenRequest);
 
 		Assertions.assertThat(tokenResponse.getAccessToken()).isNotNull();
