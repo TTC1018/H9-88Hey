@@ -1,12 +1,11 @@
 package com.softeer.mycarchiving.ui.makingcar.selectcolor
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.softeer.data.model.TrimExteriorCarColor
-import com.softeer.data.model.TrimInteriorCarColor
-import com.softeer.data.repository.SelectColorRepository
-import com.softeer.data.CarColorType
+import com.softeer.domain.model.CarExteriorColor
+import com.softeer.domain.model.CarInteriorColor
+import com.softeer.domain.usecase.makingcar.GetCarColorsUseCase
+import com.softeer.mycarchiving.mapper.asUiModel
 import com.softeer.mycarchiving.model.makingcar.ColorOptionUiModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -20,26 +19,29 @@ private val TAG = SelectColorViewModel::class.simpleName
 
 @HiltViewModel
 class SelectColorViewModel @Inject constructor(
-    private val selectColorRepository: SelectColorRepository
+    getColorsUseCase: GetCarColorsUseCase
 ) : ViewModel() {
 
     init {
         viewModelScope.launch {
-            selectColorRepository.getCarColors().collect {
-                when (it.firstOrNull()) {
-                    is TrimExteriorCarColor -> {
-                        _exteriors.value = it.map { dto ->
-                            _imageUrls.value = _imageUrls.value + listOf((dto as TrimExteriorCarColor).carImagePath)
-                            dto.asColorOptionUiModel()
+            getColorsUseCase().collect { colors ->
+                if (colors.isNotEmpty()) {
+                    when (colors.first()) {
+                        is CarExteriorColor -> {
+                            _exteriors.value = colors.map { color ->
+                                color as CarExteriorColor
+                                _imageUrls.value = _imageUrls.value + listOf(color.carImagePath)
+                                color.asUiModel()
+                            }
+                        }
+                        is CarInteriorColor -> {
+                            _interiors.value = colors.map { color ->
+                                color as CarInteriorColor
+                                _interiorImageUrls.value = _interiorImageUrls.value + listOf(color.carImageUrl)
+                                color.asUiModel()
+                            }
                         }
                     }
-                    is TrimInteriorCarColor -> {
-                        _interiors.value = it.map { dto ->
-                            _interiorImageUrls.value = _interiorImageUrls.value + listOf((dto as TrimInteriorCarColor).carImageUrl)
-                            dto.asColorOptionUiModel()
-                        }
-                    }
-                    else -> {}
                 }
             }
         }
@@ -86,24 +88,4 @@ class SelectColorViewModel @Inject constructor(
             else -> ""
         }
     }
-
-    private fun TrimExteriorCarColor.asColorOptionUiModel() =
-        ColorOptionUiModel(
-            category = CarColorType.EXTERIOR,
-            optionName = name,
-            imageUrl = colorImageUrl,
-            price = additionalPrice,
-            matchingColors = subInteriors,
-            tags = tags ?: emptyList()
-        )
-
-    private fun TrimInteriorCarColor.asColorOptionUiModel() =
-        ColorOptionUiModel(
-            category = CarColorType.INTERIOR,
-            optionName = name,
-            imageUrl = colorImageUrl,
-            price = 0,
-            matchingColors = emptyList(),
-            tags = tags ?: emptyList(),
-        )
 }
