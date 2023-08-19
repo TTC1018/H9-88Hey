@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-@DisplayName("Refresh Token xㅔ스트")
+@DisplayName("Refresh Token 테스트")
 class RefreshTokenRepositoryTest {
 
 	@Autowired
@@ -18,7 +18,7 @@ class RefreshTokenRepositoryTest {
 	@Test
 	@DisplayName("RefreshToken를 저장 및 조회한다.")
 	void createRefreshTokenTest() {
-		String userId = "userId";
+		int userId = 1;
 		String refreshToken = "jwt1234";
 		RefreshTokenEntity refreshTokenEntity = new RefreshTokenEntity(userId, refreshToken);
 
