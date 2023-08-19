@@ -1,11 +1,10 @@
-import { API_URL } from '@/constants';
+import { useEffect, useRef } from 'react';
+
 import { useCache } from './useCache';
 
-interface Props {
-  url: string;
-  fetchOptions?: RequestInit;
+interface Props<T> {
+  fetcher: () => Promise<ResponseProps<T>>;
   key: string[];
-  staleTime: number;
 }
 interface ResponseProps<T> {
   status: number;
@@ -13,42 +12,47 @@ interface ResponseProps<T> {
   data: T;
 }
 
-function checkIsStale(dataUpdatedAt: Date, staleTime: number) {
-  const currentTime = Date.now();
-  const lastUpdatedTime = new Date(dataUpdatedAt).getTime();
-
-  return currentTime - lastUpdatedTime < staleTime;
-}
-
-export function useFetchSuspense<T>({ url, fetchOptions = {}, key, staleTime }: Props) {
+export function useFetchSuspense<T>({ fetcher, key }: Props<T>) {
+  const promise = useRef<Promise<ResponseProps<any>>>();
   const { getCache, setCache } = useCache();
-
   const value = getCache({ key }) || { status: 'new', data: null, dataUpdatedAt: new Date() };
 
   if (value.status === 'resolved') {
-    if (checkIsStale(value.dataUpdatedAt, staleTime)) {
-      return value.data as T;
-    }
+    return value.data as T;
   }
 
-  const promise: Promise<ResponseProps<T>> = fetch(`${API_URL}${url}`, fetchOptions).then(response => response.json());
+  const fetchData = () => {
+    promise.current = (async () => {
+      await new Promise(resolve => {
+        setTimeout(resolve, 1000);
+      });
 
-  promise
-    .then(data => {
-      setTimeout(() => {
+      return fetcher();
+    })();
+
+    promise.current
+      .then(response => {
         setCache({
           key,
           value: {
             status: 'resolved',
-            data: data.data,
+            data: response.data,
             dataUpdatedAt: new Date(),
           },
         });
-      }, 1000);
-    })
-    .catch(error => {
-      throw new Error(error);
-    });
+      })
+      .catch(error => {
+        throw new Error(error);
+      });
 
-  throw promise;
+    throw promise.current;
+  };
+
+  fetchData();
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  throw promise.current;
 }
