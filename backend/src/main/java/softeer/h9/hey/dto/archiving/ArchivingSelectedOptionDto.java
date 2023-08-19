@@ -1,7 +1,7 @@
 package softeer.h9.hey.dto.archiving;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,6 +16,6 @@ public class ArchivingSelectedOptionDto {
 	private String imageUrl;
 	private String review;
 	private Integer additionalPrice;
-	private List<String> subOptions = new ArrayList<>();
-	private List<String> tags = new ArrayList<>();
+	private Set<String> subOptions = new HashSet<>();
+	private Set<String> tags = new HashSet<>();
 }

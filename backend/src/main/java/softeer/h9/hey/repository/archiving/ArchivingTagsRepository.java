@@ -3,7 +3,6 @@ package softeer.h9.hey.repository.archiving;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -11,7 +10,6 @@ import org.springframework.stereotype.Repository;
 
 import lombok.RequiredArgsConstructor;
 import softeer.h9.hey.domain.car.Tag;
-import softeer.h9.hey.domain.archiving.Tags;
 
 @Repository
 @RequiredArgsConstructor
@@ -19,7 +17,7 @@ public class ArchivingTagsRepository {
 
 	private final NamedParameterJdbcTemplate jdbcTemplate;
 
-	public Tags findBySelectOptionId(final Integer selectOptionId) {
+	public List<String> findBySelectOptionId(final Integer selectOptionId) {
 		String sql = "SELECT tag.content "
 			+ "FROM tag "
 			+ "LEFT JOIN selectOption_selectedTag on tag.id = selectOption_selectedTag.tag_id "
@@ -28,11 +26,10 @@ public class ArchivingTagsRepository {
 		MapSqlParameterSource params = new MapSqlParameterSource()
 			.addValue("selectOptionId", selectOptionId);
 
-		List<Tag> tags = jdbcTemplate.query(sql, params, rowMapper());
-		return Tags.of(mapToString(tags));
+		return jdbcTemplate.query(sql, params, rowMapper());
 	}
 
-	public Tags findByArchivingId(final Long archivingId) {
+	public List<String> findByArchivingId(final Long archivingId) {
 		String sql = "SELECT tag.content "
 			+ "FROM tag "
 			+ "LEFT JOIN archiving_selectedTag on tag.id = archiving_selectedTag.tag_id "
@@ -41,8 +38,7 @@ public class ArchivingTagsRepository {
 		MapSqlParameterSource params = new MapSqlParameterSource()
 			.addValue("archivingId", archivingId);
 
-		List<Tag> tags = jdbcTemplate.query(sql, params, rowMapper());
-		return Tags.of(mapToString(tags));
+		return jdbcTemplate.query(sql, params, rowMapper());
 	}
 
 	private List<String> mapToString(List<Tag> tags) {
@@ -53,7 +49,7 @@ public class ArchivingTagsRepository {
 		return tagStrings;
 	}
 
-	private RowMapper<Tag> rowMapper() {
-		return BeanPropertyRowMapper.newInstance(Tag.class);
+	private RowMapper<String> rowMapper() {
+		return (rs, rowNum) -> rs.getString("content");
 	}
 }

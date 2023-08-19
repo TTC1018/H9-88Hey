@@ -14,6 +14,7 @@ import lombok.ToString;
 @ToString
 public class Archiving {
 	private Long id;
+	private String modelName;
 	private Boolean isPurchase;
 	private LocalDate createdAt;
 	private String review;

@@ -16,7 +16,7 @@ public class ArchivingExteriorColorRepository {
 	private final NamedParameterJdbcTemplate jdbcTemplate;
 
 	public ExteriorColorDto findByArchivingId(final Long archivingId) {
-		String sql = "SELECT exteriorColor.id, exteriorColor.name, exteriorColor.color_image_url "
+		String sql = "SELECT exteriorColor.id, exteriorColor.name, exteriorColor.color_image_url, exteriorColor.additional_price, exteriorColor.exterior_image_url AS car_image_url "
 			+ "FROM exteriorColor "
 			+ "LEFT JOIN archiving_exteriorColor on exteriorColor.id = archiving_exteriorColor.exterior_color_id "
 			+ "WHERE archiving_exteriorColor.archiving_id= :archivingId ";
