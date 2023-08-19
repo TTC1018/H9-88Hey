@@ -37,4 +37,15 @@ class TagRepositoryTest {
 
 		assertTrue(limit >= tags.size());
 	}
+
+	@Test
+	@DisplayName("선택 옵션 id와 limit를 통해 상위 태그를 조회한다.")
+	void findTopBySelectOptionId() {
+		int limit = 100;
+		String selectOptionId = "CO2";
+
+		List<String> tags = repository.findTopBySelectOptionId(selectOptionId, limit);
+
+		assertTrue(limit >= tags.size());
+	}
 }
