@@ -19,6 +19,8 @@ import com.softeer.mycarchiving.navigation.MainDestination
 import com.softeer.mycarchiving.navigation.MainDestination.*
 import com.softeer.mycarchiving.navigation.MakingCarDestinations
 import com.softeer.mycarchiving.navigation.MakingCarDestinations.*
+import com.softeer.mycarchiving.navigation.MyArchiveDestinations
+import com.softeer.mycarchiving.navigation.MyArchiveDestinations.*
 import com.softeer.mycarchiving.ui.archiving.archivingdetail.navigateToArchivingDetail
 import com.softeer.mycarchiving.ui.archiving.archivingmain.navigateToArchiveMain
 import com.softeer.mycarchiving.ui.archiving.navigateToArchive
@@ -28,6 +30,9 @@ import com.softeer.mycarchiving.ui.makingcar.navigateToMakingCar
 import com.softeer.mycarchiving.ui.makingcar.selectcolor.navigateToSelectColor
 import com.softeer.mycarchiving.ui.makingcar.selectoption.navigateToSelectOption
 import com.softeer.mycarchiving.ui.makingcar.selecttrim.navigateToSelectTrim
+import com.softeer.mycarchiving.ui.myarchive.myarchivedetail.navigateToMyArchiveDetail
+import com.softeer.mycarchiving.ui.myarchive.myarchivemade.navigateToMyArchiveMade
+import com.softeer.mycarchiving.ui.myarchive.myarchivesave.navigateToMyArchiveSave
 import com.softeer.mycarchiving.ui.myarchive.navigateToMyArchiving
 import com.softeer.mycarchiving.util.MakeCarProcess
 import kotlinx.coroutines.CoroutineScope
@@ -38,6 +43,7 @@ fun rememberHyundaiAppState(
     navController: NavHostController = rememberNavController(),
     makingCarNavController: NavHostController = rememberNavController(),
     archivingNavController: NavHostController = rememberNavController(),
+    myArchiveNavController: NavHostController = rememberNavController(),
 ): HyundaiAppState {
     return remember(
         navController,
@@ -46,6 +52,7 @@ fun rememberHyundaiAppState(
             navController = navController,
             makingCarNavController = makingCarNavController,
             archivingNavController = archivingNavController,
+            myArchiveNavController = myArchiveNavController,
             coroutineScope = coroutineScope,
         )
     }
@@ -56,6 +63,7 @@ class HyundaiAppState(
     val navController: NavHostController,
     val makingCarNavController: NavHostController,
     val archivingNavController: NavHostController,
+    val myArchiveNavController: NavHostController,
     val coroutineScope: CoroutineScope,
 ) {
     private val currentDestination: NavDestination?
@@ -68,6 +76,10 @@ class HyundaiAppState(
 
     private val currentArchivingDestination: NavDestination?
         @Composable get() = archivingNavController
+            .currentBackStackEntryAsState().value?.destination
+
+    private val currentMyArchiveDestination: NavDestination?
+        @Composable get() = myArchiveNavController
             .currentBackStackEntryAsState().value?.destination
 
     val currentMainDestination: MainDestination?
@@ -95,6 +107,14 @@ class HyundaiAppState(
         @Composable get() = when(currentArchivingDestination?.route) {
             ARCHIVING_MAIN.route -> ARCHIVING_MAIN
             ARCHIVING_DETAIL.route -> ARCHIVING_DETAIL
+            else -> null
+        }
+
+    val currentMyArchiveDestinations: MyArchiveDestinations?
+        @Composable get() = when(currentMyArchiveDestination?.route) {
+            MY_ARCHIVE_MADE.route -> MY_ARCHIVE_MADE
+            MY_ARCHIVE_SAVE.route -> MY_ARCHIVE_SAVE
+            MY_ARCHIVE_DETAIL.route -> MY_ARCHIVE_DETAIL
             else -> null
         }
 
@@ -142,6 +162,15 @@ class HyundaiAppState(
         when(archivingDestination) {
             ARCHIVING_MAIN -> archivingNavController.navigateToArchiveMain()
             ARCHIVING_DETAIL -> archivingNavController.navigateToArchivingDetail()
+            else -> {}
+        }
+    }
+
+    fun navigateToMyArchiveDestination(myArchiveDestinations: MyArchiveDestinations?) {
+        when(myArchiveDestinations) {
+            MY_ARCHIVE_MADE -> myArchiveNavController.navigateToMyArchiveMade()
+            MY_ARCHIVE_SAVE -> myArchiveNavController.navigateToMyArchiveSave()
+            MY_ARCHIVE_DETAIL -> myArchiveNavController.navigateToMyArchiveDetail()
             else -> {}
         }
     }
