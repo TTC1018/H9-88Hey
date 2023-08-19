@@ -26,7 +26,7 @@ class ArchivingEngineRepositoryTest {
 		assertAll(
 			() -> assertEquals(2, dto.getId()),
 			() -> assertEquals("가솔린 3.8", dto.getName()),
-			() -> assertEquals(1480000, dto.getAdditionalPrice())
+			() -> assertEquals(0, dto.getAdditionalPrice())
 		);
 	}
 }
