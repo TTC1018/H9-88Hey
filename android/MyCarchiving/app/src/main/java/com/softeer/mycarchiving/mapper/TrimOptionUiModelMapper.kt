@@ -1,12 +1,12 @@
 package com.softeer.mycarchiving.mapper
 
-import com.softeer.domain.model.TrimModelOption
+import com.softeer.domain.model.ModelOption
 import com.softeer.domain.model.TrimOption
 import com.softeer.mycarchiving.model.TrimOptionUiModel
 import com.softeer.mycarchiving.model.makingcar.ModelFeatureUiModel
 import com.softeer.mycarchiving.model.makingcar.SelectModelUiModel
 
-fun TrimModelOption.asSelectModelUiModel(): SelectModelUiModel =
+fun ModelOption.asSelectModelUiModel(): SelectModelUiModel =
     SelectModelUiModel(
         name = name,
         price = price,

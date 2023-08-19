@@ -5,12 +5,12 @@ import com.softeer.data.model.TrimBodyTypeDto
 import com.softeer.data.model.TrimEngineDto
 import com.softeer.data.model.TrimModelDto
 import com.softeer.data.model.TrimWheelDto
-import com.softeer.domain.model.TrimModelFeature
-import com.softeer.domain.model.TrimModelOption
+import com.softeer.domain.model.ModelFeature
+import com.softeer.domain.model.ModelOption
 import com.softeer.domain.model.TrimOption
 
 fun TrimModelDto.asEntity() =
-    TrimModelOption(
+    ModelOption(
         id = id,
         name = name,
         price = price,
@@ -18,7 +18,7 @@ fun TrimModelDto.asEntity() =
     )
 
 fun ModelFeatureDto.asEntity() =
-    TrimModelFeature(
+    ModelFeature(
         name = name,
         imageUrl = imageUrl
     )

@@ -6,7 +6,7 @@ import com.softeer.data.model.TrimBodyTypeDto
 import com.softeer.data.model.TrimEngineDto
 import com.softeer.data.model.TrimModelDto
 import com.softeer.data.model.TrimWheelDto
-import com.softeer.domain.model.TrimModelOption
+import com.softeer.domain.model.ModelOption
 import com.softeer.domain.model.TrimOption
 import com.softeer.domain.repository.SelectTrimRepository
 import kotlinx.coroutines.flow.Flow
@@ -18,7 +18,7 @@ class SelectTrimRepositoryImpl(
     override fun getCarImageUrls(): Flow<List<String>> =
         selectTrimRemoteDataSource.getCarImages()
 
-    override fun getModels(): Flow<List<TrimModelOption>> =
+    override fun getModels(): Flow<List<ModelOption>> =
         selectTrimRemoteDataSource.getModels()
             .map { it.map(TrimModelDto::asEntity) }
 

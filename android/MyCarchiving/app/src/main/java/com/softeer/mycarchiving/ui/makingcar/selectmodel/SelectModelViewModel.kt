@@ -2,7 +2,7 @@ package com.softeer.mycarchiving.ui.makingcar.selectmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.softeer.domain.model.TrimModelOption
+import com.softeer.domain.model.ModelOption
 import com.softeer.domain.usecase.makingcar.GetCarModelImagesUseCase
 import com.softeer.domain.usecase.makingcar.GetCarModelsUseCase
 import com.softeer.mycarchiving.mapper.asSelectModelUiModel
@@ -21,7 +21,7 @@ class SelectModelViewModel @Inject constructor(
 ) : ViewModel() {
 
     val carModels = getModelsUseCase()
-        .map { it.map(TrimModelOption::asSelectModelUiModel) }
+        .map { it.map(ModelOption::asSelectModelUiModel) }
         .stateIn(
             scope = viewModelScope,
             started = SharingStarted.WhileSubscribed(),
