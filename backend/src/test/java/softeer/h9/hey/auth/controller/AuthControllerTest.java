@@ -4,6 +4,7 @@ import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+import java.util.Map;
 import java.util.Optional;
 
 import org.junit.jupiter.api.DisplayName;
@@ -23,6 +24,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import softeer.h9.hey.auth.domain.User;
 import softeer.h9.hey.auth.dto.request.JoinRequest;
 import softeer.h9.hey.auth.dto.request.LoginRequest;
+import softeer.h9.hey.auth.exception.InvalidTokenException;
 import softeer.h9.hey.auth.exception.JoinException;
 import softeer.h9.hey.auth.exception.LoginException;
 import softeer.h9.hey.auth.repository.UserRepository;
@@ -132,5 +134,35 @@ class AuthControllerTest {
 					.content(objectMapper.writeValueAsString(new LoginRequest(email, "wrongPassword"))))
 			.andExpect(status().isUnauthorized())
 			.andExpect(jsonPath("$.message").value(LoginException.LOGIN_FAIL_MESSAGE));
+	}
+
+	@Test
+	@DisplayName("Refresh Token을 헤더에 담아 엑세스 토큰을 요청하면, 갱신된 엑세스 토큰과 리프레시 토큰을 발급해준다.")
+	void republishAccessTokenTest() throws Exception {
+		Map<String, Object> claims = Map.of("sub", "1", "userName", "userName123");
+
+		doReturn(claims).when(jwtTokenProvider).getClaimsFromToken("refreshToken");
+
+		mockMvc.perform(
+				post("/auth/access-token")
+					.header("Authorization", "Bearer refreshToken"))
+			.andExpect(status().isOk())
+			.andExpectAll(
+				jsonPath("$.data.accessToken").exists(),
+				jsonPath("$.data.refreshToken").exists(),
+				jsonPath("$.data.userName").exists()
+			);
+	}
+
+
+	@Test
+	@DisplayName("유효하지 않은 Refresh Token을 헤더에 담아 엑세스 토큰을 요청하면 401 예외를 던진다.")
+	void republishAccessTokenFailTest() throws Exception {
+		mockMvc.perform(
+				post("/auth/access-token")
+					.contentType(MediaType.APPLICATION_JSON)
+					.header("Authorization", "Bearer jwttoken12edw"))
+			.andExpect(status().isUnauthorized())
+			.andExpect(jsonPath("$.message").value(InvalidTokenException.INVALID_TOKEN_EXCEPTION));
 	}
 }
