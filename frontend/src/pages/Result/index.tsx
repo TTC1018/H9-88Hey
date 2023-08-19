@@ -18,9 +18,9 @@ export function Result() {
 
   return (
     <Styled.Container>
-      <Title krName={krName} enName={enName} />
+      <Title krName={krName} enName={enName} imageUrl={myCar.carImageUrl} />
       <TitleLine />
-      <Summary trim={myCar} />
+      <Summary myCar={myCar} />
       <OptionCardList options={myCar.options} />
       <MenuLine />
       <Menu />

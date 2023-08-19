@@ -1,18 +1,24 @@
 import { useState, useEffect, MouseEvent } from 'react';
 
-import { useOutletContext } from 'react-router-dom';
+import { useLocation, useOutletContext } from 'react-router-dom';
 
 import { OptionCardDataProps } from '@/types/option';
-import { MyCarActionType, OPTION_CARD_LIST_LENGTH } from '@/constants';
-import { isIndexLargeThanZero, isIndexSmallThanMaxIndex } from '@/utils';
+import { OPTION_CARD_LIST_LENGTH } from '@/constants';
 import { MyCarLayoutContextProps } from '@/types/trim';
+import {
+  isIndexLargeThanZero,
+  isIndexSmallThanMaxIndex,
+  checkIsHGenuineAccessoriesPage,
+  checkIsNPerformancePage,
+} from '@/utils';
 
+import { OptionCard } from './OptionCard';
 import { PrevButton } from '@/components/common/PrevButton';
 import { NextButton } from '@/components/common/NextButton';
 
 import * as Styled from './style';
 
-interface OptionCardListProps {
+interface Props {
   selectedIndex: number;
   cardListIndex: number;
   data: OptionCardDataProps[];
@@ -20,28 +26,36 @@ interface OptionCardListProps {
   onClickArrowButton: (index: number, length: number) => void;
 }
 
-interface OptionCardProps {
-  index: number;
-  name: string;
-  additionalPrice: number;
-  imageUrl: string;
-  subOptionNames: string[];
-  isCardActive: boolean;
-  onClickCard: (index: number, event: MouseEvent<HTMLDivElement>) => void;
-}
-
-interface OptionCardHoverProps {
-  subOptionNames: string[];
-}
-
-export function OptionCardList({
-  selectedIndex,
-  cardListIndex,
-  data,
-  onClickCard,
-  onClickArrowButton,
-}: OptionCardListProps) {
+export function OptionCardList({ selectedIndex, cardListIndex, data, onClickCard, onClickArrowButton }: Props) {
   const [cardList, setCardList] = useState<OptionCardDataProps[]>([]);
+
+  const { pathname } = useLocation();
+
+  const { myCar } = useOutletContext<MyCarLayoutContextProps>();
+
+  function checkIsNPerformanceSelected() {
+    return myCar.options.filter(option => option.path === '/option/n-performance').length === 1;
+  }
+
+  function getNPerformanceId() {
+    return myCar.options.find(option => option.path === '/option/n-performance')?.id;
+  }
+
+  function checkIsWheelSelected() {
+    return checkIsNPerformancePage(pathname) && checkIsNPerformanceSelected();
+  }
+
+  function checkIsBlur(isAvailable: boolean | undefined, id: string) {
+    if (pathname === '/option') {
+      return false;
+    }
+
+    if (checkIsHGenuineAccessoriesPage(pathname)) {
+      return !isAvailable;
+    } else {
+      return checkIsWheelSelected() && id !== getNPerformanceId();
+    }
+  }
 
   useEffect(() => {
     const startIndex = cardListIndex * OPTION_CARD_LIST_LENGTH;
@@ -60,16 +74,15 @@ export function OptionCardList({
         onClick={() => onClickArrowButton(cardListIndex - 1, data.length)}
         isShow={isIndexLargeThanZero(cardListIndex)}
       />
-      {cardList.map(({ index, name, additionalPrice, imageUrl, subOptionNames }) => (
+      {cardList.map(({ isAvailable, index, id, ...props }) => (
         <OptionCard
+          isBlur={checkIsBlur(isAvailable, id)}
           index={index}
-          name={name}
-          additionalPrice={additionalPrice}
-          imageUrl={imageUrl}
-          subOptionNames={subOptionNames}
           isCardActive={index === selectedIndex}
           onClickCard={onClickCard}
           key={index}
+          id={id}
+          {...props}
         />
       ))}
       <NextButton
@@ -79,72 +92,5 @@ export function OptionCardList({
         isShow={isIndexSmallThanMaxIndex(cardListIndex, data.length)}
       />
     </Styled.Container>
-  );
-}
-
-function OptionCard({
-  index,
-  name,
-  additionalPrice,
-  imageUrl,
-  subOptionNames,
-  isCardActive,
-  onClickCard,
-}: OptionCardProps) {
-  const [isButtonActive, setIsButtonActive] = useState(false);
-  const [isHover, setIsHover] = useState(false);
-
-  const { myCar, dispatch } = useOutletContext<MyCarLayoutContextProps>();
-
-  function handleClickButton() {
-    setIsButtonActive(prev => !prev);
-    isButtonActive
-      ? dispatch({ type: MyCarActionType.REMOVE_OPTION, props: name })
-      : dispatch({
-          type: MyCarActionType.ADD_OPTION,
-          props: { name, additionalPrice, imageUrl, subOptions: subOptionNames },
-        });
-  }
-
-  function handleHoverCard(isHover: boolean) {
-    setIsHover(isHover);
-  }
-
-  useEffect(() => {
-    const isOptionIncluded = myCar.options.some(option => option.name === name);
-    setIsButtonActive(isOptionIncluded);
-  }, [name]);
-
-  return (
-    <Styled.OptionCard isCardActive={isCardActive} onClick={event => onClickCard(index, event)}>
-      <Styled.Image src={imageUrl} />
-      <Styled.DescriptionWrapper>
-        <Styled.Text isCardActive={isCardActive}>{name}</Styled.Text>
-        <Styled.Text isCardActive={isCardActive}>+{additionalPrice.toLocaleString()}원</Styled.Text>
-        <Styled.ButtonBox>
-          <Styled.Button isButtonActive={isButtonActive} onClick={handleClickButton}>
-            {isButtonActive ? '추가 완료' : '추가하기'}
-          </Styled.Button>
-        </Styled.ButtonBox>
-        {isButtonActive && <Styled.Icon src={'/src/assets/icons/icon_done.svg'} />}
-      </Styled.DescriptionWrapper>
-      {isHover && <OptionCardHover subOptionNames={subOptionNames} />}
-      <Styled.OptionCardHoverArea
-        onMouseEnter={() => handleHoverCard(true)}
-        onMouseLeave={() => handleHoverCard(false)}
-      />
-    </Styled.OptionCard>
-  );
-}
-
-function OptionCardHover({ subOptionNames }: OptionCardHoverProps) {
-  return (
-    <Styled.OptionCardHover>
-      <Styled.DescriptionHoverWrapper>
-        {subOptionNames.map((name, index) => (
-          <Styled.DescriptionHover key={index}>· {name}</Styled.DescriptionHover>
-        ))}
-      </Styled.DescriptionHoverWrapper>
-    </Styled.OptionCardHover>
   );
 }

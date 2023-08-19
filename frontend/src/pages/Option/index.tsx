@@ -1,7 +1,9 @@
 import { useState, useEffect, MouseEvent } from 'react';
 
+import { useLocation } from 'react-router-dom';
+
 import { OptionDataProps, OptionProps, SubOptionProps, OptionCardDataProps } from '@/types/option';
-import { isValidIndex } from '@/utils';
+import { isValidIndex, checkIsSelectOptionPage } from '@/utils';
 import { OPTION_CARD_LIST_LENGTH } from '@/constants';
 import { useFetch } from '@/hooks/useFetch';
 
@@ -17,14 +19,15 @@ import * as Styled from './style';
 const initialData = {
   selectOptions: [
     {
-      id: 1,
+      isAvailable: true,
+      id: '',
       name: '',
       imageUrl: '',
       additionalPrice: 0,
       tags: [],
       subOptions: [
         {
-          id: 1,
+          id: '',
           name: '',
           imageUrl: '',
           description: '',
@@ -34,18 +37,24 @@ const initialData = {
   ],
 };
 
+// 현재 API에서 tags를 null로 주고 있기 때문에 그동안 임시로 사용할 용도
+const initialTags = ['여름에 쓰기 좋아요☀️', '옵션값 뽑았어요👍', '편리해요☺️'];
+
 interface Props {
   apiType: string;
 }
 
 export function Option({ apiType }: Props) {
+  const { pathname, search } = useLocation();
+
   const { data } = useFetch<OptionDataProps>({
     defaultValue: initialData,
-    url: `/model/1/trim/2/${apiType}`,
+    url: `/car/${apiType}${search}`,
   });
 
   const [option, setOption] = useState<OptionProps>({
-    id: 1,
+    isAvailable: true,
+    id: '',
     name: '',
     additionalPrice: 0,
     imageUrl: '',
@@ -53,7 +62,7 @@ export function Option({ apiType }: Props) {
     subOptions: [],
   });
   const [subOption, setSubOption] = useState<SubOptionProps>({
-    id: 1,
+    id: '',
     name: '',
     imageUrl: '',
     description: '',
@@ -94,18 +103,22 @@ export function Option({ apiType }: Props) {
   useEffect(() => {
     const { selectOptions } = data;
 
-    const { id, name, additionalPrice, imageUrl, tags, subOptions } = selectOptions[optionIndex];
-    const subOption = subOptions[subOptionIndex];
-    const cardListData = selectOptions.map(({ id, name, additionalPrice, imageUrl, subOptions }, index) => ({
-      id,
-      index,
-      name,
-      additionalPrice,
-      imageUrl,
-      subOptionNames: subOptions.map(({ name }) => name),
-    }));
+    const { isAvailable, id, name, additionalPrice, imageUrl, tags, subOptions } = selectOptions[optionIndex];
 
-    setOption({ id, name, additionalPrice, imageUrl, tags, subOptions });
+    const subOption = subOptions[subOptionIndex];
+    const cardListData = selectOptions.map(
+      ({ isAvailable, id, name, additionalPrice, imageUrl, subOptions }, index) => ({
+        isAvailable,
+        id,
+        index,
+        name,
+        additionalPrice,
+        imageUrl,
+        subOptionNames: subOptions.map(({ name }) => name),
+      })
+    );
+
+    setOption({ isAvailable, id, name, additionalPrice, imageUrl, tags: tags || initialTags, subOptions });
     setSubOption({
       id: subOption.id,
       name: subOption.name,
@@ -133,7 +146,11 @@ export function Option({ apiType }: Props) {
         </Styled.DescriptionBox>
       </Styled.OptionWrapper>
       <Styled.CardWrapper>
-        <OptionCategory menu={menu} onClick={handleChangeMenu} isShowDefaultOption={apiType === 'select_option'} />
+        <OptionCategory
+          menu={menu}
+          onClick={handleChangeMenu}
+          isShowDefaultOption={checkIsSelectOptionPage(pathname)}
+        />
         {menu === 0 && (
           <OptionCardList
             selectedIndex={optionIndex}
@@ -143,7 +160,7 @@ export function Option({ apiType }: Props) {
             onClickArrowButton={handleChangeCardListIndex}
           />
         )}
-        {apiType === 'select_option' && menu === 1 && <DefaultOptionCardList />}
+        {checkIsSelectOptionPage(pathname) && menu === 1 && <DefaultOptionCardList />}
       </Styled.CardWrapper>
     </Styled.Container>
   );

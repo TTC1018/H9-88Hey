@@ -5,9 +5,10 @@ import * as Styled from './style';
 interface Props {
   krName: string;
   enName: string;
+  imageUrl: string;
 }
 
-export function Title({ krName, enName }: Props) {
+export function Title({ krName, enName, imageUrl }: Props) {
   return (
     <Styled.Container>
       <Styled.TitleWrapper>
@@ -23,7 +24,7 @@ export function Title({ krName, enName }: Props) {
           <Styled.Description>마이카이빙에서 볼 수 있어요</Styled.Description>
         </Styled.DescriptionWrapper>
       </Styled.TitleWrapper>
-      <Styled.Image src="https://www.hyundai.com/contents/vr360/LX06/exterior/WC9/001.png" />
+      <Styled.Image src={imageUrl} />
     </Styled.Container>
   );
 }

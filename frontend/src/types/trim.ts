@@ -74,6 +74,8 @@ export interface MyCarLayoutContextProps {
   carCode: MutableRefObject<string>;
   totalPrice: number;
   dispatch: Dispatch<ActionType>;
+  handleCarImageUrl: (carImageUrl: string) => void;
+  clearHGenuineAccessories: () => void;
 }
 
 export interface CarCodeProps {
@@ -91,4 +93,5 @@ export type ActionType =
   | { type: MyCarActionType.ADD_OPTION; props: OptionContextProps }
   | { type: MyCarActionType.REMOVE_OPTION; props: string }
   | { type: MyCarActionType.CAR_IMAGE_URL; props: string }
-  | { type: MyCarActionType.SAVE_OPTION; props: MyCarProps };
+  | { type: MyCarActionType.SAVE_OPTION; props: MyCarProps }
+  | { type: MyCarActionType.CLEAR_OPTION; props: OptionContextProps[] };

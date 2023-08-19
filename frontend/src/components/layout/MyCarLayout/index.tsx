@@ -3,8 +3,8 @@ import { Suspense, useReducer, useRef } from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
 
 import { getLocalStorage } from '@/utils';
-
 import { ActionType, MyCarProps } from '@/types/trim';
+import { MyCarActionType } from '@/constants';
 
 import { Header } from '@/components/common/Header';
 import { Footer } from '@/components/common/Footer';
@@ -55,6 +55,8 @@ function reducer(state: MyCarProps, action: ActionType): MyCarProps {
       return { ...state, carImageUrl: props };
     case 'SAVE_OPTION':
       return props;
+    case 'CLEAR_OPTION':
+      return { ...state, options: props };
     default:
       return state;
   }
@@ -62,9 +64,11 @@ function reducer(state: MyCarProps, action: ActionType): MyCarProps {
 
 export function MyCarLayout() {
   const { pathname } = useLocation();
+  const carCodeData = getLocalStorage('carCode');
+
   const carCode = useRef('');
 
-  const localStorageData = getLocalStorage('myCar');
+  const localStorageData = JSON.parse(getLocalStorage('myCar'));
   const [myCar, dispatch] = useReducer(reducer, localStorageData === null ? initialState : localStorageData);
 
   const myCarKeysWithPrice = ['engine', 'bodyType', 'wheelDrive', 'exteriorColor'];
@@ -74,6 +78,13 @@ export function MyCarLayout() {
     myCarKeysWithPrice.reduce((acc, cur) => acc + myCar[cur].additionalPrice, 0) +
     myCar.options.reduce((acc, cur) => acc + cur.additionalPrice, 0);
 
+  carCode.current = carCodeData === null ? '' : carCodeData;
+
+  function clearHGenuineAccessories() {
+    const clearedOptions = myCar.options.filter(option => option.path !== '/option/h-genuine-accessories');
+    dispatch({ type: MyCarActionType.CLEAR_OPTION, props: clearedOptions });
+  }
+
   function handleLocalStorage() {
     localStorage.setItem('myCar', JSON.stringify(myCar));
   }
@@ -81,14 +92,26 @@ export function MyCarLayout() {
   // useEffect(() => {
   //   const savedOptions: MyCarProps = JSON.parse(localStorageData);
 
-  //   dispatch({ type: MyCarActionTypeProps.SAVE_OPTION, props: savedOptions });
+  // }, []);
+  function checkIsResultPage() {
+    return pathname === '/result';
+  }
+
+  // useEffect(() => {
+  //   const myCarData = localStorage.getItem('myCar');
+
+  //   if (myCarData === null) {
+  //     return;
+  //   }
+  //   const savedOptions: MyCarProps = JSON.parse(myCarData);
+  //   dispatch({ type: MyCarActionType.SAVE_OPTION, props: savedOptions });
   // }, []);
 
   return (
-    <Styled.Container isFull={pathname === '/result'}>
+    <Styled.Container isFull={checkIsResultPage()}>
       <Header />
       <Navigation />
-      <Styled.Wrapper isFull={pathname === '/result'}>
+      <Styled.Wrapper isFull={checkIsResultPage()}>
         <Suspense fallback={<Loading />}>
           <Outlet
             context={{
@@ -96,11 +119,18 @@ export function MyCarLayout() {
               carCode,
               totalPrice,
               dispatch,
+              clearHGenuineAccessories,
             }}
           />
         </Suspense>
       </Styled.Wrapper>
-      <Footer myCarData={myCar} calculatePrice={totalPrice} onSetLocalStorage={handleLocalStorage} carCode={carCode} />
+      <Footer
+        myCarData={myCar}
+        calculatePrice={totalPrice}
+        onSetLocalStorage={handleLocalStorage}
+        carCode={carCode}
+        clearHGenuineAccessories={clearHGenuineAccessories}
+      />
     </Styled.Container>
   );
 }
