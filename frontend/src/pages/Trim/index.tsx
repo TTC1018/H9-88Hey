@@ -2,29 +2,37 @@ import { useEffect } from 'react';
 
 import { useOutletContext } from 'react-router-dom';
 
-import { MyCarLayoutContextProps, TrimDataProps } from '@/types/trim';
+import { fetcher } from '@/utils/fetcher';
+import { MyCarActionType } from '@/constants';
 import { useSelectIndex } from '@/hooks/useSelectedIndex';
 import { useFetchSuspense } from '@/hooks/useFetchSuspense';
+import { MyCarLayoutContextProps, TrimDataProps } from '@/types/trim';
 
 import { SelectOptionCard } from '@/components/Trim/SelectOptionCard';
 import { TrimCarImageBox } from '@/components/Trim/TrimCarImageBox';
 
 import * as Styled from './style';
 
+function trimFetcher() {
+  return fetcher<TrimDataProps>({ url: '/car/model/1/trim' });
+}
+
 export function Trim() {
-  const { trims } = useFetchSuspense<TrimDataProps>({ url: '/car/model/1/trim', key: ['trim'], staleTime: 2000 });
-
   const [selectedIndex, handleSetIndex] = useSelectIndex();
-
   const {
-    handleTrim,
+    dispatch,
     myCar: { trim },
   } = useOutletContext<MyCarLayoutContextProps>();
+
+  const { trims } = useFetchSuspense<TrimDataProps>({
+    fetcher: trimFetcher,
+    key: ['trim'],
+  });
 
   function handleCardClick(name: string, price: number, id: number, index: number) {
     return () => {
       handleSetIndex(index)();
-      handleTrim({ name, price, id });
+      dispatch({ type: MyCarActionType.TRIM, props: { name, price, id } });
     };
   }
 
@@ -32,14 +40,15 @@ export function Trim() {
     if (trim.name === '') {
       const { name, price, id } = trims[0];
 
-      handleTrim({ name, price, id });
+      dispatch({ type: MyCarActionType.TRIM, props: { name, price, id } });
 
       return;
     }
 
     const index = trims.findIndex(({ name }) => name === trim.name);
+
     index !== -1 && handleSetIndex(index)();
-  }, [trims]);
+  }, []);
 
   return (
     <Styled.Container>

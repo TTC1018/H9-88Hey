@@ -2,9 +2,10 @@ import { useState, useEffect, MouseEvent } from 'react';
 
 import { useOutletContext } from 'react-router-dom';
 
-import { OptionCardDataProps, OptionContextProviderProps } from '@/types/option';
+import { OptionCardDataProps } from '@/types/option';
+import { MyCarActionType, OPTION_CARD_LIST_LENGTH } from '@/constants';
 import { isIndexLargeThanZero, isIndexSmallThanMaxIndex } from '@/utils';
-import { OPTION_CARD_LIST_LENGTH } from '@/constants';
+import { MyCarLayoutContextProps } from '@/types/trim';
 
 import { PrevButton } from '@/components/common/PrevButton';
 import { NextButton } from '@/components/common/NextButton';
@@ -93,13 +94,16 @@ function OptionCard({
   const [isButtonActive, setIsButtonActive] = useState(false);
   const [isHover, setIsHover] = useState(false);
 
-  const { myCar, addOption, removeOption } = useOutletContext<OptionContextProviderProps>();
+  const { myCar, dispatch } = useOutletContext<MyCarLayoutContextProps>();
 
   function handleClickButton() {
     setIsButtonActive(prev => !prev);
     isButtonActive
-      ? removeOption(name)
-      : addOption({ name, price: additionalPrice, imageUrl, subOptions: subOptionNames });
+      ? dispatch({ type: MyCarActionType.REMOVE_OPTION, props: name })
+      : dispatch({
+          type: MyCarActionType.ADD_OPTION,
+          props: { name, additionalPrice, imageUrl, subOptions: subOptionNames },
+        });
   }
 
   function handleHoverCard(isHover: boolean) {

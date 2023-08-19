@@ -1,4 +1,4 @@
-import { MutableRefObject, useState } from 'react';
+import { MutableRefObject, useRef, useState } from 'react';
 
 import { useLocation, useNavigate } from 'react-router-dom';
 
@@ -9,15 +9,25 @@ import { NAVIGATION_PATH, TAG_CHIP_MAX_NUMBER } from '@/constants';
 import { EstimateModal } from './EstimateModal';
 
 import * as Styled from './style';
+import { useCountPrice } from '@/hooks/useCountPrice';
 
 interface FooterProps {
   myCarData: MyCarProps;
-  totalPrice: number;
+  calculatePrice: number;
   carCode: MutableRefObject<string>;
   onSetLocalStorage: () => void;
 }
 
-export function Footer({ myCarData, totalPrice, carCode, onSetLocalStorage }: FooterProps) {
+export function Footer({ myCarData, calculatePrice, carCode, onSetLocalStorage }: FooterProps) {
+  const prevPrice = useRef(calculatePrice);
+
+  const totalPrice = useCountPrice({
+    prevPrice: prevPrice.current,
+    nextPrice: calculatePrice,
+  });
+
+  prevPrice.current = totalPrice;
+
   const { pathname } = useLocation();
   const navigate = useNavigate();
 

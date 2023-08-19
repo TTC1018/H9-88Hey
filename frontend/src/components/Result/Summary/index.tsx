@@ -8,9 +8,14 @@ interface Props {
 }
 
 export function Summary({ trim }: Props) {
-  const { carType, model, engine, wheelDrive, bodyType, outerColor, innerColor } = trim;
+  const { carType, model, engine, wheelDrive, bodyType, exteriorColor, interiorColor } = trim;
   const { krName } = carType;
-  const price = model.price + engine.price + wheelDrive.price + bodyType.price + outerColor.price;
+  const price =
+    model.price +
+    engine.additionalPrice +
+    wheelDrive.additionalPrice +
+    bodyType.additionalPrice +
+    exteriorColor.additionalPrice;
 
   return (
     <>
@@ -27,19 +32,19 @@ export function Summary({ trim }: Props) {
           </Styled.Name>
           <Styled.DetailWrapper>
             <Styled.Trim>
-              {engine.title} / {wheelDrive.title} / {bodyType.title}
+              {engine.name} / {wheelDrive.name} / {bodyType.name}
             </Styled.Trim>
             <Styled.Price>{price.toLocaleString()}원</Styled.Price>
           </Styled.DetailWrapper>
           <Styled.SummaryLine />
           <Styled.ColorWrapper>
             <Styled.ColorType>외장</Styled.ColorType>
-            <Styled.Ellipse src={outerColor.imageUrl} />
-            <Styled.ColorName>{outerColor.title}</Styled.ColorName>
+            <Styled.Ellipse src={exteriorColor.colorImageUrl} />
+            <Styled.ColorName>{exteriorColor.name}</Styled.ColorName>
             <Styled.Space />
             <Styled.ColorType>내장</Styled.ColorType>
-            <Styled.Ellipse src={innerColor.imageUrl} />
-            <Styled.ColorName>{innerColor.title}</Styled.ColorName>
+            <Styled.Ellipse src={interiorColor.colorImageUrl} />
+            <Styled.ColorName>{interiorColor.name}</Styled.ColorName>
           </Styled.ColorWrapper>
         </Styled.SummaryWrapper>
       </Styled.Flex>

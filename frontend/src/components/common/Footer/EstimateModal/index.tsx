@@ -57,10 +57,10 @@ export function EstimateModal({ onClick, myCarData, totalPrice }: Props) {
         </Styled.TitleWrapper>
 
         <Styled.DescriptionWrapper>
-          {options.map(option => (
-            <Styled.DescriptionBox key={option.name}>
-              <Styled.Description>{option.name}</Styled.Description>
-              <Styled.Description>+{option.price.toLocaleString()}원</Styled.Description>
+          {options.map(({ name, additionalPrice }) => (
+            <Styled.DescriptionBox key={name}>
+              <Styled.Description>{name}</Styled.Description>
+              <Styled.Description>+{additionalPrice.toLocaleString()}원</Styled.Description>
             </Styled.DescriptionBox>
           ))}
         </Styled.DescriptionWrapper>

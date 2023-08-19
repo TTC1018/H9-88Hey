@@ -1,27 +1,19 @@
-import { Suspense, useEffect, useReducer, useRef } from 'react';
+import { Suspense, useReducer, useRef } from 'react';
 
 import { Outlet, useLocation } from 'react-router-dom';
 
 import { getLocalStorage } from '@/utils';
-import {
-  ExteriorColorDataProps,
-  HandleTrimOptionProps,
-  InteriorColorDataProps,
-  MyCarActionTypeProps,
-  MyCarProps,
-  TrimBaseProps,
-} from '@/types/trim';
-import { OptionContextProps } from '@/types/option';
-import { useCountPrice } from '@/hooks/useCountPrice';
+
+import { ActionType, MyCarProps } from '@/types/trim';
 
 import { Header } from '@/components/common/Header';
 import { Footer } from '@/components/common/Footer';
+import { Loading } from '@/components/common/Loading';
 import { Navigation } from '@/components/common/Navigation';
 
 import * as Styled from './style';
-import { Loading } from '@/components/common/Loading';
 
-const DEFAULT_STATE: MyCarProps = {
+const initialState: MyCarProps = {
   carType: { krName: '펠리세이드', enName: 'Palisade' },
   trim: { name: '', price: 0, id: 0 },
   engine: { name: '', additionalPrice: 0, id: 0 },
@@ -32,116 +24,65 @@ const DEFAULT_STATE: MyCarProps = {
   options: [],
   carImageUrl: 'https://www.hyundai.com/contents/vr360/LX06/exterior/WC9/001.png', // 임시 mock data
 };
-type ActionType =
-  | {
-      type: MyCarActionTypeProps.TRIM;
-      props: TrimBaseProps;
-    }
-  | { type: MyCarActionTypeProps.TRIM_OPTION; props: HandleTrimOptionProps }
-  | { type: MyCarActionTypeProps.EXTERIOR_COLOR; props: ExteriorColorDataProps }
-  | { type: MyCarActionTypeProps.INTERIOR_COLOR; props: InteriorColorDataProps }
-  | { type: MyCarActionTypeProps.ADD_OPTION; props: OptionContextProps }
-  | { type: MyCarActionTypeProps.REMOVE_OPTION; props: string }
-  | { type: MyCarActionTypeProps.CAR_IMAGE_URL; props: string }
-  | { type: MyCarActionTypeProps.SAVE_OPTION; props: MyCarProps };
 
 function reducer(state: MyCarProps, action: ActionType): MyCarProps {
-  switch (action.type) {
+  const { type, props } = action;
+
+  switch (type) {
     case 'TRIM':
       return {
         ...state,
-        trim: action.props,
+        trim: props,
       };
     case 'TRIM_OPTION':
-      const { key, ...props } = action.props;
+      const { key, ...data } = props;
       return {
         ...state,
-        [key]: props,
+        [key]: data,
       };
     case 'EXTERIOR_COLOR':
       return {
         ...state,
-        exteriorColor: action.props,
+        exteriorColor: props,
       };
     case 'INTERIOR_COLOR':
-      return { ...state, interiorColor: action.props };
+      return { ...state, interiorColor: props };
     case 'ADD_OPTION':
-      return { ...state, options: [...state.options, action.props] };
+      return { ...state, options: [...state.options, props] };
     case 'REMOVE_OPTION':
-      return { ...state, options: state.options.filter(options => options.name !== action.props) };
+      return { ...state, options: state.options.filter(({ name }) => name !== props) };
     case 'CAR_IMAGE_URL':
-      return { ...state, carImageUrl: action.props };
+      return { ...state, carImageUrl: props };
     case 'SAVE_OPTION':
-      return action.props;
+      return props;
     default:
       return state;
   }
 }
+
 export function MyCarLayout() {
   const { pathname } = useLocation();
   const carCode = useRef('');
 
   const localStorageData = getLocalStorage('myCar');
-  const [myCar, dispatch] = useReducer(reducer, localStorageData === null ? DEFAULT_STATE : localStorageData);
+  const [myCar, dispatch] = useReducer(reducer, localStorageData === null ? initialState : localStorageData);
 
   const myCarKeysWithPrice = ['engine', 'bodyType', 'wheelDrive', 'exteriorColor'];
 
-  const calclPrice =
+  const totalPrice =
     myCar.trim.price +
     myCarKeysWithPrice.reduce((acc, cur) => acc + myCar[cur].additionalPrice, 0) +
-    myCar.options.reduce((acc, cur) => acc + cur.price, 0);
-
-  const prevPrice = useRef(calclPrice);
-
-  const totalPrice = useCountPrice({
-    prevPrice: prevPrice.current,
-    nextPrice: calclPrice,
-  });
-
-  prevPrice.current = totalPrice;
-
-  // function handleTrim(props: TrimBaseProps) {
-  //   setMyCar(prev => ({ ...prev, trim: props }));
-  // }
-
-  // function handleTrimOption({ key, ...props }: HandleTrimOptionProps) {
-  //   setMyCar(prev => ({ ...prev, [key]: props }));
-  // }
-
-  // function handleExteriorColor(props: ExteriorColorDataProps) {
-  //   setMyCar(prev => ({ ...prev, exteriorColor: props }));
-  // }
-
-  // function handleInteriorColor(props: InteriorColorDataProps) {
-  //   setMyCar(prev => ({ ...prev, interiorColor: props }));
-  // }
-
-  // function addOption(props: OptionContextProps) {
-  //   setMyCar(prev => ({ ...prev, options: [...prev.options, props] }));
-  // }
-
-  // function handleCarImageUrl(carImageUrl: string) {
-  //   setMyCar(prev => ({ ...prev, carImageUrl }));
-  // }
-
-  // function removeOption(name: string) {
-  //   setMyCar(prev => ({ ...prev, options: prev.options.filter(options => options.name !== name) }));
-  // }
+    myCar.options.reduce((acc, cur) => acc + cur.additionalPrice, 0);
 
   function handleLocalStorage() {
     localStorage.setItem('myCar', JSON.stringify(myCar));
   }
 
-  useEffect(() => {
-    const localStorageData = localStorage.getItem('myCar');
+  // useEffect(() => {
+  //   const savedOptions: MyCarProps = JSON.parse(localStorageData);
 
-    if (localStorageData === null) {
-      return;
-    }
-    const savedOptions: MyCarProps = JSON.parse(localStorageData);
-
-    dispatch({ type: MyCarActionTypeProps.SAVE_OPTION, props: savedOptions });
-  }, []);
+  //   dispatch({ type: MyCarActionTypeProps.SAVE_OPTION, props: savedOptions });
+  // }, []);
 
   return (
     <Styled.Container isFull={pathname === '/result'}>
@@ -159,7 +100,7 @@ export function MyCarLayout() {
           />
         </Suspense>
       </Styled.Wrapper>
-      <Footer myCarData={myCar} totalPrice={totalPrice} onSetLocalStorage={handleLocalStorage} carCode={carCode} />
+      <Footer myCarData={myCar} calculatePrice={totalPrice} onSetLocalStorage={handleLocalStorage} carCode={carCode} />
     </Styled.Container>
   );
 }

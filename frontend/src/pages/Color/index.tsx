@@ -13,6 +13,7 @@ import { MyCarDescription } from '@/components/common/MyCarDescription';
 import { InnerCarImage } from '@/components/Color/InnerCarImage';
 
 import * as Styled from './style';
+import { MyCarActionType } from '@/constants';
 
 const initialData = {
   exteriorColors: [
@@ -38,9 +39,7 @@ const initialData = {
 };
 export function Color() {
   const {
-    handleExteriorColor,
-    handleInteriorColor,
-    handleCarImageUrl,
+    dispatch,
     carCode,
     myCar: { trim, engine, wheelDrive, bodyType, exteriorColor, interiorColor },
   } = useOutletContext<MyCarLayoutContextProps>();
@@ -75,21 +74,27 @@ export function Color() {
   function updateOuterColor(index: number) {
     const { name, colorImageUrl, additionalPrice, carImagePath } = data.exteriorColors[index];
 
-    handleExteriorColor({
-      name,
-      colorImageUrl,
-      additionalPrice,
+    dispatch({
+      type: MyCarActionType.EXTERIOR_COLOR,
+      props: {
+        name,
+        colorImageUrl,
+        additionalPrice,
+      },
     });
-    handleCarImageUrl(`${carImagePath}001.png`);
+    dispatch({ type: MyCarActionType.CAR_IMAGE_URL, props: `${carImagePath}001.png` });
   }
 
   function updateInnerColor(list: InteriorColorsProps[], index: number) {
     const { name, colorImageUrl, id } = list[index];
 
-    handleInteriorColor({
-      name,
-      colorImageUrl,
-      id,
+    dispatch({
+      type: MyCarActionType.INTERIOR_COLOR,
+      props: {
+        name,
+        colorImageUrl,
+        id,
+      },
     });
   }
 

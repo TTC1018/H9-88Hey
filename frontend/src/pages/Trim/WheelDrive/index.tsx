@@ -2,9 +2,11 @@ import { useEffect } from 'react';
 
 import { useOutletContext } from 'react-router-dom';
 
-import { MyCarLayoutContextProps, WheelDriveDataProps } from '@/types/trim';
-import { useFetch } from '@/hooks/useFetch';
+import { fetcher } from '@/utils/fetcher';
+import { MyCarActionType } from '@/constants';
+import { useFetchSuspense } from '@/hooks/useFetchSuspense';
 import { useSelectIndex } from '@/hooks/useSelectedIndex';
+import { MyCarLayoutContextProps, WheelDriveDataProps } from '@/types/trim';
 
 import { TrimCard } from '@/components/common/TrimCard';
 import { MyCarImageBox } from '@/components/Trim/MyCarImageBox';
@@ -12,38 +14,28 @@ import { MyCarDescription } from '@/components/common/MyCarDescription';
 
 import * as Styled from './style';
 
-const initialData = {
-  wheelDrives: [
-    {
-      id: 0,
-      name: '',
-      additionalPrice: 0,
-      description: '',
-      imageUrl: '',
-    },
-  ],
-};
+function wheelDriveFetcher() {
+  return fetcher<WheelDriveDataProps>({ url: '/car/model/1/wheel-drive' });
+}
 
 export function WheelDrive() {
-  const {
-    data: { wheelDrives },
-  } = useFetch<WheelDriveDataProps>({
-    defaultValue: initialData,
-    url: '/car/model/1/wheel-drive',
+  const { wheelDrives } = useFetchSuspense<WheelDriveDataProps>({
+    fetcher: wheelDriveFetcher,
+    key: ['wheelDrives'],
   });
 
   const [selectedIndex, handleSetIndex] = useSelectIndex();
   const { name, additionalPrice, imageUrl } = wheelDrives[selectedIndex];
 
   const {
-    handleTrimOption,
+    dispatch,
     myCar: { wheelDrive },
   } = useOutletContext<MyCarLayoutContextProps>();
 
   function handleCardClick(name: string, additionalPrice: number, id: number, index: number) {
     return () => {
       handleSetIndex(index)();
-      handleTrimOption({ key: 'wheelDrive', name, additionalPrice, id });
+      dispatch({ type: MyCarActionType.TRIM_OPTION, props: { key: 'wheelDrive', name, additionalPrice, id } });
     };
   }
 
@@ -51,14 +43,14 @@ export function WheelDrive() {
     if (wheelDrive.name === '') {
       const { name, additionalPrice, id } = wheelDrives[0];
 
-      handleTrimOption({ key: 'wheelDrive', name, additionalPrice, id });
+      dispatch({ type: MyCarActionType.TRIM_OPTION, props: { key: 'wheelDrive', name, additionalPrice, id } });
 
       return;
     }
 
     const index = wheelDrives.findIndex(({ name }) => name === wheelDrive.name);
     index !== -1 && handleSetIndex(index)();
-  }, [wheelDrives]);
+  }, []);
 
   return (
     <Styled.Container>

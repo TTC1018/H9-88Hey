@@ -27,3 +27,14 @@ export const PATH_LIST = Object.freeze({
 });
 
 export const MAX_TEXT_LENGTH = 140;
+
+export enum MyCarActionType {
+  'TRIM' = 'TRIM',
+  'TRIM_OPTION' = 'TRIM_OPTION',
+  'EXTERIOR_COLOR' = 'EXTERIOR_COLOR',
+  'INTERIOR_COLOR' = 'INTERIOR_COLOR',
+  'ADD_OPTION' = 'ADD_OPTION',
+  'REMOVE_OPTION' = 'REMOVE_OPTION',
+  'SAVE_OPTION' = 'SAVE_OPTION',
+  'CAR_IMAGE_URL' = 'CAR_IMAGE_URL',
+}

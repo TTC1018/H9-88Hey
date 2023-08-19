@@ -1,6 +1,8 @@
-import { MutableRefObject } from 'react';
+import { Dispatch, MutableRefObject } from 'react';
+
 import { OptionContextProps } from './option';
 import { ExteriorColorsProps, InteriorColorsProps } from './color';
+import { MyCarActionType } from '@/constants';
 
 export interface FeatureProps {
   name: string;
@@ -70,25 +72,23 @@ export type HandleTrimOptionProps = TrimOptionBaseProps & { key: 'engine' | 'whe
 export interface MyCarLayoutContextProps {
   myCar: MyCarProps;
   carCode: MutableRefObject<string>;
-  handleTrim: (props: TrimBaseProps) => void;
-  handleTrimOption: (props: HandleTrimOptionProps) => void;
-  handleExteriorColor: (props: ExteriorColorDataProps) => void;
-  handleInteriorColor: (props: InteriorColorDataProps) => void;
   totalPrice: number;
-  handleCarImageUrl: (carImageUrl: string) => void;
+  dispatch: Dispatch<ActionType>;
 }
 
 export interface CarCodeProps {
   carCode: string;
 }
 
-export enum MyCarActionTypeProps {
-  'TRIM' = 'TRIM',
-  'TRIM_OPTION' = 'TRIM_OPTION',
-  'EXTERIOR_COLOR' = 'EXTERIOR_COLOR',
-  'INTERIOR_COLOR' = 'INTERIOR_COLOR',
-  'ADD_OPTION' = 'ADD_OPTION',
-  'REMOVE_OPTION' = 'REMOVE_OPTION',
-  'SAVE_OPTION' = 'SAVE_OPTION',
-  'CAR_IMAGE_URL' = 'CAR_IMAGE_URL',
-}
+export type ActionType =
+  | {
+      type: MyCarActionType.TRIM;
+      props: TrimBaseProps;
+    }
+  | { type: MyCarActionType.TRIM_OPTION; props: HandleTrimOptionProps }
+  | { type: MyCarActionType.EXTERIOR_COLOR; props: ExteriorColorDataProps }
+  | { type: MyCarActionType.INTERIOR_COLOR; props: InteriorColorDataProps }
+  | { type: MyCarActionType.ADD_OPTION; props: OptionContextProps }
+  | { type: MyCarActionType.REMOVE_OPTION; props: string }
+  | { type: MyCarActionType.CAR_IMAGE_URL; props: string }
+  | { type: MyCarActionType.SAVE_OPTION; props: MyCarProps };
