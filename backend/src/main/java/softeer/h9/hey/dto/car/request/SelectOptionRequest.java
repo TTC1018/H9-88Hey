@@ -9,12 +9,16 @@ import lombok.Getter;
 @Getter
 public class SelectOptionRequest {
 	@NotEmpty
-	private String carCode;
+	private final String carCode;
 
-	private List<String> selectOptions;
+	private final List<String> selectOptions;
 
-	public SelectOptionRequest(String car_code, List<String> select_option) {
+	private SelectOptionRequest(String car_code, List<String> select_option) {
 		this.carCode = car_code;
 		this.selectOptions = select_option;
+	}
+
+	public static final SelectOptionRequest of(String carCode, List<String> selectOptions) {
+		return new SelectOptionRequest(carCode, selectOptions);
 	}
 }

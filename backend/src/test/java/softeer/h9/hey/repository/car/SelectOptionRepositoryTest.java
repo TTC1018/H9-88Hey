@@ -12,6 +12,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import softeer.h9.hey.domain.car.SelectOptionCategory;
 import softeer.h9.hey.domain.car.SelectOption;
 import softeer.h9.hey.dto.car.DisabledOptionIdDto;
+import softeer.h9.hey.dto.car.SelectOptionByModelDto;
 
 @SpringBootTest
 @DisplayName("선택 옵션 저장소 테스트")
@@ -19,6 +20,20 @@ public class SelectOptionRepositoryTest {
 
 	@Autowired
 	SelectOptionRepository repository;
+
+	@DisplayName("model id에 따라 모든 선택 옵션을 조회한다.")
+	@Test
+	void findAllSelectOptionByModelId() {
+		// 팰리세이드의 modelId
+		int modelId = 1;
+
+		List<SelectOptionByModelDto> selectOptions = repository.findAllSelectOptionByModelId(modelId);
+
+		assertThat(selectOptions).isNotNull();
+		assertThat(selectOptions).hasSize(26);
+	}
+
+
 
 	@DisplayName("특정 자동차에 적용할 수 있는 선택 옵션을 조회한다.")
 	@Test
