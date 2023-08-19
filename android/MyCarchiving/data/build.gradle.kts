@@ -1,8 +1,6 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
-    alias(libs.plugins.hilt)
-    alias(libs.plugins.kotlin.kapt)
 }
 
 android {
@@ -17,10 +15,12 @@ android {
 }
 
 dependencies {
+    implementation(project(":domain"))
+
+    // flow
     implementation(libs.kotlinx.coroutines.core)
+
+    // retrofit
     implementation(libs.retrofit2)
     implementation(libs.retrofit2.gson)
-
-    implementation(libs.hilt.android)
-    kapt(libs.hilt.compiler)
 }
