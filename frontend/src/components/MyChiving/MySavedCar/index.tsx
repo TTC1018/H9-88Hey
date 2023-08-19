@@ -1,4 +1,4 @@
-import { Fragment, MouseEvent, useRef } from 'react';
+import { Fragment, MouseEvent, useEffect, useRef, useState } from 'react';
 
 import { useNavigate } from 'react-router-dom';
 
@@ -99,7 +99,7 @@ export function MySavedCar() {
     url: '/mychiving?limit=4&offset=0',
   });
 
-  const { mychivings } = myChivingData;
+  const [myChivings, setMyChivings] = useState(myChivingData.mychivings);
 
   const modalInfo = useRef({
     type: ModalType.CLOSE,
@@ -115,7 +115,7 @@ export function MySavedCar() {
     wheelDrive: { name: '', additionalPrice: 0, id: 0 },
     exteriorColor: { name: '', colorImageUrl: '', additionalPrice: 0 },
     interiorColor: { name: '', colorImageUrl: '', id: 1 },
-    options: [],
+    selectedOptions: [],
     carImageUrl: '',
   };
 
@@ -123,13 +123,13 @@ export function MySavedCar() {
     const { trim, engine, bodyType, wheelDrive, exteriorColor, interiorColor, selectedOptions } = myChiving;
     const savedMyCar: MyCarProps = {
       ...myCar,
-      trim: trim !== null ? trim : myCar.trim,
-      engine: engine !== null ? engine : myCar.engine,
-      bodyType: bodyType !== null ? bodyType : myCar.bodyType,
-      wheelDrive: wheelDrive !== null ? wheelDrive : myCar.wheelDrive,
-      exteriorColor: exteriorColor !== null ? exteriorColor : myCar.exteriorColor,
-      interiorColor: interiorColor !== null ? interiorColor : myCar.interiorColor,
-      options: selectedOptions !== null ? [...selectedOptions] : myCar.options,
+      trim: trim ?? myCar.trim,
+      engine: engine ?? myCar.engine,
+      bodyType: bodyType ?? myCar.bodyType,
+      wheelDrive: wheelDrive ?? myCar.wheelDrive,
+      exteriorColor: exteriorColor ?? myCar.exteriorColor,
+      interiorColor: interiorColor ?? myCar.interiorColor,
+      selectedOptions: selectedOptions ?? myCar.selectedOptions,
     };
     if (myChiving.isSaved) {
       localStorage.setItem('carType', JSON.stringify(savedMyCar));
@@ -144,27 +144,37 @@ export function MySavedCar() {
     }
   }
 
-  // 목록 제거 함수
-  function handleDeleteList() {}
+  function handleDeleteList(myChiving: MyChivingProps) {
+    const updatedMyChivings = myChivings.filter(myCar => myCar.myChivingId !== myChiving.myChivingId);
+    setMyChivings(updatedMyChivings);
+  }
 
   function handleClick(myChiving: MyChivingProps, data: ClickEventDataProps, event: MouseEvent<HTMLDivElement>) {
     const element = event.target as Element;
     const deleteButton = element.closest('button');
 
     if (deleteButton) {
-      modalInfo.current = { type: ModalType.DELETE, contents: data.deleteText, onClick: handleDeleteList };
+      modalInfo.current = {
+        type: ModalType.DELETE,
+        contents: data.deleteText,
+        onClick: () => handleDeleteList(myChiving),
+      };
     } else {
       modalInfo.current = { type: ModalType.MOVE, contents: data.moveText, onClick: () => handleNavigate(myChiving) };
     }
     handleOpen();
   }
 
+  useEffect(() => {
+    setMyChivings(myChivingData.mychivings);
+  }, [myChivingData]);
+
   return (
     <Fragment>
       <Styled.Contianer>
-        {mychivings.length > 0 ? (
+        {myChivings.length > 0 ? (
           <Styled.MyCarBox>
-            {mychivings.map((data, index) => (
+            {myChivings.map((data, index) => (
               <MyCarList
                 key={index}
                 isSaved={data.isSaved}

@@ -79,7 +79,7 @@ export interface MyCarProps {
   wheelDrive: MyCarDetailPropsWithId;
   exteriorColor: { name: string; colorImageUrl: string; additionalPrice: number };
   interiorColor: { name: string; colorImageUrl: string; id: number };
-  options: OptionContextProps[];
+  selectedOptions: OptionContextProps[];
   carImageUrl: string;
   [key: string]: any;
 }
