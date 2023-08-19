@@ -8,4 +8,5 @@ import lombok.RequiredArgsConstructor;
 public class JoinRequest {
 	private final String userId;
 	private final String password;
+	private final String userName;
 }

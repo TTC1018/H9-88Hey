@@ -35,7 +35,7 @@ public class AuthService {
 	}
 
 	private User mapToUser(JoinRequest joinRequest) {
-		return new User(joinRequest.getUserId(), joinRequest.getPassword());
+		return new User(joinRequest.getUserId(), joinRequest.getPassword(), joinRequest.getUserName());
 	}
 
 	private void validateUniqueUserId(String userId) {

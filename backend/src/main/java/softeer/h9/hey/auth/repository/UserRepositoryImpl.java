@@ -23,11 +23,12 @@ public class UserRepositoryImpl implements UserRepository {
 
 	@Override
 	public User save(User user) {
-		String sql = "INSERT INTO `user`(user_id, password, created_at) "
-			+ "values (:userId, :password, NOW())";
+		String sql = "INSERT INTO `user`(user_id, password, name, created_at) "
+			+ "values (:userId, :password, :name, NOW())";
 
 		SqlParameterSource param = new MapSqlParameterSource()
 			.addValue("userId", user.getUserId())
+			.addValue("name", user.getName())
 			.addValue("password", user.getPassword());
 
 		KeyHolder keyHolder = new GeneratedKeyHolder();
