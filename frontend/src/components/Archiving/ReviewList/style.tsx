@@ -5,7 +5,7 @@ export const Container = styled.div`
 
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  grid-auto-rows: 7px;
+  grid-auto-rows: 5px;
 `;
 
 export const Wrapper = styled.div``;

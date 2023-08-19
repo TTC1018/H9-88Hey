@@ -66,7 +66,7 @@ export function MyCarLayout() {
   const { pathname } = useLocation();
   const carCodeData = getLocalStorage('carCode');
 
-  const carCode = useRef('');
+  const carCode = useRef(carCodeData === null ? '' : carCodeData);
 
   const localStorageData = JSON.parse(getLocalStorage('myCar'));
   const [myCar, dispatch] = useReducer(reducer, localStorageData === null ? initialState : localStorageData);
@@ -77,8 +77,6 @@ export function MyCarLayout() {
     myCar.trim.price +
     myCarKeysWithPrice.reduce((acc, cur) => acc + myCar[cur].additionalPrice, 0) +
     myCar.options.reduce((acc, cur) => acc + cur.additionalPrice, 0);
-
-  carCode.current = carCodeData === null ? '' : carCodeData;
 
   function clearHGenuineAccessories() {
     const clearedOptions = myCar.options.filter(option => option.path !== '/option/h-genuine-accessories');

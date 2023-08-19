@@ -56,6 +56,7 @@ export function Footer({ myCarData, calculatePrice, carCode, onSetLocalStorage }
     }
 
     const carCodeQuery = `?car_code=${carCode.current}`;
+    console.log(carCodeQuery);
     let optionQuery = '';
 
     if (checkIsHGenuineAccessoriesPage(path)) {

@@ -29,9 +29,12 @@ export function Color() {
     key: ['color', `${trim.id}`],
   });
 
-  const { data: carCodeData } = useFetch<CarCodeProps>({
-    defaultValue: { carCode: '' },
-    url: `/car/car-code?trim_id=${trim.id}&engine_id=${engine.id}&body_type_id=${bodyType.id}&wheel_drive_id=${wheelDrive.id}`,
+  const { carCode: carCodeData } = useFetchSuspense<CarCodeProps>({
+    fetcher: () =>
+      fetcher<CarCodeProps>({
+        url: `/car/car-code?trim_id=${trim.id}&engine_id=${engine.id}&body_type_id=${bodyType.id}&wheel_drive_id=${wheelDrive.id}`,
+      }),
+    key: ['carCode', `${trim.id}`, `${engine.id}`, `${bodyType.id}`, `${wheelDrive.id}`],
   });
 
   const [isExternalPage, setIsExternalPage] = useState(true);
@@ -100,8 +103,10 @@ export function Color() {
   }, [interiorColor, exteriorColor]);
 
   useEffect(() => {
-    if (carCodeData.carCode !== '') {
-      carCode.current = carCodeData.carCode;
+    if (carCodeData !== '') {
+      console.log(carCodeData);
+      carCode.current = carCodeData;
+      console.log(carCode.current);
     }
   }, [carCodeData]);
 

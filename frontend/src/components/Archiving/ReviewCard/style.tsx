@@ -105,7 +105,7 @@ export const OptionWrapper = styled.div`
 `;
 
 export const OptionBox = styled.div`
-  gap: 8px;
+  gap: 10px;
 
   display: flex;
   flex-wrap: wrap;
