@@ -2,6 +2,7 @@ import { OptionSelectCard } from '@/components/Archiving/OptionSelectCard';
 import { DeleteButton } from '@/components/common/DeleteButton';
 
 import { ArchivingProps } from '@/types/archiving';
+import { useMyCarNavigate } from '@/hooks/useMyCarNavigate';
 import { combineWithSlash, formatDate } from '@/utils';
 
 import * as style from './style';
@@ -21,6 +22,8 @@ interface DefaultProps {
 }
 type Props = DefaultProps & ChivingProps;
 export function ReviewCard({ props, isArchiving, onClick, selectedSearchOptions }: Props) {
+  const { handleNavigate } = useMyCarNavigate({ path: '/archiving/detail', state: props });
+
   const {
     isPurchase,
     modelName,
@@ -37,9 +40,8 @@ export function ReviewCard({ props, isArchiving, onClick, selectedSearchOptions 
   } = props;
 
   const dateText = `에 ${isPurchase ? '구매' : '시승'}했어요`;
-
   return (
-    <style.Contaienr>
+    <style.Contaienr onClick={handleNavigate}>
       <style.TitleWrapper>
         <style.Enclosure>
           <style.Title>{`${modelName} ${trim.name}`}</style.Title>
