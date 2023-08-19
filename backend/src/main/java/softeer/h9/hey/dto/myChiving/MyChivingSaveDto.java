@@ -1,12 +1,10 @@
 package softeer.h9.hey.dto.myChiving;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 
 import lombok.Getter;
 import lombok.Setter;
-import softeer.h9.hey.domain.myChiving.MyChiving;
 import softeer.h9.hey.dto.myChiving.request.MyChivingSaveRequest;
 import softeer.h9.hey.dto.myChiving.request.MyChivingTempSaveRequest;
 
@@ -46,7 +44,7 @@ public class MyChivingSaveDto {
 			wheelTypeId, trimId, engineId, selectOptionIdList);
 	}
 
-	public static MyChivingSaveDto fromMyChivingSaveRequest(MyChivingSaveRequest myChivingSaveRequest) {
+	public static MyChivingSaveDto from(MyChivingSaveRequest myChivingSaveRequest) {
 		MyChivingSaveDto myChivingSaveDto = new MyChivingSaveDto();
 		myChivingSaveDto.setId(myChivingSaveRequest.getId());
 		myChivingSaveDto.setEngineId(myChivingSaveRequest.getEngineId());
@@ -59,7 +57,7 @@ public class MyChivingSaveDto {
 		return myChivingSaveDto;
 	}
 
-	public static MyChivingSaveDto fromMyChivingTempSaveRequest(MyChivingTempSaveRequest myChivingTempSaveRequest) {
+	public static MyChivingSaveDto from(MyChivingTempSaveRequest myChivingTempSaveRequest) {
 		MyChivingSaveDto myChivingSaveDto = new MyChivingSaveDto();
 		myChivingSaveDto.setId(myChivingTempSaveRequest.getId());
 		myChivingSaveDto.setEngineId(myChivingTempSaveRequest.getEngineId());

@@ -4,12 +4,9 @@ import static org.assertj.core.api.Assertions.*;
 
 import java.util.List;
 
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureJdbc;
-import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -17,7 +14,6 @@ import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.transaction.annotation.Transactional;
 
 import softeer.h9.hey.dto.myChiving.MyChivingSaveDto;
-import softeer.h9.hey.dto.myChiving.request.MyChivingSaveRequest;
 import softeer.h9.hey.dto.myChiving.request.MyChivingTempSaveRequest;
 
 @SpringBootTest
@@ -43,7 +39,7 @@ class MyChivingRepositoryTest {
 		List<String> selectOptionIdList = List.of("TRP","DUP","VI2");
 
 		MyChivingTempSaveRequest myChivingTempSaveRequest = new MyChivingTempSaveRequest(id, bodyTypeId, wheelTypeId, engineId, trimId, exteriorColorId, interiorColorId, selectOptionIdList);
-		MyChivingSaveDto myChivingSaveDto = MyChivingSaveDto.fromMyChivingTempSaveRequest(myChivingTempSaveRequest);
+		MyChivingSaveDto myChivingSaveDto = MyChivingSaveDto.from(myChivingTempSaveRequest);
 		myChivingSaveDto.setUserId(1);
 		myChivingSaveDto.setSubmitted(false);
 

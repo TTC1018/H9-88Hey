@@ -1,12 +1,9 @@
 package softeer.h9.hey.service.myChiving;
 
-import java.util.List;
-
 import org.springframework.stereotype.Service;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import softeer.h9.hey.domain.myChiving.MyChiving;
 import softeer.h9.hey.dto.myChiving.MyChivingSaveDto;
 import softeer.h9.hey.dto.myChiving.request.MyChivingSaveRequest;
 import softeer.h9.hey.dto.myChiving.request.MyChivingTempSaveRequest;
@@ -36,7 +33,7 @@ public class MyChivingService {
 
 		//TODO 인증정보를 통해 사용자 식별 및 user_id 추출
 		int userId = 1;
-		MyChivingSaveDto myChivingSaveDto = MyChivingSaveDto.fromMyChivingSaveRequest(myChivingSaveRequest);
+		MyChivingSaveDto myChivingSaveDto = MyChivingSaveDto.from(myChivingSaveRequest);
 		myChivingSaveDto.setUserId(userId);
 		myChivingSaveDto.setSubmitted(IsSubmit.SUBMIT.value );
 
@@ -49,7 +46,7 @@ public class MyChivingService {
 	public MyChivingIdResponse temporarySaveMyCar(final MyChivingTempSaveRequest myChivingSaveRequest) {
 		//TODO 인증정보를 통해 사용자 식별 및 user_id 추출
 		int userId = 1;
-		MyChivingSaveDto myChivingSaveDto = MyChivingSaveDto.fromMyChivingTempSaveRequest(myChivingSaveRequest);
+		MyChivingSaveDto myChivingSaveDto = MyChivingSaveDto.from(myChivingSaveRequest);
 		myChivingSaveDto.setUserId(userId);
 		myChivingSaveDto.setSubmitted(IsSubmit.TEMPORARY_SUBMIT.value );
 

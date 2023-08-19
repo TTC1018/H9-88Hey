@@ -1,7 +1,6 @@
 package softeer.h9.hey.service.myChiving;
 
 import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 import java.util.List;
@@ -35,7 +34,7 @@ class MyChivingServiceTest {
 		List<String> selectOptionIdList = List.of("TRP", "DUP", "VI2");
 
 		MyChivingTempSaveRequest myChivingTempSaveRequest = new MyChivingTempSaveRequest(id, bodyTypeId, wheelTypeId, engineId, trimId, exteriorColorId, interiorColorId, selectOptionIdList);
-		MyChivingSaveDto myChivingSaveDto = MyChivingSaveDto.fromMyChivingTempSaveRequest(myChivingTempSaveRequest);
+		MyChivingSaveDto myChivingSaveDto = MyChivingSaveDto.from(myChivingTempSaveRequest);
 		myChivingSaveDto.setUserId(1);
 		myChivingSaveDto.setSubmitted(false);
 
@@ -60,7 +59,7 @@ class MyChivingServiceTest {
 		List<String> selectOptionIdList = List.of("TRP", "DUP", "VI2");
 
 		MyChivingSaveRequest myChivingSaveRequest = new MyChivingSaveRequest(id, bodyTypeId, wheelTypeId, engineId, trimId, exteriorColorId, interiorColorId, selectOptionIdList);
-		MyChivingSaveDto myChivingSaveDto = MyChivingSaveDto.fromMyChivingSaveRequest(myChivingSaveRequest);
+		MyChivingSaveDto myChivingSaveDto = MyChivingSaveDto.from(myChivingSaveRequest);
 		myChivingSaveDto.setUserId(1);
 		myChivingSaveDto.setSubmitted(true);
 
