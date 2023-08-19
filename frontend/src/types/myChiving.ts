@@ -8,12 +8,12 @@ export interface OptionProps {
   additionalPrice: number;
 }
 
-interface modelProps {
+interface ModelProps {
   id: number;
   name: string;
 }
 
-interface trimProps {
+interface TrimProps {
   id: number;
   name: string;
   price: number;
@@ -44,14 +44,14 @@ export interface MyChivingProps {
   lastModifiedDate: string;
   isSaved: boolean;
   totalPrice: number;
-  model: modelProps;
-  trim: trimProps;
-  engine: CommonProps;
-  bodyType: CommonProps;
-  wheelDrive: CommonProps;
-  interiorColor: InteriorColor;
-  exteriorColor: ExteriorColorProps;
-  selectedOptions: OptionProps[];
+  model: ModelProps;
+  trim?: TrimProps;
+  engine?: CommonProps;
+  bodyType?: CommonProps;
+  wheelDrive?: CommonProps;
+  interiorColor?: InteriorColor;
+  exteriorColor?: ExteriorColorProps;
+  selectedOptions?: OptionProps[];
 }
 
 export interface MyChivingDataProps {

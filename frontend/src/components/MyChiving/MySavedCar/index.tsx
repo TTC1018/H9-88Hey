@@ -99,7 +99,7 @@ export function MySavedCar() {
     url: '/mychiving?limit=4&offset=0',
   });
 
-  const [myChivings, setMyChivings] = useState(myChivingData.mychivings);
+  const [myChivings, setMyChivings] = useState<MyChivingProps[]>([]);
 
   const modalInfo = useRef({
     type: ModalType.CLOSE,
@@ -131,6 +131,7 @@ export function MySavedCar() {
       interiorColor: interiorColor ?? myCar.interiorColor,
       selectedOptions: selectedOptions ?? myCar.selectedOptions,
     };
+
     if (myChiving.isSaved) {
       localStorage.setItem('carType', JSON.stringify(savedMyCar));
       navigate('/result');
@@ -175,19 +176,7 @@ export function MySavedCar() {
         {myChivings.length > 0 ? (
           <Styled.MyCarBox>
             {myChivings.map((data, index) => (
-              <MyCarList
-                key={index}
-                isSaved={data.isSaved}
-                model={data.model?.name || ''}
-                trim={data.trim?.name || ''}
-                engine={data.engine?.name || ''}
-                bodyType={data.bodyType?.name || ''}
-                wheelDrive={data.wheelDrive?.name || ''}
-                lastModifiedDate={data.lastModifiedDate}
-                selectedOptions={data.selectedOptions}
-                myChiving={data}
-                onClick={handleClick}
-              />
+              <MyCarList key={index} myChiving={data} onClick={handleClick} />
             ))}
           </Styled.MyCarBox>
         ) : (

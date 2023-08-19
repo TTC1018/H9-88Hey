@@ -115,7 +115,7 @@ export function MyCarLayout() {
   }, []);
 
   return (
-    <Styled.Container isFull={pathname === '/result'}>
+    <Styled.Container isFull={checkIsResultPage()}>
       <Header isSaving={isSavingNow} />
       <Navigation />
       <Styled.Wrapper isFull={checkIsResultPage()}>
