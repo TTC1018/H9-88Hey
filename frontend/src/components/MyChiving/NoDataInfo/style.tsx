@@ -2,14 +2,6 @@ import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
 export const Container = styled.div`
-  margin-top: 25px;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`;
-
-export const NoDataInfoBox = styled.div`
   gap: 20px;
 
   display: flex;
@@ -17,17 +9,17 @@ export const NoDataInfoBox = styled.div`
   align-items: center;
 `;
 
-export const NoDataInfoText = styled.span`
+export const Text = styled.span`
   ${({ theme }) => {
     const { colors, fonts } = theme;
     return css`
-      ${fonts.bodyMedium3};
+      ${fonts.bodyMedium1};
       color: ${colors.black};
     `;
   }}
 `;
 
-export const CreateMyCarButton = styled.button`
+export const Button = styled.button`
   ${({ theme }) => {
     const { colors, fonts } = theme;
     return css`

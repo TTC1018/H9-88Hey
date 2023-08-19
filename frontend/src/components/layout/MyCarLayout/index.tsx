@@ -2,7 +2,7 @@ import { Suspense, useEffect, useRef, useState } from 'react';
 
 import { Outlet, useLocation } from 'react-router-dom';
 
-import { getLocalStorage } from '@/utils';
+import { checkIsResultPage, getLocalStorage } from '@/utils';
 import { MyCarProps } from '@/types/trim';
 import { OptionContextProps } from '@/types/option';
 
@@ -10,21 +10,22 @@ import { useCountPrice } from '@/hooks/useCountPrice';
 import { Header } from '@/components/common/Header';
 import { Footer } from '@/components/common/Footer';
 import { Navigation } from '@/components/common/Navigation';
+import { Loading } from '@/components/common/Loading';
 
 import * as Styled from './style';
-import { Loading } from '@/components/common/Loading';
 
 const DEFAULT_STATE: MyCarProps = {
   carType: { krName: '펠리세이드', enName: 'Palisade' },
-  trim: { title: '', price: 0, id: 0 },
-  engine: { title: '', price: 0, id: 0 },
-  bodyType: { title: '', price: 0, id: 0 },
-  wheelDrive: { title: '', price: 0, id: 0 },
-  outerColor: { title: '', imageUrl: '/src/assets/icons/ellipse_123.png', price: 0 },
-  innerColor: { title: '', imageUrl: '/src/assets/icons/ellipse_567.svg', id: 1 },
+  trim: { name: '', price: 0, id: 0 },
+  engine: { name: '', additionalPrice: 0, id: 0 },
+  bodyType: { name: '', additionalPrice: 0, id: 0 },
+  wheelDrive: { name: '', additionalPrice: 0, id: 0 },
+  exteriorColor: { name: '', colorImageUrl: '/src/assets/icons/ellipse_123.png', additionalPrice: 0 },
+  interiorColor: { name: '', colorImageUrl: '/src/assets/icons/ellipse_567.svg', id: 1 },
   options: [],
   carImageUrl: 'https://www.hyundai.com/contents/vr360/LX06/exterior/WC9/001.png', // 임시 mock data
 };
+
 export function MyCarLayout() {
   const { pathname } = useLocation();
 
@@ -36,13 +37,24 @@ export function MyCarLayout() {
   const carCode = useRef('');
   carCode.current = carCodeData === null ? '' : carCodeData;
 
-  const myCarKeysWithPrice = ['trim', 'engine', 'bodyType', 'wheelDrive', 'outerColor'];
+  const myCarKeysWithPrice = ['trim', 'engine', 'bodyType', 'wheelDrive', 'exteriorColor'];
 
   const calclPrice =
     myCarKeysWithPrice.reduce((acc, cur) => acc + myCar[cur].price, 0) +
-    myCar.options.reduce((acc, cur) => acc + cur.price, 0);
+    myCar.options.reduce((acc, cur) => acc + cur.additionalPrice, 0);
 
   const prevPrice = useRef(calclPrice);
+
+  const [isSavingNow, setIsSavingNow] = useState(false);
+  if (isSavingNow) {
+    setTimeout(() => {
+      setIsSavingNow(false);
+    }, 2000);
+  }
+
+  function setAutoSaving() {
+    setIsSavingNow(true);
+  }
 
   const totalPrice = useCountPrice({
     prevPrice: prevPrice.current,
@@ -68,7 +80,10 @@ export function MyCarLayout() {
   }
 
   function addOption({ id, name, price, imageUrl, subOptions, path }: OptionContextProps) {
-    setMyCar(prev => ({ ...prev, options: [...prev.options, { id, name, price, imageUrl, subOptions, path }] }));
+    setMyCar(prev => ({
+      ...prev,
+      options: [...prev.options, { id, name, price, additionalPrice, imageUrl, subOptions, path }],
+    }));
   }
 
   function removeOption(name: string) {
@@ -85,10 +100,6 @@ export function MyCarLayout() {
     localStorage.setItem('myCar', JSON.stringify(myCar));
   }
 
-  function checkIsResultPage() {
-    return pathname === '/result';
-  }
-
   useEffect(() => {
     const myCarData = localStorage.getItem('myCar');
 
@@ -100,10 +111,10 @@ export function MyCarLayout() {
   }, []);
 
   return (
-    <Styled.Container isFull={checkIsResultPage()}>
-      <Header />
+    <Styled.Container isFull={checkIsResultPage(pathname)}>
+      <Header isSaving={isSavingNow} />
       <Navigation />
-      <Styled.Wrapper isFull={checkIsResultPage()}>
+      <Styled.Wrapper isFull={checkIsResultPage(pathname)}>
         <Suspense fallback={<Loading />}>
           <Outlet
             context={{
@@ -123,6 +134,7 @@ export function MyCarLayout() {
       </Styled.Wrapper>
       <Footer
         myCarData={myCar}
+        setDisplayAutoSaving={setAutoSaving}
         totalPrice={totalPrice}
         onSetLocalStorage={handleLocalStorage}
         carCode={carCode}

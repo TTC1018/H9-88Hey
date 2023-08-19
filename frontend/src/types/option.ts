@@ -50,7 +50,7 @@ export interface OptionContextProviderProps {
 export interface OptionContextProps {
   id: string;
   name: string;
-  price: number;
+  additionalPrice: number;
   imageUrl: string;
   subOptions: string[];
   path: string;

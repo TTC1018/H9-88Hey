@@ -14,7 +14,11 @@ import { AutoSavingLogo } from '@/components/common/AutoSavingLogo';
 
 import * as Styled from './style';
 
-export function Header() {
+interface Props {
+  isSaving: boolean;
+}
+
+export function Header({ isSaving }: Props) {
   const { handleOpen } = useModalContext();
 
   const navigate = useNavigate();
@@ -33,7 +37,7 @@ export function Header() {
           </Styled.Box>
           <Styled.ButtonWrapper>
             <Styled.InfoBox>
-              <Styled.AutoSavingBox>
+              <Styled.AutoSavingBox isDisplay={isSaving}>
                 <Styled.AutoSavingText>자동저장 중</Styled.AutoSavingText>
                 <AutoSavingLogo />
               </Styled.AutoSavingBox>

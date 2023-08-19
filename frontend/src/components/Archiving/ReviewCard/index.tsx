@@ -1,8 +1,11 @@
-import { OptionSelectCard } from '@/components/Archiving/OptionSelectCard';
-import { DeleteButton } from '@/components/common/DeleteButton';
+import { MouseEvent } from 'react';
 
 import { ArchivingProps } from '@/types/archiving';
+import { MyFeedProps } from '@/types/myChiving';
 import { combineWithSlash, formatDate } from '@/utils';
+
+import { OptionSelectCard } from '@/components/Archiving/OptionSelectCard';
+import { XButton } from '@/components/MyChiving/XButton';
 
 import * as style from './style';
 
@@ -10,16 +13,25 @@ interface ArchivingCardProps {
   isArchiving: true;
   selectedSearchOptions: Set<string>;
 }
+
 interface MyChivingCardProps {
   isArchiving: false;
   selectedSearchOptions?: never[];
 }
+
 type ChivingProps = ArchivingCardProps | MyChivingCardProps;
+
+interface ClickEventDataProps {
+  deleteText: string;
+}
+
 interface DefaultProps {
   props: ArchivingProps;
-  onClick: (option: string) => void;
+  onClick?: (review: MyFeedProps, data: ClickEventDataProps, event: MouseEvent<HTMLDivElement>) => void;
 }
+
 type Props = DefaultProps & ChivingProps;
+
 export function ReviewCard({ props, isArchiving, onClick, selectedSearchOptions }: Props) {
   const {
     isPurchase,
@@ -36,18 +48,25 @@ export function ReviewCard({ props, isArchiving, onClick, selectedSearchOptions 
     selectedOptions,
   } = props;
 
-  const dateText = `에 ${isPurchase ? '구매' : '시승'}했어요`;
+  const dateText = ` ${isPurchase ? '구매' : '시승'}했어요`;
 
+  function handleClick(event: MouseEvent<HTMLDivElement>) {
+    if (onClick) {
+      onClick(props, { deleteText: `${model} ${trim}` }, event);
+    }
+  }
   return (
-    <style.Contaienr>
+    <style.Contaienr onClick={handleClick}>
       <style.TitleWrapper>
         <style.Enclosure>
           <style.Title>{`${modelName} ${trim.name}`}</style.Title>
           <style.SubTitle>{combineWithSlash([engine.name, bodyType.name, wheelDrive.name])}</style.SubTitle>
         </style.Enclosure>
         <style.SideBox>
-          <style.Time>{formatDate(creationDate) + dateText}</style.Time>
-          {!isArchiving && <DeleteButton />}
+          <style.Time>
+            {formatDate(creationDate)}에 {dateText}
+          </style.Time>
+          {!isArchiving && <XButton />}
         </style.SideBox>
       </style.TitleWrapper>
       <style.TextWrapper>
@@ -64,7 +83,7 @@ export function ReviewCard({ props, isArchiving, onClick, selectedSearchOptions 
         <style.BodyText>선택옵션</style.BodyText>
         <style.OptionBox>
           {selectedOptions.map(({ name }) => (
-            <style.Enclosure key={name} onClick={() => onClick(name)}>
+            <style.Enclosure key={name}>
               <OptionSelectCard
                 isArchiving={isArchiving}
                 isActive={isArchiving ? selectedSearchOptions.has(name) : false}

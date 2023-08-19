@@ -57,23 +57,29 @@ interface MyCarTypeProps {
 }
 
 interface MyCarDetailProps {
-  title: string;
-  price: number;
+  name: string;
+  additionalPrice: number;
 }
 
 interface MyCarDetailPropsWithId extends MyCarDetailProps {
   id: number;
 }
 
+interface MyCarTrimProps {
+  id: number;
+  name: string;
+  price: number;
+}
+
 export interface MyCarProps {
   carType: MyCarTypeProps;
-  trim: MyCarDetailPropsWithId;
+  trim: MyCarTrimProps;
   engine: MyCarDetailPropsWithId;
   bodyType: MyCarDetailPropsWithId;
   wheelDrive: MyCarDetailPropsWithId;
-  outerColor: { title: string; imageUrl: string; price: number };
-  innerColor: { title: string; imageUrl: string; id: number };
-  options: OptionContextProps[];
+  exteriorColor: { name: string; colorImageUrl: string; additionalPrice: number };
+  interiorColor: { name: string; colorImageUrl: string; id: number };
+  selectedOptions: OptionContextProps[];
   carImageUrl: string;
   [key: string]: any;
 }

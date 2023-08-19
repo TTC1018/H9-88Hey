@@ -66,6 +66,10 @@ export function checkIsNPerformancePage(path: string) {
   return path === '/option/n-performance';
 }
 
+export function checkIsResultPage(path: string) {
+  return path === '/result';
+}
+
 // DEPRECATED
 export function checkOptionsChanged(options: OptionContextProps[]) {
   const selectOptions = options.filter(({ path }) => path === '/option');

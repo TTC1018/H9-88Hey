@@ -1,5 +1,8 @@
-import { useFetch } from '@/hooks/useFetch';
 import { MyFeedDataProps } from '@/types/myChiving';
+import { useFetch } from '@/hooks/useFetch';
+
+import { FeedList } from '@/components/MyChiving/FeedList';
+import { NoDataInfo } from '@/components/MyChiving/NoDataInfo';
 
 import * as Styled from './style';
 
@@ -13,31 +16,38 @@ const initialData = {
       trimOptions: [''],
       interiorColor: '',
       exteriorColor: '',
-      creatrionDate: '',
+      creationDate: '',
       selectedOptions: [
         {
           name: '',
           imageUrl: '',
+          subOptions: [''],
+          tags: [''],
+          review: '',
         },
       ],
       review: '',
       tags: [''],
+      totalPrice: 0,
     },
   ],
 };
 
 export function MyFeed() {
-  const { data } = useFetch<MyFeedDataProps>({ defaultValue: initialData, url: '/mychiving/feed' });
+  const {
+    data: { archivingsByUser },
+  } = useFetch<MyFeedDataProps>({ defaultValue: initialData, url: '/mychiving/feed' });
 
   return (
     <Styled.Container>
-      {data.archivingsByUser.length > 0 ? (
-        <>FEED</>
+      {archivingsByUser.length > 0 ? (
+        <FeedList myChivings={archivingsByUser} />
       ) : (
-        <Styled.NoDataInfoBox>
-          <Styled.NoDataInfoText>피드에 저장한 차량이 없어요</Styled.NoDataInfoText>
-          <Styled.CreateMyCarButton>아카이빙에서 차량 검색하기</Styled.CreateMyCarButton>
-        </Styled.NoDataInfoBox>
+        <NoDataInfo
+          infoText="피드에 저장한 차량이 없어요"
+          buttonText="아카이빙에서 차량 검색하기"
+          toPath="/archiving"
+        />
       )}
     </Styled.Container>
   );

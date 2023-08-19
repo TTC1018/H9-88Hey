@@ -1,8 +1,7 @@
-import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
 export const Contianer = styled.div`
-  height: 500px;
+  margin-top: 25px;
   gap: 15px;
 
   display: flex;
@@ -20,39 +19,4 @@ export const MyCarBox = styled.div`
 export const EmptyBox = styled.div`
   width: 506px;
   height: 239px;
-`;
-
-export const NoDataInfoBox = styled.div`
-  gap: 20px;
-
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-`;
-
-export const NoDataInfoText = styled.span`
-  ${({ theme }) => {
-    const { colors, fonts } = theme;
-    return css`
-      ${fonts.bodyMedium3};
-      color: ${colors.black};
-    `;
-  }}
-`;
-
-export const CreateMyCarButton = styled.button`
-  ${({ theme }) => {
-    const { colors, fonts } = theme;
-    return css`
-      width: 343px;
-      height: 56px;
-
-      ${fonts.bodyMedium2};
-      color: #fff;
-      text-align: center;
-
-      background-color: ${colors.hyundaiPrimaryBlue};
-      border-radius: 8px;
-    `;
-  }}
 `;

@@ -6,6 +6,7 @@ import { checkIsOptionPage, checkIsHGenuineAccessoriesPage } from '@/utils';
 import { MyCarProps } from '@/types/trim';
 import { NAVIGATION_PATH, TAG_CHIP_MAX_NUMBER } from '@/constants';
 
+import { ColorCircle } from '@/components/common/ColorCircle';
 import { EstimateModal } from './EstimateModal';
 
 import * as Styled from './style';
@@ -15,10 +16,18 @@ interface FooterProps {
   totalPrice: number;
   carCode: MutableRefObject<string>;
   onSetLocalStorage: () => void;
+  setDisplayAutoSaving: () => void;
   clearHGenuineAccessories: () => void;
 }
 
-export function Footer({ myCarData, totalPrice, carCode, onSetLocalStorage, clearHGenuineAccessories }: FooterProps) {
+export function Footer({
+  myCarData,
+  totalPrice,
+  carCode,
+  onSetLocalStorage,
+  setDisplayAutoSaving,
+  clearHGenuineAccessories,
+}: FooterProps) {
   const { pathname } = useLocation();
   const navigate = useNavigate();
 
@@ -32,11 +41,11 @@ export function Footer({ myCarData, totalPrice, carCode, onSetLocalStorage, clea
     setIsOpen(false);
   }
 
-  const { trim, engine, bodyType, wheelDrive, outerColor, innerColor, options } = myCarData;
+  const { trim, engine, bodyType, wheelDrive, exteriorColor, interiorColor, options } = myCarData;
 
-  const trimOptions = `${engine.title}${bodyType.title !== '' ? '/' : ''}${bodyType.title}${
-    wheelDrive.title !== '' ? '/' : ''
-  }${wheelDrive.title}`;
+  const trimOptions = `${engine.name}${bodyType.name !== '' ? '/' : ''}${bodyType.name}${
+    wheelDrive.name !== '' ? '/' : ''
+  }${wheelDrive.name}`;
 
   const pathKey = pathname.endsWith('/') ? pathname.slice(0, -1) : pathname;
 
@@ -75,11 +84,13 @@ export function Footer({ myCarData, totalPrice, carCode, onSetLocalStorage, clea
   function handleNextNavigate() {
     const path = NAVIGATION_PATH[pathKey as keyof typeof NAVIGATION_PATH].next;
     handleNavigate(path);
+    setDisplayAutoSaving();
   }
 
   function handlePrevNavigate() {
     const path = NAVIGATION_PATH[pathKey as keyof typeof NAVIGATION_PATH].prev;
     handleNavigate(path);
+    setDisplayAutoSaving();
   }
 
   if (pathname === '/result') {
@@ -90,7 +101,7 @@ export function Footer({ myCarData, totalPrice, carCode, onSetLocalStorage, clea
     <Styled.Container>
       <Styled.TrimWrapper>
         <Styled.Title>트림</Styled.Title>
-        <Styled.CarName>{trim.title}</Styled.CarName>
+        <Styled.CarName>{trim.name}</Styled.CarName>
         <Styled.TrimDetail>{trimOptions}</Styled.TrimDetail>
       </Styled.TrimWrapper>
       <Styled.Division />
@@ -99,15 +110,15 @@ export function Footer({ myCarData, totalPrice, carCode, onSetLocalStorage, clea
         <Styled.ColorBox>
           <Styled.ColorTitle>외장</Styled.ColorTitle>
           <Styled.ColorName>
-            <Styled.ColorCircle imageUrl={outerColor.imageUrl || ''} />
-            <Styled.ColorNameText>{outerColor.title}</Styled.ColorNameText>
+            <ColorCircle imageUrl={exteriorColor.colorImageUrl || ''} />
+            <Styled.ColorNameText>{exteriorColor.name}</Styled.ColorNameText>
           </Styled.ColorName>
         </Styled.ColorBox>
         <Styled.ColorBox>
           <Styled.ColorTitle>내장</Styled.ColorTitle>
           <Styled.ColorName>
-            <Styled.ColorCircle imageUrl={innerColor.imageUrl || ''} />
-            <Styled.ColorNameText>{innerColor.title}</Styled.ColorNameText>
+            <ColorCircle imageUrl={interiorColor.colorImageUrl || ''} />
+            <Styled.ColorNameText>{interiorColor.name}</Styled.ColorNameText>
           </Styled.ColorName>
         </Styled.ColorBox>
       </Styled.ColorWrapper>

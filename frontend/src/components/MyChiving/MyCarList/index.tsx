@@ -1,31 +1,35 @@
+import { MouseEvent } from 'react';
+
+import { formatDate } from '@/utils';
+import { MyChivingProps } from '@/types/myChiving';
+
 import { XButton } from '@/components/MyChiving/XButton';
 
 import * as Styled from './style';
 
-interface OptionProps {
-  name: string;
-  imageUrl: string;
+interface ClickEventDataProps {
+  deleteText: string;
+  moveText: string;
 }
 
 interface MyCarListProps {
-  isSaved: boolean;
-  model: string;
-  trim: string;
-  trimOptions: string[];
-  lastModifiedDate: string;
-  selectedOptions: OptionProps[];
+  myChiving: MyChivingProps;
+  onClick: (myChiving: MyChivingProps, data: ClickEventDataProps, event: MouseEvent<HTMLDivElement>) => void;
 }
 
-export function MyCarList({ isSaved, model, trim, trimOptions, lastModifiedDate, selectedOptions }: MyCarListProps) {
-  const modifiedDate = lastModifiedDate.split('-');
-  const date = `${modifiedDate[0].slice(2)}년 ${modifiedDate[1]}월 ${modifiedDate[2]}일`;
-  const dateInfoText = isSaved ? `${date}에 만들었어요.` : `${date} 임시저장`;
+export function MyCarList({ myChiving, onClick }: MyCarListProps) {
+  const { isSaved, model, trim, engine, bodyType, wheelDrive, lastModifiedDate, selectedOptions } = myChiving;
 
-  // 모달창 출력
-  function handleClick() {}
+  const date = formatDate(lastModifiedDate);
+  const dateInfoText = isSaved ? `${date}에 만들었어요.` : `${date} 임시저장`;
+  const trimOptions = `${engine?.name ? engine.name : ''}${bodyType?.name ? ` / ${bodyType.name}` : ''} ${
+    wheelDrive?.name ? ` / ${wheelDrive.name}` : ''
+  }`;
 
   return (
-    <Styled.Container>
+    <Styled.Container
+      onClick={event => onClick(myChiving, { deleteText: `${model.name} ${trim?.name}`, moveText: `${date}` }, event)}
+    >
       <Styled.Wrapper>
         <Styled.InfoBox>
           {!isSaved && <Styled.InfoText>저장하지 않고 나간 차량이 있어요.</Styled.InfoText>}
@@ -33,17 +37,17 @@ export function MyCarList({ isSaved, model, trim, trimOptions, lastModifiedDate,
         <Styled.MainBox>
           <Styled.Title>
             <Styled.TitleText>
-              {model} {trim}
+              {model.name} {trim?.name}
             </Styled.TitleText>
-            <Styled.TrimText>{trimOptions.join(' / ')}</Styled.TrimText>
+            <Styled.TrimText>{trimOptions}</Styled.TrimText>
           </Styled.Title>
           <Styled.SubTitle>
             <Styled.SubTitleText isSaved={isSaved}>{dateInfoText}</Styled.SubTitleText>
-            <XButton onClick={handleClick} />
+            <XButton />
           </Styled.SubTitle>
         </Styled.MainBox>
         <Styled.OptionBox>
-          {selectedOptions.length > 0 ? (
+          {selectedOptions !== undefined && selectedOptions.length > 0 ? (
             selectedOptions.map((option, index) => (
               <Styled.OptionCard key={index} imageUrl={option.imageUrl}>
                 <Styled.OptionCardText>{option.name}</Styled.OptionCardText>
