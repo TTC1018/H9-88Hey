@@ -41,7 +41,7 @@ export function Footer({
     setIsOpen(false);
   }
 
-  const { trim, engine, bodyType, wheelDrive, outerColor, innerColor, options } = myCarData;
+  const { trim, engine, bodyType, wheelDrive, exteriorColor, interiorColor, options } = myCarData;
 
   const trimOptions = `${engine.name}${bodyType.name !== '' ? '/' : ''}${bodyType.name}${
     wheelDrive.name !== '' ? '/' : ''
@@ -110,15 +110,15 @@ export function Footer({
         <Styled.ColorBox>
           <Styled.ColorTitle>외장</Styled.ColorTitle>
           <Styled.ColorName>
-            <ColorCircle imageUrl={outerColor.imageUrl || ''} />
-            <Styled.ColorNameText>{outerColor.title}</Styled.ColorNameText>
+            <ColorCircle imageUrl={exteriorColor.colorImageUrl || ''} />
+            <Styled.ColorNameText>{exteriorColor.name}</Styled.ColorNameText>
           </Styled.ColorName>
         </Styled.ColorBox>
         <Styled.ColorBox>
           <Styled.ColorTitle>내장</Styled.ColorTitle>
           <Styled.ColorName>
-            <ColorCircle imageUrl={innerColor.imageUrl || ''} />
-            <Styled.ColorNameText>{innerColor.title}</Styled.ColorNameText>
+            <ColorCircle imageUrl={interiorColor.colorImageUrl || ''} />
+            <Styled.ColorNameText>{interiorColor.name}</Styled.ColorNameText>
           </Styled.ColorName>
         </Styled.ColorBox>
       </Styled.ColorWrapper>

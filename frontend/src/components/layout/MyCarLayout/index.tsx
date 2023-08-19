@@ -37,7 +37,7 @@ export function MyCarLayout() {
   const carCode = useRef('');
   carCode.current = carCodeData === null ? '' : carCodeData;
 
-  const myCarKeysWithPrice = ['trim', 'engine', 'bodyType', 'wheelDrive', 'outerColor'];
+  const myCarKeysWithPrice = ['trim', 'engine', 'bodyType', 'wheelDrive', 'exteriorColor'];
 
   const calclPrice =
     myCarKeysWithPrice.reduce((acc, cur) => acc + myCar[cur].price, 0) +
