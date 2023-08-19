@@ -3,12 +3,11 @@ import { useState, useContext, ChangeEvent, FormEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { AuthContext } from '@/AuthProvider';
-import { API_URL } from '@/constants';
 import { getLocalStorage, setLocalStorage } from '@/utils';
+import { isEmailEmpty, isPasswordEmpty, isEmailValid } from '@/utils/auth';
+import { API_URL, emailRegex, AUTH_ALERT_MESSAGE } from '@/constants';
 
 import * as Styled from './style';
-
-const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
 
 export function Signin() {
   const [account, setAccount] = useState({
@@ -28,18 +27,6 @@ export function Signin() {
     setAccount(prev => ({ ...prev, [name]: value }));
   }
 
-  function isEmailEmpty() {
-    return account.email === '';
-  }
-
-  function isPasswordEmpty() {
-    return account.password === '';
-  }
-
-  function isEmailValid() {
-    return emailRegex.test(account.email);
-  }
-
   function handleAlert(message: string) {
     setIsShow(true);
     setAlert(message);
@@ -47,21 +34,21 @@ export function Signin() {
 
   async function handleSignin(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-
     setIsDisabled(true);
+    const { email, password } = account;
 
-    if (isEmailEmpty()) {
-      handleAlert('이메일 주소가 필요합니다.');
+    if (isEmailEmpty(email)) {
+      handleAlert(AUTH_ALERT_MESSAGE.EMAIL_EMPTY);
       return;
     }
 
-    if (isPasswordEmpty()) {
-      handleAlert('비밀번호가 필요합니다.');
+    if (isPasswordEmpty(password)) {
+      handleAlert(AUTH_ALERT_MESSAGE.PASSWORD_EMPTY);
       return;
     }
 
-    if (!isEmailValid()) {
-      handleAlert('이메일 주소가 유효하지 않습니다.');
+    if (!isEmailValid(email, emailRegex)) {
+      handleAlert(AUTH_ALERT_MESSAGE.EMAIL_INVALID);
       return;
     }
 
@@ -78,7 +65,7 @@ export function Signin() {
       setLocalStorage('refreshToken', refreshToken);
       setUsername(username);
     } catch (error: unknown) {
-      handleAlert('이메일 또는 비밀번호가 잘못 입력되었습니다.');
+      handleAlert(AUTH_ALERT_MESSAGE.ACCOUNT_INCORRECT);
     }
 
     setIsDisabled(false);
