@@ -18,7 +18,7 @@ public class ArchivingWheelDriveRepository {
 	public WheelDriveDto findByCarCode(final String carCode) {
 		String sql = "SELECT wheelType.id, wheelType.name, wheelType.additional_price "
 			+ "FROM wheelType "
-			+ "LEFT JOIN carNormalTypes on wheelType.id = carNormalTypes.body_type_id "
+			+ "LEFT JOIN carNormalTypes on wheelType.id = carNormalTypes.wheel_type_id "
 			+ "WHERE carNormalTypes.id = :carCode";
 
 		MapSqlParameterSource params = new MapSqlParameterSource()

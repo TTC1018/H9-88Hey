@@ -24,9 +24,9 @@ class ArchivingEngineRepositoryTest {
 		EngineDto dto = repository.findByCarCode(carCode);
 
 		assertAll(
-			() -> assertEquals(1, dto.getId()),
-			() -> assertEquals("디젤 2.2", dto.getName()),
-			() -> assertEquals(0, dto.getAdditionalPrice())
+			() -> assertEquals(2, dto.getId()),
+			() -> assertEquals("가솔린 3.8", dto.getName()),
+			() -> assertEquals(1480000, dto.getAdditionalPrice())
 		);
 	}
 }

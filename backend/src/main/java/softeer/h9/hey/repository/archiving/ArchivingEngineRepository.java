@@ -18,7 +18,7 @@ public class ArchivingEngineRepository {
 	public EngineDto findByCarCode(final String carCode) {
 		String sql = "SELECT `engine`.id, `engine`.name, `engine`.additional_price "
 			+ "FROM `engine` "
-			+ "LEFT JOIN carNormalTypes on `engine`.id = carNormalTypes.body_type_id "
+			+ "LEFT JOIN carNormalTypes on `engine`.id = carNormalTypes.engine_id "
 			+ "WHERE carNormalTypes.id = :carCode";
 
 		MapSqlParameterSource params = new MapSqlParameterSource()

@@ -24,9 +24,9 @@ class ArchivingTrimRepositoryTest {
 		TrimDto dto = repository.findByCarCode(carCode);
 
 		assertAll(
-			() -> assertEquals(1, dto.getId()),
-			() -> assertEquals("Le Blanc", dto.getName()),
-			() -> assertEquals(41980000, dto.getPrice())
+			() -> assertEquals(4, dto.getId()),
+			() -> assertEquals("Calligraphy", dto.getName()),
+			() -> assertEquals(51060000, dto.getPrice())
 		);
 	}
 }

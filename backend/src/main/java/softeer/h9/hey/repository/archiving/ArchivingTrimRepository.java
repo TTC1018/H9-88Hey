@@ -18,7 +18,7 @@ public class ArchivingTrimRepository {
 	public TrimDto findByCarCode(final String carCode) {
 		String sql = "SELECT trim.id, trim.name, trim.price "
 			+ "FROM trim "
-			+ "LEFT JOIN carNormalTypes on trim.id = carNormalTypes.body_type_id "
+			+ "LEFT JOIN carNormalTypes on trim.id = carNormalTypes.trim_id "
 			+ "WHERE carNormalTypes.id = :carCode";
 
 		MapSqlParameterSource params = new MapSqlParameterSource()
