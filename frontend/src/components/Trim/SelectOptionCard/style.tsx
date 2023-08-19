@@ -25,8 +25,10 @@ const Container = styled.div<ActiveStateProps>`
       color: ${isActive ? colors.hyundaiPrimaryBlue : colors.black};
 
       border-radius: 8px;
-      border: 2px solid ${isActive ? colors.hyundaiPrimaryBlue : colors.hyundaiLightSand};
+      border: 3px solid ${isActive ? colors.hyundaiPrimaryBlue : colors.hyundaiLightSand};
       background: ${isActive ? 'rgba(0, 44, 95, 0.10)' : colors.hyundaiLightSand};
+
+      cursor: pointer;
 
       cursor: pointer;
 
@@ -62,8 +64,8 @@ const Container = styled.div<ActiveStateProps>`
 
       &:hover::before,
       &:hover::after {
-        width: 100%;
-        height: 100%;
+        width: calc(2px + 100%);
+        height: calc(2px + 100%);
 
         ${!isActive && 'visibility: visible;'}
       }

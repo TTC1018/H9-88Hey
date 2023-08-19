@@ -28,12 +28,12 @@ export const ModalContainer = styled.div`
   background: #fff;
   box-shadow: -2px 0px 12px 0px rgba(78, 81, 94, 0.25);
 
-  animation: appear 0.8s cubic-bezier(0.77, 0, 0.175, 1) forwards;
+  animation: appear 0.5s cubic-bezier(0.77, 0, 0.175, 1) forwards;
 
   @keyframes appear {
     from {
       opacity: 0;
-      transform: translate(-50%, -48%);
+      transform: translate(-50%, -50%);
     }
     to {
       opacity: 1;

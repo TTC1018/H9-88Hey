@@ -56,11 +56,6 @@ export const OptionCardWrapper = styled.div<OptionCardProps>`
   }}
 `;
 
-export const Image = styled.img`
-  width: 160px;
-  height: 93px;
-`;
-
 export const DescriptionWrapper = styled.div`
   width: 100%;
   height: 104px;
