@@ -23,14 +23,19 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import softeer.h9.hey.auth.domain.User;
 import softeer.h9.hey.auth.dto.request.JoinRequest;
 import softeer.h9.hey.auth.dto.request.LoginRequest;
+import softeer.h9.hey.auth.exception.JoinException;
 import softeer.h9.hey.auth.exception.LoginException;
 import softeer.h9.hey.auth.repository.UserRepository;
+import softeer.h9.hey.auth.service.JwtTokenProvider;
 
 @SpringBootTest
 @AutoConfigureMockMvc
 @Transactional
-@DisplayName("AuthController Test")
+@DisplayName("AuthController 테스트")
 class AuthControllerTest {
+
+	@SpyBean
+	JwtTokenProvider jwtTokenProvider;
 
 	@SpyBean
 	UserRepository userRepository;
@@ -47,7 +52,7 @@ class AuthControllerTest {
 		String userName = "userName";
 
 		mockMvc.perform(
-				post("/auth/sign-up")
+				post("/auth/signup")
 					.contentType(MediaType.APPLICATION_JSON)
 					.content(objectMapper.writeValueAsString(new JoinRequest("email", "password", userName))))
 			.andExpect(status().isOk())
@@ -70,16 +75,24 @@ class AuthControllerTest {
 					.content(objectMapper.writeValueAsString(new JoinRequest("email", "testPassword", "userName"))))
 			.andExpect(status().isConflict())
 			.andExpect(jsonPath("$.statusCode").value(HttpStatus.CONFLICT.value()))
-			.andExpect(jsonPath("$.message").value(LoginException.LOGIN_FAIL_MESSAGE));
+			.andExpect(jsonPath("$.message").value(JoinException.LOGIN_FAIL_MESSAGE));
 	}
 
 	@Test
 	@DisplayName("로그인 요청을 정상적으로 처리한다.")
 	void signInTest() throws Exception {
+		String email = "email";
+		String password = "password";
+		String userName = "userName";
+		User user = new User(email, password, userName);
+		user.setId(1);
+
+		when(userRepository.findByEmail(email)).thenReturn(Optional.of(user));
+
 		mockMvc.perform(
 				post("/auth/signin")
 					.contentType(MediaType.APPLICATION_JSON)
-					.content(objectMapper.writeValueAsString(new LoginRequest("email", "testPassword"))))
+					.content(objectMapper.writeValueAsString(new LoginRequest(email, password))))
 			.andExpect(status().isOk())
 			.andExpectAll(
 				jsonPath("$.data.accessToken").exists(),
