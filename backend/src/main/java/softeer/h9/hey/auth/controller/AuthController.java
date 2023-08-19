@@ -2,6 +2,9 @@ package softeer.h9.hey.auth.controller;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,6 +16,9 @@ import softeer.h9.hey.auth.dto.request.AccessTokenRequest;
 import softeer.h9.hey.auth.dto.request.JoinRequest;
 import softeer.h9.hey.auth.dto.request.LoginRequest;
 import softeer.h9.hey.auth.dto.response.TokenResponse;
+import softeer.h9.hey.auth.exception.InvalidTokenException;
+import softeer.h9.hey.auth.exception.JoinException;
+import softeer.h9.hey.auth.exception.LoginException;
 import softeer.h9.hey.auth.service.AuthService;
 import softeer.h9.hey.dto.global.response.GlobalResponse;
 
@@ -44,5 +50,23 @@ public class AuthController {
 
 		TokenResponse tokenResponse = authService.republishAccessToken(accessTokenRequest);
 		return GlobalResponse.ok(tokenResponse);
+	}
+
+	@ExceptionHandler
+	public ResponseEntity<?> handlerException(LoginException e) {
+		GlobalResponse<?> errorResponse = GlobalResponse.error(HttpStatus.UNAUTHORIZED, e.getMessage());
+		return new ResponseEntity<>(errorResponse, HttpStatus.UNAUTHORIZED);
+	}
+
+	@ExceptionHandler
+	public ResponseEntity<?> handlerException(JoinException e) {
+		GlobalResponse<?> errorResponse = GlobalResponse.error(HttpStatus.CONFLICT, e.getMessage());
+		return new ResponseEntity<>(errorResponse, HttpStatus.CONFLICT);
+	}
+
+	@ExceptionHandler
+	public ResponseEntity<?> handlerException(InvalidTokenException e) {
+		GlobalResponse<?> errorResponse = GlobalResponse.error(HttpStatus.UNAUTHORIZED, e.getMessage());
+		return new ResponseEntity<>(errorResponse, HttpStatus.UNAUTHORIZED);
 	}
 }
