@@ -37,7 +37,7 @@ class EngineControllerTest {
 				jsonPath("$.statusCode").value(200),
 				jsonPath("$.data.engines[0]").exists(),
 				jsonPath("$.data.engines[0].id").value(1),
-				jsonPath("$.data.engines[0].additionalPrice").value(0),
+				jsonPath("$.data.engines[0].additionalPrice").value(1480000),
 				jsonPath("$.data.engines[0].modelId").value(1),
 				jsonPath("$.data.engines[0].imageUrl").exists(),
 				jsonPath("$.data.engines[0].description").value("높은 토크로 파워풀한 드라이빙이 가능하며, 차급대비 연비 효율이 우수합니다"),
