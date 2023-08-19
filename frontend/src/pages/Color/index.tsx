@@ -4,7 +4,6 @@ import { useOutletContext } from 'react-router-dom';
 
 import { fetcher } from '@/utils/fetcher';
 import { MyCarActionType } from '@/constants';
-import { useFetch } from '@/hooks/useFetch';
 import { useSelectIndex } from '@/hooks/useSelectedIndex';
 import { useFetchSuspense } from '@/hooks/useFetchSuspense';
 import { ColorDataProps, InteriorColorsProps } from '@/types/color';
@@ -68,7 +67,7 @@ export function Color() {
         additionalPrice,
       },
     });
-    dispatch({ type: MyCarActionType.CAR_IMAGE_URL, props: `${carImagePath}001.png` });
+    dispatch({ type: MyCarActionType.CAR_IMAGE_URL, props: `${carImagePath}` });
   }
 
   function updateInnerColor(list: InteriorColorsProps[], index: number) {
@@ -142,46 +141,48 @@ export function Color() {
 
   return (
     <Styled.Container>
-      <Styled.Wrapper>
+      <Styled.ImageWrapper>
         {isExternalPage ? <ExternalCarImage imageUrl={externalCarImage} /> : <InnerCarImage imageUrl={innerCarImage} />}
         <MyCarDescription title={descriptionTitle} price={descriptionPrice} hasTag={false} />
-      </Styled.Wrapper>
-      <Styled.Wrapper>
-        <Styled.Box>
-          <Styled.TitleBox>
-            <Styled.Title>외장 색상</Styled.Title>
-            <Styled.ColorName>{externalName}</Styled.ColorName>
-          </Styled.TitleBox>
-          <Styled.Division />
-          <Styled.ColorBox>
-            {exteriorColors.map(({ name, colorImageUrl, additionalPrice }, index) => (
-              <Styled.ColorCard key={name} onClick={() => handleClickExternalColor(index)}>
-                <Styled.ColorCardRect colorUrl={colorImageUrl} isActive={isSelectedExternalColor(name)} />
-                <Styled.ColorCardName>{name}</Styled.ColorCardName>
-                {additionalPrice > 0 && (
-                  <Styled.ColorCardName>(+{additionalPrice.toLocaleString()}원)</Styled.ColorCardName>
-                )}
-                {isSelectedExternalColor(name) && <CheckIcon isInnerColorIcon={true} />}
-              </Styled.ColorCard>
-            ))}
-          </Styled.ColorBox>
-        </Styled.Box>
-        <Styled.Box>
-          <Styled.TitleBox>
-            <Styled.Title>내장 색상</Styled.Title>
-            <Styled.ColorName>{innerName}</Styled.ColorName>
-          </Styled.TitleBox>
-          <Styled.Division />
-          <Styled.InteriorColorBox>
-            {availableInnerColorList.map(({ name, colorImageUrl }, index) => (
-              <Styled.InteriorColorCard key={name} onClick={() => handleClickInnerColor(index)}>
-                <Styled.InteriorColorButton isActive={isSelectedInnerColor(name)} bgImage={colorImageUrl} />
-                {isSelectedInnerColor(name) && <CheckIcon isInnerColorIcon={false} />}
-              </Styled.InteriorColorCard>
-            ))}
-          </Styled.InteriorColorBox>
-        </Styled.Box>
-      </Styled.Wrapper>
+      </Styled.ImageWrapper>
+      <Styled.ColorWrapper>
+        <Styled.ColorEnclosure>
+          <Styled.Box>
+            <Styled.TitleBox>
+              <Styled.Title>외장 색상</Styled.Title>
+              <Styled.ColorName>{externalName}</Styled.ColorName>
+            </Styled.TitleBox>
+            <Styled.Division />
+            <Styled.ColorBox>
+              {exteriorColors.map(({ name, colorImageUrl, additionalPrice }, index) => (
+                <Styled.ColorCard key={name} onClick={() => handleClickExternalColor(index)}>
+                  <Styled.ColorCardRect colorUrl={colorImageUrl} isActive={isSelectedExternalColor(name)} />
+                  <Styled.ColorCardName>{name}</Styled.ColorCardName>
+                  {additionalPrice > 0 && (
+                    <Styled.ColorCardName>(+{additionalPrice.toLocaleString()}원)</Styled.ColorCardName>
+                  )}
+                  {isSelectedExternalColor(name) && <CheckIcon isInnerColorIcon={true} />}
+                </Styled.ColorCard>
+              ))}
+            </Styled.ColorBox>
+          </Styled.Box>
+          <Styled.Box>
+            <Styled.TitleBox>
+              <Styled.Title>내장 색상</Styled.Title>
+              <Styled.ColorName>{innerName}</Styled.ColorName>
+            </Styled.TitleBox>
+            <Styled.Division />
+            <Styled.InteriorColorBox>
+              {availableInnerColorList.map(({ name, colorImageUrl }, index) => (
+                <Styled.InteriorColorCard key={name} onClick={() => handleClickInnerColor(index)}>
+                  <Styled.InteriorColorButton isActive={isSelectedInnerColor(name)} bgImage={colorImageUrl} />
+                  {isSelectedInnerColor(name) && <CheckIcon isInnerColorIcon={false} />}
+                </Styled.InteriorColorCard>
+              ))}
+            </Styled.InteriorColorBox>
+          </Styled.Box>
+        </Styled.ColorEnclosure>
+      </Styled.ColorWrapper>
     </Styled.Container>
   );
 }

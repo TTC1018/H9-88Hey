@@ -1,4 +1,4 @@
-import { useEffect, useLayoutEffect, useRef } from 'react';
+import { useLayoutEffect, useRef } from 'react';
 
 import { ArchivingProps } from '@/types/archiving';
 import { updateMasonryLayout } from '@/utils/updateMasonryLayout';

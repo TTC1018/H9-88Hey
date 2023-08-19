@@ -1,4 +1,4 @@
-import { Suspense, useEffect, useReducer, useRef } from 'react';
+import { Suspense, useEffect, useReducer, useRef, useState } from 'react';
 
 import { Outlet, useLocation } from 'react-router-dom';
 
@@ -8,8 +8,8 @@ import { MyCarActionType } from '@/constants';
 
 import { Header } from '@/components/common/Header';
 import { Footer } from '@/components/common/Footer';
-import { Loading } from '@/components/common/Loading';
 import { Navigation } from '@/components/common/Navigation';
+import { Loading } from '@/components/common/Loading';
 
 import * as Styled from './style';
 
@@ -78,6 +78,17 @@ export function MyCarLayout() {
     myCarKeysWithPrice.reduce((acc, cur) => acc + myCar[cur].additionalPrice, 0) +
     myCar.options.reduce((acc, cur) => acc + cur.additionalPrice, 0);
 
+  const [isSavingNow, setIsSavingNow] = useState(false);
+  if (isSavingNow) {
+    setTimeout(() => {
+      setIsSavingNow(false);
+    }, 2000);
+  }
+
+  function setAutoSaving() {
+    setIsSavingNow(true);
+  }
+
   function clearHGenuineAccessories() {
     const clearedOptions = myCar.options.filter(option => option.path !== '/option/h-genuine-accessories');
     dispatch({ type: MyCarActionType.CLEAR_OPTION, props: clearedOptions });
@@ -107,7 +118,7 @@ export function MyCarLayout() {
 
   return (
     <Styled.Container isFull={checkIsResultPage()}>
-      <Header />
+      <Header isSaving={isSavingNow} />
       <Navigation />
       <Styled.Wrapper isFull={checkIsResultPage()}>
         <Suspense fallback={<Loading />}>
@@ -125,6 +136,7 @@ export function MyCarLayout() {
       <Footer
         myCarData={myCar}
         calculatePrice={totalPrice}
+        setDisplayAutoSaving={setAutoSaving}
         onSetLocalStorage={handleLocalStorage}
         carCode={carCode}
         clearHGenuineAccessories={clearHGenuineAccessories}

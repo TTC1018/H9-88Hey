@@ -1,9 +1,23 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
-export const Container = styled.div``;
+export const Container = styled.div`
+  width: 100vw;
+  top: 0;
+  padding: 20px 0 0 0;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: sticky;
+
+  background-color: #fff;
+
+  z-index: 1;
+`;
 
 export const Wrapper = styled.div`
+  width: 1024px;
   gap: 25px;
 
   display: flex;
@@ -26,15 +40,31 @@ export const TitleText = styled.span<TitleTextProps>`
 
       &::after {
         width: 100%;
-        height: 6px;
+        height: ${isActive ? '6px' : '0px'};
         left: 0;
         bottom: -14px;
 
         position: absolute;
 
-        background-color: ${isActive ? colors.black : colors.hyundaiLightSand};
+        background-color: ${colors.black};
+
+        transform-origin: center;
+        transform: ${isActive ? 'scaleX(1)' : 'scaleX(0)'};
+        transition: transform 0.25s ease-out;
 
         content: '';
+      }
+
+      &:hover {
+        color: ${colors.black};
+
+        cursor: pointer;
+      }
+      &:hover:after {
+        height: 6px;
+
+        transform: scaleX(1);
+        transform-origin: center;
       }
     `;
   }}
@@ -46,7 +76,7 @@ export const Division = styled.div`
     return css`
       width: 100%;
       height: 6px;
-      margin: 8px 0 25px 0;
+      margin: 8px 0 0 0;
 
       background-color: ${colors.hyundaiLightSand};
     `;

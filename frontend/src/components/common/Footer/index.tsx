@@ -7,6 +7,7 @@ import { MyCarProps } from '@/types/trim';
 import { useCountPrice } from '@/hooks/useCountPrice';
 import { NAVIGATION_PATH, TAG_CHIP_MAX_NUMBER } from '@/constants';
 
+import { ColorCircle } from '@/components/common/ColorCircle';
 import { EstimateModal } from './EstimateModal';
 
 import * as Styled from './style';
@@ -16,10 +17,18 @@ interface FooterProps {
   calculatePrice: number;
   carCode: MutableRefObject<string>;
   onSetLocalStorage: () => void;
+  setDisplayAutoSaving: () => void;
   clearHGenuineAccessories: () => void;
 }
 
-export function Footer({ myCarData, calculatePrice, carCode, onSetLocalStorage }: FooterProps) {
+export function Footer({
+  myCarData,
+  calculatePrice,
+  carCode,
+  onSetLocalStorage,
+  setDisplayAutoSaving,
+}: // clearHGenuineAccessories,
+FooterProps) {
   const prevPrice = useRef(calculatePrice);
 
   const totalPrice = useCountPrice({
@@ -86,11 +95,13 @@ export function Footer({ myCarData, calculatePrice, carCode, onSetLocalStorage }
   function handleNextNavigate() {
     const path = NAVIGATION_PATH[pathKey as keyof typeof NAVIGATION_PATH].next;
     handleNavigate(path);
+    setDisplayAutoSaving();
   }
 
   function handlePrevNavigate() {
     const path = NAVIGATION_PATH[pathKey as keyof typeof NAVIGATION_PATH].prev;
     handleNavigate(path);
+    setDisplayAutoSaving();
   }
 
   if (pathname === '/result') {
@@ -110,14 +121,14 @@ export function Footer({ myCarData, calculatePrice, carCode, onSetLocalStorage }
         <Styled.ColorBox>
           <Styled.ColorTitle>외장</Styled.ColorTitle>
           <Styled.ColorName>
-            <Styled.ColorCircle imageUrl={exteriorColor.colorImageUrl || ''} />
+            <ColorCircle imageUrl={exteriorColor.colorImageUrl || ''} />
             <Styled.ColorNameText>{exteriorColor.name}</Styled.ColorNameText>
           </Styled.ColorName>
         </Styled.ColorBox>
         <Styled.ColorBox>
           <Styled.ColorTitle>내장</Styled.ColorTitle>
           <Styled.ColorName>
-            <Styled.ColorCircle imageUrl={interiorColor.colorImageUrl || ''} />
+            <ColorCircle imageUrl={interiorColor.colorImageUrl || ''} />
             <Styled.ColorNameText>{interiorColor.name}</Styled.ColorNameText>
           </Styled.ColorName>
         </Styled.ColorBox>

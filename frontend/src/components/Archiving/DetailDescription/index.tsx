@@ -1,4 +1,4 @@
-import { SaveButton } from '@/components/common/SaveButton.tsx';
+import { SaveButton } from '@/components/common/SaveButton';
 
 import * as Styled from './style';
 

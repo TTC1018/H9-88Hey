@@ -1,4 +1,3 @@
-import { useEffect, useState } from 'react';
 import * as Styled from './style';
 
 interface MyCarImageBoxPropsWithOption {

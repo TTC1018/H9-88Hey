@@ -75,10 +75,12 @@ export const Button = styled.button`
   ${({ theme }) => {
     const { colors, fonts } = theme;
     return css`
+      width: 74px;
       padding: 4px 8px;
 
       ${fonts.bodyMedium3};
       color: ${colors.hyundaiNeutral};
+      white-space: nowrap;
 
       background-color: ${colors.darkGray};
       border-radius: 4px;

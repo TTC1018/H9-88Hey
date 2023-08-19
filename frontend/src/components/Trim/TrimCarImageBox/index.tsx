@@ -3,7 +3,6 @@ import { useFetch } from '@/hooks/useFetch';
 import { useSelectIndex } from '@/hooks/useSelectedIndex';
 
 import { MyCarImageBox } from '@/components/Trim/MyCarImageBox';
-import { useFetchSuspense } from '@/hooks/useFetchSuspense';
 
 const imageInitialData = {
   carImageUrls: [''],

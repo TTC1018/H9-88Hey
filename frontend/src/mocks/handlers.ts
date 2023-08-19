@@ -10,7 +10,6 @@ import { archivingHandler } from './api/archiving';
 import { archivingCarHandler } from './api/archiving-car';
 import { trimHGenuineAccessoriesHandler } from './api/trim-h-genuine-accessories';
 import { savedMyChivingHandler } from './api/my-archiving-saved';
-import { tempMyChivingHandler } from './api/my-archiving-temp';
 import { feedMyChivingHandler } from './api/my-archiving-feed';
 
 export const handlers = [
@@ -26,6 +25,5 @@ export const handlers = [
   ...archivingHandler,
   ...archivingCarHandler,
   ...savedMyChivingHandler,
-  ...tempMyChivingHandler,
   ...feedMyChivingHandler,
 ];

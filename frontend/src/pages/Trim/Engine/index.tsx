@@ -4,7 +4,6 @@ import { useOutletContext } from 'react-router-dom';
 
 import { EngineDataProps, MyCarLayoutContextProps } from '@/types/trim';
 import { MyCarActionType } from '@/constants';
-import { useFetch } from '@/hooks/useFetch';
 import { useSelectIndex } from '@/hooks/useSelectedIndex';
 
 import { TrimCard } from '@/components/common/TrimCard';
@@ -14,20 +13,6 @@ import { MyCarDescription } from '@/components/common/MyCarDescription';
 import * as Styled from './style';
 import { useFetchSuspense } from '@/hooks/useFetchSuspense';
 import { fetcher } from '@/utils/fetcher';
-
-const initialData = {
-  engines: [
-    {
-      id: 0,
-      name: '',
-      additionalPrice: 0,
-      description: '',
-      maximumPower: '',
-      maximumTorque: '',
-      imageUrl: '',
-    },
-  ],
-};
 
 function engineFetcher() {
   return fetcher<EngineDataProps>({ url: '/car/model/1/engine' });

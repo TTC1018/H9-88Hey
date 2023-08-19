@@ -1,24 +1,26 @@
-import { useState } from 'react';
+import { Fragment, useState } from 'react';
 
 import { MyCarNavigation } from '@/components/MyChiving/MyCarNavigation';
 import { MySavedCar } from '@/components/MyChiving/MySavedCar';
 import { MyFeed } from '@/components/MyChiving/MyFeed';
-
-import { NavIndexContext } from './context';
 
 import * as Styled from './style';
 
 export function MyChiving() {
   const [index, setIndex] = useState(0);
 
+  function handleSetIndex(index: number) {
+    setIndex(index);
+  }
+
   return (
-    <NavIndexContext.Provider value={{ index, setIndex }}>
+    <Fragment>
       <Styled.Container>
         <Styled.Wrapper>
-          <MyCarNavigation />
+          <MyCarNavigation onClick={handleSetIndex} index={index} />
           {index === 0 ? <MySavedCar /> : <MyFeed />}
         </Styled.Wrapper>
       </Styled.Container>
-    </NavIndexContext.Provider>
+    </Fragment>
   );
 }

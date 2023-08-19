@@ -153,4 +153,5 @@ export const SideBox = styled.div`
   gap: 10px;
 
   display: flex;
+  align-items: flex-start;
 `;
