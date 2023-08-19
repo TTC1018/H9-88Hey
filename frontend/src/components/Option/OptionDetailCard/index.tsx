@@ -38,7 +38,7 @@ export function OptionDetailCard({ index, length, name, description, onClick }: 
         <PrevButton width="48" height="48" onClick={() => onClick(index - 1)} />
         <Styled.Description isEmpty={isEmpty}>
           {descriptions.map((description, index) => (
-            <div key={index}>{description}</div>
+            <p key={index}>{description}</p>
           ))}
         </Styled.Description>
         <NextButton width="48" height="48" onClick={() => onClick(index + 1)} />
