@@ -29,9 +29,9 @@ class AuthServiceTest {
 	@Test
 	@DisplayName("아이디와 비밀번호를 전달하여 회원가입을 한다.")
 	void joinTest() {
-		JoinRequest joinRequest = new JoinRequest("userId", "password");
+		JoinRequest joinRequest = new JoinRequest("userId", "password", "name");
 
-		User user = new User("userId", "password");
+		User user = new User("userId", "password", "name");
 		user.setId(1);
 		when(tokenProvider.generateAccessToken(anyString())).thenReturn("accessToken");
 		when(tokenProvider.generateRefreshToken(anyString())).thenReturn("refreshToken");
@@ -47,7 +47,7 @@ class AuthServiceTest {
 	@DisplayName("똑같은 ID로 회원 가입 요청이 들어올 경우 예외를 던진다.")
 	void duplicateJoinTest() {
 		String userId = "userId";
-		JoinRequest joinRequest = new JoinRequest(userId, "password");
+		JoinRequest joinRequest = new JoinRequest(userId, "password", "name");
 
 		when(userRepository.findByUserId(userId)).thenReturn(Optional.of(mock(User.class)));
 
@@ -60,7 +60,9 @@ class AuthServiceTest {
 	void loginTest() {
 		String userId = "userId";
 		String password = "password";
-		User user = new User(userId, password);
+		String name = "name";
+		User user = new User(userId, password, name);
+
 		user.setId(1);
 		LoginRequest loginRequest = new LoginRequest(user.getUserId(), user.getPassword());
 
@@ -78,7 +80,8 @@ class AuthServiceTest {
 	void loginFailTest1() {
 		String userId = "userId";
 		String password = "password";
-		User user = new User(userId, password);
+		String name = "name";
+		User user = new User(userId, password, name);
 
 		LoginRequest loginRequest = new LoginRequest(userId, "wrongPassword");
 
