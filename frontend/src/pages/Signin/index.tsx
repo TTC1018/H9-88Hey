@@ -30,6 +30,7 @@ export function Signin() {
   function handleAlert(message: string) {
     setIsShow(true);
     setAlert(message);
+    setIsDisabled(false);
   }
 
   async function handleSignin(event: FormEvent<HTMLFormElement>) {
