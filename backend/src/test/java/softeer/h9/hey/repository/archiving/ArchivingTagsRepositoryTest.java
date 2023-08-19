@@ -9,8 +9,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import softeer.h9.hey.domain.archiving.Tags;
-
 @SpringBootTest
 @DisplayName("ArchivingTags Repository 테스트")
 class ArchivingTagsRepositoryTest {
@@ -23,11 +21,7 @@ class ArchivingTagsRepositoryTest {
 	void findBySelectOptionId() {
 		Integer id = 32;
 
-		Tags tagDto = repository.findBySelectOptionId(id);
-
-		List<String> tags = tagDto.getTags();
-
-		System.out.println(tags.toString());
+		List<String> tags = repository.findBySelectOptionId(id);
 
 		assertAll(
 			() -> assertTrue(tags.contains("깨끗하게 유지할 수 있어요\uD83E\uDDF9")),
@@ -41,9 +35,7 @@ class ArchivingTagsRepositoryTest {
 	void findByArchivingId() {
 		Long id = 479893076433545675L;
 
-		Tags tagDto = repository.findByArchivingId(id);
-
-		List<String> tags = tagDto.getTags();
+		List<String> tags = repository.findByArchivingId(id);
 
 		assertAll(
 			() -> assertTrue(tags.contains("어린이\uD83D\uDC76")),
