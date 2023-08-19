@@ -9,12 +9,12 @@ import lombok.Setter;
 @NoArgsConstructor
 public class User {
 	private Integer id;
-	private String userId;
+	private String email;
 	private String password;
 	private String name;
 
-	public User(String userId, String password, String name) {
-		this.userId = userId;
+	public User(String email, String password, String name) {
+		this.email = email;
 		this.password = password;
 		this.name = name;
 	}
