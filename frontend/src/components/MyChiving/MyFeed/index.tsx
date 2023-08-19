@@ -27,7 +27,7 @@ const initialData = {
 };
 
 export function MyFeed() {
-  const { data } = useFetch<MyFeedDataProps>({ defaultValue: initialData, url: '/mychiving/feed' });
+  const { data } = useFetch<MyFeedDataProps>({ defaultValue: initialData, url: '/test/mychiving/feed' });
 
   return (
     <Styled.Container>

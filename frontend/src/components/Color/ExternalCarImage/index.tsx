@@ -85,7 +85,7 @@ export function ExternalCarImage({ imageUrl }: CarImageProps) {
           onMouseLeave={handleMouseLeave}
         >
           {imageUrl !== '' &&
-            imageArray.map(num => (
+            imageArray.map((num, index) => (
               <Styled.CarImage
                 key={num}
                 isDisplay={num === currentImage}

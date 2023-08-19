@@ -2,16 +2,15 @@ import { useState, useEffect, useRef, MouseEvent, WheelEvent } from 'react';
 
 import { useOutletContext, useLocation } from 'react-router-dom';
 
-import { OptionContextProviderProps } from '@/types/option';
-import { checkIsSelectOptionPage, isHGenuineAccessoriesSelected } from '@/utils';
+import { MyCarLayoutContextProps } from '@/types/trim';
 import { ModalType, MyCarActionType } from '@/constants';
+import { checkIsSelectOptionPage, isHGenuineAccessoriesSelected } from '@/utils';
 
 import { OptionCardHover } from '@/components/Option/OptionCardList/OptionCardHover';
 import { ModalPortal } from '@/components/Option/ModalPortal';
 import { PopupModal } from '@/components/common/PopupModal';
 
 import * as Styled from './style';
-import { MyCarLayoutContextProps } from '@/types/trim';
 
 interface Props {
   isBlur: boolean;
@@ -118,7 +117,7 @@ export function OptionCard({
         onWheel={event => handleWheel(event)}
       />
       <ModalPortal isOpen={isOpen} handleClose={() => setIsOpen(false)}>
-        <PopupModal type={ModalType.CLEAR} onClick={handleClearHGenuineAccessories} />
+        <PopupModal type={ModalType.CLEAR} onClick={handleClearHGenuineAccessories} onClose={() => setIsOpen(false)} />
       </ModalPortal>
     </Styled.OptionCardWrapper>
   );

@@ -2,10 +2,11 @@ import { useState, useEffect, MouseEvent } from 'react';
 
 import { useLocation } from 'react-router-dom';
 
-import { OptionDataProps, OptionProps, SubOptionProps, OptionCardDataProps } from '@/types/option';
-import { isValidIndex, checkIsSelectOptionPage } from '@/utils';
+import { fetcher } from '@/utils/fetcher';
 import { OPTION_CARD_LIST_LENGTH } from '@/constants';
-import { useFetch } from '@/hooks/useFetch';
+import { useFetchSuspense } from '@/hooks/useFetchSuspense';
+import { isValidIndex, checkIsSelectOptionPage } from '@/utils';
+import { OptionDataProps, OptionProps, SubOptionProps, OptionCardDataProps } from '@/types/option';
 
 import { OptionImageBox } from '@/components/Option/OptionImageBox';
 import { OptionDescription } from '@/components/Option/OptionDescription';
@@ -16,27 +17,6 @@ import { DefaultOptionCardList } from '@/components/Option/DefaultOptionCardList
 
 import * as Styled from './style';
 
-const initialData = {
-  selectOptions: [
-    {
-      isAvailable: true,
-      id: '',
-      name: '',
-      imageUrl: '',
-      additionalPrice: 0,
-      tags: [],
-      subOptions: [
-        {
-          id: '',
-          name: '',
-          imageUrl: '',
-          description: '',
-        },
-      ],
-    },
-  ],
-};
-
 // 현재 API에서 tags를 null로 주고 있기 때문에 그동안 임시로 사용할 용도
 const initialTags = ['여름에 쓰기 좋아요☀️', '옵션값 뽑았어요👍', '편리해요☺️'];
 
@@ -46,10 +26,9 @@ interface Props {
 
 export function Option({ apiType }: Props) {
   const { pathname, search } = useLocation();
-
-  const { data } = useFetch<OptionDataProps>({
-    defaultValue: initialData,
-    url: `/car/${apiType}${search}`,
+  const { selectOptions } = useFetchSuspense<OptionDataProps>({
+    fetcher: () => fetcher<OptionDataProps>({ url: `/car/${apiType}${search}` }),
+    key: ['option', `${apiType}`, `${search}`],
   });
 
   const [option, setOption] = useState<OptionProps>({
@@ -101,8 +80,6 @@ export function Option({ apiType }: Props) {
   }
 
   useEffect(() => {
-    const { selectOptions } = data;
-
     const { isAvailable, id, name, additionalPrice, imageUrl, tags, subOptions } = selectOptions[optionIndex];
 
     const subOption = subOptions[subOptionIndex];
@@ -126,7 +103,7 @@ export function Option({ apiType }: Props) {
       description: subOption.description,
     });
     setCardListData(cardListData);
-  }, [data, optionIndex, subOptionIndex]);
+  }, [selectOptions, optionIndex, subOptionIndex]);
 
   return (
     <Styled.Container>

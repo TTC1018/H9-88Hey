@@ -48,8 +48,11 @@ const tempInitialData = {
 };
 
 export function MySavedCar() {
-  const { data: tempData } = useFetch<MyChivingDataProps>({ defaultValue: tempInitialData, url: '/mychiving/temp' });
-  const { data: savedData } = useFetch<MyChivingDataProps>({ defaultValue: savedInitialData, url: '/mychiving' });
+  const { data: tempData } = useFetch<MyChivingDataProps>({
+    defaultValue: tempInitialData,
+    url: '/test/mychiving/temp',
+  });
+  const { data: savedData } = useFetch<MyChivingDataProps>({ defaultValue: savedInitialData, url: '/test/mychiving' });
   const allData = [...tempData.myarchivings, ...savedData.myarchivings];
 
   const [page, setPage] = useState(0);

@@ -4,7 +4,7 @@ import { data } from './data';
 import { API_URL } from '@/constants';
 
 export const trimHandler = [
-  rest.get(`${API_URL}/car/model/1/image`, (_, res, ctx) => {
+  rest.get(`${API_URL}/test/car/model/1/image`, (_, res, ctx) => {
     return res(ctx.json({ status: 200, message: '', data: data }));
   }),
 ];

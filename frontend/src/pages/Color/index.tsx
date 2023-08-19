@@ -2,41 +2,21 @@ import { useEffect, useState } from 'react';
 
 import { useOutletContext } from 'react-router-dom';
 
-import { CarCodeProps, MyCarLayoutContextProps } from '@/types/trim';
-import { ColorDataProps, InteriorColorsProps } from '@/types/color';
+import { fetcher } from '@/utils/fetcher';
+import { MyCarActionType } from '@/constants';
 import { useFetch } from '@/hooks/useFetch';
 import { useSelectIndex } from '@/hooks/useSelectedIndex';
+import { useFetchSuspense } from '@/hooks/useFetchSuspense';
+import { ColorDataProps, InteriorColorsProps } from '@/types/color';
+import { CarCodeProps, MyCarLayoutContextProps } from '@/types/trim';
 
 import { CheckIcon } from '@/components/Color/CheckIcon';
+import { InnerCarImage } from '@/components/Color/InnerCarImage';
 import { ExternalCarImage } from '@/components/Color/ExternalCarImage';
 import { MyCarDescription } from '@/components/common/MyCarDescription';
-import { InnerCarImage } from '@/components/Color/InnerCarImage';
 
 import * as Styled from './style';
-import { MyCarActionType } from '@/constants';
 
-const initialData = {
-  exteriorColors: [
-    {
-      id: 1,
-      name: '',
-      carImagePath: '',
-      colorImageUrl: '',
-      additionalPrice: 0,
-      availableInteriorColors: [0],
-      tags: [''],
-    },
-  ],
-  interiorColors: [
-    {
-      id: 0,
-      name: '',
-      carImageUrl: '',
-      colorImageUrl: '',
-      tags: [''],
-    },
-  ],
-};
 export function Color() {
   const {
     dispatch,
@@ -44,7 +24,10 @@ export function Color() {
     myCar: { trim, engine, wheelDrive, bodyType, exteriorColor, interiorColor },
   } = useOutletContext<MyCarLayoutContextProps>();
 
-  const { data } = useFetch<ColorDataProps>({ defaultValue: initialData, url: '/car/color?trim_id=1' });
+  const { exteriorColors, interiorColors } = useFetchSuspense<ColorDataProps>({
+    fetcher: () => fetcher<ColorDataProps>({ url: `/car/color?trim_id=${trim.id}` }),
+    key: ['color', `${trim.id}`],
+  });
 
   const { data: carCodeData } = useFetch<CarCodeProps>({
     defaultValue: { carCode: '' },
@@ -62,9 +45,9 @@ export function Color() {
     availableInteriorColors,
     // tags: externalTags,
     additionalPrice,
-  } = data.exteriorColors[selectedExternalIndex];
+  } = exteriorColors[selectedExternalIndex];
 
-  const availableInnerColorList = data.interiorColors.filter(color => availableInteriorColors.includes(color.id));
+  const availableInnerColorList = interiorColors.filter(color => availableInteriorColors.includes(color.id));
   const {
     name: innerName,
     carImageUrl: innerCarImage,
@@ -72,7 +55,7 @@ export function Color() {
   } = availableInnerColorList[selectedInnerIndex];
 
   function updateOuterColor(index: number) {
-    const { name, colorImageUrl, additionalPrice, carImagePath } = data.exteriorColors[index];
+    const { name, colorImageUrl, additionalPrice, carImagePath } = exteriorColors[index];
 
     dispatch({
       type: MyCarActionType.EXTERIOR_COLOR,
@@ -99,11 +82,11 @@ export function Color() {
   }
 
   useEffect(() => {
-    const outerIndex = data.exteriorColors.findIndex(color => color.name === exteriorColor.name);
+    const outerIndex = exteriorColors.findIndex(color => color.name === exteriorColor.name);
     let innerIndex = -1;
 
     if (outerIndex !== -1) {
-      innerIndex = data.exteriorColors[outerIndex].availableInteriorColors.findIndex(
+      innerIndex = exteriorColors[outerIndex].availableInteriorColors.findIndex(
         colorId => colorId === interiorColor.id
       );
 
@@ -114,7 +97,7 @@ export function Color() {
       updateOuterColor(0);
       updateInnerColor(availableInnerColorList, 0);
     }
-  }, [data]);
+  }, [interiorColor, exteriorColor]);
 
   useEffect(() => {
     if (carCodeData.carCode !== '') {
@@ -127,8 +110,8 @@ export function Color() {
     handleSetInnerIndex(0)();
     updateOuterColor(index);
 
-    const newAvailableInnerColorList = data.interiorColors.filter(color =>
-      data.exteriorColors[index].availableInteriorColors.includes(color.id)
+    const newAvailableInnerColorList = interiorColors.filter(color =>
+      exteriorColors[index].availableInteriorColors.includes(color.id)
     );
 
     updateInnerColor(newAvailableInnerColorList, 0);
@@ -166,7 +149,7 @@ export function Color() {
           </Styled.TitleBox>
           <Styled.Division />
           <Styled.ColorBox>
-            {data.exteriorColors.map(({ name, colorImageUrl, additionalPrice }, index) => (
+            {exteriorColors.map(({ name, colorImageUrl, additionalPrice }, index) => (
               <Styled.ColorCard key={name} onClick={() => handleClickExternalColor(index)}>
                 <Styled.ColorCardRect colorUrl={colorImageUrl} isActive={isSelectedExternalColor(name)} />
                 <Styled.ColorCardName>{name}</Styled.ColorCardName>
