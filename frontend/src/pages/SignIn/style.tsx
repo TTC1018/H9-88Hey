@@ -1,10 +1,14 @@
 import styled from '@emotion/styled';
 import { css } from '@emotion/react';
 
+interface Props {
+  isShow: boolean;
+}
+
 export const Container = styled.div`
   width: 100vw;
   height: 100vh;
-  gap: 50px;
+  gap: 45px;
 
   display: flex;
   flex-direction: column;
@@ -14,11 +18,24 @@ export const Container = styled.div`
 
 export const HyundaiLogo = styled.img``;
 
-export const Form = styled.div`
+export const Form = styled.form`
   gap: 5px;
 
   display: flex;
   flex-direction: column;
+`;
+
+export const Alert = styled.p<Props>`
+  ${({ theme, isShow }) => {
+    const { colors, fonts } = theme;
+
+    return css`
+      color: ${colors.alertPrimary};
+      ${fonts.bodyRegular3};
+
+      visibility: ${isShow ? 'visible' : 'hidden'};
+    `;
+  }}
 `;
 
 export const Input = styled.input`
