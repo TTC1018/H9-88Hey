@@ -1,5 +1,6 @@
 package softeer.h9.hey.auth.service;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -13,6 +14,7 @@ import softeer.h9.hey.auth.dto.request.AccessTokenRequest;
 import softeer.h9.hey.auth.dto.request.JoinRequest;
 import softeer.h9.hey.auth.dto.request.LoginRequest;
 import softeer.h9.hey.auth.dto.response.TokenResponse;
+import softeer.h9.hey.auth.exception.InvalidTokenException;
 import softeer.h9.hey.auth.exception.JoinException;
 import softeer.h9.hey.auth.exception.LoginException;
 import softeer.h9.hey.auth.repository.RefreshTokenRepository;
@@ -85,9 +87,24 @@ public class AuthService {
 
 	public TokenResponse republishAccessToken(AccessTokenRequest accessTokenRequest) {
 		String refreshToken = accessTokenRequest.getRefreshToken();
+
 		Map<String, Object> claims = jwtTokenProvider.getClaimsFromToken(refreshToken);
 		int userId = Integer.parseInt((String)claims.get(SUBJECT));
 		String userName = (String)claims.get(USER_NAME);
+
+		checkAndRemoveRefreshToken(userId, refreshToken);
 		return makeTokenResponse(userId, userName);
+	}
+
+	private void checkAndRemoveRefreshToken(int userId, String refreshToken) {
+		List<RefreshTokenEntity> refreshTokenEntities = refreshTokenRepository.findByUserId(userId);
+		Optional<RefreshTokenEntity> optionalRefreshTokenEntity = refreshTokenEntities.stream()
+			.filter(refreshTokenEntity -> refreshTokenEntity.getRefreshToken().equals(refreshToken))
+			.findAny();
+		if (optionalRefreshTokenEntity.isEmpty()) {
+			throw new InvalidTokenException();
+		}
+		RefreshTokenEntity refreshTokenEntity = optionalRefreshTokenEntity.get();
+		refreshTokenRepository.deleteById(refreshTokenEntity.getId());
 	}
 }
