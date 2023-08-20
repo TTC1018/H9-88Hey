@@ -31,17 +31,19 @@ public class AuthService {
 	private final JwtTokenProvider jwtTokenProvider;
 	private final UserRepository userRepository;
 	private final RefreshTokenRepository refreshTokenRepository;
+	private final PasswordEncoder passwordEncoder;
 
 	public TokenResponse join(JoinRequest joinRequest) {
-		User user = mapToUser(joinRequest);
+		String password = passwordEncoder.encode(joinRequest.getPassword());
+		User user = mapToUser(joinRequest, password);
 		validateUniqueEmail(user.getEmail());
 
 		user = userRepository.save(user);
 		return makeTokenResponse(user.getId(), user.getName());
 	}
 
-	private User mapToUser(JoinRequest joinRequest) {
-		return new User(joinRequest.getEmail(), joinRequest.getPassword(), joinRequest.getUserName());
+	private User mapToUser(JoinRequest joinRequest, String password) {
+		return new User(joinRequest.getEmail(), password, joinRequest.getUserName());
 	}
 
 	private void validateUniqueEmail(String email) {
@@ -71,8 +73,9 @@ public class AuthService {
 		return new TokenResponse(accessToken, refreshToken, userName);
 	}
 
-	private static void checkPassword(String password, User user) {
-		if (!user.getPassword().equals(password)) {
+	private void checkPassword(String password, User user) {
+		String expectedPassword = user.getPassword();
+		if (!passwordEncoder.compare(password, expectedPassword)) {
 			throw new LoginException();
 		}
 	}
