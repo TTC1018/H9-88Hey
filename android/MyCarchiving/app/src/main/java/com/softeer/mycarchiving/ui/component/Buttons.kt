@@ -47,6 +47,7 @@ import com.softeer.mycarchiving.ui.theme.LightGray
 import com.softeer.mycarchiving.ui.theme.MediumGray
 import com.softeer.mycarchiving.ui.theme.PrimaryBlue
 import com.softeer.mycarchiving.ui.theme.White
+import com.softeer.mycarchiving.ui.theme.bold14
 import com.softeer.mycarchiving.ui.theme.bold18
 import com.softeer.mycarchiving.ui.theme.medium14
 import com.softeer.mycarchiving.ui.theme.regular14
@@ -90,6 +91,37 @@ fun MyArchiveButton(
             text = stringResource(id = R.string.my_archive),
             style = medium14,
             color = HyundaiLightSand
+        )
+    }
+}
+
+@Composable
+fun MyArchiveChoiceButton(
+    modifier: Modifier = Modifier,
+    text: String,
+    isSelected: Boolean,
+    onClick: () -> Unit,
+) {
+    val animatedTextColor by animateColorAsState(if (isSelected) HyundaiLightSand else DarkGray,)
+    val animatedBgColor by animateColorAsState(if (isSelected) PrimaryBlue else HyundaiNeutral)
+
+    Button(
+        modifier = modifier,
+        onClick = { onClick() },
+        colors = ButtonDefaults.buttonColors(
+            containerColor = animatedBgColor,
+        ),
+        contentPadding = PaddingValues(
+            start = 32.dp,
+            end = 32.dp,
+            top = 12.dp,
+            bottom = 12.dp
+        )
+    ) {
+        Text(
+            style = bold14,
+            text = text,
+            color = animatedTextColor,
         )
     }
 }
@@ -286,6 +318,15 @@ fun PreviewAppButton() {
 @Composable
 fun PreviewMyArchiveButton() {
     MyArchiveButton(modifier = Modifier)
+}
+
+@Preview
+@Composable
+fun PreviewMyArchiveChoiceButton() {
+    MyArchiveChoiceButton(
+        text = "내가 만든 차량 목록",
+        isSelected = true,
+        onClick = {})
 }
 
 @Preview
