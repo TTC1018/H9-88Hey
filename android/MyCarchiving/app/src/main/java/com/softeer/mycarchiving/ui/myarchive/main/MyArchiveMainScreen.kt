@@ -17,6 +17,9 @@ import com.softeer.mycarchiving.ui.component.ChoiceTab
 import com.softeer.mycarchiving.ui.myarchive.made.MyArchiveMadeScreen
 import com.softeer.mycarchiving.ui.myarchive.save.MyArchiveSaveScreen
 
+const val MY_ARCHIVE_MADE = 0
+const val MY_ARCHIVE_SAVE = 1
+
 @Composable
 fun MyArchiveMainRoute(
     modifier: Modifier = Modifier,
@@ -70,7 +73,7 @@ fun MyArchiveMainScreen(
             label = ""
         ) {
             when (it) {
-                0 -> MyArchiveMadeScreen(
+                MY_ARCHIVE_MADE -> MyArchiveMadeScreen(
                     modifier = Modifier
                         .weight(1f)
                         .fillMaxSize(),
@@ -79,11 +82,12 @@ fun MyArchiveMainScreen(
                     onDelete = onMadeCarDelete,
                 )
 
-                1 -> MyArchiveSaveScreen(
+                MY_ARCHIVE_SAVE -> MyArchiveSaveScreen(
                     modifier = Modifier
                         .weight(1f)
                         .fillMaxSize(),
                     carFeeds = savedCars,
+                    onClick = onSavedCarClick,
                 )
             }
         }

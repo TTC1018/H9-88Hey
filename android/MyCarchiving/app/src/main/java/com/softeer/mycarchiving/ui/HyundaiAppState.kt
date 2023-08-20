@@ -103,14 +103,14 @@ class HyundaiAppState(
         }
 
     val currentArchivingDestinations: ArchivingDestinations?
-        @Composable get() = when(currentArchivingDestination?.route) {
+        @Composable get() = when (currentArchivingDestination?.route) {
             ARCHIVING_MAIN.route -> ARCHIVING_MAIN
             ARCHIVING_DETAIL.route -> ARCHIVING_DETAIL
             else -> null
         }
 
     val currentMyArchiveDestinations: MyArchiveDestinations?
-        @Composable get() = when(currentMyArchiveDestination?.route) {
+        @Composable get() = when (currentMyArchiveDestination?.route) {
             MY_ARCHIVE_MAIN.route -> MY_ARCHIVE_MAIN
             MY_ARCHIVE_DETAIL.route -> MY_ARCHIVE_DETAIL
             else -> null
@@ -157,17 +157,24 @@ class HyundaiAppState(
     }
 
     fun navigateToArchivingDestination(archivingDestination: ArchivingDestinations?) {
-        when(archivingDestination) {
+        when (archivingDestination) {
             ARCHIVING_MAIN -> archivingNavController.navigateToArchiveMain()
             ARCHIVING_DETAIL -> archivingNavController.navigateToArchivingDetail()
             else -> {}
         }
     }
 
-    fun navigateToMyArchiveDestination(myArchiveDestinations: MyArchiveDestinations?) {
-        when(myArchiveDestinations) {
+    fun navigateToMyArchiveDestination(
+        screenIndex: Int? = null,
+        myArchiveDestinations: MyArchiveDestinations?
+    ) {
+        when (myArchiveDestinations) {
             MY_ARCHIVE_MAIN -> myArchiveNavController.navigateToMyArchiveMain()
-            MY_ARCHIVE_DETAIL -> myArchiveNavController.navigateToMyArchiveDetail()
+            MY_ARCHIVE_DETAIL -> {
+                if (screenIndex != null) {
+                    myArchiveNavController.navigateToMyArchiveDetail(screenIndex)
+                }
+            }
             else -> {}
         }
     }
