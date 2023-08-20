@@ -38,6 +38,16 @@ public class RefreshTokenRepositoryImpl implements RefreshTokenRepository {
 		return namedParameterJdbcTemplate.query(sql, param, refreshTokenEntityRowMapper());
 	}
 
+	@Override
+	public void deleteById(int refreshTokenEntityId) {
+		String sql = "delete from refreshToken where id = :refreshTokenId";
+
+		MapSqlParameterSource param = new MapSqlParameterSource()
+			.addValue("refreshTokenId", refreshTokenEntityId);
+
+		namedParameterJdbcTemplate.update(sql, param);
+	}
+
 	private RowMapper<RefreshTokenEntity> refreshTokenEntityRowMapper() {
 		return BeanPropertyRowMapper.newInstance(RefreshTokenEntity.class);
 	}

@@ -8,4 +8,6 @@ public interface RefreshTokenRepository {
 	void save(RefreshTokenEntity refreshTokenEntity);
 
 	List<RefreshTokenEntity> findByUserId(int userId);
+
+	void deleteById(int refreshTokenEntityId);
 }
