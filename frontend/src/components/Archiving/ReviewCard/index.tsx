@@ -78,11 +78,11 @@ export function ReviewCard({ props, isArchiving, onClick, selectedSearchOptions 
       <style.OptionWrapper>
         <style.BodyText>선택옵션</style.BodyText>
         <style.OptionBox>
-          {selectedOptions.map(({ name }) => (
-            <style.Enclosure key={name}>
+          {selectedOptions.map(({ name, id }) => (
+            <style.Enclosure key={id}>
               <OptionSelectCard
                 isArchiving={isArchiving}
-                isActive={isArchiving ? selectedSearchOptions.has(name) : false}
+                isActive={isArchiving ? selectedSearchOptions.has(id) : false}
                 text={name}
               />
             </style.Enclosure>
@@ -91,8 +91,8 @@ export function ReviewCard({ props, isArchiving, onClick, selectedSearchOptions 
       </style.OptionWrapper>
       <style.Description>{review}</style.Description>
       <style.TagWrapper>
-        {tags.map(tag => (
-          <style.Tag key={tag}>{tag}</style.Tag>
+        {tags.map((tag, index) => (
+          <style.Tag key={`${tag} ${index}`}>{tag}</style.Tag>
         ))}
       </style.TagWrapper>
     </style.Contaienr>

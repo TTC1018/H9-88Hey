@@ -1,9 +1,9 @@
 import { useRef, useState } from 'react';
 
-import { useFetch } from '@/hooks/useFetch';
+import { ArchivingProps } from '@/types/archiving';
+import { apiPath } from '@/constants';
 import { useInfiniteFetch } from '@/hooks/useInfiniteFetch';
 import { useInfiniteScroll } from '@/hooks/useInfiniteScroll';
-import { ArchivingCarDataProps } from '@/types/archiving';
 
 import { OptionSearchBar } from '@/components/Archiving/OptionSearchBar';
 import { ReviewList } from '@/components/Archiving/ReviewList';
@@ -11,37 +11,23 @@ import { SearchBar } from '@/components/Archiving/SearchBar';
 
 import * as Styled from './style';
 
-const carInitialData = {
-  selectOptions: [{ id: '', name: '', category: '' }],
-};
-
 export function Archiving() {
+  const [selectedOptions, setSelectedOptions] = useState<Set<string>>(new Set());
   const fetchMoreElement = useRef<HTMLDivElement>(null);
   const intersecting = useInfiniteScroll(fetchMoreElement);
+  const nextOffset = useRef(1);
 
-  const {
-    data: { selectOptions },
-  } = useFetch<ArchivingCarDataProps>({
-    defaultValue: carInitialData,
-    url: '/car/select-options?model_id=1',
-  });
-
-  const { data: archivings } = useInfiniteFetch({
+  const { data: archivings } = useInfiniteFetch<ArchivingProps>({
     key: 'archivings',
-    url: '/archiving?model_id=1&select_option=CO2&select_option=DUP&limit=8',
-    defaultValue: [],
-    offset: 0,
+    url: apiPath.archiving(1, Array.from(selectedOptions), 8, nextOffset.current),
     intersecting,
+    nextOffset,
+    dependencies: Array.from(selectedOptions),
   });
 
-  const [selectedOptions, setSelectedOptions] = useState<Set<string>>(new Set());
   const [selectedCarName, setSelectedCar] = useState('전체');
 
   const selectCarNames = ['전체', '펠리세이드', '베뉴', '코나', '싼타페', '그랜저', '아반떼', '아이오닉'];
-  const allOptions = [...new Set(selectOptions.flatMap(item => item.name))];
-
-  // 임시로 자름
-  const options = allOptions.slice(0, allOptions.length - 4);
 
   function handleSelectOption(option: string) {
     setSelectedOptions(prev => {
@@ -55,6 +41,7 @@ export function Archiving() {
       return new Set([...prev, option]);
     });
   }
+
   function handleSelectCar(car: string) {
     setSelectedCar(car);
   }
@@ -63,7 +50,7 @@ export function Archiving() {
     <Styled.Container>
       <Styled.HeaderWrapper>
         <SearchBar selectedCar={selectedCarName} onClick={handleSelectCar} cars={selectCarNames} />
-        <OptionSearchBar options={options} onSelectOption={handleSelectOption} selectOptions={selectedOptions} />
+        <OptionSearchBar onSelectOption={handleSelectOption} selectedOptions={selectedOptions} />
       </Styled.HeaderWrapper>
       <Styled.ReviewWrapper>
         {archivings.length === 0 ? (

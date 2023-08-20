@@ -1,39 +1,46 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, MutableRefObject } from 'react';
 
 import { API_URL } from '@/constants';
 
-interface UseFetchProps<T, D> {
-  key: keyof D;
+interface UseFetchProps {
+  key: string;
   url: string;
-  defaultValue: T[];
-  offset?: number;
   intersecting: boolean;
+  nextOffset: MutableRefObject<number>;
+  dependencies?: string[];
 }
-interface ResponseProps<D> {
+interface ResponseProps<T> {
   status: number;
   message: string;
-  data: D;
+  data: T;
 }
-export function useInfiniteFetch<T, D>({ key, defaultValue, url, offset, intersecting }: UseFetchProps<T, D>) {
-  const [data, setData] = useState(defaultValue);
+
+export function useInfiniteFetch<T>({ key, url, intersecting, nextOffset, dependencies }: UseFetchProps) {
+  interface Props {
+    key: T[];
+    nextOffset: number;
+    [key: string]: any;
+  }
+
+  const [data, setData] = useState<T[]>([]);
   const [hasNext, setHasNext] = useState(true);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState('');
 
   async function fetcher() {
     try {
-      const response = await fetch(`${API_URL}${url}&offset=${offset}`);
+      const response = await fetch(`${API_URL}${url}`);
       if (!response.ok) {
         throw new Error(`${response.status} ${response.statusText}`);
       }
 
-      const { data } = (await response.json()) as ResponseProps<D>;
+      const { data } = (await response.json()) as ResponseProps<Props>;
 
       if (data === null || data === undefined) {
         setHasNext(false);
         return;
       }
-
+      nextOffset.current = data.nextOffset;
       setData(prev => [...prev, ...(data[key] as [])]);
     } catch (error) {
       if (error instanceof Error) {
@@ -54,6 +61,12 @@ export function useInfiniteFetch<T, D>({ key, defaultValue, url, offset, interse
       fetcher();
     }
   }, [intersecting]);
+
+  useEffect(() => {
+    setData([]);
+    nextOffset.current = 1;
+    // fetcher();
+  }, [JSON.stringify(dependencies)]);
 
   return { data, isLoading, error };
 }

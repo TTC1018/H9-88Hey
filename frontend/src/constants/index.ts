@@ -69,6 +69,12 @@ export const apiPath = {
   carCode: (trimId: number, engineId: number, bodyTypeId: number, wheelDriveId: number) =>
     `${apiPath.carBase()}/car-code?trim_id=${trimId}&engine_id=${engineId}&body_type_id=${bodyTypeId}&wheel_drive_id=${wheelDriveId}`,
   option: (routePath: string, search: string) => `${apiPath.carBase()}/${routePath}${search}`,
+  archivingBase: () => '/archiving',
+  archiving: (modelId: number, selectOptionsId: string[], limit: number, offset: number) => {
+    const optionQuerys = selectOptionsId.map(selectOptionsId => `&select_options=${selectOptionsId}`).join('');
+    return `${apiPath.archivingBase()}?model_id=${modelId}${optionQuerys}&limit=${limit}&offset=${offset}`;
+  },
+  archivingOption: (modelId: number) => `${apiPath.carBase()}/select-options?model_id=${modelId}`,
 };
 
 export const cacheKey = {
@@ -86,4 +92,5 @@ export const cacheKey = {
     `${wheelDriveId}`,
   ],
   option: (routePath: string, search: string) => ['option', `${routePath}`, `${search}`],
+  archivingOption: (modelId: number) => ['select-options', `${modelId}`],
 };
