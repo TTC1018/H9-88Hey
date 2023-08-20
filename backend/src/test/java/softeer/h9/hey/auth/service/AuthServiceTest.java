@@ -2,6 +2,7 @@ package softeer.h9.hey.auth.service;
 
 import static org.mockito.Mockito.*;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -10,6 +11,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
+import softeer.h9.hey.auth.domain.RefreshTokenEntity;
 import softeer.h9.hey.auth.domain.User;
 import softeer.h9.hey.auth.dto.request.AccessTokenRequest;
 import softeer.h9.hey.auth.dto.request.JoinRequest;
@@ -107,12 +109,16 @@ class AuthServiceTest {
 	@Test
 	@DisplayName("Access Token 재발급 요청 기능")
 	void republishAccessTokenTest() {
-		AccessTokenRequest accessTokenRequest = new AccessTokenRequest("republishToken123");
+		AccessTokenRequest accessTokenRequest = new AccessTokenRequest("refreshToken");
 
 		when(tokenProvider.generateAccessToken(anyInt(), any())).thenReturn("accessToken");
 		when(tokenProvider.generateRefreshToken(anyInt(), any())).thenReturn("refreshToken");
 		when(tokenProvider.getClaimsFromToken(anyString()))
 			.thenReturn(Map.of("sub", "1", "userName", "userName123"));
+		when(refreshTokenRepository.findByUserId(anyInt()))
+			.thenReturn(List.of(new RefreshTokenEntity(1, "refreshToken")));
+		doNothing().when(refreshTokenRepository).deleteById(anyInt());
+
 		TokenResponse tokenResponse = authService.republishAccessToken(accessTokenRequest);
 
 		Assertions.assertThat(tokenResponse.getAccessToken()).isNotNull();

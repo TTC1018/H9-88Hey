@@ -4,6 +4,7 @@ import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -21,12 +22,14 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import softeer.h9.hey.auth.domain.RefreshTokenEntity;
 import softeer.h9.hey.auth.domain.User;
 import softeer.h9.hey.auth.dto.request.JoinRequest;
 import softeer.h9.hey.auth.dto.request.LoginRequest;
 import softeer.h9.hey.auth.exception.InvalidTokenException;
 import softeer.h9.hey.auth.exception.JoinException;
 import softeer.h9.hey.auth.exception.LoginException;
+import softeer.h9.hey.auth.repository.RefreshTokenRepository;
 import softeer.h9.hey.auth.repository.UserRepository;
 import softeer.h9.hey.auth.service.JwtTokenProvider;
 
@@ -38,6 +41,9 @@ class AuthControllerTest {
 
 	@SpyBean
 	JwtTokenProvider jwtTokenProvider;
+
+	@SpyBean
+	RefreshTokenRepository refreshTokenRepository;
 
 	@SpyBean
 	UserRepository userRepository;
@@ -140,8 +146,11 @@ class AuthControllerTest {
 	@DisplayName("Refresh Token을 헤더에 담아 엑세스 토큰을 요청하면, 갱신된 엑세스 토큰과 리프레시 토큰을 발급해준다.")
 	void republishAccessTokenTest() throws Exception {
 		Map<String, Object> claims = Map.of("sub", "1", "userName", "userName123");
+		List<RefreshTokenEntity> refreshTokenEntities = List.of(new RefreshTokenEntity(1, "refreshToken"));
 
 		doReturn(claims).when(jwtTokenProvider).getClaimsFromToken("refreshToken");
+		doReturn(refreshTokenEntities).when(refreshTokenRepository).findByUserId(anyInt());
+		doNothing().when(refreshTokenRepository).deleteById(anyInt());
 
 		mockMvc.perform(
 				post("/auth/access-token")
