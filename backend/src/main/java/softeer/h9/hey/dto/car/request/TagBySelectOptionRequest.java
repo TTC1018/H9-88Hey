@@ -18,4 +18,8 @@ public class TagBySelectOptionRequest {
 		this.id = id;
 		this.limit = limit;
 	}
+
+	public static TagBySelectOptionRequest of(String id, Integer limit) {
+		return new TagBySelectOptionRequest(id, limit);
+	}
 }
