@@ -17,10 +17,24 @@ data class CarExteriorColor(
     override val tags: List<String>?
 ): CarColor(id, name, imageUrl, tags)
 
+data class CarExteriorSimpleColor(
+    val id: Int,
+    val name: String,
+    val price: Int,
+    val carImageUrl: String,
+    val colorImageUrl: String,
+)
+
 data class CarInteriorColor(
     override val id: Int,
     override val name: String,
     val carImageUrl: String,
     override val imageUrl: String,
     override val tags: List<String>?
-): CarColor(id,  name, imageUrl, tags)
+): CarColor(id, name, imageUrl, tags)
+
+data class CarInteriorSimpleColor(
+    val id: Int,
+    val name: String,
+    val colorImageUrl: String,
+)
