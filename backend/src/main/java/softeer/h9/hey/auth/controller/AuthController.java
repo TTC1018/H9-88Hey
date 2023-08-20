@@ -45,7 +45,11 @@ public class AuthController {
 
 	@PostMapping("/access-token")
 	public GlobalResponse<TokenResponse> getAccessToken(HttpServletRequest request) {
-		String refreshToken = request.getHeader(AUTHORIZATION).substring(BEARER.length());
+		String authorization = request.getHeader(AUTHORIZATION);
+		if (authorization == null || !authorization.startsWith(BEARER)) {
+			throw new IllegalStateException();
+		}
+		String refreshToken = authorization.substring(BEARER.length());
 		AccessTokenRequest accessTokenRequest = new AccessTokenRequest(refreshToken);
 
 		TokenResponse tokenResponse = authService.republishAccessToken(accessTokenRequest);
