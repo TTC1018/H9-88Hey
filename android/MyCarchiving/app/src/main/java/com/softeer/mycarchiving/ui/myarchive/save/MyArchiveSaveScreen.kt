@@ -3,6 +3,7 @@ package com.softeer.mycarchiving.ui.myarchive.save
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -21,6 +22,7 @@ import com.softeer.mycarchiving.ui.theme.HyundaiNeutral
 fun MyArchiveSaveScreen(
     modifier: Modifier = Modifier,
     carFeeds: List<CarFeedUiModel>,
+    onClick: () -> Unit,
 ) {
     AnimatedContent(
         targetState = carFeeds,
@@ -37,9 +39,10 @@ fun MyArchiveSaveScreen(
                 ) {
                     itemsIndexed(items = carFeeds, key = { idx, item -> item.id }) { idx, item ->
                         SavedFeed(
-                            modifier = Modifier.animateItemPlacement(),
+                            modifier = Modifier
+                                .animateItemPlacement(),
                             carFeedUiModel = item,
-                            onFeedClick = { /*TODO*/ },
+                            onFeedClick = onClick,
                             onDelete = {}
                         )
                     }
@@ -68,5 +71,6 @@ fun PreviewMyArchiveSaveScreen() {
                 tags = listOf("편리해요😉", "이것만 있으면 나도 주차고수🚘", "대형견도 문제 없어요🐶")
             )
         ),
+        onClick = {},
     )
 }

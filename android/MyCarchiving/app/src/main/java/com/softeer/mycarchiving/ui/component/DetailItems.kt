@@ -37,6 +37,7 @@ import com.softeer.mycarchiving.ui.theme.DarkGray
 import com.softeer.mycarchiving.ui.theme.HyundaiLightSand
 import com.softeer.mycarchiving.ui.theme.LightGray
 import com.softeer.mycarchiving.ui.theme.PrimaryBlue
+import com.softeer.mycarchiving.ui.theme.White
 import com.softeer.mycarchiving.ui.theme.medium14
 import com.softeer.mycarchiving.ui.theme.medium16
 import com.softeer.mycarchiving.ui.theme.medium18
@@ -183,6 +184,7 @@ fun DetailSelectedOption(
 ) {
     Column(
         modifier = modifier.fillMaxWidth()
+            .background(White)
     ) {
         Column(
             modifier = Modifier.padding(horizontal = 16.dp, vertical = 24.dp)
