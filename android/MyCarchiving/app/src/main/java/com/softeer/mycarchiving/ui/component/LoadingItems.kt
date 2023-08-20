@@ -4,42 +4,47 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import coil.ImageLoader
+import coil.compose.AsyncImage
+import coil.compose.rememberAsyncImagePainter
+import coil.decode.ImageDecoderDecoder
+import coil.imageLoader
+import coil.request.ImageRequest
+import coil.request.repeatCount
 import com.softeer.mycarchiving.R
-import com.softeer.mycarchiving.ui.theme.HyundaiLightSand
-import com.softeer.mycarchiving.ui.theme.PrimaryBlue500
 
 @Composable
-fun CarLoadingIndicator(
+fun MyArchiveLoadingScreen(
     modifier: Modifier = Modifier
 ) {
+    val context = LocalContext.current
+    val imageLoader = ImageLoader.Builder(context)
+        .components { add(ImageDecoderDecoder.Factory()) }
+        .build()
+
     Box(
         modifier = modifier
-            .width(140.dp)
+            .fillMaxSize()
             .aspectRatio(1f / 1f),
         contentAlignment = Alignment.Center
     ) {
-        CircularProgressIndicator(
+        AsyncImage(
             modifier = Modifier
                 .fillMaxSize(),
-            color = PrimaryBlue500,
-            trackColor = HyundaiLightSand,
-            strokeWidth = 8.dp
-        )
-        Image(
-            modifier = Modifier
-                .width(80.dp)
-                .height(34.dp),
-            painter = painterResource(id = R.drawable.ic_loading_car),
-            contentDescription = null
+            model = ImageRequest.Builder(context)
+                .repeatCount(1)
+                .data(R.drawable.img_loading_archive)
+                .placeholder(R.drawable.img_loading_archive)
+                .build(),
+            contentDescription = "",
+            imageLoader = imageLoader
         )
     }
 }
@@ -47,5 +52,5 @@ fun CarLoadingIndicator(
 @Preview
 @Composable
 fun PreviewCarLoadingIndicator() {
-    CarLoadingIndicator()
+    MyArchiveLoadingScreen()
 }
