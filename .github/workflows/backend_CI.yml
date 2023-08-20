@@ -46,6 +46,10 @@ jobs:
           spring.datasource.url: jdbc:mysql://localhost:3306/88heyTest
           spring.datasource.username: root
           spring.datasource.password: rootpassword
+          auth.jwt.token.secret-key: test12345678_abcdefghijkl_1234_avbasdcsad_1231_avacda
+          auth.jwt.token.access.expire-time: 600000
+          auth.jwt.token.refresh.expire-time: 3600000
+          
 
       - name: Grant execute permission for gradlew
         run: chmod +x ./backend/gradlew
