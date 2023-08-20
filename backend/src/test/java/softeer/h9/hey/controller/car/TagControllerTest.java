@@ -28,7 +28,7 @@ class TagControllerTest {
 		mockMvc.perform(
 				get("/car/tag/select-option")
 					.param("id", id)
-					.param("limit", String.valueOf(5))
+					.param("limit", String.valueOf(limit))
 					.accept(MediaType.APPLICATION_JSON))
 			.andExpect(status().isOk())
 			.andExpectAll(
