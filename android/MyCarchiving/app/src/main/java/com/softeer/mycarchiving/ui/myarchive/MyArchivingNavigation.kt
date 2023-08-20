@@ -30,7 +30,13 @@ fun NavGraphBuilder.makingMyArchiveGraph(
         Scaffold(
             modifier = Modifier,
             topBar = {
-                 MyArchiveNavigateBar(onStartAreaClick = appState.navController::popBackStack)
+                MyArchiveNavigateBar(
+                    onStartAreaClick = if (appState.currentMyArchiveDestinations == MY_ARCHIVE_MAIN) {
+                        { appState.navController.popBackStack() }
+                    } else {
+                        { appState.makingCarNavController.popBackStack() }
+                    }
+                )
             },
         ) { padding ->
             Column(
