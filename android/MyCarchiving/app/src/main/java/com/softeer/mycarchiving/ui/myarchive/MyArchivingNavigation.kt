@@ -15,8 +15,7 @@ import com.softeer.mycarchiving.navigation.MyArchiveDestinations.*
 import com.softeer.mycarchiving.ui.HyundaiAppState
 import com.softeer.mycarchiving.ui.component.MyArchiveNavigateBar
 import com.softeer.mycarchiving.ui.myarchive.detail.myArchiveDetailScreen
-import com.softeer.mycarchiving.ui.myarchive.made.myArchiveMadeScreen
-import com.softeer.mycarchiving.ui.myarchive.save.myArchiveSaveScreen
+import com.softeer.mycarchiving.ui.myarchive.main.myArchiveMainScreen
 
 fun NavController.navigateToMyArchiving(navOptions: NavOptions? = null) {
     navigate(MainDestination.MY_ARCHIVING.route, navOptions)
@@ -41,16 +40,8 @@ fun NavGraphBuilder.makingMyArchiveGraph(
             ) {
                 NavHost(
                     navController = appState.myArchiveNavController,
-                    startDestination = MY_ARCHIVE_MADE.route
+                    startDestination = MY_ARCHIVE_MAIN.route
                 ) {
-                    myArchiveMadeScreen(
-                        moveDetailPage = { appState.navigateToMyArchiveDestination(MY_ARCHIVE_DETAIL) },
-                        onBackClick = appState.navController::popBackStack
-                    )
-                    myArchiveSaveScreen(
-                        moveDetailPage = { appState.navigateToMyArchiveDestination(MY_ARCHIVE_DETAIL) },
-                        onBackClick = appState.navController::popBackStack
-                    )
                     myArchiveDetailScreen(
                         onBackClick = appState.myArchiveNavController::popBackStack
                     )

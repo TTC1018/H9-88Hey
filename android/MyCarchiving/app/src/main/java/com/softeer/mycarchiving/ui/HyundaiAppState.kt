@@ -31,8 +31,7 @@ import com.softeer.mycarchiving.ui.makingcar.selectcolor.navigateToSelectColor
 import com.softeer.mycarchiving.ui.makingcar.selectoption.navigateToSelectOption
 import com.softeer.mycarchiving.ui.makingcar.selecttrim.navigateToSelectTrim
 import com.softeer.mycarchiving.ui.myarchive.detail.navigateToMyArchiveDetail
-import com.softeer.mycarchiving.ui.myarchive.made.navigateToMyArchiveMade
-import com.softeer.mycarchiving.ui.myarchive.save.navigateToMyArchiveSave
+import com.softeer.mycarchiving.ui.myarchive.main.navigateToMyArchiveMain
 import com.softeer.mycarchiving.ui.myarchive.navigateToMyArchiving
 import com.softeer.mycarchiving.util.MakeCarProcess
 import kotlinx.coroutines.CoroutineScope
@@ -112,8 +111,7 @@ class HyundaiAppState(
 
     val currentMyArchiveDestinations: MyArchiveDestinations?
         @Composable get() = when(currentMyArchiveDestination?.route) {
-            MY_ARCHIVE_MADE.route -> MY_ARCHIVE_MADE
-            MY_ARCHIVE_SAVE.route -> MY_ARCHIVE_SAVE
+            MY_ARCHIVE_MAIN.route -> MY_ARCHIVE_MAIN
             MY_ARCHIVE_DETAIL.route -> MY_ARCHIVE_DETAIL
             else -> null
         }
@@ -168,8 +166,7 @@ class HyundaiAppState(
 
     fun navigateToMyArchiveDestination(myArchiveDestinations: MyArchiveDestinations?) {
         when(myArchiveDestinations) {
-            MY_ARCHIVE_MADE -> myArchiveNavController.navigateToMyArchiveMade()
-            MY_ARCHIVE_SAVE -> myArchiveNavController.navigateToMyArchiveSave()
+            MY_ARCHIVE_MAIN -> myArchiveNavController.navigateToMyArchiveMain()
             MY_ARCHIVE_DETAIL -> myArchiveNavController.navigateToMyArchiveDetail()
             else -> {}
         }
