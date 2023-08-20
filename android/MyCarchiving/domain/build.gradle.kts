@@ -13,4 +13,7 @@ dependencies {
 
     // flow
     implementation(libs.kotlinx.coroutines.core)
+
+    // paging
+    implementation(libs.androidx.paging.common)
 }
