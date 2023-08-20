@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 import softeer.h9.hey.dto.car.request.TagByExteriorColorIdRequest;
+import softeer.h9.hey.dto.car.request.TagByInteriorColorIdRequest;
 import softeer.h9.hey.dto.car.request.TagBySelectOptionRequest;
 import softeer.h9.hey.dto.car.response.TagResponse;
 import softeer.h9.hey.repository.car.TagRepository;
@@ -51,6 +52,24 @@ class TagServiceTest {
 		when(tagRepository.findTopByExteriorColorId(id, limit)).thenReturn(targetTags);
 
 		TagResponse tagResponse = tagService.findTopByExteriorColorId(request);
+		List<String> tags = tagResponse.getTags();
+
+		assertTrue(limit >= tags.size());
+	}
+
+	@DisplayName("내장색상 id에 따라 상위 limit개의 태그들을 조회한다.")
+	@Test
+	void findTopByInteriorColorId() {
+		int id = 1;
+		int limit = 3;
+		TagByInteriorColorIdRequest request = TagByInteriorColorIdRequest.of(id, limit);
+
+		List<String> targetTags = List.of("멋있어요",
+			"세련된 디자인",
+			"트렌디해요");
+		when(tagRepository.findTopByInteriorColorId(id, limit)).thenReturn(targetTags);
+
+		TagResponse tagResponse = tagService.findTopByInteriorColorId(request);
 		List<String> tags = tagResponse.getTags();
 
 		assertTrue(limit >= tags.size());

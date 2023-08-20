@@ -56,4 +56,23 @@ class TagControllerTest {
 				jsonPath("$.data.tags").isArray()
 			);
 	}
+
+	@DisplayName("내자색상 id에 따라 상위 limit개의 태그를 조회한다.")
+	@Test
+	void getTopTagByInteriorColor() throws Exception {
+		int id = 1;
+		int limit = 5;
+
+		mockMvc.perform(
+				get("/car/tag/interior-color")
+					.param("id", String.valueOf(id))
+					.param("limit", String.valueOf(limit))
+					.accept(MediaType.APPLICATION_JSON))
+			.andExpect(status().isOk())
+			.andExpectAll(
+				jsonPath("$.statusCode").value(200),
+				jsonPath("$.data.tags").exists(),
+				jsonPath("$.data.tags").isArray()
+			);
+	}
 }
