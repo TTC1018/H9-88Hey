@@ -325,7 +325,7 @@ fun PreviewMadeCarItem() {
 fun PreviewSavedFeed() {
     SavedFeed(
         carFeedUiModel = CarFeedUiModel(
-            id = "",
+            id = 0,
             model = "팰리세이드",
             isPurchase = false,
             creationDate = "2023-07-19",

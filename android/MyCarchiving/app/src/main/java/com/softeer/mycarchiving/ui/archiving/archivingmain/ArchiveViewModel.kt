@@ -1,21 +1,41 @@
 package com.softeer.mycarchiving.ui.archiving.archivingmain
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import androidx.paging.cachedIn
+import androidx.paging.map
+import com.softeer.domain.model.CarFeed
+import com.softeer.domain.usecase.archiving.GetAbleOptionsUseCase
+import com.softeer.domain.usecase.archiving.GetCarFeedsUseCase
 import com.softeer.mycarchiving.enums.ArchiveSearchPage
 import com.softeer.mycarchiving.enums.ArchiveSearchPage.*
+import com.softeer.mycarchiving.mapper.asUiModel
 import com.softeer.mycarchiving.model.archiving.SearchOption
 import com.softeer.mycarchiving.model.archiving.SearchOptionUiModel
 import com.softeer.mycarchiving.model.common.CarFeedUiModel
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.stateIn
 import javax.inject.Inject
 
+private val TAG = ArchiveViewModel::class.simpleName
+
+@OptIn(ExperimentalCoroutinesApi::class)
 @HiltViewModel
-class ArchiveViewModel @Inject constructor() : ViewModel() {
+class ArchiveViewModel @Inject constructor(
+    getCarFeedsUseCase: GetCarFeedsUseCase,
+    getAbleOptionsUseCase: GetAbleOptionsUseCase
+) : ViewModel() {
 
     private val feed = CarFeedUiModel(
-        id = "123",
+        id = 123,
         model = "팰리세이드",
         isPurchase = false,
         creationDate = "2023-07-19",
@@ -79,41 +99,15 @@ class ArchiveViewModel @Inject constructor() : ViewModel() {
     private val _pendingCar = MutableStateFlow(_selectedCar.value)
     val pendingCar: StateFlow<SearchOption> = _pendingCar
 
-    private val _ableOptions = MutableStateFlow(
-        listOf(
-            SearchOptionUiModel(
-                category = "선택 옵션",
-                options = listOf(
-                    SearchOption(name = "주차 보조 시스템 ||"),
-                    SearchOption(name = "주차 보조 시스템 ||"),
-                    SearchOption(name = "주차 보조 시스템 ||"),
-                    SearchOption(name = "주차 보조 시스템 ||")
-                )
-            ),
-            SearchOptionUiModel(
-                category = "H Genuine Accessories",
-                options = listOf(
-                    SearchOption(name = "듀얼 머플러 패키지"),
-                    SearchOption(name = "사이드스텝"),
-                    SearchOption(name = "빌트인 공기청정기"),
-                    SearchOption(name = "듀얼 머플러 패키지"),
-                    SearchOption(name = "사이드스텝"),
-                    SearchOption(name = "빌트인 공기청정기")
-                )
-            ),
-            SearchOptionUiModel(
-                category = "N Performance",
-                options = listOf(
-                    SearchOption(name = "20인치 다크 스퍼터링 휠"),
-                    SearchOption(name = "20인치 블랙톤 전면 가공휠"),
-                    SearchOption(name = "알콘 단조브레이크 휠 패키지")
-                )
-            )
+    val ableOptions = getAbleOptionsUseCase()
+        .map { it.asUiModel() }
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(),
+            initialValue = emptyList()
         )
-    )
-    val ableOptions: StateFlow<List<SearchOptionUiModel>> = _ableOptions
 
-    val totalOptionsSize = _ableOptions.value.sumOf { it.options.size }
+    val totalOptionsSize = ableOptions.value.sumOf { it.options.size }
 
     private val _appliedOptions = MutableStateFlow(emptyList<SearchOption>())
     val appliedOptions: StateFlow<List<SearchOption>> = _appliedOptions
@@ -126,6 +120,16 @@ class ArchiveViewModel @Inject constructor() : ViewModel() {
 
     private val _carFeeds = MutableStateFlow(listOf(feed, feed, feed, feed, feed, feed, feed))
     val carFeeds: StateFlow<List<CarFeedUiModel>> = _carFeeds
+
+    val carFeedPagingData = _showSearchSheet.flatMapLatest { show ->
+        if (show.not()) {
+            getCarFeedsUseCase(_selectedOptions.value.map { it.id ?: "" })
+        } else {
+            flow {  }
+        }
+    }.map { pagingData -> pagingData.map(CarFeed::asUiModel) }
+        .cachedIn(viewModelScope)
+
 
     fun openSearchSheet() {
         _selectedOptions.value = _appliedOptions.value
@@ -171,7 +175,7 @@ class ArchiveViewModel @Inject constructor() : ViewModel() {
     }
 
     private fun initAbleOptions() {
-        _ableOptions.value.forEach { ableOption ->
+        ableOptions.value.forEach { ableOption ->
             ableOption.options.forEach { option ->
                 option.isSelect = option in _appliedOptions.value
             }

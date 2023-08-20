@@ -1,5 +1,6 @@
 package com.softeer.mycarchiving.ui.archiving.archivingmain
 
+import android.util.Log
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -12,8 +13,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.ModalBottomSheet
@@ -31,6 +32,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.paging.compose.LazyPagingItems
+import androidx.paging.compose.collectAsLazyPagingItems
 import com.softeer.mycarchiving.R
 import com.softeer.mycarchiving.model.archiving.SearchOption
 import com.softeer.mycarchiving.model.common.CarFeedUiModel
@@ -60,7 +63,8 @@ fun ArchiveRoute(
     val selectedOptions by archiveViewModel.selectedOptions.collectAsStateWithLifecycle()
     val pendingOptions by archiveViewModel.pendingOptions.collectAsStateWithLifecycle()
     val ableOptions by archiveViewModel.ableOptions.collectAsStateWithLifecycle()
-    val carFeeds by archiveViewModel.carFeeds.collectAsStateWithLifecycle()
+    val carFeeds = archiveViewModel.carFeedPagingData.collectAsLazyPagingItems()
+
     ArchiveScreen(
         modifier = modifier,
         selectedCar = selectedCar,
@@ -106,12 +110,12 @@ fun ArchiveScreen(
     modifier: Modifier,
     selectedCar: SearchOption,
     selectedOptions: List<SearchOption>,
-    carFeeds: List<CarFeedUiModel>,
+    carFeeds: LazyPagingItems<CarFeedUiModel>,
     deleteSelectedChip: (SearchOption) -> Unit,
     openSearchSheet: () -> Unit,
     onFeedClick: () -> Unit
 ) {
-    val scrollState = rememberScrollState()
+    val scrollState = rememberLazyListState()
     Column(
         modifier = modifier.fillMaxSize()
     ) {
@@ -162,8 +166,7 @@ fun ArchiveScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .background(color = HyundaiLightSand)
-                .padding(start = 16.dp, end = 16.dp, bottom = 20.dp)
-                .verticalScroll(scrollState),
+                .padding(start = 16.dp, end = 16.dp, bottom = 20.dp),
             verticalArrangement = Arrangement.spacedBy(11.dp)
         ) {
             Spacer(modifier = Modifier.height(10.dp))
@@ -172,8 +175,15 @@ fun ArchiveScreen(
                 style = medium14,
                 color = DarkGray
             )
-            carFeeds.forEach {
-                ArchiveFeed(carFeedUiModel = it, onFeedClick = onFeedClick)
+            LazyColumn(
+                state = scrollState,
+                verticalArrangement = Arrangement.spacedBy(12.dp)
+            ) {
+                items(count = carFeeds.itemCount) { index ->
+                    carFeeds[index]?.run {
+                        ArchiveFeed(carFeedUiModel = this, onFeedClick = onFeedClick)
+                    }
+                }
             }
         }
     }
