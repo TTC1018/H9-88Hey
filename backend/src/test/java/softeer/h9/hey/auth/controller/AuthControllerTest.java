@@ -32,6 +32,7 @@ import softeer.h9.hey.auth.exception.LoginException;
 import softeer.h9.hey.auth.repository.RefreshTokenRepository;
 import softeer.h9.hey.auth.repository.UserRepository;
 import softeer.h9.hey.auth.service.JwtTokenProvider;
+import softeer.h9.hey.auth.service.PasswordEncoder;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -44,6 +45,9 @@ class AuthControllerTest {
 
 	@SpyBean
 	RefreshTokenRepository refreshTokenRepository;
+
+	@SpyBean
+	PasswordEncoder passwordEncoder;
 
 	@SpyBean
 	UserRepository userRepository;
@@ -74,7 +78,6 @@ class AuthControllerTest {
 	@Test
 	@DisplayName("이미 가입되어있는 회원 ID인 경우 회원가입에 실패한다. ")
 	void duplicatedIdSignUpFailTest() throws Exception {
-
 		when(userRepository.findByEmail(anyString())).thenReturn(Optional.of(Mockito.mock(User.class)));
 
 		mockMvc.perform(
@@ -96,6 +99,7 @@ class AuthControllerTest {
 		user.setId(1);
 
 		when(userRepository.findByEmail(email)).thenReturn(Optional.of(user));
+		when(passwordEncoder.compare(anyString(), anyString())).thenReturn(true);
 
 		mockMvc.perform(
 				post("/auth/signin")

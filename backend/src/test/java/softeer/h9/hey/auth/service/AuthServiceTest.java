@@ -27,7 +27,8 @@ class AuthServiceTest {
 	private final JwtTokenProvider tokenProvider = Mockito.mock(JwtTokenProvider.class);
 	private final UserRepository userRepository = Mockito.mock(UserRepository.class);
 	private final RefreshTokenRepository refreshTokenRepository = Mockito.mock(RefreshTokenRepository.class);
-	private final AuthService authService = new AuthService(tokenProvider, userRepository, refreshTokenRepository);
+	private final PasswordEncoder passwordEncoder = Mockito.mock(PasswordEncoder.class);
+	private final AuthService authService = new AuthService(tokenProvider, userRepository, refreshTokenRepository, passwordEncoder);
 
 	@Test
 	@DisplayName("아이디와 비밀번호를 전달하여 회원가입을 한다.")
@@ -38,6 +39,7 @@ class AuthServiceTest {
 		user.setId(1);
 		when(tokenProvider.generateAccessToken(anyInt(), any())).thenReturn("accessToken");
 		when(tokenProvider.generateRefreshToken(anyInt(), any())).thenReturn("refreshToken");
+		when(passwordEncoder.encode(anyString())).thenReturn("encodedPassword");
 		when(userRepository.save(any())).thenReturn(user);
 
 		TokenResponse tokenResponse = authService.join(joinRequest);
@@ -72,6 +74,7 @@ class AuthServiceTest {
 		when(userRepository.findByEmail(email)).thenReturn(Optional.of(user));
 		when(tokenProvider.generateAccessToken(anyInt(), any())).thenReturn("accessToken");
 		when(tokenProvider.generateRefreshToken(anyInt(), any())).thenReturn("refreshToken");
+		when(passwordEncoder.compare(anyString(), anyString())).thenReturn(true);
 		TokenResponse tokenResponse = authService.login(loginRequest);
 
 		Assertions.assertThat(tokenResponse.getAccessToken()).isNotNull();
