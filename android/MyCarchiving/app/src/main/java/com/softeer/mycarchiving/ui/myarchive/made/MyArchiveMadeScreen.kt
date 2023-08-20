@@ -1,5 +1,6 @@
 package com.softeer.mycarchiving.ui.myarchive.made
 
+import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -12,6 +13,7 @@ import androidx.compose.ui.unit.dp
 import com.softeer.mycarchiving.model.myarchive.MadeCarSelectedOptionUiModel
 import com.softeer.mycarchiving.model.myarchive.MadeCarUiModel
 import com.softeer.mycarchiving.ui.component.MadeCarItem
+import com.softeer.mycarchiving.ui.component.MyArchiveLoadingScreen
 import com.softeer.mycarchiving.ui.theme.HyundaiLightSand
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -22,23 +24,35 @@ fun MyArchiveMadeScreen(
     onClick: () -> Unit,
     onDelete: (Int) -> Unit
 ) {
-    LazyColumn(
-        modifier = modifier
-            .background(HyundaiLightSand),
-        verticalArrangement = Arrangement.spacedBy(6.dp)
+    AnimatedContent(
+        targetState = madeCars,
+        label = ""
     ) {
-        itemsIndexed(madeCars, key = { _, item -> item.id }) { idx, item ->
-            MadeCarItem(
-                modifier = Modifier.animateItemPlacement(),
-                isTempSaved = item.isSaved.not(),
-                modelName = item.modelName,
-                trimName = item.trimName,
-                madeDate = item.lastModifiedDate,
-                options = item.trimOptions.joinToString(" / "),
-                imageInfos = item.selectedOptions,
-                onItemClick = onClick,
-                onDelete = { onDelete(idx) }
-            )
+        when {
+            it.isEmpty() -> {
+                MyArchiveLoadingScreen()
+            }
+            else -> {
+                LazyColumn(
+                    modifier = modifier
+                        .background(HyundaiLightSand),
+                    verticalArrangement = Arrangement.spacedBy(6.dp),
+                ) {
+                    itemsIndexed(madeCars, key = { _, item -> item.id }) { idx, item ->
+                        MadeCarItem(
+                            modifier = Modifier.animateItemPlacement(),
+                            isTempSaved = item.isSaved.not(),
+                            modelName = item.modelName,
+                            trimName = item.trimName,
+                            madeDate = item.lastModifiedDate,
+                            options = item.trimOptions.joinToString(" / "),
+                            imageInfos = item.selectedOptions,
+                            onItemClick = onClick,
+                            onDelete = { onDelete(idx) }
+                        )
+                    }
+                }
+            }
         }
     }
 }
