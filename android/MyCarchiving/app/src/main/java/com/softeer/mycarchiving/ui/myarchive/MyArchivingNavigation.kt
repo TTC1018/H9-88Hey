@@ -42,6 +42,10 @@ fun NavGraphBuilder.makingMyArchiveGraph(
                     navController = appState.myArchiveNavController,
                     startDestination = MY_ARCHIVE_MAIN.route
                 ) {
+                    myArchiveMainScreen(
+                        moveDetailPage = { appState.navigateToMyArchiveDestination(MY_ARCHIVE_DETAIL) },
+                        onBackClick = appState.navController::popBackStack
+                    )
                     myArchiveDetailScreen(
                         onBackClick = appState.myArchiveNavController::popBackStack
                     )
