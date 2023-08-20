@@ -10,6 +10,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import com.softeer.mycarchiving.navigation.MainDestination
 import com.softeer.mycarchiving.navigation.MyArchiveDestinations.*
 import com.softeer.mycarchiving.ui.HyundaiAppState
@@ -27,6 +28,8 @@ fun NavGraphBuilder.makingMyArchiveGraph(
     composable(
         route = MainDestination.MY_ARCHIVING.route
     ) {
+        appState.myArchiveNavController = rememberNavController()
+
         Scaffold(
             modifier = Modifier,
             topBar = {
