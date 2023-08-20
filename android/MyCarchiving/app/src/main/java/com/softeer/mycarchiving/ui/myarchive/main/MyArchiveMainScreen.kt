@@ -3,16 +3,19 @@ package com.softeer.mycarchiving.ui.myarchive.main
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.softeer.mycarchiving.model.common.CarFeedUiModel
 import com.softeer.mycarchiving.model.myarchive.MadeCarSelectedOptionUiModel
 import com.softeer.mycarchiving.model.myarchive.MadeCarUiModel
 import com.softeer.mycarchiving.ui.component.ChoiceTab
 import com.softeer.mycarchiving.ui.myarchive.made.MyArchiveMadeScreen
+import com.softeer.mycarchiving.ui.myarchive.save.MyArchiveSaveScreen
 
 @Composable
 fun MyArchiveMainRoute(
@@ -23,11 +26,13 @@ fun MyArchiveMainRoute(
 ) {
     val selectedIndex by viewModel.selectedIndex.collectAsStateWithLifecycle()
     val madeCars by viewModel.madeCars.collectAsStateWithLifecycle()
+    val savedCars by viewModel.savedCars.collectAsStateWithLifecycle()
 
     MyArchiveMainScreen(
         modifier = modifier,
         selectedIndex = selectedIndex,
         madeCars = madeCars,
+        savedCars = savedCars,
         onSelect = viewModel::updateSelectedIndex,
         onMadeCarClick = onMadeCarClick,
         onMadeCarDelete = viewModel::deleteMadeCar,
@@ -40,6 +45,7 @@ fun MyArchiveMainScreen(
     modifier: Modifier = Modifier,
     selectedIndex: Int,
     madeCars: List<MadeCarUiModel>,
+    savedCars: List<CarFeedUiModel>,
     onSelect: (Int) -> Unit,
     onMadeCarClick: () -> Unit,
     onMadeCarDelete: (Int) -> Unit,
@@ -49,10 +55,16 @@ fun MyArchiveMainScreen(
         modifier = modifier
             .fillMaxSize()
     ) {
-        ChoiceTab(
-            selectedIndex = selectedIndex,
-            onSelect = onSelect
-        )
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+        ) {
+            ChoiceTab(
+                selectedIndex = selectedIndex,
+                onSelect = onSelect
+            )
+        }
+
         AnimatedContent(
             targetState = selectedIndex,
             label = ""
@@ -67,7 +79,12 @@ fun MyArchiveMainScreen(
                     onDelete = onMadeCarDelete,
                 )
 
-                1 -> {}
+                1 -> MyArchiveSaveScreen(
+                    modifier = Modifier
+                        .weight(1f)
+                        .fillMaxSize(),
+                    carFeeds = savedCars,
+                )
             }
         }
     }
@@ -108,6 +125,21 @@ fun PreviewMyArchiveMainScreen() {
                     MadeCarSelectedOptionUiModel("빌트인 공기청정기", ""),
                     MadeCarSelectedOptionUiModel("사이드 스텝", "")
                 ),
+            )
+        ),
+        savedCars = listOf(
+            CarFeedUiModel(
+                id = "1",
+                model = "팰리세이드",
+                isPurchase = false,
+                creationDate = "2023-07-19",
+                trim = "Le Blanc",
+                trimOptions = listOf("디젤 2.2", "4WD", "7인승"),
+                interiorColor = "문라이트 블루 펄",
+                exteriorColor = "퀄팅 천연(블랙)",
+                selectedOptions = listOf("컴포트 ||", "듀얼 와이드 선루프"),
+                review = "승차감이 좋아요 차가 크고 운전하는 시야도 높아서 좋았어요 저는 13개월 아들이 있는데 뒤에 차시트 달아도 널널할 것 같습니다. 다른 주차 관련 옵션도 괜찮아요.",
+                tags = listOf("편리해요😉", "이것만 있으면 나도 주차고수🚘", "대형견도 문제 없어요🐶")
             )
         ),
         onSelect = {},
