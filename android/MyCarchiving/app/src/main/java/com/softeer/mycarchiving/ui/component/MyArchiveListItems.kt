@@ -1,6 +1,5 @@
 package com.softeer.mycarchiving.ui.component
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -21,17 +20,23 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import coil.compose.AsyncImage
 import com.softeer.mycarchiving.R
 import com.softeer.mycarchiving.enums.CarFeedType
 import com.softeer.mycarchiving.model.common.CarFeedUiModel
+import com.softeer.mycarchiving.model.myarchive.MadeCarSelectedOptionUiModel
 import com.softeer.mycarchiving.ui.theme.AlertPrimary
 import com.softeer.mycarchiving.ui.theme.Black
 import com.softeer.mycarchiving.ui.theme.DarkGray
@@ -49,19 +54,21 @@ import com.softeer.mycarchiving.ui.theme.roundCorner
 import com.softeer.mycarchiving.ui.theme.roundCornerSmall
 import com.softeer.mycarchiving.util.toDateString
 
-private val imageNames = listOf("컴포트 ||","컴포트 ||","컴포트 ||")
 
 @Composable
 fun MadeCarItem(
-    modifier: Modifier,
+    modifier: Modifier = Modifier,
     isTempSaved: Boolean,
-    carName: String,
+    modelName: String,
+    trimName: String,
     madeDate: String,
     options: String,
-    imageNames: List<String>,
+    imageInfos: List<MadeCarSelectedOptionUiModel>,
     onItemClick: () -> Unit,
     onDelete: () -> Unit
 ) {
+    var shouldDialogShow by remember { mutableStateOf(false) }
+
     Column(
         modifier = modifier
             .fillMaxWidth()
@@ -71,7 +78,7 @@ fun MadeCarItem(
     ) {
         if (isTempSaved) {
             Row(
-                modifier = modifier.padding(end = 22.dp)
+                modifier = Modifier.padding(end = 22.dp)
             ) {
                 Text(
                     text = "*",
@@ -84,68 +91,92 @@ fun MadeCarItem(
                     color = DarkGray
                 )
             }
-            Spacer(modifier = modifier.height(5.dp))
+            Spacer(modifier = Modifier.height(5.dp))
         }
         Row(
-            modifier = modifier.padding(end = 22.dp),
-            verticalAlignment = Alignment.CenterVertically
+            modifier = Modifier
+                .padding(end = 22.dp)
+                .fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween
         ) {
             Text(
-                modifier = modifier.weight(1f),
-                text = carName,
+                text = "$modelName $trimName",
                 style = bold18,
                 overflow = TextOverflow.Ellipsis
             )
-            CarFeedDateChip(
-                modifier = modifier,
-                date = madeDate,
-                feedType = if (isTempSaved) CarFeedType.TEMP_SAVE else CarFeedType.MADE
-            )
-            Spacer(modifier = modifier.width(5.dp))
-            XCircle(modifier = modifier, onClick = onDelete)
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(5.dp)
+            ) {
+                CarFeedDateChip(
+                    modifier = Modifier,
+                    date = madeDate,
+                    feedType = if (isTempSaved) CarFeedType.TEMP_SAVE else CarFeedType.MADE
+                )
+                XCircle(
+                    modifier = Modifier,
+                    onClick = { shouldDialogShow = true }
+                )
+            }
         }
-        Spacer(modifier = modifier.height(5.dp))
+        Spacer(modifier = Modifier.height(5.dp))
         Text(
             text = options,
             style = regular14
         )
-        Spacer(modifier = modifier.height(12.dp))
+        Spacer(modifier = Modifier.height(12.dp))
         LazyRow(
             horizontalArrangement = Arrangement.spacedBy(4.dp)
         ) {
             items(
-                items = imageNames,
+                items = imageInfos,
                 itemContent = {
-                    MadeCarImageItem(modifier = modifier, name = it)
+                    MadeCarImageItem(
+                        modifier = Modifier,
+                        name = it.name,
+                        imageUrl = it.imageUrl
+                    )
                 }
             )
         }
+    }
+
+    if (shouldDialogShow) {
+        DeleteMadeCarDialog(
+            onDismissRequest = { shouldDialogShow = false },
+            onDelete = onDelete,
+            carName = "$modelName $trimName"
+        )
     }
 }
 
 @Composable
 fun MadeCarImageItem(
     modifier: Modifier,
-    name: String
+    name: String,
+    imageUrl: String,
 ) {
     Box(
         modifier = modifier
             .size(122.dp)
             .clip(roundCornerSmall)
     ) {
-        Image(
-            modifier = modifier.fillMaxSize(),
-            painter = painterResource(id = R.drawable.ic_launcher_background),
-            contentDescription = null
+        AsyncImage(
+            modifier = Modifier
+                .fillMaxSize(),
+            model = imageUrl,
+            contentDescription = "",
+            contentScale = ContentScale.Crop
         )
         Box(
-            modifier = modifier
+            modifier = Modifier
                 .align(Alignment.BottomStart)
                 .padding(all = 6.dp),
             contentAlignment = Alignment.Center
         ) {
             Text(
-                modifier = modifier
+                modifier = Modifier
                     .background(color = Black, shape = roundCornerSmall)
                     .padding(all = 4.dp),
                 text = name,
@@ -275,10 +306,15 @@ fun PreviewMadeCarItem() {
     MadeCarItem(
         modifier = Modifier,
         isTempSaved = true,
-        carName = "팰리세이드 Le Blanc",
+        modelName = "팰리세이드",
+        trimName = "Le Blanc",
         madeDate = "23년 7월 19일",
         options = "디젤 2.2 / 4WD / 7인승",
-        imageNames = imageNames,
+        imageInfos = listOf(
+            MadeCarSelectedOptionUiModel("컴포트 II", ""),
+            MadeCarSelectedOptionUiModel("듀얼 와이드 선루프", ""),
+            MadeCarSelectedOptionUiModel("현대스마트센스 I", "")
+        ),
         onItemClick = {},
         onDelete = {}
     )
