@@ -60,9 +60,9 @@ fun rememberHyundaiAppState(
 @Stable
 class HyundaiAppState(
     val navController: NavHostController,
-    val makingCarNavController: NavHostController,
-    val archivingNavController: NavHostController,
-    val myArchiveNavController: NavHostController,
+    var makingCarNavController: NavHostController,
+    var archivingNavController: NavHostController,
+    var myArchiveNavController: NavHostController,
     val coroutineScope: CoroutineScope,
 ) {
     private val currentDestination: NavDestination?

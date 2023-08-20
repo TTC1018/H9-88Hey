@@ -12,6 +12,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import com.softeer.mycarchiving.navigation.MainDestination
 import com.softeer.mycarchiving.navigation.MakingCarDestinations
 import com.softeer.mycarchiving.ui.HyundaiAppState
@@ -36,6 +37,7 @@ fun NavGraphBuilder.makingCarGraph(
     composable(
         route = MainDestination.MAKING_CAR.route
     ) {
+        appState.makingCarNavController = rememberNavController()
         val mainProgress = appState.currentProgressId
         val screenProgress = appState.currentProgressChildId
         val makingCarViewModelOwner: ViewModelStoreOwner = remember(it) {
