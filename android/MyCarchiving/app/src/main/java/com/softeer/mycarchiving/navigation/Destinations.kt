@@ -25,7 +25,6 @@ enum class ArchivingDestinations(val route: String, val needBottomBar: Boolean) 
 }
 
 enum class MyArchiveDestinations(val route: String) {
-    MY_ARCHIVE_MADE("my_archive_made"),
-    MY_ARCHIVE_SAVE("my_archive_save"),
+    MY_ARCHIVE_MAIN("my_archive_main"),
     MY_ARCHIVE_DETAIL("my_archive_detail"),
 }
