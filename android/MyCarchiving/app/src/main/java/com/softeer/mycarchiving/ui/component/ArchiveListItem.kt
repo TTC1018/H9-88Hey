@@ -145,6 +145,7 @@ fun ArchiveFeed(
 fun PreviewArchiveFeed() {
     ArchiveFeed(
         carFeedUiModel = CarFeedUiModel(
+            id = "",
             model = "팰리세이드",
             isPurchase = false,
             creationDate = "2023-07-19",

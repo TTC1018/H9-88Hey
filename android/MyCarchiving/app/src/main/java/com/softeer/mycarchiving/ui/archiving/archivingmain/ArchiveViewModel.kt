@@ -15,6 +15,7 @@ import javax.inject.Inject
 class ArchiveViewModel @Inject constructor() : ViewModel() {
 
     private val feed = CarFeedUiModel(
+        id = "123",
         model = "팰리세이드",
         isPurchase = false,
         creationDate = "2023-07-19",
