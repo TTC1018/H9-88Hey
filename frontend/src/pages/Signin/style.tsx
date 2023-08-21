@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom';
+
 import styled from '@emotion/styled';
 import { css } from '@emotion/react';
 
@@ -83,6 +85,27 @@ export const Button = styled.button`
 
       &:hover {
         background-color: ${colors.hyundaiPrimaryBlue};
+      }
+    `;
+  }}
+`;
+
+export const LinkWrapper = styled(Link)`
+  ${({ theme }) => {
+    const { colors, fonts } = theme;
+
+    return css`
+      margin-top: 20px;
+
+      ${fonts.bodyRegular3};
+
+      color: ${colors.hyundaiPrimaryBlue500};
+      text-decoration: none;
+
+      cursor: pointer;
+
+      &:hover {
+        text-decoration: underline;
       }
     `;
   }}

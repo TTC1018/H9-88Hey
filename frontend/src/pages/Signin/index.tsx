@@ -138,6 +138,7 @@ export function Signin() {
           <Styled.Button type="submit" disabled={isDisabled}>
             로그인
           </Styled.Button>
+          <Styled.LinkWrapper to="/signup">아직 회원가입을 안하셨나요?</Styled.LinkWrapper>
         </Styled.Form>
       </Styled.Container>
     </>

@@ -31,7 +31,7 @@ export function Signup() {
     password: '',
   });
   const [confirmPassword, setConfirmPassword] = useState('');
-  const [userName, setUserName] = useState('');
+  const [user, setUser] = useState('');
 
   const [isShow, setIsShow] = useState(false);
   const [alert, setAlert] = useState('alert');
@@ -39,7 +39,7 @@ export function Signup() {
 
   const navigate = useNavigate();
 
-  const { isSignin, setIsSignin, username, setUsername, accessToken, setAccessToken } = useContext(AuthContext);
+  const { isSignin, setIsSignin, setUserName, setAccessToken } = useContext(AuthContext);
 
   function handleChangeAccount(event: ChangeEvent<HTMLInputElement>) {
     const { name, value } = event.target;
@@ -51,7 +51,7 @@ export function Signup() {
   }
 
   function handleChangeUserName(event: ChangeEvent<HTMLInputElement>) {
-    setUserName(event.target.value);
+    setUser(event.target.value);
   }
 
   function handleAlert(message: string) {
@@ -80,7 +80,7 @@ export function Signup() {
       return;
     }
 
-    if (isUserNameEmpty(userName)) {
+    if (isUserNameEmpty(user)) {
       handleAlert(AUTH_ALERT_MESSAGE.USER_NAME_EMPTY);
       return;
     }
@@ -101,7 +101,7 @@ export function Signup() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ ...account, userName }),
+        body: JSON.stringify({ ...account, userName: user }),
       });
 
       const { statusCode, message, data } = await response.json();
@@ -116,7 +116,7 @@ export function Signup() {
       setLocalStorage('refreshToken', refreshToken);
 
       setIsSignin(true);
-      setUsername(userName);
+      setUserName(user);
     } catch (error: unknown) {
       if (error instanceof AuthError) {
         const { statusCode } = error;
@@ -166,6 +166,7 @@ export function Signup() {
           <Styled.Button type="submit" disabled={isDisabled}>
             회원가입
           </Styled.Button>
+          <Styled.LinkWrapper to="/">이미 아이디가 있으신가요?</Styled.LinkWrapper>
         </Styled.Form>
       </Styled.Container>
     </>
