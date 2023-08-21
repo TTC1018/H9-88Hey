@@ -1,12 +1,17 @@
+import { Suspense } from 'react';
+
+import { TagBox } from '@/components/common/TagBox';
+import { TagSkeleton } from '@/components/common/TagSkeleton';
+
 import * as Styled from './style';
 
 interface OptionDescriptionProps {
   name: string;
   additionalPrice: number;
-  tags: string[];
+  tagId: string;
 }
 
-export function OptionDescription({ name, additionalPrice, tags }: OptionDescriptionProps) {
+export function OptionDescription({ name, additionalPrice, tagId }: OptionDescriptionProps) {
   return (
     <Styled.Container>
       <Styled.TitleWrapper>
@@ -19,9 +24,9 @@ export function OptionDescription({ name, additionalPrice, tags }: OptionDescrip
         <Styled.MessageBox>에 대해 시승자들은 이런 후기를 남겼어요</Styled.MessageBox>
       </Styled.DescriptionWrapper>
       <Styled.TagWrapper>
-        {tags.map(tag => (
-          <Styled.TagBox key={tag}>{tag}</Styled.TagBox>
-        ))}
+        <Suspense fallback={<TagSkeleton count={3} />}>
+          <TagBox tagId={tagId} type={'select-option'} limit={3} />
+        </Suspense>
       </Styled.TagWrapper>
     </Styled.Container>
   );

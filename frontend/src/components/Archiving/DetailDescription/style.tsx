@@ -3,6 +3,7 @@ import styled from '@emotion/styled';
 
 export const Container = styled.div`
   width: 1024px;
+  padding-bottom: 30px;
 `;
 
 export const RegularText = styled.p`

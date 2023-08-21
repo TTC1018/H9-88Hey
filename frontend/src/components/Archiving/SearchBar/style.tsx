@@ -57,3 +57,19 @@ export const Wrapper = styled.p<Props>`
     `;
   }}
 `;
+
+export const DeactiveWrapper = styled.p`
+  ${({ theme }) => {
+    const { fonts } = theme;
+    return css`
+      margin-bottom: 2px;
+
+      position: relative;
+
+      ${fonts.headingBold3}
+      color:  #CECECE;
+
+      cursor: not-allowed;
+    `;
+  }}
+`;

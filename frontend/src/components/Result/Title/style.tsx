@@ -7,9 +7,8 @@ export const Container = styled.div`
 
     return css`
       width: 100%;
-      height: 277px;
-      margin-top: 32px;
-      padding-top: 76px;
+      height: 334px;
+      margin-top: 30px;
 
       display: flex;
       justify-content: center;
@@ -19,9 +18,14 @@ export const Container = styled.div`
   }}
 `;
 
-export const TitleWrapper = styled.div`
+export const Box = styled.div`
+  display: flex;
   width: 1024px;
+  align-items: center;
+  justify-content: space-between;
+`;
 
+export const TitleWrapper = styled.div`
   display: flex;
   flex-direction: column;
 `;
@@ -43,7 +47,7 @@ export const TitleLine = styled.hr`
     const { colors } = theme;
 
     return css`
-      width: 605px;
+      width: 160%;
       height: 1px;
       margin: 13px 0 0 0;
 
@@ -68,13 +72,10 @@ export const Message = styled.p`
 `;
 
 export const Image = styled.img`
-  width: 851px;
-  height: 465px;
-  top: 25px;
-  right: 200px;
-  z-index: 1;
+  width: 550px;
+  height: 340px;
 
-  position: absolute;
+  transform: scale(1.6);
 `;
 
 export const DescriptionWrapper = styled.div`

@@ -28,7 +28,7 @@ export function formatDate(inputDate: string) {
 }
 
 export function combineWithSlash(strings: string[]) {
-  return strings.join(' / ');
+  return strings.filter(Boolean).join(' / ');
 }
 
 export function hasJongSeong(word: string) {
@@ -68,6 +68,10 @@ export function checkIsHGenuineAccessoriesPage(path: string) {
 
 export function checkIsNPerformancePage(path: string) {
   return path === '/option/n-performance';
+}
+
+export function checkIsResultPage(path: string) {
+  return path === '/result';
 }
 
 export function isHGenuineAccessoriesSelected(options: OptionContextProps[]) {

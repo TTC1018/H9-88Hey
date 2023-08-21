@@ -97,24 +97,3 @@ export const TagWrapper = styled.div`
 
   display: flex;
 `;
-
-export const TagBox = styled.div`
-  ${({ theme }) => {
-    const { colors, fonts } = theme;
-
-    return css`
-      height: 30px;
-      padding: 4px 8px;
-
-      display: inline-flex;
-      justify-content: center;
-      align-items: center;
-
-      ${fonts.bodyRegular3};
-      colors: ${colors.black};
-
-      border-radius: 8px;
-      background-color: ${colors.hyundaiLightSand};
-    `;
-  }}
-`;

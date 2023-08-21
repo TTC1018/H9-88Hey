@@ -1,14 +1,19 @@
-import { MutableRefObject } from 'react';
+import { Dispatch, MutableRefObject } from 'react';
+
 import { OptionContextProps } from './option';
+import { ExteriorColorsProps, InteriorColorsProps } from './color';
+import { MyCarActionType } from '@/constants';
 
 export interface FeatureProps {
   name: string;
   imageUrl: string;
 }
-interface TrimProps {
+export interface TrimBaseProps {
   id: number;
   name: string;
   price: number;
+}
+interface TrimProps extends TrimBaseProps {
   trimFeatures: FeatureProps[];
 }
 export interface TrimDataProps {
@@ -16,39 +21,30 @@ export interface TrimDataProps {
   trims: TrimProps[];
 }
 
-interface EngineProps {
+interface TrimOptionBaseProps {
   id: number;
   name: string;
   additionalPrice: number;
+}
+interface TrimOptionProps extends TrimOptionBaseProps {
+  imageUrl: string;
   description: string;
+}
+interface EngineProps extends TrimOptionProps {
   maximumPower: string;
   maximumTorque: string;
-  imageUrl: string;
 }
+
 export interface EngineDataProps {
   engines: EngineProps[];
 }
 
-interface BodyTypeProps {
-  id: number;
-  name: string;
-  imageUrl: string;
-  additionalPrice: number;
-  description: string;
-}
 export interface BodyTypeDataProps {
-  bodyTypes: BodyTypeProps[];
+  bodyTypes: TrimOptionProps[];
 }
 
-interface WheelDriveProps {
-  id: number;
-  name: string;
-  additionalPrice: number;
-  description: string;
-  imageUrl: string;
-}
 export interface WheelDriveDataProps {
-  wheelDrives: WheelDriveProps[];
+  wheelDrives: TrimOptionProps[];
 }
 
 interface MyCarTypeProps {
@@ -56,39 +52,49 @@ interface MyCarTypeProps {
   enName: string;
 }
 
-interface MyCarDetailProps {
-  title: string;
-  price: number;
-}
-
-interface MyCarDetailPropsWithId extends MyCarDetailProps {
-  id: number;
-}
+export type ExteriorColorDataProps = Pick<ExteriorColorsProps, 'name' | 'colorImageUrl' | 'additionalPrice'>;
+export type InteriorColorDataProps = Pick<InteriorColorsProps, 'name' | 'colorImageUrl' | 'id'>;
 
 export interface MyCarProps {
   carType: MyCarTypeProps;
-  trim: MyCarDetailPropsWithId;
-  engine: MyCarDetailPropsWithId;
-  bodyType: MyCarDetailPropsWithId;
-  wheelDrive: MyCarDetailPropsWithId;
-  outerColor: { title: string; imageUrl: string; price: number };
-  innerColor: { title: string; imageUrl: string; id: number };
+  trim: TrimBaseProps;
+  engine: TrimOptionBaseProps;
+  bodyType: TrimOptionBaseProps;
+  wheelDrive: TrimOptionBaseProps;
+  exteriorColor: ExteriorColorDataProps;
+  interiorColor: InteriorColorDataProps;
   options: OptionContextProps[];
   carImageUrl: string;
   [key: string]: any;
 }
 
+export type HandleTrimOptionProps = TrimOptionBaseProps & { key: 'engine' | 'wheelDrive' | 'bodyType' };
 export interface MyCarLayoutContextProps {
   myCar: MyCarProps;
   carCode: MutableRefObject<string>;
-  handleTrim: ({ key, option, price, id }: { key: string; option: string; price: number; id: number }) => void;
-  handleOuterColor: ({ color, colorImage, price }: { color: string; colorImage: string; price: number }) => void;
-  handleInnerColor: ({ color, colorImage, id }: { color: string; colorImage: string; id: number }) => void;
   totalPrice: number;
+  dispatch: Dispatch<ActionType>;
   handleCarImageUrl: (carImageUrl: string) => void;
-  clearHGenuineAccessories: () => void;
 }
 
 export interface CarCodeProps {
   carCode: string;
+}
+
+export type ActionType =
+  | {
+      type: MyCarActionType.TRIM;
+      props: TrimBaseProps;
+    }
+  | { type: MyCarActionType.TRIM_OPTION; props: HandleTrimOptionProps }
+  | { type: MyCarActionType.EXTERIOR_COLOR; props: ExteriorColorDataProps }
+  | { type: MyCarActionType.INTERIOR_COLOR; props: InteriorColorDataProps }
+  | { type: MyCarActionType.ADD_OPTION; props: OptionContextProps }
+  | { type: MyCarActionType.REMOVE_OPTION; props: string }
+  | { type: MyCarActionType.CAR_IMAGE_URL; props: string }
+  | { type: MyCarActionType.SAVE_OPTION; props: MyCarProps }
+  | { type: MyCarActionType.CLEAR_OPTION; props: OptionContextProps[] };
+
+export interface TagDataProps {
+  tags: string[];
 }

@@ -20,6 +20,7 @@ export const HeaderWrapper = styled.div`
   align-items: center;
 
   background-color: #fff;
+  z-index: 2;
 `;
 
 export const ReviewWrapper = styled.div`

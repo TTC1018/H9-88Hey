@@ -35,6 +35,17 @@ export const OptionCardWrapper = styled.div<OptionCardProps>`
 export const Image = styled.img`
   width: 160px;
   height: 93px;
+
+  opacity: 0;
+  animation: fadeIn 0.5s ease-in-out forwards;
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
 `;
 
 export const DescriptionWrapper = styled.div`

@@ -2,9 +2,9 @@ import { useState, useEffect, useRef, MouseEvent, WheelEvent } from 'react';
 
 import { useOutletContext, useLocation } from 'react-router-dom';
 
-import { OptionContextProviderProps } from '@/types/option';
+import { MyCarLayoutContextProps } from '@/types/trim';
+import { ModalType, MyCarActionType } from '@/constants';
 import { checkIsSelectOptionPage, isHGenuineAccessoriesSelected } from '@/utils';
-import { ModalType } from '@/constants';
 
 import { OptionCardHover } from '@/components/Option/OptionCardList/OptionCardHover';
 import { ModalPortal } from '@/components/Option/ModalPortal';
@@ -39,7 +39,7 @@ export function OptionCard({
   const [isHover, setIsHover] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
 
-  const { myCar, addOption, removeOption, clearHGenuineAccessories } = useOutletContext<OptionContextProviderProps>();
+  const { myCar, dispatch } = useOutletContext<MyCarLayoutContextProps>();
   const { options } = myCar;
 
   const childRef = useRef<HTMLUListElement | null>(null);
@@ -59,8 +59,11 @@ export function OptionCard({
     setIsButtonActive(prev => !prev);
 
     isButtonActive
-      ? removeOption(name)
-      : addOption({ id, name, price: additionalPrice, imageUrl, subOptions: subOptionNames, path: pathname });
+      ? dispatch({ type: MyCarActionType.REMOVE_OPTION, props: name })
+      : dispatch({
+          type: MyCarActionType.ADD_OPTION,
+          props: { id, name, additionalPrice, imageUrl, subOptions: subOptionNames, path: pathname },
+        });
   }
 
   function handleHoverCard(isHover: boolean) {
@@ -75,13 +78,17 @@ export function OptionCard({
   }
 
   function handleClearHGenuineAccessories() {
-    clearHGenuineAccessories();
+    const clearedOptions = myCar.options.filter(option => option.path !== '/option/h-genuine-accessories');
+    dispatch({ type: MyCarActionType.CLEAR_OPTION, props: clearedOptions });
 
     setIsButtonActive(prev => !prev);
 
     isButtonActive
-      ? removeOption(name)
-      : addOption({ id, name, price: additionalPrice, imageUrl, subOptions: subOptionNames, path: pathname });
+      ? dispatch({ type: MyCarActionType.REMOVE_OPTION, props: name })
+      : dispatch({
+          type: MyCarActionType.ADD_OPTION,
+          props: { id, name, additionalPrice, imageUrl, subOptions: subOptionNames, path: pathname },
+        });
 
     setIsOpen(false);
   }
@@ -111,7 +118,7 @@ export function OptionCard({
         onWheel={event => handleWheel(event)}
       />
       <ModalPortal isOpen={isOpen} handleClose={() => setIsOpen(false)}>
-        <PopupModal type={ModalType.CLEAR} onClick={handleClearHGenuineAccessories} />
+        <PopupModal type={ModalType.CLEAR} onClick={handleClearHGenuineAccessories} onClose={() => setIsOpen(false)} />
       </ModalPortal>
     </Styled.OptionCardWrapper>
   );

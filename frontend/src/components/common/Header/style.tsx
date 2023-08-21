@@ -10,6 +10,7 @@ const Container = styled.header`
       display: flex;
       align-items: center;
       justify-content: center;
+      z-index: 1;
 
       background-color: ${colors.hyundaiSand};
     `;
@@ -73,10 +74,29 @@ const InfoBox = styled.div`
   gap: 25px;
 `;
 
-const AutoSavingBox = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 5px;
+interface AutoSavingBoxProps {
+  isDisplay: boolean;
+}
+
+const AutoSavingBox = styled.div<AutoSavingBoxProps>`
+  ${({ isDisplay }) => {
+    return css`
+      display: ${isDisplay ? 'flex' : 'none'};
+      align-items: center;
+      gap: 5px;
+
+      animation: showAutoSaving 0.2s linear;
+
+      @keyframes showAutoSaving {
+        0% {
+          transform: translateY(8px);
+        }
+        100% {
+          transform: translateY(0);
+        }
+      }
+    `;
+  }}
 `;
 
 const AutoSavingText = styled.span`

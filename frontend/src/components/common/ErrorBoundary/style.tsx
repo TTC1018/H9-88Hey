@@ -43,3 +43,23 @@ export const Body = styled.p`
     `;
   }}
 `;
+
+export const Button = styled.a`
+  ${({ theme }) => {
+    const { colors, fonts } = theme;
+    return css`
+      width: 343px;
+      height: 56px;
+
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      ${fonts.headingBold4}
+      color:${colors.hyundaiLightSand};
+
+      background-color: ${colors.hyundaiPrimaryBlue};
+      border-radius: 8px;
+    `;
+  }}
+`;

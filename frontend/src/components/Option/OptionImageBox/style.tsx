@@ -11,6 +11,17 @@ export const Container = styled.div`
 export const Image = styled.img`
   width: 479px;
   height: 304px;
+
+  opacity: 0;
+  animation: fadeIn 0.5s ease-in-out forwards;
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
 `;
 
 export const Button = styled.button`
