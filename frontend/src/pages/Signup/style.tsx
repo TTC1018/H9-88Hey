@@ -52,6 +52,7 @@ export const Input = styled.input`
       ${fonts.bodyRegular3};
 
       border: 1px solid ${colors.lightGray};
+      border-radius: 8px;
 
       &::placeholder {
         color: ${colors.mediumGray};
@@ -80,6 +81,7 @@ export const Button = styled.button`
       color: ${colors.hyundaiNeutral};
       ${fonts.headingBold4};
 
+      border-radius: 8px;
       background-color: ${colors.hyundaiPrimaryBlue500};
       transition: background-color 0.2s ease;
 
