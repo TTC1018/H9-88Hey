@@ -69,17 +69,38 @@ class MyChivingRepositoryTest {
 
 	@Test
 	@DisplayName("유저 아이디와 limit, offset 정보를 개수와 순서에 맞게 유저의 마이카이빙 테이블 저장 정보를 가져와야 한다.")
+	@Transactional
 	void findMyChiving() {
-		Integer userId = 1;
+		Long id = null;
+		Integer engineId = 1;
+		Integer trimId = 1;
+		Integer bodyTypeId = 1;
+		Integer wheelTypeId = 1;
+		Integer exteriorColorId = 1;
+		Integer interiorColorId = 1;
+		List<String> selectOptionIdList = List.of("TRP","DUP","VI2");
+
+		MyChivingTempSaveRequest myChivingTempSaveRequest = new MyChivingTempSaveRequest(id, bodyTypeId, wheelTypeId, engineId, trimId, exteriorColorId, interiorColorId, selectOptionIdList);
+		MyChivingSaveDto myChivingSaveDto = MyChivingSaveDto.from(myChivingTempSaveRequest);
+		myChivingSaveDto.setUserId(68);
+		myChivingSaveDto.setSubmitted(false);
+
+		List<Long> myChivingIdList = List.of(
+			myChivingRepository.saveMyCarToMyChiving(myChivingSaveDto),
+			myChivingRepository.saveMyCarToMyChiving(myChivingSaveDto),
+			myChivingRepository.saveMyCarToMyChiving(myChivingSaveDto),
+			myChivingRepository.saveMyCarToMyChiving(myChivingSaveDto));
+
+		Integer userId = 68;
 		Integer limit = 4;
-		Integer offset = 1;
+		Integer offset = 0;
 
 		List<MyChivingDto> myChivingDtoList = myChivingRepository.findMyChivingsByUserIdLimitAndOffset(userId, limit, offset);
 
 		assertThat(myChivingDtoList).hasSize(4);
 		//필수값 체크
 		for (MyChivingDto myChivingDto : myChivingDtoList) {
-			assertThat(myChivingDto.getMyChivingId()).isNotNull();
+			assertThat(myChivingDto.getMyChivingId()).isIn(myChivingIdList);
 			assertThat(myChivingDto.getLastModifiedDate()).isNotNull();
 			assertThat(myChivingDto.getModelDto()).isNotNull();
 			assertThat(myChivingDto.getTrim()).isNotNull();

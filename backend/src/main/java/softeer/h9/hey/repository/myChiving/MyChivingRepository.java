@@ -79,7 +79,6 @@ public class MyChivingRepository {
 		return myChivingId;
 	}
 
-	@Transactional(readOnly = true)
 	public List<MyChivingDto> findMyChivingsByUserIdLimitAndOffset(Integer userId, Integer limit, Integer startIndex) {
 		List<MyChivingDto> myChivingDtoList = new ArrayList<>();
 
