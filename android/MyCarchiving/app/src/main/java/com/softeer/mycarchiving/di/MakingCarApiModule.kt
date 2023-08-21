@@ -1,5 +1,6 @@
 package com.softeer.mycarchiving.di
 
+import com.softeer.data.network.MyArchiveNetworkApi
 import com.softeer.data.network.SelectColorNetworkApi
 import com.softeer.data.network.SelectOptionNetworkApi
 import com.softeer.data.network.SelectTrimNetworkApi
@@ -28,5 +29,10 @@ object MakingCarApiModule {
     @Singleton
     fun provideSelectOptionNetworkApi(retrofit: Retrofit): SelectOptionNetworkApi =
         retrofit.create(SelectOptionNetworkApi::class.java)
+
+    @Provides
+    @Singleton
+    fun provideMyArchiveNetworkApi(retrofit: Retrofit): MyArchiveNetworkApi =
+        retrofit.create(MyArchiveNetworkApi::class.java)
 
 }
