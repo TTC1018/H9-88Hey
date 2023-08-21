@@ -86,7 +86,7 @@ public class MyChivingService {
 			.map(MyChivingDto::getMyChivingId)
 			.collect(Collectors.toList());
 
-		List<MyChivingSelectOptionFetchDto> myChivingSelectOptionFetchDtoList = myChivingRepository.findSelectOptionIdByMyChivingIdList(
+		List<MyChivingSelectOptionFetchDto> myChivingSelectOptionFetchDtoList = myChivingRepository.findOptionDataByMyChivingIdList(
 			myChivingIdList);
 
 		Map<String, Set<String>> subOptionMap = new HashMap<>();

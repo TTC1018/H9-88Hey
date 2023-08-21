@@ -98,7 +98,8 @@ public class MyChivingRepository {
 		return myChivingDtoList;
 	}
 
-	public List<MyChivingSelectOptionFetchDto> findSelectOptionIdByMyChivingIdList(List<Long> myChivingIdList) {
+	public List<MyChivingSelectOptionFetchDto> findOptionDataByMyChivingIdList(List<Long> myChivingIdList) {
+		//in 연산을 위한 myChivingId 문자열 조합
 		String selectOptionsString = myChivingIdList.stream()
 			.map(id -> "\'" + id + "\'")
 			.collect(Collectors.joining(", "));
