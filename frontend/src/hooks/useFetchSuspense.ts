@@ -17,6 +17,9 @@ export function useFetchSuspense<T>({ fetcher, key }: Props<T>) {
   const { getCache, setCache } = useCache();
   const value = getCache({ key }) || { status: 'new', data: null, dataUpdatedAt: new Date() };
 
+  if (value.status === 'rejected') {
+    throw new Error(value.status);
+  }
   if (value.status === 'resolved') {
     return value.data as T;
   }
@@ -42,6 +45,14 @@ export function useFetchSuspense<T>({ fetcher, key }: Props<T>) {
         });
       })
       .catch(error => {
+        setCache({
+          key,
+          value: {
+            status: 'rejected',
+            data: null,
+            dataUpdatedAt: new Date(),
+          },
+        });
         throw new Error(error);
       });
 

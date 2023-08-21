@@ -95,3 +95,7 @@ export type ActionType =
   | { type: MyCarActionType.CAR_IMAGE_URL; props: string }
   | { type: MyCarActionType.SAVE_OPTION; props: MyCarProps }
   | { type: MyCarActionType.CLEAR_OPTION; props: OptionContextProps[] };
+
+export interface TagDataProps {
+  tags: string[];
+}

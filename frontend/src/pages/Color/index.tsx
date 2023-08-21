@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { Suspense, useEffect, useState } from 'react';
 
 import { useOutletContext } from 'react-router-dom';
 
@@ -12,7 +12,7 @@ import { CarCodeProps, MyCarLayoutContextProps } from '@/types/trim';
 import { CheckIcon } from '@/components/Color/CheckIcon';
 import { InnerCarImage } from '@/components/Color/InnerCarImage';
 import { ExternalCarImage } from '@/components/Color/ExternalCarImage';
-import { MyCarDescription } from '@/components/common/MyCarDescription';
+import { MyCarDescription } from '@/components/Color/MyCarDescription';
 
 import * as Styled from './style';
 
@@ -28,6 +28,8 @@ export function Color() {
     key: cacheKey.color(trim.id),
   });
 
+  console.log(exteriorColors);
+
   const { carCode: carCodeData } = useFetchSuspense<CarCodeProps>({
     fetcher: () =>
       fetcher<CarCodeProps>({
@@ -42,18 +44,18 @@ export function Color() {
   const [selectedInnerIndex, handleSetInnerIndex] = useSelectIndex();
 
   const {
+    id: exteriorColorId,
     name: externalName,
     carImagePath: externalCarImage,
     availableInteriorColors,
-    // tags: externalTags,
     additionalPrice,
   } = exteriorColors[selectedExternalIndex];
 
   const availableInnerColorList = interiorColors.filter(color => availableInteriorColors.includes(color.id));
   const {
+    id: interiorColorId,
     name: innerName,
     carImageUrl: innerCarImage,
-    // tags: innerTags
   } = availableInnerColorList[selectedInnerIndex];
 
   function updateOuterColor(index: number) {
@@ -143,7 +145,14 @@ export function Color() {
     <Styled.Container>
       <Styled.ImageWrapper>
         {isExternalPage ? <ExternalCarImage imageUrl={externalCarImage} /> : <InnerCarImage imageUrl={innerCarImage} />}
-        <MyCarDescription title={descriptionTitle} price={descriptionPrice} hasTag={false} />
+        <Suspense fallback={<div>태그를 불러오는 중이ㅔ여</div>}>
+          <MyCarDescription
+            title={descriptionTitle}
+            price={descriptionPrice}
+            isExterirorColor={isExternalPage}
+            tagId={isExternalPage ? exteriorColorId : interiorColorId}
+          />
+        </Suspense>
       </Styled.ImageWrapper>
       <Styled.ColorWrapper>
         <Styled.ColorEnclosure>

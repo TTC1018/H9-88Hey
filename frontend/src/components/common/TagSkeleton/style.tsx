@@ -2,22 +2,19 @@ import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
 export const Container = styled.div`
-  gap: 30px;
+  gap: 8px;
 
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  grid-auto-rows: 5px;
+  display: flex;
 `;
 
-export const Wrapper = styled.div``;
-
-export const Loading = styled.div`
+export const TagSkeleton = styled.div`
   ${({ theme }) => {
     const { colors } = theme;
     return css`
-      width: 500px;
-      height: 300px;
+      height: 30px;
+      width: 100px;
 
+      border-radius: 8px;
       background-color: ${colors.hyundaiLightSand};
 
       animation: skeleton-gradient 1.8s infinite ease-in-out;

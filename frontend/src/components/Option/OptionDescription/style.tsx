@@ -98,23 +98,36 @@ export const TagWrapper = styled.div`
   display: flex;
 `;
 
-export const TagBox = styled.div`
-  ${({ theme }) => {
-    const { colors, fonts } = theme;
+// export const TagSkeletonWrapper = styled.div`
+//   gap: 8px;
 
-    return css`
-      height: 30px;
-      padding: 4px 8px;
+//   display: flex;
+// `;
 
-      display: inline-flex;
-      justify-content: center;
-      align-items: center;
+// export const TagSkeleton = styled.div`
+//   ${({ theme }) => {
+//     const { colors } = theme;
+//     return css`
+//       height: 30px;
+//       width: 100px;
 
-      ${fonts.bodyRegular3};
-      colors: ${colors.black};
+//       border-radius: 8px;
+//       background-color: ${colors.hyundaiLightSand};
 
-      border-radius: 8px;
-      background-color: ${colors.hyundaiLightSand};
-    `;
-  }}
-`;
+//       animation: skeleton-gradient 1.8s infinite ease-in-out;
+//       @keyframes skeleton-gradient {
+//         0% {
+//           background-color: rgba(165, 165, 165, 0.1);
+//         }
+
+//         50% {
+//           background-color: rgba(165, 165, 165, 0.3);
+//         }
+
+//         100% {
+//           background-color: rgba(165, 165, 165, 0.1);
+//         }
+//       }
+//     `;
+//   }}
+// `;

@@ -10,7 +10,7 @@ import { MyCarLayoutContextProps, WheelDriveDataProps } from '@/types/trim';
 
 import { TrimCard } from '@/components/common/TrimCard';
 import { MyCarImageBox } from '@/components/Trim/MyCarImageBox';
-import { MyCarDescription } from '@/components/common/MyCarDescription';
+import { MyCarDescription } from '@/components/Trim/MyCarDescription';
 
 import * as Styled from './style';
 
@@ -53,7 +53,7 @@ export function WheelDrive() {
       <Styled.Wrapper>
         <Styled.Box>
           <MyCarImageBox hasOption={false} images={imageUrl} />
-          <MyCarDescription title={name} price={additionalPrice} hasTag={false} />
+          <MyCarDescription title={name} price={additionalPrice} />
         </Styled.Box>
         <Styled.Box>
           {wheelDrives.map(({ name, additionalPrice, description, id }, index) => (

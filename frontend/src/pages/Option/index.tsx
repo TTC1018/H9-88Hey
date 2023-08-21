@@ -118,7 +118,7 @@ export function Option({ apiType }: Props) {
           <OptionImageBox imageUrl={subOption.imageUrl} />
         </Styled.ImageBox>
         <Styled.DescriptionBox>
-          <OptionDescription name={option.name} additionalPrice={option.additionalPrice} tags={option.tags} />
+          <OptionDescription name={option.name} additionalPrice={option.additionalPrice} tagId={option.id} />
           <OptionDetailCard
             index={subOptionIndex}
             length={option.subOptions.length}

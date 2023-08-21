@@ -10,7 +10,7 @@ import { useFetchSuspense } from '@/hooks/useFetchSuspense';
 
 import { TrimCard } from '@/components/common/TrimCard';
 import { MyCarImageBox } from '@/components/Trim/MyCarImageBox';
-import { MyCarDescription } from '@/components/common/MyCarDescription';
+import { MyCarDescription } from '@/components/Trim/MyCarDescription';
 
 import * as Styled from './style';
 
@@ -54,7 +54,7 @@ export function Engine() {
       <Styled.Wrapper>
         <Styled.Box>
           <MyCarImageBox hasOption={false} images={imageUrl} />
-          <MyCarDescription title={name} price={additionalPrice} hasTag={false} />
+          <MyCarDescription title={name} price={additionalPrice} />
         </Styled.Box>
         <Styled.CardBox>
           {engines.map(({ name, additionalPrice, description, maximumPower, maximumTorque, id }, index) => (
