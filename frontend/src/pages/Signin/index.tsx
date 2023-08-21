@@ -106,7 +106,6 @@ export function Signin() {
 
     if (refreshToken !== null) {
       setIsSignin(true);
-      console.log('is sign in changed to true');
     }
   }, []);
 
