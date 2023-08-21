@@ -16,6 +16,10 @@ public class InteriorColorDto {
 	private String colorImageUrl;
 
 	public static InteriorColorDto of(final Integer id, final String name, final String colorImageUrl) {
+		if(id == null) {
+			return null;
+		}
+
 		return new InteriorColorDto(id, name, colorImageUrl);
 	}
 }

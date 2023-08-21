@@ -16,6 +16,10 @@ public class WheelDriveDto {
 	private Integer additionalPrice;
 
 	public static WheelDriveDto of(final Integer id, final String name, final Integer additionalPrice) {
+		if(id == null) {
+			return null;
+		}
+
 		return new WheelDriveDto(id, name, additionalPrice);
 	}
 }

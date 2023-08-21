@@ -16,6 +16,10 @@ public class ModelDto {
 	private String name;
 
 	public static ModelDto of(final Integer id, final String name) {
+		if(id == null) {
+			return null;
+		}
+
 		return new ModelDto(id, name);
 	}
 }

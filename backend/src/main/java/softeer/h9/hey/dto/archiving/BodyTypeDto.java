@@ -16,6 +16,10 @@ public class BodyTypeDto {
 	private Integer additionalPrice;
 
 	public static BodyTypeDto of(Integer id, String name, Integer additionalPrice) {
+		if(id == null) {
+			return null;
+		}
+
 		return new BodyTypeDto(id, name, additionalPrice);
 	}
 }

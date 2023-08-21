@@ -20,6 +20,10 @@ public class ExteriorColorDto {
 	public static ExteriorColorDto of(final Integer id, final String name, final String carImageUrl,
 		final String colorImageUrl,
 		final Integer additionalPrice) {
+		if(id == null) {
+			return null;
+		}
+
 		return new ExteriorColorDto(id, name, carImageUrl, colorImageUrl, additionalPrice);
 	}
 }
