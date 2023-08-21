@@ -3,6 +3,8 @@ package softeer.h9.hey.domain.archiving;
 import java.time.LocalDate;
 
 import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -10,8 +12,9 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor(access = AccessLevel.PROTECTED)
+@Builder
 public class ArchivingResult {
-
 	private Long feedId;
 	private String modelName;
 	private String review;
