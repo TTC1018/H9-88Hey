@@ -115,16 +115,18 @@ fun ArchiveFeed(
                         style = medium14
                     )
                     Spacer(modifier = Modifier.width(12.dp))
-                    CarFeedOptionChip(name = options.first(), equalsFilter = appliedOptions.map { it.name }.contains(options.first()))
-                    val secondChipVisible = options.size > 1 && options.first().length + options[1].length < 18
+                    val appliedOptionNames = appliedOptions.map { it.name }
+                    val sortedOptions = sortOptionsByApplied(options = options, appliedOptions = appliedOptionNames)
+                    CarFeedOptionChip(name = sortedOptions.first(), equalsFilter = appliedOptionNames.contains(sortedOptions.first()))
+                    val secondChipVisible = sortedOptions.size > 1 && sortedOptions.first().length + sortedOptions[1].length < 18
                     val visibleOptionCount = if (secondChipVisible) 2 else 1
                     if (secondChipVisible) {
                         Spacer(modifier = Modifier.width(6.dp))
-                        CarFeedOptionChip(name = options[1], equalsFilter = appliedOptions.map { it.name }.contains(options[1]))
+                        CarFeedOptionChip(name = sortedOptions[1], equalsFilter = appliedOptionNames.contains(sortedOptions[1]))
                     }
                     if (options.size > visibleOptionCount) {
                         Spacer(modifier = Modifier.width(7.dp))
-                        Text(text = "+${options.size - visibleOptionCount}", style = medium12, color = DarkGray)
+                        Text(text = "+${sortedOptions.size - visibleOptionCount}", style = medium12, color = DarkGray)
                     }
                 }
             }
@@ -151,6 +153,19 @@ fun ArchiveFeed(
             }
         }
     }
+}
+
+private fun sortOptionsByApplied(options: List<String>, appliedOptions: List<String>): List<String> {
+    val optionsWithApplied = mutableListOf<String>()
+    val optionsWithoutApplied = mutableListOf<String>()
+    options.forEach { option ->
+        if (option in appliedOptions) {
+            optionsWithApplied.add(option)
+        } else {
+            optionsWithoutApplied.add(option)
+        }
+    }
+    return optionsWithApplied + optionsWithoutApplied
 }
 
 @Preview
