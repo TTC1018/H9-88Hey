@@ -14,10 +14,11 @@ export function OptionSearchBar({ onSelectOption, selectedOptions }: Props) {
     key: cacheKey.archivingOption(1),
   });
 
+  const options = selectOptions.slice(0, selectOptions.length - 4);
   return (
     <style.Conatiner>
       <style.Wrapper>
-        {selectOptions.map(option => {
+        {options.map(option => {
           const isActive = selectedOptions.has(option.id);
           return (
             <style.Option key={option.id} isActive={isActive} onClick={() => onSelectOption(option.id)}>

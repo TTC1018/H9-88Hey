@@ -13,6 +13,16 @@ export const Contaienr = styled.div`
       background: #fff;
 
       cursor: pointer;
+      opacity: 0;
+      animation: fadeIn 0.5s ease-in-out forwards;
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
     `;
   }}
 `;

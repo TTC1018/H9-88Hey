@@ -1,3 +1,4 @@
+import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
 export const Container = styled.div`
@@ -9,3 +10,15 @@ export const Container = styled.div`
 `;
 
 export const Wrapper = styled.div``;
+
+export const Loading = styled.div`
+  ${({ theme }) => {
+    const { colors } = theme;
+    return css`
+      width: 500px;
+      height: 300px;
+
+      background-color: ${colors.hyundaiLightSand};
+    `;
+  }}
+`;

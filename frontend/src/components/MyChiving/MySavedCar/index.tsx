@@ -20,12 +20,12 @@ type MatchPathType = Record<string, string>;
 const matchPath: MatchPathType = {
   model: '/trim',
   trim: '/trim',
-  engine: '/trim/engine',
-  bodyType: '/trim/body-type',
-  wheelDrive: '/trim/wheel-drive',
-  interiorColor: '/color',
-  exteriorColor: '/color',
-  selectedOptions: '/option',
+  engine: '/trim',
+  bodyType: '/trim/engine',
+  wheelDrive: '/trim/body-type',
+  interiorColor: '/trim/wheel-drive',
+  exteriorColor: '/trim/wheel-drive',
+  selectedOptions: '/color',
 };
 
 const initialData = {

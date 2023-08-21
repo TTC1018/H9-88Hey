@@ -36,7 +36,7 @@ export function useInfiniteFetch<T>({ key, url, intersecting, nextOffset, depend
 
       const { data } = (await response.json()) as ResponseProps<Props>;
 
-      if (data === null || data === undefined) {
+      if (data.nextOffset === null) {
         setHasNext(false);
         return;
       }
@@ -49,7 +49,9 @@ export function useInfiniteFetch<T>({ key, url, intersecting, nextOffset, depend
         setError(String(error));
       }
     }
-    setIsLoading(false);
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 300);
   }
 
   if (error !== '') {
@@ -57,16 +59,22 @@ export function useInfiniteFetch<T>({ key, url, intersecting, nextOffset, depend
   }
 
   useEffect(() => {
+    setData([]);
+    setHasNext(true);
+    nextOffset.current = 1;
+
+    if (intersecting) {
+      setIsLoading(true);
+      fetcher();
+    }
+  }, [JSON.stringify(dependencies)]);
+
+  useEffect(() => {
     if (intersecting && hasNext) {
+      setIsLoading(true);
       fetcher();
     }
   }, [intersecting]);
-
-  useEffect(() => {
-    setData([]);
-    nextOffset.current = 1;
-    // fetcher();
-  }, [JSON.stringify(dependencies)]);
 
   return { data, isLoading, error };
 }

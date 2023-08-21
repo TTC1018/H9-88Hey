@@ -71,7 +71,7 @@ export const apiPath = {
   option: (routePath: string, search: string) => `${apiPath.carBase()}/${routePath}${search}`,
   archivingBase: () => '/archiving',
   archiving: (modelId: number, selectOptionsId: string[], limit: number, offset: number) => {
-    const optionQuerys = selectOptionsId.map(selectOptionsId => `&select_options=${selectOptionsId}`).join('');
+    const optionQuerys = selectOptionsId.map(selectOptionsId => `&select_option=${selectOptionsId}`).join('');
     return `${apiPath.archivingBase()}?model_id=${modelId}${optionQuerys}&limit=${limit}&offset=${offset}`;
   },
   archivingOption: (modelId: number) => `${apiPath.carBase()}/select-options?model_id=${modelId}`,

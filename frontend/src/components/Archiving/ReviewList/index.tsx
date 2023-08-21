@@ -9,10 +9,11 @@ import * as Styled from './style';
 
 interface Props {
   archivings: ArchivingProps[];
+  isLoading: boolean;
   options: Set<string>;
   onClick: (option: string) => void;
 }
-export function ReviewList({ archivings, options, onClick }: Props) {
+export function ReviewList({ archivings, isLoading, options, onClick }: Props) {
   const masonryRef = useRef<HTMLDivElement>(null);
 
   useLayoutEffect(() => {
@@ -21,13 +22,16 @@ export function ReviewList({ archivings, options, onClick }: Props) {
 
   return (
     <Styled.Container ref={masonryRef}>
-      {archivings.map((archiving, index) => {
-        return (
-          <Styled.Wrapper key={index}>
-            <ReviewCard props={archiving} isArchiving={true} selectedSearchOptions={options} onClick={onClick} />
-          </Styled.Wrapper>
-        );
-      })}
+      {archivings.map((archiving, index) => (
+        <Styled.Wrapper key={index}>
+          <ReviewCard props={archiving} isArchiving={true} selectedSearchOptions={options} onClick={onClick} />
+        </Styled.Wrapper>
+      ))}
+      {isLoading && (
+        <Styled.Wrapper>
+          <Styled.Loading></Styled.Loading>
+        </Styled.Wrapper>
+      )}
     </Styled.Container>
   );
 }

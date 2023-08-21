@@ -17,7 +17,7 @@ export function Archiving() {
   const intersecting = useInfiniteScroll(fetchMoreElement);
   const nextOffset = useRef(1);
 
-  const { data: archivings } = useInfiniteFetch<ArchivingProps>({
+  const { data: archivings, isLoading } = useInfiniteFetch<ArchivingProps>({
     key: 'archivings',
     url: apiPath.archiving(1, Array.from(selectedOptions), 8, nextOffset.current),
     intersecting,
@@ -56,7 +56,12 @@ export function Archiving() {
         {archivings.length === 0 ? (
           <Styled.InfoBox>조건에 맞는 결과가 없습니다.</Styled.InfoBox>
         ) : (
-          <ReviewList archivings={archivings} options={selectedOptions} onClick={handleSelectOption} />
+          <ReviewList
+            isLoading={isLoading}
+            archivings={archivings}
+            options={selectedOptions}
+            onClick={handleSelectOption}
+          />
         )}
       </Styled.ReviewWrapper>
       <div ref={fetchMoreElement} />
