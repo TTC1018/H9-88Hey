@@ -5,11 +5,22 @@ import androidx.lifecycle.viewModelScope
 import com.softeer.domain.model.CarExteriorColor
 import com.softeer.domain.model.CarInteriorColor
 import com.softeer.domain.usecase.makingcar.GetCarColorsUseCase
+import com.softeer.domain.usecase.makingcar.GetTagsOfExteriorUseCase
+import com.softeer.domain.usecase.makingcar.GetTagsOfInteriorUseCase
 import com.softeer.mycarchiving.mapper.asUiModel
 import com.softeer.mycarchiving.model.makingcar.ColorOptionUiModel
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.firstOrNull
+import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.take
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -17,9 +28,12 @@ private const val IMAGE_COUNT = 60
 
 private val TAG = SelectColorViewModel::class.simpleName
 
+@OptIn(ExperimentalCoroutinesApi::class)
 @HiltViewModel
 class SelectColorViewModel @Inject constructor(
-    getColorsUseCase: GetCarColorsUseCase
+    getColorsUseCase: GetCarColorsUseCase,
+    getTagsOfInterior: GetTagsOfInteriorUseCase,
+    getTagsOfExterior: GetTagsOfExteriorUseCase,
 ) : ViewModel() {
 
     init {
@@ -67,6 +81,38 @@ class SelectColorViewModel @Inject constructor(
 
     private val _category = MutableStateFlow("외장 색상")
     val category: StateFlow<String> = _category
+
+    val exteriorTags = _exteriors.flatMapLatest { colors ->
+        flowOf(
+            buildMap {
+                colors.forEach { color ->
+                    getTagsOfExterior(color.id).firstOrNull()?.run {
+                        put(color.id, this)
+                    }
+                }
+            }
+        )
+    }.stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.WhileSubscribed(),
+        initialValue = emptyMap()
+    )
+
+    val interiorTags = _interiors.flatMapLatest { colors ->
+        flowOf(
+            buildMap {
+                colors.forEach { color ->
+                    getTagsOfInterior(color.id).firstOrNull()?.run {
+                        put(color.id, this)
+                    }
+                }
+            }
+        )
+    }.stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.WhileSubscribed(),
+        initialValue = emptyMap()
+    )
 
     fun changeTopImageIndex(beAdded: Boolean) {
         _topImageIndex.value =
