@@ -143,7 +143,7 @@ fun MadeCarItem(
     }
 
     if (shouldDialogShow) {
-        DeleteMadeCarDialog(
+        DeleteMyArchiveCarDialog(
             onDismissRequest = { shouldDialogShow = false },
             onDelete = onDelete,
             carName = "$modelName $trimName"
@@ -195,6 +195,8 @@ fun SavedFeed(
     onFeedClick: () -> Unit,
     onDelete: () -> Unit,
 ) {
+    var shouldDialogShow by remember { mutableStateOf(false) }
+
     Column(
         modifier = modifier
             .fillMaxWidth()
@@ -212,7 +214,7 @@ fun SavedFeed(
                 text = "${carFeedUiModel.model} ${carFeedUiModel.trim}",
                 style = bold18
             )
-            XCircle(onClick = onDelete)
+            XCircle(onClick = { shouldDialogShow = true })
         }
         Spacer(modifier = Modifier.height(10.dp))
         Row(
@@ -296,6 +298,15 @@ fun SavedFeed(
                     OptionTagChip(tagString = it)
                 }
             }
+        }
+
+        if (shouldDialogShow) {
+            DeleteMyArchiveCarDialog(
+                onDismissRequest = { shouldDialogShow = false },
+                onDelete = onDelete,
+                carName = "${carFeedUiModel.model} ${carFeedUiModel.trim}",
+                isMade = false,
+            )
         }
     }
 }
