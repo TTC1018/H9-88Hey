@@ -31,4 +31,7 @@ class SelectOptionRepositoryImpl(
     override fun getBasicOptions(carCode: String): Flow<List<CarBasicOption>> =
         selectOptionRemoteDataSource.getBasicOptions(carCode)
             .map { it.map(TrimBasicOptionDto::asEntity) }
+
+    override fun getTagsOfSelectOption(id: String): Flow<List<String>> =
+        selectOptionRemoteDataSource.getTagsOfOption(id)
 }
