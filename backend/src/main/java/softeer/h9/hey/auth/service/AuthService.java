@@ -1,5 +1,6 @@
 package softeer.h9.hey.auth.service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -68,7 +69,8 @@ public class AuthService {
 
 		String accessToken = jwtTokenProvider.generateAccessToken(userPk, claims);
 		String refreshToken = jwtTokenProvider.generateRefreshToken(userPk, claims);
-		refreshTokenRepository.save(new RefreshTokenEntity(userPk, refreshToken));
+		LocalDateTime refreshExpiredTime = jwtTokenProvider.getExpiredTime(refreshToken);
+		refreshTokenRepository.save(new RefreshTokenEntity(userPk, refreshToken, refreshExpiredTime));
 
 		return new TokenResponse(accessToken, refreshToken, userName);
 	}

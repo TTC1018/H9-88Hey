@@ -2,6 +2,7 @@ package softeer.h9.hey.auth.service;
 
 import static org.mockito.Mockito.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -113,13 +114,14 @@ class AuthServiceTest {
 	@DisplayName("Access Token 재발급 요청 기능")
 	void republishAccessTokenTest() {
 		AccessTokenRequest accessTokenRequest = new AccessTokenRequest("refreshToken");
+		LocalDateTime expiredTime  = LocalDateTime.now().plusHours(1);
 
 		when(tokenProvider.generateAccessToken(anyInt(), any())).thenReturn("accessToken");
 		when(tokenProvider.generateRefreshToken(anyInt(), any())).thenReturn("refreshToken");
 		when(tokenProvider.getClaimsFromToken(anyString()))
 			.thenReturn(Map.of("sub", "1", "userName", "userName123"));
 		when(refreshTokenRepository.findByUserId(anyInt()))
-			.thenReturn(List.of(new RefreshTokenEntity(1, "refreshToken")));
+			.thenReturn(List.of(new RefreshTokenEntity(1, "refreshToken", expiredTime)));
 		doNothing().when(refreshTokenRepository).deleteById(anyInt());
 
 		TokenResponse tokenResponse = authService.republishAccessToken(accessTokenRequest);
