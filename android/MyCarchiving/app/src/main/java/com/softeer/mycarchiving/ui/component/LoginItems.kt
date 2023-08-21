@@ -1,8 +1,12 @@
 package com.softeer.mycarchiving.ui.component
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
@@ -11,6 +15,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.softeer.mycarchiving.R
@@ -29,8 +36,10 @@ fun HyundaiLogo(
     modifier: Modifier = Modifier,
 ) {
     Row(
-        modifier = modifier,
-        verticalAlignment = Alignment.CenterVertically
+        modifier = modifier
+            .fillMaxWidth(),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.Center
     ) {
         Icon(
             painter = painterResource(id = R.drawable.ic_hyundai),
@@ -39,7 +48,7 @@ fun HyundaiLogo(
         )
         Spacer(modifier = Modifier.width(10.dp))
         Text(
-            text = "HYUNDAI",
+            text = stringResource(id = R.string.hyundai_logo),
             style = bold20,
             color = PrimaryBlue
         )
@@ -63,11 +72,14 @@ fun AlertMessage(
 fun LoginInput(
     modifier: Modifier = Modifier,
     placeHolder: String,
+    keyboardType: KeyboardType = KeyboardType.Text,
+    imeAction: ImeAction = ImeAction.Next,
     input: String,
     onValueChanged: (String) -> Unit,
+    onDone: (() -> Unit)? = null
 ) {
     OutlinedTextField(
-        modifier = modifier,
+        modifier = modifier.fillMaxWidth(),
         value = input,
         onValueChange = onValueChanged,
         placeholder = { Text(text = placeHolder, color = MediumGray) },
@@ -77,7 +89,12 @@ fun LoginInput(
             cursorColor = PrimaryBlue,
             unfocusedBorderColor = LightGray,
             focusedBorderColor = PrimaryBlue500
-        )
+        ),
+        keyboardOptions = KeyboardOptions(
+            keyboardType = keyboardType,
+            imeAction = imeAction
+        ),
+        keyboardActions = KeyboardActions(onDone = { onDone?.invoke() })
     )
 }
 
