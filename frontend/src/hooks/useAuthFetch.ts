@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 
 import { API_URL } from '@/constants';
 import { getLocalStorage, setLocalStorage } from '@/utils';
+import { AuthError } from '@/utils/AuthError';
 
 import { AuthContext } from '@/AuthProvider';
 import { useFetch } from './useFetch';
@@ -16,15 +17,6 @@ interface ResponseProps<T> {
   statusCode: number;
   message: string;
   data: T;
-}
-
-class AuthError extends Error {
-  statusCode: number;
-
-  constructor(message: string, statusCode: number) {
-    super(message);
-    this.statusCode = statusCode;
-  }
 }
 
 export function useAuthFetch<T>({ defaultValue, url }: UseAuthFetchProps<T>) {

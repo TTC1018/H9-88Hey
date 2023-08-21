@@ -5,18 +5,10 @@ import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '@/AuthProvider';
 import { getLocalStorage, setLocalStorage } from '@/utils';
 import { isEmailEmpty, isPasswordEmpty, isEmailValid } from '@/utils/auth';
+import { AuthError } from '@/utils/AuthError';
 import { API_URL, emailRegex, AUTH_ALERT_MESSAGE } from '@/constants';
 
 import * as Styled from './style';
-
-class AuthError extends Error {
-  statusCode: number;
-
-  constructor(message: string, statusCode: number) {
-    super(message);
-    this.statusCode = statusCode;
-  }
-}
 
 export function Signin() {
   const [account, setAccount] = useState({
