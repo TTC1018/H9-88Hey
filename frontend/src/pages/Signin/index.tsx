@@ -3,7 +3,7 @@ import { useState, useEffect, useContext, ChangeEvent, FormEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { AuthContext } from '@/AuthProvider';
-import { setLocalStorage } from '@/utils';
+import { getLocalStorage, setLocalStorage } from '@/utils';
 import { isEmailEmpty, isPasswordEmpty, isEmailValid } from '@/utils/auth';
 import { API_URL, emailRegex, AUTH_ALERT_MESSAGE } from '@/constants';
 
@@ -100,6 +100,15 @@ export function Signin() {
 
     setIsDisabled(false);
   }
+
+  useEffect(() => {
+    const refreshToken = getLocalStorage('refreshToken');
+
+    if (refreshToken !== null) {
+      setIsSignin(true);
+      console.log('is sign in changed to true');
+    }
+  }, []);
 
   useEffect(() => {
     if (isSignin) {
