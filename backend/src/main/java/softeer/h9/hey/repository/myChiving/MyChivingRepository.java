@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
@@ -16,7 +18,6 @@ import org.springframework.transaction.annotation.Transactional;
 import com.github.f4b6a3.tsid.TsidCreator;
 
 import lombok.RequiredArgsConstructor;
-import softeer.h9.hey.domain.myChiving.MyChiving;
 import softeer.h9.hey.dto.archiving.BodyTypeDto;
 import softeer.h9.hey.dto.archiving.EngineDto;
 import softeer.h9.hey.dto.archiving.ExteriorColorDto;
@@ -26,7 +27,7 @@ import softeer.h9.hey.dto.archiving.WheelDriveDto;
 import softeer.h9.hey.dto.myChiving.ModelDto;
 import softeer.h9.hey.dto.myChiving.MyChivingDto;
 import softeer.h9.hey.dto.myChiving.MyChivingSaveDto;
-import softeer.h9.hey.dto.myChiving.MyChivingSelectOptionDto;
+import softeer.h9.hey.dto.myChiving.MyChivingSelectOptionFetchDto;
 
 @RequiredArgsConstructor
 @Repository
@@ -97,24 +98,48 @@ public class MyChivingRepository {
 		return myChivingDtoList;
 	}
 
+	public List<MyChivingSelectOptionFetchDto> findSelectOptionIdByMyChivingIdList(List<Long> myChivingIdList) {
+		String selectOptionsString = myChivingIdList.stream()
+			.map(id -> "\'" + id + "\'")
+			.collect(Collectors.joining(", "));
+
+		String sql = "SELECT \n"
+			+ "ms.select_option_id, \n"
+			+ "seo.name as select_option_name,\n"
+			+ "seo.image_url,\n"
+			+ "seo.additional_price,\n"
+			+ "ms.myArchiving_id as my_chiving_id, \n"
+			+ "suo.name as sub_option_name \n"
+			+ "FROM 88hey.myArchiving_selectOption ms \n"
+			+ "left join selectOption_subOption ss on ms.select_option_id  = ss.select_option_id\n"
+			+ "left join selectOption seo  on seo.id = ms.select_option_id\n"
+			+ "left join subOption suo on ss.sub_option_id = suo.id  \n"
+			+ "where ms.myArchiving_id in ( "
+			+ 	selectOptionsString
+			+ ")";
+
+
+		return namedParameterJdbcTemplate.query(sql, myChivingSelectOptionRowMapper());
+	}
+
 	private MyChivingDto getNewMyChivingDto(ResultSet rs) throws SQLException {
 		return MyChivingDto.builder()
 			.myChivingId(rs.getLong("id"))
 			.lastModifiedDate(rs.getObject("last_modified", LocalDateTime.class))
 			.isSaved(rs.getBoolean("is_submitted"))
-			.modelDto(ModelDto.of(rs.getInt("model_id"), rs.getString("model_name")))
-			.trim(TrimDto.of(rs.getInt("trim_id"), rs.getString("trim_name"), rs.getInt("trim_price")))
-			.engine(EngineDto.of(rs.getInt("engine_id"), rs.getString("engine_name"),
-				rs.getInt("engine_additional_price")))
-			.bodyType(BodyTypeDto.of(rs.getInt("body_type_id"), rs.getString("body_type_name"),
-				rs.getInt("body_type_additional_price")))
-			.wheelDrive(WheelDriveDto.of(rs.getInt("wheel_type_id"), rs.getString("wheel_type_name"),
-				rs.getInt("wheel_type_additional_price")))
-			.interiorColor(InteriorColorDto.of(rs.getInt("interior_color_id"), rs.getString("interior_color_name"),
+			.modelDto(ModelDto.of(rs.getObject("model_id", Integer.class), rs.getString("model_name")))
+			.trim(TrimDto.of(rs.getObject("trim_id", Integer.class), rs.getString("trim_name"), rs.getObject("trim_price", Integer.class)))
+			.engine(EngineDto.of(rs.getObject("engine_id", Integer.class), rs.getString("engine_name"),
+				rs.getObject("engine_additional_price", Integer.class)))
+			.bodyType(BodyTypeDto.of(rs.getObject("body_type_id", Integer.class), rs.getString("body_type_name"),
+				rs.getObject("body_type_additional_price", Integer.class)))
+			.wheelDrive(WheelDriveDto.of(rs.getObject("wheel_type_id", Integer.class), rs.getString("wheel_type_name"),
+				rs.getObject("wheel_type_additional_price", Integer.class)))
+			.interiorColor(InteriorColorDto.of(rs.getObject("interior_color_id", Integer.class), rs.getString("interior_color_name"),
 				rs.getString("interior_color_image_url")))
-			.exteriorColor(ExteriorColorDto.of(rs.getInt("exterior_color_id"), rs.getString("exterior_color_name"),
+			.exteriorColor(ExteriorColorDto.of(rs.getObject("exterior_color_id", Integer.class), rs.getString("exterior_color_name"),
 				rs.getString("exterior_car_image_url"), rs.getString("exterior_color_image_url"),
-				rs.getInt("exterior_color_additional_price")))
+				rs.getObject("exterior_color_additional_price", Integer.class)))
 			.build();
 	}
 
@@ -230,5 +255,9 @@ public class MyChivingRepository {
 		SqlParameterSource sqlParameterSource = new MapSqlParameterSource();
 
 		namedParameterJdbcTemplate.update(sql, sqlParameterSource);
+	}
+
+	private RowMapper<MyChivingSelectOptionFetchDto> myChivingSelectOptionRowMapper() {
+		return BeanPropertyRowMapper.newInstance(MyChivingSelectOptionFetchDto.class);
 	}
 }
