@@ -9,12 +9,14 @@ import com.softeer.domain.usecase.makingcar.GetCarCodeUseCase
 import com.softeer.domain.usecase.makingcar.GetExtraOptionsUseCase
 import com.softeer.domain.usecase.makingcar.GetHGenuinesUseCase
 import com.softeer.domain.usecase.makingcar.GetNPerformancesUseCase
+import com.softeer.domain.usecase.makingcar.GetTagsOfSelectOptionUseCase
 import com.softeer.mycarchiving.mapper.asUiModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
@@ -30,7 +32,8 @@ class SelectOptionViewModel @Inject constructor(
     getExtrasUseCase: GetExtraOptionsUseCase,
     getHGenuinesUseCase: GetHGenuinesUseCase,
     getNPerformancesUseCase: GetNPerformancesUseCase,
-    getBasicUseCase: GetBasicOptionsUseCase
+    getBasicUseCase: GetBasicOptionsUseCase,
+    getTagsOfSelectOptionUseCase: GetTagsOfSelectOptionUseCase,
 ) : ViewModel() {
 
     private val _carCode = getCarCodeUseCase()
@@ -73,6 +76,54 @@ class SelectOptionViewModel @Inject constructor(
             started = SharingStarted.WhileSubscribed(),
             initialValue = emptyList()
         )
+
+    val selectOptionTagMap = selectOptions.flatMapLatest {  options ->
+        flowOf(
+            buildMap {
+                options.forEach { option ->
+                    getTagsOfSelectOptionUseCase(option.id).firstOrNull()?.run {
+                        put(option.id, this)
+                    }
+                }
+            }
+        )
+    }.stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.WhileSubscribed(),
+        initialValue = emptyMap()
+    )
+
+    val hGeniuneTagMap = hGenuines.flatMapLatest {  options ->
+        flowOf(
+            buildMap {
+                options.forEach { option ->
+                    getTagsOfSelectOptionUseCase(option.id).firstOrNull()?.run {
+                        put(option.id, this)
+                    }
+                }
+            }
+        )
+    }.stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.WhileSubscribed(),
+        initialValue = emptyMap()
+    )
+
+    val nPerformanceTagMap = nPerformances.flatMapLatest {  options ->
+        flowOf(
+            buildMap {
+                options.forEach { option ->
+                    getTagsOfSelectOptionUseCase(option.id).firstOrNull()?.run {
+                        put(option.id, this)
+                    }
+                }
+            }
+        )
+    }.stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.WhileSubscribed(),
+        initialValue = emptyMap()
+    )
 
     private val _focusedOptionIndex = MutableStateFlow(0)
     val focusedOptionIndex: StateFlow<Int> = _focusedOptionIndex
