@@ -35,6 +35,11 @@ fun LoginRoute(
     val email by loginViewModel.typedEmail.collectAsStateWithLifecycle()
     val password by loginViewModel.typedPassword.collectAsStateWithLifecycle()
     val errorMessage by loginViewModel.errorMessage.collectAsStateWithLifecycle()
+    val loginSuccess by loginViewModel.loginSuccess.collectAsStateWithLifecycle()
+
+    if (loginSuccess) {
+        onLogin()
+    }
     LoginScreen(
         modifier = modifier,
         emailInput = email,
@@ -42,7 +47,7 @@ fun LoginRoute(
         errorMessage = errorMessage,
         typeEmail = loginViewModel::typeEmail,
         typePassword = loginViewModel::typePassword,
-        onLogin = { if (loginViewModel.login()) onLogin() },
+        onLogin = loginViewModel::login,
     )
 }
 
