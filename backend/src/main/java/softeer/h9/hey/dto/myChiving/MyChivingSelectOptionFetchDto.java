@@ -10,6 +10,8 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor (access = AccessLevel.PROTECTED)
+@AllArgsConstructor (access = AccessLevel.PROTECTED)
+@Builder
 public class MyChivingSelectOptionFetchDto {
 	private Long myChivingId;
 	private String selectOptionId;

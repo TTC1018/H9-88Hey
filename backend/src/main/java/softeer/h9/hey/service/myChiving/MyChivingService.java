@@ -75,19 +75,21 @@ public class MyChivingService {
 		int startIndex = (myChivingRequest.getOffset() - 1) * limit;
 
 		//TODO 아이디 필요
-		List<MyChivingDto> myChivingDtoList = myChivingRepository.findMyChivingsByUserIdLimitAndOffset(1, limit,
-			startIndex);
+		List<MyChivingDto> myChivingDtoList = myChivingRepository.findMyChivingsByUserIdLimitAndOffset(1, limit, startIndex);
 
 		return MyChivingsResponse.from(findMyChivingDetailById(myChivingDtoList));
 	}
 
 	private List<MyChivingResponse> findMyChivingDetailById(List<MyChivingDto> myChivingDtoList) {
+		if (myChivingDtoList.isEmpty()) {
+			return new ArrayList<>();
+		}
+
 		List<Long> myChivingIdList = myChivingDtoList.stream()
 			.map(MyChivingDto::getMyChivingId)
 			.collect(Collectors.toList());
 
-		List<MyChivingSelectOptionFetchDto> myChivingSelectOptionFetchDtoList = myChivingRepository.findOptionDataByMyChivingIdList(
-			myChivingIdList);
+		List<MyChivingSelectOptionFetchDto> myChivingSelectOptionFetchDtoList = myChivingRepository.findOptionDataByMyChivingIdList(myChivingIdList);
 
 		Map<String, Set<String>> subOptionMap = new HashMap<>();
 		Map<Long, Set<String>> selectOptionMap = new HashMap<>();
