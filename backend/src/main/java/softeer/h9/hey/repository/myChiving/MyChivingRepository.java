@@ -183,6 +183,7 @@ public class MyChivingRepository {
 			.append("where\n")
 			.append("\tma.user_id = :userId\n")
 			.append("order by\n")
+			.append("\tma.is_submitted,\n")
 			.append("\tma.last_modified desc\n")
 			.append("limit :limit\n")
 			.append("offset :startIndex");
