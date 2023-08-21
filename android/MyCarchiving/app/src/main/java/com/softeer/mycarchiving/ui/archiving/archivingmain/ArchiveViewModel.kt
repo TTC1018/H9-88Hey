@@ -65,9 +65,9 @@ class ArchiveViewModel @Inject constructor(
     private val _pendingOptions = MutableStateFlow(emptyList<SearchOption>())
     val pendingOptions: StateFlow<List<SearchOption>> = _pendingOptions
 
-    val carFeedPagingData = _showSearchSheet.flatMapLatest { show ->
-        if (show.not()) {
-            getCarFeedsUseCase(_appliedOptions.value.map { it.id })
+    val carFeedPagingData = _appliedOptions.flatMapLatest { appliedOptions ->
+        if (_showSearchSheet.value.not()) {
+            getCarFeedsUseCase(appliedOptions.map { it.id })
         } else {
             flow {  }
         }

@@ -11,7 +11,7 @@ import androidx.navigation.NavOptions
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.softeer.mycarchiving.navigation.ArchivingDestinations
+import com.softeer.mycarchiving.navigation.ArchivingDestinations.*
 import com.softeer.mycarchiving.navigation.MainDestination
 import com.softeer.mycarchiving.ui.HyundaiAppState
 import com.softeer.mycarchiving.ui.archiving.archivingdetail.archivingDetailScreen
@@ -38,7 +38,11 @@ fun NavGraphBuilder.makingArchiveGraph(
             modifier = Modifier,
             topBar = {
                 ArchiveNavigateBar(
-                    onStartAreaClick = appState.navController::popBackStack,
+                    onStartAreaClick = if (appState.currentArchivingDestinations == ARCHIVING_DETAIL) {
+                        { appState.archivingNavController.popBackStack() }
+                    } else {
+                        { appState.navController.popBackStack() }
+                    },
                     onEndAreaClick = { appState.navigateToMainDestination(MainDestination.MY_ARCHIVING) }
                 )
             },
@@ -55,10 +59,10 @@ fun NavGraphBuilder.makingArchiveGraph(
             ) {
                 NavHost(
                     navController = appState.archivingNavController,
-                    startDestination = ArchivingDestinations.ARCHIVING_MAIN.route
+                    startDestination = ARCHIVING_MAIN.route
                 ) {
                     archiveMainScreen(
-                        moveDetailPage = { appState.navigateToArchivingDestination(ArchivingDestinations.ARCHIVING_DETAIL) },
+                        moveDetailPage = { appState.navigateToArchivingDestination(ARCHIVING_DETAIL) },
                         onBackClick = appState.navController::popBackStack
                     )
                     archivingDetailScreen(
