@@ -1,13 +1,22 @@
-import { useState, useContext, ChangeEvent, FormEvent } from 'react';
+import { useState, useEffect, useContext, ChangeEvent, FormEvent } from 'react';
 
 import { useNavigate } from 'react-router-dom';
 
 import { AuthContext } from '@/AuthProvider';
-import { getLocalStorage, setLocalStorage } from '@/utils';
+import { setLocalStorage } from '@/utils';
 import { isEmailEmpty, isPasswordEmpty, isEmailValid } from '@/utils/auth';
 import { API_URL, emailRegex, AUTH_ALERT_MESSAGE } from '@/constants';
 
 import * as Styled from './style';
+
+class AuthError extends Error {
+  statusCode: number;
+
+  constructor(message: string, statusCode: number) {
+    super(message);
+    this.statusCode = statusCode;
+  }
+}
 
 export function Signin() {
   const [account, setAccount] = useState({
@@ -20,7 +29,7 @@ export function Signin() {
 
   const navigate = useNavigate();
 
-  const { isSignin, setIsSignin, username, setUsername, accessToken, setAccessToken } = useContext(AuthContext);
+  const { isSignin, setIsSignin, setUserName, setAccessToken } = useContext(AuthContext);
 
   function handleChange(event: ChangeEvent<HTMLInputElement>) {
     const { name, value } = event.target;
@@ -38,6 +47,10 @@ export function Signin() {
     setIsDisabled(true);
     const { email, password } = account;
 
+    if (isSignin) {
+      navigate('/trim', { replace: true });
+    }
+
     if (isEmailEmpty(email)) {
       handleAlert(AUTH_ALERT_MESSAGE.EMAIL_EMPTY);
       return;
@@ -54,29 +67,51 @@ export function Signin() {
     }
 
     try {
-      const response = await fetch(`${API_URL}/signin`, {
+      const response = await fetch(`${API_URL}/auth/signin`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(account),
       });
-      const { accessToken, refreshToken, username } = await response.json();
+
+      const { statusCode, message, data } = await response.json();
+
+      if (!response.ok) {
+        throw new AuthError(message, statusCode);
+      }
+
+      const { accessToken, refreshToken, userName } = data;
+
       setAccessToken(accessToken);
       setLocalStorage('refreshToken', refreshToken);
-      setUsername(username);
+
+      setIsSignin(true);
+      setUserName(userName);
     } catch (error: unknown) {
-      handleAlert(AUTH_ALERT_MESSAGE.ACCOUNT_INCORRECT);
+      if (error instanceof AuthError) {
+        const { statusCode } = error;
+
+        if (statusCode === 401) {
+          handleAlert(AUTH_ALERT_MESSAGE.ACCOUNT_INCORRECT);
+        }
+      }
     }
 
     setIsDisabled(false);
   }
 
+  useEffect(() => {
+    if (isSignin) {
+      navigate('/trim', { replace: true });
+    }
+  }, [isSignin]);
+
   return (
     <>
       <Styled.Container>
         <Styled.HyundaiLogo src="/src/assets/icons/signin_hyundai_logo.svg" />
-        <Styled.Form onSubmit={event => handleSignin(event)}>
+        <Styled.Form onSubmit={handleSignin}>
           <Styled.Alert isShow={isShow}>{alert}</Styled.Alert>
           <Styled.Input
             type="text"
