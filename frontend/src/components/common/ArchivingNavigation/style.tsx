@@ -7,6 +7,9 @@ export const Container = styled.nav`
 
   display: flex;
   justify-content: center;
+  position: relative;
+
+  z-index: 100;
 `;
 
 export const Wrapper = styled.div`

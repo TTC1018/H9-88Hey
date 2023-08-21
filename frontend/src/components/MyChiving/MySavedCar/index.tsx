@@ -20,12 +20,12 @@ type MatchPathType = Record<string, string>;
 const matchPath: MatchPathType = {
   model: '/trim',
   trim: '/trim',
-  engine: '/trim/engine',
-  bodyType: '/trim/body-type',
-  wheelDrive: '/trim/wheel-drive',
-  interiorColor: '/color',
-  exteriorColor: '/color',
-  selectedOptions: '/option',
+  engine: '/trim',
+  bodyType: '/trim/engine',
+  wheelDrive: '/trim/body-type',
+  interiorColor: '/trim/wheel-drive',
+  exteriorColor: '/trim/wheel-drive',
+  selectedOptions: '/color',
 };
 
 const initialData = {
@@ -98,7 +98,6 @@ export function MySavedCar() {
     defaultValue: initialData,
     url: '/mychiving?limit=4&offset=0',
   });
-
   const [myChivings, setMyChivings] = useState<MyChivingProps[]>([]);
 
   const modalInfo = useRef({
@@ -115,7 +114,7 @@ export function MySavedCar() {
     wheelDrive: { name: '', additionalPrice: 0, id: 0 },
     exteriorColor: { name: '', colorImageUrl: '', additionalPrice: 0 },
     interiorColor: { name: '', colorImageUrl: '', id: 1 },
-    selectedOptions: [],
+    options: [],
     carImageUrl: '',
   };
 
@@ -129,24 +128,24 @@ export function MySavedCar() {
       wheelDrive: wheelDrive ?? myCar.wheelDrive,
       exteriorColor: exteriorColor ?? myCar.exteriorColor,
       interiorColor: interiorColor ?? myCar.interiorColor,
-      selectedOptions: selectedOptions ?? myCar.selectedOptions,
+      options: selectedOptions ? myCar.selectedOptions : [],
+      carImageUrl: exteriorColor ? exteriorColor.carImageUrl : '',
     };
 
+    localStorage.setItem('myCar', JSON.stringify(savedMyCar));
     if (myChiving.isSaved) {
-      localStorage.setItem('carType', JSON.stringify(savedMyCar));
       navigate('/result');
     } else {
       const targetIndex = Object.values(myChiving).findIndex(value => value === null);
       const lastIndex = Object.values(myChiving).length - 1;
       const targetPath = Object.keys(myChiving)[targetIndex === -1 ? lastIndex : targetIndex];
 
-      localStorage.setItem('carType', JSON.stringify(savedMyCar));
       navigate(matchPath[targetPath]);
     }
   }
 
   function handleDeleteList(myChiving: MyChivingProps) {
-    const updatedMyChivings = myChivings.filter(myCar => myCar.myChivingId !== myChiving.myChivingId);
+    const updatedMyChivings = myChivings.filter(({ myChivingId }) => myChivingId !== myChiving.myChivingId);
     setMyChivings(updatedMyChivings);
   }
 

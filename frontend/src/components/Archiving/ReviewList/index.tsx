@@ -1,8 +1,7 @@
-import { useEffect, useRef } from 'react';
+import { useLayoutEffect, useRef } from 'react';
 
 import { ArchivingProps } from '@/types/archiving';
-import { masonryLayout } from '@/utils/masonryLayout';
-import { useNavigateWithData } from '@/hooks/useNavigateWithData';
+import { updateMasonryLayout } from '@/utils/updateMasonryLayout';
 
 import { ReviewCard } from '@/components/Archiving/ReviewCard';
 
@@ -10,27 +9,29 @@ import * as Styled from './style';
 
 interface Props {
   archivings: ArchivingProps[];
+  isLoading: boolean;
   options: Set<string>;
   onClick: (option: string) => void;
 }
-export function ReviewList({ archivings, options, onClick }: Props) {
+export function ReviewList({ archivings, isLoading, options, onClick }: Props) {
   const masonryRef = useRef<HTMLDivElement>(null);
 
-  const { naviagteWithData } = useNavigateWithData({ path: '/archiving/detail' });
-
-  useEffect(() => {
-    masonryLayout({ element: masonryRef });
+  useLayoutEffect(() => {
+    updateMasonryLayout({ element: masonryRef });
   }, [archivings]);
 
   return (
     <Styled.Container ref={masonryRef}>
-      {archivings.map((archiving, index) => {
-        return (
-          <Styled.Wrapper key={index} onClick={() => naviagteWithData({ state: archiving })}>
-            <ReviewCard props={archiving} isArchiving={true} selectedSearchOptions={options} onClick={onClick} />
-          </Styled.Wrapper>
-        );
-      })}
+      {archivings.map((archiving, index) => (
+        <Styled.Wrapper key={index}>
+          <ReviewCard props={archiving} isArchiving={true} selectedSearchOptions={options} onClick={onClick} />
+        </Styled.Wrapper>
+      ))}
+      {isLoading && (
+        <Styled.Wrapper>
+          <Styled.Loading />
+        </Styled.Wrapper>
+      )}
     </Styled.Container>
   );
 }

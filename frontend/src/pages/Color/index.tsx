@@ -2,54 +2,38 @@ import { useEffect, useState } from 'react';
 
 import { useOutletContext } from 'react-router-dom';
 
-import { CarCodeProps, MyCarLayoutContextProps } from '@/types/trim';
-import { ColorDataProps, InteriorColorsProps } from '@/types/color';
-import { useFetch } from '@/hooks/useFetch';
+import { fetcher } from '@/utils/fetcher';
+import { MyCarActionType, apiPath, cacheKey } from '@/constants';
 import { useSelectIndex } from '@/hooks/useSelectedIndex';
+import { useFetchSuspense } from '@/hooks/useFetchSuspense';
+import { ColorDataProps, InteriorColorsProps } from '@/types/color';
+import { CarCodeProps, MyCarLayoutContextProps } from '@/types/trim';
 
 import { CheckIcon } from '@/components/Color/CheckIcon';
-import { ExternalCarImage } from '@/components/Color/ExternalCarImage';
-import { MyCarDescription } from '@/components/common/MyCarDescription';
 import { InnerCarImage } from '@/components/Color/InnerCarImage';
+import { ExternalCarImage } from '@/components/Color/ExternalCarImage';
+import { MyCarDescription } from '@/components/Color/MyCarDescription';
 
 import * as Styled from './style';
 
-const initialData = {
-  exteriorColors: [
-    {
-      id: 1,
-      name: '',
-      carImagePath: '',
-      colorImageUrl: '',
-      additionalPrice: 0,
-      availableInteriorColors: [0],
-      tags: [''],
-    },
-  ],
-  interiorColors: [
-    {
-      id: 0,
-      name: '',
-      carImageUrl: '',
-      colorImageUrl: '',
-      tags: [''],
-    },
-  ],
-};
 export function Color() {
   const {
-    handleOuterColor,
-    handleInnerColor,
-    handleCarImageUrl,
+    dispatch,
     carCode,
     myCar: { trim, engine, wheelDrive, bodyType, exteriorColor, interiorColor },
   } = useOutletContext<MyCarLayoutContextProps>();
 
-  const { data } = useFetch<ColorDataProps>({ defaultValue: initialData, url: '/car/color?trim_id=1' });
+  const { exteriorColors, interiorColors } = useFetchSuspense<ColorDataProps>({
+    fetcher: () => fetcher<ColorDataProps>({ url: apiPath.color(trim.id) }),
+    key: cacheKey.color(trim.id),
+  });
 
-  const { data: carCodeData } = useFetch<CarCodeProps>({
-    defaultValue: { carCode: '' },
-    url: `/car/car-code?trim_id=${trim.id}&engine_id=${engine.id}&body_type_id=${bodyType.id}&wheel_drive_id=${wheelDrive.id}`,
+  const { carCode: carCodeData } = useFetchSuspense<CarCodeProps>({
+    fetcher: () =>
+      fetcher<CarCodeProps>({
+        url: apiPath.carCode(trim.id, engine.id, bodyType.id, wheelDrive.id),
+      }),
+    key: cacheKey.carCode(trim.id, engine.id, bodyType.id, wheelDrive.id),
   });
 
   const [isExternalPage, setIsExternalPage] = useState(true);
@@ -58,47 +42,53 @@ export function Color() {
   const [selectedInnerIndex, handleSetInnerIndex] = useSelectIndex();
 
   const {
+    id: exteriorColorId,
     name: externalName,
     carImagePath: externalCarImage,
     availableInteriorColors,
-    // tags: externalTags,
     additionalPrice,
-  } = data.exteriorColors[selectedExternalIndex];
+  } = exteriorColors[selectedExternalIndex];
 
-  const availableInnerColorList = data.interiorColors.filter(color => availableInteriorColors.includes(color.id));
+  const availableInnerColorList = interiorColors.filter(color => availableInteriorColors.includes(color.id));
   const {
+    id: interiorColorId,
     name: innerName,
     carImageUrl: innerCarImage,
-    // tags: innerTags
   } = availableInnerColorList[selectedInnerIndex];
 
   function updateOuterColor(index: number) {
-    const selectedExteriorColor = data.exteriorColors[index];
+    const { name, colorImageUrl, additionalPrice, carImagePath } = exteriorColors[index];
 
-    handleOuterColor({
-      color: selectedExteriorColor.name,
-      colorImage: selectedExteriorColor.colorImageUrl,
-      price: selectedExteriorColor.additionalPrice,
+    dispatch({
+      type: MyCarActionType.EXTERIOR_COLOR,
+      props: {
+        name,
+        colorImageUrl,
+        additionalPrice,
+      },
     });
-    handleCarImageUrl(`${selectedExteriorColor.carImagePath}001.png`);
+    dispatch({ type: MyCarActionType.CAR_IMAGE_URL, props: `${carImagePath}` });
   }
 
   function updateInnerColor(list: InteriorColorsProps[], index: number) {
-    const selectedInteriorColor = list[index];
+    const { name, colorImageUrl, id } = list[index];
 
-    handleInnerColor({
-      color: selectedInteriorColor.name,
-      colorImage: selectedInteriorColor.colorImageUrl,
-      id: selectedInteriorColor.id,
+    dispatch({
+      type: MyCarActionType.INTERIOR_COLOR,
+      props: {
+        name,
+        colorImageUrl,
+        id,
+      },
     });
   }
 
   useEffect(() => {
-    const outerIndex = data.exteriorColors.findIndex(color => color.name === exteriorColor.name);
+    const outerIndex = exteriorColors.findIndex(color => color.name === exteriorColor.name);
     let innerIndex = -1;
 
     if (outerIndex !== -1) {
-      innerIndex = data.exteriorColors[outerIndex].availableInteriorColors.findIndex(
+      innerIndex = exteriorColors[outerIndex].availableInteriorColors.findIndex(
         colorId => colorId === interiorColor.id
       );
 
@@ -109,11 +99,11 @@ export function Color() {
       updateOuterColor(0);
       updateInnerColor(availableInnerColorList, 0);
     }
-  }, [data]);
+  }, [interiorColor, exteriorColor]);
 
   useEffect(() => {
-    if (carCodeData.carCode !== '') {
-      carCode.current = carCodeData.carCode;
+    if (carCodeData !== '') {
+      carCode.current = carCodeData;
     }
   }, [carCodeData]);
 
@@ -122,8 +112,8 @@ export function Color() {
     handleSetInnerIndex(0)();
     updateOuterColor(index);
 
-    const newAvailableInnerColorList = data.interiorColors.filter(color =>
-      data.exteriorColors[index].availableInteriorColors.includes(color.id)
+    const newAvailableInnerColorList = interiorColors.filter(color =>
+      exteriorColors[index].availableInteriorColors.includes(color.id)
     );
 
     updateInnerColor(newAvailableInnerColorList, 0);
@@ -151,7 +141,12 @@ export function Color() {
     <Styled.Container>
       <Styled.ImageWrapper>
         {isExternalPage ? <ExternalCarImage imageUrl={externalCarImage} /> : <InnerCarImage imageUrl={innerCarImage} />}
-        <MyCarDescription title={descriptionTitle} price={descriptionPrice} hasTag={false} />
+        <MyCarDescription
+          title={descriptionTitle}
+          price={descriptionPrice}
+          isExterirorColor={isExternalPage}
+          tagId={isExternalPage ? exteriorColorId : interiorColorId}
+        />
       </Styled.ImageWrapper>
       <Styled.ColorWrapper>
         <Styled.ColorEnclosure>
@@ -162,7 +157,7 @@ export function Color() {
             </Styled.TitleBox>
             <Styled.Division />
             <Styled.ColorBox>
-              {data.exteriorColors.map(({ name, colorImageUrl, additionalPrice }, index) => (
+              {exteriorColors.map(({ name, colorImageUrl, additionalPrice }, index) => (
                 <Styled.ColorCard key={name} onClick={() => handleClickExternalColor(index)}>
                   <Styled.ColorCardRect colorUrl={colorImageUrl} isActive={isSelectedExternalColor(name)} />
                   <Styled.ColorCardName>{name}</Styled.ColorCardName>
