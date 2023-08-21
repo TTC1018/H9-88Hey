@@ -18,6 +18,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.softeer.mycarchiving.R
@@ -76,10 +77,14 @@ fun ArchiveFeed(
             )
             Spacer(modifier = Modifier.width(12.dp))
             Text(
-                modifier = Modifier.weight(1f),
+                modifier = Modifier
+                    .weight(1f)
+                    .padding(end = 3.dp),
                 text = carFeedUiModel.exteriorColor,
                 style = regular14,
-                color = MediumDarkGray
+                color = MediumDarkGray,
+                overflow = TextOverflow.Ellipsis,
+                maxLines = 1
             )
             Text(
                 text = stringResource(id = R.string.summary_inner),
@@ -87,31 +92,37 @@ fun ArchiveFeed(
             )
             Spacer(modifier = Modifier.width(12.dp))
             Text(
-                modifier = Modifier.weight(1f),
+                modifier = Modifier
+                    .weight(1f)
+                    .padding(end = 3.dp),
                 text = carFeedUiModel.interiorColor,
                 style = regular14,
-                color = MediumDarkGray
+                color = MediumDarkGray,
+                overflow = TextOverflow.Ellipsis,
+                maxLines = 1
             )
         }
-        if (carFeedUiModel.selectedOptions?.isNotEmpty() == true) {
-            Spacer(modifier = Modifier.height(14.dp))
-            Row(
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Text(
-                    text = stringResource(id = R.string.progress_selected_option),
-                    style = medium14
-                )
-                Spacer(modifier = Modifier.width(12.dp))
-                carFeedUiModel.selectedOptions.let { options ->
-                    CarFeedOptionChip(name = options[0], equalsFilter = true)
-                    if (options.size > 1) {
+        carFeedUiModel.selectedOptions?.let { options ->
+            if (options.isNotEmpty()) {
+                Spacer(modifier = Modifier.height(14.dp))
+                Row(
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        text = stringResource(id = R.string.progress_selected_option),
+                        style = medium14
+                    )
+                    Spacer(modifier = Modifier.width(12.dp))
+                    CarFeedOptionChip(name = options.first())
+                    val secondChipVisible = options.size > 1 && options.first().length + options[1].length < 18
+                    val visibleOptionCount = if (secondChipVisible) 2 else 1
+                    if (secondChipVisible) {
                         Spacer(modifier = Modifier.width(6.dp))
                         CarFeedOptionChip(name = options[1])
                     }
-                    if (options.size > 2) {
+                    if (options.size > visibleOptionCount) {
                         Spacer(modifier = Modifier.width(7.dp))
-                        Text(text = "+${options.size - 2}", style = medium12, color = DarkGray)
+                        Text(text = "+${options.size - visibleOptionCount}", style = medium12, color = DarkGray)
                     }
                 }
             }

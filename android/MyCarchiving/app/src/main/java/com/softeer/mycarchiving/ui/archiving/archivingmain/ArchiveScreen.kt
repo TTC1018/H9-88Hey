@@ -1,6 +1,5 @@
 package com.softeer.mycarchiving.ui.archiving.archivingmain
 
-import android.util.Log
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -166,7 +165,7 @@ fun ArchiveScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .background(color = HyundaiLightSand)
-                .padding(start = 16.dp, end = 16.dp, bottom = 20.dp),
+                .padding(start = 16.dp, end = 16.dp),
             verticalArrangement = Arrangement.spacedBy(11.dp)
         ) {
             Spacer(modifier = Modifier.height(10.dp))
@@ -176,6 +175,7 @@ fun ArchiveScreen(
                 color = DarkGray
             )
             LazyColumn(
+                modifier = Modifier.padding(bottom = 20.dp),
                 state = scrollState,
                 verticalArrangement = Arrangement.spacedBy(12.dp)
             ) {
