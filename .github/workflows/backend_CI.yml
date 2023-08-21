@@ -49,6 +49,8 @@ jobs:
           auth.jwt.token.secret-key: test12345678_abcdefghijkl_1234_avbasdcsad_1231_avacda
           auth.jwt.token.access.expire-time: 600000
           auth.jwt.token.refresh.expire-time: 3600000
+          password.salt: testSalt
+          password.algorithm: SHA-256
           
 
       - name: Grant execute permission for gradlew

@@ -37,6 +37,8 @@ jobs:
           auth.jwt.token.secret-key: ${{ secrets.JWT_SECRET_KEY }}
           auth.jwt.token.access.expire-time: ${{ secrets.ACCESS_EXPIRE_TIME_MS }}
           auth.jwt.token.refresh.expire-time: ${{ secrets.REFRESH_EXPIRE_TIME_MS }}
+          password.salt: ${{ secrets.PASSWORD_SALT }}
+          password.algorithm: ${{ secrets.ALGORITHM }}
 
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
