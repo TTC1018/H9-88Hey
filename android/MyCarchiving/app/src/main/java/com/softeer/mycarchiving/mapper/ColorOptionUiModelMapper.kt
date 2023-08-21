@@ -7,6 +7,7 @@ import com.softeer.mycarchiving.model.makingcar.ColorOptionUiModel
 
 fun CarExteriorColor.asUiModel(): ColorOptionUiModel =
     ColorOptionUiModel(
+        id = id,
         category = CarColorType.EXTERIOR,
         optionName = name,
         imageUrl = imageUrl,
@@ -17,6 +18,7 @@ fun CarExteriorColor.asUiModel(): ColorOptionUiModel =
 
 fun CarInteriorColor.asUiModel(): ColorOptionUiModel =
     ColorOptionUiModel(
+        id = id,
         category = CarColorType.INTERIOR,
         optionName = name,
         imageUrl = imageUrl,

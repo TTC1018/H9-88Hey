@@ -59,7 +59,9 @@ fun SelectColorRoute(
     val topImageIndex by selectColorViewModel.topImageIndex.collectAsStateWithLifecycle()
     val selectedIndex by selectColorViewModel.selectedIndex.collectAsStateWithLifecycle()
     val exteriors by selectColorViewModel.exteriors.collectAsStateWithLifecycle()
+    val exteriorTags by selectColorViewModel.exteriorTags.collectAsStateWithLifecycle()
     val interiors by selectColorViewModel.interiors.collectAsStateWithLifecycle()
+    val interiorTags by selectColorViewModel.interiorTags.collectAsStateWithLifecycle()
     val selectedColor by makingCarViewModel.selectedColor.collectAsStateWithLifecycle()
 
     LaunchedEffect(key1 = screenProgress, key2 = exteriors, key3 = interiors) {
@@ -120,6 +122,12 @@ fun SelectColorRoute(
             TRIM_OPTION to TRIM_EXTRA -> interiors
             else -> emptyList()
         },
+        tags = when (mainProgress to screenProgress) {
+            TRIM_COLOR to TRIM_EXTERIOR -> exteriorTags
+            TRIM_COLOR to TRIM_INTERIOR,
+            TRIM_OPTION to TRIM_EXTRA -> interiorTags
+            else -> emptyMap()
+        },
         isInitial = selectedColor.getOrNull(screenProgress) == null,
         onLeftClick = { selectColorViewModel.changeTopImageIndex(false) },
         onRightClick = { selectColorViewModel.changeTopImageIndex(true) },
@@ -139,6 +147,7 @@ fun SelectColorScreen(
     category: String,
     selectedIndex: Int,
     colorOptions: List<ColorOptionUiModel>,
+    tags: Map<Int, List<String>>,
     isInitial: Boolean,
     onLeftClick: () -> Unit,
     onRightClick: () -> Unit,
@@ -155,7 +164,7 @@ fun SelectColorScreen(
     }
 
     AnimatedContent(
-        targetState = colorOptions,
+        targetState = tags, // 태그까지 불러지면 다 로드된 것
         transitionSpec = { fadeInAndOut() },
         label = ""
     ) {
@@ -205,7 +214,7 @@ fun SelectColorScreen(
                             OptionInfoDivider(thickness = 4.dp, color = HyundaiLightSand)
                             OptionSelectedInfo(
                                 optionName = selectedColor.optionName,
-                                optionTags = selectedColor.tags
+                                optionTags = tags.getOrDefault(selectedColor.id, emptyList())
                             )
                         }
                     }
@@ -267,6 +276,7 @@ fun PreviewSelectColorScreen() {
         selectedIndex = 0,
         colorOptions = listOf(
             ColorOptionUiModel(
+                id = 0,
                 category = CarColorType.EXTERIOR,
                 optionName = "어비스 블랙펄",
                 imageUrl = "",
@@ -279,6 +289,14 @@ fun PreviewSelectColorScreen() {
                     "대형견도 문제 없어요🐶",
                     "큰 짐도 OK💼"
                 ),
+            )
+        ),
+        tags = mapOf(
+            0 to listOf(
+                "여유로운 실내공간🛋️",
+                "마음에 쏙 드는 색상💕",
+                "모터스포츠🏎",
+                "많은 인원도 걱정없어요👍"
             )
         ),
         isInitial = false,
