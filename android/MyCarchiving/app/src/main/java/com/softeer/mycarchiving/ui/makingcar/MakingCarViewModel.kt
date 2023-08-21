@@ -1,9 +1,14 @@
 package com.softeer.mycarchiving.ui.makingcar
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.softeer.domain.model.CarInfo
+import com.softeer.domain.model.CarTempInfo
+import com.softeer.domain.usecase.makingcar.SaveCarInfoUseCase
+import com.softeer.domain.usecase.makingcar.SaveTempCarInfoUseCase
 import com.softeer.mycarchiving.model.TrimOptionUiModel
 import com.softeer.mycarchiving.model.makingcar.ColorOptionUiModel
 import com.softeer.mycarchiving.model.makingcar.SelectModelUiModel
@@ -13,13 +18,18 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 private val TAG = MakingCarViewModel::class.simpleName
 
 @HiltViewModel
-class MakingCarViewModel @Inject constructor() : ViewModel() {
+class MakingCarViewModel @Inject constructor(
+    private val saveTempCarInfoUseCase: SaveTempCarInfoUseCase,
+    private val saveCarInfoUseCase: SaveCarInfoUseCase
+) : ViewModel() {
 
     private val _selectedCarName = MutableStateFlow("팰리세이드")
     val selectedCarName: StateFlow<String> = _selectedCarName
@@ -62,6 +72,8 @@ class MakingCarViewModel @Inject constructor() : ViewModel() {
 
     private val _showSummary = MutableStateFlow(false)
     val showSummary: StateFlow<Boolean> = _showSummary
+
+    private val carInfoId = MutableLiveData<Long>()
 
     fun openSummary() {
         _showSummary.value = true
@@ -148,6 +160,42 @@ class MakingCarViewModel @Inject constructor() : ViewModel() {
                 _totalPrice.value -= _selectedNPerformance.value.firstOrNull()?.price ?: 0
                 _selectedNPerformance.value = listOf(extraOption)
                 _totalPrice.value += extraOption.price
+            }
+        }
+    }
+
+    fun saveTempCarInfo() {
+        val carTempInfo = CarTempInfo(
+            infoId = carInfoId.value,
+            modelId = 1,
+            engineId = _selectedTrim.value.getOrNull(0)?.id,
+            bodyTypeId = _selectedTrim.value.getOrNull(1)?.id,
+            wheelTypeId = _selectedTrim.value.getOrNull(2)?.id,
+            exteriorColorId = _selectedColor.value.getOrNull(0)?.id,
+            interiorColorId = _selectedColor.value.getOrNull(1)?.id,
+            selectOptionsIds = totalExtraOptions.value.map { it.id }
+        )
+
+        viewModelScope.launch {
+            carInfoId.value = saveTempCarInfoUseCase(carTempInfo).firstOrNull()
+        }
+    }
+
+    fun saveCarInfo() {
+        carInfoId.value?.let { infoId ->
+            val carInfo = CarInfo(
+                infoId = infoId,
+                modelId = 1,
+                engineId = _selectedTrim.value[0].id,
+                bodyTypeId = _selectedTrim.value[1].id,
+                wheelTypeId = _selectedTrim.value[2].id,
+                exteriorColorId = _selectedColor.value[0].id,
+                interiorColorId = _selectedColor.value[1].id,
+                selectOptionsIds = totalExtraOptions.value.map { it.id }
+            )
+
+            viewModelScope.launch {
+                carInfoId.value = saveCarInfoUseCase(carInfo).firstOrNull()
             }
         }
     }

@@ -20,6 +20,7 @@ fun ModelOption.asSelectModelUiModel(): SelectModelUiModel =
 
 fun TrimOption.asUiModel() =
     TrimOptionUiModel(
+        id = id,
         optionName = optionName,
         optionDesc = optionDesc,
         imageUrl = imageUrl,

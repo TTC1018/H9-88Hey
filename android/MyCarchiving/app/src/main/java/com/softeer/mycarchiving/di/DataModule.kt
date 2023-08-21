@@ -2,6 +2,8 @@ package com.softeer.mycarchiving.di
 
 import com.softeer.data.datasource.ArchivingDataSource
 import com.softeer.data.datasource.ArchivingRemoteDataSource
+import com.softeer.data.datasource.MyArchiveDataSource
+import com.softeer.data.datasource.MyArchiveRemoteDataSource
 import com.softeer.data.datasource.SelectColorDataSource
 import com.softeer.data.datasource.SelectColorRemoteDataSource
 import com.softeer.data.datasource.SelectOptionDataSource
@@ -11,16 +13,19 @@ import com.softeer.data.datasource.SelectTrimRemoteDataSource
 import com.softeer.data.datasource.SignDataSource
 import com.softeer.data.datasource.SignRemoteDataSource
 import com.softeer.data.network.ArchivingNetworkApi
+import com.softeer.data.network.MyArchiveNetworkApi
 import com.softeer.data.network.SelectColorNetworkApi
 import com.softeer.data.network.SelectOptionNetworkApi
 import com.softeer.data.network.SelectTrimNetworkApi
 import com.softeer.data.network.SignNetworkApi
 import com.softeer.data.repository.ArchivingRepositoryImpl
+import com.softeer.data.repository.MyArchiveRepositoryImpl
 import com.softeer.data.repository.SelectColorRepositoryImpl
 import com.softeer.data.repository.SelectOptionRepositoryImpl
 import com.softeer.data.repository.SelectTrimRepositoryImpl
 import com.softeer.data.repository.SignRepositoryImpl
 import com.softeer.domain.repository.ArchivingRepository
+import com.softeer.domain.repository.MyArchiveRepository
 import com.softeer.domain.repository.SelectColorRepository
 import com.softeer.domain.repository.SelectOptionRepository
 import com.softeer.domain.repository.SelectTrimRepository
@@ -87,5 +92,13 @@ object DataModule {
     @Singleton
     fun provideSignRepository(signDataSource: SignDataSource): SignRepository =
         SignRepositoryImpl(signDataSource)
+        
+    fun provideMyArchiveRemoteDataSource(myArchiveNetworkApi: MyArchiveNetworkApi): MyArchiveDataSource =
+        MyArchiveRemoteDataSource(myArchiveNetworkApi)
+
+    @Provides
+    @Singleton
+    fun provideMyArchiveRepository(myArchiveRemoteDataSource: MyArchiveDataSource): MyArchiveRepository =
+        MyArchiveRepositoryImpl(myArchiveRemoteDataSource)
 
 }
