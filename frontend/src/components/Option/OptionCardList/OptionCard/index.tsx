@@ -39,7 +39,7 @@ export function OptionCard({
   const [isHover, setIsHover] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
 
-  const { myCar, dispatch, clearHGenuineAccessories } = useOutletContext<MyCarLayoutContextProps>();
+  const { myCar, dispatch } = useOutletContext<MyCarLayoutContextProps>();
   const { options } = myCar;
 
   const childRef = useRef<HTMLUListElement | null>(null);
@@ -78,7 +78,8 @@ export function OptionCard({
   }
 
   function handleClearHGenuineAccessories() {
-    clearHGenuineAccessories();
+    const clearedOptions = myCar.options.filter(option => option.path !== '/option/h-genuine-accessories');
+    dispatch({ type: MyCarActionType.CLEAR_OPTION, props: clearedOptions });
 
     setIsButtonActive(prev => !prev);
 

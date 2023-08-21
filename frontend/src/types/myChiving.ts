@@ -1,4 +1,4 @@
-import { ArchivingProps, SelectOptionsProps } from '@/types/archiving';
+import { ArchivingProps } from '@/types/archiving';
 
 export interface OptionProps {
   id: string;

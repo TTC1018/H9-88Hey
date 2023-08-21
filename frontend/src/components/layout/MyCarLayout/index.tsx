@@ -1,10 +1,9 @@
-import { Suspense, useEffect, useReducer, useRef, useState } from 'react';
+import { Suspense, useReducer, useRef, useState } from 'react';
 
 import { Outlet, useLocation } from 'react-router-dom';
 
 import { getLocalStorage } from '@/utils';
 import { ActionType, MyCarProps } from '@/types/trim';
-import { MyCarActionType } from '@/constants';
 
 import { Header } from '@/components/common/Header';
 import { Footer } from '@/components/common/Footer';
@@ -19,10 +18,10 @@ const initialState: MyCarProps = {
   engine: { name: '', additionalPrice: 0, id: 0 },
   bodyType: { name: '', additionalPrice: 0, id: 0 },
   wheelDrive: { name: '', additionalPrice: 0, id: 0 },
-  exteriorColor: { name: '', colorImageUrl: '/src/assets/icons/ellipse_123.png', additionalPrice: 0 },
-  interiorColor: { name: '', colorImageUrl: '/src/assets/icons/ellipse_567.svg', id: 1 },
+  exteriorColor: { name: '', colorImageUrl: '', additionalPrice: 0 },
+  interiorColor: { name: '', colorImageUrl: '', id: 0 },
   options: [],
-  carImageUrl: 'https://www.hyundai.com/contents/vr360/LX06/exterior/WC9/001.png', // 임시 mock data
+  carImageUrl: '',
 };
 
 function reducer(state: MyCarProps, action: ActionType): MyCarProps {
@@ -66,6 +65,7 @@ export function MyCarLayout() {
   const { pathname } = useLocation();
   const carCodeData = getLocalStorage('carCode');
 
+  const [isSavingNow, setIsSavingNow] = useState(false);
   const carCode = useRef(carCodeData === null ? '' : carCodeData);
 
   const localStorageData = JSON.parse(getLocalStorage('myCar'));
@@ -78,7 +78,8 @@ export function MyCarLayout() {
     myCarKeysWithPrice.reduce((acc, cur) => acc + myCar[cur].additionalPrice, 0) +
     myCar.options.reduce((acc, cur) => acc + cur.additionalPrice, 0);
 
-  const [isSavingNow, setIsSavingNow] = useState(false);
+  const isResultPage = pathname === '/result';
+
   if (isSavingNow) {
     setTimeout(() => {
       setIsSavingNow(false);
@@ -89,38 +90,11 @@ export function MyCarLayout() {
     setIsSavingNow(true);
   }
 
-  function clearHGenuineAccessories() {
-    const clearedOptions = myCar.options.filter(option => option.path !== '/option/h-genuine-accessories');
-    dispatch({ type: MyCarActionType.CLEAR_OPTION, props: clearedOptions });
-  }
-
-  function handleLocalStorage() {
-    localStorage.setItem('myCar', JSON.stringify(myCar));
-  }
-
-  // useEffect(() => {
-  //   const savedOptions: MyCarProps = JSON.parse(localStorageData);
-
-  // }, []);
-  function checkIsResultPage() {
-    return pathname === '/result';
-  }
-
-  // useEffect(() => {
-  //   const myCarData = localStorage.getItem('myCar');
-
-  //   if (myCarData === null) {
-  //     return;
-  //   }
-  //   const savedOptions: MyCarProps = JSON.parse(myCarData);
-  //   dispatch({ type: MyCarActionType.SAVE_OPTION, props: savedOptions });
-  // }, []);
-
   return (
-    <Styled.Container isFull={checkIsResultPage()}>
+    <Styled.Container isFull={isResultPage}>
       <Header isSaving={isSavingNow} />
       <Navigation />
-      <Styled.Wrapper isFull={checkIsResultPage()}>
+      <Styled.Wrapper isFull={isResultPage}>
         <Suspense fallback={<Loading />}>
           <Outlet
             context={{
@@ -128,7 +102,6 @@ export function MyCarLayout() {
               carCode,
               totalPrice,
               dispatch,
-              clearHGenuineAccessories,
             }}
           />
         </Suspense>
@@ -137,9 +110,8 @@ export function MyCarLayout() {
         myCarData={myCar}
         calculatePrice={totalPrice}
         setDisplayAutoSaving={setAutoSaving}
-        onSetLocalStorage={handleLocalStorage}
         carCode={carCode}
-        clearHGenuineAccessories={clearHGenuineAccessories}
+        dispatch={dispatch}
       />
     </Styled.Container>
   );

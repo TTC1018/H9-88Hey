@@ -10,6 +10,7 @@ import {
   isIndexSmallThanMaxIndex,
   checkIsHGenuineAccessoriesPage,
   checkIsNPerformancePage,
+  isValidIndex,
 } from '@/utils';
 
 import { OptionCard } from './OptionCard';
@@ -20,18 +21,24 @@ import * as Styled from './style';
 
 interface Props {
   selectedIndex: number;
-  cardListIndex: number;
   data: OptionCardDataProps[];
   onClickCard: (index: number, event: MouseEvent<HTMLDivElement>) => void;
-  onClickArrowButton: (index: number, length: number) => void;
 }
 
-export function OptionCardList({ selectedIndex, cardListIndex, data, onClickCard, onClickArrowButton }: Props) {
+export function OptionCardList({ selectedIndex, data, onClickCard }: Props) {
+  const [cardListIndex, setCardListIndex] = useState(0);
   const [cardList, setCardList] = useState<OptionCardDataProps[]>([]);
 
   const { pathname } = useLocation();
 
   const { myCar } = useOutletContext<MyCarLayoutContextProps>();
+
+  function handleChangeCardListIndex(index: number, length: number) {
+    if (!isValidIndex(index, Math.ceil(length / OPTION_CARD_LIST_LENGTH) - 1)) {
+      return;
+    }
+    setCardListIndex(index);
+  }
 
   function checkIsNPerformanceSelected() {
     return myCar.options.filter(option => option.path === '/option/n-performance').length === 1;
@@ -71,7 +78,7 @@ export function OptionCardList({ selectedIndex, cardListIndex, data, onClickCard
       <PrevButton
         width="48"
         height="48"
-        onClick={() => onClickArrowButton(cardListIndex - 1, data.length)}
+        onClick={() => handleChangeCardListIndex(cardListIndex - 1, data.length)}
         isShow={isIndexLargeThanZero(cardListIndex)}
       />
       {cardList.map(({ isAvailable, index, id, ...props }) => (
@@ -88,7 +95,7 @@ export function OptionCardList({ selectedIndex, cardListIndex, data, onClickCard
       <NextButton
         width="48"
         height="48"
-        onClick={() => onClickArrowButton(cardListIndex + 1, data.length)}
+        onClick={() => handleChangeCardListIndex(cardListIndex + 1, data.length)}
         isShow={isIndexSmallThanMaxIndex(cardListIndex, data.length)}
       />
     </Styled.Container>

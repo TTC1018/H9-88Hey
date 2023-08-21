@@ -3,9 +3,9 @@ import { useEffect } from 'react';
 import { useOutletContext } from 'react-router-dom';
 
 import { fetcher } from '@/utils/fetcher';
-import { MyCarActionType, apiPath, cacheKey } from '@/constants';
 import { useSelectIndex } from '@/hooks/useSelectedIndex';
 import { useFetchSuspense } from '@/hooks/useFetchSuspense';
+import { MyCarActionType, apiPath, cacheKey } from '@/constants';
 import { MyCarLayoutContextProps, TrimDataProps } from '@/types/trim';
 
 import { SelectOptionCard } from '@/components/Trim/SelectOptionCard';
@@ -15,6 +15,7 @@ import * as Styled from './style';
 
 export function Trim() {
   const [selectedIndex, handleSetIndex] = useSelectIndex();
+
   const {
     dispatch,
     myCar: { trim },

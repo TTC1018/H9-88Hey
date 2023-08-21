@@ -5,7 +5,7 @@ import { combineWithSlash, formatDate } from '@/utils';
 import { OptionSelectCard } from '@/components/Archiving/OptionSelectCard';
 import { XButton } from '@/components/MyChiving/XButton';
 
-import * as style from './style';
+import * as Styled from './style';
 
 interface ArchivingCardProps {
   isArchiving: true;
@@ -28,9 +28,8 @@ interface DefaultProps {
 type Props = DefaultProps & ChivingProps;
 
 export function ReviewCard({ props, isArchiving, onClick, selectedSearchOptions }: Props) {
-  const { handleNavigate } = useMyCarNavigate({ path: '/archiving/detail', state: props });
-
   const {
+    feedId,
     isPurchase,
     modelName,
     trim,
@@ -45,56 +44,58 @@ export function ReviewCard({ props, isArchiving, onClick, selectedSearchOptions 
     selectedOptions,
   } = props;
 
+  const { handleNavigate } = useMyCarNavigate({ path: `/archiving/detail?feed_id=${feedId}`, state: props });
+
   const dateText = `에 ${isPurchase ? '구매' : '시승'}했어요`;
 
   return (
-    <style.Contaienr onClick={handleNavigate}>
-      <style.TitleWrapper>
-        <style.Enclosure>
-          <style.Title>{`${modelName} ${trim.name}`}</style.Title>
-          <style.SubTitle>{combineWithSlash([engine.name, bodyType.name, wheelDrive.name])}</style.SubTitle>
-        </style.Enclosure>
-        <style.SideBox>
-          <style.Time>
+    <Styled.Contaienr onClick={handleNavigate}>
+      <Styled.TitleWrapper>
+        <Styled.Enclosure>
+          <Styled.Title>{`${modelName} ${trim.name}`}</Styled.Title>
+          <Styled.SubTitle>{combineWithSlash([engine.name, bodyType.name, wheelDrive.name])}</Styled.SubTitle>
+        </Styled.Enclosure>
+        <Styled.SideBox>
+          <Styled.Time>
             {formatDate(creationDate)}에 {dateText}
-          </style.Time>
+          </Styled.Time>
           {!isArchiving && (
             <div onClick={() => onClick(`${modelName} ${trim.name}`)}>
               <XButton />
             </div>
           )}
-        </style.SideBox>
-      </style.TitleWrapper>
-      <style.TextWrapper>
-        <style.TextBox>
-          <style.BodyText>외장</style.BodyText>
-          <style.ColorText>{exteriorColor.name}</style.ColorText>
-        </style.TextBox>
-        <style.TextBox>
-          <style.BodyText>내장</style.BodyText>
-          <style.ColorText>{interiorColor.name}</style.ColorText>
-        </style.TextBox>
-      </style.TextWrapper>
-      <style.OptionWrapper>
-        <style.BodyText>선택옵션</style.BodyText>
-        <style.OptionBox>
+        </Styled.SideBox>
+      </Styled.TitleWrapper>
+      <Styled.TextWrapper>
+        <Styled.TextBox>
+          <Styled.BodyText>외장</Styled.BodyText>
+          <Styled.ColorText>{exteriorColor.name}</Styled.ColorText>
+        </Styled.TextBox>
+        <Styled.TextBox>
+          <Styled.BodyText>내장</Styled.BodyText>
+          <Styled.ColorText>{interiorColor.name}</Styled.ColorText>
+        </Styled.TextBox>
+      </Styled.TextWrapper>
+      <Styled.OptionWrapper>
+        <Styled.BodyText>선택옵션</Styled.BodyText>
+        <Styled.OptionBox>
           {selectedOptions.map(({ name, id }) => (
-            <style.Enclosure key={id}>
+            <Styled.Enclosure key={id}>
               <OptionSelectCard
                 isArchiving={isArchiving}
                 isActive={isArchiving ? selectedSearchOptions.has(id) : false}
                 text={name}
               />
-            </style.Enclosure>
+            </Styled.Enclosure>
           ))}
-        </style.OptionBox>
-      </style.OptionWrapper>
-      <style.Description>{review}</style.Description>
-      <style.TagWrapper>
+        </Styled.OptionBox>
+      </Styled.OptionWrapper>
+      <Styled.Description>{review}</Styled.Description>
+      <Styled.TagWrapper>
         {tags.map((tag, index) => (
-          <style.Tag key={`${tag} ${index}`}>{tag}</style.Tag>
+          <Styled.Tag key={`${tag} ${index}`}>{tag}</Styled.Tag>
         ))}
-      </style.TagWrapper>
-    </style.Contaienr>
+      </Styled.TagWrapper>
+    </Styled.Contaienr>
   );
 }

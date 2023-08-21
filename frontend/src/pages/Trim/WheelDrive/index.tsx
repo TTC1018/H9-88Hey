@@ -3,9 +3,9 @@ import { useEffect } from 'react';
 import { useOutletContext } from 'react-router-dom';
 
 import { fetcher } from '@/utils/fetcher';
-import { MyCarActionType, apiPath, cacheKey } from '@/constants';
-import { useFetchSuspense } from '@/hooks/useFetchSuspense';
 import { useSelectIndex } from '@/hooks/useSelectedIndex';
+import { useFetchSuspense } from '@/hooks/useFetchSuspense';
+import { MyCarActionType, apiPath, cacheKey } from '@/constants';
 import { MyCarLayoutContextProps, WheelDriveDataProps } from '@/types/trim';
 
 import { TrimCard } from '@/components/common/TrimCard';

@@ -1,5 +1,5 @@
 import { useFetchSuspense } from '@/hooks/useFetchSuspense';
-import * as style from './style';
+import * as Styled from './style';
 import { ArchivingCarDataProps } from '@/types/archiving';
 import { fetcher } from '@/utils/fetcher';
 import { apiPath, cacheKey } from '@/constants';
@@ -16,17 +16,17 @@ export function OptionSearchBar({ onSelectOption, selectedOptions }: Props) {
 
   const options = selectOptions.slice(0, selectOptions.length - 4);
   return (
-    <style.Conatiner>
-      <style.Wrapper>
+    <Styled.Conatiner>
+      <Styled.Wrapper>
         {options.map(option => {
           const isActive = selectedOptions.has(option.id);
           return (
-            <style.Option key={option.id} isActive={isActive} onClick={() => onSelectOption(option.id)}>
+            <Styled.Option key={option.id} isActive={isActive} onClick={() => onSelectOption(option.id)}>
               {option.name}
-            </style.Option>
+            </Styled.Option>
           );
         })}
-      </style.Wrapper>
-    </style.Conatiner>
+      </Styled.Wrapper>
+    </Styled.Conatiner>
   );
 }

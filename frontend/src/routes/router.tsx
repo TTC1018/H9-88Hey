@@ -14,7 +14,6 @@ import { WheelDrive } from '@/pages/Trim/WheelDrive';
 import { MyCarLayout } from '@/components/layout/MyCarLayout';
 import { ErrorBoundary } from '@/components/common/ErrorBoundary';
 import { MyChivingLayout } from '@/components/layout/MyChivingLayout';
-import { Suspense } from 'react';
 
 export const router = createBrowserRouter([
   {

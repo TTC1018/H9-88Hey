@@ -75,7 +75,6 @@ export interface MyCarLayoutContextProps {
   totalPrice: number;
   dispatch: Dispatch<ActionType>;
   handleCarImageUrl: (carImageUrl: string) => void;
-  clearHGenuineAccessories: () => void;
 }
 
 export interface CarCodeProps {

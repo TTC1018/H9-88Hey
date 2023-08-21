@@ -27,7 +27,6 @@ type Props = {
 };
 
 export const ErrorBoundary = Catch(function ErrorBoundary(props: Props, error?: Error) {
-  // const navigate = useNavigate();
   if (error) {
     return (
       <Styled.Container>

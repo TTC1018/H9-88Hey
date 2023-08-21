@@ -57,7 +57,7 @@ export const Time = styled.p`
   ${({ theme }) => {
     const { colors, fonts } = theme;
     return css`
-      width: 148px;
+      padding: 0 8px;
       height: 24px;
 
       display: flex;

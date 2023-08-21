@@ -24,7 +24,7 @@ export function useFetchSuspense<T>({ fetcher, key }: Props<T>) {
     return value.data as T;
   }
 
-  const fetchData = () => {
+  function fetchData() {
     promise.current = (async () => {
       await new Promise(resolve => {
         setTimeout(resolve, 500);
@@ -57,7 +57,7 @@ export function useFetchSuspense<T>({ fetcher, key }: Props<T>) {
       });
 
     throw promise.current;
-  };
+  }
 
   fetchData();
 
