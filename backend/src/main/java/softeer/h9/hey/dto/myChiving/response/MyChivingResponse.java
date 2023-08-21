@@ -37,7 +37,7 @@ public class MyChivingResponse {
 		return MyChivingResponse.builder()
 				.myChivingId(myChivingDto.getMyChivingId())
 				.lastModifiedDate(myChivingDto.getLastModifiedDate())
-				.isSaved(myChivingDto.isSaved())
+				.isSaved(myChivingDto.getIsSaved())
 				.modelDto(myChivingDto.getModelDto())
 				.trim(myChivingDto.getTrim())
 				.engine(myChivingDto.getEngine())

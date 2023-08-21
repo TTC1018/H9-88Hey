@@ -18,7 +18,7 @@ import softeer.h9.hey.dto.archiving.WheelDriveDto;
 public class MyChivingDto {
 	private Long myChivingId;
 	private LocalDateTime lastModifiedDate;
-	private boolean isSaved;
+	private Boolean isSaved;
 	private ModelDto modelDto;
 	private TrimDto trim;
 	private EngineDto engine;
