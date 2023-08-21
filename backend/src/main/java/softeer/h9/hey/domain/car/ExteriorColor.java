@@ -20,5 +20,4 @@ public class ExteriorColor {
 	private String colorImageUrl;
 	private int additionalPrice;
 	private List<Integer> availableInteriorColors;
-	private List<Tag> tags;
 }
