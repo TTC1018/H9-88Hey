@@ -23,4 +23,7 @@ dependencies {
     // retrofit
     implementation(libs.retrofit2)
     implementation(libs.retrofit2.gson)
+
+    // paging
+    implementation(libs.androidx.paging.common)
 }

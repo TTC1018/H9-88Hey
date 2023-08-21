@@ -1,7 +1,7 @@
 package com.softeer.mycarchiving.model.common
 
 data class CarFeedUiModel(
-    val id: String,
+    val id: Long,
     val model: String,
     val isPurchase: Boolean,
     val creationDate: String,

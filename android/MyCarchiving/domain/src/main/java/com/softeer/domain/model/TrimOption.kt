@@ -10,3 +10,9 @@ data class TrimOption(
     val maximumOutput: String? = null,
     val maximumTorque: String? = null,
 )
+
+data class TrimSimpleOption(
+    val id: Int,
+    val optionName: String,
+    val price: Int,
+)
