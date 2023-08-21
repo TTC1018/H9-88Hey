@@ -19,7 +19,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.flatMapLatest
-import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import javax.inject.Inject
@@ -66,11 +65,7 @@ class ArchiveViewModel @Inject constructor(
     val pendingOptions: StateFlow<List<SearchOption>> = _pendingOptions
 
     val carFeedPagingData = _appliedOptions.flatMapLatest { appliedOptions ->
-        if (_showSearchSheet.value.not()) {
-            getCarFeedsUseCase(appliedOptions.map { it.id })
-        } else {
-            flow {  }
-        }
+        getCarFeedsUseCase(appliedOptions.map { it.id })
     }.map { pagingData -> pagingData.map(CarFeed::asUiModel) }
         .cachedIn(viewModelScope)
 
