@@ -62,9 +62,9 @@ fun DetailBanner(
     trimOptions: List<String> = listOf("디젤 2.2", "4WD", "7인승"),
     price: Int = 47340000,
     exteriorColor: String = "어비스 블랙펄",
-    exteriorColorUrl: String = "",
+    exteriorColorUrl: String = "https://88hey-bucket.s3.ap-northeast-2.amazonaws.com/88hey/color/exterior/colorchip/Abyss-Black-Pearl.png",
     interiorColor: String = "퀼팅 천연(블랙)",
-    interiorColorUrl: String = ""
+    interiorColorUrl: String = "https://88hey-bucket.s3.ap-northeast-2.amazonaws.com/88hey/color/interior/colorchip/quilting-natural-black.png"
 ) {
     Box(
         modifier = modifier
@@ -143,11 +143,12 @@ fun DetailColorInfoRow(
         Spacer(modifier = Modifier.width(12.dp))
         AsyncImage(
             modifier = Modifier
-                .size(16.dp)
+                .width(16.dp)
                 .aspectRatio(1f)
                 .clip(CircleShape),
-            model = { colorUrl },
-            contentDescription = null
+            model = colorUrl,
+            contentDescription = "",
+            contentScale = ContentScale.Crop
         )
         Spacer(modifier = Modifier.width(8.dp))
         Text(text = colorName, style = regular14)
@@ -183,7 +184,8 @@ fun DetailSelectedOption(
     optionTags: List<String>? = null
 ) {
     Column(
-        modifier = modifier.fillMaxWidth()
+        modifier = modifier
+            .fillMaxWidth()
             .background(White)
     ) {
         Column(
@@ -199,7 +201,7 @@ fun DetailSelectedOption(
                     .crossfade(true)
                     .build(),
                 contentDescription = null,
-                contentScale = ContentScale.FillBounds
+                contentScale = ContentScale.Crop
             )
             Spacer(modifier = Modifier.height(20.dp))
             Row(

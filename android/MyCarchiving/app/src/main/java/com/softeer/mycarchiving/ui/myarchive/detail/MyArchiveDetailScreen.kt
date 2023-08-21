@@ -37,9 +37,11 @@ fun MyArchiveDetailRoute(
 ) {
     val previousScreenIndex by viewModel.screenIndex.collectAsStateWithLifecycle()
     val selectOptions by viewModel.selectOptions.collectAsStateWithLifecycle()
+    val review by viewModel.comment.collectAsStateWithLifecycle()
 
     MyArchiveDetailScreen(
         screenIndex = previousScreenIndex,
+        review = review,
         selectOptions = selectOptions,
     )
 }
@@ -48,6 +50,7 @@ fun MyArchiveDetailRoute(
 fun MyArchiveDetailScreen(
     modifier: Modifier = Modifier,
     screenIndex: Int,
+    review: String,
     selectOptions: List<SelectOptionUiModel>
 ) {
     Column(
@@ -68,7 +71,7 @@ fun MyArchiveDetailScreen(
             if (screenIndex == MY_ARCHIVE_SAVE) {
                 DetailTextLabel(text = stringResource(id = R.string.archive_general_review))
                 Spacer(modifier = Modifier.height(16.dp))
-                DetailReview(review = "")
+                DetailReview(review = review)
                 Spacer(modifier = Modifier.height(23.dp))
             }
             DetailTextLabel(text = stringResource(id = R.string.selected_option))
@@ -108,6 +111,7 @@ fun MyArchiveSelectOptionArea(
 fun PreviewMyArchiveDetailScreen() {
     MyArchiveDetailScreen(
         screenIndex = MY_ARCHIVE_MADE,
+        review = "리뷰 텍스트",
         selectOptions = listOf(
             SelectOptionUiModel(
                 id = "",
