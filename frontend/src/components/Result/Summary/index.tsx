@@ -1,5 +1,5 @@
 import { MyCarProps } from '@/types/trim';
-import { hasJongSeong } from '@/utils';
+import { combineWithSlash, hasJongSeong } from '@/utils';
 
 import * as Styled from './style';
 
@@ -18,6 +18,8 @@ export function Summary({ myCar }: Props) {
     bodyType.additionalPrice +
     exteriorColor.additionalPrice;
 
+  const trimOptions = combineWithSlash([engine.name, bodyType.name, wheelDrive.name]);
+
   return (
     <>
       <Styled.Flex>
@@ -30,9 +32,7 @@ export function Summary({ myCar }: Props) {
         <Styled.SummaryWrapper>
           <Styled.Name>{krName}</Styled.Name>
           <Styled.DetailWrapper>
-            <Styled.Trim>
-              {engine.name} / {wheelDrive.name} / {bodyType.name}
-            </Styled.Trim>
+            <Styled.Trim>{trimOptions}</Styled.Trim>
             <Styled.Price>{price.toLocaleString()}원</Styled.Price>
           </Styled.DetailWrapper>
           <Styled.SummaryLine />

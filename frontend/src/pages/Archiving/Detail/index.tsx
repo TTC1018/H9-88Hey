@@ -57,7 +57,9 @@ export function Detail() {
     carImageUrl: exteriorColor.carImageUrl,
   };
 
+  const trimOptions = combineWithSlash([engine.name, bodyType.name, wheelDrive.name]);
   const { handleOpen } = useModalContext();
+
   function handleNavigate() {
     localStorage.setItem('myCar', JSON.stringify(myCar));
     navigate('/trim');
@@ -70,7 +72,7 @@ export function Detail() {
           <DetailHeader
             title={`${modelName} ${trim.name}`}
             date={formatDate(creationDate) + dateText}
-            trimOptions={combineWithSlash([engine.name, bodyType.name, wheelDrive.name])}
+            trimOptions={trimOptions}
             exteriorColor={exteriorColor.name}
             interiorColor={interiorColor.name}
             review={review}

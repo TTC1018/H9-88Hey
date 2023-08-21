@@ -2,7 +2,7 @@ import { Dispatch, MutableRefObject, useRef, useState } from 'react';
 
 import { useLocation, useNavigate } from 'react-router-dom';
 
-import { checkIsOptionPage, checkIsHGenuineAccessoriesPage, getLocalStorage } from '@/utils';
+import { checkIsOptionPage, checkIsHGenuineAccessoriesPage, getLocalStorage, combineWithSlash } from '@/utils';
 import { ActionType, MyCarProps } from '@/types/trim';
 import { useCountPrice } from '@/hooks/useCountPrice';
 import { MyCarActionType, NAVIGATION_PATH, TAG_CHIP_MAX_NUMBER } from '@/constants';
@@ -44,7 +44,7 @@ export function Footer({ myCarData, calculatePrice, carCode, setDisplayAutoSavin
   }
 
   const { trim, engine, bodyType, wheelDrive, exteriorColor, interiorColor, options } = myCarData;
-  const trimOptions = [engine.name, bodyType.name, wheelDrive.name].filter(Boolean).join('/');
+  const trimOptions = combineWithSlash([engine.name, bodyType.name, wheelDrive.name]);
 
   const pathKey = pathname.endsWith('/') ? pathname.slice(0, -1) : pathname;
   function handleNavigate(path: string) {

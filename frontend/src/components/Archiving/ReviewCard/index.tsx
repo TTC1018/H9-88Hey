@@ -47,13 +47,14 @@ export function ReviewCard({ props, isArchiving, onClick, selectedSearchOptions 
   const { handleNavigate } = useMyCarNavigate({ path: `/archiving/detail?feed_id=${feedId}`, state: props });
 
   const dateText = `에 ${isPurchase ? '구매' : '시승'}했어요`;
+  const trimOptions = combineWithSlash([engine.name, bodyType.name, wheelDrive.name]);
 
   return (
     <Styled.Contaienr onClick={handleNavigate}>
       <Styled.TitleWrapper>
         <Styled.Enclosure>
           <Styled.Title>{`${modelName} ${trim.name}`}</Styled.Title>
-          <Styled.SubTitle>{combineWithSlash([engine.name, bodyType.name, wheelDrive.name])}</Styled.SubTitle>
+          <Styled.SubTitle>{trimOptions}</Styled.SubTitle>
         </Styled.Enclosure>
         <Styled.SideBox>
           <Styled.Time>

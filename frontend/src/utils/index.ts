@@ -28,7 +28,7 @@ export function formatDate(inputDate: string) {
 }
 
 export function combineWithSlash(strings: string[]) {
-  return strings.join(' / ');
+  return strings.filter(Boolean).join(' / ');
 }
 
 export function hasJongSeong(word: string) {

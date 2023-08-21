@@ -1,4 +1,5 @@
 import { MyCarProps } from '@/types/trim';
+import { combineWithSlash } from '@/utils';
 
 import * as Styled from './style';
 
@@ -10,9 +11,7 @@ interface Props {
 export function EstimateModal({ onClick, myCarData, totalPrice }: Props) {
   const { trim, engine, bodyType, wheelDrive, options, interiorColor, exteriorColor } = myCarData;
 
-  const trimOptions = `${engine.name}${bodyType.name !== '' ? '/' : ''}${bodyType.name}${
-    wheelDrive.name !== '' ? '/' : ''
-  }${wheelDrive.name}`;
+  const trimOptions = combineWithSlash([engine.name, bodyType.name, wheelDrive.name]);
   const trimPrice = engine.additionalPrice + bodyType.additionalPrice + wheelDrive.additionalPrice;
 
   return (
