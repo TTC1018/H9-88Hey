@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import softeer.h9.hey.dto.myChiving.MyChivingDto;
 import softeer.h9.hey.dto.myChiving.MyChivingSaveDto;
+import softeer.h9.hey.dto.myChiving.MyChivingSelectOptionFetchDto;
 import softeer.h9.hey.dto.myChiving.request.MyChivingTempSaveRequest;
 
 @SpringBootTest
@@ -70,12 +71,12 @@ class MyChivingRepositoryTest {
 	@DisplayName("유저 아이디와 limit, offset 정보를 개수와 순서에 맞게 유저의 마이카이빙 테이블 저장 정보를 가져와야 한다.")
 	void findMyChiving() {
 		Integer userId = 1;
-		Integer limit = 8;
-		Integer offset = 4;
+		Integer limit = 4;
+		Integer offset = 1;
 
 		List<MyChivingDto> myChivingDtoList = myChivingRepository.findMyChivingsByUserIdLimitAndOffset(userId, limit, offset);
 
-		assertThat(myChivingDtoList).hasSize(8);
+		assertThat(myChivingDtoList).hasSize(4);
 		//필수값 체크
 		for (MyChivingDto myChivingDto : myChivingDtoList) {
 			assertThat(myChivingDto.getMyChivingId()).isNotNull();
@@ -86,5 +87,39 @@ class MyChivingRepositoryTest {
 		}
 	}
 
+	@Test
+	@DisplayName("불러온 마이카이빙 목록을 통해 해당 마이카이빙에서 선택한 선택옵션과 하위옵션 정보를 가져와야 한다.")
+	@Transactional
+	void findOptionDataByMyChiving() {
+		Long id = null;
+		Integer engineId = 1;
+		Integer trimId = 1;
+		Integer bodyTypeId = 1;
+		Integer wheelTypeId = 1;
+		Integer exteriorColorId = 1;
+		Integer interiorColorId = 1;
+		List<String> selectOptionIdList = List.of("TRP","DUP","VI2");
+
+		MyChivingTempSaveRequest myChivingTempSaveRequest = new MyChivingTempSaveRequest(id, bodyTypeId, wheelTypeId, engineId, trimId, exteriorColorId, interiorColorId, selectOptionIdList);
+		MyChivingSaveDto myChivingSaveDto = MyChivingSaveDto.from(myChivingTempSaveRequest);
+		myChivingSaveDto.setUserId(1);
+		myChivingSaveDto.setSubmitted(false);
+
+		List<Long> myChivingIdList = List.of(myChivingRepository.saveMyCarToMyChiving(myChivingSaveDto),
+			myChivingRepository.saveMyCarToMyChiving(myChivingSaveDto),
+			myChivingRepository.saveMyCarToMyChiving(myChivingSaveDto),
+			myChivingRepository.saveMyCarToMyChiving(myChivingSaveDto));
+
+		List<MyChivingSelectOptionFetchDto> optionDataByMyChivingIdList = myChivingRepository.findOptionDataByMyChivingIdList(myChivingIdList);
+
+		for (MyChivingSelectOptionFetchDto myChivingSelectOptionFetchDto : optionDataByMyChivingIdList) {
+			assertThat(myChivingSelectOptionFetchDto.getMyChivingId()).isNotNull();
+			assertThat(myChivingSelectOptionFetchDto.getSelectOptionId()).isNotNull();
+			assertThat(myChivingSelectOptionFetchDto.getSelectOptionName()).isNotNull();
+			assertThat(myChivingSelectOptionFetchDto.getImageUrl()).isNotNull();
+			assertThat(myChivingSelectOptionFetchDto.getAdditionalPrice()).isNotNull();
+			assertThat(myChivingSelectOptionFetchDto.getSubOptionName()).isNotNull();
+		}
+	}
 
 }
