@@ -27,4 +27,11 @@ public class GlobalResponse<T> {
 			.data(body)
 			.build();
 	}
+
+	public static <T> GlobalResponse<T> created(T body) {
+		return GlobalResponse.<T>builder()
+			.statusCode(HttpStatus.CREATED.value())
+			.data(body)
+			.build();
+	}
 }
