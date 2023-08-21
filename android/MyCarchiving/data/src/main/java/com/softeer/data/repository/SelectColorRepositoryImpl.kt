@@ -22,4 +22,10 @@ class SelectColorRepositoryImpl(
                     }
                 }
             }
+
+    override fun getTagsOfInterior(id: Int): Flow<List<String>> =
+        selectColorRemoteDataSource.getTagsOfInterior(id)
+
+    override fun getTagsOfExterior(id: Int): Flow<List<String>> =
+        selectColorRemoteDataSource.getTagsOfExterior(id)
 }

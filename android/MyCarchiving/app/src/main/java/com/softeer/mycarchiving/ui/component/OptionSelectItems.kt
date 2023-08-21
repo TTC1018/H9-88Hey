@@ -1,5 +1,6 @@
 package com.softeer.mycarchiving.ui.component
 
+import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.tween
@@ -135,7 +136,11 @@ fun OptionSelectedInfo(
             horizontalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             optionTags?.forEach { tagString ->
-                OptionTagChip(tagString = tagString)
+                AnimatedContent(targetState = tagString, label = "") {
+                    OptionTagChip(
+                        tagString = it
+                    )
+                }
             }
         }
     }

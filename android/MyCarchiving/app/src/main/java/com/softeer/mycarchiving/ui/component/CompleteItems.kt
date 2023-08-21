@@ -379,6 +379,7 @@ fun PreviewCompleteCarCard() {
         price = 47340000,
         colors = listOf(
             ColorOptionUiModel(
+                id = 0,
                 category = CarColorType.EXTERIOR,
                 optionName = "문라이트 블루펄",
                 imageUrl = "",
@@ -387,6 +388,7 @@ fun PreviewCompleteCarCard() {
                 tags = emptyList()
             ),
             ColorOptionUiModel(
+                id = 1,
                 category = CarColorType.INTERIOR,
                 optionName = "퀼팅 천연(블랙)",
                 imageUrl = "",

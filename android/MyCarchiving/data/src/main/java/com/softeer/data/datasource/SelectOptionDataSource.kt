@@ -19,6 +19,8 @@ interface SelectOptionDataSource {
     fun getNPerformances(carCode: String): Flow<List<TrimSelectOptionDto>>
 
     fun getBasicOptions(carCode: String): Flow<List<TrimBasicOptionDto>>
+
+    fun getTagsOfOption(id: String): Flow<List<String>>
 }
 
 class SelectOptionRemoteDataSource(
@@ -77,6 +79,17 @@ class SelectOptionRemoteDataSource(
 
         if (response.isSuccessful && basicOptions != null) {
             emit(basicOptions)
+        } else {
+            emit(emptyList())
+        }
+    }
+
+    override fun getTagsOfOption(id: String): Flow<List<String>> = flow {
+        val response = selectOptionNetworkApi.getTagsOfSelectOption(id)
+        val tags = response.body()?.data?.tags
+
+        if (response.isSuccessful && tags != null) {
+            emit(tags)
         } else {
             emit(emptyList())
         }

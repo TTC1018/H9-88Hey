@@ -14,4 +14,6 @@ interface SelectOptionRepository {
     fun getNPerformances(carCode: String): Flow<List<CarExtraOption>>
 
     fun getBasicOptions(carCode: String): Flow<List<CarBasicOption>>
+
+    fun getTagsOfSelectOption(id: String): Flow<List<String>>
 }

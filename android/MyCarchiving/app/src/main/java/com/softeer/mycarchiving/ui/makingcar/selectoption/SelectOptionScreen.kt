@@ -87,6 +87,9 @@ fun SelectOptionRoute(
     val selectedExtras by sharedViewModel.selectedExtraOptions.collectAsStateWithLifecycle()
     val selectedHGenuines by sharedViewModel.selectedHGenuines.collectAsStateWithLifecycle()
     val selectedNPerformance by sharedViewModel.selectedNPerformance.collectAsStateWithLifecycle()
+    val extraTagMap by viewModel.selectOptionTagMap.collectAsStateWithLifecycle()
+    val hGenuineTagMap by viewModel.hGeniuneTagMap.collectAsStateWithLifecycle()
+    val nPerformanceTagMap by viewModel.nPerformanceTagMap.collectAsStateWithLifecycle()
 
     LaunchedEffect(screenProgress) {
         viewModel.focusOptionItem(0) // 화면 변할 때마다 focus된 아이템 초기화
@@ -107,6 +110,12 @@ fun SelectOptionRoute(
             1 -> selectedHGenuines
             2 -> selectedNPerformance
             else -> emptyList()
+        },
+        tags = when (mainProgress to screenProgress) {
+            TRIM_OPTION to TRIM_EXTRA -> extraTagMap
+            TRIM_OPTION to TRIM_HGENUINE -> hGenuineTagMap
+            TRIM_OPTION to TRIM_NPERFORMANCE -> nPerformanceTagMap
+            else -> emptyMap()
         },
         focusedIndex = focusedOptionIndex,
         focusOption = viewModel::focusOptionItem,
@@ -137,6 +146,7 @@ fun SelectOptionScreen(
     screenProgress: Int,
     options: List<SelectOptionUiModel>,
     selectedOptions: List<SelectOptionUiModel>?,
+    tags: Map<String, List<String>>,
     focusedIndex: Int,
     focusOption: (Int) -> Unit,
     showBasicItems: () -> Unit,
@@ -237,7 +247,7 @@ fun SelectOptionScreen(
                     ) {
                         OptionSelectedInfo(
                             optionName = options.getOrNull(focusedIndex)?.name ?: "",
-                            optionTags = options.getOrNull(focusedIndex)?.tags
+                            optionTags = tags.getOrDefault(options.getOrNull(focusedIndex)?.id, emptyList())
                         )
                         AsyncImage(
                             modifier = Modifier
@@ -277,7 +287,7 @@ fun PreviewSelectOptionScreen() {
         screenProgress = 0,
         options = listOf(
             SelectOptionUiModel(
-                id = "",
+                id = "1",
                 name = "컴포트 2",
                 price = 1090000,
                 imageUrl = "",
@@ -295,7 +305,7 @@ fun PreviewSelectOptionScreen() {
                 ),
             ),
             SelectOptionUiModel(
-                id = "",
+                id = "2",
                 name = "현대스마트센스 Ⅰ",
                 price = 2900000,
                 imageUrl = "",
@@ -307,7 +317,7 @@ fun PreviewSelectOptionScreen() {
         ),
         selectedOptions = listOf(
             SelectOptionUiModel(
-                id = "",
+                id = "2",
                 name = "현대스마트센스 Ⅰ",
                 price = 2900000,
                 imageUrl = "",
@@ -315,6 +325,12 @@ fun PreviewSelectOptionScreen() {
                     "대형견도 문제 없어요",
                     "가족들도 좋은 옵션👨‍👩‍👧‍👦"
                 ),
+            )
+        ),
+        tags = mapOf(
+            "2" to listOf(
+                "대형견도 문제 없어요",
+                "가족들도 좋은 옵션👨‍👩‍👧‍👦"
             )
         ),
         focusedIndex = 0,
