@@ -12,13 +12,13 @@ import softeer.h9.hey.dto.myChiving.request.MyChivingTempSaveRequest;
 @Getter
 public class MyChivingSaveDto {
 	private Long id;
-	private int userId;
-	private int interiorColorId;
-	private int exteriorColorId;
-	private int bodyTypeId;
-	private int wheelTypeId;
-	private int trimId;
-	private int engineId;
+	private Integer userId;
+	private Integer interiorColorId;
+	private Integer exteriorColorId;
+	private Integer bodyTypeId;
+	private Integer wheelTypeId;
+	private Integer trimId;
+	private Integer engineId;
 	private List<String> selectOptionIdList;
 	private boolean isSubmitted;
 
