@@ -67,7 +67,7 @@ class AuthControllerTest {
 		mockMvc.perform(
 				post("/auth/signup")
 					.contentType(MediaType.APPLICATION_JSON)
-					.content(objectMapper.writeValueAsString(new JoinRequest("email", "password", userName))))
+					.content(objectMapper.writeValueAsString(new JoinRequest("email@email.com", "password", userName))))
 			.andExpect(status().isOk())
 			.andExpectAll(
 				jsonPath("$.data.accessToken").exists(),
@@ -84,7 +84,7 @@ class AuthControllerTest {
 		mockMvc.perform(
 				post("/auth/signup")
 					.contentType(MediaType.APPLICATION_JSON)
-					.content(objectMapper.writeValueAsString(new JoinRequest("email", "testPassword", "userName"))))
+					.content(objectMapper.writeValueAsString(new JoinRequest("email@email.com", "testPassword", "userName"))))
 			.andExpect(status().isConflict())
 			.andExpect(jsonPath("$.statusCode").value(HttpStatus.CONFLICT.value()))
 			.andExpect(jsonPath("$.message").value(JoinException.DUPLICATED_EMAIL_MESSAGE));
@@ -93,7 +93,7 @@ class AuthControllerTest {
 	@Test
 	@DisplayName("로그인 요청을 정상적으로 처리한다.")
 	void signInTest() throws Exception {
-		String email = "email";
+		String email = "email@email.com";
 		String password = "password";
 		String userName = "userName";
 		User user = new User(email, password, userName);
@@ -117,7 +117,7 @@ class AuthControllerTest {
 	@Test
 	@DisplayName("등록되어있지 않은 ID로 로그인 요청이 들어오는 경우 로그인에 실패한다.")
 	void notEnrolledIdTest() throws Exception {
-		String unEnrolledEmail = "email";
+		String unEnrolledEmail = "email@email.com";
 
 		when(userRepository.findByEmail(unEnrolledEmail)).thenReturn(Optional.empty());
 
@@ -132,7 +132,7 @@ class AuthControllerTest {
 	@Test
 	@DisplayName("비밀번호가 틀린 경우 로그인에 실패한다.")
 	void wrongPasswordLoginTest() throws Exception {
-		String email = "email";
+		String email = "email@email.com";
 		String password = "password";
 		String userName = "userName";
 		User user = new User(email, password, userName);
