@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">MyCarchiving</string>
+    <string name="app_name">마이카이빙</string>
 
     <!--  공용  -->
     <string name="show_summary">견적요약보기</string>
