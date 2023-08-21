@@ -93,6 +93,8 @@ object DataModule {
     fun provideSignRepository(signDataSource: SignDataSource): SignRepository =
         SignRepositoryImpl(signDataSource)
         
+    @Provides
+    @Singleton
     fun provideMyArchiveRemoteDataSource(myArchiveNetworkApi: MyArchiveNetworkApi): MyArchiveDataSource =
         MyArchiveRemoteDataSource(myArchiveNetworkApi)
 
