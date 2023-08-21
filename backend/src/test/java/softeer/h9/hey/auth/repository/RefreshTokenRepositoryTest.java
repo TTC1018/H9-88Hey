@@ -1,5 +1,6 @@
 package softeer.h9.hey.auth.repository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.junit.jupiter.api.Assertions;
@@ -24,7 +25,8 @@ class RefreshTokenRepositoryTest {
 	void createRefreshTokenTest() {
 		int userId = 1;
 		String refreshToken = "jwt1234";
-		RefreshTokenEntity refreshTokenEntity = new RefreshTokenEntity(userId, refreshToken);
+		LocalDateTime localDateTime = LocalDateTime.now().plusHours(1);
+		RefreshTokenEntity refreshTokenEntity = new RefreshTokenEntity(userId, refreshToken, localDateTime);
 
 		refreshTokenRepository.save(refreshTokenEntity);
 		List<RefreshTokenEntity> findRefreshTokenEntities = refreshTokenRepository.findByUserId(userId);

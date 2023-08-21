@@ -19,11 +19,13 @@ public class RefreshTokenRepositoryImpl implements RefreshTokenRepository {
 
 	@Override
 	public void save(RefreshTokenEntity refreshTokenEntity) {
-		String sql = "INSERT INTO `refreshToken`(user_id, refreshToken) VALUES (:userId, :refreshToken)";
+		String sql = "INSERT INTO `refreshToken`(user_id, refreshToken, expired_time) "
+			+ "VALUES (:userId, :refreshToken, :expiredTime)";
 
 		MapSqlParameterSource param = new MapSqlParameterSource()
 			.addValue("userId", refreshTokenEntity.getUserId())
-			.addValue("refreshToken", refreshTokenEntity.getRefreshToken());
+			.addValue("refreshToken", refreshTokenEntity.getRefreshToken())
+			.addValue("expiredTime", refreshTokenEntity.getExpiredTime());
 
 		namedParameterJdbcTemplate.update(sql, param);
 	}
