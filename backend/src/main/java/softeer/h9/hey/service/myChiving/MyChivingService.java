@@ -78,10 +78,10 @@ public class MyChivingService {
 		List<MyChivingDto> myChivingDtoList = myChivingRepository.findMyChivingsByUserIdLimitAndOffset(1, limit,
 			startIndex);
 
-		return MyChivingsResponse.from(test(myChivingDtoList));
+		return MyChivingsResponse.from(findMyChivingDetailById(myChivingDtoList));
 	}
 
-	private List<MyChivingResponse> test(List<MyChivingDto> myChivingDtoList) {
+	private List<MyChivingResponse> findMyChivingDetailById(List<MyChivingDto> myChivingDtoList) {
 		List<Long> myChivingIdList = myChivingDtoList.stream()
 			.map(MyChivingDto::getMyChivingId)
 			.collect(Collectors.toList());
