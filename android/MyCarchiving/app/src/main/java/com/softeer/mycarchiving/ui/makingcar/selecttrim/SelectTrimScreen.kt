@@ -59,6 +59,13 @@ fun SelectTrimRoute(
     val wheels by selectTrimViewModel.wheels.collectAsStateWithLifecycle()
     val selectedTrims by makingCarViewModel.selectedTrim.collectAsStateWithLifecycle()
 
+    // 방금 전 상태까지 임시 저장
+    LaunchedEffect(screenProgress) {
+        if (mainProgress == TRIM_SELECT) {
+            makingCarViewModel.saveTempCarInfo()
+        }
+    }
+
     SelectTrimScreen(
         modifier = modifier,
         screenProgress = screenProgress,
