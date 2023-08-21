@@ -1,5 +1,6 @@
 package softeer.h9.hey.auth.repository;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
@@ -48,6 +49,12 @@ public class RefreshTokenRepositoryImpl implements RefreshTokenRepository {
 			.addValue("refreshTokenId", refreshTokenEntityId);
 
 		namedParameterJdbcTemplate.update(sql, param);
+	}
+
+	@Override
+	public void deleteBeforeCurrentTime() {
+		String sql = "DELETE FROM refreshToken WHERE expired_time < NOW()";
+		namedParameterJdbcTemplate.update(sql, new HashMap<>());
 	}
 
 	private RowMapper<RefreshTokenEntity> refreshTokenEntityRowMapper() {

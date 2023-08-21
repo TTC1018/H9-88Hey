@@ -10,4 +10,6 @@ public interface RefreshTokenRepository {
 	List<RefreshTokenEntity> findByUserId(int userId);
 
 	void deleteById(int refreshTokenEntityId);
+
+	void deleteBeforeCurrentTime();
 }
