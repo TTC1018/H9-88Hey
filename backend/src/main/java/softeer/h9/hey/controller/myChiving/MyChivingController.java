@@ -28,13 +28,13 @@ public class MyChivingController {
 	@PostMapping("/mychiving")
 	public GlobalResponse<MyChivingIdResponse> saveMyCarToMyChiving(@Valid @RequestBody MyChivingSaveRequest myChivingSaveRequest) {
 		MyChivingIdResponse response = myChivingService.saveMyCar(myChivingSaveRequest);
-		return GlobalResponse.ok(response);
+		return GlobalResponse.created(response);
 	}
 
 	@PostMapping("/mychiving/temp")
 	public GlobalResponse<MyChivingIdResponse> temporarySaveMyCarToMyChiving(@Valid @RequestBody MyChivingTempSaveRequest myChivingSaveRequest) {
 		MyChivingIdResponse response = myChivingService.temporarySaveMyCar(myChivingSaveRequest);
-		return GlobalResponse.ok(response);
+		return GlobalResponse.created(response);
 	}
 
 	@GetMapping("/mychiving")
