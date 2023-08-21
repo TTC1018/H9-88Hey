@@ -115,14 +115,14 @@ fun ArchiveFeed(
                         style = medium14
                     )
                     Spacer(modifier = Modifier.width(12.dp))
-                    val appliedOptionNames = appliedOptions.map { it.name }
-                    val sortedOptions = sortOptionsByApplied(options = options, appliedOptions = appliedOptionNames)
-                    CarFeedOptionChip(name = sortedOptions.first(), equalsFilter = appliedOptionNames.contains(sortedOptions.first()))
-                    val secondChipVisible = sortedOptions.size > 1 && sortedOptions.first().length + sortedOptions[1].length < 18
+                    val appliedOptionIds = appliedOptions.map { it.id }
+                    val sortedOptions = sortOptionsByApplied(options = options, appliedOptionIds = appliedOptionIds)
+                    CarFeedOptionChip(name = sortedOptions.first().name, equalsFilter = appliedOptionIds.contains(sortedOptions.first().id))
+                    val secondChipVisible = sortedOptions.size > 1 && sortedOptions.first().name.length + sortedOptions[1].name.length < 18
                     val visibleOptionCount = if (secondChipVisible) 2 else 1
                     if (secondChipVisible) {
                         Spacer(modifier = Modifier.width(6.dp))
-                        CarFeedOptionChip(name = sortedOptions[1], equalsFilter = appliedOptionNames.contains(sortedOptions[1]))
+                        CarFeedOptionChip(name = sortedOptions[1].name, equalsFilter = appliedOptionIds.contains(sortedOptions[1].id))
                     }
                     if (options.size > visibleOptionCount) {
                         Spacer(modifier = Modifier.width(7.dp))
@@ -155,11 +155,11 @@ fun ArchiveFeed(
     }
 }
 
-private fun sortOptionsByApplied(options: List<String>, appliedOptions: List<String>): List<String> {
-    val optionsWithApplied = mutableListOf<String>()
-    val optionsWithoutApplied = mutableListOf<String>()
+private fun sortOptionsByApplied(options: List<SearchOption>, appliedOptionIds: List<String>): List<SearchOption> {
+    val optionsWithApplied = mutableListOf<SearchOption>()
+    val optionsWithoutApplied = mutableListOf<SearchOption>()
     options.forEach { option ->
-        if (option in appliedOptions) {
+        if (option.id in appliedOptionIds) {
             optionsWithApplied.add(option)
         } else {
             optionsWithoutApplied.add(option)
@@ -181,7 +181,7 @@ fun PreviewArchiveFeed() {
             trimOptions = listOf("디젤 2.2", "4WD", "7인승"),
             interiorColor = "문라이트 블루 펄",
             exteriorColor = "퀄팅 천연(블랙)",
-            selectedOptions = listOf("컴포트 ||", "듀얼 와이드 선루프"),
+            selectedOptions = listOf(),
             review = "승차감이 좋아요 차가 크고 운전하는 시야도 높아서 좋았어요 저는 13개월 아들이 있는데 뒤에 차시트 달아도 널널할 것 같습니다. 다른 주차 관련 옵션도 괜찮아요.",
             tags = listOf("편리해요😉", "이것만 있으면 나도 주차고수🚘", "대형견도 문제 없어요🐶")
         ),

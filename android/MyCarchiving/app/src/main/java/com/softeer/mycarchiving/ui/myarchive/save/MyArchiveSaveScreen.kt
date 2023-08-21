@@ -3,7 +3,6 @@ package com.softeer.mycarchiving.ui.myarchive.save
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -66,7 +65,7 @@ fun PreviewMyArchiveSaveScreen() {
                 trimOptions = listOf("디젤 2.2", "4WD", "7인승"),
                 interiorColor = "문라이트 블루 펄",
                 exteriorColor = "퀄팅 천연(블랙)",
-                selectedOptions = listOf("컴포트 ||", "듀얼 와이드 선루프"),
+                selectedOptions = listOf(),
                 review = "승차감이 좋아요 차가 크고 운전하는 시야도 높아서 좋았어요 저는 13개월 아들이 있는데 뒤에 차시트 달아도 널널할 것 같습니다. 다른 주차 관련 옵션도 괜찮아요.",
                 tags = listOf("편리해요😉", "이것만 있으면 나도 주차고수🚘", "대형견도 문제 없어요🐶")
             )

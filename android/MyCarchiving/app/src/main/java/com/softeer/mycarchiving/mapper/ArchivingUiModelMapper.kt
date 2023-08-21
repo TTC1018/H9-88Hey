@@ -1,5 +1,6 @@
 package com.softeer.mycarchiving.mapper
 
+import com.softeer.domain.model.CarExtraSimpleOption
 import com.softeer.domain.model.CarFeed
 import com.softeer.domain.model.SelectSimpleOption
 import com.softeer.mycarchiving.model.archiving.SearchOption
@@ -16,7 +17,7 @@ fun CarFeed.asUiModel() =
         trimOptions = listOf(engine, bodyType, wheelDrive).map { it.optionName },
         interiorColor = interiorColor.name,
         exteriorColor = exteriorColor.name,
-        selectedOptions = selectedOptions.map { it.name },
+        selectedOptions = selectedOptions.map(CarExtraSimpleOption::asUiModel),
         review = reviewText,
         tags = tags
     )
@@ -31,6 +32,12 @@ fun List<SelectSimpleOption>.asUiModel(): List<SearchOptionUiModel> =
         }
 
 fun SelectSimpleOption.asUiModel(): SearchOption =
+    SearchOption(
+        id = id,
+        name = name
+    )
+
+fun CarExtraSimpleOption.asUiModel(): SearchOption =
     SearchOption(
         id = id,
         name = name
