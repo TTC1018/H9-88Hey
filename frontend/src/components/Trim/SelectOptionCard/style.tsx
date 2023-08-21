@@ -30,8 +30,6 @@ const Container = styled.div<ActiveStateProps>`
 
       cursor: pointer;
 
-      cursor: pointer;
-
       &::before,
       &::after {
         width: 0;

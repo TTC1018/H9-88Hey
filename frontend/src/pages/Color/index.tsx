@@ -1,4 +1,4 @@
-import { Suspense, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { useOutletContext } from 'react-router-dom';
 
@@ -141,14 +141,12 @@ export function Color() {
     <Styled.Container>
       <Styled.ImageWrapper>
         {isExternalPage ? <ExternalCarImage imageUrl={externalCarImage} /> : <InnerCarImage imageUrl={innerCarImage} />}
-        <Suspense fallback={<div>태그를 불러오는 중이ㅔ여</div>}>
-          <MyCarDescription
-            title={descriptionTitle}
-            price={descriptionPrice}
-            isExterirorColor={isExternalPage}
-            tagId={isExternalPage ? exteriorColorId : interiorColorId}
-          />
-        </Suspense>
+        <MyCarDescription
+          title={descriptionTitle}
+          price={descriptionPrice}
+          isExterirorColor={isExternalPage}
+          tagId={isExternalPage ? exteriorColorId : interiorColorId}
+        />
       </Styled.ImageWrapper>
       <Styled.ColorWrapper>
         <Styled.ColorEnclosure>

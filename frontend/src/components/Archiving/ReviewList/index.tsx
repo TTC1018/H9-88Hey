@@ -29,7 +29,7 @@ export function ReviewList({ archivings, isLoading, options, onClick }: Props) {
       ))}
       {isLoading && (
         <Styled.Wrapper>
-          <Styled.Loading></Styled.Loading>
+          <Styled.Loading />
         </Styled.Wrapper>
       )}
     </Styled.Container>

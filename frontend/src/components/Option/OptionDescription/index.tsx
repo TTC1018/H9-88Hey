@@ -1,9 +1,9 @@
 import { Suspense } from 'react';
 
 import { TagBox } from '@/components/common/TagBox';
+import { TagSkeleton } from '@/components/common/TagSkeleton';
 
 import * as Styled from './style';
-import { TagSkeleton } from '@/components/common/TagSkeleton';
 
 interface OptionDescriptionProps {
   name: string;

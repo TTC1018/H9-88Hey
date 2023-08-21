@@ -1,8 +1,10 @@
-import { useFetchSuspense } from '@/hooks/useFetchSuspense';
-import * as Styled from './style';
-import { ArchivingCarDataProps } from '@/types/archiving';
 import { fetcher } from '@/utils/fetcher';
 import { apiPath, cacheKey } from '@/constants';
+import { ArchivingCarDataProps } from '@/types/archiving';
+
+import { useFetchSuspense } from '@/hooks/useFetchSuspense';
+
+import * as Styled from './style';
 
 interface Props {
   selectedOptions: Set<string>;
