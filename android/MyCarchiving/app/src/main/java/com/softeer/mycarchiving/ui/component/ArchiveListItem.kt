@@ -23,6 +23,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.softeer.mycarchiving.R
 import com.softeer.mycarchiving.enums.CarFeedType
+import com.softeer.mycarchiving.model.archiving.SearchOption
 import com.softeer.mycarchiving.model.common.CarFeedUiModel
 import com.softeer.mycarchiving.ui.theme.DarkGray
 import com.softeer.mycarchiving.ui.theme.HyundaiLightSand
@@ -41,6 +42,7 @@ import com.softeer.mycarchiving.util.toDateString
 fun ArchiveFeed(
     modifier: Modifier = Modifier,
     carFeedUiModel: CarFeedUiModel,
+    appliedOptions: List<SearchOption>,
     onFeedClick: () -> Unit,
 ) {
     Column(
@@ -113,12 +115,12 @@ fun ArchiveFeed(
                         style = medium14
                     )
                     Spacer(modifier = Modifier.width(12.dp))
-                    CarFeedOptionChip(name = options.first())
+                    CarFeedOptionChip(name = options.first(), equalsFilter = appliedOptions.map { it.name }.contains(options.first()))
                     val secondChipVisible = options.size > 1 && options.first().length + options[1].length < 18
                     val visibleOptionCount = if (secondChipVisible) 2 else 1
                     if (secondChipVisible) {
                         Spacer(modifier = Modifier.width(6.dp))
-                        CarFeedOptionChip(name = options[1])
+                        CarFeedOptionChip(name = options[1], equalsFilter = appliedOptions.map { it.name }.contains(options[1]))
                     }
                     if (options.size > visibleOptionCount) {
                         Spacer(modifier = Modifier.width(7.dp))
@@ -168,6 +170,7 @@ fun PreviewArchiveFeed() {
             review = "승차감이 좋아요 차가 크고 운전하는 시야도 높아서 좋았어요 저는 13개월 아들이 있는데 뒤에 차시트 달아도 널널할 것 같습니다. 다른 주차 관련 옵션도 괜찮아요.",
             tags = listOf("편리해요😉", "이것만 있으면 나도 주차고수🚘", "대형견도 문제 없어요🐶")
         ),
+        appliedOptions = listOf(),
         onFeedClick = {}
     )
 }

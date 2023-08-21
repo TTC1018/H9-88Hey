@@ -67,7 +67,7 @@ fun ArchiveRoute(
     ArchiveScreen(
         modifier = modifier,
         selectedCar = selectedCar,
-        selectedOptions = appliedOptions,
+        appliedOptions = appliedOptions,
         carFeeds = carFeeds,
         deleteSelectedChip = archiveViewModel::deleteAppliedOption,
         openSearchSheet = archiveViewModel::openSearchSheet,
@@ -90,7 +90,7 @@ fun ArchiveRoute(
                 selectedOptions = selectedOptions,
                 pendingOptions = pendingOptions,
                 ableOptions = ableOptions,
-                ableOptionsSize = archiveViewModel.totalOptionsSize,
+                ableOptionsSize = ableOptions.sumOf { it.options.size },
                 onOptionChipClick = archiveViewModel::onOptionChipClick,
                 deleteSelectedOptionChip = archiveViewModel::deleteSelectedOption,
                 deletePendingOptionChip = archiveViewModel::deletePendingOption,
@@ -108,7 +108,7 @@ fun ArchiveRoute(
 fun ArchiveScreen(
     modifier: Modifier,
     selectedCar: SearchOption,
-    selectedOptions: List<SearchOption>,
+    appliedOptions: List<SearchOption>,
     carFeeds: LazyPagingItems<CarFeedUiModel>,
     deleteSelectedChip: (SearchOption) -> Unit,
     openSearchSheet: () -> Unit,
@@ -144,7 +144,7 @@ fun ArchiveScreen(
                     contentDescription = null
                 )
             }
-            AnimatedVisibility(visible = !scrollState.canScrollBackward && selectedOptions.isNotEmpty()) {
+            AnimatedVisibility(visible = !scrollState.canScrollBackward && appliedOptions.isNotEmpty()) {
                 Column {
                     Spacer(modifier = Modifier.height(20.dp))
                     Text(
@@ -154,7 +154,7 @@ fun ArchiveScreen(
                     )
                     Spacer(modifier = Modifier.height(8.dp))
                     SearchDeleteChipFlowList(
-                        options = selectedOptions,
+                        options = appliedOptions,
                         horizontalSpace = 4,
                         deleteChip = deleteSelectedChip
                     )
@@ -181,7 +181,7 @@ fun ArchiveScreen(
             ) {
                 items(count = carFeeds.itemCount) { index ->
                     carFeeds[index]?.run {
-                        ArchiveFeed(carFeedUiModel = this, onFeedClick = onFeedClick)
+                        ArchiveFeed(carFeedUiModel = this, appliedOptions = appliedOptions,onFeedClick = onFeedClick)
                     }
                 }
             }

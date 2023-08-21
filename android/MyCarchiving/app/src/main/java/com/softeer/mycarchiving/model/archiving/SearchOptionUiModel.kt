@@ -6,7 +6,7 @@ data class SearchOptionUiModel(
 )
 
 data class SearchOption(
-    val id: String? = null,
+    val id: String = "",
     val name: String,
     var isSelect: Boolean = false
 )
