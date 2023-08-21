@@ -24,7 +24,7 @@ export function Signin() {
     password: '',
   });
   const [isShow, setIsShow] = useState(false);
-  const [alert, setAlert] = useState('alert');
+  const [alert, setAlert] = useState('');
   const [isDisabled, setIsDisabled] = useState(false);
 
   const navigate = useNavigate();
@@ -88,13 +88,15 @@ export function Signin() {
 
       setIsSignin(true);
       setUserName(userName);
-    } catch (error: unknown) {
+    } catch (error) {
       if (error instanceof AuthError) {
         const { statusCode } = error;
 
         if (statusCode === 401) {
           handleAlert(AUTH_ALERT_MESSAGE.ACCOUNT_INCORRECT);
         }
+      } else {
+        console.error(String(error));
       }
     }
 

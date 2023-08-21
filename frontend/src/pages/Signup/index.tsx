@@ -34,7 +34,7 @@ export function Signup() {
   const [user, setUser] = useState('');
 
   const [isShow, setIsShow] = useState(false);
-  const [alert, setAlert] = useState('alert');
+  const [alert, setAlert] = useState('');
   const [isDisabled, setIsDisabled] = useState(false);
 
   const navigate = useNavigate();
@@ -117,7 +117,7 @@ export function Signup() {
 
       setIsSignin(true);
       setUserName(user);
-    } catch (error: unknown) {
+    } catch (error) {
       if (error instanceof AuthError) {
         const { statusCode } = error;
 
