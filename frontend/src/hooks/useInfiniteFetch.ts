@@ -62,6 +62,8 @@ export function useInfiniteFetch<T>({ key, url, intersecting, nextOffset, depend
     throw new Error(error);
   }
 
+  const dependenciesString = JSON.stringify(dependencies);
+
   useEffect(() => {
     setData([]);
     setHasNext(true);
@@ -71,7 +73,7 @@ export function useInfiniteFetch<T>({ key, url, intersecting, nextOffset, depend
       setIsLoading(true);
       fetcher();
     }
-  }, [JSON.stringify(dependencies)]);
+  }, [dependenciesString]);
 
   useEffect(() => {
     if (intersecting && hasNext) {
@@ -80,7 +82,7 @@ export function useInfiniteFetch<T>({ key, url, intersecting, nextOffset, depend
 
       return;
     }
-  }, [intersecting, JSON.stringify(dependencies)]);
+  }, [intersecting]);
 
   return { data, isLoading, error };
 }

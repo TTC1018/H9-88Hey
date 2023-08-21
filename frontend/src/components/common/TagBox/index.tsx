@@ -1,8 +1,10 @@
-import { TagDataProps } from '@/types/trim';
-import * as Styled from './style';
-import { useFetchSuspense } from '@/hooks/useFetchSuspense';
 import { fetcher } from '@/utils/fetcher';
+import { TagDataProps } from '@/types/trim';
 import { apiPath, cacheKey } from '@/constants';
+
+import { useFetchSuspense } from '@/hooks/useFetchSuspense';
+
+import * as Styled from './style';
 
 interface Props {
   tagId: number | string;

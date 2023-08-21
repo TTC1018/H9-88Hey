@@ -75,6 +75,7 @@ export function Option({ apiType }: Props) {
 
       return;
     }
+
     const { isAvailable, id, name, additionalPrice, imageUrl, subOptions } = selectOptions[optionIndex];
 
     const subOption = subOptions[subOptionIndex];
