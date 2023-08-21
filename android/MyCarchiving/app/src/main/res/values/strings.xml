@@ -123,6 +123,12 @@
     <string name="review_view_written_review">작성한 후기 보러가기</string>
     <string name="review_copy_link">링크 복사하기</string>
 
+    <!--  로그인  -->
+    <string name="hyundai_logo">HYUNDAI</string>
+    <string name="login">로그인</string>
+    <string name="login_email_placeholder">이메일</string>
+    <string name="login_password_placeholder">비밀번호</string>
+
     <!--  로딩  -->
     <string name="loading_get_my_car">내 차를 불러오는 중이에요</string>
     <string name="loading_empty_peed">피드에 저장한 차량이 없어요</string>

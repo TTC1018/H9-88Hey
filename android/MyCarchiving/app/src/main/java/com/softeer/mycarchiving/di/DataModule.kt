@@ -10,21 +10,26 @@ import com.softeer.data.datasource.SelectOptionDataSource
 import com.softeer.data.datasource.SelectOptionRemoteDataSource
 import com.softeer.data.datasource.SelectTrimDataSource
 import com.softeer.data.datasource.SelectTrimRemoteDataSource
+import com.softeer.data.datasource.SignDataSource
+import com.softeer.data.datasource.SignRemoteDataSource
 import com.softeer.data.network.ArchivingNetworkApi
 import com.softeer.data.network.MyArchiveNetworkApi
 import com.softeer.data.network.SelectColorNetworkApi
 import com.softeer.data.network.SelectOptionNetworkApi
 import com.softeer.data.network.SelectTrimNetworkApi
+import com.softeer.data.network.SignNetworkApi
 import com.softeer.data.repository.ArchivingRepositoryImpl
 import com.softeer.data.repository.MyArchiveRepositoryImpl
 import com.softeer.data.repository.SelectColorRepositoryImpl
 import com.softeer.data.repository.SelectOptionRepositoryImpl
 import com.softeer.data.repository.SelectTrimRepositoryImpl
+import com.softeer.data.repository.SignRepositoryImpl
 import com.softeer.domain.repository.ArchivingRepository
 import com.softeer.domain.repository.MyArchiveRepository
 import com.softeer.domain.repository.SelectColorRepository
 import com.softeer.domain.repository.SelectOptionRepository
 import com.softeer.domain.repository.SelectTrimRepository
+import com.softeer.domain.repository.SignRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -80,6 +85,14 @@ object DataModule {
 
     @Provides
     @Singleton
+    fun provideSignRemoteDataSource(signNetworkApi: SignNetworkApi): SignDataSource =
+        SignRemoteDataSource(signNetworkApi)
+
+    @Provides
+    @Singleton
+    fun provideSignRepository(signDataSource: SignDataSource): SignRepository =
+        SignRepositoryImpl(signDataSource)
+        
     fun provideMyArchiveRemoteDataSource(myArchiveNetworkApi: MyArchiveNetworkApi): MyArchiveDataSource =
         MyArchiveRemoteDataSource(myArchiveNetworkApi)
 
