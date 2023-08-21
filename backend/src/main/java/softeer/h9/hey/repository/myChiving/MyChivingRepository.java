@@ -3,6 +3,7 @@ package softeer.h9.hey.repository.myChiving;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -53,7 +54,7 @@ public class MyChivingRepository {
 		MapSqlParameterSource myArchivingParams = new MapSqlParameterSource();
 
 		//현재 시간 구하기
-		LocalDateTime currentDateTime = LocalDateTime.now();
+		LocalDateTime currentDateTime = LocalDateTime.now(ZoneId.of("Asia/Seoul"));
 
 		//tsId, 쿼리 생성
 		Long myChivingId = buildMyChivingSqlAndGetRecordId(id, sqlBuilder);
