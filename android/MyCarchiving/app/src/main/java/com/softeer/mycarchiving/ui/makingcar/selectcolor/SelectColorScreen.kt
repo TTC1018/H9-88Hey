@@ -64,6 +64,13 @@ fun SelectColorRoute(
     val interiorTags by selectColorViewModel.interiorTags.collectAsStateWithLifecycle()
     val selectedColor by makingCarViewModel.selectedColor.collectAsStateWithLifecycle()
 
+    // 방금 전 상태까지 임시 저장
+    LaunchedEffect(screenProgress) {
+        if (mainProgress == TRIM_COLOR) {
+            makingCarViewModel.saveTempCarInfo()
+        }
+    }
+
     LaunchedEffect(key1 = screenProgress, key2 = exteriors, key3 = interiors) {
         val colorOptions = when (mainProgress to screenProgress) {
             TRIM_COLOR to TRIM_EXTERIOR -> exteriors

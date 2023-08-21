@@ -93,6 +93,9 @@ fun SelectOptionRoute(
 
     LaunchedEffect(screenProgress) {
         viewModel.focusOptionItem(0) // 화면 변할 때마다 focus된 아이템 초기화
+
+        // 방금 전 상태까지 임시 저장
+        sharedViewModel.saveTempCarInfo()
     }
 
     SelectOptionScreen(
