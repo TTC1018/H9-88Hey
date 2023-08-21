@@ -98,7 +98,8 @@
     <string name="my_make_date">%1$s에 만들었어요</string>
 
     <!--  마이카이빙 다이얼로그  -->
-    <string name="my_dialog_delete_description">%1$s을\n내가 만든 차량 목록에서 삭제하시겠어요?</string>
+    <string name="my_dialog_made_delete_description">%1$s을\n내가 만든 차량 목록에서 삭제하시겠어요?</string>
+    <string name="my_dialog_save_delete_description">%1$s을\n저장한 차량 목록에서 삭제하시겠어요?</string>
     <string name="my_dialog_delete">삭제</string>
     <string name="my_dialog_continue_make_description">%1$s에 임시저장된 파일이에요.\n계속해서 내 차 만들기를 하시겠어요?</string>
     <string name="my_dialog_continue_make">내 차 만들기 이동</string>
