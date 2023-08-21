@@ -40,6 +40,7 @@ fun MyArchiveMainRoute(
         onMadeCarClick = onMadeCarClick,
         onMadeCarDelete = viewModel::deleteMadeCar,
         onSavedCarClick = onSavedCarClick,
+        onSavedCarDelete = viewModel::deleteSavedCar,
     )
 }
 
@@ -53,6 +54,7 @@ fun MyArchiveMainScreen(
     onMadeCarClick: () -> Unit,
     onMadeCarDelete: (Int) -> Unit,
     onSavedCarClick: () -> Unit,
+    onSavedCarDelete: (Int) -> Unit,
 ) {
     Column(
         modifier = modifier
@@ -88,6 +90,7 @@ fun MyArchiveMainScreen(
                         .fillMaxSize(),
                     carFeeds = savedCars,
                     onClick = onSavedCarClick,
+                    onDelete = onSavedCarDelete,
                 )
             }
         }
@@ -149,6 +152,7 @@ fun PreviewMyArchiveMainScreen() {
         onSelect = {},
         onMadeCarClick = {},
         onMadeCarDelete = {},
-        onSavedCarClick = {}
+        onSavedCarClick = {},
+        onSavedCarDelete = {}
     )
 }

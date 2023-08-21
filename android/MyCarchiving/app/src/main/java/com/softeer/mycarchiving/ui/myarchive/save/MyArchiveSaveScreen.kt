@@ -22,6 +22,7 @@ fun MyArchiveSaveScreen(
     modifier: Modifier = Modifier,
     carFeeds: List<CarFeedUiModel>,
     onClick: () -> Unit,
+    onDelete: (Int) -> Unit,
 ) {
     AnimatedContent(
         targetState = carFeeds,
@@ -42,7 +43,7 @@ fun MyArchiveSaveScreen(
                                 .animateItemPlacement(),
                             carFeedUiModel = item,
                             onFeedClick = onClick,
-                            onDelete = {}
+                            onDelete = { onDelete(idx) }
                         )
                     }
                 }
@@ -71,5 +72,6 @@ fun PreviewMyArchiveSaveScreen() {
             )
         ),
         onClick = {},
+        onDelete = {}
     )
 }

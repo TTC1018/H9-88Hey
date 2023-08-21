@@ -43,7 +43,7 @@ import com.softeer.mycarchiving.ui.theme.roundCorner
 
 val detailItem = CarBasicDetailUiModel(
     name = "ISG 시스템",
-    description ="신호 대기 상황이거나 정차 중일 때 차의 엔진을 일시 정지하여 연비를 향상시키고, 배출가스 발생을 억제하는 시스템입니다."
+    description = "신호 대기 상황이거나 정차 중일 때 차의 엔진을 일시 정지하여 연비를 향상시키고, 배출가스 발생을 억제하는 시스템입니다."
 )
 
 @Composable
@@ -122,7 +122,12 @@ fun ButtonDialog(
     val annotatedString = buildAnnotatedString {
         append(description.substring(0, annotatedTargetStartIndex))
         withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
-            append(description.substring(annotatedTargetStartIndex, annotatedTargetStartIndex + annotatedTargetLength))
+            append(
+                description.substring(
+                    annotatedTargetStartIndex,
+                    annotatedTargetStartIndex + annotatedTargetLength
+                )
+            )
         }
         append(description.substring(annotatedTargetStartIndex + annotatedTargetLength))
     }
@@ -197,18 +202,24 @@ fun FinishMakeCarDialog(
 }
 
 
-
 @Composable
-fun DeleteMadeCarDialog(
+fun DeleteMyArchiveCarDialog(
     modifier: Modifier = Modifier,
+    carName: String,
+    isMade: Boolean = true,
     onDismissRequest: () -> Unit,
     onDelete: () -> Unit,
-    carName: String
 ) {
     ButtonDialog(
         modifier = modifier,
         onDismissRequest = onDismissRequest,
-        description = stringResource(id = R.string.my_dialog_delete_description, carName),
+        description = stringResource(
+            id = if (isMade)
+                R.string.my_dialog_made_delete_description
+            else
+                R.string.my_dialog_save_delete_description,
+            carName
+        ),
         annotatedTargetStartIndex = 0,
         annotatedTargetLength = carName.length
     ) {
@@ -281,7 +292,7 @@ fun PreviewFinishMakeCarDialog() {
 @Preview
 @Composable
 fun PreviewDeleteMadeCarDialog() {
-    DeleteMadeCarDialog(
+    DeleteMyArchiveCarDialog(
         onDismissRequest = {},
         onDelete = {},
         carName = "펠리세이드 Le Blanc"
