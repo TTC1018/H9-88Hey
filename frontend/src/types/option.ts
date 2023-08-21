@@ -10,7 +10,6 @@ export interface OptionProps {
   name: string;
   additionalPrice: number;
   imageUrl: string;
-  tags: string[];
   subOptions: SubOptionProps[];
 }
 
@@ -21,13 +20,8 @@ export interface SubOptionProps {
   description: string;
 }
 
-export interface OptionCardDataProps {
-  isAvailable?: boolean;
-  id: string;
+export interface OptionCardDataProps extends Omit<OptionProps, 'subOptions'> {
   index: number;
-  name: string;
-  additionalPrice: number;
-  imageUrl: string;
   subOptionNames: string[];
 }
 
@@ -47,11 +41,7 @@ export interface OptionContextProviderProps {
   clearHGenuineAccessories: () => void;
 }
 
-export interface OptionContextProps {
-  id: string;
-  name: string;
-  additionalPrice: number;
-  imageUrl: string;
+export interface OptionContextProps extends Omit<OptionProps, 'subOptions' | 'isAvailable'> {
   subOptions: string[];
   path: string;
 }

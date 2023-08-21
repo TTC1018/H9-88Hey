@@ -1,17 +1,26 @@
+import { useState } from 'react';
+
 import * as Styled from './style';
 
-interface Props {
-  selectedCar: string;
-  cars: string[];
-  onClick: (car: string) => void;
-}
-export function SearchBar({ selectedCar, cars, onClick }: Props) {
+export function SearchBar() {
+  const [selectedCarName, setSelectedCar] = useState('전체');
+
+  function handleSelectCar(car: string) {
+    setSelectedCar(car);
+  }
+
+  const activeCarNames = ['전체', '펠리세이드'];
+  const deActiveCarNames = ['베뉴', '코나', '싼타페', '그랜저', '아반떼', '아이오닉'];
+
   return (
     <Styled.Container>
-      {cars.map(car => (
-        <Styled.Wrapper key={car} isActive={car === selectedCar} onClick={() => onClick(car)}>
+      {activeCarNames.map(car => (
+        <Styled.Wrapper key={car} isActive={car === selectedCarName} onClick={() => handleSelectCar(car)}>
           {car}
         </Styled.Wrapper>
+      ))}
+      {deActiveCarNames.map(car => (
+        <Styled.DeactiveWrapper key={car}>{car}</Styled.DeactiveWrapper>
       ))}
     </Styled.Container>
   );

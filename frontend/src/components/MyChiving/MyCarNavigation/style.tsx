@@ -13,7 +13,7 @@ export const Container = styled.div`
 
   background-color: #fff;
 
-  z-index: 1;
+  z-index: 2;
 `;
 
 export const Wrapper = styled.div`

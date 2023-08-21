@@ -13,6 +13,16 @@ export const Contaienr = styled.div`
       background: #fff;
 
       cursor: pointer;
+      opacity: 0;
+      animation: fadeIn 0.5s ease-in-out forwards;
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
     `;
   }}
 `;
@@ -47,7 +57,7 @@ export const Time = styled.p`
   ${({ theme }) => {
     const { colors, fonts } = theme;
     return css`
-      width: 148px;
+      padding: 0 8px;
       height: 24px;
 
       display: flex;
@@ -105,7 +115,7 @@ export const OptionWrapper = styled.div`
 `;
 
 export const OptionBox = styled.div`
-  gap: 8px;
+  gap: 10px;
 
   display: flex;
   flex-wrap: wrap;

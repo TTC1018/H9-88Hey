@@ -1,10 +1,11 @@
-import { MutableRefObject, useState } from 'react';
+import { Dispatch, MutableRefObject, useRef, useState } from 'react';
 
 import { useLocation, useNavigate } from 'react-router-dom';
 
-import { checkIsOptionPage, checkIsHGenuineAccessoriesPage } from '@/utils';
-import { MyCarProps } from '@/types/trim';
-import { NAVIGATION_PATH, TAG_CHIP_MAX_NUMBER } from '@/constants';
+import { checkIsOptionPage, checkIsHGenuineAccessoriesPage, getLocalStorage, combineWithSlash } from '@/utils';
+import { ActionType, MyCarProps } from '@/types/trim';
+import { useCountPrice } from '@/hooks/useCountPrice';
+import { MyCarActionType, NAVIGATION_PATH, TAG_CHIP_MAX_NUMBER } from '@/constants';
 
 import { ColorCircle } from '@/components/common/ColorCircle';
 import { EstimateModal } from './EstimateModal';
@@ -13,48 +14,44 @@ import * as Styled from './style';
 
 interface FooterProps {
   myCarData: MyCarProps;
-  totalPrice: number;
+  calculatePrice: number;
   carCode: MutableRefObject<string>;
-  onSetLocalStorage: () => void;
   setDisplayAutoSaving: () => void;
-  clearHGenuineAccessories: () => void;
+  dispatch: Dispatch<ActionType>;
 }
 
-export function Footer({
-  myCarData,
-  totalPrice,
-  carCode,
-  onSetLocalStorage,
-  setDisplayAutoSaving,
-  clearHGenuineAccessories,
-}: FooterProps) {
+export function Footer({ myCarData, calculatePrice, carCode, setDisplayAutoSaving, dispatch }: FooterProps) {
+  const prevPrice = useRef(calculatePrice);
+  const totalPrice = useCountPrice({
+    prevPrice: prevPrice.current,
+    nextPrice: calculatePrice,
+  });
+  prevPrice.current = totalPrice;
+
   const { pathname } = useLocation();
   const navigate = useNavigate();
 
   const [isOpen, setIsOpen] = useState(false);
-
   function handleOpenModal() {
     setIsOpen(true);
   }
-
   function handleCloseModal() {
     setIsOpen(false);
   }
 
-  const { trim, engine, bodyType, wheelDrive, exteriorColor, interiorColor, options } = myCarData;
+  function handleLocalStorage() {
+    localStorage.setItem('myCar', JSON.stringify(myCarData));
+  }
 
-  const trimOptions = `${engine.name}${bodyType.name !== '' ? '/' : ''}${bodyType.name}${
-    wheelDrive.name !== '' ? '/' : ''
-  }${wheelDrive.name}`;
+  const { trim, engine, bodyType, wheelDrive, exteriorColor, interiorColor, options } = myCarData;
+  const trimOptions = combineWithSlash([engine.name, bodyType.name, wheelDrive.name]);
 
   const pathKey = pathname.endsWith('/') ? pathname.slice(0, -1) : pathname;
-
   function handleNavigate(path: string) {
     if (path === '') {
       return;
     }
 
-    const carCodeQuery = `?car_code=${carCode.current}`;
     let optionQuery = '';
 
     if (checkIsHGenuineAccessoriesPage(path)) {
@@ -67,10 +64,16 @@ export function Footer({
       });
     }
 
-    onSetLocalStorage();
+    handleLocalStorage();
 
     if (checkIsOptionPage(path)) {
+      const currentCarCode = getLocalStorage('carCode');
+      if (currentCarCode !== carCode.current) {
+        dispatch({ type: MyCarActionType.CLEAR_OPTION, props: [] });
+      }
+
       localStorage.setItem('carCode', carCode.current);
+      const carCodeQuery = `?car_code=${carCode.current}`;
       navigate({
         pathname: path,
         search: `${carCodeQuery}${optionQuery}`,

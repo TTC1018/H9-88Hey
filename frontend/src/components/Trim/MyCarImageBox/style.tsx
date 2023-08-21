@@ -19,6 +19,17 @@ const Image = styled.img`
   border-radius: 4px;
 
   object-fit: cover;
+
+  opacity: 0;
+  animation: fadeIn 0.5s ease-in-out forwards;
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
 `;
 
 const Wrapper = styled.div`
@@ -43,6 +54,16 @@ const SubImage = styled.img<ActiveStateProps>`
       object-fit: cover;
 
       cursor: pointer;
+      opacity: 0;
+      animation: fadeIn 0.5s ease-in-out forwards;
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
     `;
   }}
 `;

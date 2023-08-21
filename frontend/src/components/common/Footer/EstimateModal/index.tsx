@@ -1,4 +1,5 @@
 import { MyCarProps } from '@/types/trim';
+import { combineWithSlash } from '@/utils';
 
 import * as Styled from './style';
 
@@ -8,12 +9,10 @@ interface Props {
   totalPrice: number;
 }
 export function EstimateModal({ onClick, myCarData, totalPrice }: Props) {
-  const { trim, engine, bodyType, wheelDrive, options, innerColor, outerColor } = myCarData;
+  const { trim, engine, bodyType, wheelDrive, options, interiorColor, exteriorColor } = myCarData;
 
-  const trimOptions = `${engine.title}${bodyType.title !== '' ? '/' : ''}${bodyType.title}${
-    wheelDrive.title !== '' ? '/' : ''
-  }${wheelDrive.title}`;
-  const trimPrice = engine.price + bodyType.price + wheelDrive.price;
+  const trimOptions = combineWithSlash([engine.name, bodyType.name, wheelDrive.name]);
+  const trimPrice = engine.additionalPrice + bodyType.additionalPrice + wheelDrive.additionalPrice;
 
   return (
     <>
@@ -28,7 +27,7 @@ export function EstimateModal({ onClick, myCarData, totalPrice }: Props) {
 
         <Styled.DescriptionWrapper>
           <Styled.DescriptionBox>
-            <Styled.Description>{trim.title}</Styled.Description>
+            <Styled.Description>{trim.name}</Styled.Description>
             <Styled.Description>{trim.price.toLocaleString()} 원</Styled.Description>
           </Styled.DescriptionBox>
           <Styled.DescriptionBox>
@@ -44,11 +43,11 @@ export function EstimateModal({ onClick, myCarData, totalPrice }: Props) {
         <Styled.DescriptionWrapper>
           <Styled.DescriptionBox>
             <Styled.Title>외장</Styled.Title>
-            <Styled.Description>{outerColor.title}</Styled.Description>
+            <Styled.Description>{exteriorColor.name}</Styled.Description>
           </Styled.DescriptionBox>
           <Styled.DescriptionBox>
             <Styled.Title>내장</Styled.Title>
-            <Styled.Description>{innerColor.title}</Styled.Description>
+            <Styled.Description>{interiorColor.name}</Styled.Description>
           </Styled.DescriptionBox>
         </Styled.DescriptionWrapper>
 
@@ -57,10 +56,10 @@ export function EstimateModal({ onClick, myCarData, totalPrice }: Props) {
         </Styled.TitleWrapper>
 
         <Styled.DescriptionWrapper>
-          {options.map(option => (
-            <Styled.DescriptionBox key={option.name}>
-              <Styled.Description>{option.name}</Styled.Description>
-              <Styled.Description>+{option.price.toLocaleString()}원</Styled.Description>
+          {options.map(({ name, additionalPrice }) => (
+            <Styled.DescriptionBox key={name}>
+              <Styled.Description>{name}</Styled.Description>
+              <Styled.Description>+{additionalPrice.toLocaleString()}원</Styled.Description>
             </Styled.DescriptionBox>
           ))}
         </Styled.DescriptionWrapper>

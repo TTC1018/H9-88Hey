@@ -8,8 +8,9 @@ interface Props {
   type: ModalType;
   contents?: string;
   onClick: () => void;
+  onClose?: () => void;
 }
-export function PopupModal({ type, contents, onClick }: Props) {
+export function PopupModal({ type, contents, onClick, onClose }: Props) {
   const { handleClose } = useModalContext();
 
   const state = (function () {
@@ -50,7 +51,7 @@ export function PopupModal({ type, contents, onClick }: Props) {
     <Styled.Container>
       {state?.content}
       <Styled.ButtonWrapper>
-        <Styled.CancleButton isBig={state!.isBig} onClick={handleClose}>
+        <Styled.CancleButton isBig={state!.isBig} onClick={type === 'CLEAR' ? onClose : handleClose}>
           취소
         </Styled.CancleButton>
         <Styled.ConfirmButton isBig={state!.isBig} onClick={handleConfirm}>

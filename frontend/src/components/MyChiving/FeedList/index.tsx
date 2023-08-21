@@ -1,8 +1,6 @@
-import { Fragment, MouseEvent, useEffect, useRef } from 'react';
+import { Fragment, useEffect, useRef } from 'react';
 
 import { useModalContext } from '@/hooks/useModalContext';
-import { useNavigateWithData } from '@/hooks/useNavigateWithData';
-import { MyFeedProps } from '@/types/myChiving';
 
 import { ReviewCard } from '@/components/Archiving/ReviewCard';
 import { ModalPortal } from '@/components/common/ModalPortal';
@@ -10,19 +8,15 @@ import { PopupModal } from '@/components/common/PopupModal';
 import { ModalType } from '@/constants';
 
 import * as Styled from './style';
+import { ArchivingProps } from '@/types/archiving';
 
 interface FeedListProps {
-  myChivings: MyFeedProps[];
-}
-
-interface ClickEventDataProps {
-  deleteText: string;
+  myChivings: ArchivingProps[];
 }
 
 export function FeedList({ myChivings }: FeedListProps) {
   const masonryRef = useRef<HTMLDivElement>(null);
   const { handleOpen } = useModalContext();
-  const { naviagteWithData } = useNavigateWithData({ path: '/archiving/detail' });
 
   const modalInfo = useRef({
     type: ModalType.CLOSE,
@@ -46,23 +40,12 @@ export function FeedList({ myChivings }: FeedListProps) {
     masonryLayout();
   }, [myChivings]);
 
-  function handleNavigate(review: MyFeedProps) {
-    naviagteWithData({ state: review });
-  }
-
   // 목록 제거 함수
   function handleDeleteList() {}
 
-  function handleClick(review: MyFeedProps, data: ClickEventDataProps, event: MouseEvent<HTMLDivElement>) {
-    const element = event.target as Element;
-    const deleteButton = element.closest('button');
-
-    if (deleteButton) {
-      modalInfo.current = { type: ModalType.DELETE, contents: data.deleteText, onClick: handleDeleteList };
-      handleOpen();
-    } else {
-      handleNavigate(review);
-    }
+  function handleClick(contents: string) {
+    modalInfo.current = { type: ModalType.DELETE, contents, onClick: handleDeleteList };
+    handleOpen();
   }
 
   return (

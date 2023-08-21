@@ -1,4 +1,4 @@
-import { SelectOptionsProps } from '@/types/archiving';
+import { ArchivingProps } from '@/types/archiving';
 
 export interface OptionProps {
   id: string;
@@ -59,21 +59,6 @@ export interface MyChivingDataProps {
   mychivings: MyChivingProps[];
 }
 
-export interface MyFeedProps {
-  id: number;
-  model: string;
-  trim: string;
-  isPurchase: boolean;
-  trimOptions: string[];
-  interiorColor: string;
-  exteriorColor: string;
-  creationDate: string;
-  selectedOptions: SelectOptionsProps[];
-  review: string;
-  tags: string[];
-  totalPrice: number;
-}
-
 export interface MyFeedDataProps {
-  archivingsByUser: MyFeedProps[];
+  archivingsByUser: ArchivingProps[];
 }

@@ -1,11 +1,12 @@
 import { useState, useEffect, MouseEvent } from 'react';
 
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
-import { OptionDataProps, OptionProps, SubOptionProps, OptionCardDataProps } from '@/types/option';
+import { fetcher } from '@/utils/fetcher';
+import { apiPath, cacheKey } from '@/constants';
+import { useFetchSuspense } from '@/hooks/useFetchSuspense';
 import { isValidIndex, checkIsSelectOptionPage } from '@/utils';
-import { OPTION_CARD_LIST_LENGTH } from '@/constants';
-import { useFetch } from '@/hooks/useFetch';
+import { OptionDataProps, OptionProps, SubOptionProps, OptionCardDataProps } from '@/types/option';
 
 import { OptionImageBox } from '@/components/Option/OptionImageBox';
 import { OptionDescription } from '@/components/Option/OptionDescription';
@@ -16,40 +17,17 @@ import { DefaultOptionCardList } from '@/components/Option/DefaultOptionCardList
 
 import * as Styled from './style';
 
-const initialData = {
-  selectOptions: [
-    {
-      isAvailable: true,
-      id: '',
-      name: '',
-      imageUrl: '',
-      additionalPrice: 0,
-      tags: [],
-      subOptions: [
-        {
-          id: '',
-          name: '',
-          imageUrl: '',
-          description: '',
-        },
-      ],
-    },
-  ],
-};
-
-// 현재 API에서 tags를 null로 주고 있기 때문에 그동안 임시로 사용할 용도
-const initialTags = ['여름에 쓰기 좋아요☀️', '옵션값 뽑았어요👍', '편리해요☺️'];
-
 interface Props {
   apiType: string;
 }
 
 export function Option({ apiType }: Props) {
+  const navigate = useNavigate();
   const { pathname, search } = useLocation();
 
-  const { data } = useFetch<OptionDataProps>({
-    defaultValue: initialData,
-    url: `/car/${apiType}${search}`,
+  const { selectOptions } = useFetchSuspense<OptionDataProps>({
+    fetcher: () => fetcher<OptionDataProps>({ url: apiPath.option(apiType, search) }),
+    key: cacheKey.option(apiType, search),
   });
 
   const [option, setOption] = useState<OptionProps>({
@@ -58,7 +36,6 @@ export function Option({ apiType }: Props) {
     name: '',
     additionalPrice: 0,
     imageUrl: '',
-    tags: [],
     subOptions: [],
   });
   const [subOption, setSubOption] = useState<SubOptionProps>({
@@ -70,7 +47,6 @@ export function Option({ apiType }: Props) {
   const [cardListData, setCardListData] = useState<OptionCardDataProps[]>([]);
 
   const [menu, setMenu] = useState(0);
-  const [cardListIndex, setCardListIndex] = useState(0);
   const [optionIndex, setOptionIndex] = useState(0);
   const [subOptionIndex, setSubOptionIndex] = useState(0);
 
@@ -93,17 +69,14 @@ export function Option({ apiType }: Props) {
     setSubOptionIndex(newIndex);
   }
 
-  function handleChangeCardListIndex(index: number, length: number) {
-    if (!isValidIndex(index, Math.ceil(length / OPTION_CARD_LIST_LENGTH) - 1)) {
+  useEffect(() => {
+    if (selectOptions.length === 0) {
+      navigate('/result');
+
       return;
     }
-    setCardListIndex(index);
-  }
 
-  useEffect(() => {
-    const { selectOptions } = data;
-
-    const { isAvailable, id, name, additionalPrice, imageUrl, tags, subOptions } = selectOptions[optionIndex];
+    const { isAvailable, id, name, additionalPrice, imageUrl, subOptions } = selectOptions[optionIndex];
 
     const subOption = subOptions[subOptionIndex];
     const cardListData = selectOptions.map(
@@ -118,7 +91,7 @@ export function Option({ apiType }: Props) {
       })
     );
 
-    setOption({ isAvailable, id, name, additionalPrice, imageUrl, tags: tags || initialTags, subOptions });
+    setOption({ isAvailable, id, name, additionalPrice, imageUrl, subOptions });
     setSubOption({
       id: subOption.id,
       name: subOption.name,
@@ -126,7 +99,7 @@ export function Option({ apiType }: Props) {
       description: subOption.description,
     });
     setCardListData(cardListData);
-  }, [data, optionIndex, subOptionIndex]);
+  }, [selectOptions, optionIndex, subOptionIndex]);
 
   return (
     <Styled.Container>
@@ -135,7 +108,7 @@ export function Option({ apiType }: Props) {
           <OptionImageBox imageUrl={subOption.imageUrl} />
         </Styled.ImageBox>
         <Styled.DescriptionBox>
-          <OptionDescription name={option.name} additionalPrice={option.additionalPrice} tags={option.tags} />
+          <OptionDescription name={option.name} additionalPrice={option.additionalPrice} tagId={option.id} />
           <OptionDetailCard
             index={subOptionIndex}
             length={option.subOptions.length}
@@ -152,13 +125,7 @@ export function Option({ apiType }: Props) {
           isShowDefaultOption={checkIsSelectOptionPage(pathname)}
         />
         {menu === 0 && (
-          <OptionCardList
-            selectedIndex={optionIndex}
-            cardListIndex={cardListIndex}
-            data={cardListData}
-            onClickCard={handleChangeOptionIndex}
-            onClickArrowButton={handleChangeCardListIndex}
-          />
+          <OptionCardList selectedIndex={optionIndex} data={cardListData} onClickCard={handleChangeOptionIndex} />
         )}
         {checkIsSelectOptionPage(pathname) && menu === 1 && <DefaultOptionCardList />}
       </Styled.CardWrapper>

@@ -65,6 +65,17 @@ export const OptionCard = styled.div`
 export const Image = styled.img`
   width: 160px;
   height: 100px;
+
+  opacity: 0;
+  animation: fadeIn 0.5s ease-in-out forwards;
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
 `;
 
 export const TextWrapper = styled.div`

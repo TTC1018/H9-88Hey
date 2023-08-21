@@ -53,8 +53,8 @@ export const Option = styled.div<Props>`
         font-weight: bold;
         color: ${colors.hyundaiNeutral};
 
-        border-color: #385da2;
-        background-color: #385da2;
+        border-color: ${!isActive && '#9baed0'};
+        background-color: ${!isActive && '#9baed0'};
 
         cursor: pointer;
       }

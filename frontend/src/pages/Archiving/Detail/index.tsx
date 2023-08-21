@@ -41,28 +41,25 @@ export function Detail() {
 
   const myCar = {
     carType: { krName: '펠리세이드', enName: 'Palisade' },
-    trim: { title: trim.name, price: trim.price, id: trim.id },
-    engine: { title: engine.name, price: engine.additionalPrice, id: engine.id },
-    bodyType: { title: bodyType.name, price: bodyType.additionalPrice, id: bodyType.id },
-    wheelDrive: { title: wheelDrive.name, price: wheelDrive.additionalPrice, id: wheelDrive.id },
-    outerColor: {
-      title: exteriorColor.name,
-      imageUrl: exteriorColor.colorImageUrl,
-      price: exteriorColor.additionalPrice,
+    trim: { ...trim },
+    engine: { ...engine },
+    bodyType: { ...bodyType },
+    wheelDrive: { ...wheelDrive },
+    exteriorColor: {
+      ...exteriorColor,
     },
-    innerColor: { title: interiorColor.name, imageUrl: interiorColor.colorImageUrl, id: interiorColor.id },
-    options: selectedOptions.map(option => {
+    interiorColor: { ...interiorColor },
+    options: selectedOptions.map(props => {
       return {
-        name: option.name,
-        price: option.additionalPrice,
-        imageUrl: option.imageUrl,
-        subOptions: option.subOptions,
+        ...props,
       };
     }),
     carImageUrl: exteriorColor.carImageUrl,
   };
 
+  const trimOptions = combineWithSlash([engine.name, bodyType.name, wheelDrive.name]);
   const { handleOpen } = useModalContext();
+
   function handleNavigate() {
     localStorage.setItem('myCar', JSON.stringify(myCar));
     navigate('/trim');
@@ -75,11 +72,11 @@ export function Detail() {
           <DetailHeader
             title={`${modelName} ${trim.name}`}
             date={formatDate(creationDate) + dateText}
-            trimOptions={combineWithSlash([engine.name, bodyType.name, wheelDrive.name])}
+            trimOptions={trimOptions}
             exteriorColor={exteriorColor.name}
             interiorColor={interiorColor.name}
             review={review}
-            imageUrl="https://www.hyundai.com/contents/vr360/LX06/exterior/A2B/001.png"
+            imageUrl={`${exteriorColor.carImageUrl}001.png`}
           />
         </Styled.HeaderWrapper>
         <Styled.DescriptionWrapper>

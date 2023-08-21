@@ -47,7 +47,7 @@ export function MyCarList({ myChiving, onClick }: MyCarListProps) {
           </Styled.SubTitle>
         </Styled.MainBox>
         <Styled.OptionBox>
-          {selectedOptions !== undefined && selectedOptions.length > 0 ? (
+          {selectedOptions && selectedOptions.length > 0 ? (
             selectedOptions.map((option, index) => (
               <Styled.OptionCard key={index} imageUrl={option.imageUrl}>
                 <Styled.OptionCardText>{option.name}</Styled.OptionCardText>

@@ -4,7 +4,7 @@ interface Props {
   element: RefObject<HTMLElement> | null;
 }
 
-export function masonryLayout({ element }: Props) {
+export function updateMasonryLayout({ element }: Props) {
   if (element === null) {
     return;
   }

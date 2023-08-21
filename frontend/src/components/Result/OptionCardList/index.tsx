@@ -20,11 +20,11 @@ export function OptionCardList({ options }: Props) {
       </Styled.OptionTitleWrapper>
       <Styled.OptionCardWrapper>
         <Styled.OptionCardBox>
-          {options.map(({ name, price, imageUrl, subOptions }, index) => (
+          {options.map(({ name, additionalPrice, imageUrl, subOptions }, index) => (
             <OptionCard
               imageUrl={imageUrl}
               name={name}
-              price={price}
+              price={additionalPrice}
               subOptions={subOptions}
               index={index}
               key={name}
