@@ -5,7 +5,6 @@ export interface ExteriorColorsProps {
   colorImageUrl: string;
   additionalPrice: number;
   availableInteriorColors: number[];
-  tags: string[];
 }
 
 export interface InteriorColorsProps {
@@ -13,7 +12,6 @@ export interface InteriorColorsProps {
   name: string;
   carImageUrl: string;
   colorImageUrl: string;
-  tags: string[];
 }
 
 export interface ColorDataProps {

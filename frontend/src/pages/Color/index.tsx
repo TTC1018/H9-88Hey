@@ -28,8 +28,6 @@ export function Color() {
     key: cacheKey.color(trim.id),
   });
 
-  console.log(exteriorColors);
-
   const { carCode: carCodeData } = useFetchSuspense<CarCodeProps>({
     fetcher: () =>
       fetcher<CarCodeProps>({
@@ -105,9 +103,7 @@ export function Color() {
 
   useEffect(() => {
     if (carCodeData !== '') {
-      console.log(carCodeData);
       carCode.current = carCodeData;
-      console.log(carCode.current);
     }
   }, [carCodeData]);
 
