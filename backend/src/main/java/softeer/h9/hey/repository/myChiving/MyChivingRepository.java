@@ -1,6 +1,9 @@
 package softeer.h9.hey.repository.myChiving;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -14,6 +17,14 @@ import com.github.f4b6a3.tsid.TsidCreator;
 
 import lombok.RequiredArgsConstructor;
 import softeer.h9.hey.domain.myChiving.MyChiving;
+import softeer.h9.hey.dto.archiving.BodyTypeDto;
+import softeer.h9.hey.dto.archiving.EngineDto;
+import softeer.h9.hey.dto.archiving.ExteriorColorDto;
+import softeer.h9.hey.dto.archiving.InteriorColorDto;
+import softeer.h9.hey.dto.archiving.TrimDto;
+import softeer.h9.hey.dto.archiving.WheelDriveDto;
+import softeer.h9.hey.dto.myChiving.ModelDto;
+import softeer.h9.hey.dto.myChiving.MyChivingDto;
 import softeer.h9.hey.dto.myChiving.MyChivingSaveDto;
 
 @RequiredArgsConstructor
@@ -64,6 +75,93 @@ public class MyChivingRepository {
 		insertSelectOption(myChivingId, selectOptionIdList);
 
 		return myChivingId;
+	}
+
+	@Transactional(readOnly = true)
+	public List<MyChivingDto> findMyChivingsByUserIdLimitAndOffset(Integer userId, Integer limit, Integer startIndex) {
+		List<MyChivingDto> myChivingDtoList = new ArrayList<>();
+
+		String sql = buildMyChivingSelectQuery();
+
+		SqlParameterSource sqlParameterSource = new MapSqlParameterSource()
+			.addValue("userId", userId)
+			.addValue("limit", limit)
+			.addValue("startIndex", startIndex);
+
+		namedParameterJdbcTemplate.query(sql, sqlParameterSource, rs -> {
+			MyChivingDto myChivingDto = getNewMyChivingDto(rs);
+			myChivingDtoList.add(myChivingDto);
+		});
+
+		return myChivingDtoList;
+	}
+
+	private MyChivingDto getNewMyChivingDto(ResultSet rs) throws SQLException {
+		return MyChivingDto.builder()
+			.myChivingId(rs.getLong("id"))
+			.lastModifiedDate(rs.getObject("last_modified", LocalDateTime.class))
+			.isSaved(rs.getBoolean("is_submitted"))
+			.modelDto(ModelDto.of(rs.getInt("model_id"), rs.getString("model_name")))
+			.trim(TrimDto.of(rs.getInt("trim_id"), rs.getString("trim_name"), rs.getInt("trim_price")))
+			.engine(EngineDto.of(rs.getInt("engine_id"), rs.getString("engine_name"),
+				rs.getInt("engine_additional_price")))
+			.bodyType(BodyTypeDto.of(rs.getInt("body_type_id"), rs.getString("body_type_name"),
+				rs.getInt("body_type_additional_price")))
+			.wheelDrive(WheelDriveDto.of(rs.getInt("wheel_type_id"), rs.getString("wheel_type_name"),
+				rs.getInt("wheel_type_additional_price")))
+			.interiorColor(InteriorColorDto.of(rs.getInt("interior_color_id"), rs.getString("interior_color_name"),
+				rs.getString("interior_color_image_url")))
+			.exteriorColor(ExteriorColorDto.of(rs.getInt("exterior_color_id"), rs.getString("exterior_color_name"),
+				rs.getString("exterior_car_image_url"), rs.getString("exterior_color_image_url"),
+				rs.getInt("exterior_color_additional_price")))
+			.build();
+	}
+
+	private String buildMyChivingSelectQuery() {
+		StringBuilder queryBuilder = new StringBuilder();
+		queryBuilder.append("select\n")
+			.append("\tma.*,")
+			.append("    it.name as interior_color_name,")
+			.append("    it.color_image_url as interior_color_image_url,")
+			.append("    it.additional_price as interior_color_additional_price,")
+			.append("    et.name as exterior_color_name,")
+			.append("    et.exterior_image_url as exterior_car_image_url,")
+			.append("    et.color_image_url as exterior_color_image_url,")
+			.append("    et.additional_price as exterior_color_additional_price,")
+			.append("    bt.name as body_type_name,")
+			.append("    bt.additional_price as body_type_additional_price,")
+			.append("    wt.name as wheel_type_name,")
+			.append("    wt.additional_price as wheel_type_additional_price,")
+			.append("    tr.name as trim_name,")
+			.append("    tr.price as trim_price,")
+			.append("    eg.name as engine_name,")
+			.append("    eg.additional_price as engine_additional_price,")
+			.append("    md.id as model_id,")
+			.append("    md.name as model_name")
+			.append(" from\n")
+			.append("\tmyArchiving ma\n")
+			.append("left join\n")
+			.append("\tinteriorColor it on it.id = ma.interior_color_id\n")
+			.append("left join\n")
+			.append("\texteriorColor et on et.id = ma.exterior_color_id\n")
+			.append("left join\n")
+			.append("\tbodyType bt on bt.id = ma.body_type_id\n")
+			.append("left join\n")
+			.append("\twheelType wt on wt.id = ma.wheel_type_id\n")
+			.append("left join\n")
+			.append("\ttrim tr on tr.id = ma.trim_id\n")
+			.append("left join\n")
+			.append("\tengine eg on eg.id = ma.engine_id\n")
+			.append("left join\n")
+			.append("\tmodel md on md.id = tr.model_id\n")
+			.append("where\n")
+			.append("\tma.user_id = :userId\n")
+			.append("order by\n")
+			.append("\tma.last_modified desc\n")
+			.append("limit :limit\n")
+			.append("offset :startIndex");
+
+		return queryBuilder.toString();
 	}
 
 	//마이카이빙 테이블 쿼리 작성
@@ -117,7 +215,7 @@ public class MyChivingRepository {
 	}
 
 	private void insertSelectOption(Long myChivingId, List<String> selectOptionIdList) {
-		if(selectOptionIdList == null || selectOptionIdList.isEmpty()) {
+		if (selectOptionIdList == null || selectOptionIdList.isEmpty()) {
 			return;
 		}
 
@@ -130,6 +228,6 @@ public class MyChivingRepository {
 
 		SqlParameterSource sqlParameterSource = new MapSqlParameterSource();
 
-		namedParameterJdbcTemplate.update(sql,sqlParameterSource);
+		namedParameterJdbcTemplate.update(sql, sqlParameterSource);
 	}
 }
