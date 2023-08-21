@@ -26,6 +26,7 @@ import softeer.h9.hey.dto.archiving.WheelDriveDto;
 import softeer.h9.hey.dto.myChiving.ModelDto;
 import softeer.h9.hey.dto.myChiving.MyChivingDto;
 import softeer.h9.hey.dto.myChiving.MyChivingSaveDto;
+import softeer.h9.hey.dto.myChiving.MyChivingSelectOptionDto;
 
 @RequiredArgsConstructor
 @Repository
