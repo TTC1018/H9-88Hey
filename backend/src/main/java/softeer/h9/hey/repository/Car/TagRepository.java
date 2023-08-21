@@ -19,7 +19,7 @@ public class TagRepository {
 
 	private final NamedParameterJdbcTemplate jdbcTemplate;
 
-	public List<SelectOptionTag> findAllByArchivingId(final long id) {
+	public List<SelectOptionTag> findAllByArchivingIdSelectedOptions(final long id) {
 		String sql = "SELECT selectOption.id AS select_option_id, tag.content AS tag\n"
 			+ "FROM archiving\n"
 			+ "LEFT JOIN archiving_selectOption ON archiving.id = archiving_selectOption.archiving_id\n"
