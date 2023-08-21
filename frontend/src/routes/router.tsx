@@ -1,6 +1,7 @@
 import { createBrowserRouter } from 'react-router-dom';
 
 import { Signin } from '@/pages/Signin';
+import { Signup } from '@/pages/Signup';
 import { Trim } from '@/pages/Trim';
 import { Color } from '@/pages/Color';
 import { Option } from '@/pages/Option';
@@ -28,6 +29,10 @@ export const router = createBrowserRouter([
       {
         path: '',
         element: <Signin />,
+      },
+      {
+        path: 'signup',
+        element: <Signup />,
       },
       {
         path: 'trim',

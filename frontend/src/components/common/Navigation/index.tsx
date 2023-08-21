@@ -11,6 +11,10 @@ const SELECTIONS = Object.freeze({
     title: '',
     flow: {},
   },
+  signup: {
+    title: '',
+    flow: {},
+  },
   trim: {
     title: '트림 선택',
     flow: {
