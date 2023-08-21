@@ -1,20 +1,38 @@
-import { useState, useContext, ChangeEvent, FormEvent } from 'react';
+import { useState, useEffect, useContext, ChangeEvent, FormEvent } from 'react';
 
 import { useNavigate } from 'react-router-dom';
 
 import { AuthContext } from '@/AuthProvider';
-import { getLocalStorage, setLocalStorage } from '@/utils';
-import { isEmailEmpty, isPasswordEmpty, isEmailValid } from '@/utils/auth';
+import { setLocalStorage } from '@/utils';
+import {
+  isEmailEmpty,
+  isPasswordEmpty,
+  isConfirmPasswordEmpty,
+  isUserNameEmpty,
+  isEmailValid,
+  isPasswordIncorrect,
+} from '@/utils/auth';
 import { API_URL, emailRegex, AUTH_ALERT_MESSAGE } from '@/constants';
 
 import * as Styled from './style';
+
+class AuthError extends Error {
+  statusCode: number;
+
+  constructor(message: string, statusCode: number) {
+    super(message);
+    this.statusCode = statusCode;
+  }
+}
 
 export function Signup() {
   const [account, setAccount] = useState({
     email: '',
     password: '',
-    username: '',
   });
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [userName, setUserName] = useState('');
+
   const [isShow, setIsShow] = useState(false);
   const [alert, setAlert] = useState('alert');
   const [isDisabled, setIsDisabled] = useState(false);
@@ -23,9 +41,17 @@ export function Signup() {
 
   const { isSignin, setIsSignin, username, setUsername, accessToken, setAccessToken } = useContext(AuthContext);
 
-  function handleChange(event: ChangeEvent<HTMLInputElement>) {
+  function handleChangeAccount(event: ChangeEvent<HTMLInputElement>) {
     const { name, value } = event.target;
     setAccount(prev => ({ ...prev, [name]: value }));
+  }
+
+  function handleChangeConfirmPassword(event: ChangeEvent<HTMLInputElement>) {
+    setConfirmPassword(event.target.value);
+  }
+
+  function handleChangeUserName(event: ChangeEvent<HTMLInputElement>) {
+    setUserName(event.target.value);
   }
 
   function handleAlert(message: string) {
@@ -49,29 +75,66 @@ export function Signup() {
       return;
     }
 
+    if (isConfirmPasswordEmpty(confirmPassword)) {
+      handleAlert(AUTH_ALERT_MESSAGE.CONFIRM_PASSWORD_EMPTY);
+      return;
+    }
+
+    if (isUserNameEmpty(userName)) {
+      handleAlert(AUTH_ALERT_MESSAGE.USER_NAME_EMPTY);
+      return;
+    }
+
     if (!isEmailValid(email, emailRegex)) {
       handleAlert(AUTH_ALERT_MESSAGE.EMAIL_INVALID);
       return;
     }
 
+    if (isPasswordIncorrect(password, confirmPassword)) {
+      handleAlert(AUTH_ALERT_MESSAGE.PASSWORD_INCORRECT);
+      return;
+    }
+
     try {
-      const response = await fetch(`${API_URL}/signin`, {
+      const response = await fetch(`${API_URL}/auth/signup`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(account),
+        body: JSON.stringify({ ...account, userName }),
       });
-      const { accessToken, refreshToken, username } = await response.json();
+
+      const { statusCode, message, data } = await response.json();
+
+      if (!response.ok) {
+        throw new AuthError(message, statusCode);
+      }
+
+      const { accessToken, refreshToken } = data;
+
       setAccessToken(accessToken);
       setLocalStorage('refreshToken', refreshToken);
-      setUsername(username);
+
+      setIsSignin(true);
+      setUsername(userName);
     } catch (error: unknown) {
-      handleAlert(AUTH_ALERT_MESSAGE.ACCOUNT_INCORRECT);
+      if (error instanceof AuthError) {
+        const { statusCode } = error;
+
+        if (statusCode === 409) {
+          handleAlert(AUTH_ALERT_MESSAGE.EMAIL_CONFLICT);
+        }
+      }
     }
 
     setIsDisabled(false);
   }
+
+  useEffect(() => {
+    if (isSignin) {
+      navigate('/trim', { replace: true });
+    }
+  }, [isSignin]);
 
   return (
     <>
@@ -83,24 +146,23 @@ export function Signup() {
             type="text"
             name="email"
             placeholder="이메일 주소"
-            onChange={handleChange}
+            onChange={handleChangeAccount}
             disabled={isDisabled}
           />
           <Styled.Input
             type="password"
             name="password"
             placeholder="비밀번호"
-            onChange={handleChange}
+            onChange={handleChangeAccount}
             disabled={isDisabled}
           />
           <Styled.Input
-            type="text"
-            name="passwordConfirm"
+            type="password"
             placeholder="비밀번호 확인"
-            onChange={handleChange}
+            onChange={handleChangeConfirmPassword}
             disabled={isDisabled}
           />
-          <Styled.Input type="text" name="username" placeholder="이름" onChange={handleChange} disabled={isDisabled} />
+          <Styled.Input type="text" placeholder="이름" onChange={handleChangeUserName} disabled={isDisabled} />
           <Styled.Button type="submit" disabled={isDisabled}>
             회원가입
           </Styled.Button>
