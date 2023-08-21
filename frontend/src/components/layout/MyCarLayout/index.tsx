@@ -99,7 +99,7 @@ export function MyCarLayout() {
     setMyCar(savedOptions);
   }, []);
 
-  if (pathname === '/') {
+  if (pathname === '/' || pathname === '/signup') {
     return <Outlet />;
   }
 
