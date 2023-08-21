@@ -9,15 +9,11 @@ import softeer.h9.hey.dto.archiving.request.ArchivingRequest;
 @Getter
 @Setter
 public class MyChivingRequest {
-	private int offset;
-	private int limit;
+	private final int offset;
+	private final int limit;
 
 	private MyChivingRequest(int offset, int limit) {
 		this.offset = offset;
 		this.limit = limit;
-	}
-
-	public static MyChivingRequest of(final int offset, final int limit) {
-		return new MyChivingRequest(offset, limit);
 	}
 }
