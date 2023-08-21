@@ -29,7 +29,9 @@ class AuthServiceTest {
 	private final UserRepository userRepository = Mockito.mock(UserRepository.class);
 	private final RefreshTokenRepository refreshTokenRepository = Mockito.mock(RefreshTokenRepository.class);
 	private final PasswordEncoder passwordEncoder = Mockito.mock(PasswordEncoder.class);
-	private final AuthService authService = new AuthService(tokenProvider, userRepository, refreshTokenRepository, passwordEncoder);
+	private final RefreshTokenAsyncExecutor refreshTokenAsyncExecutor = Mockito.mock(RefreshTokenAsyncExecutor.class);
+	private final AuthService authService = new AuthService(tokenProvider, userRepository, refreshTokenRepository,
+		passwordEncoder, refreshTokenAsyncExecutor);
 
 	@Test
 	@DisplayName("아이디와 비밀번호를 전달하여 회원가입을 한다.")
@@ -114,7 +116,7 @@ class AuthServiceTest {
 	@DisplayName("Access Token 재발급 요청 기능")
 	void republishAccessTokenTest() {
 		AccessTokenRequest accessTokenRequest = new AccessTokenRequest("refreshToken");
-		LocalDateTime expiredTime  = LocalDateTime.now().plusHours(1);
+		LocalDateTime expiredTime = LocalDateTime.now().plusHours(1);
 
 		when(tokenProvider.generateAccessToken(anyInt(), any())).thenReturn("accessToken");
 		when(tokenProvider.generateRefreshToken(anyInt(), any())).thenReturn("refreshToken");

@@ -34,6 +34,7 @@ public class AuthService {
 	private final UserRepository userRepository;
 	private final RefreshTokenRepository refreshTokenRepository;
 	private final PasswordEncoder passwordEncoder;
+	private final RefreshTokenAsyncExecutor refreshTokenAsyncExecutor;
 
 	public TokenResponse join(JoinRequest joinRequest) {
 		String password = passwordEncoder.encode(joinRequest.getPassword());
@@ -71,7 +72,7 @@ public class AuthService {
 		String accessToken = jwtTokenProvider.generateAccessToken(userPk, claims);
 		String refreshToken = jwtTokenProvider.generateRefreshToken(userPk, claims);
 		LocalDateTime refreshExpiredTime = jwtTokenProvider.getExpiredTime(refreshToken);
-		refreshTokenRepository.save(new RefreshTokenEntity(userPk, refreshToken, refreshExpiredTime));
+		refreshTokenAsyncExecutor.saveAsync(new RefreshTokenEntity(userPk, refreshToken, refreshExpiredTime));
 
 		return new TokenResponse(accessToken, refreshToken, userName);
 	}
@@ -111,7 +112,7 @@ public class AuthService {
 			throw new InvalidTokenException();
 		}
 		RefreshTokenEntity refreshTokenEntity = optionalRefreshTokenEntity.get();
-		refreshTokenRepository.deleteById(refreshTokenEntity.getId());
+		refreshTokenAsyncExecutor.deleteByIdAsync(refreshTokenEntity.getId());
 	}
 
 	@Scheduled(cron = "0 30 * * * ?")
