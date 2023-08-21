@@ -11,7 +11,6 @@ public class HGenuineAccessoryResponse {
 	private final String name;
 	private final String imageUrl;
 	private final int additionalPrice;
-	private final List<TagResponse> tags;
 	private final List<SubOptionResponses> subOptions;
 
 	private HGenuineAccessoryResponse(final boolean isAvailable, final SelectOptionResponse selectOption) {
@@ -20,7 +19,6 @@ public class HGenuineAccessoryResponse {
 		this.name = selectOption.getName();
 		this.imageUrl = selectOption.getImageUrl();
 		this.additionalPrice = selectOption.getAdditionalPrice();
-		this.tags = selectOption.getTags();
 		this.subOptions = selectOption.getSubOptions();
 	}
 

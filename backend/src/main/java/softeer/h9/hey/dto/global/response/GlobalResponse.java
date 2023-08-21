@@ -32,6 +32,13 @@ public class GlobalResponse<T> {
 		return GlobalResponse.<T>builder()
 			.statusCode(HttpStatus.CREATED.value())
 			.data(body)
+      .build();
+  }
+  
+	public static GlobalResponse<?> error(HttpStatus httpStatus, String message) {
+		return GlobalResponse.builder()
+			.statusCode(httpStatus.value())
+			.message(message)
 			.build();
 	}
 }
