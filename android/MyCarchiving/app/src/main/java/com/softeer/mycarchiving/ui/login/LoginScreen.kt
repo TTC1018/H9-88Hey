@@ -1,5 +1,6 @@
 package com.softeer.mycarchiving.ui.login
 
+import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -9,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalFocusManager
@@ -20,10 +22,12 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.softeer.mycarchiving.R
+import com.softeer.mycarchiving.model.login.LoginUiState
 import com.softeer.mycarchiving.ui.component.AlertMessage
 import com.softeer.mycarchiving.ui.component.HyundaiButton
 import com.softeer.mycarchiving.ui.component.HyundaiLogo
 import com.softeer.mycarchiving.ui.component.LoginInput
+import com.softeer.mycarchiving.ui.makingcar.loading.LoadingScreen
 import com.softeer.mycarchiving.ui.theme.White
 
 @Composable
@@ -35,20 +39,36 @@ fun LoginRoute(
     val email by loginViewModel.typedEmail.collectAsStateWithLifecycle()
     val password by loginViewModel.typedPassword.collectAsStateWithLifecycle()
     val errorMessage by loginViewModel.errorMessage.collectAsStateWithLifecycle()
-    val loginSuccess by loginViewModel.loginSuccess.collectAsStateWithLifecycle()
+    val loginState by loginViewModel.loginState
 
-    if (loginSuccess) {
-        onLogin()
+    LaunchedEffect(Unit) {
+        loginViewModel.reissue()
     }
-    LoginScreen(
-        modifier = modifier,
-        emailInput = email,
-        passwordInput = password,
-        errorMessage = errorMessage,
-        typeEmail = loginViewModel::typeEmail,
-        typePassword = loginViewModel::typePassword,
-        onLogin = loginViewModel::login,
-    )
+
+    LaunchedEffect(loginState) {
+        if (loginState == LoginUiState.Success) {
+            onLogin()
+        }
+    }
+
+    AnimatedContent(targetState = loginState, label = "") {
+        when(it) {
+            LoginUiState.Loading,
+            LoginUiState.Success-> LoadingScreen {}
+            LoginUiState.Pending -> {
+                LoginScreen(
+                    modifier = modifier,
+                    emailInput = email,
+                    passwordInput = password,
+                    errorMessage = errorMessage,
+                    typeEmail = loginViewModel::typeEmail,
+                    typePassword = loginViewModel::typePassword,
+                    onLogin = loginViewModel::login,
+                )
+            }
+        }
+    }
+
 }
 
 @Composable

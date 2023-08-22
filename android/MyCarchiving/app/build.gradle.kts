@@ -100,6 +100,7 @@ dependencies {
     // Retrofit
     implementation(libs.retrofit2)
     implementation(libs.retrofit2.gson)
+    implementation(libs.logging.interceptor)
 
     testImplementation(libs.junit4)
 }
