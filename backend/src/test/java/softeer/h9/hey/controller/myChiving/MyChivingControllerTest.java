@@ -25,7 +25,7 @@ class MyChivingControllerTest {
 				.contentType("application/json")
 				.header("Authorization", "Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiIxIiwidXNlck5hbWUiOiJ0ZXN0IiwiaWF0IjoxNjkyNTYwMzM5LCJleHAiOjQ4MTQ2MjQzMzl9.gcSE7kPaRVxo2iT9DRcN1Bn5ZNAAsHG8Z3dvTopH-IWblMf_LJ2lhsYqOvrrLcZJ")
 				.content("{\n"
-					+ "    \"myChivingId\": 480412842277874797,\n"
+					+ "    \"myChivingId\": 481490775913230951,\n"
 					+ "\t\"bodyType\": 1,\n"
 					+ "\t\"wheelType\": 2,\n"
 					+ "\t\"engine\": 2,\n"
@@ -37,7 +37,7 @@ class MyChivingControllerTest {
 					+ "\t]\n"
 					+ "}"))
 			.andExpect(MockMvcResultMatchers.status().isOk())
-			.andExpect(MockMvcResultMatchers.jsonPath("$.data.myChivingId").value(480412842277874797L));
+			.andExpect(MockMvcResultMatchers.jsonPath("$.data.myChivingId").value(481490775913230951L));
 	}
 
 	@Test

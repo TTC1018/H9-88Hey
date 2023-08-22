@@ -23,7 +23,7 @@ class RefreshTokenRepositoryTest {
 	@Test
 	@DisplayName("RefreshToken를 저장 및 조회한다.")
 	void createRefreshTokenTest() {
-		int userId = 1;
+		int userId = 0;
 		String refreshToken = "jwt1234";
 		LocalDateTime localDateTime = LocalDateTime.now().plusHours(1);
 		RefreshTokenEntity refreshTokenEntity = new RefreshTokenEntity(userId, refreshToken, localDateTime);
