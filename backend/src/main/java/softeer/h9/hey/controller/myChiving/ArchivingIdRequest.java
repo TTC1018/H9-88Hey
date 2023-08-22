@@ -3,9 +3,11 @@ package softeer.h9.hey.controller.myChiving;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import lombok.Builder;
 import lombok.Getter;
 
 @Getter
+@Builder
 public class ArchivingIdRequest {
 	private Long feedId;
 
