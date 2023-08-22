@@ -24,24 +24,23 @@ public class MyChivingSaveDto {
 
 	@Override
 	public boolean equals(Object o) {
-		if (this == o) return true;
-		if (o == null || getClass() != o.getClass()) return false;
-		MyChivingSaveDto that = (MyChivingSaveDto) o;
-		return userId == that.userId &&
-			interiorColorId == that.interiorColorId &&
-			exteriorColorId == that.exteriorColorId &&
-			bodyTypeId == that.bodyTypeId &&
-			wheelTypeId == that.wheelTypeId &&
-			trimId == that.trimId &&
-			engineId == that.engineId &&
-			Objects.equals(id, that.id) &&
-			Objects.equals(selectOptionIdList, that.selectOptionIdList);
+		if (this == o)
+			return true;
+		if (o == null || getClass() != o.getClass())
+			return false;
+		MyChivingSaveDto that = (MyChivingSaveDto)o;
+		return isSubmitted == that.isSubmitted && Objects.equals(id, that.id) && Objects.equals(userId,
+			that.userId) && Objects.equals(interiorColorId, that.interiorColorId) && Objects.equals(
+			exteriorColorId, that.exteriorColorId) && Objects.equals(bodyTypeId, that.bodyTypeId)
+			&& Objects.equals(wheelTypeId, that.wheelTypeId) && Objects.equals(trimId, that.trimId)
+			&& Objects.equals(engineId, that.engineId) && Objects.equals(selectOptionIdList,
+			that.selectOptionIdList);
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(id, userId, interiorColorId, exteriorColorId, bodyTypeId,
-			wheelTypeId, trimId, engineId, selectOptionIdList);
+		return Objects.hash(id, userId, interiorColorId, exteriorColorId, bodyTypeId, wheelTypeId, trimId, engineId,
+			selectOptionIdList, isSubmitted);
 	}
 
 	public static MyChivingSaveDto from(MyChivingSaveRequest myChivingSaveRequest) {
