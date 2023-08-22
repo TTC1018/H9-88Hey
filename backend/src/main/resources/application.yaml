@@ -13,3 +13,7 @@ auth:
         expire-time: ${ACCESS_TOKEN_EXPIRED_TIME_MS}
       refresh:
         expire-time: ${REFRESH_TOKEN_EXPIRED_TIME_MS}
+
+password:
+  salt: ${password.salt}
+  algorithm: ${password.algorithm}

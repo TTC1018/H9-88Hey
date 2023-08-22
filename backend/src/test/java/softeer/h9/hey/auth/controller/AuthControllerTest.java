@@ -4,6 +4,8 @@ import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -21,14 +23,17 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import softeer.h9.hey.auth.domain.RefreshTokenEntity;
 import softeer.h9.hey.auth.domain.User;
 import softeer.h9.hey.auth.dto.request.JoinRequest;
 import softeer.h9.hey.auth.dto.request.LoginRequest;
 import softeer.h9.hey.auth.exception.InvalidTokenException;
 import softeer.h9.hey.auth.exception.JoinException;
 import softeer.h9.hey.auth.exception.LoginException;
+import softeer.h9.hey.auth.repository.RefreshTokenRepository;
 import softeer.h9.hey.auth.repository.UserRepository;
 import softeer.h9.hey.auth.service.JwtTokenProvider;
+import softeer.h9.hey.auth.service.PasswordEncoder;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -38,6 +43,12 @@ class AuthControllerTest {
 
 	@SpyBean
 	JwtTokenProvider jwtTokenProvider;
+
+	@SpyBean
+	RefreshTokenRepository refreshTokenRepository;
+
+	@SpyBean
+	PasswordEncoder passwordEncoder;
 
 	@SpyBean
 	UserRepository userRepository;
@@ -56,7 +67,7 @@ class AuthControllerTest {
 		mockMvc.perform(
 				post("/auth/signup")
 					.contentType(MediaType.APPLICATION_JSON)
-					.content(objectMapper.writeValueAsString(new JoinRequest("email", "password", userName))))
+					.content(objectMapper.writeValueAsString(new JoinRequest("email@email.com", "password", userName))))
 			.andExpect(status().isOk())
 			.andExpectAll(
 				jsonPath("$.data.accessToken").exists(),
@@ -68,13 +79,12 @@ class AuthControllerTest {
 	@Test
 	@DisplayName("이미 가입되어있는 회원 ID인 경우 회원가입에 실패한다. ")
 	void duplicatedIdSignUpFailTest() throws Exception {
-
 		when(userRepository.findByEmail(anyString())).thenReturn(Optional.of(Mockito.mock(User.class)));
 
 		mockMvc.perform(
 				post("/auth/signup")
 					.contentType(MediaType.APPLICATION_JSON)
-					.content(objectMapper.writeValueAsString(new JoinRequest("email", "testPassword", "userName"))))
+					.content(objectMapper.writeValueAsString(new JoinRequest("email@email.com", "testPassword", "userName"))))
 			.andExpect(status().isConflict())
 			.andExpect(jsonPath("$.statusCode").value(HttpStatus.CONFLICT.value()))
 			.andExpect(jsonPath("$.message").value(JoinException.DUPLICATED_EMAIL_MESSAGE));
@@ -83,13 +93,14 @@ class AuthControllerTest {
 	@Test
 	@DisplayName("로그인 요청을 정상적으로 처리한다.")
 	void signInTest() throws Exception {
-		String email = "email";
+		String email = "email@email.com";
 		String password = "password";
 		String userName = "userName";
 		User user = new User(email, password, userName);
 		user.setId(1);
 
 		when(userRepository.findByEmail(email)).thenReturn(Optional.of(user));
+		when(passwordEncoder.compare(anyString(), anyString())).thenReturn(true);
 
 		mockMvc.perform(
 				post("/auth/signin")
@@ -106,7 +117,7 @@ class AuthControllerTest {
 	@Test
 	@DisplayName("등록되어있지 않은 ID로 로그인 요청이 들어오는 경우 로그인에 실패한다.")
 	void notEnrolledIdTest() throws Exception {
-		String unEnrolledEmail = "email";
+		String unEnrolledEmail = "email@email.com";
 
 		when(userRepository.findByEmail(unEnrolledEmail)).thenReturn(Optional.empty());
 
@@ -121,7 +132,7 @@ class AuthControllerTest {
 	@Test
 	@DisplayName("비밀번호가 틀린 경우 로그인에 실패한다.")
 	void wrongPasswordLoginTest() throws Exception {
-		String email = "email";
+		String email = "email@email.com";
 		String password = "password";
 		String userName = "userName";
 		User user = new User(email, password, userName);
@@ -140,8 +151,12 @@ class AuthControllerTest {
 	@DisplayName("Refresh Token을 헤더에 담아 엑세스 토큰을 요청하면, 갱신된 엑세스 토큰과 리프레시 토큰을 발급해준다.")
 	void republishAccessTokenTest() throws Exception {
 		Map<String, Object> claims = Map.of("sub", "1", "userName", "userName123");
+		LocalDateTime expiredTime  = LocalDateTime.now().plusHours(1);
+		List<RefreshTokenEntity> refreshTokenEntities = List.of(new RefreshTokenEntity(1, "refreshToken", expiredTime));
 
 		doReturn(claims).when(jwtTokenProvider).getClaimsFromToken("refreshToken");
+		doReturn(refreshTokenEntities).when(refreshTokenRepository).findByUserId(anyInt());
+		doNothing().when(refreshTokenRepository).deleteById(anyInt());
 
 		mockMvc.perform(
 				post("/auth/access-token")

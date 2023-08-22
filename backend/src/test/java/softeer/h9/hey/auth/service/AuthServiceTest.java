@@ -2,6 +2,8 @@ package softeer.h9.hey.auth.service;
 
 import static org.mockito.Mockito.*;
 
+import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -10,6 +12,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
+import softeer.h9.hey.auth.domain.RefreshTokenEntity;
 import softeer.h9.hey.auth.domain.User;
 import softeer.h9.hey.auth.dto.request.AccessTokenRequest;
 import softeer.h9.hey.auth.dto.request.JoinRequest;
@@ -25,7 +28,10 @@ class AuthServiceTest {
 	private final JwtTokenProvider tokenProvider = Mockito.mock(JwtTokenProvider.class);
 	private final UserRepository userRepository = Mockito.mock(UserRepository.class);
 	private final RefreshTokenRepository refreshTokenRepository = Mockito.mock(RefreshTokenRepository.class);
-	private final AuthService authService = new AuthService(tokenProvider, userRepository, refreshTokenRepository);
+	private final PasswordEncoder passwordEncoder = Mockito.mock(PasswordEncoder.class);
+	private final RefreshTokenAsyncExecutor refreshTokenAsyncExecutor = Mockito.mock(RefreshTokenAsyncExecutor.class);
+	private final AuthService authService = new AuthService(tokenProvider, userRepository, refreshTokenRepository,
+		passwordEncoder, refreshTokenAsyncExecutor);
 
 	@Test
 	@DisplayName("아이디와 비밀번호를 전달하여 회원가입을 한다.")
@@ -36,6 +42,7 @@ class AuthServiceTest {
 		user.setId(1);
 		when(tokenProvider.generateAccessToken(anyInt(), any())).thenReturn("accessToken");
 		when(tokenProvider.generateRefreshToken(anyInt(), any())).thenReturn("refreshToken");
+		when(passwordEncoder.encode(anyString())).thenReturn("encodedPassword");
 		when(userRepository.save(any())).thenReturn(user);
 
 		TokenResponse tokenResponse = authService.join(joinRequest);
@@ -70,6 +77,7 @@ class AuthServiceTest {
 		when(userRepository.findByEmail(email)).thenReturn(Optional.of(user));
 		when(tokenProvider.generateAccessToken(anyInt(), any())).thenReturn("accessToken");
 		when(tokenProvider.generateRefreshToken(anyInt(), any())).thenReturn("refreshToken");
+		when(passwordEncoder.compare(anyString(), anyString())).thenReturn(true);
 		TokenResponse tokenResponse = authService.login(loginRequest);
 
 		Assertions.assertThat(tokenResponse.getAccessToken()).isNotNull();
@@ -107,12 +115,17 @@ class AuthServiceTest {
 	@Test
 	@DisplayName("Access Token 재발급 요청 기능")
 	void republishAccessTokenTest() {
-		AccessTokenRequest accessTokenRequest = new AccessTokenRequest("republishToken123");
+		AccessTokenRequest accessTokenRequest = new AccessTokenRequest("refreshToken");
+		LocalDateTime expiredTime = LocalDateTime.now().plusHours(1);
 
 		when(tokenProvider.generateAccessToken(anyInt(), any())).thenReturn("accessToken");
 		when(tokenProvider.generateRefreshToken(anyInt(), any())).thenReturn("refreshToken");
 		when(tokenProvider.getClaimsFromToken(anyString()))
 			.thenReturn(Map.of("sub", "1", "userName", "userName123"));
+		when(refreshTokenRepository.findByUserId(anyInt()))
+			.thenReturn(List.of(new RefreshTokenEntity(1, "refreshToken", expiredTime)));
+		doNothing().when(refreshTokenRepository).deleteById(anyInt());
+
 		TokenResponse tokenResponse = authService.republishAccessToken(accessTokenRequest);
 
 		Assertions.assertThat(tokenResponse.getAccessToken()).isNotNull();

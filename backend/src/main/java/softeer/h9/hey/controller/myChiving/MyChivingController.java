@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
+import softeer.h9.hey.auth.annotation.LoginUser;
 import softeer.h9.hey.dto.myChiving.request.MyChivingSaveRequest;
 import softeer.h9.hey.dto.myChiving.request.MyChivingTempSaveRequest;
 import softeer.h9.hey.dto.myChiving.response.MyChivingIdResponse;
@@ -20,14 +21,14 @@ public class MyChivingController {
 	private final MyChivingService myChivingService;
 
 	@PostMapping("/mychiving")
-	public GlobalResponse<MyChivingIdResponse> saveMyCarToMyChiving(@Valid @RequestBody MyChivingSaveRequest myChivingSaveRequest) {
-		MyChivingIdResponse response = myChivingService.saveMyCar(myChivingSaveRequest);
+	public GlobalResponse<MyChivingIdResponse> saveMyCarToMyChiving(@LoginUser int userId, @Valid @RequestBody MyChivingSaveRequest myChivingSaveRequest) {
+		MyChivingIdResponse response = myChivingService.saveMyCar(userId, myChivingSaveRequest);
 		return GlobalResponse.ok(response);
 	}
 
 	@PostMapping("/mychiving/temp")
-	public GlobalResponse<MyChivingIdResponse> temporarySaveMyCarToMyChiving(@Valid @RequestBody MyChivingTempSaveRequest myChivingSaveRequest) {
-		MyChivingIdResponse response = myChivingService.temporarySaveMyCar(myChivingSaveRequest);
+	public GlobalResponse<MyChivingIdResponse> temporarySaveMyCarToMyChiving(@LoginUser int userId, @Valid @RequestBody MyChivingTempSaveRequest myChivingSaveRequest) {
+		MyChivingIdResponse response = myChivingService.temporarySaveMyCar(userId, myChivingSaveRequest);
 		return GlobalResponse.ok(response);
 	}
 }
