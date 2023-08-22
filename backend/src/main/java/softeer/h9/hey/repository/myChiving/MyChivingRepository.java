@@ -244,6 +244,13 @@ public class MyChivingRepository {
 		namedParameterJdbcTemplate.update(sql, sqlParameterSource);
 	}
 
+	private void deleteMyChiving(Long myChivingId) {
+		String sql = "DELETE FROM myArchiving WHERE myArchiving_id = :myChiving_id";
+		SqlParameterSource sqlParameterSource = new MapSqlParameterSource().addValue("myChiving_id", myChivingId);
+
+		namedParameterJdbcTemplate.update(sql, sqlParameterSource);
+	}
+
 	private void insertSelectOption(Long myChivingId, List<String> selectOptionIdList) {
 		if (selectOptionIdList == null || selectOptionIdList.isEmpty()) {
 			return;
