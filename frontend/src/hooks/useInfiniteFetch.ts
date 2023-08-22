@@ -55,7 +55,6 @@ export function useInfiniteFetch<T>({ key, url, intersecting, nextOffset, depend
         setError(String(error));
       }
     }
-    setIsLoading(false);
   }
 
   if (error !== '') {
