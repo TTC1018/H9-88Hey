@@ -38,9 +38,10 @@ class MyChivingRepositoryTest {
 		Integer wheelTypeId = 1;
 		Integer exteriorColorId = 1;
 		Integer interiorColorId = 1;
-		List<String> selectOptionIdList = List.of("TRP","DUP","VI2");
+		List<String> selectOptionIdList = List.of("TRP", "DUP", "VI2");
 
-		MyChivingTempSaveRequest myChivingTempSaveRequest = new MyChivingTempSaveRequest(id, bodyTypeId, wheelTypeId, engineId, trimId, exteriorColorId, interiorColorId, selectOptionIdList);
+		MyChivingTempSaveRequest myChivingTempSaveRequest = new MyChivingTempSaveRequest(id, bodyTypeId, wheelTypeId,
+			engineId, trimId, exteriorColorId, interiorColorId, selectOptionIdList);
 		MyChivingSaveDto myChivingSaveDto = MyChivingSaveDto.from(myChivingTempSaveRequest);
 		myChivingSaveDto.setUserId(1);
 		myChivingSaveDto.setSubmitted(false);
@@ -78,9 +79,10 @@ class MyChivingRepositoryTest {
 		Integer wheelTypeId = 1;
 		Integer exteriorColorId = 1;
 		Integer interiorColorId = 1;
-		List<String> selectOptionIdList = List.of("TRP","DUP","VI2");
+		List<String> selectOptionIdList = List.of("TRP", "DUP", "VI2");
 
-		MyChivingTempSaveRequest myChivingTempSaveRequest = new MyChivingTempSaveRequest(id, bodyTypeId, wheelTypeId, engineId, trimId, exteriorColorId, interiorColorId, selectOptionIdList);
+		MyChivingTempSaveRequest myChivingTempSaveRequest = new MyChivingTempSaveRequest(id, bodyTypeId, wheelTypeId,
+			engineId, trimId, exteriorColorId, interiorColorId, selectOptionIdList);
 		MyChivingSaveDto myChivingSaveDto = MyChivingSaveDto.from(myChivingTempSaveRequest);
 		myChivingSaveDto.setUserId(0);
 		myChivingSaveDto.setSubmitted(false);
@@ -95,7 +97,8 @@ class MyChivingRepositoryTest {
 		Integer limit = 4;
 		Integer offset = 0;
 
-		List<MyChivingDto> myChivingDtoList = myChivingRepository.findMyChivingsByUserIdLimitAndOffset(userId, limit, offset);
+		List<MyChivingDto> myChivingDtoList = myChivingRepository.findMyChivingsByUserIdLimitAndOffset(userId, limit,
+			offset);
 
 		assertThat(myChivingDtoList).hasSize(4);
 		//필수값 체크
@@ -119,9 +122,10 @@ class MyChivingRepositoryTest {
 		Integer wheelTypeId = 1;
 		Integer exteriorColorId = 1;
 		Integer interiorColorId = 1;
-		List<String> selectOptionIdList = List.of("TRP","DUP","VI2");
+		List<String> selectOptionIdList = List.of("TRP", "DUP", "VI2");
 
-		MyChivingTempSaveRequest myChivingTempSaveRequest = new MyChivingTempSaveRequest(id, bodyTypeId, wheelTypeId, engineId, trimId, exteriorColorId, interiorColorId, selectOptionIdList);
+		MyChivingTempSaveRequest myChivingTempSaveRequest = new MyChivingTempSaveRequest(id, bodyTypeId, wheelTypeId,
+			engineId, trimId, exteriorColorId, interiorColorId, selectOptionIdList);
 		MyChivingSaveDto myChivingSaveDto = MyChivingSaveDto.from(myChivingTempSaveRequest);
 		myChivingSaveDto.setUserId(1);
 		myChivingSaveDto.setSubmitted(false);
@@ -131,7 +135,8 @@ class MyChivingRepositoryTest {
 			myChivingRepository.saveMyCarToMyChiving(myChivingSaveDto),
 			myChivingRepository.saveMyCarToMyChiving(myChivingSaveDto));
 
-		List<MyChivingSelectOptionFetchDto> optionDataByMyChivingIdList = myChivingRepository.findOptionDataByMyChivingIdList(myChivingIdList);
+		List<MyChivingSelectOptionFetchDto> optionDataByMyChivingIdList = myChivingRepository.findOptionDataByMyChivingIdList(
+			myChivingIdList);
 
 		for (MyChivingSelectOptionFetchDto myChivingSelectOptionFetchDto : optionDataByMyChivingIdList) {
 			assertThat(myChivingSelectOptionFetchDto.getMyChivingId()).isNotNull();

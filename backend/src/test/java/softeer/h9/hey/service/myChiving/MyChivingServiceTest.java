@@ -88,7 +88,7 @@ class MyChivingServiceTest {
 		InvocationTargetException,
 		InstantiationException,
 		IllegalAccessException {
-		String dateString = "2023-08-19 15:30:00"; // Replace with your date-time string
+		String dateString = "2023-08-19 15:30:00";
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
 		LocalDateTime dateTime = LocalDateTime.parse(dateString, formatter);
@@ -120,7 +120,7 @@ class MyChivingServiceTest {
 		MyChivingRequest myChivingRequest = declaredConstructor.newInstance();
 		ReflectionTestUtils.setField(myChivingRequest, "offset", 1);
 		ReflectionTestUtils.setField(myChivingRequest, "limit", 1);
-		MyChivingsResponse myChivingsResponse = myChivingService.findMyChvings(1,myChivingRequest);
+		MyChivingsResponse myChivingsResponse = myChivingService.findMyChvings(1, myChivingRequest);
 		declaredConstructor.setAccessible(false);
 
 		assertThat(myChivingsResponse.getMyChivings()).hasSize(1);

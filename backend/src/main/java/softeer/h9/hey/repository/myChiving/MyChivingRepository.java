@@ -116,9 +116,8 @@ public class MyChivingRepository {
 			+ "left join selectOption seo  on seo.id = ms.select_option_id\n"
 			+ "left join subOption suo on ss.sub_option_id = suo.id  \n"
 			+ "where ms.myArchiving_id in ( "
-			+ 	selectOptionsString
+			+ selectOptionsString
 			+ ")";
-
 
 		return namedParameterJdbcTemplate.query(sql, myChivingSelectOptionRowMapper());
 	}
@@ -129,16 +128,19 @@ public class MyChivingRepository {
 			.lastModifiedDate(rs.getObject("last_modified", LocalDateTime.class))
 			.isSaved(rs.getBoolean("is_submitted"))
 			.modelDto(ModelDto.of(rs.getObject("model_id", Integer.class), rs.getString("model_name")))
-			.trim(TrimDto.of(rs.getObject("trim_id", Integer.class), rs.getString("trim_name"), rs.getObject("trim_price", Integer.class)))
+			.trim(TrimDto.of(rs.getObject("trim_id", Integer.class), rs.getString("trim_name"),
+				rs.getObject("trim_price", Integer.class)))
 			.engine(EngineDto.of(rs.getObject("engine_id", Integer.class), rs.getString("engine_name"),
 				rs.getObject("engine_additional_price", Integer.class)))
 			.bodyType(BodyTypeDto.of(rs.getObject("body_type_id", Integer.class), rs.getString("body_type_name"),
 				rs.getObject("body_type_additional_price", Integer.class)))
 			.wheelDrive(WheelDriveDto.of(rs.getObject("wheel_type_id", Integer.class), rs.getString("wheel_type_name"),
 				rs.getObject("wheel_type_additional_price", Integer.class)))
-			.interiorColor(InteriorColorDto.of(rs.getObject("interior_color_id", Integer.class), rs.getString("interior_color_name"),
+			.interiorColor(InteriorColorDto.of(rs.getObject("interior_color_id", Integer.class),
+				rs.getString("interior_color_name"),
 				rs.getString("interior_color_image_url")))
-			.exteriorColor(ExteriorColorDto.of(rs.getObject("exterior_color_id", Integer.class), rs.getString("exterior_color_name"),
+			.exteriorColor(ExteriorColorDto.of(rs.getObject("exterior_color_id", Integer.class),
+				rs.getString("exterior_color_name"),
 				rs.getString("exterior_car_image_url"), rs.getString("exterior_color_image_url"),
 				rs.getObject("exterior_color_additional_price", Integer.class)))
 			.build();
