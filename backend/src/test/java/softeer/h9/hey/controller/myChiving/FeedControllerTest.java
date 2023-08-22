@@ -22,7 +22,7 @@ class FeedControllerTest {
 	@DisplayName("북마크 여부를 확인한다.")
 	@Test
 	void getBookmarkByArchivingId() throws Exception {
-		mockMvc.perform(MockMvcRequestBuilders.get("/mychiving/detail/bookmark")
+		mockMvc.perform(MockMvcRequestBuilders.get("/mychiving/feed/bookmark")
 				.contentType("application/json")
 				.header("Authorization",
 					"Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiIxIiwidXNlck5hbWUiOiJ0ZXN0IiwiaWF0IjoxNjkyNTYwMzM5LCJleHAiOjQ4MTQ2MjQzMzl9.gcSE7kPaRVxo2iT9DRcN1Bn5ZNAAsHG8Z3dvTopH-IWblMf_LJ2lhsYqOvrrLcZJ")
