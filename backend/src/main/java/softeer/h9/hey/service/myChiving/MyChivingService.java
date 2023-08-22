@@ -42,6 +42,7 @@ public class MyChivingService {
 	}
 
 	private final MyChivingRepository myChivingRepository;
+	private final static String DELETE_SUCCESS_MESSAGE = "성공적으로 삭제하였습니다.";
 
 	//최종저장
 	public MyChivingIdResponse saveMyCar(int userId, final MyChivingSaveRequest myChivingSaveRequest) {
@@ -70,7 +71,8 @@ public class MyChivingService {
 		int limit = myChivingRequest.getLimit();
 		int startIndex = (myChivingRequest.getOffset() - 1) * limit;
 
-		List<MyChivingDto> myChivingDtoList = myChivingRepository.findMyChivingsByUserIdLimitAndOffset(userId, limit + 1,
+		List<MyChivingDto> myChivingDtoList = myChivingRepository.findMyChivingsByUserIdLimitAndOffset(userId,
+			limit + 1,
 			startIndex);
 
 		Integer nextOffset = myChivingRequest.getOffset() + 1;
@@ -82,6 +84,13 @@ public class MyChivingService {
 		}
 
 		return MyChivingsResponse.from(findMyChivingDetailById(myChivingDtoList), nextOffset);
+	}
+
+	public String deleteMyChivingByMyChivingIdAndUserId(int userId, long myChivingId) {
+		myChivingRepository.checkMyChivingExistence(userId, myChivingId);
+		myChivingRepository.deleteMyChivingByMyChivingAndUserId(myChivingId);
+
+		return DELETE_SUCCESS_MESSAGE;
 	}
 
 	private List<MyChivingResponse> findMyChivingDetailById(List<MyChivingDto> myChivingDtoList) {
