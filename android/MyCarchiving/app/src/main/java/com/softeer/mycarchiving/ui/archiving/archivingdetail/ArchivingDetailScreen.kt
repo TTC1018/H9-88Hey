@@ -22,6 +22,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.softeer.mycarchiving.R
 import com.softeer.mycarchiving.model.common.CarDetailsUiModel
+import com.softeer.mycarchiving.ui.component.ArchiveBottomBar
 import com.softeer.mycarchiving.ui.component.DetailBanner
 import com.softeer.mycarchiving.ui.component.DetailReview
 import com.softeer.mycarchiving.ui.component.DetailSelectedOption
@@ -58,50 +59,61 @@ fun ArchiveDetailScreen(
                     Column(
                         modifier = Modifier
                             .fillMaxSize()
-                            .background(color = White)
-                            .verticalScroll(rememberScrollState())
                     ) {
                         Column(
                             modifier = Modifier
-                                .padding(horizontal = 16.dp)
-                                .fillMaxWidth()
+                                .weight(1f)
+                                .fillMaxSize()
+                                .background(color = White)
+                                .verticalScroll(rememberScrollState())
                         ) {
-                            Spacer(modifier = Modifier.height(27.dp))
-                            DetailTextLabel(text = stringResource(id = R.string.archive_summary_car_info))
-                            DetailBanner(
-                                model = it.model,
-                                trim = it.trim,
-                                carImageUrl = it.exteriorColor.carImageUrl ?: "",
-                                price = it.price,
-                                trimOptions = it.trimOptions,
-                                exteriorColor = it.exteriorColor.colorName,
-                                exteriorColorUrl = it.exteriorColor.imageUrl,
-                                interiorColor = it.interiorColor.colorName,
-                                interiorColorUrl = it.interiorColor.imageUrl,
-                            )
-                            Spacer(modifier = Modifier.height(23.dp))
-                            DetailTextLabel(text = stringResource(id = R.string.archive_general_review))
-                            Spacer(modifier = Modifier.height(16.dp))
-                            DetailReview(review = "승차감이 좋아요 차가 크고 운전하는 시야도 높아서 좋았어요 저는 13개월 아들이 있는데 뒤에 차시트 달아도 널널할 것 같습니다. 다른 주차 관련 옵션도 괜찮아요.")
-                            Spacer(modifier = Modifier.height(23.dp))
-                            DetailTextLabel(text = stringResource(id = R.string.selected_option))
-                        }
-                        Column(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                        ) {
-                            it.selectedOptions?.forEachIndexed { idx, option ->
-                                DetailSelectedOption(
-                                    optionImageUrl = option.imageUrl,
-                                    optionNum = idx + 1,
-                                    optionName = option.name,
-                                    subOptions = option.subOptions,
-                                    optionReview = option.reviewText,
-                                    optionTags = option.tags,
+                            Column(
+                                modifier = Modifier
+                                    .padding(horizontal = 16.dp)
+                                    .fillMaxWidth()
+                            ) {
+                                Spacer(modifier = Modifier.height(27.dp))
+                                DetailTextLabel(text = stringResource(id = R.string.archive_summary_car_info))
+                                DetailBanner(
+                                    model = it.model,
+                                    trim = it.trim,
+                                    carImageUrl = it.exteriorColor.carImageUrl ?: "",
+                                    price = it.price,
+                                    trimOptions = it.trimOptions,
+                                    exteriorColor = it.exteriorColor.colorName,
+                                    exteriorColorUrl = it.exteriorColor.imageUrl,
+                                    interiorColor = it.interiorColor.colorName,
+                                    interiorColorUrl = it.interiorColor.imageUrl,
                                 )
+                                Spacer(modifier = Modifier.height(23.dp))
+                                DetailTextLabel(text = stringResource(id = R.string.archive_general_review))
+                                Spacer(modifier = Modifier.height(16.dp))
+                                DetailReview(review = it.review ?: "")
+                                Spacer(modifier = Modifier.height(23.dp))
+                                DetailTextLabel(text = stringResource(id = R.string.selected_option))
+                            }
+                            Column(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                            ) {
+                                it.selectedOptions?.forEachIndexed { idx, option ->
+                                    DetailSelectedOption(
+                                        optionImageUrl = option.imageUrl,
+                                        optionNum = idx + 1,
+                                        optionName = option.name,
+                                        subOptions = option.subOptions,
+                                        optionReview = option.reviewText,
+                                        optionTags = option.tags,
+                                    )
+                                }
                             }
                         }
+                        ArchiveBottomBar(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                        )
                     }
+
                 }
             }
         }

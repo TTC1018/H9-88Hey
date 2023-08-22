@@ -275,7 +275,7 @@ fun SearchConditionChipForDelete(
 
 @Composable
 fun ArchiveSaveButton(
-    modifier: Modifier,
+    modifier: Modifier = Modifier,
     onSave: () -> Unit
 ) {
     var isSaved by remember { mutableStateOf(false) }

@@ -47,7 +47,7 @@ import com.softeer.mycarchiving.util.toPriceString
 
 @Composable
 fun BottomBar(
-    modifier: Modifier,
+    modifier: Modifier = Modifier,
     totalPrice: Int,
     summaryText: String,
     underLineWidth: Int,
@@ -69,22 +69,22 @@ fun BottomBar(
             )
     ) {
         Row(
-            modifier = modifier
+            modifier = Modifier
                 .fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
             Column(
-                modifier = modifier
+                modifier = Modifier
                     .clickable { onShowSummary?.invoke() }
             ) {
                 Text(
                     text = summaryText,
                     style = medium12,
                 )
-                Spacer(modifier = modifier.height(5.dp))
+                Spacer(modifier = Modifier.height(5.dp))
                 Divider(
-                    modifier = modifier.width(underLineWidth.dp),
+                    modifier = Modifier.width(underLineWidth.dp),
                     thickness = 2.dp,
                     color = Black
                 )
@@ -96,14 +96,14 @@ fun BottomBar(
                     text = animatedPrice.toPriceString(),
                     style = bold18
                 )
-                Spacer(modifier = modifier.width(3.dp))
+                Spacer(modifier = Modifier.width(3.dp))
                 Text(
                     text = stringResource(id = R.string.won),
                     style = medium12
                 )
             }
         }
-        Spacer(modifier = modifier.height(13.dp))
+        Spacer(modifier = Modifier.height(13.dp))
         buttonArea()
 
     }
@@ -181,13 +181,9 @@ fun ArchiveBottomBar(
             Row(
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                ArchiveSaveButton(
-                    modifier = modifier,
-                    onSave = {}
-                )
-                Spacer(modifier = modifier.width(16.dp))
+                ArchiveSaveButton(onSave = {})
+                Spacer(modifier = Modifier.width(16.dp))
                 HyundaiButton(
-                    modifier = modifier,
                     backgroundColor = PrimaryBlue,
                     textColor = HyundaiLightSand,
                     text = stringResource(id = R.string.archive_make_my_car),
