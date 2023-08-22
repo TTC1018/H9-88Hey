@@ -20,19 +20,21 @@ export function Engine() {
     myCar: { engine },
   } = useOutletContext<MyCarLayoutContextProps>();
 
-  const [selectedIndex, handleSetIndex] = useSelectIndex();
-
   const { engines } = useFetchSuspense<EngineDataProps>({
     fetcher: () => fetcher<EngineDataProps>({ url: apiPath.engine(1) }),
     key: cacheKey.engine(1),
   });
+
+  const index = engines.findIndex(({ name }) => name === engine.name);
+  const initialIndex = index !== -1 ? index : 0;
+  const [selectedIndex, handleSetIndex] = useSelectIndex({ initialIndex });
 
   const { imageUrl, additionalPrice, name } = engines[selectedIndex];
 
   function handleCardClick(additionalPrice: number, id: number, name: string, index: number) {
     return () => {
       handleSetIndex(index)();
-      dispatch({ type: MyCarActionType.TRIM_OPTION, props: { key: 'engine', name, additionalPrice, id } });
+      dispatch({ type: MyCarActionType.TRIM_OPTION, payload: { key: 'engine', name, additionalPrice, id } });
     };
   }
 
@@ -40,13 +42,10 @@ export function Engine() {
     if (engine.name === '') {
       const { name, additionalPrice, id } = engines[0];
 
-      dispatch({ type: MyCarActionType.TRIM_OPTION, props: { key: 'engine', name, additionalPrice, id } });
+      dispatch({ type: MyCarActionType.TRIM_OPTION, payload: { key: 'engine', name, additionalPrice, id } });
 
       return;
     }
-
-    const index = engines.findIndex(({ name }) => name === engine.name);
-    index !== -1 && handleSetIndex(index)();
   }, []);
 
   return (

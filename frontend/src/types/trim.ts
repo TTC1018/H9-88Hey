@@ -84,16 +84,19 @@ export interface CarCodeProps {
 export type ActionType =
   | {
       type: MyCarActionType.TRIM;
-      props: TrimBaseProps;
+      payload: TrimBaseProps;
     }
-  | { type: MyCarActionType.TRIM_OPTION; props: HandleTrimOptionProps }
-  | { type: MyCarActionType.EXTERIOR_COLOR; props: ExteriorColorDataProps }
-  | { type: MyCarActionType.INTERIOR_COLOR; props: InteriorColorDataProps }
-  | { type: MyCarActionType.ADD_OPTION; props: OptionContextProps }
-  | { type: MyCarActionType.REMOVE_OPTION; props: string }
-  | { type: MyCarActionType.CAR_IMAGE_URL; props: string }
-  | { type: MyCarActionType.SAVE_OPTION; props: MyCarProps }
-  | { type: MyCarActionType.CLEAR_OPTION; props: OptionContextProps[] };
+  | { type: MyCarActionType.TRIM_OPTION; payload: HandleTrimOptionProps }
+  | {
+      type: MyCarActionType.EXTERIOR_COLOR;
+      payload: Omit<ExteriorColorsProps, 'id' | 'availableInteriorColors'>;
+    }
+  | { type: MyCarActionType.INTERIOR_COLOR; payload: InteriorColorDataProps }
+  | { type: MyCarActionType.ADD_OPTION; payload: OptionContextProps }
+  | { type: MyCarActionType.REMOVE_OPTION; payload: string }
+  | { type: MyCarActionType.CAR_IMAGE_URL; payload: string }
+  | { type: MyCarActionType.SAVE_OPTION; payload: MyCarProps }
+  | { type: MyCarActionType.CLEAR_OPTION; payload: OptionContextProps[] };
 
 export interface TagDataProps {
   tags: string[];

@@ -15,23 +15,26 @@ import { MyCarDescription } from '@/components/Trim/MyCarDescription';
 import * as Styled from './style';
 
 export function BodyType() {
-  const { bodyTypes } = useFetchSuspense<BodyTypeDataProps>({
-    fetcher: () => fetcher<BodyTypeDataProps>({ url: apiPath.bodyType(1) }),
-    key: cacheKey.bodyType(1),
-  });
-  const [selectedIndex, handleSetIndex] = useSelectIndex();
-
-  const { imageUrl, name, additionalPrice } = bodyTypes[selectedIndex];
-
   const {
     dispatch,
     myCar: { bodyType },
   } = useOutletContext<MyCarLayoutContextProps>();
 
+  const { bodyTypes } = useFetchSuspense<BodyTypeDataProps>({
+    fetcher: () => fetcher<BodyTypeDataProps>({ url: apiPath.bodyType(1) }),
+    key: cacheKey.bodyType(1),
+  });
+
+  const index = bodyTypes.findIndex(({ name }) => name === bodyType.name);
+  const initialIndex = index !== -1 ? index : 0;
+  const [selectedIndex, handleSetIndex] = useSelectIndex({ initialIndex });
+
+  const { imageUrl, name, additionalPrice } = bodyTypes[selectedIndex];
+
   function handleCardClick(name: string, additionalPrice: number, id: number, index: number) {
     return function () {
       handleSetIndex(index)();
-      dispatch({ type: MyCarActionType.TRIM_OPTION, props: { key: 'bodyType', name, additionalPrice, id } });
+      dispatch({ type: MyCarActionType.TRIM_OPTION, payload: { key: 'bodyType', name, additionalPrice, id } });
     };
   }
 
@@ -39,13 +42,10 @@ export function BodyType() {
     if (bodyType.name === '') {
       const { name, additionalPrice, id } = bodyTypes[0];
 
-      dispatch({ type: MyCarActionType.TRIM_OPTION, props: { key: 'bodyType', name, additionalPrice, id } });
+      dispatch({ type: MyCarActionType.TRIM_OPTION, payload: { key: 'bodyType', name, additionalPrice, id } });
 
       return;
     }
-
-    const index = bodyTypes.findIndex(({ name }) => name === bodyType.name);
-    index !== -1 && handleSetIndex(index)();
   }, [bodyTypes]);
 
   return (

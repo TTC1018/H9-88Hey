@@ -14,8 +14,6 @@ import { TrimCarImageBox } from '@/components/Trim/TrimCarImageBox';
 import * as Styled from './style';
 
 export function Trim() {
-  const [selectedIndex, handleSetIndex] = useSelectIndex();
-
   const {
     dispatch,
     myCar: { trim },
@@ -26,10 +24,14 @@ export function Trim() {
     key: cacheKey.trim(1),
   });
 
+  const index = trims.findIndex(({ name }) => name === trim.name);
+  const initialIndex = index !== -1 ? index : 0;
+  const [selectedIndex, handleSetIndex] = useSelectIndex({ initialIndex });
+
   function handleCardClick(name: string, price: number, id: number, index: number) {
     return () => {
       handleSetIndex(index)();
-      dispatch({ type: MyCarActionType.TRIM, props: { name, price, id } });
+      dispatch({ type: MyCarActionType.TRIM, payload: { name, price, id } });
     };
   }
 
@@ -37,14 +39,10 @@ export function Trim() {
     if (trim.name === '') {
       const { name, price, id } = trims[0];
 
-      dispatch({ type: MyCarActionType.TRIM, props: { name, price, id } });
+      dispatch({ type: MyCarActionType.TRIM, payload: { name, price, id } });
 
       return;
     }
-
-    const index = trims.findIndex(({ name }) => name === trim.name);
-
-    index !== -1 && handleSetIndex(index)();
   }, []);
 
   return (

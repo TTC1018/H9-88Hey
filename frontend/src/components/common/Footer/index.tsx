@@ -69,7 +69,7 @@ export function Footer({ myCarData, calculatePrice, carCode, setDisplayAutoSavin
     if (checkIsOptionPage(path)) {
       const currentCarCode = getLocalStorage('carCode');
       if (currentCarCode !== carCode.current) {
-        dispatch({ type: MyCarActionType.CLEAR_OPTION, props: [] });
+        dispatch({ type: MyCarActionType.CLEAR_OPTION, payload: [] });
       }
 
       localStorage.setItem('carCode', carCode.current);
