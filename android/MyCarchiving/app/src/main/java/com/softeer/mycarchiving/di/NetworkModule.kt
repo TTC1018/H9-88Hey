@@ -30,7 +30,7 @@ object NetworkModule {
             .addInterceptor(Interceptor {
                 val accessToken = pref.accessToken
                 val newRequest = it.request().newBuilder()
-                    .addHeader(AUTHORIZATION, "bearer $accessToken")
+                    .addHeader(AUTHORIZATION, "Bearer $accessToken")
                     .addHeader(CONTENT_TYPE, "application/json")
                     .build()
                 it.proceed(newRequest)

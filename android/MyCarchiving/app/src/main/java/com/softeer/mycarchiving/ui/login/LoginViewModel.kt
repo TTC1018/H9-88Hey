@@ -1,6 +1,7 @@
 package com.softeer.mycarchiving.ui.login
 
 import android.util.Patterns
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.softeer.domain.model.Token
@@ -27,7 +28,7 @@ class LoginViewModel @Inject constructor(
     val typedPassword: StateFlow<String> = _typedPassword
 
     val errorMessage = MutableStateFlow(ERROR_NONE)
-    val loginSuccess = MutableStateFlow(false)
+    val loginSuccess = mutableStateOf(false)
 
     fun typeEmail(text: String) {
         _typedEmail.value = text

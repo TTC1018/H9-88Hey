@@ -17,6 +17,6 @@ interface SignNetworkApi {
 
     @POST("/auth/access-token")
     suspend fun reissue(
-        @Header("authorization") header: String
+        @Header("Authorization") header: String
     ) : Response<BaseResponse<TokenDto>>
 }

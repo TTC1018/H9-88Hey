@@ -23,7 +23,7 @@ class SignRemoteDataSource(
     }
 
     override suspend fun reissue(refreshToken: String): TokenDto? {
-        val response = signNetworkApi.reissue("bearer $refreshToken")
+        val response = signNetworkApi.reissue("Bearer $refreshToken")
         val token = response.body()?.data
         if (response.isSuccessful) {
             return token

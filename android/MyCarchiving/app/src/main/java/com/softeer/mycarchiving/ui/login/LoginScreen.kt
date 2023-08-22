@@ -35,7 +35,7 @@ fun LoginRoute(
     val email by loginViewModel.typedEmail.collectAsStateWithLifecycle()
     val password by loginViewModel.typedPassword.collectAsStateWithLifecycle()
     val errorMessage by loginViewModel.errorMessage.collectAsStateWithLifecycle()
-    val loginSuccess by loginViewModel.loginSuccess.collectAsStateWithLifecycle()
+    val loginSuccess by loginViewModel.loginSuccess
 
     loginViewModel.reissue()
 
