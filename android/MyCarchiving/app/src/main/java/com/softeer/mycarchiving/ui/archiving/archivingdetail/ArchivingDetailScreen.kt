@@ -69,8 +69,15 @@ fun ArchiveDetailScreen(
                             Spacer(modifier = Modifier.height(27.dp))
                             DetailTextLabel(text = stringResource(id = R.string.archive_summary_car_info))
                             DetailBanner(
+                                model = it.model,
                                 trim = it.trim,
+                                carImageUrl = it.exteriorColor.carImageUrl ?: "",
+                                price = it.price,
                                 trimOptions = it.trimOptions,
+                                exteriorColor = it.exteriorColor.colorName,
+                                exteriorColorUrl = it.exteriorColor.imageUrl,
+                                interiorColor = it.interiorColor.colorName,
+                                interiorColorUrl = it.interiorColor.imageUrl,
                             )
                             Spacer(modifier = Modifier.height(23.dp))
                             DetailTextLabel(text = stringResource(id = R.string.archive_general_review))

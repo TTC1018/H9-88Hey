@@ -33,6 +33,7 @@ fun CarDetails.asUiModel() =
         id = id,
         model = modelName,
         trim = trim.name,
+        price = totalPrice,
         trimOptions = listOf(engine, bodyType, wheelDrive).map { it.optionName },
         interiorColor = interiorColor.asUiModel(),
         exteriorColor = exteriorColor.asUiModel(),
@@ -71,6 +72,7 @@ fun CarInteriorSimpleColor.asUiModel(): ColorOptionSimpleUiModel =
 fun CarExteriorSimpleColor.asUiModel(): ColorOptionSimpleUiModel =
     ColorOptionSimpleUiModel(
         "외장",
+        carImageUrl = carImageUrl,
         imageUrl = colorImageUrl,
         colorName = name
     )

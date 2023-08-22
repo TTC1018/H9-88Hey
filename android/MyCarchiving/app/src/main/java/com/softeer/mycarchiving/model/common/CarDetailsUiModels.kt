@@ -5,6 +5,7 @@ import com.softeer.mycarchiving.model.makingcar.ColorOptionSimpleUiModel
 data class CarDetailsUiModel(
     val id: Long,
     val model: String,
+    val price: Int,
     val trim: String,
     val trimOptions: List<String>,
     val interiorColor: ColorOptionSimpleUiModel,
