@@ -66,12 +66,12 @@ public class MyChivingService {
 		return MyChivingIdResponse.from(myChivingId);
 	}
 
-	public MyChivingsResponse findMyChvings(final MyChivingRequest myChivingRequest) {
+	public MyChivingsResponse findMyChvings(final int userId, final MyChivingRequest myChivingRequest) {
 		int limit = myChivingRequest.getLimit();
 		int startIndex = (myChivingRequest.getOffset() - 1) * limit;
 
 		//TODO 아이디 필요
-		List<MyChivingDto> myChivingDtoList = myChivingRepository.findMyChivingsByUserIdLimitAndOffset(1, limit, startIndex);
+		List<MyChivingDto> myChivingDtoList = myChivingRepository.findMyChivingsByUserIdLimitAndOffset(userId, limit, startIndex);
 
 		return MyChivingsResponse.from(findMyChivingDetailById(myChivingDtoList));
 	}

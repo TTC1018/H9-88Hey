@@ -68,6 +68,7 @@ class MyChivingControllerTest {
 	void findMyChiving() throws Exception {
 		mockMvc.perform(MockMvcRequestBuilders
 				.get("/mychiving")
+				.header("Authorization", "Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiIxIiwidXNlck5hbWUiOiJ0ZXN0IiwiaWF0IjoxNjkyNTYwMzM5LCJleHAiOjQ4MTQ2MjQzMzl9.gcSE7kPaRVxo2iT9DRcN1Bn5ZNAAsHG8Z3dvTopH-IWblMf_LJ2lhsYqOvrrLcZJ")
 				.param("offset", "1")
 				.param("limit", "4"))
 			.andExpect(MockMvcResultMatchers.status().isOk())

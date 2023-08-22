@@ -28,8 +28,8 @@ public class MyChivingController {
 
 
 	@GetMapping("/mychiving")
-	public GlobalResponse<MyChivingsResponse> findMyChivings(final MyChivingRequest myChivingRequest) {
-		MyChivingsResponse myChivingsResponse = myChivingService.findMyChvings(myChivingRequest);
+	public GlobalResponse<MyChivingsResponse> findMyChivings(@LoginUser int userId, final MyChivingRequest myChivingRequest) {
+		MyChivingsResponse myChivingsResponse = myChivingService.findMyChvings(userId, myChivingRequest);
 		return GlobalResponse.ok(myChivingsResponse);
 	}
 
