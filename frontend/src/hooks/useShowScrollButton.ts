@@ -7,24 +7,24 @@ interface Props {
 export function useShowScrollButton({ scrollY, scrollTo }: Props) {
   const [isShow, setIsShow] = useState(false);
 
-  const scrollToTop = () => {
+  function scrollToTop() {
     window.scroll({
       top: scrollTo,
       behavior: 'smooth',
     });
-  };
+  }
 
   useEffect(() => {
-    const ShowButtonClick = () => {
+    function showButtonClick() {
       if (window.scrollY > scrollY) {
         setIsShow(true);
       } else {
         setIsShow(false);
       }
-    };
-    window.addEventListener('scroll', ShowButtonClick);
+    }
+    window.addEventListener('scroll', showButtonClick);
     return () => {
-      window.removeEventListener('scroll', ShowButtonClick);
+      window.removeEventListener('scroll', showButtonClick);
     };
   }, []);
 
