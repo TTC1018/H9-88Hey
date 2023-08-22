@@ -1,4 +1,4 @@
-import { MouseEvent, useEffect, useState } from 'react';
+import { MouseEvent, useState } from 'react';
 
 import { convertToTwoDigits } from '@/utils';
 
@@ -19,7 +19,6 @@ export function ExternalCarImage({ imageUrl, current, setImageNum }: CarImagePro
   const [isRotate, setIsRotate] = useState(false);
   const [xPosition, setXPosition] = useState(0);
   const [currentImage, setCurrentImage] = useState(0);
-  const [isLoaded, setIsLoaded] = useState(false);
 
   const imageArray = generateImageArray(current);
 
@@ -57,7 +56,7 @@ export function ExternalCarImage({ imageUrl, current, setImageNum }: CarImagePro
   }
 
   function handleMouseMove(event: MouseEvent<HTMLDivElement>) {
-    if (!isClicked || !isRotate || !isLoaded) {
+    if (!isClicked || !isRotate) {
       return;
     }
 
@@ -75,10 +74,6 @@ export function ExternalCarImage({ imageUrl, current, setImageNum }: CarImagePro
     setIsClicked(false);
   }
 
-  useEffect(() => {
-    setIsLoaded(false);
-  }, [imageUrl]);
-
   return (
     <Styled.Container>
       <Styled.Wrapper>
@@ -90,31 +85,22 @@ export function ExternalCarImage({ imageUrl, current, setImageNum }: CarImagePro
           onMouseLeave={handleMouseLeave}
         >
           {imageUrl !== '' &&
-            imageArray.map((num, index) => {
-              if (index === imageArray.length - 1) {
-                return (
-                  <Styled.CarImage
-                    key={num}
+            imageArray.map(num => {
+              return (
+                <Styled.Picture key={num}>
+                  <Styled.CarSource
+                    srcSet={`${imageUrl}image_0${convertToTwoDigits(num)}.webp`}
+                    type="image/webp"
                     isDisplay={num === currentImage}
-                    src={`${imageUrl}0${convertToTwoDigits(num)}.png`}
-                    alt="VR 이미지"
-                    onLoad={() => setIsLoaded(true)}
-                    isLoaded={isLoaded}
                   />
-                );
-              } else {
-                return (
                   <Styled.CarImage
-                    key={num}
-                    isDisplay={num === currentImage}
                     src={`${imageUrl}0${convertToTwoDigits(num)}.png`}
+                    isDisplay={num === currentImage}
                     alt="VR 이미지"
-                    isLoaded={isLoaded}
                   />
-                );
-              }
+                </Styled.Picture>
+              );
             })}
-          {!isLoaded && isRotate && <Styled.LoaderSpinner />}
         </Styled.ImageBox>
         {isRotate && <NextButton width="48" height="48" onClick={handleClickNextButton} />}
         {!isRotate && (

@@ -3,7 +3,6 @@ import styled from '@emotion/styled';
 
 interface CarImageProps {
   isDisplay: boolean;
-  isLoaded: boolean;
 }
 
 export const Container = styled.div`
@@ -24,32 +23,30 @@ export const Wrapper = styled.div`
 
 export const ImageBox = styled.div``;
 
-export const CarImage = styled.img<CarImageProps>`
-  ${({ isDisplay, isLoaded }) => {
+export const Picture = styled.picture``;
+
+export const CarSource = styled.source<CarImageProps>`
+  ${({ isDisplay }) => {
     return css`
       width: 603px;
 
       display: ${isDisplay ? 'block' : 'none'};
 
-      filter: ${isLoaded ? 'none' : 'blur(6px)'};
       transition: filter 0.5s ease-in-out;
     `;
   }}
 `;
 
-export const LoaderSpinner = styled.div`
-  width: 70px;
-  height: 70px;
-  top: 50%;
-  left: 50%;
+export const CarImage = styled.img<CarImageProps>`
+  ${({ isDisplay }) => {
+    return css`
+      width: 603px;
 
-  position: absolute;
+      display: ${isDisplay ? 'block' : 'none'};
 
-  background-color: transparent;
-  border-radius: 50%;
-  border: 2px solid #fff;
-
-  transform: translate(-50%, -50%);
+      transition: filter 0.5s ease-in-out;
+    `;
+  }}
 `;
 
 export const RotateBtn = styled.button`
