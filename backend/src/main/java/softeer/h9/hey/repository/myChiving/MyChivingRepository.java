@@ -129,7 +129,9 @@ public class MyChivingRepository {
 	public void deleteMyChivingByMyChivingAndUserId(int userId, long myChivingId) {
 		checkMyChivingExistence(userId, myChivingId);
 		deleteSelectOption(myChivingId);
+
 		int affectedRow = deleteMyChiving(userId, myChivingId);
+
 		if (affectedRow != COUNT_OF_RECORD_TO_DELETE) {
 			throw new DeletionFailException();
 		}
