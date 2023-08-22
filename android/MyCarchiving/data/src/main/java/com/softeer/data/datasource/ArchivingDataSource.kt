@@ -1,5 +1,6 @@
 package com.softeer.data.datasource
 
+import com.softeer.data.model.ArchivingDetailsDto
 import com.softeer.data.model.ArchivingSelectOptionDto
 import com.softeer.data.network.ArchivingNetworkApi
 import kotlinx.coroutines.flow.Flow
@@ -7,6 +8,8 @@ import kotlinx.coroutines.flow.flow
 
 interface ArchivingDataSource {
     fun getSelectOptions(): Flow<List<ArchivingSelectOptionDto>>
+
+    fun getCarDetails(feedId: Long): Flow<ArchivingDetailsDto?>
 }
 
 class ArchivingRemoteDataSource(
@@ -20,6 +23,15 @@ class ArchivingRemoteDataSource(
             emit(selectOptions)
         } else {
             emit(emptyList())
+        }
+    }
+
+    override fun getCarDetails(feedId: Long): Flow<ArchivingDetailsDto?> = flow {
+        val response = archivingNetworkApi.getCarDetails(feedId)
+        val feed = response.body()?.data
+
+        if (response.isSuccessful) {
+            emit(feed)
         }
     }
 }

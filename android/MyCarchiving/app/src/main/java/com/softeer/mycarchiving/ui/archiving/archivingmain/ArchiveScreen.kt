@@ -37,6 +37,8 @@ import androidx.paging.compose.collectAsLazyPagingItems
 import com.softeer.mycarchiving.R
 import com.softeer.mycarchiving.model.archiving.SearchOption
 import com.softeer.mycarchiving.model.common.CarFeedUiModel
+import com.softeer.mycarchiving.navigation.ArchivingDestinations
+import com.softeer.mycarchiving.navigation.MyArchiveDestinations
 import com.softeer.mycarchiving.ui.component.ArchiveFeed
 import com.softeer.mycarchiving.ui.component.SearchCarBottomSheetContent
 import com.softeer.mycarchiving.ui.component.SearchDeleteChipFlowList
@@ -52,7 +54,7 @@ import com.softeer.mycarchiving.ui.theme.roundCorner
 fun ArchiveRoute(
     modifier: Modifier = Modifier,
     archiveViewModel: ArchiveViewModel = hiltViewModel(),
-    moveDetailPage: () -> Unit,
+    moveDetailPage: (Long, ArchivingDestinations?) -> Unit,
 ) {
     val showSearchSheet by archiveViewModel.showSearchSheet.collectAsStateWithLifecycle()
     val currentSheetPage by archiveViewModel.currentSheetPage.collectAsStateWithLifecycle()
@@ -113,7 +115,7 @@ fun ArchiveScreen(
     carFeeds: LazyPagingItems<CarFeedUiModel>,
     deleteSelectedChip: (SearchOption) -> Unit,
     openSearchSheet: () -> Unit,
-    onFeedClick: () -> Unit
+    onFeedClick: (Long, ArchivingDestinations?) -> Unit,
 ) {
     val scrollState = rememberLazyListState()
     Column(
@@ -182,7 +184,11 @@ fun ArchiveScreen(
             ) {
                 items(count = carFeeds.itemCount) { index ->
                     carFeeds[index]?.run {
-                        ArchiveFeed(carFeedUiModel = this, appliedOptions = appliedOptions,onFeedClick = onFeedClick)
+                        ArchiveFeed(
+                            carFeedUiModel = this,
+                            appliedOptions = appliedOptions,
+                            onFeedClick = onFeedClick
+                        )
                     }
                 }
             }
@@ -193,5 +199,5 @@ fun ArchiveScreen(
 @Preview
 @Composable
 fun PreviewArchiveRoute() {
-    ArchiveRoute(moveDetailPage = {})
+    ArchiveRoute(moveDetailPage = { _, _ -> })
 }

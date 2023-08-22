@@ -73,7 +73,7 @@ fun MyArchiveDetailScreen(
                     .padding(start = 16.dp, end = 16.dp, top = 27.dp)
             ) {
                 DetailTextLabel(text = stringResource(id = R.string.archive_summary_car_info))
-                DetailBanner()
+//                DetailBanner() TODO 연동 후 연결
                 Spacer(modifier = Modifier.height(23.dp))
                 if (screenIndex == MY_ARCHIVE_SAVE) {
                     DetailTextLabel(text = stringResource(id = R.string.archive_general_review))

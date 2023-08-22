@@ -10,6 +10,7 @@ import com.softeer.data.mapper.asEntity
 import com.softeer.data.model.ArchivingFeedDto
 import com.softeer.data.model.ArchivingSelectOptionDto
 import com.softeer.data.network.ArchivingNetworkApi
+import com.softeer.domain.model.CarDetails
 import com.softeer.domain.model.CarFeed
 import com.softeer.domain.model.SelectSimpleOption
 import com.softeer.domain.repository.ArchivingRepository
@@ -38,4 +39,8 @@ class ArchivingRepositoryImpl(
         ).flow.map { pagingData ->
             pagingData.map(ArchivingFeedDto::asEntity)
         }
+
+    override fun getCarDetails(feedId: Long): Flow<CarDetails?> =
+        archivingRemoteDataSource.getCarDetails(feedId)
+            .map { it?.run { this.asEntity() } }
 }

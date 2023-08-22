@@ -56,15 +56,15 @@ fun DetailTextLabel(
 @Composable
 fun DetailBanner(
     modifier: Modifier = Modifier,
-    carImageUrl: String = "https://s3-alpha-sig.figma.com/img/d2e2/58bf/838f1e8b595ed86ab55cab820873db9a?Expires=1693180800&Signature=h1K73cc1KlgZFB7hPDcNRgoI4inxq8WpL78qkfOa8pP8g2IUS2ntwLtC~NBW34TjYe~OwJyCCI6agZZUl3aJG48lAwG7VTralXJz4MH5-FthYj~1JbhttYfcMbwR1xQfAuU6MgfFMCVfeDW3thvTbwkOUZQYhtKW6ZTJ7TqohEQgJ2WbCQlhU~JDP5GIvZnVXgWnDRbn6iWbQthYwJUTKIYs4Rb6xFsCeGDoWRxUXzWMf8qzX55iHhFMYp6yLgIZifh~EisfGVlpDCUir0wfG1zBJKRZc8h7VmCN3m4rA2CVW9jpKBjNEeJAZTj0zUU0LD3xQiEV~~e1ACGkvBRbyA__&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4",
-    model: String = "펠리세이드",
-    trim: String = "Le Blanc",
-    trimOptions: List<String> = listOf("디젤 2.2", "4WD", "7인승"),
-    price: Int = 47340000,
-    exteriorColor: String = "어비스 블랙펄",
-    exteriorColorUrl: String = "https://88hey-bucket.s3.ap-northeast-2.amazonaws.com/88hey/color/exterior/colorchip/Abyss-Black-Pearl.png",
-    interiorColor: String = "퀼팅 천연(블랙)",
-    interiorColorUrl: String = "https://88hey-bucket.s3.ap-northeast-2.amazonaws.com/88hey/color/interior/colorchip/quilting-natural-black.png"
+    carImageUrl: String,
+    model: String,
+    trim: String,
+    trimOptions: List<String>,
+    price: Int,
+    exteriorColor: String,
+    exteriorColorUrl: String,
+    interiorColor: String,
+    interiorColorUrl: String,
 ) {
     Box(
         modifier = modifier
@@ -87,10 +87,7 @@ fun DetailBanner(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(190.dp),
-                model = ImageRequest.Builder(LocalContext.current)
-                    .data(carImageUrl)
-                    .crossfade(true)
-                    .build(),
+                model = "${carImageUrl}001.png",
                 contentDescription = null,
                 contentScale = ContentScale.FillWidth
             )
@@ -218,7 +215,11 @@ fun DetailSelectedOption(
             Divider(thickness = 1.dp, color = LightGray)
             subOptions?.let {
                 Spacer(modifier = Modifier.height(8.dp))
-                Text(text = it.joinToString(separator = " | "), style = medium16, color = PrimaryBlue)
+                Text(
+                    text = it.joinToString(separator = " | "),
+                    style = medium16,
+                    color = PrimaryBlue
+                )
             }
             optionReview?.let {
                 Spacer(modifier = Modifier.height(14.dp))
@@ -243,7 +244,17 @@ fun DetailSelectedOption(
 @Preview
 @Composable
 fun PreviewDetailBanner() {
-    DetailBanner()
+    DetailBanner(
+        model = "펠리세이드",
+        trim = "Le Blanc",
+        trimOptions = listOf("디젤 2.2", "4WD", "7인승"),
+        price = 47340000,
+        exteriorColor = "어비스 블랙펄",
+        exteriorColorUrl = "",
+        interiorColor = "퀼팅 천연(블랙)",
+        interiorColorUrl = "",
+        carImageUrl = ""
+    )
 }
 
 @Preview

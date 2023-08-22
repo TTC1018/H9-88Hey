@@ -14,6 +14,7 @@ data class CarExtraSimpleOption(
     val id: String,
     val name: String,
     val imageUrl: String,
+    val review: String,
     val price: Int,
     val subOptions: List<String>,
     val tags: List<String>?,

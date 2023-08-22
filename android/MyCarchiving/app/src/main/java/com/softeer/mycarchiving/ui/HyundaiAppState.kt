@@ -104,9 +104,9 @@ class HyundaiAppState(
         }
 
     val currentArchivingDestinations: ArchivingDestinations?
-        @Composable get() = when (currentArchivingDestination?.route) {
-            ARCHIVING_MAIN.route -> ARCHIVING_MAIN
-            ARCHIVING_DETAIL.route -> ARCHIVING_DETAIL
+        @Composable get() = when {
+            currentArchivingDestination?.route == ARCHIVING_MAIN.route -> ARCHIVING_MAIN
+            currentArchivingDestination?.route?.startsWith(ARCHIVING_DETAIL.route) == true -> ARCHIVING_DETAIL
             else -> null
         }
 
@@ -157,10 +157,17 @@ class HyundaiAppState(
         }
     }
 
-    fun navigateToArchivingDestination(archivingDestination: ArchivingDestinations?) {
+    fun navigateToArchivingDestination(
+        feedId: Long? = null,
+        archivingDestination: ArchivingDestinations?
+    ) {
         when (archivingDestination) {
             ARCHIVING_MAIN -> archivingNavController.navigateToArchiveMain()
-            ARCHIVING_DETAIL -> archivingNavController.navigateToArchivingDetail()
+            ARCHIVING_DETAIL -> {
+                if (feedId != null) {
+                    archivingNavController.navigateToArchivingDetail(feedId)
+                }
+            }
             else -> {}
         }
     }
