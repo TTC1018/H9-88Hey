@@ -19,6 +19,7 @@ import androidx.compose.material3.SheetState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -121,7 +122,8 @@ fun MakeCarBottomBar(
     val processEnd = appState.progressEnd
     val totalPrice by viewModel.totalPrice.collectAsStateWithLifecycle()
     val showSummary by viewModel.showSummary.collectAsStateWithLifecycle()
-    val trimOptions by viewModel.selectedTrim.collectAsStateWithLifecycle()
+    val selectedModel by viewModel.selectedModelInfo.observeAsState()
+    val trimOptions by viewModel.selectedTrimSimple.collectAsStateWithLifecycle()
     val colorOptions by viewModel.selectedColor.collectAsStateWithLifecycle()
     val totalExtraOption by viewModel.totalExtraOptions.collectAsStateWithLifecycle()
 
@@ -159,6 +161,7 @@ fun MakeCarBottomBar(
         ) {
             SummaryBottomSheetContent(
                 totalPrice = totalPrice,
+                modelOption = selectedModel?.let { listOf(it) } ?: emptyList(),
                 trimOptions = trimOptions,
                 colorOptions = colorOptions,
                 extraOptions = totalExtraOption

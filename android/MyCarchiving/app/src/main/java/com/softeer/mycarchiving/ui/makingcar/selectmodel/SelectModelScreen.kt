@@ -1,5 +1,6 @@
 package com.softeer.mycarchiving.ui.makingcar.selectmodel
 
+import android.util.Log
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.background
@@ -16,6 +17,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -50,7 +52,20 @@ fun SelectModelRoute(
     val carModels by viewModel.carModels.collectAsStateWithLifecycle()
     val carImages by viewModel.carImages.collectAsStateWithLifecycle()
     val focusedImageIndex by viewModel.focusedImageIndex.collectAsStateWithLifecycle()
+    val carDetails by sharedViewModel.carDetails.observeAsState()
     val scrollState = rememberScrollState()
+
+    LaunchedEffect(carDetails, carModels) {
+        // 아카이빙에서 왔다면 해당 데이터 선택
+        carDetails?.trim?.run {
+            carModels.find { it.name == name }?.let {
+                sharedViewModel.updateSelectedModelInfo(it)
+            }
+        }
+
+        // 아무것도 선택된 것 없을 때 첫번째 모델 자동 선택
+        carModels.firstOrNull()?.let { sharedViewModel.updateSelectedModelInfo(it) }
+    }
 
     SelectModelScreen(
         modifier = modifier,
@@ -85,10 +100,6 @@ fun SelectModelScreen(
     }
     var loadCounter by remember { mutableIntStateOf(0) }
     val imageLoaded by remember(loadCounter) { derivedStateOf { loadCounter != 0 && loadCounter == carImages.size } }
-
-    LaunchedEffect(carModels) {
-        carModels.firstOrNull()?.let { onModelSelect(it) } // 첫번째 모델 자동 선택
-    }
 
     LaunchedEffect(carImages) {
         carImages.forEach {
