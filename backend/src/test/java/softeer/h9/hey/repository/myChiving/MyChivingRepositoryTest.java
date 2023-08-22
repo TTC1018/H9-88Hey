@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.*;
 
 import java.util.List;
 
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,7 @@ import softeer.h9.hey.dto.myChiving.MyChivingDto;
 import softeer.h9.hey.dto.myChiving.MyChivingSaveDto;
 import softeer.h9.hey.dto.myChiving.MyChivingSelectOptionFetchDto;
 import softeer.h9.hey.dto.myChiving.request.MyChivingTempSaveRequest;
+import softeer.h9.hey.exception.myChiving.InValidAccessException;
 
 @SpringBootTest
 class MyChivingRepositoryTest {
@@ -146,6 +148,19 @@ class MyChivingRepositoryTest {
 			assertThat(myChivingSelectOptionFetchDto.getAdditionalPrice()).isNotNull();
 			assertThat(myChivingSelectOptionFetchDto.getSubOptionName()).isNotNull();
 		}
+	}
+
+	@Test
+	@DisplayName("유저에게 존재하지 않는 마이카이빙 아이디로 삭제하려 할 때 InvalidAccessException을 반환해야 한다.")
+	void invalidAccessExceptionTest() {
+		//존재하지 않는 아이디 삽입
+		int userId = 1;
+		long invalidMyChivingId = 1234L;
+
+		assertThatThrownBy(
+			() -> myChivingRepository.deleteMyChivingByMyChivingAndUserId(userId, invalidMyChivingId))
+			.isInstanceOf(InValidAccessException.class);
+
 	}
 
 }
