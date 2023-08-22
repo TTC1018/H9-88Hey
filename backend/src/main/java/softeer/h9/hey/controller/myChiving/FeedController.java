@@ -29,7 +29,7 @@ public class FeedController {
 		return GlobalResponse.ok(response);
 	}
 
-	@PostMapping("/mychiving/feed")
+	@PostMapping("/mychiving/feed/bookmark")
 	public GlobalResponse<FeedIdResponse> saveArchivingFeed(
 		@LoginUser int userId,
 		@RequestBody ArchivingIdRequest archivingIdRequest) {

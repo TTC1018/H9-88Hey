@@ -39,7 +39,7 @@ class FeedControllerTest {
 		long feedId = 479893076429349285L;
 		String requestBody = "{\"feed_id\":" + feedId + "}";
 
-		mockMvc.perform(MockMvcRequestBuilders.post("/mychiving/feed")
+		mockMvc.perform(MockMvcRequestBuilders.post("/mychiving/feed/bookmark")
 				.contentType("application/json")
 				.header("Authorization",
 					"Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiIxIiwidXNlck5hbWUiOiJ0ZXN0IiwiaWF0IjoxNjkyNTYwMzM5LCJleHAiOjQ4MTQ2MjQzMzl9.gcSE7kPaRVxo2iT9DRcN1Bn5ZNAAsHG8Z3dvTopH-IWblMf_LJ2lhsYqOvrrLcZJ")
