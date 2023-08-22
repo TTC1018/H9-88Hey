@@ -124,10 +124,10 @@ public class MyChivingRepository {
 	}
 
 	@Transactional
-	public void deleteMyChivingByMyChivingAndUserId(int userId, long myChivingId) {
+	public int deleteMyChivingByMyChivingAndUserId(int userId, long myChivingId) {
 		checkMyChivingExistence(userId, myChivingId);
 		deleteSelectOption(myChivingId);
-		deleteMyChiving(myChivingId);
+		return deleteMyChiving(userId, myChivingId);
 	}
 
 	private MyChivingDto getNewMyChivingDto(ResultSet rs) throws SQLException {
@@ -252,11 +252,13 @@ public class MyChivingRepository {
 		namedParameterJdbcTemplate.update(sql, sqlParameterSource);
 	}
 
-	private void deleteMyChiving(long myChivingId) {
-		String sql = "DELETE FROM myArchiving WHERE id = :myChiving_id";
-		SqlParameterSource sqlParameterSource = new MapSqlParameterSource().addValue("myChiving_id", myChivingId);
+	private int deleteMyChiving(int userId, long myChivingId) {
+		String sql = "DELETE FROM myArchiving WHERE id = :myChivingId and user_id = :userId";
+		SqlParameterSource sqlParameterSource = new MapSqlParameterSource()
+			.addValue("myChivingId", myChivingId)
+			.addValue("userId", userId);
 
-		namedParameterJdbcTemplate.update(sql, sqlParameterSource);
+		return namedParameterJdbcTemplate.update(sql, sqlParameterSource);
 	}
 
 	private void insertSelectOption(Long myChivingId, List<String> selectOptionIdList) {
