@@ -16,7 +16,7 @@ public class FeedController {
 
 	private final FeedService service;
 
-		@GetMapping("/mychiving/detail/bookmark")
+	@GetMapping("/mychiving/detail/bookmark")
 	public GlobalResponse<BookmarkResponse> getBookmarkByArchivingId(
 		@LoginUser int userId,
 		BookmarkRequest bookmarkRequest) {
