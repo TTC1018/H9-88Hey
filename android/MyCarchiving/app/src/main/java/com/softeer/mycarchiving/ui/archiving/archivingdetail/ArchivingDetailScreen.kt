@@ -34,19 +34,22 @@ import com.softeer.mycarchiving.ui.theme.White
 fun ArchiveDetailRoute(
     modifier: Modifier = Modifier,
     viewModel: ArchiveDetailViewModel = hiltViewModel(),
+    onMakingCarClick: (Long?) -> Unit
 ) {
     val details by viewModel.details.collectAsStateWithLifecycle(initialValue = null)
 
     ArchiveDetailScreen(
         modifier = modifier,
         details = details,
+        onClick = { onMakingCarClick(details?.id) }
     )
 }
 
 @Composable
 fun ArchiveDetailScreen(
-    modifier: Modifier,
+    modifier: Modifier = Modifier,
     details: CarDetailsUiModel?,
+    onClick: () -> Unit,
 ) {
     Box(
         modifier = modifier.fillMaxSize(),
@@ -110,7 +113,8 @@ fun ArchiveDetailScreen(
                         }
                         ArchiveBottomBar(
                             modifier = Modifier.fillMaxWidth(),
-                            totalPrice = it.price
+                            totalPrice = it.price,
+                            onClick = onClick
                         )
                     }
 
@@ -122,6 +126,9 @@ fun ArchiveDetailScreen(
 
 @Preview
 @Composable
-fun PreviewArchiveDetailRoute() {
-    ArchiveDetailRoute()
+fun PreviewArchiveDetailScreen() {
+    ArchiveDetailScreen(
+        details = null,
+        onClick = {},
+    )
 }

@@ -14,7 +14,10 @@ fun NavController.navigateToArchivingDetail(feedId: Long, navOptions: NavOptions
     navigate("${ArchivingDestinations.ARCHIVING_DETAIL.route}/$feedId", navOptions)
 }
 
-fun NavGraphBuilder.archivingDetailScreen(onBackClick: () -> Unit) {
+fun NavGraphBuilder.archivingDetailScreen(
+    onBackClick: () -> Unit,
+    onMakingCarClick: (Long?) -> Unit,
+) {
     composable(
         route = "${ArchivingDestinations.ARCHIVING_DETAIL.route}/{$KEY_ARCHIVE_DETAIL}",
         arguments = listOf(navArgument(KEY_ARCHIVE_DETAIL) { type = NavType.LongType })
@@ -22,6 +25,8 @@ fun NavGraphBuilder.archivingDetailScreen(onBackClick: () -> Unit) {
         BackHandler {
             onBackClick()
         }
-        ArchiveDetailRoute()
+        ArchiveDetailRoute(
+            onMakingCarClick = onMakingCarClick
+        )
     }
 }
