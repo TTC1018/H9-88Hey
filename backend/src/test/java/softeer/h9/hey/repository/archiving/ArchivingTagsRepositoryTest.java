@@ -9,6 +9,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import softeer.h9.hey.domain.archiving.SelectOptionTag;
+
 @SpringBootTest
 @DisplayName("ArchivingTags Repository 테스트")
 class ArchivingTagsRepositoryTest {
@@ -42,6 +44,19 @@ class ArchivingTagsRepositoryTest {
 			() -> assertTrue(tags.contains("관리하기 편해요\uD83E\uDDF9")),
 			() -> assertTrue(tags.contains("방전걱정없어요\uD83D\uDD0B"))
 		);
+	}
+
+	@DisplayName("아카이빙 id에서 선택한 선택 옵션들의 tag들을 조회한다.")
+	@Test
+	void findAllByArchivingIdSelectedOptions() {
+		Long id = 479893076433545675L;
+
+		List<SelectOptionTag> selectOptionTags = repository.findAllByArchivingIdSelectedOptions(id);
+
+		for (SelectOptionTag selectOptionTag : selectOptionTags) {
+			assertNotNull(selectOptionTag.getSelectOptionId());
+			assertNotNull(selectOptionTag.getTag());
+		}
 	}
 }
 
