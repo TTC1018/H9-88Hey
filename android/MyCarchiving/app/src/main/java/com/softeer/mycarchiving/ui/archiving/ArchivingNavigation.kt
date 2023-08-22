@@ -46,11 +46,6 @@ fun NavGraphBuilder.makingArchiveGraph(
                     onEndAreaClick = { appState.navigateToMainDestination(MainDestination.MY_ARCHIVING) }
                 )
             },
-            bottomBar = {
-                if (appState.currentArchivingDestinations?.needBottomBar == true) {
-                    ArchiveBottomBar()
-                }
-            }
         ) { padding ->
             Column(
                 modifier = Modifier
