@@ -44,10 +44,8 @@ public class MyChivingService {
 	private final MyChivingRepository myChivingRepository;
 
 	//최종저장
-	public MyChivingIdResponse saveMyCar(final MyChivingSaveRequest myChivingSaveRequest) {
+	public MyChivingIdResponse saveMyCar(int userId, final MyChivingSaveRequest myChivingSaveRequest) {
 
-		//TODO 인증정보를 통해 사용자 식별 및 user_id 추출
-		int userId = 1;
 		MyChivingSaveDto myChivingSaveDto = MyChivingSaveDto.from(myChivingSaveRequest);
 		myChivingSaveDto.setUserId(userId);
 		myChivingSaveDto.setSubmitted(IsSubmit.SUBMIT.value);
@@ -58,9 +56,7 @@ public class MyChivingService {
 	}
 
 	//임시 저장
-	public MyChivingIdResponse temporarySaveMyCar(final MyChivingTempSaveRequest myChivingSaveRequest) {
-		//TODO 인증정보를 통해 사용자 식별 및 user_id 추출
-		int userId = 1;
+	public MyChivingIdResponse temporarySaveMyCar(int userId, final MyChivingTempSaveRequest myChivingSaveRequest) {
 		MyChivingSaveDto myChivingSaveDto = MyChivingSaveDto.from(myChivingSaveRequest);
 		myChivingSaveDto.setUserId(userId);
 		myChivingSaveDto.setSubmitted(IsSubmit.TEMPORARY_SUBMIT.value);

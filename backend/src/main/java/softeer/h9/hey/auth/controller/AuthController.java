@@ -1,6 +1,7 @@
 package softeer.h9.hey.auth.controller;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -32,24 +33,32 @@ public class AuthController {
 	private final AuthService authService;
 
 	@PostMapping("/signup")
-	public GlobalResponse<TokenResponse> join(@RequestBody JoinRequest joinRequest) {
+	public GlobalResponse<TokenResponse> join(@RequestBody @Valid JoinRequest joinRequest) {
 		TokenResponse tokenResponse = authService.join(joinRequest);
 		return GlobalResponse.ok(tokenResponse);
 	}
 
 	@PostMapping("/signin")
-	public GlobalResponse<TokenResponse> login(@RequestBody LoginRequest loginRequest) {
+	public GlobalResponse<TokenResponse> login(@RequestBody @Valid LoginRequest loginRequest) {
 		TokenResponse tokenResponse = authService.login(loginRequest);
 		return GlobalResponse.ok(tokenResponse);
 	}
 
 	@PostMapping("/access-token")
 	public GlobalResponse<TokenResponse> getAccessToken(HttpServletRequest request) {
-		String refreshToken = request.getHeader(AUTHORIZATION).substring(BEARER.length());
+		String refreshToken = getValidatedRequest(request);
 		AccessTokenRequest accessTokenRequest = new AccessTokenRequest(refreshToken);
 
 		TokenResponse tokenResponse = authService.republishAccessToken(accessTokenRequest);
 		return GlobalResponse.ok(tokenResponse);
+	}
+
+	private static String getValidatedRequest(HttpServletRequest request) {
+		String authorization = request.getHeader(AUTHORIZATION);
+		if (authorization == null || !authorization.startsWith(BEARER)) {
+			throw new IllegalStateException();
+		}
+		return authorization.substring(BEARER.length());
 	}
 
 	@ExceptionHandler

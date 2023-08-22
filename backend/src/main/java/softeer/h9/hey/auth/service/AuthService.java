@@ -1,8 +1,11 @@
 package softeer.h9.hey.auth.service;
 
+import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -13,6 +16,7 @@ import softeer.h9.hey.auth.dto.request.AccessTokenRequest;
 import softeer.h9.hey.auth.dto.request.JoinRequest;
 import softeer.h9.hey.auth.dto.request.LoginRequest;
 import softeer.h9.hey.auth.dto.response.TokenResponse;
+import softeer.h9.hey.auth.exception.InvalidTokenException;
 import softeer.h9.hey.auth.exception.JoinException;
 import softeer.h9.hey.auth.exception.LoginException;
 import softeer.h9.hey.auth.repository.RefreshTokenRepository;
@@ -29,17 +33,20 @@ public class AuthService {
 	private final JwtTokenProvider jwtTokenProvider;
 	private final UserRepository userRepository;
 	private final RefreshTokenRepository refreshTokenRepository;
+	private final PasswordEncoder passwordEncoder;
+	private final RefreshTokenAsyncExecutor refreshTokenAsyncExecutor;
 
 	public TokenResponse join(JoinRequest joinRequest) {
-		User user = mapToUser(joinRequest);
+		String password = passwordEncoder.encode(joinRequest.getPassword());
+		User user = mapToUser(joinRequest, password);
 		validateUniqueEmail(user.getEmail());
 
 		user = userRepository.save(user);
 		return makeTokenResponse(user.getId(), user.getName());
 	}
 
-	private User mapToUser(JoinRequest joinRequest) {
-		return new User(joinRequest.getEmail(), joinRequest.getPassword(), joinRequest.getUserName());
+	private User mapToUser(JoinRequest joinRequest, String password) {
+		return new User(joinRequest.getEmail(), password, joinRequest.getUserName());
 	}
 
 	private void validateUniqueEmail(String email) {
@@ -64,13 +71,15 @@ public class AuthService {
 
 		String accessToken = jwtTokenProvider.generateAccessToken(userPk, claims);
 		String refreshToken = jwtTokenProvider.generateRefreshToken(userPk, claims);
-		refreshTokenRepository.save(new RefreshTokenEntity(userPk, refreshToken));
+		LocalDateTime refreshExpiredTime = jwtTokenProvider.getExpiredTime(refreshToken);
+		refreshTokenAsyncExecutor.saveAsync(new RefreshTokenEntity(userPk, refreshToken, refreshExpiredTime));
 
 		return new TokenResponse(accessToken, refreshToken, userName);
 	}
 
-	private static void checkPassword(String password, User user) {
-		if (!user.getPassword().equals(password)) {
+	private void checkPassword(String password, User user) {
+		String expectedPassword = user.getPassword();
+		if (!passwordEncoder.compare(password, expectedPassword)) {
 			throw new LoginException();
 		}
 	}
@@ -85,9 +94,29 @@ public class AuthService {
 
 	public TokenResponse republishAccessToken(AccessTokenRequest accessTokenRequest) {
 		String refreshToken = accessTokenRequest.getRefreshToken();
+
 		Map<String, Object> claims = jwtTokenProvider.getClaimsFromToken(refreshToken);
 		int userId = Integer.parseInt((String)claims.get(SUBJECT));
 		String userName = (String)claims.get(USER_NAME);
+
+		checkAndRemoveRefreshToken(userId, refreshToken);
 		return makeTokenResponse(userId, userName);
+	}
+
+	private void checkAndRemoveRefreshToken(int userId, String refreshToken) {
+		List<RefreshTokenEntity> refreshTokenEntities = refreshTokenRepository.findByUserId(userId);
+		Optional<RefreshTokenEntity> optionalRefreshTokenEntity = refreshTokenEntities.stream()
+			.filter(refreshTokenEntity -> refreshTokenEntity.getRefreshToken().equals(refreshToken))
+			.findAny();
+		if (optionalRefreshTokenEntity.isEmpty()) {
+			throw new InvalidTokenException();
+		}
+		RefreshTokenEntity refreshTokenEntity = optionalRefreshTokenEntity.get();
+		refreshTokenAsyncExecutor.deleteByIdAsync(refreshTokenEntity.getId());
+	}
+
+	@Scheduled(cron = "0 30 * * * ?")
+	public void cleanupExpiredTokens() {
+		refreshTokenRepository.deleteBeforeCurrentTime();
 	}
 }

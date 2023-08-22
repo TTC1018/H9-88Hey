@@ -2,6 +2,9 @@ package softeer.h9.hey.auth.service;
 
 import java.nio.charset.StandardCharsets;
 import java.security.Key;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Date;
 import java.util.Map;
 
@@ -68,6 +71,19 @@ public class JwtTokenProvider {
 			return jwtParser
 				.parseClaimsJws(jwt)
 				.getBody();
+		} catch (JwtException e) {
+			throw new InvalidTokenException();
+		}
+	}
+
+	public LocalDateTime getExpiredTime(String jwt) {
+		try {
+			Date expiration = jwtParser
+				.parseClaimsJws(jwt)
+				.getBody()
+				.getExpiration();
+			Instant instant = expiration.toInstant();
+			return instant.atZone(ZoneId.systemDefault()).toLocalDateTime();
 		} catch (JwtException e) {
 			throw new InvalidTokenException();
 		}
