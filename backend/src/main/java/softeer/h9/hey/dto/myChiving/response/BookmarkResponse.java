@@ -4,10 +4,10 @@ import lombok.Getter;
 
 @Getter
 public class BookmarkResponse {
-	private boolean isMarked;
+	private boolean bookmark;
 
-	private BookmarkResponse(boolean isMarked) {
-		this.isMarked = isMarked;
+	private BookmarkResponse(boolean bookmark) {
+		this.bookmark = bookmark;
 	}
 
 	public static BookmarkResponse of(boolean isMarked) {

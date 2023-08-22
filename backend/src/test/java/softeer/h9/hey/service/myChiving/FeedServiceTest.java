@@ -32,6 +32,6 @@ class FeedServiceTest {
 
 		BookmarkResponse result = feedService.hasBookmark(userId, request);
 
-		assertTrue(result.isMarked());
+		assertTrue(result.isBookmark());
 	}
 }
