@@ -43,10 +43,10 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
-import com.softeer.data.CarColorType
 import com.softeer.mycarchiving.R
 import com.softeer.mycarchiving.enums.ArchiveSearchPage
 import com.softeer.mycarchiving.enums.ArchiveSearchPage.*
+import com.softeer.mycarchiving.model.TrimOptionSimpleUiModel
 import com.softeer.mycarchiving.model.TrimOptionUiModel
 import com.softeer.mycarchiving.model.archiving.SearchOption
 import com.softeer.mycarchiving.model.archiving.SearchOptionUiModel
@@ -54,6 +54,7 @@ import com.softeer.mycarchiving.model.common.CarBasicDetailUiModel
 import com.softeer.mycarchiving.model.common.CarBasicUiModel
 import com.softeer.mycarchiving.model.common.SummaryChildUiModel
 import com.softeer.mycarchiving.model.makingcar.ColorOptionUiModel
+import com.softeer.mycarchiving.model.makingcar.SelectModelUiModel
 import com.softeer.mycarchiving.model.makingcar.SelectOptionUiModel
 import com.softeer.mycarchiving.ui.theme.DarkGray
 import com.softeer.mycarchiving.ui.theme.HyundaiLightSand
@@ -202,7 +203,8 @@ fun CarBasicDetailItem(
 fun SummaryBottomSheetContent(
     modifier: Modifier = Modifier,
     totalPrice: Int,
-    trimOptions: List<TrimOptionUiModel>,
+    modelOption: List<SelectModelUiModel>,
+    trimOptions: List<TrimOptionSimpleUiModel>,
     colorOptions: List<ColorOptionUiModel>,
     extraOptions: List<SelectOptionUiModel>,
 ) {
@@ -224,7 +226,7 @@ fun SummaryBottomSheetContent(
             modifier = Modifier,
             labelName = stringResource(id = R.string.summary_total_price),
             totalPrice = totalPrice,
-            summaryChildren = trimOptions.trimsToSummary(),
+            summaryChildren = modelOption.map { it.toSummary() } + trimOptions.trimsToSummary(),
         )
         SummaryLabel(
             modifier = modifier,
@@ -374,7 +376,7 @@ fun SearchCarBottomSheetContent(
                         .align(Alignment.CenterStart)
                         .clickable { onBackClick() },
                     contentAlignment = Alignment.Center
-                ){
+                ) {
                     Icon(
                         painter = painterResource(id = R.drawable.ic_back),
                         contentDescription = null
@@ -397,7 +399,7 @@ fun SearchCarBottomSheetContent(
         }
         Divider(thickness = 1.dp, color = ThinGray)
         val setOptionsScrollState = rememberScrollState()
-        when(currentPage) {
+        when (currentPage) {
             SEARCH_CONDITION -> {
                 Column(
                     modifier = Modifier
@@ -632,11 +634,27 @@ fun SearchDeleteChipFlowList(
     }
 }
 
-private fun List<TrimOptionUiModel>.trimsToSummary(): List<SummaryChildUiModel> =
-    this.fold(0 to "") { acc, trimOptionUiModel ->
-        (acc.first + (trimOptionUiModel.price
-            ?: 0)) to (acc.second + trimOptionUiModel.optionName + " / ")
-    }.run { listOf(SummaryChildUiModel(name = second.dropLast(3), price = first.toPriceString())) }
+private fun SelectModelUiModel.toSummary(): SummaryChildUiModel =
+    SummaryChildUiModel(
+        name = name,
+        price = price.toPriceString()
+    )
+
+private fun List<TrimOptionSimpleUiModel>.trimsToSummary(): List<SummaryChildUiModel> {
+    return if (this.isNotEmpty())
+        this.fold(0 to "") { acc, trimOption ->
+            (acc.first + (trimOption.price)) to (acc.second + trimOption.name + " / ")
+        }.run {
+            listOf(
+                SummaryChildUiModel(
+                    name = second.dropLast(3),
+                    price = first.toPriceString()
+                )
+            )
+        }
+    else
+        emptyList()
+}
 
 private fun ColorOptionUiModel.colorToSummary(): SummaryChildUiModel =
     SummaryChildUiModel(
