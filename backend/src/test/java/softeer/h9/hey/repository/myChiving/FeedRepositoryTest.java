@@ -27,7 +27,7 @@ class FeedRepositoryTest {
 		assertAll(
 			() -> assertEquals(feedId, feed.getFeedId()),
 			() -> assertEquals(userId, feed.getUserId()),
-			() -> assertEquals(Boolean.TRUE, feed.isMarked())
+			() -> assertEquals(Boolean.TRUE, feed.getIsMarked())
 		);
 	}
 }
