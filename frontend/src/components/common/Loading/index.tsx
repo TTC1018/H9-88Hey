@@ -1,4 +1,4 @@
-import LoadingGif from 'public/assets/Loading.gif';
+import LoadingGif from '/public/assets/Loading.gif';
 
 import * as Styled from './style';
 
