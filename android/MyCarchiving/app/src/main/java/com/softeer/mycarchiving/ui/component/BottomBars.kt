@@ -171,6 +171,7 @@ fun MakeCarBottomBar(
 fun ArchiveBottomBar(
     modifier: Modifier = Modifier,
     totalPrice: Int,
+    onClick: () -> Unit,
 ) {
     BottomBar(
         modifier = modifier,
@@ -187,7 +188,7 @@ fun ArchiveBottomBar(
                     backgroundColor = PrimaryBlue,
                     textColor = HyundaiLightSand,
                     text = stringResource(id = R.string.archive_make_my_car),
-                    onClick = {}
+                    onClick = onClick
                 )
             }
         }
@@ -222,7 +223,11 @@ fun MyArchiveDetailBottomBar(
 ) {
     when (screenIndex) {
         MY_ARCHIVE_MADE -> MyArchiveBottomBar(modifier = modifier)
-        MY_ARCHIVE_SAVE -> ArchiveBottomBar(modifier = modifier, totalPrice = 0)
+        MY_ARCHIVE_SAVE -> ArchiveBottomBar(
+            modifier = modifier,
+            totalPrice = 0,
+            onClick = {}
+        )
     }
 }
 
@@ -239,7 +244,10 @@ fun PreviewMakeCarBottomBar() {
 @Preview
 @Composable
 fun PreviewArchiveBottomBar() {
-    ArchiveBottomBar(totalPrice = 0)
+    ArchiveBottomBar(
+        totalPrice = 0,
+        onClick = {}
+    )
 }
 
 @Preview

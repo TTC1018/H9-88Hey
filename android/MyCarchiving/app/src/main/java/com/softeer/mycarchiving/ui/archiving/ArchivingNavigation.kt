@@ -16,8 +16,8 @@ import com.softeer.mycarchiving.navigation.MainDestination
 import com.softeer.mycarchiving.ui.HyundaiAppState
 import com.softeer.mycarchiving.ui.archiving.archivingdetail.archivingDetailScreen
 import com.softeer.mycarchiving.ui.archiving.archivingmain.archiveMainScreen
-import com.softeer.mycarchiving.ui.component.ArchiveBottomBar
 import com.softeer.mycarchiving.ui.component.ArchiveNavigateBar
+import com.softeer.mycarchiving.ui.makingcar.navigateToMakingCar
 
 fun NavController.navigateToArchive(navOptions: NavOptions? = null) {
     navigate(
@@ -61,7 +61,8 @@ fun NavGraphBuilder.makingArchiveGraph(
                         onBackClick = appState.navController::popBackStack
                     )
                     archivingDetailScreen(
-                        onBackClick = appState.archivingNavController::popBackStack
+                        onBackClick = appState.archivingNavController::popBackStack,
+                        onMakingCarClick = appState.navController::navigateToMakingCar
                     )
                 }
             }

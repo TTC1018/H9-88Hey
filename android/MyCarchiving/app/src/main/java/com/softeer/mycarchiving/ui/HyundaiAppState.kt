@@ -82,9 +82,9 @@ class HyundaiAppState(
             .currentBackStackEntryAsState().value?.destination
 
     val currentMainDestination: MainDestination?
-        @Composable get() = when (currentDestination?.route) {
+        @Composable get() = when (val route = currentDestination?.route) {
             LOGIN.route -> LOGIN
-            MAKING_CAR.route -> MAKING_CAR
+            route?.split("?")?.first() -> MAKING_CAR
             ARCHIVING.route -> ARCHIVING
             MY_ARCHIVING.route -> MY_ARCHIVING
             DRIVER_COMMENT.route -> DRIVER_COMMENT
@@ -138,7 +138,7 @@ class HyundaiAppState(
 
         when (mainDestination) {
             LOGIN -> navController.navigateToLogin(mainNavOptions)
-            MAKING_CAR -> navController.navigateToMakingCar(mainNavOptions)
+            MAKING_CAR -> navController.navigateToMakingCar(navOptions = mainNavOptions)
             ARCHIVING -> navController.navigateToArchive(mainNavOptions)
             MY_ARCHIVING -> navController.navigateToMyArchiving(mainNavOptions)
             else -> {}
