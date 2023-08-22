@@ -28,6 +28,16 @@ public class FeedRepository {
 		return jdbcTemplate.queryForObject(sql, params, rowMapper());
 	}
 
+	public int save(final int userId, final long feedId) {
+		String sql = "INSERT INTO feed (user_id, archiving_id, is_marked) VALUES (:userId, :feedId, TRUE) ";
+
+		SqlParameterSource params = new MapSqlParameterSource()
+			.addValue("userId", userId)
+			.addValue("feedId", feedId);
+
+		return jdbcTemplate.update(sql, params);
+	}
+
 	private RowMapper<Feed> rowMapper() {
 		return BeanPropertyRowMapper.newInstance(Feed.class);
 	}
