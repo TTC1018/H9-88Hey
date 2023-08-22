@@ -1,10 +1,15 @@
 package com.softeer.mycarchiving.ui.login
 
 import android.util.Patterns
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.softeer.domain.model.Token
+import com.softeer.domain.usecase.sign.ReissueUseCase
 import com.softeer.domain.usecase.sign.SignInUseCase
+import com.softeer.mycarchiving.model.login.LoginUiState
+import com.softeer.mycarchiving.model.login.LoginUiState.*
+import com.softeer.mycarchiving.util.PreferenceUtil
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -13,7 +18,9 @@ import javax.inject.Inject
 
 @HiltViewModel
 class LoginViewModel @Inject constructor(
-    private val signInUseCase: SignInUseCase
+    private val reissueUseCase: ReissueUseCase,
+    private val signInUseCase: SignInUseCase,
+    private val pref: PreferenceUtil
 ): ViewModel() {
 
     private val _typedEmail = MutableStateFlow("android@email.com")
@@ -23,7 +30,7 @@ class LoginViewModel @Inject constructor(
     val typedPassword: StateFlow<String> = _typedPassword
 
     val errorMessage = MutableStateFlow(ERROR_NONE)
-    val loginSuccess = MutableStateFlow(false)
+    val loginState = mutableStateOf<LoginUiState>(Loading)
 
     fun typeEmail(text: String) {
         _typedEmail.value = text
@@ -53,13 +60,24 @@ class LoginViewModel @Inject constructor(
                 errorMessage.value = TOKEN_EMPTY_ERROR
             } else {
                 saveToken(token)
-                loginSuccess.value = true
+                loginState.value = Success
             }
         }
     }
 
-    private fun saveToken(token: Token) {
+    suspend fun reissue() {
+        val token = reissueUseCase(pref.refreshToken)
+        if (token == null) {
+            loginState.value = Pending
+        } else {
+            saveToken(token)
+            loginState.value = Success
+        }
+    }
 
+    private fun saveToken(token: Token) {
+        pref.accessToken = token.accessToken
+        pref.refreshToken = token.refreshToken
     }
 
     companion object {
@@ -69,4 +87,6 @@ class LoginViewModel @Inject constructor(
         const val EMAIL_VALID_ERROR = "올바른 이메일 형식으로 입력해주세요"
         const val TOKEN_EMPTY_ERROR = "가입 정보를 확인해주세요"
     }
+
+
 }
