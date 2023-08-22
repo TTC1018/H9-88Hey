@@ -1,7 +1,5 @@
 package softeer.h9.hey.domain.car;
 
-import java.util.List;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -18,5 +16,4 @@ public class InteriorColor {
 	private String name;
 	private String carImageUrl;
 	private String colorImageUrl;
-	private List<Tag> tags;
 }
