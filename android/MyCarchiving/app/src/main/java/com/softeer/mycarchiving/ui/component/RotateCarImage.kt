@@ -123,8 +123,8 @@ fun RotateCarImage(
                 detectDragGestures { change, dragAmount ->
                     Log.d(TAG, dragAmount.x.toString())
                     when {
-                        dragAmount.x >= imageWidth.div(IMAGE_360_SIZE) -> onRightClick()
-                        dragAmount.x <= -imageWidth.div(IMAGE_360_SIZE) -> onLeftClick()
+                        dragAmount.x >= imageWidth.div(IMAGE_360_SIZE) -> onLeftClick()
+                        dragAmount.x <= -imageWidth.div(IMAGE_360_SIZE) -> onRightClick()
                     }
                 }
             },
