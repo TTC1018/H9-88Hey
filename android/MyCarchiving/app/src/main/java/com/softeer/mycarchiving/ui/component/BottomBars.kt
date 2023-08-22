@@ -43,38 +43,6 @@ import com.softeer.mycarchiving.ui.theme.medium12
 import com.softeer.mycarchiving.util.toPriceString
 
 @Composable
-fun HyundaiBottomBar(
-    appState: HyundaiAppState,
-) {
-/*    when (appState.currentMainDestination) {
-        MainDestination.ARCHIVING -> {
-*//*            ArchiveBottomBar(
-                totalPrice = 0,
-                appState = appState,
-                onSaveClick = {},
-                onButtonClick = {}
-            )*//*
-        }
-
-        MainDestination.MY_ARCHIVING -> MyArchiveBottomBar(
-            totalPrice = 0,
-            onButtonClick = {}
-        )
-
-        MainDestination.MAKING_CAR -> {
-            // MakingCarNavigation.kt으로 이동
-//            MakeCarBottomBar(
-//                appState = appState,
-//                viewModelStoreOwner = viewModelStoreOwner
-//            )
-        }
-
-        MainDestination.DRIVER_COMMENT, MainDestination.CONSUMER_COMMENT -> {}
-        else -> @Composable {}
-    }*/
-}
-
-@Composable
 fun BottomBar(
     modifier: Modifier,
     totalPrice: Int,
