@@ -1,5 +1,6 @@
 package com.softeer.data.mapper
 
+import com.softeer.data.model.ArchivingDetailsDto
 import com.softeer.data.model.ArchivingExteriorDto
 import com.softeer.data.model.ArchivingFeedDto
 import com.softeer.data.model.ArchivingInteriorDto
@@ -7,6 +8,7 @@ import com.softeer.data.model.ArchivingModelDto
 import com.softeer.data.model.ArchivingSelectOptionDto
 import com.softeer.data.model.ArchivingSelectedDto
 import com.softeer.data.model.ArchivingTrimOptionDto
+import com.softeer.domain.model.CarDetails
 import com.softeer.domain.model.CarExteriorSimpleColor
 import com.softeer.domain.model.CarExtraOption
 import com.softeer.domain.model.CarExtraSimpleOption
@@ -24,6 +26,23 @@ fun ArchivingFeedDto.asEntity(): CarFeed =
         reviewText = review,
         totalPrice = totalPrice,
         tags = tags,
+        trim = trim.asEntity(),
+        engine = engine.asEntity(),
+        bodyType = bodyType.asEntity(),
+        wheelDrive = wheelDrive.asEntity(),
+        interiorColor = interiorColor.asEntity(),
+        exteriorColor = exteriorColor.asEntity(),
+        selectedOptions = selectedOptions.map(ArchivingSelectedDto::asEntity),
+        purchased = purchased
+    )
+
+fun ArchivingDetailsDto.asEntity(): CarDetails =
+    CarDetails(
+        id = id,
+        modelName = modelName,
+        createdDate = createdDate,
+        reviewText = review,
+        totalPrice = totalPrice,
         trim = trim.asEntity(),
         engine = engine.asEntity(),
         bodyType = bodyType.asEntity(),
@@ -70,6 +89,7 @@ fun ArchivingSelectedDto.asEntity(): CarExtraSimpleOption =
         id = id,
         name = name,
         imageUrl = imageUrl,
+        review = reviewText,
         price = price,
         subOptions = subOptions,
         tags = tags,
