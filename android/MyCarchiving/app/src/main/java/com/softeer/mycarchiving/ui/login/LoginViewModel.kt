@@ -7,6 +7,8 @@ import androidx.lifecycle.viewModelScope
 import com.softeer.domain.model.Token
 import com.softeer.domain.usecase.sign.ReissueUseCase
 import com.softeer.domain.usecase.sign.SignInUseCase
+import com.softeer.mycarchiving.model.login.LoginUiState
+import com.softeer.mycarchiving.model.login.LoginUiState.*
 import com.softeer.mycarchiving.util.PreferenceUtil
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -28,7 +30,7 @@ class LoginViewModel @Inject constructor(
     val typedPassword: StateFlow<String> = _typedPassword
 
     val errorMessage = MutableStateFlow(ERROR_NONE)
-    val loginSuccess = mutableStateOf(false)
+    val loginState = mutableStateOf<LoginUiState>(Loading)
 
     fun typeEmail(text: String) {
         _typedEmail.value = text
@@ -58,18 +60,18 @@ class LoginViewModel @Inject constructor(
                 errorMessage.value = TOKEN_EMPTY_ERROR
             } else {
                 saveToken(token)
-                loginSuccess.value = true
+                loginState.value = Success
             }
         }
     }
 
-    fun reissue() {
-        viewModelScope.launch {
-            val token = reissueUseCase(pref.refreshToken)
-            token?.let {
-                saveToken(it)
-                loginSuccess.value = true
-            }
+    suspend fun reissue() {
+        val token = reissueUseCase(pref.refreshToken)
+        if (token == null) {
+            loginState.value = Pending
+        } else {
+            saveToken(token)
+            loginState.value = Success
         }
     }
 
@@ -85,4 +87,6 @@ class LoginViewModel @Inject constructor(
         const val EMAIL_VALID_ERROR = "올바른 이메일 형식으로 입력해주세요"
         const val TOKEN_EMPTY_ERROR = "가입 정보를 확인해주세요"
     }
+
+
 }
