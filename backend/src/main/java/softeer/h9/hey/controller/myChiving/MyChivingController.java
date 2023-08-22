@@ -19,6 +19,7 @@ import softeer.h9.hey.dto.myChiving.request.MyChivingSaveRequest;
 import softeer.h9.hey.dto.myChiving.request.MyChivingTempSaveRequest;
 import softeer.h9.hey.dto.myChiving.response.MyChivingIdResponse;
 import softeer.h9.hey.dto.myChiving.response.MyChivingsResponse;
+import softeer.h9.hey.exception.myChiving.DeletionFailException;
 import softeer.h9.hey.exception.myChiving.InValidAccessException;
 import softeer.h9.hey.service.myChiving.MyChivingService;
 import softeer.h9.hey.dto.global.response.GlobalResponse;
@@ -61,6 +62,12 @@ public class MyChivingController {
 	public ResponseEntity<?> handlerException(InValidAccessException e) {
 		GlobalResponse<?> errorResponse = GlobalResponse.error(HttpStatus.NOT_FOUND, e.getMessage());
 		return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
+	}
+
+	@ExceptionHandler
+	public ResponseEntity<?> handlerException(DeletionFailException e) {
+		GlobalResponse<?> errorResponse = GlobalResponse.error(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
+		return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 
 }
