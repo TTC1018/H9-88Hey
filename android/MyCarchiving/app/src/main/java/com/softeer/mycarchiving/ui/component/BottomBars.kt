@@ -171,10 +171,11 @@ fun MakeCarBottomBar(
 @Composable
 fun ArchiveBottomBar(
     modifier: Modifier = Modifier,
+    totalPrice: Int,
 ) {
     BottomBar(
         modifier = modifier,
-        totalPrice = 0,
+        totalPrice = totalPrice,
         summaryText = stringResource(id = R.string.archive_total_price),
         underLineWidth = 35,
         buttonArea = {
@@ -222,7 +223,7 @@ fun MyArchiveDetailBottomBar(
 ) {
     when (screenIndex) {
         MY_ARCHIVE_MADE -> MyArchiveBottomBar(modifier = modifier)
-        MY_ARCHIVE_SAVE -> ArchiveBottomBar(modifier = modifier)
+        MY_ARCHIVE_SAVE -> ArchiveBottomBar(modifier = modifier, totalPrice = 0)
     }
 }
 
@@ -239,7 +240,7 @@ fun PreviewMakeCarBottomBar() {
 @Preview
 @Composable
 fun PreviewArchiveBottomBar() {
-    ArchiveBottomBar()
+    ArchiveBottomBar(totalPrice = 0)
 }
 
 @Preview

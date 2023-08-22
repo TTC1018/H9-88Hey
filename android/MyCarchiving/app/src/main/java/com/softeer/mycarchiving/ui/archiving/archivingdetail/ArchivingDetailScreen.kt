@@ -109,8 +109,8 @@ fun ArchiveDetailScreen(
                             }
                         }
                         ArchiveBottomBar(
-                            modifier = Modifier
-                                .fillMaxWidth()
+                            modifier = Modifier.fillMaxWidth(),
+                            totalPrice = it.price
                         )
                     }
 
