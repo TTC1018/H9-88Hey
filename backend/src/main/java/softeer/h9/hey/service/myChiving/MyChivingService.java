@@ -87,8 +87,7 @@ public class MyChivingService {
 	}
 
 	public String deleteMyChivingByMyChivingIdAndUserId(int userId, long myChivingId) {
-		myChivingRepository.checkMyChivingExistence(userId, myChivingId);
-		myChivingRepository.deleteMyChivingByMyChivingAndUserId(myChivingId);
+		myChivingRepository.deleteMyChivingByMyChivingAndUserId(userId, myChivingId);
 
 		return DELETE_SUCCESS_MESSAGE;
 	}
