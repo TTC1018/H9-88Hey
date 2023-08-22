@@ -36,8 +36,8 @@ export function Detail() {
     totalPrice,
     selectedOptions,
   } = useFetchSuspense<ArchivingProps>({
-    fetcher: () => fetcher<ArchivingProps>({ url: apiPath.archivingDetail('479893076446129702') }),
-    key: cacheKey.archivingDetail('479893076446129702'),
+    fetcher: () => fetcher<ArchivingProps>({ url: apiPath.archivingDetail(id) }),
+    key: cacheKey.archivingDetail(id),
   });
 
   const navigate = useNavigate();
