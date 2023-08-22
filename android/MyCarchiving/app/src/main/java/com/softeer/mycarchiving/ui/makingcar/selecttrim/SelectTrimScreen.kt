@@ -10,6 +10,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
@@ -55,6 +56,9 @@ fun SelectTrimRoute(
     val wheels by selectTrimViewModel.wheels.collectAsStateWithLifecycle()
     val selectedTrims by makingCarViewModel.selectedTrim.collectAsStateWithLifecycle()
     val carDetails by makingCarViewModel.carDetails.observeAsState()
+    val selectedTrimsSimple by makingCarViewModel.selectedTrimSimple.collectAsStateWithLifecycle()
+
+    val isArchived by remember(selectedTrimsSimple) { derivedStateOf { selectedTrimsSimple.size == 3 } }
 
     // 아카이빙에서 넘어왔다면 뷰모델에 데이터 세팅
     InitArchiveDataEffect(
@@ -83,12 +87,13 @@ fun SelectTrimRoute(
         },
         savedTrim = selectedTrims.getOrNull(screenProgress),
         isInitial = selectedTrims.getOrNull(screenProgress) == null,
+        isArchived = isArchived,
         onOptionSelect = makingCarViewModel::updateSelectedTrimOption
     )
 }
 
 @Composable
-fun InitArchiveDataEffect(
+private fun InitArchiveDataEffect(
     carDetails: CarDetails?,
     engines: List<TrimOptionUiModel>,
     bodyTypes: List<TrimOptionUiModel>,
@@ -123,14 +128,15 @@ fun SelectTrimScreen(
     options: List<TrimOptionUiModel>,
     savedTrim: TrimOptionUiModel?,
     isInitial: Boolean,
+    isArchived: Boolean,
     onOptionSelect: (TrimOptionUiModel, progress: Int, initial: Boolean) -> Unit,
 ) {
     var selectedIndex by remember { mutableStateOf(0) }
     val scrollState = rememberScrollState()
 
     // 아이템 자동 추가 or 이전 선택 아이템 불러오기
-    LaunchedEffect(options) {
-        if (isInitial) {
+    LaunchedEffect(options, isInitial, isArchived) {
+        if (isInitial && isArchived.not()) {
             // 처음 화면 갱신되면 첫번째 아이템 선택하기
             selectedIndex = 0
         } else {
@@ -243,6 +249,7 @@ fun PreviewSelectTrimScreen() {
         ),
         savedTrim = null,
         isInitial = false,
+        isArchived = false,
         onOptionSelect = { _, _, _ -> },
     )
 }
