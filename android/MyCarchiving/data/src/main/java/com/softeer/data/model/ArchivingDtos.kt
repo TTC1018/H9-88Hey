@@ -40,6 +40,35 @@ data class ArchivingFeedDto(
     val purchased: Boolean
 )
 
+data class ArchivingDetailsDto(
+    @SerializedName("feedId")
+    val id: Long,
+    @SerializedName("modelName")
+    val modelName: String,
+    @SerializedName("creationDate")
+    val createdDate: String,
+    @SerializedName("review")
+    val review: String,
+    @SerializedName("totalPrice")
+    val totalPrice: Int,
+    @SerializedName("trim")
+    val trim: ArchivingModelDto,
+    @SerializedName("engine")
+    val engine: ArchivingTrimOptionDto,
+    @SerializedName("bodyType")
+    val bodyType: ArchivingTrimOptionDto,
+    @SerializedName("wheelDrive")
+    val wheelDrive: ArchivingTrimOptionDto,
+    @SerializedName("interiorColor")
+    val interiorColor: ArchivingInteriorDto,
+    @SerializedName("exteriorColor")
+    val exteriorColor: ArchivingExteriorDto,
+    @SerializedName("selectedOptions")
+    val selectedOptions: List<ArchivingSelectedDto>,
+    @SerializedName("purchase")
+    val purchased: Boolean
+)
+
 data class ArchivingModelDto(
     @SerializedName("id")
     val id: Int,
