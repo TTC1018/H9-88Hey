@@ -120,7 +120,7 @@ class MyChivingServiceTest {
 		MyChivingRequest myChivingRequest = declaredConstructor.newInstance();
 		ReflectionTestUtils.setField(myChivingRequest, "offset", 1);
 		ReflectionTestUtils.setField(myChivingRequest, "limit", 1);
-		MyChivingsResponse myChivingsResponse = myChivingService.findMyChvings(1,myChivingRequest);
+		MyChivingsResponse myChivingsResponse = myChivingService.findMyChivings(1, myChivingRequest);
 		declaredConstructor.setAccessible(false);
 
 		assertThat(myChivingsResponse.getMyChivings()).hasSize(1);
