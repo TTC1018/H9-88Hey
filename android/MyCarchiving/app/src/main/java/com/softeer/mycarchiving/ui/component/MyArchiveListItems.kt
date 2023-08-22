@@ -127,7 +127,8 @@ fun MadeCarItem(
         )
         Spacer(modifier = Modifier.height(12.dp))
         LazyRow(
-            horizontalArrangement = Arrangement.spacedBy(4.dp)
+            modifier = Modifier.padding(end = 22.dp),
+            horizontalArrangement = Arrangement.spacedBy(4.dp),
         ) {
             items(
                 items = imageInfos,

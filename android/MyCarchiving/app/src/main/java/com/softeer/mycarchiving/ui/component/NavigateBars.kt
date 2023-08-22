@@ -103,8 +103,8 @@ fun NavigateBar(
             modifier = modifier
                 .fillMaxHeight()
                 .align(Alignment.CenterEnd)
-                .clickable { onEndAreaClick?.invoke() }
-                .offset(x= (-15).dp),
+                .offset(x= (-15).dp)
+                .clickable { onEndAreaClick?.invoke() },
             contentAlignment = Alignment.Center
         ) {
             endArea?.invoke()
