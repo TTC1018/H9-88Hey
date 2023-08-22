@@ -89,19 +89,6 @@ export function Color() {
     });
   }
 
-  useEffect(() => {
-    if (exteriorColor.name === '') {
-      updateOuterColor(0);
-      updateInnerColor(availableInnerColorList, 0);
-    }
-  }, [interiorColor, exteriorColor]);
-
-  useEffect(() => {
-    if (carCodeData !== '') {
-      carCode.current = carCodeData;
-    }
-  }, [carCodeData]);
-
   function handleClickExternalColor(index: number) {
     handleSetExternalIndex(index)();
     handleSetInnerIndex(0)();
@@ -131,6 +118,19 @@ export function Color() {
 
   const descriptionTitle = isExternalPage ? externalName : innerName;
   const descriptionPrice = isExternalPage ? additionalPrice : 0;
+
+  useEffect(() => {
+    if (exteriorColor.name === '') {
+      updateOuterColor(0);
+      updateInnerColor(availableInnerColorList, 0);
+    }
+  }, [interiorColor, exteriorColor]);
+
+  useEffect(() => {
+    if (carCodeData !== '') {
+      carCode.current = carCodeData;
+    }
+  }, [carCodeData]);
 
   return (
     <Styled.Container>
