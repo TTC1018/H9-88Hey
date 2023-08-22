@@ -22,6 +22,7 @@ import softeer.h9.hey.dto.myChiving.request.MyChivingTempSaveRequest;
 import softeer.h9.hey.dto.myChiving.response.MyChivingIdResponse;
 import softeer.h9.hey.dto.myChiving.response.MyChivingResponse;
 import softeer.h9.hey.dto.myChiving.response.MyChivingsResponse;
+import softeer.h9.hey.exception.myChiving.DeletionFailException;
 import softeer.h9.hey.repository.myChiving.MyChivingRepository;
 
 @Service
@@ -43,6 +44,7 @@ public class MyChivingService {
 
 	private final MyChivingRepository myChivingRepository;
 	private final static String DELETE_SUCCESS_MESSAGE = "성공적으로 삭제하였습니다.";
+	private final static int COUNT_OF_RECORD_TO_DELETE = 1;
 
 	//최종저장
 	public MyChivingIdResponse saveMyCar(int userId, final MyChivingSaveRequest myChivingSaveRequest) {
@@ -87,7 +89,11 @@ public class MyChivingService {
 	}
 
 	public String deleteMyChivingByMyChivingIdAndUserId(int userId, long myChivingId) {
-		myChivingRepository.deleteMyChivingByMyChivingAndUserId(userId, myChivingId);
+		int affectedRow = myChivingRepository.deleteMyChivingByMyChivingAndUserId(userId, myChivingId);
+
+		if (affectedRow != COUNT_OF_RECORD_TO_DELETE) {
+			throw new DeletionFailException();
+		}
 
 		return DELETE_SUCCESS_MESSAGE;
 	}
