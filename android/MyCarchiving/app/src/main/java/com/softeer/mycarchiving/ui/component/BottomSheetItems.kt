@@ -54,6 +54,7 @@ import com.softeer.mycarchiving.model.archiving.SearchOptionUiModel
 import com.softeer.mycarchiving.model.common.CarBasicDetailUiModel
 import com.softeer.mycarchiving.model.common.CarBasicUiModel
 import com.softeer.mycarchiving.model.common.SummaryChildUiModel
+import com.softeer.mycarchiving.model.makingcar.ColorOptionSimpleUiModel
 import com.softeer.mycarchiving.model.makingcar.ColorOptionUiModel
 import com.softeer.mycarchiving.model.makingcar.SelectModelUiModel
 import com.softeer.mycarchiving.model.makingcar.SelectOptionUiModel
@@ -206,7 +207,7 @@ fun SummaryBottomSheetContent(
     totalPrice: Int,
     modelOption: List<SelectModelUiModel>,
     trimOptions: List<TrimOptionSimpleUiModel>,
-    colorOptions: List<ColorOptionUiModel>,
+    colorOptions: List<ColorOptionSimpleUiModel>,
     extraOptions: List<SelectOptionUiModel>,
 ) {
     val scrollState = rememberScrollState()
@@ -717,12 +718,12 @@ private fun List<TrimOptionSimpleUiModel>.trimsToSummary(): List<SummaryChildUiM
         emptyList()
 }
 
-private fun ColorOptionUiModel.colorToSummary(): SummaryChildUiModel =
+private fun ColorOptionSimpleUiModel.colorToSummary(): SummaryChildUiModel =
     SummaryChildUiModel(
-        name = optionName,
-        colorPosition = category.type.take(2),
+        name = colorName,
+        colorPosition = category.take(2),
         imageUrl = imageUrl,
-        price = price.toPriceString(),
+        price = price?.toPriceString()
     )
 
 private fun SelectOptionUiModel.extraToSummary(): SummaryChildUiModel =

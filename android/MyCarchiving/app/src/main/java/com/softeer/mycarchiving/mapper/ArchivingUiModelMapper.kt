@@ -64,6 +64,7 @@ fun CarExtraSimpleOption.asUiModel(): SearchOption =
 
 fun CarInteriorSimpleColor.asUiModel(): ColorOptionSimpleUiModel =
     ColorOptionSimpleUiModel(
+        id = id,
         "내장",
         imageUrl = colorImageUrl,
         colorName = name
@@ -71,10 +72,12 @@ fun CarInteriorSimpleColor.asUiModel(): ColorOptionSimpleUiModel =
 
 fun CarExteriorSimpleColor.asUiModel(): ColorOptionSimpleUiModel =
     ColorOptionSimpleUiModel(
+        id = id,
         "외장",
         carImageUrl = carImageUrl,
         imageUrl = colorImageUrl,
-        colorName = name
+        colorName = name,
+        price = price,
     )
 
 fun CarExtraSimpleOption.asDetailUiModel(): CarDetailSelectOptionUiModel =
