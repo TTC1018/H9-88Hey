@@ -1,11 +1,13 @@
 package com.softeer.mycarchiving.ui.makingcar
 
+import android.app.Activity
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.ViewModelStoreOwner
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
@@ -43,6 +45,7 @@ fun NavGraphBuilder.makingCarGraph(
         val makingCarViewModelOwner: ViewModelStoreOwner = remember(it) {
             appState.navController.getBackStackEntry(MainDestination.MAKING_CAR.route)
         }
+        val activity = LocalContext.current as Activity
 
         Scaffold(
             modifier = Modifier,
@@ -70,7 +73,7 @@ fun NavGraphBuilder.makingCarGraph(
                 ) {
                     selectModelScreen(
                         viewModelStoreOwner = makingCarViewModelOwner,
-                        onBackProgress = appState::onBackProgress
+                        onBackProgress = activity::finish
                     )
                     selectTrimScreen(
                         mainProgress = mainProgress,
