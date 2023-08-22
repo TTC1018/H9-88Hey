@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.softeer.domain.model.Token
 import com.softeer.domain.usecase.sign.SignInUseCase
+import com.softeer.mycarchiving.util.PreferenceUtil
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -13,7 +14,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class LoginViewModel @Inject constructor(
-    private val signInUseCase: SignInUseCase
+    private val signInUseCase: SignInUseCase,
+    private val pref: PreferenceUtil
 ): ViewModel() {
 
     private val _typedEmail = MutableStateFlow("android@email.com")
@@ -59,7 +61,8 @@ class LoginViewModel @Inject constructor(
     }
 
     private fun saveToken(token: Token) {
-
+        pref.accessToken = token.accessToken
+        pref.refreshToken = token.refreshToken
     }
 
     companion object {
