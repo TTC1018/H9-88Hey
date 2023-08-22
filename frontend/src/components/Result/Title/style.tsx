@@ -82,6 +82,7 @@ export const DescriptionWrapper = styled.div`
   margin-top: 3px;
 
   display: flex;
+  align-items: center;
 `;
 
 export const RightArrow = styled.img`

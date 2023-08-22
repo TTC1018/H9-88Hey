@@ -2,6 +2,8 @@ import ReactDOM from 'react-dom/client';
 
 import { App } from './App.tsx';
 
+import './styles/font.css';
+
 import { initMocks } from './mocks/index.ts';
 
 if (process.env.NODE_ENV === 'development') {

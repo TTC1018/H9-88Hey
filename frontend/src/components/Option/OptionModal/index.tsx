@@ -1,3 +1,5 @@
+import Close from '/public/assets/icons/icon_close.svg';
+
 import * as Styled from './style';
 
 interface Props {
@@ -16,7 +18,7 @@ export function OptionModal({ name, imageUrl, description, onClick }: Props) {
       <Styled.ModalWrapper>
         <Styled.TitleBox>
           <Styled.Title>{name}</Styled.Title>
-          <Styled.Icon src="/src/assets/icons/icon_close.svg" onClick={onClick} />
+          <Styled.Icon src={Close} onClick={onClick} />
         </Styled.TitleBox>
         <Styled.Line />
         <Styled.ContentBox>
