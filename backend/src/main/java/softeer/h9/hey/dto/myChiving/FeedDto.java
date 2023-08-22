@@ -1,10 +1,10 @@
 package softeer.h9.hey.dto.myChiving;
 
+import lombok.Builder;
 import lombok.Getter;
-import lombok.Setter;
 
 @Getter
-@Setter
+@Builder
 public class FeedDto {
 	private Long feedId;
 	private Integer userId;

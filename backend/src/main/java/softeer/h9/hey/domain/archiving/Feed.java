@@ -10,5 +10,5 @@ import lombok.Setter;
 public class Feed {
 	private long feedId;
 	private int userId;
-	private boolean isMarked;
+	private Boolean isMarked;
 }
