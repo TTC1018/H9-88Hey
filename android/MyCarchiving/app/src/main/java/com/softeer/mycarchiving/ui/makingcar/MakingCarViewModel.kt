@@ -16,6 +16,7 @@ import com.softeer.mycarchiving.mapper.asSelectModelUiModel
 import com.softeer.mycarchiving.mapper.asUiModel
 import com.softeer.mycarchiving.model.TrimOptionSimpleUiModel
 import com.softeer.mycarchiving.model.TrimOptionUiModel
+import com.softeer.mycarchiving.model.makingcar.ColorOptionSimpleUiModel
 import com.softeer.mycarchiving.model.makingcar.ColorOptionUiModel
 import com.softeer.mycarchiving.model.makingcar.SelectModelUiModel
 import com.softeer.mycarchiving.model.makingcar.SelectOptionUiModel
@@ -51,7 +52,11 @@ class MakingCarViewModel @Inject constructor(
                     // 모델 정보 (르블랑, ...)
                     _selectedModelInfo.value = trim.asSelectModelUiModel()
                     // 트림 선택 옵션
-                    _selectedTrimSimple.value = listOf(engine, bodyType, wheelDrive).map { it.asUiModel() }
+                    _selectedTrimSimple.value =
+                        listOf(engine, bodyType, wheelDrive).map { it.asUiModel() }
+                    // 색상 정보
+                    _selectedColorSimple.value =
+                        listOf(exteriorColor.asUiModel(), interiorColor.asUiModel())
                 }
                 carInfoId.value = feedId
             }
@@ -108,6 +113,9 @@ class MakingCarViewModel @Inject constructor(
     private val _selectedTrimSimple = MutableStateFlow<List<TrimOptionSimpleUiModel>>(emptyList())
     val selectedTrimSimple: StateFlow<List<TrimOptionSimpleUiModel>> = _selectedTrimSimple
 
+    private val _selectedColorSimple = MutableStateFlow<List<ColorOptionSimpleUiModel>>(emptyList())
+    val selectedColorSimple: StateFlow<List<ColorOptionSimpleUiModel>> = _selectedColorSimple
+
     fun openSummary() {
         _showSummary.value = true
     }
@@ -154,16 +162,23 @@ class MakingCarViewModel @Inject constructor(
     }
 
     fun updateSelectedColorOption(
-        colorOptionUiModel: ColorOptionUiModel?,
+        colorOptionUiModel: ColorOptionUiModel,
         progress: Int,
-        initial: Boolean
+        initial: Boolean,
+        archived: Boolean = false,
     ) {
-        if (colorOptionUiModel != null) {
+        if (archived) {
+            _selectedColor.value += listOf(colorOptionUiModel)
+        } else {
             if (_selectedColor.value.getOrNull(progress) == null) {
+                _selectedColorSimple.value += listOf(colorOptionUiModel.asSimpleUiModel())
                 _selectedColor.value += listOf(colorOptionUiModel)
                 _totalPrice.value += colorOptionUiModel.price
             } else if (initial.not()) {
                 _totalPrice.value -= _selectedColor.value.getOrNull(progress)?.price ?: 0
+                _selectedColorSimple.value = _selectedColorSimple.value.run {
+                    toMutableList().apply { set(progress, colorOptionUiModel.asSimpleUiModel()) }
+                }
                 _selectedColor.value = _selectedColor.value.run {
                     toMutableList().apply { set(progress, colorOptionUiModel) }
                 }

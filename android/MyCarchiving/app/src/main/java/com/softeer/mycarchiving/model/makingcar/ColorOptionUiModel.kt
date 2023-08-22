@@ -10,4 +10,12 @@ data class ColorOptionUiModel(
     val price: Int,
     val matchingColors: List<Int>,
     val tags: List<String>,
-)
+) {
+    fun asSimpleUiModel() = ColorOptionSimpleUiModel(
+        id = id,
+        category = category.type,
+        imageUrl = imageUrl,
+        price = price,
+        colorName = optionName
+    )
+}

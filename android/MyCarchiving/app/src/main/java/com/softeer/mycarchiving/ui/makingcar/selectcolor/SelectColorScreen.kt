@@ -13,7 +13,10 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
@@ -27,6 +30,7 @@ import coil.compose.AsyncImage
 import coil.imageLoader
 import coil.request.ImageRequest
 import com.softeer.data.CarColorType
+import com.softeer.domain.model.CarDetails
 import com.softeer.mycarchiving.model.makingcar.ColorOptionUiModel
 import com.softeer.mycarchiving.ui.component.CarColorSelectItem
 import com.softeer.mycarchiving.ui.component.OptionHeadText
@@ -63,6 +67,19 @@ fun SelectColorRoute(
     val interiors by selectColorViewModel.interiors.collectAsStateWithLifecycle()
     val interiorTags by selectColorViewModel.interiorTags.collectAsStateWithLifecycle()
     val selectedColor by makingCarViewModel.selectedColor.collectAsStateWithLifecycle()
+    val carDetails by makingCarViewModel.carDetails.observeAsState()
+    val selectedColorSimple by makingCarViewModel.selectedColorSimple.collectAsStateWithLifecycle()
+
+    val isArchived by remember(selectedColorSimple) { derivedStateOf { selectedColorSimple.size == 2 } }
+    val isInitial by remember(selectedColor) { derivedStateOf { selectedColor.getOrNull(screenProgress) == null } }
+
+    // 아카이빙 데이터 로드
+    InitArchiveDataEffect(
+        carDetails = carDetails,
+        exteriors = exteriors,
+        interiors = interiors,
+        saveTrimOptions = makingCarViewModel::updateSelectedColorOption
+    )
 
     // 방금 전 상태까지 임시 저장
     LaunchedEffect(screenProgress) {
@@ -71,24 +88,26 @@ fun SelectColorRoute(
         }
     }
 
-    LaunchedEffect(key1 = screenProgress, key2 = exteriors, key3 = interiors) {
+    LaunchedEffect(screenProgress, exteriors, interiors, isInitial, isArchived) {
         val colorOptions = when (mainProgress to screenProgress) {
             TRIM_COLOR to TRIM_EXTERIOR -> exteriors
             TRIM_COLOR to TRIM_INTERIOR, TRIM_OPTION to TRIM_EXTRA -> interiors
             else -> emptyList()
         }
 
-        val isInitial = selectedColor.getOrNull(screenProgress) == null
-        if (isInitial) { // 화면 처음 진입 시 첫 색상 자동 선택 및 등록
+
+        if (isInitial && isArchived.not()) { // 화면 처음 진입 시 첫 색상 자동 선택 및 등록
             selectColorViewModel.changeSelectedColor(0)
-            makingCarViewModel.updateSelectedColorOption(
-                colorOptions.firstOrNull(),
-                screenProgress,
-                isInitial
-            )
+            colorOptions.firstOrNull()?.let { color ->
+                makingCarViewModel.updateSelectedColorOption(
+                    color,
+                    screenProgress,
+                    isInitial
+                )
+            }
         } else { // 이미 진입했던 화면이면 이전에 선택한 데이터 로드
             colorOptions
-                .indexOfFirst { it.optionName == selectedColor.getOrNull(screenProgress)?.optionName }
+                .indexOfFirst { it.id == selectedColor.getOrNull(screenProgress)?.id }
                 .takeIf { index -> index >= 0 }
                 ?.let { savedIndex ->
                     selectColorViewModel.changeSelectedColor(savedIndex)
@@ -98,17 +117,7 @@ fun SelectColorRoute(
         selectColorViewModel.changeCategory(screenProgress)
     }
 
-    val context = LocalContext.current
-    LaunchedEffect(interiorImageUrls) {
-        interiorImageUrls.forEach { imageUrl ->
-            context.imageLoader.execute(
-                ImageRequest.Builder(context)
-                    .data(imageUrl)
-                    .memoryCacheKey(imageUrl)
-                    .build()
-            )
-        }
-    }
+    InteriorImagePreloadEffect(interiorImageUrls = interiorImageUrls)
 
     SelectColorScreen(
         modifier = modifier,
@@ -265,6 +274,44 @@ fun SelectColorTopArea(
                     .build(),
                 contentDescription = "",
                 contentScale = ContentScale.FillBounds
+            )
+        }
+    }
+}
+
+@Composable
+private fun InitArchiveDataEffect(
+    carDetails: CarDetails?,
+    exteriors: List<ColorOptionUiModel>,
+    interiors: List<ColorOptionUiModel>,
+    saveTrimOptions: (ColorOptionUiModel, Int, Boolean, Boolean) -> Unit,
+) {
+    LaunchedEffect(exteriors) {
+        carDetails?.exteriorColor?.run {
+            exteriors.find { it.id == id }
+                ?.let { saveTrimOptions(it, TRIM_EXTERIOR, false, true) }
+        }
+    }
+    LaunchedEffect(interiors) {
+        carDetails?.interiorColor?.run {
+            exteriors.find { it.id == id }
+                ?.let { saveTrimOptions(it, TRIM_INTERIOR, false, true) }
+        }
+    }
+}
+
+@Composable
+private fun InteriorImagePreloadEffect(
+    interiorImageUrls: List<String>
+) {
+    val context = LocalContext.current
+    LaunchedEffect(interiorImageUrls) {
+        interiorImageUrls.forEach { imageUrl ->
+            context.imageLoader.execute(
+                ImageRequest.Builder(context)
+                    .data(imageUrl)
+                    .memoryCacheKey(imageUrl)
+                    .build()
             )
         }
     }
