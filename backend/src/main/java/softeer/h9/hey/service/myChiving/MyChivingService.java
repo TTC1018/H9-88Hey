@@ -70,8 +70,8 @@ public class MyChivingService {
 		int limit = myChivingRequest.getLimit();
 		int startIndex = (myChivingRequest.getOffset() - 1) * limit;
 
-		List<MyChivingDto> myChivingDtoList = myChivingRepository.findMyChivingsByUserIdLimitAndOffset(userId, limit,
-			startIndex);
+		//TODO 아이디 필요
+		List<MyChivingDto> myChivingDtoList = myChivingRepository.findMyChivingsByUserIdLimitAndOffset(userId, limit, startIndex);
 
 		return MyChivingsResponse.from(findMyChivingDetailById(myChivingDtoList));
 	}
@@ -85,8 +85,7 @@ public class MyChivingService {
 			.map(MyChivingDto::getMyChivingId)
 			.collect(Collectors.toList());
 
-		List<MyChivingSelectOptionFetchDto> myChivingSelectOptionFetchDtoList = myChivingRepository.findOptionDataByMyChivingIdList(
-			myChivingIdList);
+		List<MyChivingSelectOptionFetchDto> myChivingSelectOptionFetchDtoList = myChivingRepository.findOptionDataByMyChivingIdList(myChivingIdList);
 
 		Map<String, Set<String>> subOptionMap = new HashMap<>();
 		Map<Long, Set<String>> selectOptionMap = new HashMap<>();
@@ -148,12 +147,12 @@ public class MyChivingService {
 		Map<Long, Set<String>> selectOptionMap, Map<String, MyChivingSelectOptionDto> selectOptionContentMap) {
 
 		List<MyChivingResponse> myChivingResponseList = new ArrayList<>();
-		myChivingDtoList
+		myChivingDtoList.stream()
 			.forEach(myChivingDto -> {
 				List<MyChivingSelectOptionDto> selectOptionDtoList = new ArrayList<>();
 
 				if (selectOptionMap.containsKey(myChivingDto.getMyChivingId())) {
-					selectOptionMap.get(myChivingDto.getMyChivingId())
+					selectOptionMap.get(myChivingDto.getMyChivingId()).stream()
 						.forEach(selectOptionId -> {
 							selectOptionDtoList.add(selectOptionContentMap.get(selectOptionId));
 						});
