@@ -124,7 +124,8 @@ public class MyChivingRepository {
 	}
 
 	@Transactional
-	public void deleteMyChivingByMyChivingAndUserId(long myChivingId) {
+	public void deleteMyChivingByMyChivingAndUserId(int userId, long myChivingId) {
+		checkMyChivingExistence(userId, myChivingId);
 		deleteSelectOption(myChivingId);
 		deleteMyChiving(myChivingId);
 	}
@@ -275,7 +276,7 @@ public class MyChivingRepository {
 		namedParameterJdbcTemplate.update(sql, sqlParameterSource);
 	}
 
-	public void checkMyChivingExistence(int userId, long myChivingId) {
+	private void checkMyChivingExistence(int userId, long myChivingId) {
 		String sql = "SELECT EXISTS "
 			+ "(SELECT * FROM myArchiving "
 			+ "WHERE id = :myChivingId "
