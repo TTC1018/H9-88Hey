@@ -29,6 +29,7 @@ import softeer.h9.hey.dto.myChiving.ModelDto;
 import softeer.h9.hey.dto.myChiving.MyChivingDto;
 import softeer.h9.hey.dto.myChiving.MyChivingSaveDto;
 import softeer.h9.hey.dto.myChiving.MyChivingSelectOptionFetchDto;
+import softeer.h9.hey.exception.myChiving.InValidAccessException;
 
 @RequiredArgsConstructor
 @Repository
@@ -120,6 +121,12 @@ public class MyChivingRepository {
 			+ ")";
 
 		return namedParameterJdbcTemplate.query(sql, myChivingSelectOptionRowMapper());
+	}
+
+	@Transactional
+	public void deleteMyChivingByMyChivingAndUserId(long myChivingId) {
+		deleteSelectOption(myChivingId);
+		deleteMyChiving(myChivingId);
 	}
 
 	private MyChivingDto getNewMyChivingDto(ResultSet rs) throws SQLException {
@@ -244,8 +251,8 @@ public class MyChivingRepository {
 		namedParameterJdbcTemplate.update(sql, sqlParameterSource);
 	}
 
-	private void deleteMyChiving(Long myChivingId) {
-		String sql = "DELETE FROM myArchiving WHERE myArchiving_id = :myChiving_id";
+	private void deleteMyChiving(long myChivingId) {
+		String sql = "DELETE FROM myArchiving WHERE id = :myChiving_id";
 		SqlParameterSource sqlParameterSource = new MapSqlParameterSource().addValue("myChiving_id", myChivingId);
 
 		namedParameterJdbcTemplate.update(sql, sqlParameterSource);
@@ -266,6 +273,23 @@ public class MyChivingRepository {
 		SqlParameterSource sqlParameterSource = new MapSqlParameterSource();
 
 		namedParameterJdbcTemplate.update(sql, sqlParameterSource);
+	}
+
+	public void checkMyChivingExistence(int userId, long myChivingId) {
+		String sql = "SELECT EXISTS "
+			+ "(SELECT * FROM myArchiving "
+			+ "WHERE id = :myChivingId "
+			+ "and user_id = :userId);";
+
+		SqlParameterSource sqlParameterSource = new MapSqlParameterSource()
+			.addValue("myChivingId", myChivingId)
+			.addValue("userId", userId);
+
+		int validBit = namedParameterJdbcTemplate.queryForObject(sql, sqlParameterSource, int.class);
+
+		if (validBit == 0) {
+			throw new InValidAccessException();
+		}
 	}
 
 	private RowMapper<MyChivingSelectOptionFetchDto> myChivingSelectOptionRowMapper() {
