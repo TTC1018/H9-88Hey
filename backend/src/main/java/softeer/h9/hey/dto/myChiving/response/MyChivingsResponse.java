@@ -10,11 +10,12 @@ public class MyChivingsResponse {
 	private Integer nextOffset;
 	private List<MyChivingResponse> myChivings;
 
-	private MyChivingsResponse(List<MyChivingResponse> myChivings) {
+	private MyChivingsResponse(List<MyChivingResponse> myChivings, Integer nextOffset) {
 		this.myChivings = myChivings;
+		this.nextOffset = nextOffset;
 	}
 
-	public static MyChivingsResponse from(List<MyChivingResponse> myChivings) {
-		return new MyChivingsResponse(myChivings);
+	public static MyChivingsResponse from(List<MyChivingResponse> myChivings, Integer nextOffset) {
+		return new MyChivingsResponse(myChivings, nextOffset);
 	}
 }
