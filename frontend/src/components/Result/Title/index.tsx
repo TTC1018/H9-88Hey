@@ -21,8 +21,8 @@ export function Title({ krName, enName, imageUrl }: Props) {
           </Styled.Message>
           <Styled.DescriptionWrapper>
             <Styled.Description>완성된 차량은 마이페이지</Styled.Description>
-            <Styled.RightArrow src="/src/assets/icons/arrow_right.svg" />
-            <Styled.Description>마이카이빙에서 볼 수 있어요</Styled.Description>
+            <Styled.RightArrow src="/public/assets/icons/arrow_right.svg" />
+            <Styled.Description> 마이카이빙에서 볼 수 있어요</Styled.Description>
           </Styled.DescriptionWrapper>
         </Styled.TitleWrapper>
         <Styled.Image src={`${imageUrl}001.png`} />

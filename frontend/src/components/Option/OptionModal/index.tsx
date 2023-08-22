@@ -16,7 +16,7 @@ export function OptionModal({ name, imageUrl, description, onClick }: Props) {
       <Styled.ModalWrapper>
         <Styled.TitleBox>
           <Styled.Title>{name}</Styled.Title>
-          <Styled.Icon src="/src/assets/icons/icon_close.svg" onClick={onClick} />
+          <Styled.Icon src="/public/assets/icons/icon_close.svg" onClick={onClick} />
         </Styled.TitleBox>
         <Styled.Line />
         <Styled.ContentBox>

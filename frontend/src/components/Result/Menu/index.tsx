@@ -8,7 +8,7 @@ export function Menu() {
           <Styled.ConsultText>딜러에게 가까운 출고일자 상담을 받아볼까요?</Styled.ConsultText>
           <Styled.ConsultButton>
             출고일자 상담신청 바로가기
-            <Styled.FooterRightArrow src="/src/assets/icons/arrow_right_2.svg" />
+            <Styled.FooterRightArrow src="/public/assets/icons/arrow_right_2.svg" />
           </Styled.ConsultButton>
         </Styled.ConsultMenuWrapper>
         <Styled.PurchaseMenuWrapper>

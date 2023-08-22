@@ -20,7 +20,7 @@ export function OptionCard({ imageUrl, name, price, subOptions, index }: Props) 
           <Styled.TitleWrapper>
             <Styled.Title>{name}</Styled.Title>
             <Styled.TitleBarWrapper>
-              <Styled.TitleBar src="/src/assets/icons/bar.svg" alt="타이틀 바" />
+              <Styled.TitleBar src="/publics/assets/icons/bar.svg" alt="타이틀 바" />
             </Styled.TitleBarWrapper>
             <Styled.Title>{price.toLocaleString()}원</Styled.Title>
           </Styled.TitleWrapper>
