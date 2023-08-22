@@ -3,6 +3,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { PATH_LIST } from '@/constants';
 
 import { ArchivingLogoDark } from '@/components/common/ArchivingLogoDark';
+import { MyArchivingLogoDark } from '../MyArchivingLogoDark';
 import { PrevButton } from '@/components/common/PrevButton';
 import { CarLogo } from '@/components/common/CarLogo';
 
@@ -21,7 +22,7 @@ export function ArchivingNavigation() {
       <Styled.Wrapper>
         <PrevButton width="48" height="48" onClick={() => navigate(-1)} />
         <Styled.TitleBox>
-          <ArchivingLogoDark />
+          {title === '아카이빙' ? <ArchivingLogoDark /> : <MyArchivingLogoDark />}
           <Styled.TitleText>{title}</Styled.TitleText>
         </Styled.TitleBox>
         <Link to={'/trim'}>
