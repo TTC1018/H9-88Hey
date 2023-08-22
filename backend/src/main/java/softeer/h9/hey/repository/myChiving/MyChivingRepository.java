@@ -29,6 +29,7 @@ import softeer.h9.hey.dto.myChiving.ModelDto;
 import softeer.h9.hey.dto.myChiving.MyChivingDto;
 import softeer.h9.hey.dto.myChiving.MyChivingSaveDto;
 import softeer.h9.hey.dto.myChiving.MyChivingSelectOptionFetchDto;
+import softeer.h9.hey.exception.myChiving.DeletionFailException;
 import softeer.h9.hey.exception.myChiving.InValidAccessException;
 
 @RequiredArgsConstructor
@@ -36,6 +37,7 @@ import softeer.h9.hey.exception.myChiving.InValidAccessException;
 public class MyChivingRepository {
 
 	private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
+	private final static int COUNT_OF_RECORD_TO_DELETE = 1;
 
 	@Transactional
 	public Long saveMyCarToMyChiving(final MyChivingSaveDto myChivingSaveDto) {
@@ -124,10 +126,13 @@ public class MyChivingRepository {
 	}
 
 	@Transactional
-	public int deleteMyChivingByMyChivingAndUserId(int userId, long myChivingId) {
+	public void deleteMyChivingByMyChivingAndUserId(int userId, long myChivingId) {
 		checkMyChivingExistence(userId, myChivingId);
 		deleteSelectOption(myChivingId);
-		return deleteMyChiving(userId, myChivingId);
+		int affectedRow = deleteMyChiving(userId, myChivingId);
+		if (affectedRow != COUNT_OF_RECORD_TO_DELETE) {
+			throw new DeletionFailException();
+		}
 	}
 
 	private MyChivingDto getNewMyChivingDto(ResultSet rs) throws SQLException {

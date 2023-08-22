@@ -44,7 +44,6 @@ public class MyChivingService {
 
 	private final MyChivingRepository myChivingRepository;
 	private final static String DELETE_SUCCESS_MESSAGE = "성공적으로 삭제하였습니다.";
-	private final static int COUNT_OF_RECORD_TO_DELETE = 1;
 
 	//최종저장
 	public MyChivingIdResponse saveMyCar(int userId, final MyChivingSaveRequest myChivingSaveRequest) {
@@ -89,11 +88,7 @@ public class MyChivingService {
 	}
 
 	public String deleteMyChivingByMyChivingIdAndUserId(int userId, long myChivingId) {
-		int affectedRow = myChivingRepository.deleteMyChivingByMyChivingAndUserId(userId, myChivingId);
-
-		if (affectedRow != COUNT_OF_RECORD_TO_DELETE) {
-			throw new DeletionFailException();
-		}
+		myChivingRepository.deleteMyChivingByMyChivingAndUserId(userId, myChivingId);
 
 		return DELETE_SUCCESS_MESSAGE;
 	}
