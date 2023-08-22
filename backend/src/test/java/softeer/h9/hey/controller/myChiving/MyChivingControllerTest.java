@@ -62,4 +62,16 @@ class MyChivingControllerTest {
 			.andExpect(MockMvcResultMatchers.status().isOk())
 			.andExpect(MockMvcResultMatchers.jsonPath("$.data.myChivingId").exists());
 	}
+
+	@Test
+	@DisplayName("마이카이빙 조회시 200을 반환하고 myChivings를 반환해야 한다.")
+	void findMyChiving() throws Exception {
+		mockMvc.perform(MockMvcRequestBuilders
+				.get("/mychiving")
+				.header("Authorization", "Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiIxIiwidXNlck5hbWUiOiJ0ZXN0IiwiaWF0IjoxNjkyNTYwMzM5LCJleHAiOjQ4MTQ2MjQzMzl9.gcSE7kPaRVxo2iT9DRcN1Bn5ZNAAsHG8Z3dvTopH-IWblMf_LJ2lhsYqOvrrLcZJ")
+				.param("offset", "1")
+				.param("limit", "4"))
+			.andExpect(MockMvcResultMatchers.status().isOk())
+			.andExpect(MockMvcResultMatchers.jsonPath("$.data.myChivings").exists());
+	}
 }

@@ -16,6 +16,10 @@ public class EngineDto {
 	private Integer additionalPrice;
 
 	public static EngineDto of(final Integer id, final String name, final Integer additionalPrice) {
+		if(id == null) {
+			return null;
+		}
+
 		return new EngineDto(id, name, additionalPrice);
 	}
 }

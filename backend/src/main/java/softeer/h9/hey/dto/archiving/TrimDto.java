@@ -16,6 +16,10 @@ public class TrimDto {
 	private Integer price;
 
 	public static TrimDto of(final Integer id, final String name, final Integer price) {
+		if(id == null) {
+			return null;
+		}
+
 		return new TrimDto(id, name, price);
 	}
 }

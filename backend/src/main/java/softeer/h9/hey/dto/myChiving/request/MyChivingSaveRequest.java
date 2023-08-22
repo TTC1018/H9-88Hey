@@ -13,6 +13,7 @@ import lombok.Getter;
 @Getter
 public class MyChivingSaveRequest {
 	@JsonProperty("myChivingId")
+	@NotNull
 	private final Long id;
 	@JsonProperty("bodyType")
 	@NotNull
