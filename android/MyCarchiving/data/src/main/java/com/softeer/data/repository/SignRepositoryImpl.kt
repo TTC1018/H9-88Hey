@@ -11,4 +11,8 @@ class SignRepositoryImpl(
 ) : SignRepository {
     override suspend fun singIn(email: String, password: String): Token? =
         signDataSource.signIn(request = SignInRequestDto(email, password))?.asEntity()
+
+    override suspend fun reissue(refreshToken: String): Token? =
+        signDataSource.reissue(refreshToken)?.asEntity()
+
 }
