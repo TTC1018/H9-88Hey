@@ -37,6 +37,8 @@ fun LoginRoute(
     val errorMessage by loginViewModel.errorMessage.collectAsStateWithLifecycle()
     val loginSuccess by loginViewModel.loginSuccess.collectAsStateWithLifecycle()
 
+    loginViewModel.reissue()
+
     if (loginSuccess) {
         onLogin()
     }

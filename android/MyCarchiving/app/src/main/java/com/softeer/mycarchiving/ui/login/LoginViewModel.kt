@@ -4,6 +4,7 @@ import android.util.Patterns
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.softeer.domain.model.Token
+import com.softeer.domain.usecase.sign.ReissueUseCase
 import com.softeer.domain.usecase.sign.SignInUseCase
 import com.softeer.mycarchiving.util.PreferenceUtil
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -14,6 +15,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class LoginViewModel @Inject constructor(
+    private val reissueUseCase: ReissueUseCase,
     private val signInUseCase: SignInUseCase,
     private val pref: PreferenceUtil
 ): ViewModel() {
@@ -55,6 +57,16 @@ class LoginViewModel @Inject constructor(
                 errorMessage.value = TOKEN_EMPTY_ERROR
             } else {
                 saveToken(token)
+                loginSuccess.value = true
+            }
+        }
+    }
+
+    fun reissue() {
+        viewModelScope.launch {
+            val token = reissueUseCase(pref.refreshToken)
+            token?.let {
+                saveToken(it)
                 loginSuccess.value = true
             }
         }
