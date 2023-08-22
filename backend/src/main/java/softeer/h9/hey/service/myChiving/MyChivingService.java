@@ -66,7 +66,7 @@ public class MyChivingService {
 		return MyChivingIdResponse.from(myChivingId);
 	}
 
-	public MyChivingsResponse findMyChvings(final int userId, final MyChivingRequest myChivingRequest) {
+	public MyChivingsResponse findMyChivings(final int userId, final MyChivingRequest myChivingRequest) {
 		int limit = myChivingRequest.getLimit();
 		int startIndex = (myChivingRequest.getOffset() - 1) * limit;
 

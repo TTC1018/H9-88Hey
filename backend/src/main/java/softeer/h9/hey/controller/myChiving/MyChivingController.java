@@ -1,7 +1,5 @@
 package softeer.h9.hey.controller.myChiving;
 
-import java.util.List;
-
 import javax.validation.Valid;
 
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,7 +8,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
-import softeer.h9.hey.dto.myChiving.MyChivingDto;
 import softeer.h9.hey.dto.myChiving.request.MyChivingRequest;
 import softeer.h9.hey.auth.annotation.LoginUser;
 import softeer.h9.hey.dto.myChiving.request.MyChivingSaveRequest;
@@ -29,7 +26,7 @@ public class MyChivingController {
 
 	@GetMapping("/mychiving")
 	public GlobalResponse<MyChivingsResponse> findMyChivings(@LoginUser int userId, final MyChivingRequest myChivingRequest) {
-		MyChivingsResponse myChivingsResponse = myChivingService.findMyChvings(userId, myChivingRequest);
+		MyChivingsResponse myChivingsResponse = myChivingService.findMyChivings(userId, myChivingRequest);
 		return GlobalResponse.ok(myChivingsResponse);
 	}
 
