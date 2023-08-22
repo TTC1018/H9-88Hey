@@ -99,7 +99,7 @@ class MyChivingServiceTest {
 			.lastModifiedDate(dateTime)
 			.build());
 
-		when(myChivingRepository.findMyChivingsByUserIdLimitAndOffset(1, 1, 0)).thenReturn(myChivingDtoList);
+		when(myChivingRepository.findMyChivingsByUserIdLimitAndOffset(1, 2, 0)).thenReturn(myChivingDtoList);
 
 		List<Long> idList = myChivingDtoList.stream().map(MyChivingDto::getMyChivingId).collect(Collectors.toList());
 
@@ -120,7 +120,7 @@ class MyChivingServiceTest {
 		MyChivingRequest myChivingRequest = declaredConstructor.newInstance();
 		ReflectionTestUtils.setField(myChivingRequest, "offset", 1);
 		ReflectionTestUtils.setField(myChivingRequest, "limit", 1);
-		MyChivingsResponse myChivingsResponse = myChivingService.findMyChvings(1,myChivingRequest);
+		MyChivingsResponse myChivingsResponse = myChivingService.findMyChivings(1, myChivingRequest);
 		declaredConstructor.setAccessible(false);
 
 		assertThat(myChivingsResponse.getMyChivings()).hasSize(1);

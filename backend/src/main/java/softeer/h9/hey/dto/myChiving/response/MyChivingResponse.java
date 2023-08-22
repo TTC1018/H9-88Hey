@@ -24,7 +24,7 @@ public class MyChivingResponse {
 	private Long myChivingId;
 	private LocalDateTime lastModifiedDate;
 	private Boolean isSaved;
-	private ModelDto modelDto;
+	private ModelDto model;
 	private TrimDto trim;
 	private EngineDto engine;
 	private BodyTypeDto bodyType;
@@ -38,7 +38,7 @@ public class MyChivingResponse {
 				.myChivingId(myChivingDto.getMyChivingId())
 				.lastModifiedDate(myChivingDto.getLastModifiedDate())
 				.isSaved(myChivingDto.getIsSaved())
-				.modelDto(myChivingDto.getModelDto())
+				.model(myChivingDto.getModelDto())
 				.trim(myChivingDto.getTrim())
 				.engine(myChivingDto.getEngine())
 				.bodyType(myChivingDto.getBodyType())
