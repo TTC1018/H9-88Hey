@@ -30,16 +30,16 @@ fun NavGraphBuilder.makingMyArchiveGraph(
     ) {
         appState.myArchiveNavController = rememberNavController()
 
+        val onStartAreaClick: () -> Unit =
+            if (appState.currentMyArchiveDestinations == MY_ARCHIVE_MAIN)
+                appState.navController::popBackStack
+            else
+                appState.myArchiveNavController::popBackStack
+
         Scaffold(
             modifier = Modifier,
             topBar = {
-                MyArchiveNavigateBar(
-                    onStartAreaClick = if (appState.currentMyArchiveDestinations == MY_ARCHIVE_MAIN) {
-                        { appState.navController.popBackStack() }
-                    } else {
-                        { appState.makingCarNavController.popBackStack() }
-                    }
-                )
+                MyArchiveNavigateBar(onStartAreaClick = onStartAreaClick)
             },
         ) { padding ->
             Column(

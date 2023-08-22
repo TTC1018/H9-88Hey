@@ -1,5 +1,6 @@
 package com.softeer.mycarchiving.ui.component
 
+import android.util.Log
 import androidx.compose.animation.core.animateIntAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -32,6 +33,8 @@ import com.softeer.mycarchiving.R
 import com.softeer.mycarchiving.navigation.MyArchiveDestinations.*
 import com.softeer.mycarchiving.ui.HyundaiAppState
 import com.softeer.mycarchiving.ui.makingcar.MakingCarViewModel
+import com.softeer.mycarchiving.ui.myarchive.main.MY_ARCHIVE_MADE
+import com.softeer.mycarchiving.ui.myarchive.main.MY_ARCHIVE_SAVE
 import com.softeer.mycarchiving.ui.rememberHyundaiAppState
 import com.softeer.mycarchiving.ui.theme.Black
 import com.softeer.mycarchiving.ui.theme.HyundaiLightSand
@@ -41,38 +44,6 @@ import com.softeer.mycarchiving.ui.theme.White
 import com.softeer.mycarchiving.ui.theme.bold18
 import com.softeer.mycarchiving.ui.theme.medium12
 import com.softeer.mycarchiving.util.toPriceString
-
-@Composable
-fun HyundaiBottomBar(
-    appState: HyundaiAppState,
-) {
-/*    when (appState.currentMainDestination) {
-        MainDestination.ARCHIVING -> {
-*//*            ArchiveBottomBar(
-                totalPrice = 0,
-                appState = appState,
-                onSaveClick = {},
-                onButtonClick = {}
-            )*//*
-        }
-
-        MainDestination.MY_ARCHIVING -> MyArchiveBottomBar(
-            totalPrice = 0,
-            onButtonClick = {}
-        )
-
-        MainDestination.MAKING_CAR -> {
-            // MakingCarNavigation.kt으로 이동
-//            MakeCarBottomBar(
-//                appState = appState,
-//                viewModelStoreOwner = viewModelStoreOwner
-//            )
-        }
-
-        MainDestination.DRIVER_COMMENT, MainDestination.CONSUMER_COMMENT -> {}
-        else -> @Composable {}
-    }*/
-}
 
 @Composable
 fun BottomBar(
@@ -246,6 +217,17 @@ fun MyArchiveBottomBar(
             )
         }
     )
+}
+
+@Composable
+fun MyArchiveDetailBottomBar(
+    modifier: Modifier = Modifier,
+    screenIndex: Int,
+) {
+    when (screenIndex) {
+        MY_ARCHIVE_MADE -> MyArchiveBottomBar(modifier = modifier)
+        MY_ARCHIVE_SAVE -> ArchiveBottomBar(modifier = modifier)
+    }
 }
 
 @Preview
