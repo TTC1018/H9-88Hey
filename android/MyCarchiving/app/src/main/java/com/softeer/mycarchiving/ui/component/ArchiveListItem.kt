@@ -25,6 +25,7 @@ import com.softeer.mycarchiving.R
 import com.softeer.mycarchiving.enums.CarFeedType
 import com.softeer.mycarchiving.model.archiving.SearchOption
 import com.softeer.mycarchiving.model.common.CarFeedUiModel
+import com.softeer.mycarchiving.navigation.ArchivingDestinations
 import com.softeer.mycarchiving.ui.theme.DarkGray
 import com.softeer.mycarchiving.ui.theme.HyundaiLightSand
 import com.softeer.mycarchiving.ui.theme.HyundaiSand
@@ -43,14 +44,14 @@ fun ArchiveFeed(
     modifier: Modifier = Modifier,
     carFeedUiModel: CarFeedUiModel,
     appliedOptions: List<SearchOption>,
-    onFeedClick: () -> Unit,
+    onFeedClick: (Long, ArchivingDestinations?) -> Unit,
 ) {
     Column(
         modifier = modifier
             .fillMaxWidth()
             .background(color = White, shape = roundCorner)
             .border(width = 1.dp, color = HyundaiSand, shape = roundCorner)
-            .clickable { onFeedClick() }
+            .clickable { onFeedClick(carFeedUiModel.id, ArchivingDestinations.ARCHIVING_DETAIL) }
             .padding(horizontal = 16.dp, vertical = 22.dp)
     ) {
         Row(
@@ -186,6 +187,6 @@ fun PreviewArchiveFeed() {
             tags = listOf("편리해요😉", "이것만 있으면 나도 주차고수🚘", "대형견도 문제 없어요🐶")
         ),
         appliedOptions = listOf(),
-        onFeedClick = {}
+        onFeedClick = {_, _ ->}
     )
 }

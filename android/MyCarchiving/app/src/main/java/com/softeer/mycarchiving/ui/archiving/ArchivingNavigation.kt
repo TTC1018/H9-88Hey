@@ -62,7 +62,7 @@ fun NavGraphBuilder.makingArchiveGraph(
                     startDestination = ARCHIVING_MAIN.route
                 ) {
                     archiveMainScreen(
-                        moveDetailPage = { appState.navigateToArchivingDestination(ARCHIVING_DETAIL) },
+                        moveDetailPage = appState::navigateToArchivingDestination,
                         onBackClick = appState.navController::popBackStack
                     )
                     archivingDetailScreen(
