@@ -1,5 +1,6 @@
 package com.softeer.mycarchiving.ui.myarchive.detail
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -25,6 +26,7 @@ import com.softeer.mycarchiving.ui.component.DetailBanner
 import com.softeer.mycarchiving.ui.component.DetailReview
 import com.softeer.mycarchiving.ui.component.DetailSelectedOption
 import com.softeer.mycarchiving.ui.component.DetailTextLabel
+import com.softeer.mycarchiving.ui.component.MyArchiveDetailBottomBar
 import com.softeer.mycarchiving.ui.myarchive.main.MY_ARCHIVE_MADE
 import com.softeer.mycarchiving.ui.myarchive.main.MY_ARCHIVE_SAVE
 import com.softeer.mycarchiving.ui.theme.HyundaiLightSand
@@ -56,29 +58,36 @@ fun MyArchiveDetailScreen(
     Column(
         modifier = modifier
             .fillMaxSize()
-            .background(color = White)
-            .verticalScroll(rememberScrollState())
     ) {
         Column(
             modifier = Modifier
-                .fillMaxWidth()
+                .weight(1f)
+                .fillMaxSize()
                 .background(color = White)
-                .padding(start = 16.dp, end = 16.dp, top = 27.dp)
+                .verticalScroll(rememberScrollState())
         ) {
-            DetailTextLabel(text = stringResource(id = R.string.archive_summary_car_info))
-            DetailBanner()
-            Spacer(modifier = Modifier.height(23.dp))
-            if (screenIndex == MY_ARCHIVE_SAVE) {
-                DetailTextLabel(text = stringResource(id = R.string.archive_general_review))
-                Spacer(modifier = Modifier.height(16.dp))
-                DetailReview(review = review)
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(color = White)
+                    .padding(start = 16.dp, end = 16.dp, top = 27.dp)
+            ) {
+                DetailTextLabel(text = stringResource(id = R.string.archive_summary_car_info))
+                DetailBanner()
                 Spacer(modifier = Modifier.height(23.dp))
+                if (screenIndex == MY_ARCHIVE_SAVE) {
+                    DetailTextLabel(text = stringResource(id = R.string.archive_general_review))
+                    Spacer(modifier = Modifier.height(16.dp))
+                    DetailReview(review = review)
+                    Spacer(modifier = Modifier.height(23.dp))
+                }
+                DetailTextLabel(text = stringResource(id = R.string.selected_option))
             }
-            DetailTextLabel(text = stringResource(id = R.string.selected_option))
+            MyArchiveSelectOptionArea(
+                selectOptions = selectOptions
+            )
         }
-        MyArchiveSelectOptionArea(
-            selectOptions = selectOptions
-        )
+        MyArchiveDetailBottomBar(screenIndex = screenIndex)
     }
 }
 

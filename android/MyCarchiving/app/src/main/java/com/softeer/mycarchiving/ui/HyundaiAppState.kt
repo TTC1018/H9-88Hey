@@ -1,5 +1,6 @@
 package com.softeer.mycarchiving.ui
 
+import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
@@ -110,9 +111,9 @@ class HyundaiAppState(
         }
 
     val currentMyArchiveDestinations: MyArchiveDestinations?
-        @Composable get() = when (currentMyArchiveDestination?.route) {
-            MY_ARCHIVE_MAIN.route -> MY_ARCHIVE_MAIN
-            MY_ARCHIVE_DETAIL.route -> MY_ARCHIVE_DETAIL
+        @Composable get() = when {
+            currentMyArchiveDestination?.route == MY_ARCHIVE_MAIN.route -> MY_ARCHIVE_MAIN
+            currentMyArchiveDestination?.route?.startsWith(MY_ARCHIVE_DETAIL.route) == true -> MY_ARCHIVE_DETAIL
             else -> null
         }
 
