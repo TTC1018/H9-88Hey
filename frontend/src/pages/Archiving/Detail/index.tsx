@@ -2,7 +2,7 @@ import { Fragment } from 'react';
 
 import { useLocation, useNavigate } from 'react-router-dom';
 
-import { ModalType } from '@/constants';
+import { ModalType, apiPath, cacheKey } from '@/constants';
 import { ArchivingProps } from '@/types/archiving';
 import { combineWithSlash, formatDate } from '@/utils';
 import { useModalContext } from '@/hooks/useModalContext';
@@ -14,10 +14,13 @@ import { DetailHeader } from '@/components/Archiving/DetailHeader';
 import { DetailDescription } from '@/components/Archiving/DetailDescription';
 
 import * as Styled from './style';
+import { useFetchSuspense } from '@/hooks/useFetchSuspense';
+
+import { fetcher } from '@/utils/fetcher';
 
 export function Detail() {
-  const location = useLocation();
-  const navigate = useNavigate();
+  const { search } = useLocation();
+  const id = search.split('=')[1];
 
   const {
     modelName,
@@ -32,9 +35,12 @@ export function Detail() {
     isPurchase,
     totalPrice,
     selectedOptions,
-  }: ArchivingProps = {
-    ...location.state,
-  };
+  } = useFetchSuspense<ArchivingProps>({
+    fetcher: () => fetcher<ArchivingProps>({ url: apiPath.archivingDetail('479893076446129702') }),
+    key: cacheKey.archivingDetail('479893076446129702'),
+  });
+
+  const navigate = useNavigate();
 
   const options = selectedOptions.map(option => option.name);
   const dateText = `에 ${isPurchase ? '구매' : '시승'}했어요`;

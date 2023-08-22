@@ -75,6 +75,7 @@ export const apiPath = {
     return `${apiPath.archivingBase()}?model_id=${modelId}${optionQuerys}&limit=${limit}&offset=${offset}`;
   },
   archivingOption: (modelId: number) => `${apiPath.carBase()}/select-options?model_id=${modelId}`,
+  archivingDetail: (id: string) => `${apiPath.archivingBase()}/detail?id=${id}`,
   tag: (type: string, id: string | number, limit: number) => `${apiPath.carBase()}/tag/${type}?id=${id}&limit=${limit}`,
 };
 
@@ -94,5 +95,6 @@ export const cacheKey = {
   ],
   option: (routePath: string, search: string) => ['option', `${routePath}`, `${search}`],
   archivingOption: (modelId: number) => ['select-options', `${modelId}`],
+  archivingDetail: (id: string) => ['detail', `${id}`],
   tag: (type: string, id: string | number) => ['tag', `${type}`, `${id}`],
 };
