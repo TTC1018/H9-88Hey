@@ -82,7 +82,7 @@ class MyChivingRepositoryTest {
 
 		MyChivingTempSaveRequest myChivingTempSaveRequest = new MyChivingTempSaveRequest(id, bodyTypeId, wheelTypeId, engineId, trimId, exteriorColorId, interiorColorId, selectOptionIdList);
 		MyChivingSaveDto myChivingSaveDto = MyChivingSaveDto.from(myChivingTempSaveRequest);
-		myChivingSaveDto.setUserId(68);
+		myChivingSaveDto.setUserId(0);
 		myChivingSaveDto.setSubmitted(false);
 
 		List<Long> myChivingIdList = List.of(
@@ -91,7 +91,7 @@ class MyChivingRepositoryTest {
 			myChivingRepository.saveMyCarToMyChiving(myChivingSaveDto),
 			myChivingRepository.saveMyCarToMyChiving(myChivingSaveDto));
 
-		Integer userId = 68;
+		Integer userId = 0;
 		Integer limit = 4;
 		Integer offset = 0;
 

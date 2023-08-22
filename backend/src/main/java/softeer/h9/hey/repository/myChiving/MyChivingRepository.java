@@ -101,7 +101,7 @@ public class MyChivingRepository {
 	public List<MyChivingSelectOptionFetchDto> findOptionDataByMyChivingIdList(List<Long> myChivingIdList) {
 		//in 연산을 위한 myChivingId 문자열 조합
 		String selectOptionsString = myChivingIdList.stream()
-			.map(id -> "\'" + id + "\'")
+			.map(id -> id.toString())
 			.collect(Collectors.joining(", "));
 
 		String sql = "SELECT \n"
@@ -111,7 +111,7 @@ public class MyChivingRepository {
 			+ "seo.additional_price,\n"
 			+ "ms.myArchiving_id as my_chiving_id, \n"
 			+ "suo.name as sub_option_name \n"
-			+ "FROM 88hey.myArchiving_selectOption ms \n"
+			+ "FROM myArchiving_selectOption ms \n"
 			+ "left join selectOption_subOption ss on ms.select_option_id  = ss.select_option_id\n"
 			+ "left join selectOption seo  on seo.id = ms.select_option_id\n"
 			+ "left join subOption suo on ss.sub_option_id = suo.id  \n"
