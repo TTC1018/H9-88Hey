@@ -1,9 +1,10 @@
-import { Fragment } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 
-import { ModalType } from '@/constants';
+import { useLocation } from 'react-router-dom';
 
 import { useModalContext } from '@/hooks/useModalContext';
 import { useMyCarNavigate } from '@/hooks/useMyCarNavigate';
+import { ModalType } from '@/constants';
 
 import { PopupModal } from '@/components/common/PopupModal';
 import { ModalPortal } from '@/components/common/ModalPortal';
@@ -13,14 +14,25 @@ import { AutoSavingLogo } from '@/components/common/AutoSavingLogo';
 
 import * as Styled from './style';
 
-interface Props {
-  isSaving: boolean;
-}
+export function Header() {
+  const { pathname } = useLocation();
+  const [isSavingNow, setIsSavingNow] = useState(false);
 
-export function Header({ isSaving }: Props) {
   const { handleOpen } = useModalContext();
 
   const { handleNavigate } = useMyCarNavigate({ path: '/archiving' });
+
+  if (isSavingNow) {
+    setTimeout(() => {
+      setIsSavingNow(false);
+    }, 2000);
+  }
+
+  useEffect(() => {
+    if (pathname !== '/result') {
+      setIsSavingNow(true);
+    }
+  }, [pathname]);
 
   return (
     <Fragment>
@@ -33,7 +45,7 @@ export function Header({ isSaving }: Props) {
           </Styled.Box>
           <Styled.ButtonWrapper>
             <Styled.InfoBox>
-              <Styled.AutoSavingBox isDisplay={isSaving}>
+              <Styled.AutoSavingBox isDisplay={isSavingNow}>
                 <Styled.AutoSavingText>자동저장 중</Styled.AutoSavingText>
                 <AutoSavingLogo />
               </Styled.AutoSavingBox>

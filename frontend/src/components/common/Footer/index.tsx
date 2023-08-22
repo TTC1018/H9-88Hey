@@ -16,11 +16,10 @@ interface FooterProps {
   myCarData: MyCarProps;
   calculatePrice: number;
   carCode: MutableRefObject<string>;
-  setDisplayAutoSaving: () => void;
   dispatch: Dispatch<ActionType>;
 }
 
-export function Footer({ myCarData, calculatePrice, carCode, setDisplayAutoSaving, dispatch }: FooterProps) {
+export function Footer({ myCarData, calculatePrice, carCode, dispatch }: FooterProps) {
   const prevPrice = useRef(calculatePrice);
   const totalPrice = useCountPrice({
     prevPrice: prevPrice.current,
@@ -87,13 +86,11 @@ export function Footer({ myCarData, calculatePrice, carCode, setDisplayAutoSavin
   function handleNextNavigate() {
     const path = NAVIGATION_PATH[pathKey as keyof typeof NAVIGATION_PATH].next;
     handleNavigate(path);
-    setDisplayAutoSaving();
   }
 
   function handlePrevNavigate() {
     const path = NAVIGATION_PATH[pathKey as keyof typeof NAVIGATION_PATH].prev;
     handleNavigate(path);
-    setDisplayAutoSaving();
   }
 
   if (pathname === '/result') {

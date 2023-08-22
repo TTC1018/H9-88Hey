@@ -65,7 +65,6 @@ export function MyCarLayout() {
   const { pathname } = useLocation();
   const carCodeData = getLocalStorage('carCode');
 
-  const [isSavingNow, setIsSavingNow] = useState(false);
   const carCode = useRef(carCodeData === null ? '' : carCodeData);
 
   const localStorageData = JSON.parse(getLocalStorage('myCar'));
@@ -80,19 +79,9 @@ export function MyCarLayout() {
 
   const isResultPage = pathname === '/result';
 
-  if (isSavingNow) {
-    setTimeout(() => {
-      setIsSavingNow(false);
-    }, 2000);
-  }
-
-  function setAutoSaving() {
-    setIsSavingNow(true);
-  }
-
   return (
     <Styled.Container isFull={isResultPage}>
-      <Header isSaving={isSavingNow} />
+      <Header />
       <Navigation />
       <Styled.Wrapper isFull={isResultPage}>
         <Suspense fallback={<Loading />}>
@@ -106,13 +95,7 @@ export function MyCarLayout() {
           />
         </Suspense>
       </Styled.Wrapper>
-      <Footer
-        myCarData={myCar}
-        calculatePrice={totalPrice}
-        setDisplayAutoSaving={setAutoSaving}
-        carCode={carCode}
-        dispatch={dispatch}
-      />
+      <Footer myCarData={myCar} calculatePrice={totalPrice} carCode={carCode} dispatch={dispatch} />
     </Styled.Container>
   );
 }
