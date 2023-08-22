@@ -98,7 +98,7 @@ function CloseContent() {
       <Styled.Text>내 차 만들기를 그만하시겠어요?</Styled.Text>
       <Styled.Fragment>
         <Styled.Text>만들던 차량은</Styled.Text>
-        <Styled.Bold>{` 아카이빙>내가 만든 차량 `}</Styled.Bold>
+        <Styled.Bold>{` 아카이빙 > 내가 만든 차량 `}</Styled.Bold>
         <Styled.Text>에</Styled.Text>
       </Styled.Fragment>
       <Styled.Text>저장해둘게요</Styled.Text>

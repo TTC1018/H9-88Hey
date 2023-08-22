@@ -1,5 +1,6 @@
+import LoadingGif from '/public/assets/Loading.gif';
+
 import * as Styled from './style';
-import LoadingGif from '@/assets/Loading.gif';
 
 export function Loading() {
   return (

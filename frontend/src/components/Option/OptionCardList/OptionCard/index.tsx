@@ -10,6 +10,8 @@ import { OptionCardHover } from '@/components/Option/OptionCardList/OptionCardHo
 import { ModalPortal } from '@/components/Option/ModalPortal';
 import { PopupModal } from '@/components/common/PopupModal';
 
+import Done from '/public/assets/icons/icon_done.svg';
+
 import * as Styled from './style';
 
 interface Props {
@@ -109,7 +111,7 @@ export function OptionCard({
             {isButtonActive ? '추가 완료' : '추가하기'}
           </Styled.Button>
         </Styled.ButtonBox>
-        {isButtonActive && <Styled.Icon src={'/src/assets/icons/icon_done.svg'} />}
+        {isButtonActive && <Styled.Icon src={Done} />}
       </Styled.DescriptionWrapper>
       {isHover && <OptionCardHover subOptionNames={subOptionNames} childRef={childRef} />}
       <Styled.OptionCardHoverArea
