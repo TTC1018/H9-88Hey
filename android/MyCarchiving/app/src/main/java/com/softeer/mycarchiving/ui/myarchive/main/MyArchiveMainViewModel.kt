@@ -56,7 +56,7 @@ class MyArchiveMainViewModel @Inject constructor(
         _selectedIndex.intValue = index
     }
 
-    fun onMadeCarDetail(madeCar: MadeCarUiModel) {
+    fun onCarDetail(madeCar: MadeCarUiModel) {
         _detailCar.value = madeCar
     }
 

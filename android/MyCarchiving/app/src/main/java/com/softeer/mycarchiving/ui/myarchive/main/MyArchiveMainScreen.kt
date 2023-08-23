@@ -41,7 +41,7 @@ fun MyArchiveMainRoute(
         savedCars = savedCars,
         onSelect = viewModel::updateSelectedIndex,
         onMadeCarClick = onMadeCarClick,
-        onMadeCarDetail = viewModel::onMadeCarDetail,
+        onMadeCarDetail = viewModel::onCarDetail,
         onMadeCarDelete = viewModel::deleteMadeCar,
         onSavedCarClick = onSavedCarClick,
         onSavedCarDelete = viewModel::deleteSavedCar,

@@ -14,4 +14,6 @@ interface MyArchiveRepository {
 
     fun getMadeCarFeed(): Flow<PagingData<MyArchiveFeed>>
 
+    fun deleteMadeCarFeed(feedId: Long): Flow<Boolean>
+
 }
