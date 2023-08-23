@@ -31,13 +31,6 @@ export function BodyType() {
 
   const { imageUrl, name, additionalPrice } = bodyTypes[selectedIndex];
 
-  function handleCardClick(name: string, additionalPrice: number, id: number, index: number) {
-    return function () {
-      handleSetIndex(index)();
-      dispatch({ type: MyCarActionType.TRIM_OPTION, payload: { key: 'bodyType', name, additionalPrice, id } });
-    };
-  }
-
   useEffect(() => {
     if (bodyType.name === '') {
       const { name, additionalPrice, id } = bodyTypes[0];
@@ -57,15 +50,17 @@ export function BodyType() {
         </Styled.Box>
         <Styled.Box>
           {bodyTypes.map(({ name, additionalPrice, description, id }, index) => (
-            <Styled.Enclosure key={id} onClick={handleCardClick(name, additionalPrice, id, index)}>
-              <TrimCard
-                isActive={index === selectedIndex}
-                title={name}
-                price={additionalPrice}
-                description={description}
-                hasEngineInfo={false}
-              />
-            </Styled.Enclosure>
+            <TrimCard
+              key={id}
+              dispatchKey="wheelDrive"
+              id={id}
+              isActive={index === selectedIndex}
+              title={name}
+              price={additionalPrice}
+              description={description}
+              hasEngineInfo={false}
+              onSetIndex={handleSetIndex(index)}
+            />
           ))}
         </Styled.Box>
       </Styled.Wrapper>

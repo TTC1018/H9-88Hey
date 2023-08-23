@@ -40,6 +40,7 @@ export enum MyCarActionType {
   'SAVE_OPTION' = 'SAVE_OPTION',
   'CAR_IMAGE_URL' = 'CAR_IMAGE_URL',
   'CLEAR_OPTION' = 'CLEAR_OPTION',
+  'CLEAR_COLORS' = 'CLEAR_COLORS',
 }
 
 const routePath = {

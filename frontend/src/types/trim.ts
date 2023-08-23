@@ -96,7 +96,8 @@ export type ActionType =
   | { type: MyCarActionType.REMOVE_OPTION; payload: string }
   | { type: MyCarActionType.CAR_IMAGE_URL; payload: string }
   | { type: MyCarActionType.SAVE_OPTION; payload: MyCarProps }
-  | { type: MyCarActionType.CLEAR_OPTION; payload: OptionContextProps[] };
+  | { type: MyCarActionType.CLEAR_OPTION; payload: OptionContextProps[] }
+  | { type: MyCarActionType.CLEAR_COLORS; payload: null };
 
 export interface TagDataProps {
   tags: string[];

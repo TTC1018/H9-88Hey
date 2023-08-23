@@ -31,13 +31,6 @@ export function Engine() {
 
   const { imageUrl, additionalPrice, name } = engines[selectedIndex];
 
-  function handleCardClick(additionalPrice: number, id: number, name: string, index: number) {
-    return () => {
-      handleSetIndex(index)();
-      dispatch({ type: MyCarActionType.TRIM_OPTION, payload: { key: 'engine', name, additionalPrice, id } });
-    };
-  }
-
   useEffect(() => {
     if (engine.name === '') {
       const { name, additionalPrice, id } = engines[0];
@@ -57,17 +50,19 @@ export function Engine() {
         </Styled.Box>
         <Styled.CardBox>
           {engines.map(({ name, additionalPrice, description, maximumPower, maximumTorque, id }, index) => (
-            <Styled.Enclosure key={id} onClick={handleCardClick(additionalPrice, id, name, index)}>
-              <TrimCard
-                isActive={index === selectedIndex}
-                title={name}
-                price={additionalPrice}
-                description={description}
-                hasEngineInfo={true}
-                power={maximumPower}
-                torque={maximumTorque}
-              />
-            </Styled.Enclosure>
+            <TrimCard
+              key={id}
+              dispatchKey="engine"
+              id={id}
+              isActive={index === selectedIndex}
+              title={name}
+              price={additionalPrice}
+              description={description}
+              hasEngineInfo={true}
+              power={maximumPower}
+              torque={maximumTorque}
+              onSetIndex={handleSetIndex(index)}
+            />
           ))}
         </Styled.CardBox>
       </Styled.Wrapper>

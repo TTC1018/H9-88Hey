@@ -31,13 +31,6 @@ export function WheelDrive() {
 
   const { name, additionalPrice, imageUrl } = wheelDrives[selectedIndex];
 
-  function handleCardClick(name: string, additionalPrice: number, id: number, index: number) {
-    return () => {
-      handleSetIndex(index)();
-      dispatch({ type: MyCarActionType.TRIM_OPTION, payload: { key: 'wheelDrive', name, additionalPrice, id } });
-    };
-  }
-
   useEffect(() => {
     if (wheelDrive.name === '') {
       const { name, additionalPrice, id } = wheelDrives[0];
@@ -57,15 +50,17 @@ export function WheelDrive() {
         </Styled.Box>
         <Styled.Box>
           {wheelDrives.map(({ name, additionalPrice, description, id }, index) => (
-            <Styled.Enclosure key={id} onClick={handleCardClick(name, additionalPrice, id, index)}>
-              <TrimCard
-                isActive={index === selectedIndex}
-                title={name}
-                price={additionalPrice}
-                description={description}
-                hasEngineInfo={false}
-              />
-            </Styled.Enclosure>
+            <TrimCard
+              key={id}
+              dispatchKey="wheelDrive"
+              id={id}
+              isActive={index === selectedIndex}
+              title={name}
+              price={additionalPrice}
+              description={description}
+              hasEngineInfo={false}
+              onSetIndex={handleSetIndex(index)}
+            />
           ))}
         </Styled.Box>
       </Styled.Wrapper>

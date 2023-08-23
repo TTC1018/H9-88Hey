@@ -28,13 +28,6 @@ export function Trim() {
   const initialIndex = index !== -1 ? index : 0;
   const [selectedIndex, handleSetIndex] = useSelectIndex({ initialIndex });
 
-  function handleCardClick(name: string, price: number, id: number, index: number) {
-    return () => {
-      handleSetIndex(index)();
-      dispatch({ type: MyCarActionType.TRIM, payload: { name, price, id } });
-    };
-  }
-
   useEffect(() => {
     if (trim.name === '') {
       const { name, price, id } = trims[0];
@@ -50,9 +43,15 @@ export function Trim() {
       <TrimCarImageBox />
       <Styled.Wrapper>
         {trims.map(({ id, name, price, trimFeatures }, index) => (
-          <Styled.Box key={id} onClick={handleCardClick(name, price, id, index)}>
-            <SelectOptionCard isActive={index === selectedIndex} name={name} price={price} features={trimFeatures} />
-          </Styled.Box>
+          <SelectOptionCard
+            key={id}
+            isActive={index === selectedIndex}
+            id={id}
+            name={name}
+            price={price}
+            features={trimFeatures}
+            onSetIndex={handleSetIndex(index)}
+          />
         ))}
       </Styled.Wrapper>
     </Styled.Container>

@@ -55,6 +55,8 @@ function reducer(state: MyCarProps, action: ActionType): MyCarProps {
       return payload;
     case 'CLEAR_OPTION':
       return { ...state, options: payload };
+    case 'CLEAR_COLORS':
+      return { ...state, exteriorColor: initialState.exteriorColor, interiorColor: initialState.interiorColor };
     default:
       return state;
   }
