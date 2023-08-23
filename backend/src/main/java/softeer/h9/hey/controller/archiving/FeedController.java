@@ -40,10 +40,10 @@ public class FeedController {
 	}
 
 	@DeleteMapping("/archiving/{feed_id}/bookmark")
-	public GlobalResponse<FeedIdResponse> deleteArchivingFeed(
+	public GlobalResponse<?> deleteArchivingFeed(
 		@LoginUser final int userId,
 		@PathVariable final long feed_id) {
-		FeedIdResponse result = service.deleteFeed(userId, feed_id);
-		return GlobalResponse.ok(result);
+		service.deleteFeed(userId, feed_id);
+		return GlobalResponse.ok("정상적으로 삭제되었습니다.");
 	}
 }
