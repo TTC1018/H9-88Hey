@@ -131,14 +131,14 @@ fun OptionSelectedInfo(
     Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
         OptionHeadText(optionName = optionName)
         OptionHeadComment()
-        FlowRow(
-            verticalArrangement = Arrangement.Top,
-            horizontalArrangement = Arrangement.spacedBy(8.dp)
-        ) {
-            optionTags?.forEach { tagString ->
-                AnimatedContent(targetState = tagString, label = "") {
+        AnimatedContent(targetState = optionTags, label = "") { tags ->
+            FlowRow(
+                verticalArrangement = Arrangement.Top,
+                horizontalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                tags?.forEach { tagString ->
                     OptionTagChip(
-                        tagString = it
+                        tagString = tagString
                     )
                 }
             }

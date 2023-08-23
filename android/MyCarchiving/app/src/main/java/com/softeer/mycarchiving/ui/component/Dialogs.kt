@@ -75,7 +75,8 @@ fun BasicItemDialog(
                 ) {
                     Text(
                         modifier = Modifier
-                            .align(Alignment.Center),
+                            .align(Alignment.Center)
+                            .fillMaxWidth(0.7f),
                         text = detailItem.name,
                         style = medium18,
                         textAlign = TextAlign.Center

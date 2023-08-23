@@ -1,6 +1,5 @@
 package com.softeer.mycarchiving.ui.component
 
-import android.util.Log
 import androidx.compose.animation.core.animateIntAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -54,7 +53,7 @@ fun BottomBar(
     buttonArea: @Composable () -> Unit,
     onShowSummary: (() -> Unit)? = null,
 ) {
-    val animatedPrice by animateIntAsState(targetValue = totalPrice)
+    val animatedPrice by animateIntAsState(targetValue = totalPrice, label = "")
 
     Column(
         modifier = modifier
@@ -85,7 +84,7 @@ fun BottomBar(
                 Spacer(modifier = modifier.height(5.dp))
                 Divider(
                     modifier = modifier.width(underLineWidth.dp),
-                    thickness = 2.dp,
+                    thickness = 1.5.dp,
                     color = Black
                 )
             }
@@ -130,7 +129,7 @@ fun MakeCarBottomBar(
         modifier = modifier,
         totalPrice = totalPrice,
         summaryText = stringResource(id = R.string.show_summary),
-        underLineWidth = 61,
+        underLineWidth = 67,
         buttonArea = {
             HyundaiButton(
                 modifier = modifier,

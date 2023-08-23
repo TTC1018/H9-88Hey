@@ -1,5 +1,7 @@
 package com.softeer.mycarchiving.ui.component
 
+import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Row
@@ -13,10 +15,12 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.softeer.mycarchiving.R
@@ -26,6 +30,7 @@ import com.softeer.mycarchiving.ui.theme.HyundaiLightSand
 import com.softeer.mycarchiving.ui.theme.MediumGray
 import com.softeer.mycarchiving.ui.theme.medium14
 import com.softeer.mycarchiving.ui.theme.medium16
+import com.softeer.mycarchiving.util.MakeCarProcess
 
 @Composable
 fun ProgressBar(
@@ -58,7 +63,8 @@ fun ProgressBar(
             LazyRow(
                 modifier = modifier
                     .weight(1f),
-                userScrollEnabled = false
+                userScrollEnabled = false,
+                verticalAlignment = Alignment.CenterVertically
             ) {
                 items(
                     items = makeCarProcess[currentProgressId].children,
@@ -67,10 +73,15 @@ fun ProgressBar(
                         Row(
                             verticalAlignment = Alignment.CenterVertically
                         ) {
+                            val animatedTextColor by animateColorAsState(
+                                targetValue = if (progressChild.id == currentChildId) Black else MediumGray,
+                                animationSpec = tween(durationMillis = 300),
+                                label = ""
+                            )
                             Text(
                                 text = progressChild.childName,
                                 style = medium14,
-                                color = if (progressChild.id == currentChildId) Black else MediumGray,
+                                color = animatedTextColor,
                                 fontSize = progressChild.fontSize.sp
                             )
                             if (progressChild.id < makeCarProcess[currentProgressId].children.size - 1) {
@@ -111,15 +122,13 @@ fun ProgressBar(
     }
 }
 
-/*
 @Preview
 @Composable
 fun PreviewProgressBar() {
     ProgressBar(
-        modifier = Modifier,
-        currentProgress = currentProgress.collectAsState().value,
-        currentChildId = currentProgressChildId.collectAsState().value,
-        currentProgressChildren = currentProgressChildren.collectAsState().value,
-        remainCountList = remainProgressCountList.collectAsState().value
+        makeCarProcess = MakeCarProcess.makeCarProcess,
+        currentProgressId = 0,
+        currentChildId = 2,
+        isDone = false
     )
-}*/
+}
