@@ -60,7 +60,7 @@ fun SelectTrimRoute(
     val wheels by selectTrimViewModel.wheels.collectAsStateWithLifecycle()
     val selectedTrims by makingCarViewModel.selectedTrim.collectAsStateWithLifecycle()
     val carDetails by makingCarViewModel.carDetails.observeAsState()
-    val isArchived = carDetails != null && selectedTrims.isEmpty()
+    val isArchived = carDetails != null && selectedTrims.size <= (screenProgress + 1)
 
     // 아카이빙에서 넘어왔다면 뷰모델에 데이터 세팅
     if (isArchived) {
@@ -103,25 +103,25 @@ private fun InitArchiveDataEffect(
     engines: List<TrimOptionUiModel>,
     bodyTypes: List<TrimOptionUiModel>,
     wheels: List<TrimOptionUiModel>,
-    saveTrimOptions: (TrimOptionUiModel, Int, Boolean, Boolean) -> Unit,
+    saveTrimOptions: (TrimOptionUiModel, screenProgress: Int, isInitial: Boolean, isArchived: Boolean) -> Unit,
 ) {
     LaunchedEffect(engines) {
         carDetails?.run {
             engines.find { it.id == engine.id }
-                ?.let { saveTrimOptions(it, TRIM_ENGINE, false, true) }
+                ?.let { saveTrimOptions(it, TRIM_ENGINE, true, true) }
         }
     }
     LaunchedEffect(bodyTypes) {
         carDetails?.run {
             bodyTypes.find { it.id == bodyType.id }
-                ?.let { saveTrimOptions(it, TRIM_BODY_TYPE, false, true) }
+                ?.let { saveTrimOptions(it, TRIM_BODY_TYPE, true, true) }
         }
 
     }
     LaunchedEffect(wheels) {
         carDetails?.run {
             wheels.find { it.id == wheelDrive.id }
-                ?.let { saveTrimOptions(it, TRIM_DRIVING_SYSTEM, false, true) }
+                ?.let { saveTrimOptions(it, TRIM_DRIVING_SYSTEM, true, true) }
         }
     }
 }
@@ -135,7 +135,7 @@ fun SelectTrimScreen(
     savedTrim: TrimOptionUiModel?,
     isInitial: Boolean,
     isArchived: Boolean,
-    onOptionSelect: (TrimOptionUiModel, progress: Int, initial: Boolean) -> Unit,
+    onOptionSelect: (TrimOptionUiModel, Int, Boolean, Boolean) -> Unit,
 ) {
     var selectedIndex by remember { mutableIntStateOf(-1) }
     val scrollState = rememberScrollState()
@@ -156,7 +156,7 @@ fun SelectTrimScreen(
             }
 
             options.getOrNull(selectedIndex)?.let {
-                onOptionSelect(it, screenProgress, isInitial)
+                onOptionSelect(it, screenProgress, isInitial, isArchived)
             }
         }
     }
@@ -216,7 +216,7 @@ fun SelectTrimScreen(
                                         isSelected = idx == selectedIndex,
                                         onClick = {
                                             selectedIndex = idx
-                                            onOptionSelect(item, screenProgress, isInitial)
+                                            onOptionSelect(item, screenProgress, isInitial, isArchived)
                                         },
                                     )
                                 }
@@ -259,6 +259,6 @@ fun PreviewSelectTrimScreen() {
         savedTrim = null,
         isInitial = false,
         isArchived = false,
-        onOptionSelect = { _, _, _ -> },
+        onOptionSelect = { _, _, _, _ -> },
     )
 }

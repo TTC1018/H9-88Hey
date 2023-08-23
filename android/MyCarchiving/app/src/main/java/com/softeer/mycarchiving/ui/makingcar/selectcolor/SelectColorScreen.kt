@@ -170,7 +170,7 @@ fun SelectColorScreen(
     onLeftClick: () -> Unit,
     onRightClick: () -> Unit,
     onColorSelect: (Int) -> Unit,
-    onSaveColor: (ColorOptionUiModel, Int, Boolean) -> Unit,
+    onSaveColor: (ColorOptionUiModel, Int, isInitial: Boolean, isArchived: Boolean) -> Unit,
     onSaveImageUrl: (String) -> Unit,
 ) {
     val selectedColor = colorOptions.getOrNull(selectedIndex)
@@ -223,7 +223,7 @@ fun SelectColorScreen(
                                         CarColorSelectItem(
                                             onItemClick = {
                                                 onColorSelect(idx)
-                                                onSaveColor(item, screenProgress, isInitial)
+                                                onSaveColor(item, screenProgress, isInitial, false)
                                             },
                                             imageUrl = item.imageUrl,
                                             selected = selectedColor.imageUrl == item.imageUrl,
@@ -293,13 +293,13 @@ private fun InitArchiveDataEffect(
     LaunchedEffect(exteriors) {
         carDetails?.exteriorColor?.run {
             exteriors.find { it.id == id }
-                ?.let { saveTrimOptions(it, TRIM_EXTERIOR, false, true) }
+                ?.let { saveTrimOptions(it, TRIM_EXTERIOR, true, true) }
         }
     }
     LaunchedEffect(interiors) {
         carDetails?.interiorColor?.run {
-            exteriors.find { it.id == id }
-                ?.let { saveTrimOptions(it, TRIM_INTERIOR, false, true) }
+            interiors.find { it.id == id }
+                ?.let { saveTrimOptions(it, TRIM_INTERIOR, true, true) }
         }
     }
 }
@@ -361,7 +361,7 @@ fun PreviewSelectColorScreen() {
         onLeftClick = {},
         onRightClick = {},
         onColorSelect = {},
-        onSaveColor = { _, _, _ -> },
+        onSaveColor = { _, _, _, _ -> },
         onSaveImageUrl = {}
     )
 }

@@ -161,7 +161,7 @@ class MakingCarViewModel @Inject constructor(
         initial: Boolean = false,
         archived: Boolean = false,
     ) {
-        if (archived) { // 아카이빙 데이터면 선택 데이터에 기록만 하기
+        if (archived && initial) { // 아카이빙 데이터면 선택 데이터에 기록만 하기
             _selectedTrim.value += listOf(trimOptionUiModel)
         } else { // 아카이빙 데이터 로드 후 or 기본으로 진행 중
             if (_selectedTrim.value.getOrNull(progress) == null) { // 그대로 추가하면 될 때
@@ -187,7 +187,7 @@ class MakingCarViewModel @Inject constructor(
         initial: Boolean,
         archived: Boolean = false,
     ) {
-        if (archived) {
+        if (archived && initial) {
             _selectedColor.value += listOf(colorOptionUiModel)
         } else {
             if (_selectedColor.value.getOrNull(progress) == null) {
