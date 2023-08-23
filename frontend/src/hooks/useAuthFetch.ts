@@ -67,7 +67,9 @@ export function useAuthFetch<T>({ defaultValue, url, method }: UseAuthFetchProps
               navigate('/', { replace: true });
             }
           } else {
-            navigate('/', { replace: true });
+            // 재발급받은 토큰으로 한번 더 401 에러가 뜨는 시나리오
+            // 일어날 일 없음
+            return;
           }
         } else {
           setError(message);
