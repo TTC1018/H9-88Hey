@@ -1,5 +1,9 @@
 package softeer.h9.hey.controller.myChiving;
 
+import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -34,6 +38,14 @@ public class FeedController {
 		@LoginUser int userId,
 		@RequestBody ArchivingIdRequest archivingIdRequest) {
 		FeedIdResponse result = service.saveFeed(userId, archivingIdRequest);
+		return GlobalResponse.ok(result);
+	}
+
+	@DeleteMapping("/mychiving/feed/bookmark")
+	public GlobalResponse<FeedIdResponse> deleteArchivingFeed(
+		@LoginUser int userId,
+		@RequestBody ArchivingIdRequest archivingIdRequest) {
+		FeedIdResponse result = service.deleteFeed(userId, archivingIdRequest);
 		return GlobalResponse.ok(result);
 	}
 
