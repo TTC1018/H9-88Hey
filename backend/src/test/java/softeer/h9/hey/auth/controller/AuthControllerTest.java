@@ -180,4 +180,31 @@ class AuthControllerTest {
 			.andExpect(status().isUnauthorized())
 			.andExpect(jsonPath("$.message").value(InvalidTokenException.INVALID_TOKEN_EXCEPTION));
 	}
+
+	@Test
+	@DisplayName("입력받은 AccessToken이 유효한지 확인하고 유효하다면 userName을 반환한다.")
+	void validateTokenValidateTest() throws Exception {
+		mockMvc.perform(
+				get("/auth/access-token/validate")
+					.contentType(MediaType.APPLICATION_JSON)
+					.header("Authorization",
+						"Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiIxIiwidXNlck5hbWUiOiJ0ZXN0IiwiaWF0IjoxNjkyNTYwMzM5LCJleHAiOjQ4MTQ2MjQzMzl9.gcSE7kPaRVxo2iT9DRcN1Bn5ZNAAsHG8Z3dvTopH-IWblMf_LJ2lhsYqOvrrLcZJ"))
+			.andExpect(status().isOk())
+			.andExpect(jsonPath("$.statusCode").value(200))
+			.andExpect(jsonPath("$.data.userName").value("test"));
+	}
+
+
+	@Test
+	@DisplayName("유효하지 않은 토큰으로 유효성 검증을 요청하면, 401 응답을 내보낸다.")
+	void invalidateTokenValidateTest() throws Exception {
+		mockMvc.perform(
+				get("/auth/access-token/validate")
+					.contentType(MediaType.APPLICATION_JSON)
+					.header("Authorization",
+						"Bearer xx"))
+			.andExpect(status().isUnauthorized())
+			.andExpect(jsonPath("$.statusCode").value(401))
+			.andExpect(jsonPath("$.message").value(InvalidTokenException.INVALID_TOKEN_EXCEPTION));
+	}
 }
