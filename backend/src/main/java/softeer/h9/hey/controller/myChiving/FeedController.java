@@ -5,15 +5,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
 import softeer.h9.hey.auth.annotation.LoginUser;
 import softeer.h9.hey.dto.global.response.GlobalResponse;
-import softeer.h9.hey.dto.myChiving.request.ArchivingIdRequest;
-import softeer.h9.hey.dto.myChiving.request.BookmarkRequest;
 import softeer.h9.hey.dto.myChiving.response.BookmarkResponse;
 import softeer.h9.hey.dto.myChiving.response.FeedIdResponse;
 import softeer.h9.hey.service.myChiving.FeedService;
@@ -24,29 +22,29 @@ public class FeedController {
 
 	private final FeedService service;
 
-	@GetMapping("/mychiving/feed/bookmark")
+	@GetMapping("/archiving/{feed_id}")
 	public GlobalResponse<BookmarkResponse> getBookmarkByArchivingId(
-		@LoginUser int userId,
-		BookmarkRequest bookmarkRequest) {
+		@LoginUser final int userId,
+		@PathVariable final long feed_id) {
 
-		BookmarkResponse response = service.hasBookmark(userId, bookmarkRequest);
+		BookmarkResponse response = service.hasBookmark(userId, feed_id);
 
 		return GlobalResponse.ok(response);
 	}
 
-	@PostMapping("/mychiving/feed/bookmark")
+	@PostMapping("/archiving/{feed_id}")
 	public GlobalResponse<FeedIdResponse> saveArchivingFeed(
-		@LoginUser int userId,
-		@RequestBody ArchivingIdRequest archivingIdRequest) {
-		FeedIdResponse result = service.saveFeed(userId, archivingIdRequest);
+		@LoginUser final int userId,
+		@PathVariable final long feed_id) {
+		FeedIdResponse result = service.saveFeed(userId, feed_id);
 		return GlobalResponse.ok(result);
 	}
 
-	@DeleteMapping("/mychiving/feed/bookmark")
+	@DeleteMapping("/archiving/{feed_id}")
 	public GlobalResponse<FeedIdResponse> deleteArchivingFeed(
-		@LoginUser int userId,
-		@RequestBody ArchivingIdRequest archivingIdRequest) {
-		FeedIdResponse result = service.deleteFeed(userId, archivingIdRequest);
+		@LoginUser final int userId,
+		@PathVariable final long feed_id) {
+		FeedIdResponse result = service.deleteFeed(userId, feed_id);
 		return GlobalResponse.ok(result);
 	}
 

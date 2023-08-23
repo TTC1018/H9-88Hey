@@ -9,9 +9,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
-import softeer.h9.hey.dto.myChiving.request.ArchivingIdRequest;
 import softeer.h9.hey.domain.archiving.Feed;
-import softeer.h9.hey.dto.myChiving.request.BookmarkRequest;
 import softeer.h9.hey.dto.myChiving.response.BookmarkResponse;
 import softeer.h9.hey.dto.myChiving.response.FeedIdResponse;
 import softeer.h9.hey.repository.myChiving.FeedRepository;
@@ -26,7 +24,6 @@ class FeedServiceTest {
 	void hasBookmark() {
 		int userId = 1;
 		long feedId = 1234567890L;
-		BookmarkRequest request = new BookmarkRequest(feedId);
 		Feed feed = new Feed();
 		feed.setFeedId(feedId);
 		feed.setUserId(userId);
@@ -35,7 +32,7 @@ class FeedServiceTest {
 		when(feedRepository.hasBookmark(userId, feedId))
 			.thenReturn(response);
 
-		BookmarkResponse result = feedService.hasBookmark(userId, request);
+		BookmarkResponse result = feedService.hasBookmark(userId, feedId);
 
 		assertTrue(result.isBookmark());
 	}
@@ -46,11 +43,10 @@ class FeedServiceTest {
 		int userId = 1;
 		long feedId = 1234567890L;
 		int result = 1;
-		ArchivingIdRequest request = ArchivingIdRequest.builder().feedId(feedId).build();
 		when(feedRepository.save(userId, feedId))
 			.thenReturn(result);
 
-		FeedIdResponse response = feedService.saveFeed(userId, request);
+		FeedIdResponse response = feedService.saveFeed(userId, feedId);
 
 		assertEquals(feedId, response.getFeedId());
 	}
@@ -61,11 +57,10 @@ class FeedServiceTest {
 		int userId = 1;
 		long feedId = 1234567890L;
 		int result = 1;
-		ArchivingIdRequest request = ArchivingIdRequest.builder().feedId(feedId).build();
 		when(feedRepository.deleteBookmark(userId, feedId))
 			.thenReturn(result);
 
-		FeedIdResponse response = feedService.deleteFeed(userId, request);
+		FeedIdResponse response = feedService.deleteFeed(userId, feedId);
 
 		assertEquals(feedId, response.getFeedId());
 	}
