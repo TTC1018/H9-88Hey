@@ -3,6 +3,7 @@ package com.softeer.mycarchiving.ui.component
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.animateContentSize
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.ExperimentalFoundationApi
@@ -33,6 +34,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -69,54 +71,65 @@ fun OptionSelectItem(
         animationSpec = tween(durationMillis = 500),
         label = ""
     )
+    val contentAlpha by animateFloatAsState(
+        if (option.isAvailable == null || option.isAvailable == true) 1f
+        else 0.38f,
+        label = ""
+    )
 
-    Surface(
-        modifier = modifier
-            .width(160.dp)
-            .height(197.dp)
-            .clickable { onFocus() },
-        shape = roundCorner,
-        border = if (focus) BorderStroke(width = 2.dp, color = PrimaryBlue) else null,
-        color = if (focus) PrimaryBlue10 else HyundaiLightSand
+    Box(modifier = modifier
+        .width(160.dp)
+        .height(197.dp),
+        contentAlignment = Alignment.Center,
     ) {
-        Column {
-            AsyncImage(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(93.dp),
-                model = option.imageUrl,
-                contentDescription = "",
-                contentScale = ContentScale.Crop,
-            )
-            Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(start = 9.dp, end = 9.dp, top = 10.dp, bottom = 8.dp),
-                verticalArrangement = Arrangement.SpaceBetween
-            ) {
-                Column {
-                    Text(
-                        modifier = Modifier.fillMaxWidth(),
-                        text = option.name,
-                        style = medium14,
-                        color = animatedTextColor,
-                        overflow = TextOverflow.Ellipsis,
-                        maxLines = 1
-                    )
-                    Spacer(modifier = modifier.height(5.dp))
-                    Text(
-                        text = stringResource(
-                            id = R.string.plus_space_price_won,
-                            option.price.toPriceString()
-                        ),
-                        style = medium14,
-                        color = animatedTextColor
+        Surface(
+            modifier = Modifier
+                .alpha(contentAlpha)
+                .fillMaxSize()
+                .clickable(enabled = option.isAvailable ?: true, onClick = { onFocus() }),
+            shape = roundCorner,
+            border = if (focus) BorderStroke(width = 2.dp, color = PrimaryBlue) else null,
+            color = if (focus) PrimaryBlue10 else HyundaiLightSand
+        ) {
+            Column {
+                AsyncImage(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(93.dp),
+                    model = option.imageUrl,
+                    contentDescription = "",
+                    contentScale = ContentScale.Crop,
+                )
+                Column(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(start = 9.dp, end = 9.dp, top = 10.dp, bottom = 8.dp),
+                    verticalArrangement = Arrangement.SpaceBetween
+                ) {
+                    Column {
+                        Text(
+                            modifier = Modifier.fillMaxWidth(),
+                            text = option.name,
+                            style = medium14,
+                            color = animatedTextColor,
+                            overflow = TextOverflow.Ellipsis,
+                            maxLines = 1
+                        )
+                        Spacer(modifier = modifier.height(5.dp))
+                        Text(
+                            text = stringResource(
+                                id = R.string.plus_space_price_won,
+                                option.price.toPriceString()
+                            ),
+                            style = medium14,
+                            color = animatedTextColor
+                        )
+                    }
+                    OptionAddButton(
+                        isSelect = isAdded,
+                        onClick = onAddClick
                     )
                 }
-                OptionAddButton(
-                    isSelect = isAdded,
-                    onClick = onAddClick
-                )
             }
         }
     }
