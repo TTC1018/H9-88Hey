@@ -71,7 +71,7 @@ fun SelectColorRoute(
     val selectedColorSimple by makingCarViewModel.selectedColorSimple.collectAsStateWithLifecycle()
 
     val isArchived by remember(selectedColorSimple) { derivedStateOf { selectedColorSimple.size == 2 } }
-    val isInitial by remember(selectedColor) { derivedStateOf { selectedColor.getOrNull(screenProgress) == null } }
+    val isInitial = selectedColor.getOrNull(screenProgress) == null
 
     // 아카이빙 데이터 로드
     InitArchiveDataEffect(
