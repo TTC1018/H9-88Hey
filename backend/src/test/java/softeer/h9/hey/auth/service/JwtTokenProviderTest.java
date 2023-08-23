@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.Map;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -63,5 +64,19 @@ class JwtTokenProviderTest {
 
 		assertThatThrownBy(() -> jwtTokenProvider.getClaimsFromToken(jwt))
 			.isInstanceOf(InvalidTokenException.class);
+	}
+
+	@Test
+	@DisplayName("유효한 토큰으로부터 사용자의 이름을 가져온다.")
+	void getValidatedUserNameFromToken() {
+		int userId = 1;
+		String expectedUserName = "name";
+		Map<String, Object> claims = Map.of(USER_NAME, expectedUserName);
+
+		String jwt = jwtTokenProvider.generateAccessToken(userId, claims);
+
+		String actualUserName = jwtTokenProvider.getUserNameFromToken(jwt);
+
+		Assertions.assertEquals(expectedUserName, actualUserName);
 	}
 }
