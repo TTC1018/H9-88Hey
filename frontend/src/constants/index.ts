@@ -7,7 +7,7 @@ export enum ModalType {
   CLEAR = 'CLEAR',
 }
 export const TAG_CHIP_MAX_NUMBER = 3;
-export const API_URL = 'http://api.88hey.site:8080';
+export const API_URL = '/dev';
 export const NAVIGATION_PATH = {
   '/trim': { prev: '', next: '/trim/engine' },
   '/trim/engine': { prev: '/trim', next: '/trim/body-type' },
@@ -76,6 +76,7 @@ export const apiPath = {
   },
   archivingOption: (modelId: number) => `${apiPath.carBase()}/select-options?model_id=${modelId}`,
   tag: (type: string, id: string | number, limit: number) => `${apiPath.carBase()}/tag/${type}?id=${id}&limit=${limit}`,
+  bookMark: (id: string) => `/user/archiving/${id}/bookmark`,
 };
 
 export const cacheKey = {
