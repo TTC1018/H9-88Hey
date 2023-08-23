@@ -98,7 +98,7 @@ class ArchivingServiceTest {
 		Mockito.when(archivingRepository.findDetailByFeedId(id))
 			.thenReturn(archivingResults);
 
-		ArchivingDetailResponse response = archivingService.getArchivingDetail(request);
+		ArchivingDetailResponse response = archivingService.getArchivingDetail(id);
 
 		assertEquals(2, response.getSelectedOptions().size());
 		assertEquals(70, response.getTotalPrice());

@@ -48,8 +48,9 @@ class ArchivingControllerTest {
 	@Test
 	void findArchivingDetailById() throws Exception {
 		long id = 479893076429349314L;
+		String url = "/archiving/" + id;
 		mockMvc.perform(
-				get("/archiving/detail")
+				get(url)
 					.param("id", String.valueOf(id))
 					.accept(MediaType.APPLICATION_JSON))
 			.andExpect(status().isOk())

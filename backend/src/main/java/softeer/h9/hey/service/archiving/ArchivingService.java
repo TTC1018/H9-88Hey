@@ -22,7 +22,6 @@ import softeer.h9.hey.dto.archiving.InteriorColorDto;
 import softeer.h9.hey.dto.archiving.SelectOptionDto;
 import softeer.h9.hey.dto.archiving.TrimDto;
 import softeer.h9.hey.dto.archiving.WheelDriveDto;
-import softeer.h9.hey.dto.archiving.request.ArchivingDetailRequest;
 import softeer.h9.hey.dto.archiving.request.ArchivingRequest;
 import softeer.h9.hey.dto.archiving.response.ArchivingDetailResponse;
 import softeer.h9.hey.dto.archiving.response.ArchivingResponse;
@@ -55,9 +54,9 @@ public class ArchivingService {
 
 	private final ArchivingTagsRepository tagsRepository;
 
-	public ArchivingDetailResponse getArchivingDetail(final ArchivingDetailRequest request) {
-		List<ArchivingResult> archivingResults = archivingRepository.findDetailByFeedId(request.getId());
-		List<SelectOptionTag> selectOptionTags = tagsRepository.findAllByArchivingIdSelectedOptions(request.getId());
+	public ArchivingDetailResponse getArchivingDetail(final Long feedId) {
+		List<ArchivingResult> archivingResults = archivingRepository.findDetailByFeedId(feedId);
+		List<SelectOptionTag> selectOptionTags = tagsRepository.findAllByArchivingIdSelectedOptions(feedId);
 
 		ArchivingDetailResponse response = new ArchivingDetailResponse();
 		response.setTotalPrice(initializeDefaultPrice(archivingResults));
