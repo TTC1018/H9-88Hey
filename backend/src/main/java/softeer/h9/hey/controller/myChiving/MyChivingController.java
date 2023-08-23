@@ -23,21 +23,23 @@ public class MyChivingController {
 
 	private final MyChivingService myChivingService;
 
-
 	@GetMapping("/mychiving")
-	public GlobalResponse<MyChivingsResponse> findMyChivings(@LoginUser int userId, final MyChivingRequest myChivingRequest) {
+	public GlobalResponse<MyChivingsResponse> findMyChivings(@LoginUser int userId,
+		final MyChivingRequest myChivingRequest) {
 		MyChivingsResponse myChivingsResponse = myChivingService.findMyChivings(userId, myChivingRequest);
 		return GlobalResponse.ok(myChivingsResponse);
 	}
 
-  @PostMapping("/mychiving")
-	public GlobalResponse<MyChivingIdResponse> saveMyCarToMyChiving(@LoginUser int userId, @Valid @RequestBody MyChivingSaveRequest myChivingSaveRequest) {
+	@PostMapping("/mychiving")
+	public GlobalResponse<MyChivingIdResponse> saveMyCarToMyChiving(@LoginUser int userId,
+		@Valid @RequestBody MyChivingSaveRequest myChivingSaveRequest) {
 		MyChivingIdResponse response = myChivingService.saveMyCar(userId, myChivingSaveRequest);
 		return GlobalResponse.ok(response);
 	}
 
 	@PostMapping("/mychiving/temp")
-	public GlobalResponse<MyChivingIdResponse> temporarySaveMyCarToMyChiving(@LoginUser int userId, @Valid @RequestBody MyChivingTempSaveRequest myChivingSaveRequest) {
+	public GlobalResponse<MyChivingIdResponse> temporarySaveMyCarToMyChiving(@LoginUser int userId,
+		@Valid @RequestBody MyChivingTempSaveRequest myChivingSaveRequest) {
 		MyChivingIdResponse response = myChivingService.temporarySaveMyCar(userId, myChivingSaveRequest);
 		return GlobalResponse.ok(response);
 	}

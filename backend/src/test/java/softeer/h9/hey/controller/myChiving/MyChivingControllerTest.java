@@ -23,7 +23,8 @@ class MyChivingControllerTest {
 	void saveMyCarToMyChiving() throws Exception {
 		mockMvc.perform(MockMvcRequestBuilders.post("/mychiving")
 				.contentType("application/json")
-				.header("Authorization", "Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiIxIiwidXNlck5hbWUiOiJ0ZXN0IiwiaWF0IjoxNjkyNTYwMzM5LCJleHAiOjQ4MTQ2MjQzMzl9.gcSE7kPaRVxo2iT9DRcN1Bn5ZNAAsHG8Z3dvTopH-IWblMf_LJ2lhsYqOvrrLcZJ")
+				.header("Authorization",
+					"Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiIxIiwidXNlck5hbWUiOiJ0ZXN0IiwiaWF0IjoxNjkyNTYwMzM5LCJleHAiOjQ4MTQ2MjQzMzl9.gcSE7kPaRVxo2iT9DRcN1Bn5ZNAAsHG8Z3dvTopH-IWblMf_LJ2lhsYqOvrrLcZJ")
 				.content("{\n"
 					+ "    \"myChivingId\": 481490775913230951,\n"
 					+ "\t\"bodyType\": 1,\n"
@@ -46,7 +47,8 @@ class MyChivingControllerTest {
 	void temporarySaveMyCarToMyChiving() throws Exception {
 		mockMvc.perform(MockMvcRequestBuilders.post("/mychiving/temp")
 				.contentType("application/json")
-				.header("Authorization", "Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiIxIiwidXNlck5hbWUiOiJ0ZXN0IiwiaWF0IjoxNjkyNTYwMzM5LCJleHAiOjQ4MTQ2MjQzMzl9.gcSE7kPaRVxo2iT9DRcN1Bn5ZNAAsHG8Z3dvTopH-IWblMf_LJ2lhsYqOvrrLcZJ")
+				.header("Authorization",
+					"Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiIxIiwidXNlck5hbWUiOiJ0ZXN0IiwiaWF0IjoxNjkyNTYwMzM5LCJleHAiOjQ4MTQ2MjQzMzl9.gcSE7kPaRVxo2iT9DRcN1Bn5ZNAAsHG8Z3dvTopH-IWblMf_LJ2lhsYqOvrrLcZJ")
 				.content("{\n"
 					+ "    \"myChivingId\": null,\n"
 					+ "\t\"bodyType\": 1,\n"
@@ -68,7 +70,8 @@ class MyChivingControllerTest {
 	void findMyChiving() throws Exception {
 		mockMvc.perform(MockMvcRequestBuilders
 				.get("/mychiving")
-				.header("Authorization", "Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiIxIiwidXNlck5hbWUiOiJ0ZXN0IiwiaWF0IjoxNjkyNTYwMzM5LCJleHAiOjQ4MTQ2MjQzMzl9.gcSE7kPaRVxo2iT9DRcN1Bn5ZNAAsHG8Z3dvTopH-IWblMf_LJ2lhsYqOvrrLcZJ")
+				.header("Authorization",
+					"Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiIxIiwidXNlck5hbWUiOiJ0ZXN0IiwiaWF0IjoxNjkyNTYwMzM5LCJleHAiOjQ4MTQ2MjQzMzl9.gcSE7kPaRVxo2iT9DRcN1Bn5ZNAAsHG8Z3dvTopH-IWblMf_LJ2lhsYqOvrrLcZJ")
 				.param("offset", "1")
 				.param("limit", "4"))
 			.andExpect(MockMvcResultMatchers.status().isOk())
