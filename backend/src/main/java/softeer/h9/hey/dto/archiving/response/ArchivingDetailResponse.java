@@ -21,7 +21,7 @@ import softeer.h9.hey.dto.archiving.WheelDriveDto;
 @NoArgsConstructor
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 public class ArchivingDetailResponse {
-	private Long feedId;
+	private String feedId;
 	private String modelName;
 	private String creationDate;
 	private boolean isPurchase;

@@ -21,7 +21,7 @@ import softeer.h9.hey.dto.myChiving.MyChivingSelectOptionDto;
 @Builder
 @Getter
 public class MyChivingResponse {
-	private long myChivingId;
+	private String myChivingId;
 	private LocalDateTime lastModifiedDate;
 	private Boolean isSaved;
 	private int totalPrice;
@@ -38,7 +38,7 @@ public class MyChivingResponse {
 	public static MyChivingResponse of(MyChivingDto myChivingDto,
 		List<MyChivingSelectOptionDto> myChivingSelectOptionDtoList, int totalPrice, String carCode) {
 		return MyChivingResponse.builder()
-			.myChivingId(myChivingDto.getMyChivingId())
+			.myChivingId(Long.toString(myChivingDto.getMyChivingId()))
 			.lastModifiedDate(myChivingDto.getLastModifiedDate())
 			.isSaved(myChivingDto.getIsSaved())
 			.totalPrice(totalPrice)

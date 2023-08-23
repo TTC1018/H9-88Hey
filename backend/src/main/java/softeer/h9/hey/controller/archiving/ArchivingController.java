@@ -3,11 +3,11 @@ package softeer.h9.hey.controller.archiving;
 import java.util.ArrayList;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
-import softeer.h9.hey.dto.archiving.request.ArchivingDetailRequest;
 import softeer.h9.hey.dto.archiving.request.ArchivingRequest;
 import softeer.h9.hey.dto.archiving.response.ArchivingDetailResponse;
 import softeer.h9.hey.dto.archiving.response.ArchivingResponse;
@@ -28,8 +28,9 @@ public class ArchivingController {
 		return GlobalResponse.ok(archivingService.getArchivingFeeds(request));
 	}
 
-	@GetMapping("/archiving/detail")
-	public GlobalResponse<ArchivingDetailResponse> findArchivingDetailById(final ArchivingDetailRequest request) {
-		return GlobalResponse.ok(archivingService.getArchivingDetail(request));
+	@GetMapping("/archiving/{feed_id}")
+	public GlobalResponse<ArchivingDetailResponse> findArchivingDetailById(
+		@PathVariable(value = "feed_id") final Long feedId) {
+		return GlobalResponse.ok(archivingService.getArchivingDetail(feedId));
 	}
 }

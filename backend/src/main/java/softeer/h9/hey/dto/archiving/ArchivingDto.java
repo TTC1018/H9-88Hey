@@ -11,7 +11,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class ArchivingDto {
-	private Long feedId;
+	private String feedId;
 	private String modelName;
 	private String creationDate;
 	private boolean isPurchase;

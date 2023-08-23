@@ -22,7 +22,6 @@ import softeer.h9.hey.dto.archiving.InteriorColorDto;
 import softeer.h9.hey.dto.archiving.SelectOptionDto;
 import softeer.h9.hey.dto.archiving.TrimDto;
 import softeer.h9.hey.dto.archiving.WheelDriveDto;
-import softeer.h9.hey.dto.archiving.request.ArchivingDetailRequest;
 import softeer.h9.hey.dto.archiving.request.ArchivingRequest;
 import softeer.h9.hey.dto.archiving.response.ArchivingDetailResponse;
 import softeer.h9.hey.dto.archiving.response.ArchivingResponse;
@@ -55,9 +54,9 @@ public class ArchivingService {
 
 	private final ArchivingTagsRepository tagsRepository;
 
-	public ArchivingDetailResponse getArchivingDetail(final ArchivingDetailRequest request) {
-		List<ArchivingResult> archivingResults = archivingRepository.findDetailByFeedId(request.getId());
-		List<SelectOptionTag> selectOptionTags = tagsRepository.findAllByArchivingIdSelectedOptions(request.getId());
+	public ArchivingDetailResponse getArchivingDetail(final Long feedId) {
+		List<ArchivingResult> archivingResults = archivingRepository.findDetailByFeedId(feedId);
+		List<SelectOptionTag> selectOptionTags = tagsRepository.findAllByArchivingIdSelectedOptions(feedId);
 
 		ArchivingDetailResponse response = new ArchivingDetailResponse();
 		response.setTotalPrice(initializeDefaultPrice(archivingResults));
@@ -150,7 +149,7 @@ public class ArchivingService {
 					archivingResult.getInteriorColorColorImageUrl()));
 
 			// 기본 매핑
-			response.setFeedId(archivingResult.getFeedId());
+			response.setFeedId(Long.toString(archivingResult.getFeedId()));
 			response.setModelName(archivingResult.getModelName());
 			response.setReview(archivingResult.getReview());
 			response.setPurchase(archivingResult.isPurchase());
@@ -178,7 +177,7 @@ public class ArchivingService {
 			String carCode = archiving.getCarNormalTypesId();
 
 			ArchivingDto archivingDto = new ArchivingDto();
-			archivingDto.setFeedId(archivingId);
+			archivingDto.setFeedId(Long.toString(archivingId));
 			archivingDto.setModelName(archiving.getModelName());
 			archivingDto.setCreationDate(archiving.getCreatedAt().toString());
 			archivingDto.setReview(archiving.getReview());
