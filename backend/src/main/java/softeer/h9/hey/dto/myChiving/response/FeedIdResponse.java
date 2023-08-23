@@ -4,13 +4,13 @@ import lombok.Getter;
 
 @Getter
 public class FeedIdResponse {
-	private Long feedId;
+	private String feedId;
 
-	private FeedIdResponse(Long feedId) {
+	private FeedIdResponse(String feedId) {
 		this.feedId = feedId;
 	}
 
 	public static FeedIdResponse of(Long feedId) {
-		return new FeedIdResponse(feedId);
+		return new FeedIdResponse(Long.toString(feedId));
 	}
 }

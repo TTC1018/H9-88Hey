@@ -19,7 +19,7 @@ public class FeedController {
 
 	private final FeedService service;
 
-	@GetMapping("/feed/{feed_id}/bookmark")
+	@GetMapping("/user/archiving/{feed_id}/bookmark")
 	public GlobalResponse<BookmarkResponse> getBookmarkByArchivingId(
 		@LoginUser int userId,
 		@PathVariable(value = "feed_id") long feedId) {
@@ -29,7 +29,7 @@ public class FeedController {
 		return GlobalResponse.ok(response);
 	}
 
-	@PostMapping("/feed/{feed_id}/bookmark")
+	@PostMapping("/user/archiving/{feed_id}/bookmark")
 	public GlobalResponse<FeedIdResponse> saveArchivingFeed(
 		@LoginUser int userId,
 		@PathVariable(value = "feed_id") long feedId) {
@@ -39,7 +39,7 @@ public class FeedController {
 		return GlobalResponse.ok(result);
 	}
 
-	@DeleteMapping("/feed/{feed_id}/bookmark")
+	@DeleteMapping("/user/archiving/{feed_id}/bookmark")
 	public GlobalResponse<?> deleteArchivingFeed(
 		@LoginUser int userId,
 		@PathVariable(value = "feed_id") long feedId) {

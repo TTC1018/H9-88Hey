@@ -13,7 +13,6 @@ import softeer.h9.hey.domain.archiving.Feed;
 import softeer.h9.hey.dto.myChiving.response.BookmarkResponse;
 import softeer.h9.hey.dto.myChiving.response.FeedIdResponse;
 import softeer.h9.hey.repository.archiving.FeedRepository;
-import softeer.h9.hey.service.archiving.FeedService;
 
 @DisplayName("Feed Service 테스트")
 class FeedServiceTest {
@@ -49,7 +48,7 @@ class FeedServiceTest {
 
 		FeedIdResponse response = feedService.saveFeed(userId, feedId);
 
-		assertEquals(feedId, response.getFeedId());
+		assertEquals(feedId, Long.parseLong(response.getFeedId()));
 	}
 
 	@DisplayName("유저의 아카이빙 북마크를 삭제한다.")
@@ -63,6 +62,6 @@ class FeedServiceTest {
 
 		FeedIdResponse response = feedService.deleteFeed(userId, feedId);
 
-		assertEquals(feedId, response.getFeedId());
+		assertEquals(feedId, Long.parseLong(response.getFeedId()));
 	}
 }
