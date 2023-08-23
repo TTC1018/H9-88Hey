@@ -29,14 +29,16 @@ import softeer.h9.hey.dto.myChiving.ModelDto;
 import softeer.h9.hey.dto.myChiving.MyChivingDto;
 import softeer.h9.hey.dto.myChiving.MyChivingSaveDto;
 import softeer.h9.hey.dto.myChiving.MyChivingSelectOptionFetchDto;
+import softeer.h9.hey.exception.myChiving.DeletionFailException;
+import softeer.h9.hey.exception.myChiving.InValidAccessException;
 
 @RequiredArgsConstructor
 @Repository
 public class MyChivingRepository {
 
 	private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
+	private final static int COUNT_OF_RECORD_TO_DELETE = 1;
 
-	@Transactional
 	public Long saveMyCarToMyChiving(final MyChivingSaveDto myChivingSaveDto) {
 		Long id = myChivingSaveDto.getId();
 		Integer userId = myChivingSaveDto.getUserId();
@@ -120,6 +122,17 @@ public class MyChivingRepository {
 			+ ")";
 
 		return namedParameterJdbcTemplate.query(sql, myChivingSelectOptionRowMapper());
+	}
+
+	public void deleteMyChivingByMyChivingAndUserId(int userId, long myChivingId) {
+		checkMyChivingExistence(userId, myChivingId);
+		deleteSelectOption(myChivingId);
+
+		int affectedRow = deleteMyChiving(userId, myChivingId);
+
+		if (affectedRow != COUNT_OF_RECORD_TO_DELETE) {
+			throw new DeletionFailException();
+		}
 	}
 
 	private MyChivingDto getNewMyChivingDto(ResultSet rs) throws SQLException {
@@ -244,6 +257,15 @@ public class MyChivingRepository {
 		namedParameterJdbcTemplate.update(sql, sqlParameterSource);
 	}
 
+	private int deleteMyChiving(int userId, long myChivingId) {
+		String sql = "DELETE FROM myArchiving WHERE id = :myChivingId and user_id = :userId";
+		SqlParameterSource sqlParameterSource = new MapSqlParameterSource()
+			.addValue("myChivingId", myChivingId)
+			.addValue("userId", userId);
+
+		return namedParameterJdbcTemplate.update(sql, sqlParameterSource);
+	}
+
 	private void insertSelectOption(Long myChivingId, List<String> selectOptionIdList) {
 		if (selectOptionIdList == null || selectOptionIdList.isEmpty()) {
 			return;
@@ -259,6 +281,23 @@ public class MyChivingRepository {
 		SqlParameterSource sqlParameterSource = new MapSqlParameterSource();
 
 		namedParameterJdbcTemplate.update(sql, sqlParameterSource);
+	}
+
+	private void checkMyChivingExistence(int userId, long myChivingId) {
+		String sql = "SELECT EXISTS "
+			+ "(SELECT * FROM myArchiving "
+			+ "WHERE id = :myChivingId "
+			+ "and user_id = :userId);";
+
+		SqlParameterSource sqlParameterSource = new MapSqlParameterSource()
+			.addValue("myChivingId", myChivingId)
+			.addValue("userId", userId);
+
+		boolean validBit = namedParameterJdbcTemplate.queryForObject(sql, sqlParameterSource, boolean.class);
+
+		if (!validBit) {
+			throw new InValidAccessException();
+		}
 	}
 
 	private RowMapper<MyChivingSelectOptionFetchDto> myChivingSelectOptionRowMapper() {

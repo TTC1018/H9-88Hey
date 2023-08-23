@@ -1,14 +1,18 @@
 package softeer.h9.hey.controller.myChiving;
 
+import org.assertj.core.api.Assertions;
+import org.json.JSONObject;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.transaction.annotation.Transactional;
+
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -76,5 +80,42 @@ class MyChivingControllerTest {
 				.param("limit", "4"))
 			.andExpect(MockMvcResultMatchers.status().isOk())
 			.andExpect(MockMvcResultMatchers.jsonPath("$.data.myChivings").exists());
+	}
+
+	@Test
+	@DisplayName("마이카이빙 중 제일 첫번째 레코드를 삭제 시 200을 반환하고 조회 시 첫번째 레코드가 달라야 한다.")
+	@Transactional
+	void deleteMyChivingTest() throws Exception {
+		long myChivingId = getMyChivingId();
+
+		mockMvc.perform(MockMvcRequestBuilders
+			.delete("/mychiving/" + myChivingId)
+			.header("Authorization",
+				"Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiIxIiwidXNlck5hbWUiOiJ0ZXN0IiwiaWF0IjoxNjkyNTYwMzM5LCJleHAiOjQ4MTQ2MjQzMzl9.gcSE7kPaRVxo2iT9DRcN1Bn5ZNAAsHG8Z3dvTopH-IWblMf_LJ2lhsYqOvrrLcZJ"))
+			.andExpect(MockMvcResultMatchers.status().isOk());
+	}
+
+	long getMyChivingId() throws Exception {
+		MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.post("/mychiving/temp")
+			.contentType("application/json")
+			.header("Authorization",
+				"Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiIxIiwidXNlck5hbWUiOiJ0ZXN0IiwiaWF0IjoxNjkyNTYwMzM5LCJleHAiOjQ4MTQ2MjQzMzl9.gcSE7kPaRVxo2iT9DRcN1Bn5ZNAAsHG8Z3dvTopH-IWblMf_LJ2lhsYqOvrrLcZJ")
+			.content("{\n"
+				+ "    \"myChivingId\": null,\n"
+				+ "\t\"bodyType\": 1,\n"
+				+ "\t\"wheelType\": 2,\n"
+				+ "\t\"engine\": 2,\n"
+				+ "\t\"trim\": 2,\n"
+				+ "\t\"exteriorColor\": 3,\n"
+				+ "\t\"interiorColor\": 5,\n"
+				+ "\t\"selectOptions\":[\n"
+				+ "\t\t\"DUP\", \"LX0010\", \"PA1\"\n"
+				+ "\t]\n"
+				+ "}")).andReturn();
+
+		String response = mvcResult.getResponse().getContentAsString();
+
+		JSONObject jsonObject = new JSONObject(response);
+		return Long.parseLong(jsonObject.getJSONObject("data").get("myChivingId").toString());
 	}
 }

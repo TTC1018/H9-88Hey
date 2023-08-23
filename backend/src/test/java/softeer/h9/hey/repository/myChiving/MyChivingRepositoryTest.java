@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.*;
 
 import java.util.List;
 
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,7 @@ import softeer.h9.hey.dto.myChiving.MyChivingDto;
 import softeer.h9.hey.dto.myChiving.MyChivingSaveDto;
 import softeer.h9.hey.dto.myChiving.MyChivingSelectOptionFetchDto;
 import softeer.h9.hey.dto.myChiving.request.MyChivingTempSaveRequest;
+import softeer.h9.hey.exception.myChiving.InValidAccessException;
 
 @SpringBootTest
 class MyChivingRepositoryTest {
@@ -149,4 +151,42 @@ class MyChivingRepositoryTest {
 		}
 	}
 
+	@Test
+	@DisplayName("유저에게 존재하지 않는 마이카이빙 아이디로 삭제하려 할 때 InvalidAccessException을 반환해야 한다.")
+	@Transactional
+	void invalidAccessExceptionTest() {
+		//존재하지 않는 아이디 삽입
+		int userId = 1;
+		long invalidMyChivingId = 1234L;
+
+		assertThatThrownBy(
+			() -> myChivingRepository.deleteMyChivingByMyChivingAndUserId(userId, invalidMyChivingId))
+			.isInstanceOf(InValidAccessException.class);
+
+	}
+
+	@Test
+	@DisplayName("임의로 새로운 마이카이빙을 추가하고 삭제할 때 예외없이 삭제가 되어야 한다.")
+	@Transactional
+	void deleteMyChivingTest() {
+		Long id = null;
+		Integer engineId = 1;
+		Integer trimId = 1;
+		Integer bodyTypeId = 1;
+		Integer wheelTypeId = 1;
+		Integer exteriorColorId = 1;
+		Integer interiorColorId = 1;
+		List<String> selectOptionIdList = List.of("TRP", "DUP", "VI2");
+
+		MyChivingTempSaveRequest myChivingTempSaveRequest = new MyChivingTempSaveRequest(id, bodyTypeId, wheelTypeId,
+			engineId, trimId, exteriorColorId, interiorColorId, selectOptionIdList);
+		MyChivingSaveDto myChivingSaveDto = MyChivingSaveDto.from(myChivingTempSaveRequest);
+		myChivingSaveDto.setUserId(1);
+		myChivingSaveDto.setSubmitted(false);
+
+		long myChivingId = myChivingRepository.saveMyCarToMyChiving(myChivingSaveDto);
+
+		//만약 없는 값을 삭제하려 한다면 예외가 터지기 때문에 예외가 없다면 제대로 실행됨
+		myChivingRepository.deleteMyChivingByMyChivingAndUserId(1, myChivingId);
+	}
 }
