@@ -25,13 +25,15 @@ import softeer.h9.hey.dto.myChiving.request.MyChivingTempSaveRequest;
 import softeer.h9.hey.dto.myChiving.response.MyChivingIdResponse;
 import softeer.h9.hey.dto.myChiving.response.MyChivingResponse;
 import softeer.h9.hey.dto.myChiving.response.MyChivingsResponse;
+import softeer.h9.hey.repository.car.CarInfoRepository;
 import softeer.h9.hey.repository.myChiving.MyChivingRepository;
 
 class MyChivingServiceTest {
 
 	MyChivingRepository myChivingRepository = Mockito.mock(MyChivingRepository.class);
+	CarInfoRepository carInfoRepository = Mockito.mock(CarInfoRepository.class);
 
-	MyChivingService myChivingService = new MyChivingService(myChivingRepository);
+	MyChivingService myChivingService = new MyChivingService(myChivingRepository, carInfoRepository);
 
 	@Test
 	@DisplayName("임시저장이나 마이카이빙 id를 반환해야 한다.")
@@ -130,6 +132,7 @@ class MyChivingServiceTest {
 		assertThat(myChivingResponse.getMyChivingId()).isEqualTo(Long.toString(1234L));
 		assertThat(myChivingResponse.getIsSaved()).isEqualTo(false);
 		assertThat(myChivingResponse.getLastModifiedDate()).isEqualTo(dateTime);
+		assertThat(myChivingResponse.getTotalPrice()).isEqualTo(1000);
 		assertThat(myChivingResponse.getSelectOptions()).hasSize(1);
 		MyChivingSelectOptionDto myChivingSelectOptionDto = myChivingResponse.getSelectOptions().get(0);
 		assertThat(myChivingSelectOptionDto.getId()).isEqualTo("DUP");

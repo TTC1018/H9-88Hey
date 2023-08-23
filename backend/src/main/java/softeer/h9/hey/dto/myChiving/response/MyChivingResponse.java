@@ -24,6 +24,8 @@ public class MyChivingResponse {
 	private String myChivingId;
 	private LocalDateTime lastModifiedDate;
 	private Boolean isSaved;
+	private int totalPrice;
+	private String carCode;
 	private ModelDto model;
 	private TrimDto trim;
 	private EngineDto engine;
@@ -34,12 +36,14 @@ public class MyChivingResponse {
 	private List<MyChivingSelectOptionDto> selectOptions;
 
 	public static MyChivingResponse of(MyChivingDto myChivingDto,
-		List<MyChivingSelectOptionDto> myChivingSelectOptionDtoList) {
+		List<MyChivingSelectOptionDto> myChivingSelectOptionDtoList, int totalPrice, String carCode) {
 		return MyChivingResponse.builder()
-			.myChivingId(Long.toString(myChivingDto.getMyChivingId()))
+			.myChivingId(Long.toString(myChivingDto.getMyChivingId())
 			.lastModifiedDate(myChivingDto.getLastModifiedDate())
 			.isSaved(myChivingDto.getIsSaved())
-			.model(myChivingDto.getModelDto())
+			.totalPrice(totalPrice)
+			.carCode(carCode)
+			.model(myChivingDto.getModel())
 			.trim(myChivingDto.getTrim())
 			.engine(myChivingDto.getEngine())
 			.bodyType(myChivingDto.getBodyType())
