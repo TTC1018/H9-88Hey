@@ -9,6 +9,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -27,6 +28,7 @@ import softeer.h9.hey.repository.myChiving.MyChivingRepository;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class MyChivingService {
 
 	@Getter

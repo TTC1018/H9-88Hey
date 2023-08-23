@@ -39,7 +39,6 @@ public class MyChivingRepository {
 	private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 	private final static int COUNT_OF_RECORD_TO_DELETE = 1;
 
-	@Transactional
 	public Long saveMyCarToMyChiving(final MyChivingSaveDto myChivingSaveDto) {
 		Long id = myChivingSaveDto.getId();
 		Integer userId = myChivingSaveDto.getUserId();
@@ -125,7 +124,6 @@ public class MyChivingRepository {
 		return namedParameterJdbcTemplate.query(sql, myChivingSelectOptionRowMapper());
 	}
 
-	@Transactional
 	public void deleteMyChivingByMyChivingAndUserId(int userId, long myChivingId) {
 		checkMyChivingExistence(userId, myChivingId);
 		deleteSelectOption(myChivingId);
