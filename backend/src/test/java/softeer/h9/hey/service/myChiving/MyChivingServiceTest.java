@@ -54,7 +54,7 @@ class MyChivingServiceTest {
 		when(myChivingRepository.saveMyCarToMyChiving(myChivingSaveDto)).thenReturn(123456789012345678L);
 
 		MyChivingIdResponse myChivingIdResponse = myChivingService.temporarySaveMyCar(1, myChivingTempSaveRequest);
-		assertThat(myChivingIdResponse.getMyChivingId()).isEqualTo(id);
+		assertThat(myChivingIdResponse.getMyChivingId()).isEqualTo(Long.toString(id));
 	}
 
 	@Test
@@ -78,7 +78,7 @@ class MyChivingServiceTest {
 		when(myChivingRepository.saveMyCarToMyChiving(myChivingSaveDto)).thenReturn(123456789012345678L);
 
 		MyChivingIdResponse myChivingIdResponse = myChivingService.saveMyCar(1, myChivingSaveRequest);
-		assertThat(myChivingIdResponse.getMyChivingId()).isEqualTo(id);
+		assertThat(myChivingIdResponse.getMyChivingId()).isEqualTo(Long.toString(id));
 	}
 
 	@Test
@@ -127,7 +127,7 @@ class MyChivingServiceTest {
 
 		MyChivingResponse myChivingResponse = myChivingsResponse.getMyChivings().get(0);
 
-		assertThat(myChivingResponse.getMyChivingId()).isEqualTo(1234L);
+		assertThat(myChivingResponse.getMyChivingId()).isEqualTo(Long.toString(1234L));
 		assertThat(myChivingResponse.getIsSaved()).isEqualTo(false);
 		assertThat(myChivingResponse.getLastModifiedDate()).isEqualTo(dateTime);
 		assertThat(myChivingResponse.getSelectOptions()).hasSize(1);

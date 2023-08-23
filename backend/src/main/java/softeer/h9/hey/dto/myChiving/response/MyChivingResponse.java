@@ -21,7 +21,7 @@ import softeer.h9.hey.dto.myChiving.MyChivingSelectOptionDto;
 @Builder
 @Getter
 public class MyChivingResponse {
-	private Long myChivingId;
+	private String myChivingId;
 	private LocalDateTime lastModifiedDate;
 	private Boolean isSaved;
 	private ModelDto model;
@@ -33,21 +33,21 @@ public class MyChivingResponse {
 	private ExteriorColorDto exteriorColor;
 	private List<MyChivingSelectOptionDto> selectOptions;
 
-	public static MyChivingResponse of(MyChivingDto myChivingDto, List<MyChivingSelectOptionDto> myChivingSelectOptionDtoList) {
+	public static MyChivingResponse of(MyChivingDto myChivingDto,
+		List<MyChivingSelectOptionDto> myChivingSelectOptionDtoList) {
 		return MyChivingResponse.builder()
-				.myChivingId(myChivingDto.getMyChivingId())
-				.lastModifiedDate(myChivingDto.getLastModifiedDate())
-				.isSaved(myChivingDto.getIsSaved())
-				.model(myChivingDto.getModelDto())
-				.trim(myChivingDto.getTrim())
-				.engine(myChivingDto.getEngine())
-				.bodyType(myChivingDto.getBodyType())
-				.wheelDrive(myChivingDto.getWheelDrive())
-				.interiorColor(myChivingDto.getInteriorColor())
-				.exteriorColor(myChivingDto.getExteriorColor())
-				.selectOptions(myChivingSelectOptionDtoList)
-				.build();
+			.myChivingId(Long.toString(myChivingDto.getMyChivingId()))
+			.lastModifiedDate(myChivingDto.getLastModifiedDate())
+			.isSaved(myChivingDto.getIsSaved())
+			.model(myChivingDto.getModelDto())
+			.trim(myChivingDto.getTrim())
+			.engine(myChivingDto.getEngine())
+			.bodyType(myChivingDto.getBodyType())
+			.wheelDrive(myChivingDto.getWheelDrive())
+			.interiorColor(myChivingDto.getInteriorColor())
+			.exteriorColor(myChivingDto.getExteriorColor())
+			.selectOptions(myChivingSelectOptionDtoList)
+			.build();
 	}
-
 
 }
