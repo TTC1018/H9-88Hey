@@ -293,9 +293,9 @@ public class MyChivingRepository {
 			.addValue("myChivingId", myChivingId)
 			.addValue("userId", userId);
 
-		int validBit = namedParameterJdbcTemplate.queryForObject(sql, sqlParameterSource, int.class);
+		boolean validBit = namedParameterJdbcTemplate.queryForObject(sql, sqlParameterSource, boolean.class);
 
-		if (validBit == 0) {
+		if (!validBit) {
 			throw new InValidAccessException();
 		}
 	}
