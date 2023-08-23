@@ -40,6 +40,7 @@ import com.softeer.mycarchiving.ui.makingcar.MakingCarViewModel
 import com.softeer.mycarchiving.ui.makingcar.loading.LoadingScreen
 import com.softeer.mycarchiving.ui.theme.White
 import com.softeer.mycarchiving.util.fadeInAndOut
+import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 
 @Composable
@@ -57,7 +58,7 @@ fun SelectModelRoute(
     val selectedModel by sharedViewModel.selectedModelInfo.observeAsState()
     val isArchived = carDetails != null && selectedModel == null
 
-    LaunchedEffect(isArchived) {
+    LaunchedEffect(isArchived, carModels) {
         if (isArchived) {
             // 아카이빙에서 왔다면 초기화 후 해당 데이터 선택
             sharedViewModel.initializeSelectedOptions()
@@ -68,11 +69,9 @@ fun SelectModelRoute(
                 }
             }
         }
-    }
 
-    // 아무것도 선택된 것 없을 때 첫번째 모델 자동 선택
-    LaunchedEffect(carModels) {
-        if (isArchived.not()) {
+        // 아무것도 선택된 것 없을 때 첫번째 모델 자동 선택
+        if (isArchived.not() && selectedModel == null) {
             carModels.firstOrNull()?.let { sharedViewModel.updateSelectedModelInfo(it) }
         }
     }
