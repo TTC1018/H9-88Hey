@@ -20,33 +20,25 @@ export function Engine() {
     myCar: { engine },
   } = useOutletContext<MyCarLayoutContextProps>();
 
-  const [selectedIndex, handleSetIndex] = useSelectIndex();
-
   const { engines } = useFetchSuspense<EngineDataProps>({
     fetcher: () => fetcher<EngineDataProps>({ url: apiPath.engine(1) }),
     key: cacheKey.engine(1),
   });
 
-  const { imageUrl, additionalPrice, name } = engines[selectedIndex];
+  const index = engines.findIndex(({ name }) => name === engine.name);
+  const initialIndex = index !== -1 ? index : 0;
+  const [selectedIndex, handleSetIndex] = useSelectIndex({ initialIndex });
 
-  function handleCardClick(additionalPrice: number, id: number, name: string, index: number) {
-    return () => {
-      handleSetIndex(index)();
-      dispatch({ type: MyCarActionType.TRIM_OPTION, props: { key: 'engine', name, additionalPrice, id } });
-    };
-  }
+  const { imageUrl, additionalPrice, name } = engines[selectedIndex];
 
   useEffect(() => {
     if (engine.name === '') {
       const { name, additionalPrice, id } = engines[0];
 
-      dispatch({ type: MyCarActionType.TRIM_OPTION, props: { key: 'engine', name, additionalPrice, id } });
+      dispatch({ type: MyCarActionType.TRIM_OPTION, payload: { key: 'engine', name, additionalPrice, id } });
 
       return;
     }
-
-    const index = engines.findIndex(({ name }) => name === engine.name);
-    index !== -1 && handleSetIndex(index)();
   }, []);
 
   return (
@@ -58,17 +50,19 @@ export function Engine() {
         </Styled.Box>
         <Styled.CardBox>
           {engines.map(({ name, additionalPrice, description, maximumPower, maximumTorque, id }, index) => (
-            <Styled.Enclosure key={id} onClick={handleCardClick(additionalPrice, id, name, index)}>
-              <TrimCard
-                isActive={index === selectedIndex}
-                title={name}
-                price={additionalPrice}
-                description={description}
-                hasEngineInfo={true}
-                power={maximumPower}
-                torque={maximumTorque}
-              />
-            </Styled.Enclosure>
+            <TrimCard
+              key={id}
+              dispatchKey="engine"
+              id={id}
+              isActive={index === selectedIndex}
+              title={name}
+              price={additionalPrice}
+              description={description}
+              hasEngineInfo={true}
+              power={maximumPower}
+              torque={maximumTorque}
+              onSetIndex={handleSetIndex(index)}
+            />
           ))}
         </Styled.CardBox>
       </Styled.Wrapper>

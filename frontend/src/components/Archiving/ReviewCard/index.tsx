@@ -58,7 +58,8 @@ export function ReviewCard({ props, isArchiving, onClick, selectedSearchOptions 
         </Styled.Enclosure>
         <Styled.SideBox>
           <Styled.Time>
-            {formatDate(creationDate)}에 {dateText}
+            {formatDate(creationDate)}
+            {dateText}
           </Styled.Time>
           {!isArchiving && (
             <div onClick={() => onClick(`${modelName} ${trim.name}`)}>

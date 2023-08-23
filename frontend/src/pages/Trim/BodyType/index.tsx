@@ -15,37 +15,30 @@ import { MyCarDescription } from '@/components/Trim/MyCarDescription';
 import * as Styled from './style';
 
 export function BodyType() {
-  const { bodyTypes } = useFetchSuspense<BodyTypeDataProps>({
-    fetcher: () => fetcher<BodyTypeDataProps>({ url: apiPath.bodyType(1) }),
-    key: cacheKey.bodyType(1),
-  });
-  const [selectedIndex, handleSetIndex] = useSelectIndex();
-
-  const { imageUrl, name, additionalPrice } = bodyTypes[selectedIndex];
-
   const {
     dispatch,
     myCar: { bodyType },
   } = useOutletContext<MyCarLayoutContextProps>();
 
-  function handleCardClick(name: string, additionalPrice: number, id: number, index: number) {
-    return function () {
-      handleSetIndex(index)();
-      dispatch({ type: MyCarActionType.TRIM_OPTION, props: { key: 'bodyType', name, additionalPrice, id } });
-    };
-  }
+  const { bodyTypes } = useFetchSuspense<BodyTypeDataProps>({
+    fetcher: () => fetcher<BodyTypeDataProps>({ url: apiPath.bodyType(1) }),
+    key: cacheKey.bodyType(1),
+  });
+
+  const index = bodyTypes.findIndex(({ name }) => name === bodyType.name);
+  const initialIndex = index !== -1 ? index : 0;
+  const [selectedIndex, handleSetIndex] = useSelectIndex({ initialIndex });
+
+  const { imageUrl, name, additionalPrice } = bodyTypes[selectedIndex];
 
   useEffect(() => {
     if (bodyType.name === '') {
       const { name, additionalPrice, id } = bodyTypes[0];
 
-      dispatch({ type: MyCarActionType.TRIM_OPTION, props: { key: 'bodyType', name, additionalPrice, id } });
+      dispatch({ type: MyCarActionType.TRIM_OPTION, payload: { key: 'bodyType', name, additionalPrice, id } });
 
       return;
     }
-
-    const index = bodyTypes.findIndex(({ name }) => name === bodyType.name);
-    index !== -1 && handleSetIndex(index)();
   }, [bodyTypes]);
 
   return (
@@ -57,15 +50,17 @@ export function BodyType() {
         </Styled.Box>
         <Styled.Box>
           {bodyTypes.map(({ name, additionalPrice, description, id }, index) => (
-            <Styled.Enclosure key={id} onClick={handleCardClick(name, additionalPrice, id, index)}>
-              <TrimCard
-                isActive={index === selectedIndex}
-                title={name}
-                price={additionalPrice}
-                description={description}
-                hasEngineInfo={false}
-              />
-            </Styled.Enclosure>
+            <TrimCard
+              key={id}
+              dispatchKey="wheelDrive"
+              id={id}
+              isActive={index === selectedIndex}
+              title={name}
+              price={additionalPrice}
+              description={description}
+              hasEngineInfo={false}
+              onSetIndex={handleSetIndex(index)}
+            />
           ))}
         </Styled.Box>
       </Styled.Wrapper>

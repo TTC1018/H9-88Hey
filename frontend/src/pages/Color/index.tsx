@@ -38,8 +38,14 @@ export function Color() {
 
   const [isExternalPage, setIsExternalPage] = useState(true);
 
-  const [selectedExternalIndex, handleSetExternalIndex] = useSelectIndex();
-  const [selectedInnerIndex, handleSetInnerIndex] = useSelectIndex();
+  const exteriorIndex = exteriorColors.findIndex(color => color.name === exteriorColor.name);
+  const exteriorInitialIndex = exteriorIndex !== -1 ? exteriorIndex : 0;
+  const interiorIndex = exteriorColors[exteriorInitialIndex].availableInteriorColors.findIndex(
+    colorId => colorId === interiorColor.id
+  );
+  const InteriorInitialIndex = interiorIndex !== -1 ? interiorIndex : 0;
+  const [selectedExternalIndex, handleSetExternalIndex] = useSelectIndex({ initialIndex: exteriorInitialIndex });
+  const [selectedInnerIndex, handleSetInnerIndex] = useSelectIndex({ initialIndex: InteriorInitialIndex });
 
   const {
     id: exteriorColorId,
@@ -61,13 +67,13 @@ export function Color() {
 
     dispatch({
       type: MyCarActionType.EXTERIOR_COLOR,
-      props: {
+      payload: {
         name,
         colorImageUrl,
         additionalPrice,
+        carImagePath,
       },
     });
-    dispatch({ type: MyCarActionType.CAR_IMAGE_URL, props: `${carImagePath}` });
   }
 
   function updateInnerColor(list: InteriorColorsProps[], index: number) {
@@ -75,37 +81,13 @@ export function Color() {
 
     dispatch({
       type: MyCarActionType.INTERIOR_COLOR,
-      props: {
+      payload: {
         name,
         colorImageUrl,
         id,
       },
     });
   }
-
-  useEffect(() => {
-    const outerIndex = exteriorColors.findIndex(color => color.name === exteriorColor.name);
-    let innerIndex = -1;
-
-    if (outerIndex !== -1) {
-      innerIndex = exteriorColors[outerIndex].availableInteriorColors.findIndex(
-        colorId => colorId === interiorColor.id
-      );
-
-      handleSetExternalIndex(outerIndex)();
-      innerIndex !== -1 && handleSetInnerIndex(innerIndex)();
-    }
-    if (exteriorColor.name === '') {
-      updateOuterColor(0);
-      updateInnerColor(availableInnerColorList, 0);
-    }
-  }, [interiorColor, exteriorColor]);
-
-  useEffect(() => {
-    if (carCodeData !== '') {
-      carCode.current = carCodeData;
-    }
-  }, [carCodeData]);
 
   function handleClickExternalColor(index: number) {
     handleSetExternalIndex(index)();
@@ -136,6 +118,19 @@ export function Color() {
 
   const descriptionTitle = isExternalPage ? externalName : innerName;
   const descriptionPrice = isExternalPage ? additionalPrice : 0;
+
+  useEffect(() => {
+    if (exteriorColor.name === '') {
+      updateOuterColor(0);
+      updateInnerColor(availableInnerColorList, 0);
+    }
+  }, [interiorColor, exteriorColor]);
+
+  useEffect(() => {
+    if (carCodeData !== '') {
+      carCode.current = carCodeData;
+    }
+  }, [carCodeData]);
 
   return (
     <Styled.Container>

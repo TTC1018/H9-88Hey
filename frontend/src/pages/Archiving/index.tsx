@@ -4,10 +4,12 @@ import { ArchivingProps } from '@/types/archiving';
 import { apiPath } from '@/constants';
 import { useInfiniteFetch } from '@/hooks/useInfiniteFetch';
 import { useInfiniteScroll } from '@/hooks/useInfiniteScroll';
+import { useShowScrollButton } from '@/hooks/useShowScrollButton';
 
 import { SearchBar } from '@/components/Archiving/SearchBar';
 import { ReviewList } from '@/components/Archiving/ReviewList';
 import { ReviewSkeleton } from '@/components/common/ReviewSkeleton';
+import { ScrollTopButton } from '@/components/common/ScrollTopButton';
 import { OptionSearchBar } from '@/components/Archiving/OptionSearchBar';
 
 import * as Styled from './style';
@@ -17,6 +19,7 @@ export function Archiving() {
   const fetchMoreElement = useRef<HTMLDivElement>(null);
   const intersecting = useInfiniteScroll(fetchMoreElement);
   const nextOffset = useRef(1);
+  const { isShow, scrollToTop } = useShowScrollButton({ scrollY: 800, scrollTo: 0 });
 
   const { data: archivings, isLoading } = useInfiniteFetch<ArchivingProps>({
     key: 'archivings',
@@ -60,6 +63,7 @@ export function Archiving() {
             onClick={handleSelectOption}
           />
         )}
+        {isShow && <ScrollTopButton onClick={scrollToTop} />}
       </Styled.ReviewWrapper>
       <div ref={fetchMoreElement} />
     </Styled.Container>
