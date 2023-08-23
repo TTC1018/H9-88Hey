@@ -94,8 +94,10 @@ fun SelectOptionRoute(
     val hGenuineTagMap by viewModel.hGeniuneTagMap.collectAsStateWithLifecycle()
     val nPerformanceTagMap by viewModel.nPerformanceTagMap.collectAsStateWithLifecycle()
     val carDetails by sharedViewModel.carDetails.observeAsState()
-    val isArchived = carDetails?.selectedOptions.isNullOrEmpty().not() &&
-            (selectedExtras.isEmpty() || selectedHGenuines.isEmpty() || selectedNPerformance.isEmpty())
+    val isArchived = carDetails?.selectedOptions?.run {
+            isNullOrEmpty().not() &&
+                (selectedExtras.size + selectedHGenuines.size + selectedNPerformance.size != size)
+    } ?: false
 
     if (isArchived) {
         InitArchiveDataEffect(
