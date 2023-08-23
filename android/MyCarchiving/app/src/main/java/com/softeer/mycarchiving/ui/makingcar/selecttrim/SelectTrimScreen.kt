@@ -82,6 +82,7 @@ fun SelectTrimRoute(
 
     SelectTrimScreen(
         modifier = modifier,
+        mainProgress = mainProgress,
         screenProgress = screenProgress,
         options = when (mainProgress to screenProgress) {
             TRIM_SELECT to TRIM_ENGINE -> engines
@@ -128,6 +129,7 @@ private fun InitArchiveDataEffect(
 @Composable
 fun SelectTrimScreen(
     modifier: Modifier,
+    mainProgress: Int,
     screenProgress: Int,
     options: List<TrimOptionUiModel>,
     savedTrim: TrimOptionUiModel?,
@@ -139,21 +141,23 @@ fun SelectTrimScreen(
     val scrollState = rememberScrollState()
 
     // 아이템 자동 추가 or 이전 선택 아이템 불러오기
-    LaunchedEffect(options, savedTrim) {
-        if (isInitial && isArchived.not()) {
-            // 처음 화면 갱신되면 첫번째 아이템 선택하기
-            selectedIndex = 0
-        } else {
-            // 이미 선택한 적이 있는 영역이라면 미리 선택한 아이템 선택
-            options.indexOfFirst { it.id == savedTrim?.id }
-                .takeIf { index -> index >= 0 }
-                ?.let { savedIndex ->
-                    selectedIndex = savedIndex
-                }
-        }
+    if (mainProgress == TRIM_SELECT) {
+        LaunchedEffect(options, savedTrim) {
+            if (isInitial && isArchived.not()) {
+                // 처음 화면 갱신되면 첫번째 아이템 선택하기
+                selectedIndex = 0
+            } else {
+                // 이미 선택한 적이 있는 영역이라면 미리 선택한 아이템 선택
+                options.indexOfFirst { it.id == savedTrim?.id }
+                    .takeIf { index -> index >= 0 }
+                    ?.let { savedIndex ->
+                        selectedIndex = savedIndex
+                    }
+            }
 
-        options.getOrNull(selectedIndex)?.let {
-            onOptionSelect(it, screenProgress, isInitial)
+            options.getOrNull(selectedIndex)?.let {
+                onOptionSelect(it, screenProgress, isInitial)
+            }
         }
     }
 
@@ -230,6 +234,7 @@ fun SelectTrimScreen(
 fun PreviewSelectTrimScreen() {
     SelectTrimScreen(
         modifier = Modifier,
+        mainProgress = TRIM_SELECT,
         screenProgress = 0,
         options = listOf(
             TrimOptionUiModel(
