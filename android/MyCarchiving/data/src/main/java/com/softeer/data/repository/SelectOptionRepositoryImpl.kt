@@ -13,8 +13,13 @@ import kotlinx.coroutines.flow.map
 class SelectOptionRepositoryImpl(
     val selectOptionRemoteDataSource: SelectOptionDataSource
 ) : SelectOptionRepository {
-    override fun getCarCode(): Flow<String> =
-        selectOptionRemoteDataSource.getCarCode()
+    override fun getCarCode(
+        trimId: Int,
+        engineId: Int,
+        bodyTypeId: Int,
+        wheelId: Int,
+    ): Flow<String> =
+        selectOptionRemoteDataSource.getCarCode(trimId, engineId, bodyTypeId, wheelId)
 
     override fun getSelectOptions(carCode: String): Flow<List<CarExtraOption>> =
         selectOptionRemoteDataSource.getSelectOptions(carCode)

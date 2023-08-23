@@ -13,10 +13,10 @@ import retrofit2.http.QueryMap
 interface SelectOptionNetworkApi {
     @GET("/car/car-code")
     suspend fun getCarCode(
-        @Query("trim_id") trimId: Int = 1,
-        @Query("engine_id") engineId: Int = 1,
-        @Query("body_type_id") bodyType: Int = 1,
-        @Query("wheel_drive_id") wheelDriveId: Int = 1
+        @Query("trim_id") trimId: Int,
+        @Query("engine_id") engineId: Int,
+        @Query("body_type_id") bodyType: Int,
+        @Query("wheel_drive_id") wheelDriveId: Int
     ): Response<BaseResponse<CarCodeDto>>
 
     @GET("/car/select-option")

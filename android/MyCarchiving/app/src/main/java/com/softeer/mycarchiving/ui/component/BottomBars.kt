@@ -43,6 +43,9 @@ import com.softeer.mycarchiving.ui.theme.PrimaryBlue
 import com.softeer.mycarchiving.ui.theme.White
 import com.softeer.mycarchiving.ui.theme.bold18
 import com.softeer.mycarchiving.ui.theme.medium12
+import com.softeer.mycarchiving.util.TRIM_BODY_TYPE
+import com.softeer.mycarchiving.util.TRIM_DRIVING_SYSTEM
+import com.softeer.mycarchiving.util.TRIM_ENGINE
 import com.softeer.mycarchiving.util.toPriceString
 
 @Composable
@@ -144,7 +147,13 @@ fun MakeCarBottomBar(
                 },
                 onClick = {
                     appState.onNextProgress {
-                        appState.navigateInMakingCar(destination)
+                        appState.navigateInMakingCar(
+                            trimId = selectedModel?.id,
+                            engineId = trimOptions.getOrNull(TRIM_ENGINE)?.id,
+                            bodyId = trimOptions.getOrNull(TRIM_BODY_TYPE)?.id,
+                            wheelId = trimOptions.getOrNull(TRIM_DRIVING_SYSTEM)?.id,
+                            currentMakingCarDestination = destination
+                        )
                     }
                 }
             )

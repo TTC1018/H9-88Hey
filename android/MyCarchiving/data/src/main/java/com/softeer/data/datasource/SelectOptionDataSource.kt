@@ -10,7 +10,12 @@ import kotlinx.coroutines.flow.flow
 private val TAG = SelectOptionDataSource::class.simpleName
 
 interface SelectOptionDataSource {
-    fun getCarCode(): Flow<String>
+    fun getCarCode(
+        trimId: Int,
+        engineId: Int,
+        bodyTypeId: Int,
+        wheelId: Int,
+    ): Flow<String>
 
     fun getSelectOptions(carCode: String): Flow<List<TrimSelectOptionDto>>
 
@@ -26,8 +31,13 @@ interface SelectOptionDataSource {
 class SelectOptionRemoteDataSource(
     private val selectOptionNetworkApi: SelectOptionNetworkApi
 ) : SelectOptionDataSource {
-    override fun getCarCode(): Flow<String> = flow {
-        val response = selectOptionNetworkApi.getCarCode()
+    override fun getCarCode(
+        trimId: Int,
+        engineId: Int,
+        bodyTypeId: Int,
+        wheelId: Int,
+    ): Flow<String> = flow {
+        val response = selectOptionNetworkApi.getCarCode(trimId, engineId, bodyTypeId, wheelId)
         val carCode = response.body()?.data?.carCode
 
         if (response.isSuccessful && carCode != null) {
