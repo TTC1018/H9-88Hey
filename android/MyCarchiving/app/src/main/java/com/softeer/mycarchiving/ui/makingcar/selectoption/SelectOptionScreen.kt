@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -26,6 +27,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -45,6 +47,7 @@ import coil.ImageLoader
 import coil.compose.AsyncImage
 import coil.memory.MemoryCache
 import coil.request.ImageRequest
+import com.softeer.domain.model.CarDetails
 import com.softeer.mycarchiving.R
 import com.softeer.mycarchiving.model.makingcar.SelectOptionUiModel
 import com.softeer.mycarchiving.model.makingcar.SubSelectOptionUiModel
@@ -90,6 +93,20 @@ fun SelectOptionRoute(
     val extraTagMap by viewModel.selectOptionTagMap.collectAsStateWithLifecycle()
     val hGenuineTagMap by viewModel.hGeniuneTagMap.collectAsStateWithLifecycle()
     val nPerformanceTagMap by viewModel.nPerformanceTagMap.collectAsStateWithLifecycle()
+    val carDetails by sharedViewModel.carDetails.observeAsState()
+    val isArchived = carDetails?.selectedOptions.isNullOrEmpty().not() &&
+            (selectedExtras.isEmpty() || selectedHGenuines.isEmpty() || selectedNPerformance.isEmpty())
+
+    if (isArchived) {
+        InitArchiveDataEffect(
+            carDetails = carDetails,
+            extraOptions = selectOptions,
+            hGenuines = hGenuines,
+            nPerformances = nPerformances,
+            isArchived = isArchived,
+            saveSelectOption = sharedViewModel::updateSelectedExtraOption,
+        )
+    }
 
     LaunchedEffect(screenProgress) {
         viewModel.focusOptionItem(0) // 화면 변할 때마다 focus된 아이템 초기화
@@ -153,7 +170,7 @@ fun SelectOptionScreen(
     focusedIndex: Int,
     focusOption: (Int) -> Unit,
     showBasicItems: () -> Unit,
-    onAddOption: (SelectOptionUiModel, Int) -> Unit,
+    onAddOption: (SelectOptionUiModel, Int, Boolean) -> Unit,
 ) {
     val context = LocalContext.current
     var imageLoadCounter by remember { mutableIntStateOf(0) }
@@ -179,106 +196,145 @@ fun SelectOptionScreen(
                 ImageRequest.Builder(context)
                     .data(option.imageUrl)
                     .memoryCacheKey(option.imageUrl)
-                    .listener { _, _ -> imageLoadCounter++  }
+                    .listener { _, _ -> imageLoadCounter++ }
                     .build()
             )
         }
     }
 
-
-    AnimatedContent(
-        targetState = imageLoadEnded,
-        transitionSpec = { fadeInAndOut() },
-        label = "",
-    ) {
-        when (it) {
-            true -> {
-                Column(
-                    modifier = modifier
-                        .fillMaxWidth()
-                        .background(color = White)
-                        .verticalScroll(scrollState)
-                ) {
+    Box(modifier = modifier.fillMaxSize()) {
+        AnimatedContent(
+            targetState = imageLoadEnded,
+            transitionSpec = { fadeInAndOut() },
+            label = "",
+        ) { loadEnded ->
+            when (loadEnded) {
+                true -> {
                     Column(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(start = 16.dp, top = 14.dp, bottom = 24.dp)
+                            .background(color = White)
+                            .verticalScroll(scrollState)
                     ) {
-                        Row(
-                            modifier = Modifier.fillMaxWidth(),
-                            horizontalArrangement = Arrangement.SpaceBetween,
-                            verticalAlignment = Alignment.CenterVertically
-                        ) {
-                            Text(
-                                text = stringResource(
-                                    id = R.string.make_car_selected_option,
-                                    options.size
-                                ),
-                                style = medium16,
-                                color = DarkGray
-                            )
-                            Box(modifier = Modifier.padding(end = 16.dp)) {
-                                CarBasicItemButton(onClick = showBasicItems)
-                            }
-                        }
-                        Spacer(modifier = Modifier.height(13.dp))
-                        LazyRow(
-                            modifier = Modifier.padding(end = 16.dp),
-                            horizontalArrangement = Arrangement.spacedBy(6.dp)
-                        ) {
-                            itemsIndexed(
-                                items = options,
-                                itemContent = { idx, option ->
-                                    OptionSelectItem(
-                                        modifier = modifier,
-                                        option = option,
-                                        focus = focusedIndex == idx,
-                                        isAdded = selectedOptions?.contains(option) ?: false,
-                                        onAddClick = { onAddOption(option, screenProgress) },
-                                        onFocus = { focusOption(idx) }
-                                    )
-                                }
-                            )
-                        }
-                    }
-                    Divider(thickness = 6.dp, color = HyundaiLightSand)
-                    Column(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(horizontal = 16.dp, vertical = 24.dp),
-                        verticalArrangement = Arrangement.spacedBy(12.dp)
-                    ) {
-                        OptionSelectedInfo(
-                            optionName = options.getOrNull(focusedIndex)?.name ?: "",
-                            optionTags = tags.getOrDefault(options.getOrNull(focusedIndex)?.id, emptyList())
-                        )
-                        AsyncImage(
+                        Column(
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .height(220.dp)
-                                .clip(shape = roundCorner),
-                            model = ImageRequest.Builder(LocalContext.current)
-                                .data(options.getOrNull(focusedIndex)?.imageUrl)
-                                .crossfade(true)
-                                .build(),
-                            contentDescription = "",
-                            contentScale = ContentScale.Crop,
-                            imageLoader = imageLoader
-                        )
-                        options.getOrNull(focusedIndex)?.subOptions?.let {
-                            if (it.size > 1) {
-                                ExtraOptionCards(options = it)
-                            } else {
-                                ExtraOptionCard(option = it[0], optionsSize = 1)
+                                .padding(start = 16.dp, top = 14.dp, bottom = 24.dp)
+                        ) {
+                            Row(
+                                modifier = Modifier.fillMaxWidth(),
+                                horizontalArrangement = Arrangement.SpaceBetween,
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                Text(
+                                    text = stringResource(
+                                        id = R.string.make_car_selected_option,
+                                        options.size
+                                    ),
+                                    style = medium16,
+                                    color = DarkGray
+                                )
+                                Box(modifier = Modifier.padding(end = 16.dp)) {
+                                    CarBasicItemButton(onClick = showBasicItems)
+                                }
+                            }
+                            Spacer(modifier = Modifier.height(13.dp))
+                            LazyRow(
+                                modifier = Modifier.padding(end = 16.dp),
+                                horizontalArrangement = Arrangement.spacedBy(6.dp)
+                            ) {
+                                itemsIndexed(
+                                    items = options,
+                                    itemContent = { idx, option ->
+                                        OptionSelectItem(
+                                            modifier = modifier,
+                                            option = option,
+                                            focus = focusedIndex == idx,
+                                            isAdded = selectedOptions?.any { it.id == option.id }
+                                                ?: false,
+                                            onAddClick = { onAddOption(option, screenProgress, false) },
+                                            onFocus = { focusOption(idx) }
+                                        )
+                                    }
+                                )
+                            }
+                        }
+                        Divider(thickness = 6.dp, color = HyundaiLightSand)
+                        Column(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(horizontal = 16.dp, vertical = 24.dp),
+                            verticalArrangement = Arrangement.spacedBy(12.dp)
+                        ) {
+                            OptionSelectedInfo(
+                                optionName = options.getOrNull(focusedIndex)?.name ?: "",
+                                optionTags = tags.getOrDefault(
+                                    options.getOrNull(focusedIndex)?.id,
+                                    emptyList()
+                                )
+                            )
+                            AsyncImage(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .height(220.dp)
+                                    .clip(shape = roundCorner),
+                                model = ImageRequest.Builder(LocalContext.current)
+                                    .data(options.getOrNull(focusedIndex)?.imageUrl)
+                                    .crossfade(true)
+                                    .build(),
+                                contentDescription = "",
+                                contentScale = ContentScale.Crop,
+                                imageLoader = imageLoader
+                            )
+                            options.getOrNull(focusedIndex)?.subOptions?.let {
+                                if (it.size > 1) {
+                                    ExtraOptionCards(options = it)
+                                } else {
+                                    ExtraOptionCard(option = it[0], optionsSize = 1)
+                                }
                             }
                         }
                     }
                 }
+                false -> LoadingScreen {}
             }
-            false -> LoadingScreen {}
         }
     }
 
+}
+
+@Composable
+private fun InitArchiveDataEffect(
+    carDetails: CarDetails?,
+    extraOptions: List<SelectOptionUiModel>,
+    hGenuines: List<SelectOptionUiModel>,
+    nPerformances: List<SelectOptionUiModel>,
+    isArchived: Boolean,
+    saveSelectOption: (SelectOptionUiModel, Int, Boolean) -> Unit
+) {
+    val optionIds =
+        remember(carDetails) { carDetails?.selectedOptions?.map { it.id }?.toSet() ?: emptySet() }
+
+    LaunchedEffect(extraOptions) {
+        carDetails?.run {
+            extraOptions.filter { it.id in optionIds }
+                .forEach { saveSelectOption(it, TRIM_EXTRA, isArchived) }
+        }
+    }
+
+    LaunchedEffect(hGenuines) {
+        carDetails?.run {
+            hGenuines.filter { it.id in optionIds }
+                .forEach { saveSelectOption(it, TRIM_HGENUINE, isArchived) }
+        }
+    }
+
+    LaunchedEffect(nPerformances) {
+        carDetails?.run {
+            nPerformances.filter { it.id in optionIds }
+                .forEach { saveSelectOption(it, TRIM_NPERFORMANCE, isArchived) }
+        }
+    }
 }
 
 @Preview
@@ -339,6 +395,6 @@ fun PreviewSelectOptionScreen() {
         focusedIndex = 0,
         focusOption = {},
         showBasicItems = {},
-        onAddOption = { _, _ -> }
+        onAddOption = { _, _, _ -> }
     )
 }
