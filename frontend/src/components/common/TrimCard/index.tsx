@@ -53,7 +53,7 @@ export function TrimCard({
       return;
     }
 
-    if (options.length !== 0) {
+    if (options.length > 0) {
       setIsOpen(true);
       return;
     }

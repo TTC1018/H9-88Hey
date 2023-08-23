@@ -30,7 +30,7 @@ export function SelectOptionCard({ isActive, id, name, price, features, onSetInd
       return;
     }
 
-    if (exteriorColor.name !== '' || interiorColor.name !== '' || options.length !== 0) {
+    if (exteriorColor.name !== '' || interiorColor.name !== '' || options.length > 0) {
       setIsOpen(true);
       return;
     }
