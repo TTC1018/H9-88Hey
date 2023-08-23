@@ -1,9 +1,6 @@
 package softeer.h9.hey.controller.archiving;
 
-import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -48,10 +45,5 @@ public class FeedController {
 		@PathVariable final long feed_id) {
 		FeedIdResponse result = service.deleteFeed(userId, feed_id);
 		return GlobalResponse.ok(result);
-	}
-
-	@ExceptionHandler(EmptyResultDataAccessException.class)
-	public GlobalResponse<?> handlerEmptyResultDataAccessException(EmptyResultDataAccessException e) {
-		return GlobalResponse.error(HttpStatus.NOT_FOUND, "요청하신 데이터가 존재하지 않습니다.");
 	}
 }
