@@ -36,4 +36,9 @@ public class FeedController {
 		FeedIdResponse result = service.saveFeed(userId, archivingIdRequest);
 		return GlobalResponse.ok(result);
 	}
+
+	@ExceptionHandler(EmptyResultDataAccessException.class)
+	public GlobalResponse<?> handlerEmptyResultDataAccessException(EmptyResultDataAccessException e) {
+		return GlobalResponse.error(HttpStatus.NOT_FOUND, "요청하신 데이터가 존재하지 않습니다.");
+	}
 }
