@@ -41,7 +41,7 @@ fun NavGraphBuilder.makingArchiveGraph(
                     onStartAreaClick = if (appState.currentArchivingDestinations == ARCHIVING_DETAIL) {
                         { appState.archivingNavController.popBackStack() }
                     } else {
-                        { appState.navController.popBackStack() }
+                        { appState.navigateToMainDestination(MainDestination.MAKING_CAR) }
                     },
                     onEndAreaClick = { appState.navigateToMainDestination(MainDestination.MY_ARCHIVING) }
                 )
@@ -62,7 +62,7 @@ fun NavGraphBuilder.makingArchiveGraph(
                     )
                     archivingDetailScreen(
                         onBackClick = appState.archivingNavController::popBackStack,
-                        onMakingCarClick = appState.navController::navigateToMakingCar
+                        onMakingCarClick = appState::navigateToMainDestination
                     )
                 }
             }

@@ -22,6 +22,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.softeer.mycarchiving.R
 import com.softeer.mycarchiving.model.common.CarDetailsUiModel
+import com.softeer.mycarchiving.navigation.MainDestination
 import com.softeer.mycarchiving.ui.component.ArchiveBottomBar
 import com.softeer.mycarchiving.ui.component.DetailBanner
 import com.softeer.mycarchiving.ui.component.DetailReview
@@ -34,14 +35,14 @@ import com.softeer.mycarchiving.ui.theme.White
 fun ArchiveDetailRoute(
     modifier: Modifier = Modifier,
     viewModel: ArchiveDetailViewModel = hiltViewModel(),
-    onMakingCarClick: (String?) -> Unit
+    onMakingCarClick: (MainDestination, String?) -> Unit,
 ) {
     val details by viewModel.details.collectAsStateWithLifecycle(initialValue = null)
 
     ArchiveDetailScreen(
         modifier = modifier,
         details = details,
-        onClick = { onMakingCarClick(details?.id) }
+        onClick = { onMakingCarClick(MainDestination.MAKING_CAR, details?.id) }
     )
 }
 
