@@ -45,18 +45,19 @@ export interface MyChivingProps {
   isSaved: boolean;
   totalPrice: number;
   model: ModelProps;
-  trim?: TrimProps;
-  engine?: CommonProps;
-  bodyType?: CommonProps;
-  wheelDrive?: CommonProps;
-  interiorColor?: InteriorColor;
-  exteriorColor?: ExteriorColorProps;
-  selectedOptions?: OptionProps[];
+  trim: TrimProps;
+  engine: CommonProps | null;
+  bodyType: CommonProps | null;
+  wheelDrive: CommonProps | null;
+  interiorColor: InteriorColor | null;
+  exteriorColor: ExteriorColorProps | null;
+  selectOptions: OptionProps[] | null;
+  carCode: string | null;
 }
 
 export interface MyChivingDataProps {
   nextOffset: number;
-  mychivings: MyChivingProps[];
+  myChivings: MyChivingProps[];
 }
 
 export interface MyFeedDataProps {

@@ -1,88 +1,32 @@
-import { Fragment, MouseEvent, useEffect, useRef, useState } from 'react';
+import { Fragment, MouseEvent, useRef } from 'react';
 
 import { useNavigate } from 'react-router-dom';
 
 import { MyCarProps } from '@/types/trim';
-import { MyChivingDataProps, MyChivingProps } from '@/types/myChiving';
-import { useFetch } from '@/hooks/useFetch';
+import { MyChivingProps } from '@/types/myChiving';
+import { OptionContextProps } from '@/types/option';
 import { useModalContext } from '@/hooks/useModalContext';
-import { ModalType } from '@/constants';
+import { useInfiniteFetch } from '@/hooks/useInfiniteFetch';
+import { useInfiniteScroll } from '@/hooks/useInfiniteScroll';
+import { ModalType, apiPath } from '@/constants';
 
 import { MyCarList } from '@/components/MyChiving/MyCarList';
 import { NoDataInfo } from '@/components/MyChiving/NoDataInfo';
 import { PopupModal } from '@/components/common/PopupModal';
 import { ModalPortal } from '@/components/common/ModalPortal';
+import { ReviewSkeleton } from '@/components/common/ReviewSkeleton';
 
 import * as Styled from './style';
 
 type MatchPathType = Record<string, string>;
 
 const matchPath: MatchPathType = {
-  model: '/trim',
-  trim: '/trim',
-  engine: '/trim',
-  bodyType: '/trim/engine',
-  wheelDrive: '/trim/body-type',
-  interiorColor: '/trim/wheel-drive',
-  exteriorColor: '/trim/wheel-drive',
-  selectedOptions: '/color',
-};
-
-const initialData = {
-  nextOffset: 1,
-  mychivings: [
-    {
-      myChivingId: 1,
-      lastModifiedDate: '2023-07-19',
-      isSaved: false,
-      totalPrice: 0,
-      model: {
-        id: 1,
-        name: '',
-      },
-      trim: {
-        id: 1,
-        name: '',
-        price: 0,
-      },
-      engine: {
-        id: 1,
-        name: '',
-        additionalPrice: 0,
-      },
-      bodyType: {
-        id: 1,
-        name: '',
-        additionalPrice: 0,
-      },
-      wheelDrive: {
-        id: 1,
-        name: '',
-        additionalPrice: 0,
-      },
-      interiorColor: {
-        id: 1,
-        name: '',
-        colorImageUrl: '',
-      },
-      exteriorColor: {
-        id: 1,
-        name: '',
-        carImageUrl: '',
-        colorImageUrl: '',
-        additionalPrice: 0,
-      },
-      selectedOptions: [
-        {
-          id: '',
-          name: '',
-          imageUrl: '',
-          subOptions: [''],
-          additionalPrice: 0,
-        },
-      ],
-    },
-  ],
+  engine: '/engine',
+  bodyType: '/trim/body-type',
+  wheelDrive: '/trim/whell-drive',
+  interiorColor: '/color',
+  exteriorColor: '/color',
+  selectOptions: '/option',
 };
 
 interface ClickEventDataProps {
@@ -94,11 +38,17 @@ export function MySavedCar() {
   const { handleOpen } = useModalContext();
   const navigate = useNavigate();
 
-  const { data: myChivingData } = useFetch<MyChivingDataProps>({
-    defaultValue: initialData,
-    url: '/mychiving?limit=4&offset=0',
+  const fetchMoreElement = useRef<HTMLDivElement>(null);
+  const intersecting = useInfiniteScroll(fetchMoreElement);
+  const nextOffset = useRef(1);
+
+  const { data: myChivings, isLoading } = useInfiniteFetch<MyChivingProps>({
+    key: 'myChivings',
+    url: apiPath.mychiving(nextOffset.current, 8),
+    intersecting,
+    nextOffset,
+    dependencies: [''],
   });
-  const [myChivings, setMyChivings] = useState<MyChivingProps[]>([]);
 
   const modalInfo = useRef({
     type: ModalType.CLOSE,
@@ -119,7 +69,7 @@ export function MySavedCar() {
   };
 
   function handleNavigate(myChiving: MyChivingProps) {
-    const { trim, engine, bodyType, wheelDrive, exteriorColor, interiorColor, selectedOptions } = myChiving;
+    const { trim, engine, bodyType, wheelDrive, exteriorColor, interiorColor, selectOptions, carCode } = myChiving;
     const savedMyCar: MyCarProps = {
       ...myCar,
       trim: trim ?? myCar.trim,
@@ -128,7 +78,13 @@ export function MySavedCar() {
       wheelDrive: wheelDrive ?? myCar.wheelDrive,
       exteriorColor: exteriorColor ?? myCar.exteriorColor,
       interiorColor: interiorColor ?? myCar.interiorColor,
-      options: selectedOptions ? myCar.selectedOptions : [],
+      options: selectOptions
+        ? (selectOptions.map(props => {
+            return {
+              ...props,
+            };
+          }) as OptionContextProps[])
+        : [],
       carImageUrl: exteriorColor ? exteriorColor.carImageUrl : '',
     };
 
@@ -140,13 +96,18 @@ export function MySavedCar() {
       const lastIndex = Object.values(myChiving).length - 1;
       const targetPath = Object.keys(myChiving)[targetIndex === -1 ? lastIndex : targetIndex];
 
+      if (targetPath === 'selectOptions') {
+        navigate(`${matchPath[targetPath]}?car_code=${carCode}`);
+        localStorage.setItem('carCode', carCode || '');
+        return;
+      }
+
       navigate(matchPath[targetPath]);
     }
   }
 
   function handleDeleteList(myChiving: MyChivingProps) {
-    const updatedMyChivings = myChivings.filter(({ myChivingId }) => myChivingId !== myChiving.myChivingId);
-    setMyChivings(updatedMyChivings);
+    myChiving;
   }
 
   function handleClick(myChiving: MyChivingProps, data: ClickEventDataProps, event: MouseEvent<HTMLDivElement>) {
@@ -165,22 +126,31 @@ export function MySavedCar() {
     handleOpen();
   }
 
-  useEffect(() => {
-    setMyChivings(myChivingData.mychivings);
-  }, [myChivingData]);
-
   return (
     <Fragment>
       <Styled.Contianer>
-        {myChivings.length > 0 ? (
-          <Styled.MyCarBox>
-            {myChivings.map((data, index) => (
-              <MyCarList key={index} myChiving={data} onClick={handleClick} />
-            ))}
-          </Styled.MyCarBox>
+        {myChivings.length === 0 ? (
+          isLoading ? (
+            <ReviewSkeleton />
+          ) : (
+            <NoDataInfo infoText="내 차 목록에 저장한 차량이 없어요" buttonText="내 차 만들기" toPath="/trim" />
+          )
         ) : (
-          <NoDataInfo infoText="내 차 목록에 저장한 차량이 없어요" buttonText="내 차 만들기" toPath="/trim" />
+          <>
+            <Styled.MyCarBox>
+              {myChivings.map((data, index) => (
+                <MyCarList key={index} myChiving={data} onClick={handleClick} />
+              ))}
+            </Styled.MyCarBox>
+            {isLoading && (
+              <Styled.Wrapper>
+                <Styled.Loading />
+                <Styled.Loading />
+              </Styled.Wrapper>
+            )}
+          </>
         )}
+        <div ref={fetchMoreElement}></div>
       </Styled.Contianer>
       <ModalPortal>
         <PopupModal

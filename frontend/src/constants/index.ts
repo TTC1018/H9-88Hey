@@ -75,6 +75,9 @@ export const apiPath = {
     return `${apiPath.archivingBase()}?model_id=${modelId}${optionQuerys}&limit=${limit}&offset=${offset}`;
   },
   archivingOption: (modelId: number) => `${apiPath.carBase()}/select-options?model_id=${modelId}`,
+  mychiving: (offset: number, limit: number) => {
+    return `/mychiving?user_id=1234&offset=${offset}&limit=${limit}`;
+  },
   tag: (type: string, id: string | number, limit: number) => `${apiPath.carBase()}/tag/${type}?id=${id}&limit=${limit}`,
 };
 
