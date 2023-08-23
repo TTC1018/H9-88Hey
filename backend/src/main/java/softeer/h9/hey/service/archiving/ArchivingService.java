@@ -149,7 +149,7 @@ public class ArchivingService {
 					archivingResult.getInteriorColorColorImageUrl()));
 
 			// 기본 매핑
-			response.setFeedId(archivingResult.getFeedId());
+			response.setFeedId(Long.toString(archivingResult.getFeedId()));
 			response.setModelName(archivingResult.getModelName());
 			response.setReview(archivingResult.getReview());
 			response.setPurchase(archivingResult.isPurchase());

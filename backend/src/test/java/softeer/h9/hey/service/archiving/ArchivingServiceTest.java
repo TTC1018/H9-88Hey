@@ -58,6 +58,7 @@ class ArchivingServiceTest {
 		ArchivingDetailRequest request = ArchivingDetailRequest.of(id);
 
 		ArchivingResult archivingResult1 = ArchivingResult.builder()
+			.feedId(id)
 			.selectOptionId("option1")
 			.subOptionName("subOption1")
 			.trimPrice(10)
@@ -70,6 +71,7 @@ class ArchivingServiceTest {
 			.build();
 
 		ArchivingResult archivingResult2 = ArchivingResult.builder()
+			.feedId(id)
 			.selectOptionId("option1")
 			.subOptionName("subOption2")
 			.trimPrice(10)
@@ -82,6 +84,7 @@ class ArchivingServiceTest {
 			.build();
 
 		ArchivingResult archivingResult3 = ArchivingResult.builder()
+			.feedId(id)
 			.selectOptionId("option2")
 			.subOptionName("subOption3")
 			.trimPrice(10)
