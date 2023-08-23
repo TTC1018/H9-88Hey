@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName
 data class MyArchiveMadeDto(
     @SerializedName("nextOffset")
     val nextOffset: Int,
-    @SerializedName("mychivings")
+    @SerializedName("myChivings")
     val madeCarFeeds: List<MyArchiveMadeFeedDto>
 )
 
@@ -16,23 +16,21 @@ data class MyArchiveMadeFeedDto(
     val lastModifiedDate: String,
     @SerializedName("isSaved")
     val isSaved: Boolean,
-    @SerializedName("totalPrice")
-    val totalPrice: Int,
     @SerializedName("model")
     val model: MyArchiveModelDto,
     @SerializedName("trim")
-    val trim: MyArchiveTrimDto,
+    val trim: MyArchiveTrimDto? = null,
     @SerializedName("engine")
-    val engine: MyArchiveTrimOptionDto,
+    val engine: MyArchiveTrimOptionDto? = null,
     @SerializedName("bodyType")
-    val bodyType: MyArchiveTrimOptionDto,
+    val bodyType: MyArchiveTrimOptionDto? = null,
     @SerializedName("wheelDrive")
-    val wheelDrive: MyArchiveTrimOptionDto,
+    val wheelDrive: MyArchiveTrimOptionDto? = null,
     @SerializedName("interiorColor")
-    val interiorColor: MyArchiveInteriorDto,
+    val interiorColor: MyArchiveInteriorDto? = null,
     @SerializedName("exteriorColor")
-    val exteriorColor: MyArchiveExteriorDto,
-    @SerializedName("selectedOptions")
+    val exteriorColor: MyArchiveExteriorDto? = null,
+    @SerializedName("selectOptions")
     val selectedOptions: List<MyArchiveSelectedDto>
 )
 
@@ -93,5 +91,5 @@ data class MyArchiveSelectedDto(
     @SerializedName("additionalPrice")
     val price: Int,
     @SerializedName("subOptions")
-    val subOptions: List<String>
+    val subOptions: List<String>? = null
 )

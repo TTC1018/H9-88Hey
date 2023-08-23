@@ -44,10 +44,12 @@ import com.softeer.mycarchiving.ui.theme.HyundaiLightSand
 import com.softeer.mycarchiving.ui.theme.HyundaiNeutral
 import com.softeer.mycarchiving.ui.theme.HyundaiSand
 import com.softeer.mycarchiving.ui.theme.MediumDarkGray
+import com.softeer.mycarchiving.ui.theme.ThinGray
 import com.softeer.mycarchiving.ui.theme.White
 import com.softeer.mycarchiving.ui.theme.bold18
 import com.softeer.mycarchiving.ui.theme.medium12
 import com.softeer.mycarchiving.ui.theme.medium14
+import com.softeer.mycarchiving.ui.theme.regular10
 import com.softeer.mycarchiving.ui.theme.regular12
 import com.softeer.mycarchiving.ui.theme.regular14
 import com.softeer.mycarchiving.ui.theme.roundCorner
@@ -59,11 +61,11 @@ import com.softeer.mycarchiving.util.toDateString
 fun MadeCarItem(
     modifier: Modifier = Modifier,
     isTempSaved: Boolean,
-    modelName: String,
-    trimName: String,
     madeDate: String,
-    options: String,
-    imageInfos: List<MadeCarSelectedOptionUiModel>,
+    modelName: String,
+    trimName: String?,
+    trimOptions: String,
+    selectedOptions: List<MadeCarSelectedOptionUiModel>,
     onItemClick: () -> Unit,
     onDelete: () -> Unit
 ) {
@@ -111,7 +113,7 @@ fun MadeCarItem(
             ) {
                 CarFeedDateChip(
                     modifier = Modifier,
-                    date = madeDate,
+                    date = madeDate.toDateString(),
                     feedType = if (isTempSaved) CarFeedType.TEMP_SAVE else CarFeedType.MADE
                 )
                 XCircle(
@@ -122,23 +124,28 @@ fun MadeCarItem(
         }
         Spacer(modifier = Modifier.height(5.dp))
         Text(
-            text = options,
+            text = trimOptions.ifEmpty { stringResource(id = R.string.my_make_car_trim_none) },
             style = regular14
         )
         Spacer(modifier = Modifier.height(12.dp))
         LazyRow(
             horizontalArrangement = Arrangement.spacedBy(4.dp)
         ) {
-            items(
-                items = imageInfos,
-                itemContent = {
-                    MadeCarImageItem(
-                        modifier = Modifier,
-                        name = it.name,
-                        imageUrl = it.imageUrl
-                    )
+            if (selectedOptions.isNotEmpty()) {
+                items(
+                    items = selectedOptions,
+                    itemContent = {
+                        MadeCarImageItem(
+                            name = it.name,
+                            imageUrl = it.imageUrl
+                        )
+                    }
+                )
+            } else {
+                items(count = 3) {
+                    MadeCarEmptyImageItem()
                 }
-            )
+            }
         }
     }
 
@@ -153,9 +160,9 @@ fun MadeCarItem(
 
 @Composable
 fun MadeCarImageItem(
-    modifier: Modifier,
+    modifier: Modifier = Modifier,
     name: String,
-    imageUrl: String,
+    imageUrl: String?,
 ) {
     Box(
         modifier = modifier
@@ -184,6 +191,24 @@ fun MadeCarImageItem(
                 color = HyundaiNeutral
             )
         }
+    }
+}
+
+@Composable
+fun MadeCarEmptyImageItem(
+    modifier: Modifier = Modifier,
+) {
+    Box(
+        modifier = modifier
+            .size(122.dp)
+            .background(color = ThinGray, shape = roundCornerSmall),
+        contentAlignment = Alignment.Center
+    ) {
+        Text(
+            text = stringResource(id = R.string.my_make_car_option_none),
+            style = regular10,
+            color = DarkGray
+        )
     }
 }
 
@@ -320,11 +345,11 @@ fun PreviewMadeCarItem() {
         modelName = "팰리세이드",
         trimName = "Le Blanc",
         madeDate = "23년 7월 19일",
-        options = "디젤 2.2 / 4WD / 7인승",
-        imageInfos = listOf(
-            MadeCarSelectedOptionUiModel("컴포트 II", ""),
-            MadeCarSelectedOptionUiModel("듀얼 와이드 선루프", ""),
-            MadeCarSelectedOptionUiModel("현대스마트센스 I", "")
+        trimOptions = "디젤 2.2 / 4WD / 7인승",
+        selectedOptions = listOf(
+            MadeCarSelectedOptionUiModel("컴포트 II", "", listOf()),
+            MadeCarSelectedOptionUiModel("듀얼 와이드 선루프", "", listOf()),
+            MadeCarSelectedOptionUiModel("현대스마트센스 I", "", listOf())
         ),
         onItemClick = {},
         onDelete = {}

@@ -41,15 +41,14 @@ fun MyArchiveMadeFeedDto.asEntity(): MyArchiveFeed =
         id = id,
         lastModifiedDate = lastModifiedDate,
         isSaved = isSaved,
-        totalPrice = totalPrice,
-        carImageUrl = exteriorColor.carImageUrl,
+        carImageUrl = exteriorColor?.carImageUrl,
         modelName = model.name,
-        trim = trim.name,
-        engine = engine.name,
-        bodyType = bodyType.name,
-        wheelDrive = wheelDrive.name,
-        exteriorColor = exteriorColor.asEntity(),
-        interiorColor = interiorColor.asEntity(),
+        trim = trim?.name,
+        engine = engine?.name,
+        bodyType = bodyType?.name,
+        wheelDrive = wheelDrive?.name,
+        exteriorColor = exteriorColor?.asEntity(),
+        interiorColor = interiorColor?.asEntity(),
         selectedOptions = selectedOptions.map(MyArchiveSelectedDto::asEntity)
     )
 

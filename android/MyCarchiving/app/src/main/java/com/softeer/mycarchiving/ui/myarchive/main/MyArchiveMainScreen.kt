@@ -7,11 +7,11 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.paging.compose.LazyPagingItems
+import androidx.paging.compose.collectAsLazyPagingItems
 import com.softeer.mycarchiving.model.common.CarFeedUiModel
-import com.softeer.mycarchiving.model.myarchive.MadeCarSelectedOptionUiModel
 import com.softeer.mycarchiving.model.myarchive.MadeCarUiModel
 import com.softeer.mycarchiving.ui.component.ChoiceTab
 import com.softeer.mycarchiving.ui.myarchive.made.MyArchiveMadeScreen
@@ -27,8 +27,8 @@ fun MyArchiveMainRoute(
     onMadeCarClick: () -> Unit,
     onSavedCarClick: () -> Unit,
 ) {
-    val selectedIndex by viewModel.selectedIndex.collectAsStateWithLifecycle()
-    val madeCars by viewModel.madeCars.collectAsStateWithLifecycle()
+    val selectedIndex by viewModel.selectedIndex
+    val madeCars = viewModel.madeCarFeedPagingData.collectAsLazyPagingItems()
     val savedCars by viewModel.savedCars.collectAsStateWithLifecycle()
 
     MyArchiveMainScreen(
@@ -48,7 +48,7 @@ fun MyArchiveMainRoute(
 fun MyArchiveMainScreen(
     modifier: Modifier = Modifier,
     selectedIndex: Int,
-    madeCars: List<MadeCarUiModel>,
+    madeCars: LazyPagingItems<MadeCarUiModel>,
     savedCars: List<CarFeedUiModel>,
     onSelect: (Int) -> Unit,
     onMadeCarClick: () -> Unit,
@@ -97,6 +97,7 @@ fun MyArchiveMainScreen(
     }
 }
 
+/*
 @Preview
 @Composable
 fun PreviewMyArchiveMainScreen() {
@@ -155,4 +156,4 @@ fun PreviewMyArchiveMainScreen() {
         onSavedCarClick = {},
         onSavedCarDelete = {}
     )
-}
+}*/

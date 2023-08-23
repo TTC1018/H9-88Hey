@@ -4,15 +4,14 @@ data class MyArchiveFeed(
     val id: Long,
     val lastModifiedDate: String,
     val isSaved: Boolean,
-    val totalPrice: Int,
-    val carImageUrl: String,
+    val carImageUrl: String? = null,
     val modelName: String,
-    val trim: String,
-    val engine: String,
-    val bodyType: String,
-    val wheelDrive: String,
-    val exteriorColor: MyArchiveFeedSimpleColor,
-    val interiorColor: MyArchiveFeedSimpleColor,
+    val trim: String? = null,
+    val engine: String? = null,
+    val bodyType: String? = null,
+    val wheelDrive: String? = null,
+    val exteriorColor: MyArchiveFeedSimpleColor? = null,
+    val interiorColor: MyArchiveFeedSimpleColor? = null,
     val selectedOptions: List<MyArchiveFeedOption>
 )
 
@@ -26,5 +25,5 @@ data class MyArchiveFeedOption(
     val id: String,
     val name: String,
     val imageUrl: String,
-    val subOptions: List<String>
+    val subOptions: List<String>? = null
 )

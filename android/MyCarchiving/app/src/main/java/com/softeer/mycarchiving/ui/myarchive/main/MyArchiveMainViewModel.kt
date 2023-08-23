@@ -1,40 +1,32 @@
 package com.softeer.mycarchiving.ui.myarchive.main
 
+import androidx.compose.runtime.State
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import androidx.paging.cachedIn
+import androidx.paging.map
+import com.softeer.domain.model.MyArchiveFeed
+import com.softeer.domain.usecase.myarchive.GetMadeCarFeedUseCase
+import com.softeer.mycarchiving.mapper.asUiModel
 import com.softeer.mycarchiving.model.common.CarFeedUiModel
-import com.softeer.mycarchiving.model.myarchive.MadeCarSelectedOptionUiModel
-import com.softeer.mycarchiving.model.myarchive.MadeCarUiModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 @HiltViewModel
-class MyArchiveMainViewModel @Inject constructor(): ViewModel() {
+class MyArchiveMainViewModel @Inject constructor(
+    getMadeCarFeedUseCase: GetMadeCarFeedUseCase
+): ViewModel() {
 
-    private val _selectedIndex = MutableStateFlow(0)
-    val selectedIndex: StateFlow<Int> = _selectedIndex
+    private val _selectedIndex = mutableIntStateOf(0)
+    val selectedIndex: State<Int> = _selectedIndex
 
-    private val _madeCars = MutableStateFlow<List<MadeCarUiModel>>(
-        listOf(
-            MadeCarUiModel(
-                id = "123",
-                modelName = "팰리세이드",
-                trimName = "Le Blanc",
-                isSaved = false,
-                lastModifiedDate = "2023-08-21",
-                trimOptions = listOf(
-                    "디젤 2.2", "4WD", "7인승"
-                ),
-                selectedOptions = listOf(
-                    MadeCarSelectedOptionUiModel("컴포트 II", "https://88hey-bucket.s3.amazonaws.com/88hey/select-option/roa.jpg"),
-                    MadeCarSelectedOptionUiModel("듀얼 와이드 선루프", "https://88hey-bucket.s3.amazonaws.com/88hey/select-option/dualwidesunroof.jpg"),
-                    MadeCarSelectedOptionUiModel("현대스마트센스 I", "https://88hey-bucket.s3.amazonaws.com/88hey/select-option/fca2.jpg")
-                ),
-            ),
-        )
-    )
-    val madeCars: StateFlow<List<MadeCarUiModel>> = _madeCars
+    val madeCarFeedPagingData = getMadeCarFeedUseCase()
+        .map { pagingData -> pagingData.map(MyArchiveFeed::asUiModel) }
+        .cachedIn(viewModelScope)
 
     private val _savedCars = MutableStateFlow(
         listOf(
@@ -56,11 +48,11 @@ class MyArchiveMainViewModel @Inject constructor(): ViewModel() {
     val savedCars: StateFlow<List<CarFeedUiModel>> = _savedCars
 
     fun updateSelectedIndex(index: Int) {
-        _selectedIndex.value = index
+        _selectedIndex.intValue = index
     }
 
     fun deleteMadeCar(deleteIndex: Int) {
-        _madeCars.value = _madeCars.value.toMutableList().apply { removeAt(deleteIndex) }
+
     }
 
     fun deleteSavedCar(deleteIndex: Int) {
