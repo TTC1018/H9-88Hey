@@ -1,8 +1,11 @@
 package com.softeer.mycarchiving.ui.makingcar.selecttrim
 
+import android.util.Log
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -13,6 +16,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -56,18 +60,18 @@ fun SelectTrimRoute(
     val wheels by selectTrimViewModel.wheels.collectAsStateWithLifecycle()
     val selectedTrims by makingCarViewModel.selectedTrim.collectAsStateWithLifecycle()
     val carDetails by makingCarViewModel.carDetails.observeAsState()
-    val selectedTrimsSimple by makingCarViewModel.selectedTrimSimple.collectAsStateWithLifecycle()
-
-    val isArchived by remember(selectedTrimsSimple) { derivedStateOf { selectedTrimsSimple.size == 3 } }
+    val isArchived = carDetails != null && selectedTrims.isEmpty()
 
     // 아카이빙에서 넘어왔다면 뷰모델에 데이터 세팅
-    InitArchiveDataEffect(
-        carDetails = carDetails,
-        engines = engines,
-        bodyTypes = bodyTypes,
-        wheels = wheels,
-        saveTrimOptions = makingCarViewModel::updateSelectedTrimOption
-    )
+    if (isArchived) {
+        InitArchiveDataEffect(
+            carDetails = carDetails,
+            engines = engines,
+            bodyTypes = bodyTypes,
+            wheels = wheels,
+            saveTrimOptions = makingCarViewModel::updateSelectedTrimOption
+        )
+    }
 
     // 방금 전 상태까지 임시 저장
     LaunchedEffect(screenProgress) {
@@ -131,11 +135,11 @@ fun SelectTrimScreen(
     isArchived: Boolean,
     onOptionSelect: (TrimOptionUiModel, progress: Int, initial: Boolean) -> Unit,
 ) {
-    var selectedIndex by remember { mutableStateOf(0) }
+    var selectedIndex by remember { mutableIntStateOf(-1) }
     val scrollState = rememberScrollState()
 
     // 아이템 자동 추가 or 이전 선택 아이템 불러오기
-    LaunchedEffect(options, isInitial, isArchived) {
+    LaunchedEffect(options, savedTrim) {
         if (isInitial && isArchived.not()) {
             // 처음 화면 갱신되면 첫번째 아이템 선택하기
             selectedIndex = 0
@@ -153,63 +157,65 @@ fun SelectTrimScreen(
         }
     }
 
-    AnimatedContent(
-        targetState = options,
-        transitionSpec = { fadeInAndOut() },
-        label = ""
-    ) {
-        when {
-            it.isEmpty() -> LoadingScreen {}
-            else -> {
-                Column(
-                    modifier = modifier
-                        .fillMaxWidth()
-                        .verticalScroll(scrollState),
-                ) {
-                    GlideImage(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height(200.dp),
-                        imageModel = { options.getOrNull(selectedIndex)?.imageUrl },
-                        imageOptions = ImageOptions(
-                            contentScale = ContentScale.FillBounds
-                        ),
-                        previewPlaceholder = R.drawable.ic_launcher_background,
-                        component = rememberImageComponent {
-                            +CrossfadePlugin(
-                                duration = 1000
-                            )
-                        }
-                    )
+    Box(modifier = modifier.fillMaxSize()) {
+        AnimatedContent(
+            targetState = options,
+            transitionSpec = { fadeInAndOut() },
+            label = ""
+        ) {
+            when {
+                it.isEmpty() -> LoadingScreen {}
+                else -> {
                     Column(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(16.dp),
-                        verticalArrangement = Arrangement.spacedBy(16.dp),
+                            .verticalScroll(scrollState),
                     ) {
-                        OptionNameWithDivider(
-                            optionName = options.getOrNull(selectedIndex)?.optionName ?: ""
+                        GlideImage(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(200.dp),
+                            imageModel = { options.getOrNull(selectedIndex)?.imageUrl },
+                            imageOptions = ImageOptions(
+                                contentScale = ContentScale.FillBounds
+                            ),
+                            previewPlaceholder = R.drawable.ic_launcher_background,
+                            component = rememberImageComponent {
+                                +CrossfadePlugin(
+                                    duration = 1000
+                                )
+                            }
                         )
                         Column(
                             modifier = Modifier
-                                .fillMaxWidth(),
+                                .fillMaxWidth()
+                                .padding(16.dp),
                             verticalArrangement = Arrangement.spacedBy(16.dp),
                         ) {
-                            options.forEachIndexed { idx, item ->
-                                OptionCardForDetail(
-                                    optionNum = idx + 1,
-                                    optionName = item.optionName,
-                                    price = item.price ?: 0,
-                                    descFirst = if (item.maximumOutput != null) item.optionDesc else null,
-                                    descSecond = if (item.maximumOutput == null) item.optionDesc else null,
-                                    maximumTorque = item.maximumTorque,
-                                    maximumOutput = item.maximumOutput,
-                                    isSelected = idx == selectedIndex,
-                                    onClick = {
-                                        selectedIndex = idx
-                                        onOptionSelect(item, screenProgress, isInitial)
-                                    },
-                                )
+                            OptionNameWithDivider(
+                                optionName = options.getOrNull(selectedIndex)?.optionName ?: ""
+                            )
+                            Column(
+                                modifier = Modifier
+                                    .fillMaxWidth(),
+                                verticalArrangement = Arrangement.spacedBy(16.dp),
+                            ) {
+                                options.forEachIndexed { idx, item ->
+                                    OptionCardForDetail(
+                                        optionNum = idx + 1,
+                                        optionName = item.optionName,
+                                        price = item.price ?: 0,
+                                        descFirst = if (item.maximumOutput != null) item.optionDesc else null,
+                                        descSecond = if (item.maximumOutput == null) item.optionDesc else null,
+                                        maximumTorque = item.maximumTorque,
+                                        maximumOutput = item.maximumOutput,
+                                        isSelected = idx == selectedIndex,
+                                        onClick = {
+                                            selectedIndex = idx
+                                            onOptionSelect(item, screenProgress, isInitial)
+                                        },
+                                    )
+                                }
                             }
                         }
                     }
@@ -217,8 +223,6 @@ fun SelectTrimScreen(
             }
         }
     }
-
-
 }
 
 @Preview
