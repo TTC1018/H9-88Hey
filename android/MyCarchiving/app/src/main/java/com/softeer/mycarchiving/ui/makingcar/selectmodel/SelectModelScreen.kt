@@ -54,17 +54,27 @@ fun SelectModelRoute(
     val focusedImageIndex by viewModel.focusedImageIndex.collectAsStateWithLifecycle()
     val carDetails by sharedViewModel.carDetails.observeAsState()
     val scrollState = rememberScrollState()
+    val selectedModel by sharedViewModel.selectedModelInfo.observeAsState()
+    val isArchived = carDetails != null && selectedModel == null
 
-    LaunchedEffect(carDetails, carModels) {
-        // 아카이빙에서 왔다면 해당 데이터 선택
-        carDetails?.trim?.run {
-            carModels.find { it.name == name }?.let {
-                sharedViewModel.updateSelectedModelInfo(it)
+    LaunchedEffect(isArchived) {
+        if (isArchived) {
+            // 아카이빙에서 왔다면 초기화 후 해당 데이터 선택
+            sharedViewModel.initializeSelectedOptions()
+
+            carDetails?.trim?.run {
+                carModels.find { it.name == name }?.let {
+                    sharedViewModel.updateSelectedModelInfo(it, true)
+                }
             }
         }
+    }
 
-        // 아무것도 선택된 것 없을 때 첫번째 모델 자동 선택
-        carModels.firstOrNull()?.let { sharedViewModel.updateSelectedModelInfo(it) }
+    // 아무것도 선택된 것 없을 때 첫번째 모델 자동 선택
+    LaunchedEffect(carModels) {
+        if (isArchived.not()) {
+            carModels.firstOrNull()?.let { sharedViewModel.updateSelectedModelInfo(it) }
+        }
     }
 
     SelectModelScreen(
