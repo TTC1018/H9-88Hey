@@ -54,4 +54,19 @@ class FeedServiceTest {
 
 		assertEquals(feedId, response.getFeedId());
 	}
+
+	@DisplayName("유저의 아카이빙 북마크를 삭제한다.")
+	@Test
+	void deleteBookmark() {
+		int userId = 1;
+		long feedId = 1234567890L;
+		int result = 1;
+		ArchivingIdRequest request = ArchivingIdRequest.builder().feedId(feedId).build();
+		when(feedRepository.deleteBookmark(userId, feedId))
+			.thenReturn(result);
+
+		FeedIdResponse response = feedService.deleteFeed(userId, request);
+
+		assertEquals(feedId, response.getFeedId());
+	}
 }
