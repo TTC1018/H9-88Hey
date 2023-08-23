@@ -48,7 +48,7 @@
     <string name="make_car_option_indicator">%1$d/%2$d</string>
 
     <!--  내 차 만들기 dialog  -->
-    <string name="make_car_dialog_description">내 차 만들기 그만하시겠어요?\n만들던 차량은 <b>아카이빙 > 내가 만든 차량</b>에\n저장해둘게요</string>
+    <string name="make_car_dialog_description">내 차 만들기 그만하시겠어요?\n만들던 차량은 <b>마이카이빙 > 내가 만든 차량</b>에\n저장해둘게요</string>
     <string name="make_car_dialog_finish">내 차 만들기 종료</string>
 
     <!--  내 차 만들기 완성  -->
