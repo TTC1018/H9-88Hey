@@ -19,7 +19,7 @@ public class FeedRepository {
 	private final NamedParameterJdbcTemplate jdbcTemplate;
 
 	public List<Feed> hasBookmark(final int userId, final long feedId) {
-		String sql = "SELECT feed.archiving_id AS feed_id, feed.user_id AS user_id, feed.is_marked AS is_marked\n"
+		String sql = "SELECT feed.archiving_id AS feed_id, feed.user_id AS user_id "
 			+ "FROM feed\n"
 			+ "WHERE user_id = :userId AND archiving_id = :feedId";
 
@@ -31,7 +31,7 @@ public class FeedRepository {
 	}
 
 	public int save(final int userId, final long feedId) {
-		String sql = "INSERT INTO feed (user_id, archiving_id, is_marked) VALUES (:userId, :feedId, TRUE) ";
+		String sql = "INSERT INTO feed (user_id, archiving_id) VALUES (:userId, :feedId) ";
 
 		SqlParameterSource params = new MapSqlParameterSource()
 			.addValue("userId", userId)
