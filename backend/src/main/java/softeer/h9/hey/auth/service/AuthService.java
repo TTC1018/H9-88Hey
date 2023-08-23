@@ -119,7 +119,8 @@ public class AuthService {
 
 	public UserNameResponse getValidatedUser(ValidatedUserRequest validatedUserRequest) {
 		String token = validatedUserRequest.getToken();
-		String userName = jwtTokenProvider.getUserNameFromToken(token);
+		Map<String, Object> claims = jwtTokenProvider.getClaimsFromToken(token);
+		String userName = (String) claims.get(USER_NAME);
 		return new UserNameResponse(userName);
 	}
 
