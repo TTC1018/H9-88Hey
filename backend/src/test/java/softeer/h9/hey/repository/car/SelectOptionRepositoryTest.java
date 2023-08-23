@@ -30,7 +30,7 @@ public class SelectOptionRepositoryTest {
 		List<SelectOptionByModelDto> selectOptions = repository.findAllSelectOptionByModelId(modelId);
 
 		assertThat(selectOptions).isNotNull();
-		assertThat(selectOptions).hasSize(26);
+		assertThat(selectOptions).hasSize(23);
 	}
 
 

@@ -28,13 +28,20 @@ public class GlobalResponse<T> {
 			.build();
 	}
 
+	public static <T> GlobalResponse<T> ok(String message) {
+		return GlobalResponse.<T>builder()
+			.statusCode(HttpStatus.OK.value())
+			.message(message)
+			.build();
+	}
+
 	public static <T> GlobalResponse<T> created(T body) {
 		return GlobalResponse.<T>builder()
 			.statusCode(HttpStatus.CREATED.value())
 			.data(body)
       .build();
   }
-  
+
 	public static GlobalResponse<?> error(HttpStatus httpStatus, String message) {
 		return GlobalResponse.builder()
 			.statusCode(httpStatus.value())
