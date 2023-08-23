@@ -17,6 +17,7 @@ import com.softeer.mycarchiving.ui.theme.HyundaiLightSand
 fun MyArchiveMadeScreen(
     modifier: Modifier = Modifier,
     madeCars: LazyPagingItems<MadeCarUiModel>,
+    onDetail: (MadeCarUiModel) -> Unit,
     onClick: () -> Unit,
     onDelete: (Int) -> Unit
 ) {
@@ -43,7 +44,10 @@ fun MyArchiveMadeScreen(
                                 madeDate = this.lastModifiedDate,
                                 trimOptions = this.trimOptions.filterNotNull().joinToString(" / "),
                                 selectedOptions = this.selectedOptions,
-                                onItemClick = onClick,
+                                onItemClick = {
+                                    onDetail(this)
+                                    onClick()
+                                },
                                 onDelete = { onDelete(index) }
                             )
                         }

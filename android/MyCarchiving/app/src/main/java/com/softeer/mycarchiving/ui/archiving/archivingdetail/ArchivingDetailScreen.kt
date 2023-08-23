@@ -73,7 +73,7 @@ fun ArchiveDetailScreen(
                                 trim = it.trim,
                                 carImageUrl = it.exteriorColor.carImageUrl ?: "",
                                 price = it.price,
-                                trimOptions = it.trimOptions,
+                                trimOptions = it.trimOptions.joinToString(" / "),
                                 exteriorColor = it.exteriorColor.colorName,
                                 exteriorColorUrl = it.exteriorColor.imageUrl,
                                 interiorColor = it.interiorColor.colorName,
@@ -82,7 +82,7 @@ fun ArchiveDetailScreen(
                             Spacer(modifier = Modifier.height(23.dp))
                             DetailTextLabel(text = stringResource(id = R.string.archive_general_review))
                             Spacer(modifier = Modifier.height(16.dp))
-                            DetailReview(review = "승차감이 좋아요 차가 크고 운전하는 시야도 높아서 좋았어요 저는 13개월 아들이 있는데 뒤에 차시트 달아도 널널할 것 같습니다. 다른 주차 관련 옵션도 괜찮아요.")
+                            DetailReview(review = it.review)
                             Spacer(modifier = Modifier.height(23.dp))
                             DetailTextLabel(text = stringResource(id = R.string.selected_option))
                         }

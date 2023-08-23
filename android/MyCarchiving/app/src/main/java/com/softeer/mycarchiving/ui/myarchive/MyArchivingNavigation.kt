@@ -4,7 +4,9 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.ViewModelStoreOwner
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
@@ -30,6 +32,10 @@ fun NavGraphBuilder.makingMyArchiveGraph(
     ) {
         appState.myArchiveNavController = rememberNavController()
 
+        val myArchiveViewModelOwner: ViewModelStoreOwner = remember(it) {
+            appState.navController.getBackStackEntry(MainDestination.MY_ARCHIVING.route)
+        }
+
         val onStartAreaClick: () -> Unit =
             if (appState.currentMyArchiveDestinations == MY_ARCHIVE_MAIN)
                 appState.navController::popBackStack
@@ -52,10 +58,12 @@ fun NavGraphBuilder.makingMyArchiveGraph(
                     startDestination = MY_ARCHIVE_MAIN.route
                 ) {
                     myArchiveMainScreen(
+                        viewModelStoreOwner = myArchiveViewModelOwner,
                         moveDetailPage = appState::navigateToMyArchiveDestination,
                         onBackClick = appState.navController::popBackStack
                     )
                     myArchiveDetailScreen(
+                        viewModelStoreOwner = myArchiveViewModelOwner,
                         onBackClick = appState.myArchiveNavController::popBackStack
                     )
                 }

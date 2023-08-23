@@ -8,6 +8,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.ViewModelStoreOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
@@ -23,7 +24,9 @@ const val MY_ARCHIVE_SAVE = 1
 @Composable
 fun MyArchiveMainRoute(
     modifier: Modifier = Modifier,
-    viewModel: MyArchiveMainViewModel = hiltViewModel(),
+    viewModelStoreOwner: ViewModelStoreOwner?,
+    viewModel: MyArchiveMainViewModel =
+        viewModelStoreOwner?.run { hiltViewModel(this) } ?: hiltViewModel(),
     onMadeCarClick: () -> Unit,
     onSavedCarClick: () -> Unit,
 ) {
@@ -38,6 +41,7 @@ fun MyArchiveMainRoute(
         savedCars = savedCars,
         onSelect = viewModel::updateSelectedIndex,
         onMadeCarClick = onMadeCarClick,
+        onMadeCarDetail = viewModel::onMadeCarDetail,
         onMadeCarDelete = viewModel::deleteMadeCar,
         onSavedCarClick = onSavedCarClick,
         onSavedCarDelete = viewModel::deleteSavedCar,
@@ -52,6 +56,7 @@ fun MyArchiveMainScreen(
     savedCars: List<CarFeedUiModel>,
     onSelect: (Int) -> Unit,
     onMadeCarClick: () -> Unit,
+    onMadeCarDetail: (MadeCarUiModel) -> Unit,
     onMadeCarDelete: (Int) -> Unit,
     onSavedCarClick: () -> Unit,
     onSavedCarDelete: (Int) -> Unit,
@@ -80,6 +85,7 @@ fun MyArchiveMainScreen(
                         .weight(1f)
                         .fillMaxSize(),
                     madeCars = madeCars,
+                    onDetail = onMadeCarDetail,
                     onClick = onMadeCarClick,
                     onDelete = onMadeCarDelete,
                 )

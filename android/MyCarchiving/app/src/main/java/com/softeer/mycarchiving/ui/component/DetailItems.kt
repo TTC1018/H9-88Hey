@@ -14,7 +14,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Divider
@@ -59,7 +58,7 @@ fun DetailBanner(
     carImageUrl: String,
     model: String,
     trim: String,
-    trimOptions: List<String>,
+    trimOptions: String,
     price: Int,
     exteriorColor: String,
     exteriorColorUrl: String,
@@ -98,7 +97,7 @@ fun DetailBanner(
             ) {
                 Text(text = "$model $trim", style = medium18)
                 Spacer(modifier = Modifier.height(8.dp))
-                Text(text = trimOptions.joinToString(separator = " / "), style = regular14)
+                Text(text = trimOptions, style = regular14)
                 Spacer(modifier = Modifier.height(5.dp))
                 Text(
                     modifier = Modifier.fillMaxWidth(),
@@ -155,17 +154,19 @@ fun DetailColorInfoRow(
 @Composable
 fun DetailReview(
     modifier: Modifier = Modifier,
-    review: String
+    review: String?
 ) {
-    Text(
-        modifier = modifier
-            .fillMaxWidth()
-            .background(color = HyundaiLightSand, shape = roundCorner)
-            .padding(horizontal = 17.dp, vertical = 12.dp),
-        text = review,
-        style = regular14,
-        color = DarkGray
-    )
+    review?.let {
+        Text(
+            modifier = modifier
+                .fillMaxWidth()
+                .background(color = HyundaiLightSand, shape = roundCorner)
+                .padding(horizontal = 17.dp, vertical = 12.dp),
+            text = it,
+            style = regular14,
+            color = DarkGray
+        )
+    }
 }
 
 @OptIn(ExperimentalLayoutApi::class)
@@ -247,7 +248,7 @@ fun PreviewDetailBanner() {
     DetailBanner(
         model = "펠리세이드",
         trim = "Le Blanc",
-        trimOptions = listOf("디젤 2.2", "4WD", "7인승"),
+        trimOptions = "디젤 2.2 / 4WD / 7인승",
         price = 47340000,
         exteriorColor = "어비스 블랙펄",
         exteriorColorUrl = "",

@@ -2,6 +2,7 @@ package com.softeer.mycarchiving.ui.myarchive.main
 
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
@@ -10,6 +11,7 @@ import com.softeer.domain.model.MyArchiveFeed
 import com.softeer.domain.usecase.myarchive.GetMadeCarFeedUseCase
 import com.softeer.mycarchiving.mapper.asUiModel
 import com.softeer.mycarchiving.model.common.CarFeedUiModel
+import com.softeer.mycarchiving.model.myarchive.MadeCarUiModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -27,6 +29,9 @@ class MyArchiveMainViewModel @Inject constructor(
     val madeCarFeedPagingData = getMadeCarFeedUseCase()
         .map { pagingData -> pagingData.map(MyArchiveFeed::asUiModel) }
         .cachedIn(viewModelScope)
+
+    private val _detailCar = mutableStateOf<MadeCarUiModel?>(null)
+    val detailCar: State<MadeCarUiModel?> = _detailCar
 
     private val _savedCars = MutableStateFlow(
         listOf(
@@ -49,6 +54,10 @@ class MyArchiveMainViewModel @Inject constructor(
 
     fun updateSelectedIndex(index: Int) {
         _selectedIndex.intValue = index
+    }
+
+    fun onMadeCarDetail(madeCar: MadeCarUiModel) {
+        _detailCar.value = madeCar
     }
 
     fun deleteMadeCar(deleteIndex: Int) {
