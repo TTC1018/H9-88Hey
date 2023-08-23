@@ -142,8 +142,8 @@ class AuthServiceTest {
 		String accessToken = "abcdefgh";
 		ValidatedUserRequest validatedUserRequest = new ValidatedUserRequest(accessToken);
 
-		when(tokenProvider.getUserNameFromToken(accessToken))
-			.thenReturn(expectedUserName);
+		when(tokenProvider.getClaimsFromToken(accessToken))
+			.thenReturn(Map.of("userName", expectedUserName));
 
 		UserNameResponse validatedUser = authService.getValidatedUser(validatedUserRequest);
 		String userName = validatedUser.getUserName();
