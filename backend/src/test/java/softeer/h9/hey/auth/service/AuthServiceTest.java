@@ -1,5 +1,6 @@
 package softeer.h9.hey.auth.service;
 
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 import java.time.LocalDateTime;
@@ -17,7 +18,9 @@ import softeer.h9.hey.auth.domain.User;
 import softeer.h9.hey.auth.dto.request.AccessTokenRequest;
 import softeer.h9.hey.auth.dto.request.JoinRequest;
 import softeer.h9.hey.auth.dto.request.LoginRequest;
+import softeer.h9.hey.auth.dto.request.ValidatedUserRequest;
 import softeer.h9.hey.auth.dto.response.TokenResponse;
+import softeer.h9.hey.auth.dto.response.UserNameResponse;
 import softeer.h9.hey.auth.exception.JoinException;
 import softeer.h9.hey.auth.exception.LoginException;
 import softeer.h9.hey.auth.repository.RefreshTokenRepository;
@@ -130,5 +133,21 @@ class AuthServiceTest {
 
 		Assertions.assertThat(tokenResponse.getAccessToken()).isNotNull();
 		Assertions.assertThat(tokenResponse.getRefreshToken()).isNotNull();
+	}
+
+	@Test
+	@DisplayName("Access Token으로부터 사용자 이름을 가져오는 기능 테스트")
+	void getValidatedUserNameTest() {
+		String expectedUserName = "expectedUserName";
+		String accessToken = "abcdefgh";
+		ValidatedUserRequest validatedUserRequest = new ValidatedUserRequest(accessToken);
+
+		when(tokenProvider.getClaimsFromToken(accessToken))
+			.thenReturn(Map.of("userName", expectedUserName));
+
+		UserNameResponse validatedUser = authService.getValidatedUser(validatedUserRequest);
+		String userName = validatedUser.getUserName();
+
+		assertEquals(expectedUserName, userName);
 	}
 }

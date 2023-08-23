@@ -6,6 +6,7 @@ import javax.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,7 +17,9 @@ import lombok.RequiredArgsConstructor;
 import softeer.h9.hey.auth.dto.request.AccessTokenRequest;
 import softeer.h9.hey.auth.dto.request.JoinRequest;
 import softeer.h9.hey.auth.dto.request.LoginRequest;
+import softeer.h9.hey.auth.dto.request.ValidatedUserRequest;
 import softeer.h9.hey.auth.dto.response.TokenResponse;
+import softeer.h9.hey.auth.dto.response.UserNameResponse;
 import softeer.h9.hey.auth.exception.InvalidTokenException;
 import softeer.h9.hey.auth.exception.JoinException;
 import softeer.h9.hey.auth.exception.LoginException;
@@ -44,13 +47,22 @@ public class AuthController {
 		return GlobalResponse.ok(tokenResponse);
 	}
 
-	@PostMapping("/access-token")
+	@PostMapping("/access-token/reissue")
 	public GlobalResponse<TokenResponse> getAccessToken(HttpServletRequest request) {
 		String refreshToken = getValidatedRequest(request);
 		AccessTokenRequest accessTokenRequest = new AccessTokenRequest(refreshToken);
 
 		TokenResponse tokenResponse = authService.republishAccessToken(accessTokenRequest);
 		return GlobalResponse.ok(tokenResponse);
+	}
+
+	@GetMapping("/access-token/validate")
+	public GlobalResponse<?> validateToken(HttpServletRequest request) {
+		String token = getValidatedRequest(request);
+		ValidatedUserRequest validatedUserRequest = new ValidatedUserRequest(token);
+
+		UserNameResponse validatedUserNameResponse = authService.getValidatedUser(validatedUserRequest);
+		return GlobalResponse.ok(validatedUserNameResponse);
 	}
 
 	private static String getValidatedRequest(HttpServletRequest request) {
