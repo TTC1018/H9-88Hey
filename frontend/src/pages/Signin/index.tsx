@@ -1,12 +1,14 @@
 import { useState, useEffect, useContext, ChangeEvent, FormEvent } from 'react';
 
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 
-import { AuthContext } from '@/AuthProvider';
-import { getLocalStorage, setLocalStorage } from '@/utils';
+import { useReissueToken } from '@/hooks/useReissueToken';
+import { setLocalStorage } from '@/utils';
 import { isEmailEmpty, isPasswordEmpty, isEmailValid } from '@/utils/auth';
 import { AuthError } from '@/utils/AuthError';
 import { API_URL, emailRegex, AUTH_ALERT_MESSAGE } from '@/constants';
+
+import { AuthContext } from '@/AuthProvider';
 
 import * as Styled from './style';
 
@@ -21,7 +23,7 @@ export function Signin() {
 
   const navigate = useNavigate();
 
-  const { isSignin, setIsSignin, setUserName, setAccessToken } = useContext(AuthContext);
+  const { isSignin, setIsSignin, setUserName } = useContext(AuthContext);
 
   function handleChange(event: ChangeEvent<HTMLInputElement>) {
     const { name, value } = event.target;
@@ -38,10 +40,6 @@ export function Signin() {
     event.preventDefault();
     setIsDisabled(true);
     const { email, password } = account;
-
-    if (isSignin) {
-      navigate('/trim', { replace: true });
-    }
 
     if (isEmailEmpty(email)) {
       handleAlert(AUTH_ALERT_MESSAGE.EMAIL_EMPTY);
@@ -75,7 +73,7 @@ export function Signin() {
 
       const { accessToken, refreshToken, userName } = data;
 
-      setAccessToken(accessToken);
+      setLocalStorage('accessToken', accessToken);
       setLocalStorage('refreshToken', refreshToken);
 
       setIsSignin(true);
@@ -88,7 +86,7 @@ export function Signin() {
           handleAlert(AUTH_ALERT_MESSAGE.ACCOUNT_INCORRECT);
         }
       } else {
-        console.error(String(error));
+        throw error;
       }
     }
 
@@ -96,16 +94,8 @@ export function Signin() {
   }
 
   useEffect(() => {
-    const refreshToken = getLocalStorage('refreshToken');
-
-    if (refreshToken !== null) {
-      setIsSignin(true);
-    }
-  }, []);
-
-  useEffect(() => {
     if (isSignin) {
-      navigate('/trim', { replace: true });
+      navigate('/trim');
     }
   }, [isSignin]);
 
@@ -132,7 +122,10 @@ export function Signin() {
           <Styled.Button type="submit" disabled={isDisabled}>
             로그인
           </Styled.Button>
-          <Styled.LinkWrapper to="/signup">아직 회원가입을 안하셨나요?</Styled.LinkWrapper>
+          <Styled.Flex>
+            <Styled.LinkWrapper to="/signup">아직 회원가입을 안하셨나요?</Styled.LinkWrapper>
+            <Styled.LinkWrapper to="/trim">로그인 안 하고 이용할래요</Styled.LinkWrapper>
+          </Styled.Flex>
         </Styled.Form>
       </Styled.Container>
     </>

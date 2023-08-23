@@ -31,7 +31,7 @@ export function Signup() {
 
   const navigate = useNavigate();
 
-  const { isSignin, setIsSignin, setUserName, setAccessToken } = useContext(AuthContext);
+  const { isSignin, setIsSignin, setUserName } = useContext(AuthContext);
 
   function handleChangeAccount(event: ChangeEvent<HTMLInputElement>) {
     const { name, value } = event.target;
@@ -104,7 +104,7 @@ export function Signup() {
 
       const { accessToken, refreshToken } = data;
 
-      setAccessToken(accessToken);
+      setLocalStorage('accessToken', accessToken);
       setLocalStorage('refreshToken', refreshToken);
 
       setIsSignin(true);
@@ -116,6 +116,8 @@ export function Signup() {
         if (statusCode === 409) {
           handleAlert(AUTH_ALERT_MESSAGE.EMAIL_CONFLICT);
         }
+      } else {
+        throw error;
       }
     }
 

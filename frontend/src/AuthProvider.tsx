@@ -5,8 +5,6 @@ interface Props {
   setIsSignin: Dispatch<SetStateAction<boolean>>;
   userName: string;
   setUserName: Dispatch<SetStateAction<string>>;
-  accessToken: string;
-  setAccessToken: Dispatch<SetStateAction<string>>;
 }
 
 const initialContext = {
@@ -14,8 +12,6 @@ const initialContext = {
   setIsSignin: () => {},
   userName: '',
   setUserName: () => {},
-  accessToken: '',
-  setAccessToken: () => {},
 };
 
 export const AuthContext = createContext<Props>(initialContext);
@@ -23,11 +19,8 @@ export const AuthContext = createContext<Props>(initialContext);
 export function AuthProvider({ children }: PropsWithChildren) {
   const [isSignin, setIsSignin] = useState(false);
   const [userName, setUserName] = useState('');
-  const [accessToken, setAccessToken] = useState('');
 
   return (
-    <AuthContext.Provider value={{ isSignin, setIsSignin, userName, setUserName, accessToken, setAccessToken }}>
-      {children}
-    </AuthContext.Provider>
+    <AuthContext.Provider value={{ isSignin, setIsSignin, userName, setUserName }}>{children}</AuthContext.Provider>
   );
 }

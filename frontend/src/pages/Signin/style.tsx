@@ -92,6 +92,13 @@ export const Button = styled.button`
   }}
 `;
 
+export const Flex = styled.div`
+  width: 400px;
+
+  display: flex;
+  justify-content: space-between;
+`;
+
 export const LinkWrapper = styled(Link)`
   ${({ theme }) => {
     const { colors, fonts } = theme;
