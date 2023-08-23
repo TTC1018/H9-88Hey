@@ -237,7 +237,10 @@ fun DeleteMyArchiveCarDialog(
                 backgroundColor = PrimaryBlue,
                 textColor = White,
                 text = stringResource(id = R.string.my_dialog_delete),
-                onClick = onDelete
+                onClick = {
+                    onDelete()
+                    onDismissRequest()
+                }
             )
         }
     }

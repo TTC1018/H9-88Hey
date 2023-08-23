@@ -1,9 +1,10 @@
 package com.softeer.mycarchiving.model.myarchive
 
 data class MadeCarUiModel(
-    val id: String,
+    val id: Long,
     val lastModifiedDate: String,
     val isSaved: Boolean,
+    val totalPrice: Int,
     val carImageUrl: String? = null,
     val modelName: String,
     val trimName: String? = null,

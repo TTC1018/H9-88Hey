@@ -57,7 +57,7 @@ fun MyArchiveMainScreen(
     onSelect: (Int) -> Unit,
     onMadeCarClick: () -> Unit,
     onMadeCarDetail: (MadeCarUiModel) -> Unit,
-    onMadeCarDelete: (Int) -> Unit,
+    onMadeCarDelete: (Long) -> Unit,
     onSavedCarClick: () -> Unit,
     onSavedCarDelete: (Int) -> Unit,
 ) {

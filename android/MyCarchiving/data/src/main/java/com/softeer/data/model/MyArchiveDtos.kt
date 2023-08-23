@@ -16,6 +16,8 @@ data class MyArchiveMadeFeedDto(
     val lastModifiedDate: String,
     @SerializedName("isSaved")
     val isSaved: Boolean,
+    @SerializedName("totalPrice")
+    val totalPrice: Int,
     @SerializedName("model")
     val model: MyArchiveModelDto,
     @SerializedName("trim")

@@ -34,6 +34,6 @@ interface MyArchiveNetworkApi {
     @DELETE("/mychiving/{id}")
     suspend fun deleteMadeCarFeed(
         @Path(value = "id") id: Long
-    ): Response<BaseResponse<Unit>>
+    ): Response<BaseResponse<String>>
 
 }

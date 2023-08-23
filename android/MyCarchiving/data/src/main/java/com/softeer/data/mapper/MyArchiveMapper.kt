@@ -41,6 +41,7 @@ fun MyArchiveMadeFeedDto.asEntity(): MyArchiveFeed =
         id = id,
         lastModifiedDate = lastModifiedDate,
         isSaved = isSaved,
+        totalPrice = totalPrice,
         carImageUrl = exteriorColor?.carImageUrl,
         modelName = model.name,
         trim = trim?.name,

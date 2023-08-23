@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
 import androidx.paging.map
 import com.softeer.domain.model.MyArchiveFeed
+import com.softeer.domain.usecase.myarchive.DeleteMadeCarFeedUseCase
 import com.softeer.domain.usecase.myarchive.GetMadeCarFeedUseCase
 import com.softeer.mycarchiving.mapper.asUiModel
 import com.softeer.mycarchiving.model.common.CarFeedUiModel
@@ -16,11 +17,13 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class MyArchiveMainViewModel @Inject constructor(
-    getMadeCarFeedUseCase: GetMadeCarFeedUseCase
+    getMadeCarFeedUseCase: GetMadeCarFeedUseCase,
+    private val deleteMadeCarFeedUseCase: DeleteMadeCarFeedUseCase,
 ): ViewModel() {
 
     private val _selectedIndex = mutableIntStateOf(0)
@@ -60,12 +63,14 @@ class MyArchiveMainViewModel @Inject constructor(
         _detailCar.value = madeCar
     }
 
-    fun deleteMadeCar(deleteIndex: Int) {
-
+    fun deleteMadeCar(feedId: Long) {
+        viewModelScope.launch {
+            deleteMadeCarFeedUseCase(feedId)
+        }
     }
 
-    fun deleteSavedCar(deleteIndex: Int) {
-        _savedCars.value = _savedCars.value.toMutableList().apply { removeAt(deleteIndex) }
+    fun deleteSavedCar(feedId: Int) {
+
     }
 
 }

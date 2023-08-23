@@ -76,7 +76,7 @@ fun MyArchiveDetailScreen(
                     model = detailCar.modelName,
                     trim = detailCar.trimName ?: "",
                     trimOptions = detailCar.trimOptions.filterNotNull().joinToString(" / "),
-                    price = 0,
+                    price = detailCar.totalPrice,
                     exteriorColor = detailCar.exteriorColor?.name ?: "",
                     exteriorColorUrl = detailCar.exteriorColor?.colorImageUrl ?: "",
                     interiorColor = detailCar.interiorColor?.name ?: "",
@@ -95,7 +95,7 @@ fun MyArchiveDetailScreen(
                 selectOptions = detailCar.selectedOptions
             )
         }
-        MyArchiveDetailBottomBar(screenIndex = screenIndex)
+        MyArchiveDetailBottomBar(screenIndex = screenIndex, totalPrice = detailCar.totalPrice)
     }
 }
 

@@ -4,6 +4,7 @@ data class MyArchiveFeed(
     val id: Long,
     val lastModifiedDate: String,
     val isSaved: Boolean,
+    val totalPrice: Int,
     val carImageUrl: String? = null,
     val modelName: String,
     val trim: String? = null,
