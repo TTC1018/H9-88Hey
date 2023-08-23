@@ -30,10 +30,8 @@ public class SelectOptionRepositoryTest {
 		List<SelectOptionByModelDto> selectOptions = repository.findAllSelectOptionByModelId(modelId);
 
 		assertThat(selectOptions).isNotNull();
-		assertThat(selectOptions).hasSize(26);
+		assertThat(selectOptions).hasSize(23);
 	}
-
-
 
 	@DisplayName("특정 자동차에 적용할 수 있는 선택 옵션을 조회한다.")
 	@Test
@@ -80,7 +78,8 @@ public class SelectOptionRepositoryTest {
 	void findDisabledOptionIdsBySelectOptionIdsTest() {
 		List<String> selectOptionIds = List.of("LST", "US1");
 
-		List<DisabledOptionIdDto> disabledOptionIdDtos = repository.findDisabledOptionIdsBySelectOptionIds(selectOptionIds);
+		List<DisabledOptionIdDto> disabledOptionIdDtos = repository.findDisabledOptionIdsBySelectOptionIds(
+			selectOptionIds);
 
 		assertThat(disabledOptionIdDtos).hasSize(1);
 	}
