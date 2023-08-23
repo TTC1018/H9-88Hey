@@ -28,6 +28,7 @@ export const ReviewWrapper = styled.div`
   margin-top: 50px;
 
   display: flex;
+  position: relative;
 `;
 
 export const InfoBox = styled.div`
@@ -41,6 +42,26 @@ export const InfoBox = styled.div`
       justify-content: center;
 
       ${fonts.bodyMedium1}
+    `;
+  }}
+`;
+
+export const DownButton = styled.button`
+  ${({ theme }) => {
+    const { colors } = theme;
+    return css`
+      width: 50px;
+      height: 50px;
+      bottom: 30px;
+      right: 30px;
+
+      position: fixed;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      background-color: ${colors.hyundaiSand};
+      border-radius: 8px;
     `;
   }}
 `;

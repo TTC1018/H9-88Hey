@@ -1,7 +1,17 @@
 import { API_URL } from '@/constants';
 import { useState } from 'react';
 
-export function usePostRequest(url: string) {
+interface Props {
+  url: string;
+}
+interface ResponseProps<T> {
+  status: number;
+  message: string;
+  data: T;
+}
+export function usePostRequest<T>({ url }: Props) {
+  const [data, setData] = useState<T>();
+  const [isSuccess, setIsSuccess] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
 
@@ -22,12 +32,17 @@ export function usePostRequest(url: string) {
       if (!response.ok) {
         throw new Error('Network response was not ok');
       }
+
+      const { data: responseData } = (await response.json()) as ResponseProps<T>;
+      setData(responseData);
       setIsLoading(false);
+      setIsSuccess(true);
     } catch (error: any) {
       setError(error);
       setIsLoading(false);
+      setIsSuccess(false);
     }
   };
 
-  return { postData, isLoading, error };
+  return { postData, data, isSuccess, isLoading, error };
 }

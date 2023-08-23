@@ -14,8 +14,6 @@ import { TrimCarImageBox } from '@/components/Trim/TrimCarImageBox';
 import * as Styled from './style';
 
 export function Trim() {
-  const [selectedIndex, handleSetIndex] = useSelectIndex();
-
   const {
     dispatch,
     myCar: { trim },
@@ -26,25 +24,18 @@ export function Trim() {
     key: cacheKey.trim(1),
   });
 
-  function handleCardClick(name: string, price: number, id: number, index: number) {
-    return () => {
-      handleSetIndex(index)();
-      dispatch({ type: MyCarActionType.TRIM, props: { name, price, id } });
-    };
-  }
+  const index = trims.findIndex(({ name }) => name === trim.name);
+  const initialIndex = index !== -1 ? index : 0;
+  const [selectedIndex, handleSetIndex] = useSelectIndex({ initialIndex });
 
   useEffect(() => {
     if (trim.name === '') {
       const { name, price, id } = trims[0];
 
-      dispatch({ type: MyCarActionType.TRIM, props: { name, price, id } });
+      dispatch({ type: MyCarActionType.TRIM, payload: { name, price, id } });
 
       return;
     }
-
-    const index = trims.findIndex(({ name }) => name === trim.name);
-
-    index !== -1 && handleSetIndex(index)();
   }, []);
 
   return (
@@ -52,9 +43,15 @@ export function Trim() {
       <TrimCarImageBox />
       <Styled.Wrapper>
         {trims.map(({ id, name, price, trimFeatures }, index) => (
-          <Styled.Box key={id} onClick={handleCardClick(name, price, id, index)}>
-            <SelectOptionCard isActive={index === selectedIndex} name={name} price={price} features={trimFeatures} />
-          </Styled.Box>
+          <SelectOptionCard
+            key={id}
+            isActive={index === selectedIndex}
+            id={id}
+            name={name}
+            price={price}
+            features={trimFeatures}
+            onSetIndex={handleSetIndex(index)}
+          />
         ))}
       </Styled.Wrapper>
     </Styled.Container>

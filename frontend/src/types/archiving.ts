@@ -51,3 +51,6 @@ interface ArchivingCarProps {
 export interface ArchivingCarDataProps {
   selectOptions: ArchivingCarProps[];
 }
+export interface BookmarkProps {
+  bookmark: boolean;
+}

@@ -8,6 +8,7 @@ import { useFetchSuspense } from '@/hooks/useFetchSuspense';
 import { SaveButton } from '@/components/common/SaveButton';
 
 import * as Styled from './style';
+import { BookmarkProps } from '@/types/archiving';
 
 interface Props {
   totalPrice: number;
@@ -15,9 +16,9 @@ interface Props {
   onClickStartButton: () => void;
 }
 export function DetailDescription({ totalPrice, options, onClickStartButton }: Props) {
-  const { bookmark } = useFetchSuspense<any>({
+  const { bookmark } = useFetchSuspense<BookmarkProps>({
     fetcher: () =>
-      fetcher<any>({
+      fetcher<BookmarkProps>({
         url: apiPath.bookMark('479893076446129702'),
         fetchOptions: {
           headers: {
@@ -30,12 +31,12 @@ export function DetailDescription({ totalPrice, options, onClickStartButton }: P
 
   const [isActive, setIsActive] = useState(bookmark);
 
-  const { postData } = usePostRequest(apiPath.bookMark('479893076446129702'));
+  const { postData, isSuccess } = usePostRequest<null>({ url: apiPath.bookMark('479893076446129702') });
 
   function handleSave() {
     const method = isActive ? 'DELETE' : 'POST';
     postData(method);
-    setIsActive(!isActive);
+    isSuccess && setIsActive(prev => !prev);
   }
 
   return (

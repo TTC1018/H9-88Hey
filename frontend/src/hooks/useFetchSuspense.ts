@@ -1,11 +1,10 @@
-import { DependencyList, useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 
 import { useCache } from './useCache';
 
 interface Props<T> {
   fetcher: () => Promise<ResponseProps<T>>;
   key: string[];
-  deps?: DependencyList;
 }
 interface ResponseProps<T> {
   status: number;
@@ -13,7 +12,7 @@ interface ResponseProps<T> {
   data: T;
 }
 
-export function useFetchSuspense<T>({ fetcher, key, deps }: Props<T>) {
+export function useFetchSuspense<T>({ fetcher, key }: Props<T>) {
   const promise = useRef<Promise<ResponseProps<any>>>();
   const { getCache, setCache } = useCache();
   const value = getCache({ key }) || { status: 'new', data: null, dataUpdatedAt: new Date() };
@@ -64,7 +63,7 @@ export function useFetchSuspense<T>({ fetcher, key, deps }: Props<T>) {
 
   useEffect(() => {
     fetchData();
-  }, deps ?? []);
+  }, []);
 
   throw promise.current;
 }

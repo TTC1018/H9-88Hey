@@ -1,7 +1,10 @@
 import { useState } from 'react';
 
-export function useSelectIndex() {
-  const [index, setIndex] = useState(0);
+interface Props {
+  initialIndex: number;
+}
+export function useSelectIndex({ initialIndex }: Props) {
+  const [index, setIndex] = useState(initialIndex);
 
   function handleSetIndex(index: number) {
     return () => setIndex(index);

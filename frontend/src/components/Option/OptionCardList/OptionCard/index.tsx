@@ -61,10 +61,10 @@ export function OptionCard({
     setIsButtonActive(prev => !prev);
 
     isButtonActive
-      ? dispatch({ type: MyCarActionType.REMOVE_OPTION, props: name })
+      ? dispatch({ type: MyCarActionType.REMOVE_OPTION, payload: name })
       : dispatch({
           type: MyCarActionType.ADD_OPTION,
-          props: { id, name, additionalPrice, imageUrl, subOptions: subOptionNames, path: pathname },
+          payload: { id, name, additionalPrice, imageUrl, subOptions: subOptionNames, path: pathname },
         });
   }
 
@@ -81,15 +81,15 @@ export function OptionCard({
 
   function handleClearHGenuineAccessories() {
     const clearedOptions = myCar.options.filter(option => option.path !== '/option/h-genuine-accessories');
-    dispatch({ type: MyCarActionType.CLEAR_OPTION, props: clearedOptions });
+    dispatch({ type: MyCarActionType.CLEAR_OPTION, payload: clearedOptions });
 
     setIsButtonActive(prev => !prev);
 
     isButtonActive
-      ? dispatch({ type: MyCarActionType.REMOVE_OPTION, props: name })
+      ? dispatch({ type: MyCarActionType.REMOVE_OPTION, payload: name })
       : dispatch({
           type: MyCarActionType.ADD_OPTION,
-          props: { id, name, additionalPrice, imageUrl, subOptions: subOptionNames, path: pathname },
+          payload: { id, name, additionalPrice, imageUrl, subOptions: subOptionNames, path: pathname },
         });
 
     setIsOpen(false);
