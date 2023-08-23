@@ -1,7 +1,7 @@
 package com.softeer.domain.model
 
 data class CarFeed(
-    val id: Long,
+    val id: String,
     val modelName: String,
     val createdDate: String,
     val reviewText: String,

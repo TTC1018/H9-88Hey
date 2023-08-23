@@ -44,7 +44,7 @@ fun ArchiveFeed(
     modifier: Modifier = Modifier,
     carFeedUiModel: CarFeedUiModel,
     appliedOptions: List<SearchOption>,
-    onFeedClick: (Long, ArchivingDestinations?) -> Unit,
+    onFeedClick: (String, ArchivingDestinations?) -> Unit,
 ) {
     Column(
         modifier = modifier
@@ -174,7 +174,7 @@ private fun sortOptionsByApplied(options: List<SearchOption>, appliedOptionIds: 
 fun PreviewArchiveFeed() {
     ArchiveFeed(
         carFeedUiModel = CarFeedUiModel(
-            id = 0,
+            id = "",
             model = "팰리세이드",
             isPurchase = false,
             creationDate = "2023-07-19",

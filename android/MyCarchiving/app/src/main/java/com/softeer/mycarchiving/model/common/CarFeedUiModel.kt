@@ -3,7 +3,7 @@ package com.softeer.mycarchiving.model.common
 import com.softeer.mycarchiving.model.archiving.SearchOption
 
 data class CarFeedUiModel(
-    val id: Long,
+    val id: String,
     val model: String,
     val isPurchase: Boolean,
     val creationDate: String,

@@ -1,7 +1,7 @@
 package com.softeer.domain.model
 
 data class CarInfo(
-    val infoId: Long,
+    val infoId: String,
     val modelId: Int,
     val bodyTypeId: Int,
     val wheelTypeId: Int,
@@ -12,7 +12,7 @@ data class CarInfo(
 )
 
 data class CarTempInfo(
-    val infoId: Long? = null,
+    val infoId: String? = null,
     val modelId: Int? = null,
     val bodyTypeId: Int? = null,
     val wheelTypeId: Int? = null,

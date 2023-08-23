@@ -7,6 +7,7 @@ import com.softeer.data.model.BaseResponse
 import com.softeer.data.model.SelectOptionsDto
 import retrofit2.Response
 import retrofit2.http.GET
+import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface ArchivingNetworkApi {
@@ -24,9 +25,9 @@ interface ArchivingNetworkApi {
         @Query("model_id") modelId: Int = 1
     ): Response<BaseResponse<SelectOptionsDto>>
 
-    @GET("/archiving/detail")
+    @GET("/archiving/{feed_id}")
     suspend fun getCarDetails(
-        @Query("id") feedId: Long,
+        @Path("feed_id") feedId: String,
     ): Response<BaseResponse<ArchivingDetailsDto>>
 
 }

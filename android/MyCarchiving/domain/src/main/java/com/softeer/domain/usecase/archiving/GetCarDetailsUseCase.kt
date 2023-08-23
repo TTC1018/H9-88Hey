@@ -8,6 +8,6 @@ import javax.inject.Inject
 class GetCarDetailsUseCase @Inject constructor(
     private val archivingRepository: ArchivingRepository
 ) {
-    operator fun invoke(feedId: Long): Flow<CarDetails?> =
+    operator fun invoke(feedId: String): Flow<CarDetails?> =
         archivingRepository.getCarDetails(feedId)
 }

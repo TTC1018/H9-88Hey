@@ -6,8 +6,8 @@ import kotlinx.coroutines.flow.Flow
 
 interface MyArchiveRepository {
 
-    fun saveCarInfo(carInfo: CarInfo): Flow<Long>
+    fun saveCarInfo(carInfo: CarInfo): Flow<String>
 
-    fun saveTempCarInfo(carTempInfo: CarTempInfo): Flow<Long>
+    fun saveTempCarInfo(carTempInfo: CarTempInfo): Flow<String>
 
 }

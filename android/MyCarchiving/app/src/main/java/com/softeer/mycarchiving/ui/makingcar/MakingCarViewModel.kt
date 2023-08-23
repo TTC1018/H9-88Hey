@@ -48,7 +48,7 @@ class MakingCarViewModel @Inject constructor(
 
     init {
         // 아카이빙에서 왔는지 확인하고 데이터 설정
-        savedStateHandle.get<String?>(KEY_ARCHIVE_FEED_ID)?.toLong()?.let { feedId ->
+        savedStateHandle.get<String?>(KEY_ARCHIVE_FEED_ID)?.let { feedId ->
             viewModelScope.launch {
                 getCarDetailsUseCase(feedId).firstOrNull()?.run {
                     _carDetails.value = this
@@ -116,7 +116,7 @@ class MakingCarViewModel @Inject constructor(
     private val _showSummary = MutableStateFlow(false)
     val showSummary: StateFlow<Boolean> = _showSummary
 
-    private val carInfoId = MutableLiveData<Long>()
+    private val carInfoId = MutableLiveData<String>()
 
     private val _selectedModelSimple = MutableLiveData<SelectModelUiModel>()
     val selectedModelSimple: LiveData<SelectModelUiModel> = _selectedModelSimple
@@ -163,7 +163,7 @@ class MakingCarViewModel @Inject constructor(
     ) {
         if (archived) { // 아카이빙 데이터면 선택 데이터에 기록만 하기
             _selectedTrim.value += listOf(trimOptionUiModel)
-        } else { // 아키이빙 데이터 로드 후 or 기본으로 진행 중
+        } else { // 아카이빙 데이터 로드 후 or 기본으로 진행 중
             if (_selectedTrim.value.getOrNull(progress) == null) { // 그대로 추가하면 될 때
                 _selectedTrimSimple.value += listOf(trimOptionUiModel.asSimpleUiModel()) // 견적 요약보기용 갱신
                 _selectedTrim.value += listOf(trimOptionUiModel)

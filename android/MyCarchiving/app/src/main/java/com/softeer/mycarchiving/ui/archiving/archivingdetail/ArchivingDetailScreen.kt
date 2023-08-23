@@ -34,7 +34,7 @@ import com.softeer.mycarchiving.ui.theme.White
 fun ArchiveDetailRoute(
     modifier: Modifier = Modifier,
     viewModel: ArchiveDetailViewModel = hiltViewModel(),
-    onMakingCarClick: (Long?) -> Unit
+    onMakingCarClick: (String?) -> Unit
 ) {
     val details by viewModel.details.collectAsStateWithLifecycle(initialValue = null)
 
