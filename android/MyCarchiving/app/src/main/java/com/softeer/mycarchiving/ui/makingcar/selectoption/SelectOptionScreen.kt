@@ -94,9 +94,11 @@ fun SelectOptionRoute(
     val hGenuineTagMap by viewModel.hGeniuneTagMap.collectAsStateWithLifecycle()
     val nPerformanceTagMap by viewModel.nPerformanceTagMap.collectAsStateWithLifecycle()
     val carDetails by sharedViewModel.carDetails.observeAsState()
-    val isArchived = carDetails?.selectedOptions?.run {
+    val archivedFlag by sharedViewModel.optionArchivedFlag
+    val isArchived = archivedFlag.not() && carDetails?.selectedOptions?.run {
             isNullOrEmpty().not() &&
                 (selectedExtras.size + selectedHGenuines.size + selectedNPerformance.size != size)
+        // 첫 데이터의 개수와 같아질 때까지만 로드하고 더이상 로드 안 해야됨.
     } ?: false
 
     if (isArchived) {
@@ -108,6 +110,13 @@ fun SelectOptionRoute(
             isArchived = isArchived,
             saveSelectOption = sharedViewModel::updateSelectedExtraOption,
         )
+    }
+
+    // 아카이브 한번 로드하면 뷰모델에 기록
+    LaunchedEffect(isArchived) {
+        if (isArchived.not()) {
+            sharedViewModel.setArchivedFlag(true)
+        }
     }
 
     LaunchedEffect(screenProgress) {

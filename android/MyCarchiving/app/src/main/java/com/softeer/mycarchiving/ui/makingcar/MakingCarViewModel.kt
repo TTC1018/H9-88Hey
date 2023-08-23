@@ -1,6 +1,8 @@
 package com.softeer.mycarchiving.ui.makingcar
 
 import android.util.Log
+import androidx.compose.runtime.State
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
@@ -65,6 +67,7 @@ class MakingCarViewModel @Inject constructor(
                     // 선택 옵션
                     _selectedOptionSimple.value =
                         selectedOptions.map { it.asSimpleUiModel() }
+                    _optionArchivedFlag.value = false
                 }
                 carInfoId.value = feedId
             }
@@ -129,6 +132,13 @@ class MakingCarViewModel @Inject constructor(
 
     private val _selectedOptionSimple = MutableStateFlow<List<SelectOptionSimpleUiModel>>(emptyList())
     val selectedOptionSimple: StateFlow<List<SelectOptionSimpleUiModel>> = _selectedOptionSimple
+
+    private var _optionArchivedFlag = mutableStateOf(false)
+    val optionArchivedFlag: State<Boolean> = _optionArchivedFlag
+
+    fun setArchivedFlag(flag: Boolean) {
+        _optionArchivedFlag.value = flag
+    }
 
     fun openSummary() {
         _showSummary.value = true
