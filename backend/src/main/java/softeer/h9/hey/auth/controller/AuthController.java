@@ -47,7 +47,7 @@ public class AuthController {
 		return GlobalResponse.ok(tokenResponse);
 	}
 
-	@PostMapping("/access-token")
+	@PostMapping("/access-token/reissue")
 	public GlobalResponse<TokenResponse> getAccessToken(HttpServletRequest request) {
 		String refreshToken = getValidatedRequest(request);
 		AccessTokenRequest accessTokenRequest = new AccessTokenRequest(refreshToken);

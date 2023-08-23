@@ -159,7 +159,7 @@ class AuthControllerTest {
 		doNothing().when(refreshTokenRepository).deleteById(anyInt());
 
 		mockMvc.perform(
-				post("/auth/access-token")
+				post("/auth/access-token/reissue")
 					.header("Authorization", "Bearer refreshToken"))
 			.andExpect(status().isOk())
 			.andExpectAll(
@@ -174,7 +174,7 @@ class AuthControllerTest {
 	@DisplayName("유효하지 않은 Refresh Token을 헤더에 담아 엑세스 토큰을 요청하면 401 예외를 던진다.")
 	void republishAccessTokenFailTest() throws Exception {
 		mockMvc.perform(
-				post("/auth/access-token")
+				post("/auth/access-token/reissue")
 					.contentType(MediaType.APPLICATION_JSON)
 					.header("Authorization", "Bearer jwttoken12edw"))
 			.andExpect(status().isUnauthorized())
