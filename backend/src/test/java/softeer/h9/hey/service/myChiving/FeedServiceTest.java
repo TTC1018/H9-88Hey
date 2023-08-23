@@ -9,7 +9,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
-import softeer.h9.hey.controller.myChiving.ArchivingIdRequest;
+import softeer.h9.hey.dto.myChiving.request.ArchivingIdRequest;
 import softeer.h9.hey.domain.archiving.Feed;
 import softeer.h9.hey.dto.myChiving.request.BookmarkRequest;
 import softeer.h9.hey.dto.myChiving.response.BookmarkResponse;

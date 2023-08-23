@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
-import softeer.h9.hey.controller.myChiving.ArchivingIdRequest;
+import softeer.h9.hey.dto.myChiving.request.ArchivingIdRequest;
 import softeer.h9.hey.domain.archiving.Feed;
 import softeer.h9.hey.dto.myChiving.request.BookmarkRequest;
 import softeer.h9.hey.dto.myChiving.response.BookmarkResponse;

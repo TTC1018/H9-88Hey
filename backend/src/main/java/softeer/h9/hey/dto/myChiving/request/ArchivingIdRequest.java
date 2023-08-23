@@ -1,4 +1,4 @@
-package softeer.h9.hey.controller.myChiving;
+package softeer.h9.hey.dto.myChiving.request;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -14,9 +14,5 @@ public class ArchivingIdRequest {
 	@JsonCreator
 	private ArchivingIdRequest(@JsonProperty("feed_id") Long feed_id) {
 		this.feedId = feed_id;
-	}
-
-	public static ArchivingIdRequest from(Long feedId) {
-		return new ArchivingIdRequest(feedId);
 	}
 }

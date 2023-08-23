@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import lombok.RequiredArgsConstructor;
 import softeer.h9.hey.auth.annotation.LoginUser;
 import softeer.h9.hey.dto.global.response.GlobalResponse;
+import softeer.h9.hey.dto.myChiving.request.ArchivingIdRequest;
 import softeer.h9.hey.dto.myChiving.request.BookmarkRequest;
 import softeer.h9.hey.dto.myChiving.response.BookmarkResponse;
 import softeer.h9.hey.dto.myChiving.response.FeedIdResponse;
