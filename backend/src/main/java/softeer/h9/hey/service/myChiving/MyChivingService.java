@@ -156,20 +156,33 @@ public class MyChivingService {
 		Map<Long, Set<String>> selectOptionMap, Map<String, MyChivingSelectOptionDto> selectOptionContentMap) {
 
 		List<MyChivingResponse> myChivingResponseList = new ArrayList<>();
-		myChivingDtoList.stream()
+
+		myChivingDtoList
 			.forEach(myChivingDto -> {
 				List<MyChivingSelectOptionDto> selectOptionDtoList = new ArrayList<>();
 
 				if (selectOptionMap.containsKey(myChivingDto.getMyChivingId())) {
-					selectOptionMap.get(myChivingDto.getMyChivingId()).stream()
+					selectOptionMap.get(myChivingDto.getMyChivingId())
 						.forEach(selectOptionId -> {
 							selectOptionDtoList.add(selectOptionContentMap.get(selectOptionId));
 						});
 				}
 
-				myChivingResponseList.add(MyChivingResponse.of(myChivingDto, selectOptionDtoList));
+				int totalPrice = getTotalPrice(myChivingDto, selectOptionDtoList);
+
+				myChivingResponseList.add(MyChivingResponse.of(myChivingDto, selectOptionDtoList, totalPrice));
 			});
 
 		return myChivingResponseList;
+	}
+
+	private int getTotalPrice(MyChivingDto myChivingDto, List<MyChivingSelectOptionDto> selectOptionDtoList) {
+		int totalPrice = myChivingDto.getTotalPrice();
+
+		for (MyChivingSelectOptionDto selectOption : selectOptionDtoList) {
+			totalPrice += selectOption.getAdditionalPrice();
+		}
+
+		return totalPrice;
 	}
 }

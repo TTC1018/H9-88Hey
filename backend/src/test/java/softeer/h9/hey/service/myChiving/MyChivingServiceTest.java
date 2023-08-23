@@ -130,6 +130,7 @@ class MyChivingServiceTest {
 		assertThat(myChivingResponse.getMyChivingId()).isEqualTo(1234L);
 		assertThat(myChivingResponse.getIsSaved()).isEqualTo(false);
 		assertThat(myChivingResponse.getLastModifiedDate()).isEqualTo(dateTime);
+		assertThat(myChivingResponse.getTotalPrice()).isEqualTo(1000);
 		assertThat(myChivingResponse.getSelectOptions()).hasSize(1);
 		MyChivingSelectOptionDto myChivingSelectOptionDto = myChivingResponse.getSelectOptions().get(0);
 		assertThat(myChivingSelectOptionDto.getId()).isEqualTo("DUP");

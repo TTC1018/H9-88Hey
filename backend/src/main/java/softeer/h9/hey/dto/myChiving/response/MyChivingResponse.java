@@ -21,9 +21,10 @@ import softeer.h9.hey.dto.myChiving.MyChivingSelectOptionDto;
 @Builder
 @Getter
 public class MyChivingResponse {
-	private Long myChivingId;
+	private long myChivingId;
 	private LocalDateTime lastModifiedDate;
 	private Boolean isSaved;
+	private int totalPrice;
 	private ModelDto model;
 	private TrimDto trim;
 	private EngineDto engine;
@@ -33,12 +34,13 @@ public class MyChivingResponse {
 	private ExteriorColorDto exteriorColor;
 	private List<MyChivingSelectOptionDto> selectOptions;
 
-	public static MyChivingResponse of(MyChivingDto myChivingDto, List<MyChivingSelectOptionDto> myChivingSelectOptionDtoList) {
+	public static MyChivingResponse of(MyChivingDto myChivingDto, List<MyChivingSelectOptionDto> myChivingSelectOptionDtoList, int totalPrice) {
 		return MyChivingResponse.builder()
 				.myChivingId(myChivingDto.getMyChivingId())
 				.lastModifiedDate(myChivingDto.getLastModifiedDate())
 				.isSaved(myChivingDto.getIsSaved())
-				.model(myChivingDto.getModelDto())
+				.totalPrice(totalPrice)
+				.model(myChivingDto.getModel())
 				.trim(myChivingDto.getTrim())
 				.engine(myChivingDto.getEngine())
 				.bodyType(myChivingDto.getBodyType())

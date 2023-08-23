@@ -127,7 +127,7 @@ public class MyChivingRepository {
 			.myChivingId(rs.getLong("id"))
 			.lastModifiedDate(rs.getObject("last_modified", LocalDateTime.class))
 			.isSaved(rs.getBoolean("is_submitted"))
-			.modelDto(ModelDto.of(rs.getObject("model_id", Integer.class), rs.getString("model_name")))
+			.model(ModelDto.of(rs.getObject("model_id", Integer.class), rs.getString("model_name")))
 			.trim(TrimDto.of(rs.getObject("trim_id", Integer.class), rs.getString("trim_name"),
 				rs.getObject("trim_price", Integer.class)))
 			.engine(EngineDto.of(rs.getObject("engine_id", Integer.class), rs.getString("engine_name"),
