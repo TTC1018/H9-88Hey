@@ -21,9 +21,9 @@ import * as Styled from './style';
 type MatchPathType = Record<string, string>;
 
 const matchPath: MatchPathType = {
-  engine: '/engine',
+  engine: '/trim/engine',
   bodyType: '/trim/body-type',
-  wheelDrive: '/trim/whell-drive',
+  wheelDrive: '/trim/wheel-drive',
   interiorColor: '/color',
   exteriorColor: '/color',
   selectOptions: '/option',
@@ -92,9 +92,12 @@ export function MySavedCar() {
     if (myChiving.isSaved) {
       navigate('/result');
     } else {
-      const targetIndex = Object.values(myChiving).findIndex(value => value === null);
-      const lastIndex = Object.values(myChiving).length - 1;
-      const targetPath = Object.keys(myChiving)[targetIndex === -1 ? lastIndex : targetIndex];
+      const myChivingValues = Object.values(myChiving).slice(5);
+      const myChivingKeys = Object.keys(myChiving).slice(5);
+
+      const targetIndex = myChivingValues.findIndex(value => value === null);
+      const lastIndex = myChivingValues.length - 1;
+      const targetPath = myChivingKeys[targetIndex === -1 ? lastIndex : targetIndex];
 
       if (targetPath === 'selectOptions') {
         navigate(`${matchPath[targetPath]}?car_code=${carCode}`);
