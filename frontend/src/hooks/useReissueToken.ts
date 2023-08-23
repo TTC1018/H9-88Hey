@@ -13,11 +13,7 @@ export function useReissueToken() {
     const accessToken = getLocalStorage('accessToken');
     const refreshToken = getLocalStorage('refreshToken');
 
-    console.log('access token valid test', accessToken);
-    console.log('refresh token valid test', refreshToken);
-
     if (accessToken === null && refreshToken === null) {
-      console.log('logout state then tokenFetcher finished');
       return;
     }
 
@@ -40,27 +36,23 @@ export function useReissueToken() {
 
       setIsSignin(true);
       setUserName(data.userName);
-
-      console.log('access token reissue completed', data.accessToken);
     } catch (error) {
       if (error instanceof AuthError) {
         const { statusCode, message } = error;
 
         if (statusCode === 401) {
-          // clear tokens
+          // 토큰 초기화
           setIsSignin(false);
           localStorage.removeItem('accessToken');
           localStorage.removeItem('refreshToken');
 
           // TODO: 세션이 만료되었습니다. 다시 로그인 해주세요. 모달 표시
-          console.log('세션이 만료되었습니다. 다시 로그인 해주세요.');
-          console.log(error);
-          throw error;
+          throw new Error(message);
         } else {
-          console.log('예상치 못한 에러 발생 ㄷㄷ', statusCode, message);
+          throw new Error(message);
         }
       } else {
-        throw error;
+        throw new Error(String(error));
       }
     }
   }
