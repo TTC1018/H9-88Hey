@@ -177,7 +177,7 @@ public class ArchivingService {
 			String carCode = archiving.getCarNormalTypesId();
 
 			ArchivingDto archivingDto = new ArchivingDto();
-			archivingDto.setFeedId(archivingId);
+			archivingDto.setFeedId(Long.toString(archivingId));
 			archivingDto.setModelName(archiving.getModelName());
 			archivingDto.setCreationDate(archiving.getCreatedAt().toString());
 			archivingDto.setReview(archiving.getReview());
