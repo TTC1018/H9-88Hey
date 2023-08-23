@@ -16,6 +16,9 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -46,6 +49,8 @@ fun MakeCarTopBar(
     val currentProgressId = appState.currentProgressId
     val currentProgressChildId = appState.currentProgressChildId
     val processEnd = appState.progressEnd
+    var shouldShowDialog by remember { mutableStateOf(false) }
+
     Column {
         MakeCarNavigateBar(
             carName = selectedCarModel,
@@ -54,7 +59,7 @@ fun MakeCarTopBar(
                  if (processEnd) {
                      appState.navigateToMainDestination(MainDestination.MY_ARCHIVING)
                  } else {
-                     appState.navigateToMainDestination(MainDestination.ARCHIVING)
+                     shouldShowDialog = true
                  }
             },
             isDone = processEnd
@@ -65,6 +70,13 @@ fun MakeCarTopBar(
             currentChildId = currentProgressChildId,
             isDone = processEnd
         )
+
+        if (shouldShowDialog) {
+            FinishMakeCarDialog(
+                onDismissRequest = { shouldShowDialog = false },
+                onFinish = { appState.navigateToMainDestination(MainDestination.ARCHIVING) }
+            )
+        }
     }
 }
 
@@ -103,7 +115,7 @@ fun NavigateBar(
             modifier = modifier
                 .fillMaxHeight()
                 .align(Alignment.CenterEnd)
-                .offset(x= (-15).dp)
+                .offset(x = (-15).dp)
                 .clickable { onEndAreaClick?.invoke() },
             contentAlignment = Alignment.Center
         ) {
@@ -140,7 +152,7 @@ fun MakeCarNavigateBar(
         },
         endArea = {
             if (isDone) {
-                MyArchiveButton(modifier = modifier)
+                MyArchiveButton()
             } else {
                 Column(
                     horizontalAlignment = Alignment.CenterHorizontally
@@ -149,7 +161,7 @@ fun MakeCarNavigateBar(
                         painter = painterResource(id = R.drawable.ic_archive),
                         contentDescription = null
                     )
-                    Spacer(modifier = modifier.height(3.dp))
+                    Spacer(modifier = Modifier.height(3.dp))
                     Text(
                         text = stringResource(id = R.string.archive),
                         style = medium10,
