@@ -15,7 +15,9 @@ import softeer.h9.hey.auth.domain.User;
 import softeer.h9.hey.auth.dto.request.AccessTokenRequest;
 import softeer.h9.hey.auth.dto.request.JoinRequest;
 import softeer.h9.hey.auth.dto.request.LoginRequest;
+import softeer.h9.hey.auth.dto.request.ValidatedUserRequest;
 import softeer.h9.hey.auth.dto.response.TokenResponse;
+import softeer.h9.hey.auth.dto.response.UserNameResponse;
 import softeer.h9.hey.auth.exception.InvalidTokenException;
 import softeer.h9.hey.auth.exception.JoinException;
 import softeer.h9.hey.auth.exception.LoginException;
@@ -113,6 +115,12 @@ public class AuthService {
 		}
 		RefreshTokenEntity refreshTokenEntity = optionalRefreshTokenEntity.get();
 		refreshTokenAsyncExecutor.deleteByIdAsync(refreshTokenEntity.getId());
+	}
+
+	public UserNameResponse getValidatedUser(ValidatedUserRequest validatedUserRequest) {
+		String token = validatedUserRequest.getToken();
+		String userName = jwtTokenProvider.getUserNameFromToken(token);
+		return new UserNameResponse(userName);
 	}
 
 	@Scheduled(cron = "0 30 * * * ?")
