@@ -84,7 +84,7 @@ fun BottomBar(
                 Spacer(modifier = modifier.height(5.dp))
                 Divider(
                     modifier = modifier.width(underLineWidth.dp),
-                    thickness = 2.dp,
+                    thickness = 1.5.dp,
                     color = Black
                 )
             }
