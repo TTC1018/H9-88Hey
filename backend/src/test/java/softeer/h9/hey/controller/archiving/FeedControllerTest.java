@@ -25,7 +25,8 @@ class FeedControllerTest {
 
 	@BeforeEach
 	void setUp() throws Exception {
-		String postUrl = "/archiving/" + feedId + "/bookmark";
+		String postUrl = "/feed/" + feedId + "/bookmark";
+
 		mockMvc.perform(MockMvcRequestBuilders.post(postUrl)
 				.header("Authorization",
 					"Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiIxIiwidXNlck5hbWUiOiJ0ZXN0IiwiaWF0IjoxNjkyNTYwMzM5LCJleHAiOjQ4MTQ2MjQzMzl9.gcSE7kPaRVxo2iT9DRcN1Bn5ZNAAsHG8Z3dvTopH-IWblMf_LJ2lhsYqOvrrLcZJ"))
@@ -36,8 +37,7 @@ class FeedControllerTest {
 	@DisplayName("북마크 여부를 확인한다.")
 	@Test
 	void getBookmarkByArchivingId() throws Exception {
-		String postUrl = "/archiving/" + feedId + "/bookmark";
-		System.out.println("postUrl = " + postUrl);
+		String postUrl = "/feed/" + feedId + "/bookmark";
 
 		mockMvc.perform(MockMvcRequestBuilders.get(postUrl)
 				.header("Authorization",
@@ -49,7 +49,7 @@ class FeedControllerTest {
 	@DisplayName("유저가 아카이빙 ID를 통해 해당하는 북마크를 저장한다.")
 	@Test
 	void saveFeedByArchivingId() throws Exception {
-		String postUrl = "/archiving/" + feedId + "/bookmark";
+		String postUrl = "/feed/" + feedId + "/bookmark";
 
 		mockMvc.perform(MockMvcRequestBuilders.post(postUrl)
 				.contentType("application/json")
@@ -69,7 +69,7 @@ class FeedControllerTest {
 	@DisplayName("유저가 아카이빙 ID를 통해 해당하는 북마크를 해제한다.")
 	@Test
 	void deleteFeedByArchivingId() throws Exception {
-		String postUrl = "/archiving/" + feedId + "/bookmark";
+		String postUrl = "/feed/" + feedId + "/bookmark";
 
 		mockMvc.perform(MockMvcRequestBuilders.post(postUrl)
 				.contentType("application/json")
@@ -82,7 +82,6 @@ class FeedControllerTest {
 				.contentType("application/json")
 				.header("Authorization",
 					"Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiIxIiwidXNlck5hbWUiOiJ0ZXN0IiwiaWF0IjoxNjkyNTYwMzM5LCJleHAiOjQ4MTQ2MjQzMzl9.gcSE7kPaRVxo2iT9DRcN1Bn5ZNAAsHG8Z3dvTopH-IWblMf_LJ2lhsYqOvrrLcZJ"))
-			.andExpect(MockMvcResultMatchers.status().isOk())
-			.andExpect(MockMvcResultMatchers.jsonPath("$.data.feedId").value(feedId));
+			.andExpect(MockMvcResultMatchers.status().isOk());
 	}
 }

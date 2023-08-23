@@ -19,31 +19,33 @@ public class FeedController {
 
 	private final FeedService service;
 
-	@GetMapping("/archiving/{feed_id}/bookmark")
+	@GetMapping("/feed/{feed_id}/bookmark")
 	public GlobalResponse<BookmarkResponse> getBookmarkByArchivingId(
-		@LoginUser final int userId,
-		@PathVariable final Long feed_id) {
+		@LoginUser int userId,
+		@PathVariable(value = "feed_id") long feedId) {
 
-		System.out.println("userId = " + userId);
-		System.out.println("feed_id = " + feed_id);
-		BookmarkResponse response = service.hasBookmark(userId, feed_id);
+		BookmarkResponse response = service.hasBookmark(userId, feedId);
 
 		return GlobalResponse.ok(response);
 	}
 
-	@PostMapping("/archiving/{feed_id}/bookmark")
+	@PostMapping("/feed/{feed_id}/bookmark")
 	public GlobalResponse<FeedIdResponse> saveArchivingFeed(
-		@LoginUser final int userId,
-		@PathVariable final long feed_id) {
-		FeedIdResponse result = service.saveFeed(userId, feed_id);
+		@LoginUser int userId,
+		@PathVariable(value = "feed_id") long feedId) {
+
+		FeedIdResponse result = service.saveFeed(userId, feedId);
+
 		return GlobalResponse.ok(result);
 	}
 
-	@DeleteMapping("/archiving/{feed_id}/bookmark")
+	@DeleteMapping("/feed/{feed_id}/bookmark")
 	public GlobalResponse<?> deleteArchivingFeed(
-		@LoginUser final int userId,
-		@PathVariable final long feed_id) {
-		service.deleteFeed(userId, feed_id);
+		@LoginUser int userId,
+		@PathVariable(value = "feed_id") long feedId) {
+
+		service.deleteFeed(userId, feedId);
+
 		return GlobalResponse.ok("정상적으로 삭제되었습니다.");
 	}
 }
