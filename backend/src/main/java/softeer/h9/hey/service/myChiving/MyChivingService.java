@@ -70,7 +70,8 @@ public class MyChivingService {
 		int limit = myChivingRequest.getLimit();
 		int startIndex = (myChivingRequest.getOffset() - 1) * limit;
 
-		List<MyChivingDto> myChivingDtoList = myChivingRepository.findMyChivingsByUserIdLimitAndOffset(userId, limit + 1,
+		List<MyChivingDto> myChivingDtoList = myChivingRepository.findMyChivingsByUserIdLimitAndOffset(userId,
+			limit + 1,
 			startIndex);
 
 		Integer nextOffset = myChivingRequest.getOffset() + 1;
