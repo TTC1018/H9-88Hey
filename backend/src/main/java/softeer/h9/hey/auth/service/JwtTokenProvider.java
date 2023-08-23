@@ -88,15 +88,4 @@ public class JwtTokenProvider {
 			throw new InvalidTokenException();
 		}
 	}
-
-	public String getUserNameFromToken(String token) {
-		try {
-			return (String)jwtParser
-				.parseClaimsJws(token)
-				.getBody()
-				.get("userName");
-		} catch (JwtException e) {
-			throw new InvalidTokenException();
-		}
-	}
 }
