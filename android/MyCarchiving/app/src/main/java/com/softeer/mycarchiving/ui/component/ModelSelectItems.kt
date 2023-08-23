@@ -4,10 +4,13 @@ import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
@@ -21,9 +24,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import coil.compose.AsyncImage
 import com.skydoves.landscapist.glide.GlideImage
 import com.softeer.mycarchiving.R
 import com.softeer.mycarchiving.model.makingcar.ModelFeatureUiModel
@@ -34,6 +39,7 @@ import com.softeer.mycarchiving.ui.theme.PrimaryBlue
 import com.softeer.mycarchiving.ui.theme.PrimaryBlue10
 import com.softeer.mycarchiving.ui.theme.PrimaryBlue60
 import com.softeer.mycarchiving.ui.theme.bold18
+import com.softeer.mycarchiving.ui.theme.medium10
 import com.softeer.mycarchiving.ui.theme.regular14
 import com.softeer.mycarchiving.ui.theme.regular16
 import com.softeer.mycarchiving.util.toPriceString
@@ -55,9 +61,11 @@ fun OptionCardForModel(
     carModelIndex: Int,
     carModel: SelectModelUiModel,
     isExpanded: Boolean = false,
+    onClick: () -> Unit,
 ) {
     Column(
         modifier = modifier
+            .clickable { onClick() }
             .fillMaxWidth()
             .then(
                 if (isExpanded) Modifier
@@ -95,20 +103,22 @@ fun OptionImageProperty(
     placeHolder: Int
 ) {
     Column(
-        modifier = modifier,
-        verticalArrangement = Arrangement.Center,
+        modifier = modifier
+            .fillMaxHeight(0.5f),
+        verticalArrangement = Arrangement.spacedBy(8.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        GlideImage(
+        AsyncImage(
             modifier = Modifier
-                .widthIn(max = 40.dp),
-            imageModel = { imageUrl },
-            previewPlaceholder = placeHolder,
+                .widthIn(max = 40.dp)
+                .aspectRatio(1f),
+            model = imageUrl,
+            contentDescription = "",
+            placeholder = painterResource(id = placeHolder)
         )
-        Spacer(modifier = Modifier.height(16.dp))
         Text(
             text = property,
-            style = regular14,
+            style = medium10,
             color = PrimaryBlue,
             textAlign = TextAlign.Center
         )
@@ -174,21 +184,23 @@ fun OptionImages(
         modifier = modifier
             .fillMaxWidth()
             .padding(start = 12.dp, end = 12.dp),
-        horizontalArrangement = Arrangement.SpaceBetween,
+        horizontalArrangement = Arrangement.spacedBy(16.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         OptionImageProperty(
+            modifier = Modifier.weight(1f),
             property = modelFeatures[0].name,
             imageUrl = modelFeatures[0].imageUrl,
             placeHolder = R.drawable.ic_wheel
         )
-        Spacer(modifier = Modifier.width(12.dp))
         OptionImageProperty(
+            modifier = Modifier.weight(1f),
             property = modelFeatures[1].name,
             imageUrl = modelFeatures[1].imageUrl,
             placeHolder = R.drawable.ic_surround
         )
         OptionImageProperty(
+            modifier = Modifier.weight(1f),
             property = modelFeatures[2].name,
             imageUrl = modelFeatures[2].imageUrl,
             placeHolder = R.drawable.ic_cluster

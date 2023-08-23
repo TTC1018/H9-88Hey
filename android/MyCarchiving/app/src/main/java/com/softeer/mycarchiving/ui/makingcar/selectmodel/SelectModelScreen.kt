@@ -64,7 +64,7 @@ fun SelectModelRoute(
             sharedViewModel.initializeSelectedOptions()
 
             carDetails?.trim?.run {
-                carModels.find { it.name == name }?.let {
+                carModels.find { it.id == id }?.let {
                     sharedViewModel.updateSelectedModelInfo(it, true)
                 }
             }
@@ -83,6 +83,7 @@ fun SelectModelRoute(
         carImages = carImages,
         focusedImageIndex = focusedImageIndex,
         onCarImageClick = viewModel::onCarImageClick,
+        selectedModel = selectedModel,
         onModelSelect = sharedViewModel::updateSelectedModelInfo
     )
 }
@@ -95,6 +96,7 @@ fun SelectModelScreen(
     carModels: List<SelectModelUiModel>,
     carImages: List<String>,
     focusedImageIndex: Int,
+    selectedModel: SelectModelUiModel?,
     onCarImageClick: (Int) -> Unit,
     onModelSelect: (SelectModelUiModel) -> Unit,
 ) {
@@ -163,6 +165,7 @@ fun SelectModelScreen(
                                 )
                             }
                         }
+
                         Column(
                             modifier = Modifier.padding(vertical = 12.dp),
                             verticalArrangement = Arrangement.spacedBy(8.dp)
@@ -171,7 +174,8 @@ fun SelectModelScreen(
                                 OptionCardForModel(
                                     carModelIndex = index,
                                     carModel = carModel,
-                                    isExpanded = index == 0
+                                    isExpanded = carModel.id == selectedModel?.id,
+                                    onClick = { onModelSelect(carModel) }
                                 )
                             }
                         }
@@ -192,6 +196,7 @@ fun PreviewSelectModelScreen() {
         scrollState = rememberScrollState(),
         carModels = listOf(
             SelectModelUiModel(
+                id = 1,
                 name = "르블랑",
                 price = 40000000,
                 features = emptyList()
@@ -199,6 +204,12 @@ fun PreviewSelectModelScreen() {
         ),
         carImages = emptyList(),
         focusedImageIndex = 0,
+        selectedModel = SelectModelUiModel(
+            id = 1,
+            name = "르블랑",
+            price = 40000000,
+            features = emptyList()
+        ),
         onCarImageClick = {},
         onModelSelect = {},
     )

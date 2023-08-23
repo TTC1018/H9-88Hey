@@ -10,6 +10,7 @@ import com.softeer.mycarchiving.model.makingcar.SelectModelUiModel
 
 fun ModelOption.asSelectModelUiModel(): SelectModelUiModel =
     SelectModelUiModel(
+        id = id,
         name = name,
         price = price,
         features = modelFeatures.map { featureDto ->
