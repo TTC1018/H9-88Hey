@@ -8,6 +8,7 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.softeer.mycarchiving.navigation.ArchivingDestinations
+import com.softeer.mycarchiving.navigation.MainDestination
 import com.softeer.mycarchiving.ui.archiving.KEY_ARCHIVE_DETAIL
 
 fun NavController.navigateToArchivingDetail(feedId: String, navOptions: NavOptions? = null) {
@@ -16,7 +17,7 @@ fun NavController.navigateToArchivingDetail(feedId: String, navOptions: NavOptio
 
 fun NavGraphBuilder.archivingDetailScreen(
     onBackClick: () -> Unit,
-    onMakingCarClick: (String?) -> Unit,
+    onMakingCarClick: (MainDestination, String?) -> Unit,
 ) {
     composable(
         route = "${ArchivingDestinations.ARCHIVING_DETAIL.route}/{$KEY_ARCHIVE_DETAIL}",

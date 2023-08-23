@@ -9,6 +9,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.navigation.NavDestination
+import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
@@ -122,23 +123,31 @@ class HyundaiAppState(
     var currentProgressChildId by mutableIntStateOf(-1)
     var progressEnd by mutableStateOf(false)
 
-    fun navigateToMainDestination(mainDestination: MainDestination) {
+    fun initializeProgressState() {
+        currentProgressId = 0
+        currentProgressChildId = -1
+        progressEnd = false
+    }
+
+    fun navigateToMainDestination(mainDestination: MainDestination, feedId: String? = null) {
         val mainNavOptions = navOptions {
-            //
-            /*popUpTo(navController.graph.findStartDestination().id) {
-                saveState = true
-            }*/
+            popUpTo(navController.graph.findStartDestination().id) {
+//                saveState = true
+            }
 
             // 같은 장소로 또 이동했을 때 백스택에 중복으로 쌓이는 것을 방지
             launchSingleTop = true
 
             // 이전 화면으로 돌아갔을 때 상태를 복원
-            restoreState = true
+//            restoreState = true
         }
 
         when (mainDestination) {
             LOGIN -> navController.navigateToLogin(mainNavOptions)
-            MAKING_CAR -> navController.navigateToMakingCar(navOptions = mainNavOptions)
+            MAKING_CAR -> {
+                initializeProgressState()
+                navController.navigateToMakingCar(feedId, mainNavOptions)
+            }
             ARCHIVING -> navController.navigateToArchive(mainNavOptions)
             MY_ARCHIVING -> navController.navigateToMyArchiving(mainNavOptions)
             else -> {}
