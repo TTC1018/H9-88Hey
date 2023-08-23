@@ -49,4 +49,11 @@ class FeedRepositoryTest {
 		assertEquals(1, save);
 		assertTrue(feeds.size() > 0);
 	}
+
+	@Test
+	@DisplayName("유저가 아카이빙 피드를 북마크 해제한다.")
+	void delete() {
+		int result = repository.deleteBookmark(testUserId, testFeedId);
+		assertTrue(result > 0);
+	}
 }
