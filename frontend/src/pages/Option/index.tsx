@@ -1,6 +1,6 @@
 import { useState, MouseEvent } from 'react';
 
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 
 import { fetcher } from '@/utils/fetcher';
 import { apiPath, cacheKey } from '@/constants';
@@ -23,13 +23,16 @@ interface Props {
 }
 
 export function Option({ apiType }: Props) {
-  const navigate = useNavigate();
   const { pathname, search } = useLocation();
 
   const { selectOptions } = useFetchSuspense<OptionDataProps>({
     fetcher: () => fetcher<OptionDataProps>({ url: apiPath.option(apiType, search) }),
     key: cacheKey.option(apiType, search),
   });
+
+  if (selectOptions.length === 0) {
+    return <div>dd</div>;
+  }
 
   const [menu, setMenu] = useState(0);
   const [optionIndex, setOptionIndex] = useState(0);
@@ -79,12 +82,6 @@ export function Option({ apiType }: Props) {
   }
 
   useDidMountEffect(() => {
-    if (selectOptions.length === 0) {
-      navigate('/result');
-
-      return;
-    }
-
     const {
       currentSelectOptions: { isAvailable, id, name, additionalPrice, imageUrl, subOptions },
       currentSubOption,

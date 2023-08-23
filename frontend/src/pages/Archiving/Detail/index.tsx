@@ -2,10 +2,12 @@ import { Fragment } from 'react';
 
 import { useLocation, useNavigate } from 'react-router-dom';
 
-import { ModalType, apiPath, cacheKey } from '@/constants';
-import { ArchivingProps } from '@/types/archiving';
+import { fetcher } from '@/utils/fetcher';
 import { combineWithSlash, formatDate } from '@/utils';
+import { ArchivingProps } from '@/types/archiving';
 import { useModalContext } from '@/hooks/useModalContext';
+import { useFetchSuspense } from '@/hooks/useFetchSuspense';
+import { ModalType, apiPath, cacheKey } from '@/constants';
 
 import { PopupModal } from '@/components/common/PopupModal';
 import { ModalPortal } from '@/components/common/ModalPortal';
@@ -14,9 +16,6 @@ import { DetailHeader } from '@/components/Archiving/DetailHeader';
 import { DetailDescription } from '@/components/Archiving/DetailDescription';
 
 import * as Styled from './style';
-import { useFetchSuspense } from '@/hooks/useFetchSuspense';
-
-import { fetcher } from '@/utils/fetcher';
 
 export function Detail() {
   const { search } = useLocation();
