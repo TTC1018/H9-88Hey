@@ -16,7 +16,7 @@ public class FeedRepository {
 
 	private final NamedParameterJdbcTemplate jdbcTemplate;
 
-	public Feed hasBookmark(final int userId, final long feedId) {
+	public List<Feed> hasBookmark(final int userId, final long feedId) {
 		String sql = "SELECT feed.archiving_id AS feed_id, feed.user_id AS user_id, feed.is_marked AS is_marked\n"
 			+ "FROM feed\n"
 			+ "WHERE user_id = :userId AND archiving_id = :feedId";
@@ -25,7 +25,7 @@ public class FeedRepository {
 			.addValue("userId", userId)
 			.addValue("feedId", feedId);
 
-		return jdbcTemplate.queryForObject(sql, params, rowMapper());
+		return jdbcTemplate.query(sql, params, rowMapper());
 	}
 
 	public int save(final int userId, final long feedId) {

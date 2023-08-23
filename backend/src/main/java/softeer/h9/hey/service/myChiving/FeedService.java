@@ -16,9 +16,11 @@ public class FeedService {
 	private final FeedRepository repository;
 
 	public BookmarkResponse hasBookmark(final int userId, final BookmarkRequest request) {
-		Feed result = repository.hasBookmark(userId, request.getFeedId());
-
-		return BookmarkResponse.of(result.getIsMarked());
+		List<Feed> result = repository.hasBookmark(userId, request.getFeedId());
+		if (result.size() > 0) {
+			return BookmarkResponse.of(true);
+		}
+		return BookmarkResponse.of(false);
 	}
 
 	public FeedIdResponse saveFeed(final int userId, final ArchivingIdRequest request) {

@@ -3,6 +3,8 @@ package softeer.h9.hey.service.myChiving;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
+import java.util.List;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -25,10 +27,11 @@ class FeedServiceTest {
 		int userId = 1;
 		long feedId = 1234567890L;
 		BookmarkRequest request = new BookmarkRequest(feedId);
-		Feed response = new Feed();
-		response.setFeedId(feedId);
-		response.setUserId(userId);
-		response.setIsMarked(true);
+		Feed feed = new Feed();
+		feed.setFeedId(feedId);
+		feed.setUserId(userId);
+		feed.setIsMarked(true);
+		List<Feed> response = List.of(feed);
 		when(feedRepository.hasBookmark(userId, feedId))
 			.thenReturn(response);
 
