@@ -1,5 +1,7 @@
 package softeer.h9.hey.repository.myChiving;
 
+import java.util.List;
+
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -40,5 +42,16 @@ public class FeedRepository {
 
 	private RowMapper<Feed> rowMapper() {
 		return BeanPropertyRowMapper.newInstance(Feed.class);
+	}
+
+	public int deleteBookmark(final int userId, final Long feedId) {
+		String sql = "DELETE FROM feed\n"
+			+ "WHERE user_id = :userId AND archiving_id = :feedId ";
+
+		SqlParameterSource params = new MapSqlParameterSource()
+			.addValue("userId", userId)
+			.addValue("feedId", feedId);
+
+		return jdbcTemplate.update(sql, params);
 	}
 }
