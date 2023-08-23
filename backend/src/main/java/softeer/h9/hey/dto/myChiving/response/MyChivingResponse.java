@@ -25,6 +25,7 @@ public class MyChivingResponse {
 	private LocalDateTime lastModifiedDate;
 	private Boolean isSaved;
 	private int totalPrice;
+	private String carCode;
 	private ModelDto model;
 	private TrimDto trim;
 	private EngineDto engine;
@@ -34,22 +35,23 @@ public class MyChivingResponse {
 	private ExteriorColorDto exteriorColor;
 	private List<MyChivingSelectOptionDto> selectOptions;
 
-	public static MyChivingResponse of(MyChivingDto myChivingDto, List<MyChivingSelectOptionDto> myChivingSelectOptionDtoList, int totalPrice) {
+	public static MyChivingResponse of(MyChivingDto myChivingDto,
+		List<MyChivingSelectOptionDto> myChivingSelectOptionDtoList, int totalPrice, String carCode) {
 		return MyChivingResponse.builder()
-				.myChivingId(myChivingDto.getMyChivingId())
-				.lastModifiedDate(myChivingDto.getLastModifiedDate())
-				.isSaved(myChivingDto.getIsSaved())
-				.totalPrice(totalPrice)
-				.model(myChivingDto.getModel())
-				.trim(myChivingDto.getTrim())
-				.engine(myChivingDto.getEngine())
-				.bodyType(myChivingDto.getBodyType())
-				.wheelDrive(myChivingDto.getWheelDrive())
-				.interiorColor(myChivingDto.getInteriorColor())
-				.exteriorColor(myChivingDto.getExteriorColor())
-				.selectOptions(myChivingSelectOptionDtoList)
-				.build();
+			.myChivingId(myChivingDto.getMyChivingId())
+			.lastModifiedDate(myChivingDto.getLastModifiedDate())
+			.isSaved(myChivingDto.getIsSaved())
+			.totalPrice(totalPrice)
+			.carCode(carCode)
+			.model(myChivingDto.getModel())
+			.trim(myChivingDto.getTrim())
+			.engine(myChivingDto.getEngine())
+			.bodyType(myChivingDto.getBodyType())
+			.wheelDrive(myChivingDto.getWheelDrive())
+			.interiorColor(myChivingDto.getInteriorColor())
+			.exteriorColor(myChivingDto.getExteriorColor())
+			.selectOptions(myChivingSelectOptionDtoList)
+			.build();
 	}
-
 
 }
