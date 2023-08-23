@@ -2,7 +2,6 @@ CREATE DATABASE 88heyTest;
 
 USE 88heyTest;
 
-
 -- MySQL dump 10.13  Distrib 8.0.33, for macos13.3 (arm64)
 --
 -- Host: 13.124.252.160    Database: 88hey
@@ -5341,14 +5340,15 @@ DROP TABLE IF EXISTS `feed`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `feed`
 (
-    `id`           int NOT NULL AUTO_INCREMENT,
-    `user_id`      int NOT NULL,
-    `archiving_id` int NOT NULL,
+    `id`           int    NOT NULL AUTO_INCREMENT,
+    `user_id`      int    NOT NULL,
+    `archiving_id` bigint NOT NULL,
     PRIMARY KEY (`id`),
     KEY `FK_user_TO_feed_1` (`user_id`),
     KEY `FK_archiving_TO_feed_1` (`archiving_id`),
     CONSTRAINT `FK_user_TO_feed_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
 ) ENGINE = InnoDB
+  AUTO_INCREMENT = 277
   DEFAULT CHARSET = utf8mb4
   COLLATE = utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -5360,6 +5360,10 @@ CREATE TABLE `feed`
 LOCK TABLES `feed` WRITE;
 /*!40000 ALTER TABLE `feed`
     DISABLE KEYS */;
+INSERT INTO `feed`
+VALUES (246, 1, 2),
+       (257, 1, 1),
+       (258, 1, 1);
 /*!40000 ALTER TABLE `feed`
     ENABLE KEYS */;
 UNLOCK TABLES;
@@ -5916,10 +5920,7 @@ LOCK TABLES `myArchiving` WRITE;
 /*!40000 ALTER TABLE `myArchiving`
     DISABLE KEYS */;
 INSERT INTO `myArchiving`
-VALUES (481471049987010501, 1, 1, 1, 1, 1, 1, 1, 1, '2023-08-21 14:34:07'),
-       (481472869870346525, 1, 1, 1, 1, 1, 1, 1, 1, '2023-08-21 14:41:24'),
-       (481474831152064023, 1, 1, 1, 1, 1, 1, 1, 1, '2023-08-21 14:49:10'),
-       (481475070932036900, 1, 1, 1, 1, 1, 1, 1, 1, '2023-08-21 14:55:05'),
+VALUES (481475070932036900, 1, 1, 1, 1, 1, 1, 1, 1, '2023-08-21 14:55:05'),
        (481477099175816661, 1, 1, 1, 1, 1, 1, 1, 1, '2023-08-21 15:04:48'),
        (481480846484450093, 1, 1, 1, 1, 1, 1, 1, 1, '2023-08-21 15:13:03'),
        (481481074642005997, 1, 1, 1, 1, 1, 1, 1, 1, '2023-08-21 15:13:58'),
@@ -5941,8 +5942,47 @@ VALUES (481471049987010501, 1, 1, 1, 1, 1, 1, 1, 1, '2023-08-21 14:34:07'),
        (481640110460102669, 1, 1, 1, 1, 1, 1, 1, 0, '2023-08-22 01:45:57'),
        (481644720360907755, 1, 1, 2, 1, 1, 1, 1, 1, '2023-08-22 02:04:35'),
        (481645008601867899, 1, 2, 2, 2, 2, 1, 1, 0, '2023-08-22 02:07:40'),
-       (481647753786419984, 1, NULL, NULL, NULL, NULL, 1, NULL, 0, '2023-08-22 02:16:13'),
-       (481647950771906595, 1, 1, 1, 1, 1, 1, 1, 1, '2023-08-22 02:17:14');
+       (481692944127251819, 109, NULL, NULL, 2, 2, 1, 2, 0, '2023-08-22 05:16:06'),
+       (481699349878034598, 109, 2, 4, 2, 2, 1, 1, 0, '2023-08-22 05:41:47'),
+       (481708523982706360, 109, 2, 1, 1, 2, 1, 1, 0, '2023-08-22 06:24:50'),
+       (481734184695686931, 109, 1, 3, 2, 2, 1, 1, 1, '2023-08-22 17:00:25'),
+       (481837051733257299, 109, NULL, NULL, NULL, NULL, 1, 1, 0, '2023-08-22 23:48:27'),
+       (481837185007263866, 109, NULL, NULL, 1, 2, 1, 1, 0, '2023-08-22 23:48:59'),
+       (481837342474021791, 109, NULL, NULL, 2, 2, 1, 2, 0, '2023-08-22 23:49:42'),
+       (481837484413461503, 109, 1, 1, 2, 1, 1, 1, 1, '2023-08-22 23:59:03'),
+       (481847935616592298, 109, NULL, NULL, 1, 1, 1, 1, 0, '2023-08-23 00:32:14'),
+       (481849551136663574, 109, NULL, NULL, NULL, NULL, 1, NULL, 0, '2023-08-23 00:38:05'),
+       (481850974620524908, 109, NULL, NULL, NULL, NULL, 1, NULL, 0, '2023-08-23 00:43:45'),
+       (481852143203950595, 109, NULL, NULL, NULL, NULL, 1, NULL, 0, '2023-08-23 00:48:23'),
+       (481857463942818804, 109, NULL, NULL, NULL, NULL, 1, NULL, 0, '2023-08-23 01:09:32'),
+       (481862651571250845, 109, NULL, NULL, NULL, NULL, 1, NULL, 0, '2023-08-23 01:30:09'),
+       (481863604194160035, 109, NULL, NULL, 1, 2, 1, 2, 0, '2023-08-23 01:34:09'),
+       (481870360454538147, 109, NULL, NULL, 2, 1, 1, 2, 0, '2023-08-23 02:00:52'),
+       (481968280268876181, 109, NULL, NULL, NULL, NULL, 1, NULL, 0, '2023-08-23 08:29:53'),
+       (481993924302253431, 109, NULL, 1, 1, 1, 1, 1, 0, '2023-08-23 10:11:57'),
+       (481994651334518613, 109, NULL, NULL, 1, 1, 1, 1, 0, '2023-08-23 10:14:43'),
+       (482002655333228963, 109, NULL, NULL, NULL, NULL, 1, NULL, 0, '2023-08-23 10:46:28'),
+       (482008588547194960, 109, NULL, NULL, NULL, NULL, 1, NULL, 0, '2023-08-23 11:10:03'),
+       (482013696764873984, 109, NULL, 1, 1, 1, 1, 2, 0, '2023-08-23 11:30:28'),
+       (482013833419489896, 109, NULL, 1, 1, 1, 1, 1, 0, '2023-08-23 11:31:01'),
+       (482014313457583718, 109, NULL, 1, 1, 1, 1, 1, 0, '2023-08-23 11:32:52'),
+       (482014476972524568, 109, NULL, 1, 1, 1, 1, 1, 0, '2023-08-23 11:33:38'),
+       (482015137801899424, 109, 1, 1, 1, 1, 1, 1, 0, '2023-08-23 11:37:28'),
+       (482015581286631591, 109, 1, 1, 1, 1, 1, 1, 0, '2023-08-23 11:37:59'),
+       (482034665642462766, 109, NULL, NULL, 1, 1, 1, 1, 0, '2023-08-23 12:53:46'),
+       (482037282279984661, 109, NULL, NULL, NULL, NULL, 1, NULL, 0, '2023-08-23 13:04:04'),
+       (482038491547508008, 1, NULL, NULL, NULL, NULL, NULL, NULL, 0, '2023-08-23 13:08:52'),
+       (482038908390673014, 109, NULL, NULL, NULL, NULL, 1, NULL, 0, '2023-08-23 13:10:45'),
+       (482039448285678256, 109, NULL, NULL, NULL, NULL, 1, 1, 0, '2023-08-23 13:12:51'),
+       (482043822680507571, 109, NULL, NULL, NULL, NULL, 1, NULL, 0, '2023-08-23 13:30:03'),
+       (482044144131968693, 109, NULL, NULL, NULL, NULL, 1, NULL, 0, '2023-08-23 13:31:20'),
+       (482045195887250249, 109, NULL, NULL, NULL, NULL, 1, NULL, 0, '2023-08-23 13:35:31'),
+       (482047020879252556, 109, NULL, NULL, NULL, NULL, 1, NULL, 0, '2023-08-23 13:42:46'),
+       (482051114872276720, 109, NULL, NULL, NULL, NULL, 1, NULL, 0, '2023-08-23 13:59:02'),
+       (482051372561927241, 109, NULL, NULL, NULL, NULL, 1, NULL, 0, '2023-08-23 14:00:03'),
+       (482053631077189077, 109, NULL, NULL, NULL, NULL, 1, NULL, 0, '2023-08-23 14:09:02'),
+       (482055414155513054, 109, NULL, NULL, 2, NULL, 1, 2, 0, '2023-08-23 14:16:31'),
+       (482056248104782960, 109, NULL, NULL, NULL, NULL, 1, 1, 0, '2023-08-23 14:19:30');
 /*!40000 ALTER TABLE `myArchiving`
     ENABLE KEYS */;
 UNLOCK TABLES;
@@ -5965,7 +6005,7 @@ CREATE TABLE `myArchiving_selectOption`
     CONSTRAINT `FK_myArchiving_TO_myArchiving_selectOption_1` FOREIGN KEY (`myArchiving_id`) REFERENCES `myArchiving` (`id`),
     CONSTRAINT `FK_selectOption_TO_myArchiving_selectOption_1` FOREIGN KEY (`select_option_id`) REFERENCES `selectOption` (`id`)
 ) ENGINE = InnoDB
-  AUTO_INCREMENT = 1008
+  AUTO_INCREMENT = 4183
   DEFAULT CHARSET = utf8mb4
   COLLATE = utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -5990,11 +6030,15 @@ VALUES (852, 'LX0010', 481491588356107607),
        (907, 'LX0004', 481495201874831745),
        (908, 'LX3233', 481495201874831745),
        (909, 'LX3228', 481495201874831745),
-       (916, 'TRP', 481490775913230951),
        (917, 'LX0010', 481490775913230951),
        (918, 'PA1', 481490775913230951),
        (979, 'LX0010', 481645008601867899),
-       (980, 'LX3228', 481645008601867899);
+       (980, 'LX3228', 481645008601867899),
+       (1215, 'LX3226', 481734184695686931),
+       (3382, 'PA2', 482015137801899424),
+       (3383, 'CO2', 482015137801899424),
+       (3384, 'PA2', 482015581286631591),
+       (3385, 'CO2', 482015581286631591);
 /*!40000 ALTER TABLE `myArchiving_selectOption`
     ENABLE KEYS */;
 UNLOCK TABLES;
@@ -6016,7 +6060,7 @@ CREATE TABLE `refreshToken`
     KEY `user_id` (`user_id`),
     CONSTRAINT `refreshToken_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
 ) ENGINE = InnoDB
-  AUTO_INCREMENT = 224
+  AUTO_INCREMENT = 1512
   DEFAULT CHARSET = utf8mb4
   COLLATE = utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -6030,31 +6074,7 @@ LOCK TABLES `refreshToken` WRITE;
     DISABLE KEYS */;
 INSERT INTO `refreshToken`
 VALUES (207, 1, 'jwt1234', '2023-08-22 11:06:36'),
-       (208, 0, 'jwt1234', '2027-08-22 11:08:47'),
-       (210, 1,
-        'eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiIxIiwidXNlck5hbWUiOiJ1c2VyTmFtZSIsImlhdCI6MTY5MjY3MDQ2NywiZXhwIjoxNjkyNjc0MDY3fQ.88V3vmz1Ye5Ytsv1263-2CG8yjURoAOpJyDnTjQPc7tZO_y3zJid5Rh0-TOkjH_T',
-        '2023-08-22 12:14:27'),
-       (211, 1,
-        'eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiIxIiwidXNlck5hbWUiOiJ1c2VyTmFtZTEyMyIsImlhdCI6MTY5MjY3MDQ2NywiZXhwIjoxNjkyNjc0MDY3fQ.yzMooLjvD5Na9d7drFZvR01YY-I3Sce_SO1OOOeTsa89zAjNKxZstE17GKEIXtUq',
-        '2023-08-22 12:14:27'),
-       (214, 109,
-        'eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiIxMDkiLCJ1c2VyTmFtZSI6ImRvbmdoeWVvbiIsImlhdCI6MTY5MjY3MDU2MCwiZXhwIjoxNjkyNjc0MTYwfQ.Qusvxosba35o0jYjBvGqsxwQXfkg-rZ9k9SykVEI2v4pBKTvjQOsG2_ZFoDZpEwd',
-        NULL),
-       (215, 109,
-        'eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiIxMDkiLCJ1c2VyTmFtZSI6ImRvbmdoeWVvbiIsImlhdCI6MTY5MjY3MDYxOCwiZXhwIjoxNjkyNjc0MjE4fQ.a8I199r9CKXSfd_yTUbzLn89GL-s0hXFfU8KnAw_Z47brYZKM6bajKbbosAVDxio',
-        NULL),
-       (216, 1,
-        'eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiIxIiwidXNlck5hbWUiOiJ1c2VyTmFtZSIsImlhdCI6MTY5MjY3MDY2NCwiZXhwIjoxNjkyNjc0MjY0fQ.gR34Ei5N-TzZ7Q9I7oHkhy3cfcBtI1XeDJYD2UztiyaLio49zwCMbQJpi8hM6zr9',
-        '2023-08-22 12:17:44'),
-       (217, 1,
-        'eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiIxIiwidXNlck5hbWUiOiJ1c2VyTmFtZTEyMyIsImlhdCI6MTY5MjY3MDY2NCwiZXhwIjoxNjkyNjc0MjY0fQ.r6elrhXb3oR6k0DEsj5afeKr-HPOUxYxcuANVZLtBr1iBAafRqhb11_5_5olsaHa',
-        '2023-08-22 12:17:44'),
-       (220, 1,
-        'eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiIxIiwidXNlck5hbWUiOiJ1c2VyTmFtZSIsImlhdCI6MTY5MjY3MDY4OCwiZXhwIjoxNjkyNjc0Mjg4fQ.oVsDRpeobueEgJydNiD5RNv54fV7htjXRuZW5ZKVmSxpfg3MSLedc4Yen-ssyyXN',
-        '2023-08-22 12:18:08'),
-       (221, 1,
-        'eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiIxIiwidXNlck5hbWUiOiJ1c2VyTmFtZTEyMyIsImlhdCI6MTY5MjY3MDY4OCwiZXhwIjoxNjkyNjc0Mjg4fQ.104mUWHkr5ZKAknLb6Ujetpcci_UAuuMNXIJ_uK3awUirrKa164AmolcKrXMTqI-',
-        '2023-08-22 12:18:08');
+       (208, 0, 'jwt1234', '2027-08-22 11:08:47');
 /*!40000 ALTER TABLE `refreshToken`
     ENABLE KEYS */;
 UNLOCK TABLES;
@@ -6134,12 +6154,6 @@ VALUES ('2VS', '2열 통풍시트', 'https://88hey-bucket.s3.amazonaws.com/88hey
         2),
        ('TRP', '트레일러 & 셀프레벨라이저', 'https://88hey-bucket.s3.amazonaws.com/88hey/select-option/tractionpower.jpg', NULL,
         '선택옵션', 1580000, 3),
-       ('US1', '라이프 스타일 + 사이드스텝', 'https://88hey-bucket.s3.amazonaws.com/88hey/select-option/220inverter.jpg', NULL,
-        '선택옵션', 1040000, 8),
-       ('US4', 'VIP + 사이드스텝', 'https://88hey-bucket.s3.amazonaws.com/88hey/select-option/2_centerconsol.jpg', NULL,
-        '선택옵션', 6090000, 6),
-       ('US5', '라이프 스타일 + VIP + 사이드스텝', 'https://88hey-bucket.s3.amazonaws.com/88hey/select-option/2_centerconsol.jpg',
-        NULL, '선택옵션', 6780000, 13),
        ('VI2', 'VIP 패키지', 'https://88hey-bucket.s3.amazonaws.com/88hey/select-option/2_centerconsol.jpg', NULL, '선택옵션',
         5740000, 5);
 /*!40000 ALTER TABLE `selectOption`
@@ -6299,7 +6313,6 @@ VALUES (480, '2VS', 'LXJJ7DST5'),
        (507, 'BIC', 'LXJJ7DBT5'),
        (508, 'LST', 'LXJJ7DBT5'),
        (509, 'TRP', 'LXJJ7DBT5'),
-       (510, 'US1', 'LXJJ7DBT5'),
        (511, 'HSS', 'LXJJ7DBT5'),
        (512, 'PA2', 'LXJJ7DBT5'),
        (513, 'CO2', 'LXJJ7DBT5'),
@@ -6319,9 +6332,6 @@ VALUES (480, '2VS', 'LXJJ7DST5'),
        (527, 'VI2', 'LXJJ7DCT5'),
        (528, 'LST', 'LXJJ7DCT5'),
        (529, 'TRP', 'LXJJ7DCT5'),
-       (530, 'US1', 'LXJJ7DCT5'),
-       (531, 'US4', 'LXJJ7DCT5'),
-       (532, 'US5', 'LXJJ7DCT5'),
        (533, 'LX3227', 'LXJJ7DCT5'),
        (534, 'LX3228', 'LXJJ7DCT5'),
        (535, 'LX3226', 'LXJJ7DCT5'),
@@ -6360,7 +6370,6 @@ VALUES (480, '2VS', 'LXJJ7DST5'),
        (578, 'BIC', 'LXJJ7MBT5'),
        (579, 'LST', 'LXJJ7MBT5'),
        (580, 'TRP', 'LXJJ7MBT5'),
-       (581, 'US1', 'LXJJ7MBT5'),
        (582, 'HSS', 'LXJJ7MBT5'),
        (583, 'PA2', 'LXJJ7MBT5'),
        (584, 'CO2', 'LXJJ7MBT5'),
@@ -6379,9 +6388,6 @@ VALUES (480, '2VS', 'LXJJ7DST5'),
        (615, 'VI2', 'LXJJ7MCT5'),
        (616, 'LST', 'LXJJ7MCT5'),
        (617, 'TRP', 'LXJJ7MCT5'),
-       (618, 'US1', 'LXJJ7MCT5'),
-       (619, 'US4', 'LXJJ7MCT5'),
-       (620, 'US5', 'LXJJ7MCT5'),
        (621, 'LX3227', 'LXJJ7MCT5'),
        (622, 'LX3228', 'LXJJ7MCT5'),
        (623, 'LX3226', 'LXJJ7MCT5'),
@@ -6421,7 +6427,6 @@ VALUES (480, '2VS', 'LXJJ7DST5'),
        (674, 'BIC', 'LXJJ8DBT5'),
        (675, 'LST', 'LXJJ8DBT5'),
        (676, 'TRP', 'LXJJ8DBT5'),
-       (677, 'US1', 'LXJJ8DBT5'),
        (678, 'HSS', 'LXJJ8DBT5'),
        (679, 'PA2', 'LXJJ8DBT5'),
        (680, 'CO2', 'LXJJ8DBT5'),
@@ -6440,7 +6445,6 @@ VALUES (480, '2VS', 'LXJJ7DST5'),
        (693, 'BIC', 'LXJJ8DCT5'),
        (694, 'LST', 'LXJJ8DCT5'),
        (695, 'TRP', 'LXJJ8DCT5'),
-       (696, 'US1', 'LXJJ8DCT5'),
        (697, 'LX3227', 'LXJJ8DCT5'),
        (698, 'LX3228', 'LXJJ8DCT5'),
        (699, 'LX3226', 'LXJJ8DCT5'),
@@ -6495,7 +6499,6 @@ VALUES (480, '2VS', 'LXJJ7DST5'),
        (748, 'BIC', 'LXJJ7DBA5'),
        (749, 'LST', 'LXJJ7DBA5'),
        (750, 'TRP', 'LXJJ7DBA5'),
-       (751, 'US1', 'LXJJ7DBA5'),
        (752, 'HSS', 'LXJJ7DBA5'),
        (753, 'PA2', 'LXJJ7DBA5'),
        (754, 'CO2', 'LXJJ7DBA5'),
@@ -6515,9 +6518,6 @@ VALUES (480, '2VS', 'LXJJ7DST5'),
        (768, 'VI2', 'LXJJ7DCA5'),
        (769, 'LST', 'LXJJ7DCA5'),
        (770, 'TRP', 'LXJJ7DCA5'),
-       (771, 'US1', 'LXJJ7DCA5'),
-       (772, 'US4', 'LXJJ7DCA5'),
-       (773, 'US5', 'LXJJ7DCA5'),
        (774, 'LX3227', 'LXJJ7DCA5'),
        (775, 'LX3228', 'LXJJ7DCA5'),
        (776, 'LX3226', 'LXJJ7DCA5'),
@@ -6558,7 +6558,6 @@ VALUES (480, '2VS', 'LXJJ7DST5'),
        (811, 'BIC', 'LXJJ8DBA5'),
        (812, 'LST', 'LXJJ8DBA5'),
        (813, 'TRP', 'LXJJ8DBA5'),
-       (814, 'US1', 'LXJJ8DBA5'),
        (815, 'HSS', 'LXJJ8DBA5'),
        (816, 'PA2', 'LXJJ8DBA5'),
        (817, 'CO2', 'LXJJ8DBA5'),
@@ -6577,7 +6576,6 @@ VALUES (480, '2VS', 'LXJJ7DST5'),
        (830, 'BIC', 'LXJJ8DCA5'),
        (831, 'LST', 'LXJJ8DCA5'),
        (832, 'TRP', 'LXJJ8DCA5'),
-       (833, 'US1', 'LXJJ8DCA5'),
        (834, 'LX3227', 'LXJJ8DCA5'),
        (835, 'LX3228', 'LXJJ8DCA5'),
        (836, 'LX3226', 'LXJJ8DCA5'),
@@ -6616,7 +6614,6 @@ VALUES (480, '2VS', 'LXJJ7DST5'),
        (869, 'BIC', 'LXJJ8MBA5'),
        (870, 'LST', 'LXJJ8MBA5'),
        (871, 'TRP', 'LXJJ8MBA5'),
-       (872, 'US1', 'LXJJ8MBA5'),
        (873, 'HSS', 'LXJJ8MBA5'),
        (874, 'PA2', 'LXJJ8MBA5'),
        (875, 'CO2', 'LXJJ8MBA5'),
@@ -6634,7 +6631,6 @@ VALUES (480, '2VS', 'LXJJ7DST5'),
        (887, 'BIC', 'LXJJ8MCA5'),
        (888, 'LST', 'LXJJ8MCA5'),
        (889, 'TRP', 'LXJJ8MCA5'),
-       (890, 'US1', 'LXJJ8MCA5'),
        (891, 'LX3227', 'LXJJ8MCA5'),
        (892, 'LX3228', 'LXJJ8MCA5'),
        (893, 'LX3226', 'LXJJ8MCA5'),
@@ -6672,7 +6668,6 @@ VALUES (480, '2VS', 'LXJJ7DST5'),
        (925, 'BIC', 'LXJJ7MBA5'),
        (926, 'LST', 'LXJJ7MBA5'),
        (927, 'TRP', 'LXJJ7MBA5'),
-       (928, 'US1', 'LXJJ7MBA5'),
        (929, 'HSS', 'LXJJ7MBA5'),
        (930, 'PA2', 'LXJJ7MBA5'),
        (931, 'CO2', 'LXJJ7MBA5'),
@@ -6691,9 +6686,6 @@ VALUES (480, '2VS', 'LXJJ7DST5'),
        (944, 'VI2', 'LXJJ7MCA5'),
        (945, 'LST', 'LXJJ7MCA5'),
        (946, 'TRP', 'LXJJ7MCA5'),
-       (947, 'US1', 'LXJJ7MCA5'),
-       (948, 'US4', 'LXJJ7MCA5'),
-       (949, 'US5', 'LXJJ7MCA5'),
        (950, 'LX3227', 'LXJJ7MCA5'),
        (951, 'LX3228', 'LXJJ7MCA5'),
        (952, 'LX3226', 'LXJJ7MCA5'),
@@ -6721,7 +6713,6 @@ VALUES (480, '2VS', 'LXJJ7DST5'),
        (974, 'KRE', 'LXJJ8MBT5'),
        (975, 'LST', 'LXJJ8MBT5'),
        (976, 'TRP', 'LXJJ8MBT5'),
-       (977, 'US1', 'LXJJ8MBT5'),
        (978, 'LX3227', 'LXJJ8MBT5'),
        (979, 'LX3228', 'LXJJ8MBT5'),
        (980, 'LX3226', 'LXJJ8MBT5'),
@@ -6735,7 +6726,6 @@ VALUES (480, '2VS', 'LXJJ7DST5'),
        (988, 'BIC', 'LXJJ8MCT5'),
        (989, 'LST', 'LXJJ8MCT5'),
        (990, 'TRP', 'LXJJ8MCT5'),
-       (991, 'US1', 'LXJJ8MCT5'),
        (992, 'LX3227', 'LXJJ8MCT5'),
        (993, 'LX3228', 'LXJJ8MCT5'),
        (994, 'LX3226', 'LXJJ8MCT5'),
@@ -8325,14 +8315,6 @@ VALUES (75, 'LX00023', 'HSS'),
        (106, 'LX00144', 'TRP'),
        (107, 'LX00145', 'TRP'),
        (108, 'LX00146', 'TRP'),
-       (109, 'LX00147', 'US1'),
-       (110, 'LX00148', 'US1'),
-       (111, 'LX00149', 'US1'),
-       (112, 'LX00150', 'US1'),
-       (113, 'LX00151', 'US1'),
-       (114, 'LX00152', 'US1'),
-       (115, 'LX00153', 'US1'),
-       (116, 'LX00155', 'US1'),
        (117, 'LX00141', 'KRE'),
        (118, 'LX00142', 'KRE'),
        (119, 'LX00061', 'VI2'),
@@ -8340,25 +8322,6 @@ VALUES (75, 'LX00023', 'HSS'),
        (121, 'LX00100', 'VI2'),
        (122, 'LX00125', 'VI2'),
        (123, 'LX00143', 'VI2'),
-       (124, 'LX00061', 'US4'),
-       (125, 'LX00078', 'US4'),
-       (126, 'LX00100', 'US4'),
-       (127, 'LX00125', 'US4'),
-       (128, 'LX00143', 'US4'),
-       (129, 'LX00155', 'US4'),
-       (130, 'LX00061', 'US5'),
-       (131, 'LX00078', 'US5'),
-       (132, 'LX00100', 'US5'),
-       (133, 'LX00125', 'US5'),
-       (134, 'LX00143', 'US5'),
-       (135, 'LX00147', 'US5'),
-       (136, 'LX00148', 'US5'),
-       (137, 'LX00149', 'US5'),
-       (138, 'LX00150', 'US5'),
-       (139, 'LX00151', 'US5'),
-       (140, 'LX00152', 'US5'),
-       (141, 'LX00153', 'US5'),
-       (142, 'LX00155', 'US5'),
        (143, 'LX00163', 'LX3227'),
        (144, 'LX00162', 'LX3228'),
        (145, 'LX00161', 'LX3226'),
@@ -8710,7 +8673,7 @@ CREATE TABLE `user`
     `created_at` datetime     NOT NULL,
     PRIMARY KEY (`id`)
 ) ENGINE = InnoDB
-  AUTO_INCREMENT = 120
+  AUTO_INCREMENT = 412
   DEFAULT CHARSET = utf8mb4
   COLLATE = utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -8724,8 +8687,18 @@ LOCK TABLES `user` WRITE;
     DISABLE KEYS */;
 INSERT INTO `user`
 VALUES (0, 'abc@test.com', '테스트맨', '테스트맨', '2023-08-22 11:08:23'),
-       (1, 'test@email.com', '홍길동', 'password', '2023-08-17 02:52:57'),
-       (109, 'android@email.com', 'donghyeon', 'password', '2023-08-21 23:30:26');
+       (1, 'test@email.com', '홍길동', '43d9517781bee0f5b623f73ef08ac99f6074d028755c43cf106baa85be9c4790',
+        '2023-08-17 02:52:57'),
+       (109, 'android@email.com', 'donghyeon', '43d9517781bee0f5b623f73ef08ac99f6074d028755c43cf106baa85be9c4790',
+        '2023-08-21 23:30:26'),
+       (144, 'abcdef3asdf@abc.com', '김길동', '43d9517781bee0f5b623f73ef08ac99f6074d028755c43cf106baa85be9c4790',
+        '2023-08-22 05:07:21'),
+       (145, 'abcdefggh@abc.com', '김길동', '43d9517781bee0f5b623f73ef08ac99f6074d028755c43cf106baa85be9c4790',
+        '2023-08-22 05:09:54'),
+       (146, 'abcdefㅁㄹggh@abc.com', '김길동', '43d9517781bee0f5b623f73ef08ac99f6074d028755c43cf106baa85be9c4790',
+        '2023-08-22 05:13:29'),
+       (147, 'adasfasdfsdafads@abc.com', '김길동', '43d9517781bee0f5b623f73ef08ac99f6074d028755c43cf106baa85be9c4790',
+        '2023-08-22 05:15:54');
 /*!40000 ALTER TABLE `user`
     ENABLE KEYS */;
 UNLOCK TABLES;
@@ -8779,4 +8752,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION = @OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES = @OLD_SQL_NOTES */;
 
--- Dump completed on 2023-08-22 11:18:56
+-- Dump completed on 2023-08-23 14:21:40
