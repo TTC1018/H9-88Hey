@@ -8,6 +8,6 @@ import javax.inject.Inject
 class SaveTempCarInfoUseCase @Inject constructor(
     private val myArchiveRepository: MyArchiveRepository
 ) {
-    operator fun invoke(carTempInfo: CarTempInfo): Flow<Long> =
+    operator fun invoke(carTempInfo: CarTempInfo): Flow<String> =
         myArchiveRepository.saveTempCarInfo(carTempInfo)
 }

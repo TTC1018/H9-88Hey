@@ -6,7 +6,7 @@ data class CarInfoBody(
     @SerializedName("contentType")
     val contentType: String = "application/json",
     @SerializedName("myChivingId")
-    val myChivingId: Long,
+    val myChivingId: String,
     @SerializedName("bodyType")
     val bodyType: Int,
     @SerializedName("wheelType")
@@ -27,7 +27,7 @@ data class CarTempInfoBody(
     @SerializedName("contentType")
     val contentType: String = "application/json",
     @SerializedName("myChivingId")
-    val myChivingId: Long?,
+    val myChivingId: String?,
     @SerializedName("bodyType")
     val bodyType: Int?,
     @SerializedName("wheelType")

@@ -39,7 +39,7 @@ class MyArchiveMainViewModel @Inject constructor(): ViewModel() {
     private val _savedCars = MutableStateFlow(
         listOf(
             CarFeedUiModel(
-                id = 1,
+                id = "1",
                 model = "팰리세이드",
                 isPurchase = false,
                 creationDate = "2023-08-21",

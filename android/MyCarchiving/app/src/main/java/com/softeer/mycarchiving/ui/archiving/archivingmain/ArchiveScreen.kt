@@ -54,7 +54,7 @@ import com.softeer.mycarchiving.ui.theme.roundCorner
 fun ArchiveRoute(
     modifier: Modifier = Modifier,
     archiveViewModel: ArchiveViewModel = hiltViewModel(),
-    moveDetailPage: (Long, ArchivingDestinations?) -> Unit,
+    moveDetailPage: (String, ArchivingDestinations?) -> Unit,
 ) {
     val showSearchSheet by archiveViewModel.showSearchSheet.collectAsStateWithLifecycle()
     val currentSheetPage by archiveViewModel.currentSheetPage.collectAsStateWithLifecycle()
@@ -115,7 +115,7 @@ fun ArchiveScreen(
     carFeeds: LazyPagingItems<CarFeedUiModel>,
     deleteSelectedChip: (SearchOption) -> Unit,
     openSearchSheet: () -> Unit,
-    onFeedClick: (Long, ArchivingDestinations?) -> Unit,
+    onFeedClick: (String, ArchivingDestinations?) -> Unit,
 ) {
     val scrollState = rememberLazyListState()
     Column(

@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.flow
 interface ArchivingDataSource {
     fun getSelectOptions(): Flow<List<ArchivingSelectOptionDto>>
 
-    fun getCarDetails(feedId: Long): Flow<ArchivingDetailsDto?>
+    fun getCarDetails(feedId: String): Flow<ArchivingDetailsDto?>
 }
 
 class ArchivingRemoteDataSource(
@@ -26,7 +26,7 @@ class ArchivingRemoteDataSource(
         }
     }
 
-    override fun getCarDetails(feedId: Long): Flow<ArchivingDetailsDto?> = flow {
+    override fun getCarDetails(feedId: String): Flow<ArchivingDetailsDto?> = flow {
         val response = archivingNetworkApi.getCarDetails(feedId)
         val feed = response.body()?.data
 

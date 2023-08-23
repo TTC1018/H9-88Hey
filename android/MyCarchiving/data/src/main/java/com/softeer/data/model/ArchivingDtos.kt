@@ -11,7 +11,7 @@ data class ArchivingDto(
 
 data class ArchivingFeedDto(
     @SerializedName("feedId")
-    val id: Long,
+    val id: String,
     @SerializedName("modelName")
     val modelName: String,
     @SerializedName("creationDate")
@@ -42,7 +42,7 @@ data class ArchivingFeedDto(
 
 data class ArchivingDetailsDto(
     @SerializedName("feedId")
-    val id: Long,
+    val id: String,
     @SerializedName("modelName")
     val modelName: String,
     @SerializedName("creationDate")

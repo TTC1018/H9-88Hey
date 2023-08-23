@@ -27,7 +27,7 @@ import com.softeer.mycarchiving.ui.makingcar.selectmodel.selectModelScreen
 import com.softeer.mycarchiving.ui.makingcar.selectoption.selectOptionScreen
 import com.softeer.mycarchiving.ui.makingcar.selecttrim.selectTrimScreen
 
-fun NavController.navigateToMakingCar(feedId: Long? = null, navOptions: NavOptions? = null) {
+fun NavController.navigateToMakingCar(feedId: String? = null, navOptions: NavOptions? = null) {
     if (feedId != null)
         navigate("${MainDestination.MAKING_CAR.route}?$KEY_ARCHIVE_FEED_ID=$feedId", navOptions)
     else

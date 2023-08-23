@@ -11,10 +11,10 @@ class MyArchiveRepositoryImpl(
     private val archiveRemoteDataSource: MyArchiveDataSource
 ) : MyArchiveRepository {
 
-    override fun saveCarInfo(carInfo: CarInfo): Flow<Long> =
+    override fun saveCarInfo(carInfo: CarInfo): Flow<String> =
         archiveRemoteDataSource.saveCarInfo(carInfo.asBody())
 
-    override fun saveTempCarInfo(carTempInfo: CarTempInfo): Flow<Long> =
+    override fun saveTempCarInfo(carTempInfo: CarTempInfo): Flow<String> =
         archiveRemoteDataSource.saveTempCarInfo(carTempInfo.asBody())
 
 }

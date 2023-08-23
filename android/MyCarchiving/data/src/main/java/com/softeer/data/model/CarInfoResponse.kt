@@ -4,5 +4,5 @@ import com.google.gson.annotations.SerializedName
 
 data class CarInfoResponse(
     @SerializedName("myChivingId")
-    val myChivingId: Long
+    val myChivingId: String
 )

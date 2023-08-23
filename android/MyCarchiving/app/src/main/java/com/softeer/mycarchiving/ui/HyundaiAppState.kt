@@ -158,7 +158,7 @@ class HyundaiAppState(
     }
 
     fun navigateToArchivingDestination(
-        feedId: Long? = null,
+        feedId: String? = null,
         archivingDestination: ArchivingDestinations?
     ) {
         when (archivingDestination) {

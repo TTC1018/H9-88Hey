@@ -3,7 +3,7 @@ package com.softeer.mycarchiving.model.common
 import com.softeer.mycarchiving.model.makingcar.ColorOptionSimpleUiModel
 
 data class CarDetailsUiModel(
-    val id: Long,
+    val id: String,
     val model: String,
     val price: Int,
     val trim: String,

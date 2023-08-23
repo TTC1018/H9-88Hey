@@ -9,9 +9,9 @@ import kotlinx.coroutines.flow.flow
 
 interface MyArchiveDataSource {
 
-    fun saveTempCarInfo(body: CarTempInfoBody): Flow<Long>
+    fun saveTempCarInfo(body: CarTempInfoBody): Flow<String>
 
-    fun saveCarInfo(body: CarInfoBody): Flow<Long>
+    fun saveCarInfo(body: CarInfoBody): Flow<String>
 
 }
 
@@ -21,25 +21,25 @@ class MyArchiveRemoteDataSource(
     private val myArchiveNetworkApi: MyArchiveNetworkApi
 ): MyArchiveDataSource {
 
-    override fun saveTempCarInfo(body: CarTempInfoBody): Flow<Long> = flow {
+    override fun saveTempCarInfo(body: CarTempInfoBody): Flow<String> = flow {
         val response = myArchiveNetworkApi.saveMyCarTempInfo(body)
         val myArchiveId = response.body()?.data?.myChivingId
 
         if (response.isSuccessful && myArchiveId != null) {
             emit(myArchiveId)
         } else {
-            emit(-1L)
+            emit("")
         }
     }
 
-    override fun saveCarInfo(body: CarInfoBody): Flow<Long> = flow {
+    override fun saveCarInfo(body: CarInfoBody): Flow<String> = flow {
         val response = myArchiveNetworkApi.saveMyCarInfo(body)
         val myArchiveId = response.body()?.data?.myChivingId
 
         if (response.isSuccessful && myArchiveId != null) {
             emit(myArchiveId)
         } else {
-            emit(-1L)
+            emit("")
         }
     }
 }
