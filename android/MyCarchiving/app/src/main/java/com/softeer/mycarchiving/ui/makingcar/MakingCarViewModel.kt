@@ -13,14 +13,19 @@ import com.softeer.domain.usecase.archiving.GetCarDetailsUseCase
 import com.softeer.domain.usecase.makingcar.SaveCarInfoUseCase
 import com.softeer.domain.usecase.makingcar.SaveTempCarInfoUseCase
 import com.softeer.mycarchiving.mapper.asSelectModelUiModel
+import com.softeer.mycarchiving.mapper.asSimpleUiModel
 import com.softeer.mycarchiving.mapper.asUiModel
 import com.softeer.mycarchiving.model.TrimOptionSimpleUiModel
 import com.softeer.mycarchiving.model.TrimOptionUiModel
 import com.softeer.mycarchiving.model.makingcar.ColorOptionSimpleUiModel
 import com.softeer.mycarchiving.model.makingcar.ColorOptionUiModel
 import com.softeer.mycarchiving.model.makingcar.SelectModelUiModel
+import com.softeer.mycarchiving.model.makingcar.SelectOptionSimpleUiModel
 import com.softeer.mycarchiving.model.makingcar.SelectOptionUiModel
 import com.softeer.mycarchiving.ui.archiving.KEY_ARCHIVE_FEED_ID
+import com.softeer.mycarchiving.util.TRIM_EXTRA
+import com.softeer.mycarchiving.util.TRIM_HGENUINE
+import com.softeer.mycarchiving.util.TRIM_NPERFORMANCE
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -50,13 +55,16 @@ class MakingCarViewModel @Inject constructor(
                     // 가격 갱신
                     _totalPrice.value = totalPrice
                     // 모델 정보 (르블랑, ...)
-                    _selectedModelInfo.value = trim.asSelectModelUiModel()
+                    _selectedModelSimple.value = trim.asSelectModelUiModel()
                     // 트림 선택 옵션
                     _selectedTrimSimple.value =
                         listOf(engine, bodyType, wheelDrive).map { it.asUiModel() }
                     // 색상 정보
                     _selectedColorSimple.value =
                         listOf(exteriorColor.asUiModel(), interiorColor.asUiModel())
+                    // 선택 옵션
+                    _selectedOptionSimple.value =
+                        selectedOptions.map { it.asSimpleUiModel() }
                 }
                 carInfoId.value = feedId
             }
@@ -69,8 +77,8 @@ class MakingCarViewModel @Inject constructor(
     private val _selectedCarName = MutableStateFlow("팰리세이드")
     val selectedCarName: StateFlow<String> = _selectedCarName
 
-    private val _selectedModelInfo = MutableLiveData<SelectModelUiModel>()
-    val selectedModelInfo: LiveData<SelectModelUiModel> = _selectedModelInfo
+    private val _selectedModelInfo = MutableLiveData<SelectModelUiModel?>()
+    val selectedModelInfo: LiveData<SelectModelUiModel?> = _selectedModelInfo
 
     private val _selectedCarImage = MutableLiveData<String>()
     val selectedCarImage: LiveData<String> = _selectedCarImage
@@ -110,11 +118,17 @@ class MakingCarViewModel @Inject constructor(
 
     private val carInfoId = MutableLiveData<Long>()
 
+    private val _selectedModelSimple = MutableLiveData<SelectModelUiModel>()
+    val selectedModelSimple: LiveData<SelectModelUiModel> = _selectedModelSimple
+
     private val _selectedTrimSimple = MutableStateFlow<List<TrimOptionSimpleUiModel>>(emptyList())
     val selectedTrimSimple: StateFlow<List<TrimOptionSimpleUiModel>> = _selectedTrimSimple
 
     private val _selectedColorSimple = MutableStateFlow<List<ColorOptionSimpleUiModel>>(emptyList())
     val selectedColorSimple: StateFlow<List<ColorOptionSimpleUiModel>> = _selectedColorSimple
+
+    private val _selectedOptionSimple = MutableStateFlow<List<SelectOptionSimpleUiModel>>(emptyList())
+    val selectedOptionSimple: StateFlow<List<SelectOptionSimpleUiModel>> = _selectedOptionSimple
 
     fun openSummary() {
         _showSummary.value = true
@@ -124,10 +138,16 @@ class MakingCarViewModel @Inject constructor(
         _showSummary.value = false
     }
 
-    fun updateSelectedModelInfo(selectedModel: SelectModelUiModel) {
-        if (_selectedModelInfo.value == null) {
+    fun updateSelectedModelInfo(selectedModel: SelectModelUiModel, isArchived: Boolean = false) {
+        if (isArchived) {
             _selectedModelInfo.value = selectedModel
+        } else {
+            _selectedModelInfo.value = _selectedModelInfo.value?.run {
+                _totalPrice.value -= price
+                selectedModel
+            } ?: selectedModel
             _totalPrice.value += selectedModel.price
+            _selectedModelSimple.value = selectedModel
         }
     }
 
@@ -187,36 +207,64 @@ class MakingCarViewModel @Inject constructor(
         }
     }
 
-    fun updateSelectedExtraOption(extraOption: SelectOptionUiModel, progress: Int) {
+    fun updateSelectedExtraOption(
+        extraOption: SelectOptionUiModel,
+        progress: Int,
+        isArchived: Boolean = false
+    ) {
         when (progress) {
-            0 -> {
+            TRIM_EXTRA -> {
                 _selectedExtraOptions.value = _selectedExtraOptions.value.run {
                     if (find { it.id == extraOption.id } != null) {
                         _totalPrice.value -= extraOption.price
+                        _selectedOptionSimple.value = _selectedOptionSimple.value.let { // 바텀시트 갱신용 - 선택 옵션 재선택시 삭제만
+                            it.toMutableList().apply {
+                                removeIf { it.id == extraOption.id }
+                            }
+                        }
                         toMutableList().apply { remove(extraOption) }
                     } else {
-                        _totalPrice.value += extraOption.price
+                        if (isArchived.not()) {
+                            _totalPrice.value += extraOption.price
+                            _selectedOptionSimple.value += listOf(extraOption.asSimpleUiModel()) // 바텀시트 갱신용
+                        }
                         this + listOf(extraOption)
                     }
                 }
             }
 
-            1 -> {
+            TRIM_HGENUINE -> {
                 _selectedHGenuines.value = _selectedHGenuines.value.run {
                     if (find { it.id == extraOption.id } != null) {
                         _totalPrice.value -= extraOption.price
+                        _selectedOptionSimple.value = _selectedOptionSimple.value.let {
+                            it.toMutableList().apply {
+                                removeIf { it.id == extraOption.id }
+                            }
+                        }
                         toMutableList().apply { remove(extraOption) }
                     } else {
-                        _totalPrice.value += extraOption.price
+                        if (isArchived.not()) {
+                            _totalPrice.value += extraOption.price
+                            _selectedOptionSimple.value += listOf(extraOption.asSimpleUiModel()) // 바텀시트 갱신용
+                        }
                         this + listOf(extraOption)
                     }
                 }
             }
 
-            2 -> { // NPerformance는 한개만
+            TRIM_NPERFORMANCE -> { // NPerformance는 한개만
                 _totalPrice.value -= _selectedNPerformance.value.firstOrNull()?.price ?: 0
-                _selectedNPerformance.value = listOf(extraOption)
-                _totalPrice.value += extraOption.price
+                _selectedOptionSimple.value = _selectedOptionSimple.value.run {
+                    toMutableList().apply {
+                        removeIf { it.id == _selectedNPerformance.value.firstOrNull()?.id }
+                        add(extraOption.asSimpleUiModel())
+                    }
+                }
+                if (isArchived.not()) {
+                    _selectedNPerformance.value = listOf(extraOption)
+                    _totalPrice.value += extraOption.price
+                }
             }
         }
     }
@@ -255,5 +303,14 @@ class MakingCarViewModel @Inject constructor(
                 carInfoId.value = saveCarInfoUseCase(carInfo).firstOrNull()
             }
         }
+    }
+
+    fun initializeSelectedOptions() {
+        _selectedModelInfo.value = null
+        _selectedTrim.value = emptyList()
+        _selectedColor.value = emptyList()
+        _selectedExtraOptions.value = emptyList()
+        _selectedHGenuines.value = emptyList()
+        _selectedNPerformance.value = emptyList()
     }
 }
