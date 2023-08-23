@@ -22,17 +22,19 @@ public class FeedController {
 
 	private final FeedService service;
 
-	@GetMapping("/archiving/{feed_id}")
+	@GetMapping("/archiving/{feed_id}/bookmark")
 	public GlobalResponse<BookmarkResponse> getBookmarkByArchivingId(
 		@LoginUser final int userId,
-		@PathVariable final long feed_id) {
+		@PathVariable final Long feed_id) {
 
+		System.out.println("userId = " + userId);
+		System.out.println("feed_id = " + feed_id);
 		BookmarkResponse response = service.hasBookmark(userId, feed_id);
 
 		return GlobalResponse.ok(response);
 	}
 
-	@PostMapping("/archiving/{feed_id}")
+	@PostMapping("/archiving/{feed_id}/bookmark")
 	public GlobalResponse<FeedIdResponse> saveArchivingFeed(
 		@LoginUser final int userId,
 		@PathVariable final long feed_id) {
@@ -40,7 +42,7 @@ public class FeedController {
 		return GlobalResponse.ok(result);
 	}
 
-	@DeleteMapping("/archiving/{feed_id}")
+	@DeleteMapping("/archiving/{feed_id}/bookmark")
 	public GlobalResponse<FeedIdResponse> deleteArchivingFeed(
 		@LoginUser final int userId,
 		@PathVariable final long feed_id) {
