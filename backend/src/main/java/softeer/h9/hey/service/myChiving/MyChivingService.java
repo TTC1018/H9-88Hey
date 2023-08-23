@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -13,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import softeer.h9.hey.domain.car.CarInfo;
 import softeer.h9.hey.dto.myChiving.MyChivingDto;
 import softeer.h9.hey.dto.myChiving.MyChivingSaveDto;
 import softeer.h9.hey.dto.myChiving.MyChivingSelectOptionDto;
@@ -24,6 +26,7 @@ import softeer.h9.hey.dto.myChiving.response.MyChivingIdResponse;
 import softeer.h9.hey.dto.myChiving.response.MyChivingResponse;
 import softeer.h9.hey.dto.myChiving.response.MyChivingsResponse;
 import softeer.h9.hey.exception.myChiving.DeletionFailException;
+import softeer.h9.hey.repository.car.CarInfoRepository;
 import softeer.h9.hey.repository.myChiving.MyChivingRepository;
 
 @Service
@@ -46,6 +49,7 @@ public class MyChivingService {
 
 	private final MyChivingRepository myChivingRepository;
 	private final static String DELETE_SUCCESS_MESSAGE = "성공적으로 삭제하였습니다.";
+	private final CarInfoRepository carInfoRepository;
 
 	//최종저장
 	public MyChivingIdResponse saveMyCar(int userId, final MyChivingSaveRequest myChivingSaveRequest) {
@@ -167,20 +171,47 @@ public class MyChivingService {
 		Map<Long, Set<String>> selectOptionMap, Map<String, MyChivingSelectOptionDto> selectOptionContentMap) {
 
 		List<MyChivingResponse> myChivingResponseList = new ArrayList<>();
-		myChivingDtoList.stream()
+
+		myChivingDtoList
 			.forEach(myChivingDto -> {
 				List<MyChivingSelectOptionDto> selectOptionDtoList = new ArrayList<>();
 
 				if (selectOptionMap.containsKey(myChivingDto.getMyChivingId())) {
-					selectOptionMap.get(myChivingDto.getMyChivingId()).stream()
+					selectOptionMap.get(myChivingDto.getMyChivingId())
 						.forEach(selectOptionId -> {
 							selectOptionDtoList.add(selectOptionContentMap.get(selectOptionId));
 						});
 				}
 
-				myChivingResponseList.add(MyChivingResponse.of(myChivingDto, selectOptionDtoList));
+				int totalPrice = getTotalPrice(myChivingDto, selectOptionDtoList);
+				String carCode = getCarCode(myChivingDto);
+
+				myChivingResponseList.add(MyChivingResponse.of(myChivingDto, selectOptionDtoList, totalPrice, carCode));
 			});
 
 		return myChivingResponseList;
+	}
+
+	private int getTotalPrice(MyChivingDto myChivingDto, List<MyChivingSelectOptionDto> selectOptionDtoList) {
+		int totalPrice = myChivingDto.getTotalPrice();
+
+		for (MyChivingSelectOptionDto selectOption : selectOptionDtoList) {
+			totalPrice += selectOption.getAdditionalPrice();
+		}
+
+		return totalPrice;
+	}
+
+	private String getCarCode(MyChivingDto myChivingDto) {
+		if (myChivingDto.getTrim() == null || myChivingDto.getEngine() == null || myChivingDto.getBodyType() == null
+			|| myChivingDto.getWheelDrive() == null) {
+			return null;
+		}
+
+		Optional<CarInfo> optionalCarInfo = carInfoRepository.findBy(myChivingDto.getTrim().getId(),
+			myChivingDto.getEngine().getId(), myChivingDto.getBodyType().getId(), myChivingDto.getWheelDrive().getId());
+		CarInfo carInfo = optionalCarInfo.orElseThrow(() -> new RuntimeException("Not Found That CarCode"));
+
+		return carInfo.getCarCode();
 	}
 }

@@ -107,7 +107,8 @@ class MyChivingRepositoryTest {
 		for (MyChivingDto myChivingDto : myChivingDtoList) {
 			assertThat(myChivingDto.getMyChivingId()).isIn(myChivingIdList);
 			assertThat(myChivingDto.getLastModifiedDate()).isNotNull();
-			assertThat(myChivingDto.getModelDto()).isNotNull();
+			assertThat(myChivingDto.getTotalPrice()).isNotNull();
+			assertThat(myChivingDto.getModel()).isNotNull();
 			assertThat(myChivingDto.getTrim()).isNotNull();
 			assertThat(myChivingDto.getIsSaved()).isNotNull();
 		}
