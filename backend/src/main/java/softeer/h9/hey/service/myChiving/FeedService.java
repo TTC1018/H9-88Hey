@@ -1,5 +1,7 @@
 package softeer.h9.hey.service.myChiving;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
@@ -25,6 +27,12 @@ public class FeedService {
 
 	public FeedIdResponse saveFeed(final int userId, final ArchivingIdRequest request) {
 		int result = repository.save(userId, request.getFeedId());
+
+		return FeedIdResponse.of(request.getFeedId());
+	}
+
+	public FeedIdResponse deleteFeed(final int userId, final ArchivingIdRequest request) {
+		int result = repository.deleteBookmark(userId, request.getFeedId());
 
 		return FeedIdResponse.of(request.getFeedId());
 	}
