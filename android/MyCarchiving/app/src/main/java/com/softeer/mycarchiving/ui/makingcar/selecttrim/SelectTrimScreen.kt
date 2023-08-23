@@ -60,7 +60,8 @@ fun SelectTrimRoute(
     val wheels by selectTrimViewModel.wheels.collectAsStateWithLifecycle()
     val selectedTrims by makingCarViewModel.selectedTrim.collectAsStateWithLifecycle()
     val carDetails by makingCarViewModel.carDetails.observeAsState()
-    val isArchived = carDetails != null && selectedTrims.size <= (screenProgress + 1)
+    val isArchived = carDetails != null && selectedTrims.size < 3
+    val isInitial = selectedTrims.getOrNull(screenProgress) == null
 
     // 아카이빙에서 넘어왔다면 뷰모델에 데이터 세팅
     if (isArchived) {
@@ -91,7 +92,7 @@ fun SelectTrimRoute(
             else -> emptyList()
         },
         savedTrim = selectedTrims.getOrNull(screenProgress),
-        isInitial = selectedTrims.getOrNull(screenProgress) == null,
+        isInitial = isInitial,
         isArchived = isArchived,
         onOptionSelect = makingCarViewModel::updateSelectedTrimOption
     )
@@ -156,7 +157,7 @@ fun SelectTrimScreen(
             }
 
             options.getOrNull(selectedIndex)?.let {
-                onOptionSelect(it, screenProgress, isInitial, isArchived)
+                onOptionSelect(it, screenProgress, isInitial, false)
             }
         }
     }
@@ -216,7 +217,7 @@ fun SelectTrimScreen(
                                         isSelected = idx == selectedIndex,
                                         onClick = {
                                             selectedIndex = idx
-                                            onOptionSelect(item, screenProgress, isInitial, isArchived)
+                                            onOptionSelect(item, screenProgress, false, false)
                                         },
                                     )
                                 }
