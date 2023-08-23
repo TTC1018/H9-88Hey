@@ -14,7 +14,6 @@ public class WebConfig implements WebMvcConfigurer {
 		registry.addMapping("/**")
 			.allowedOriginPatterns("*") // 수정 필요!
 			.allowCredentials(true)
-			.allowedOrigins("*")
 			.allowedMethods("*")
 			.allowedHeaders("*")
 			.maxAge(PRE_FLIGHT_CACHE_SECOND);
