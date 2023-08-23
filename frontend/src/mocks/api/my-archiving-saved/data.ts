@@ -12,8 +12,8 @@ export const data = {
       },
       trim: {
         id: 1,
-        name: 'Le Blanc',
-        price: 1000,
+        name: 'Exclusive',
+        price: 2000,
       },
       engine: {
         id: 1,
