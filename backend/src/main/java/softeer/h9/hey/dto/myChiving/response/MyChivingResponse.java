@@ -38,7 +38,7 @@ public class MyChivingResponse {
 	public static MyChivingResponse of(MyChivingDto myChivingDto,
 		List<MyChivingSelectOptionDto> myChivingSelectOptionDtoList, int totalPrice, String carCode) {
 		return MyChivingResponse.builder()
-			.myChivingId(Long.toString(myChivingDto.getMyChivingId())
+			.myChivingId(Long.toString(myChivingDto.getMyChivingId()))
 			.lastModifiedDate(myChivingDto.getLastModifiedDate())
 			.isSaved(myChivingDto.getIsSaved())
 			.totalPrice(totalPrice)
