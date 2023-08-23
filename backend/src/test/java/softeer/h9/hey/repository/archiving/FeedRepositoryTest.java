@@ -1,4 +1,4 @@
-package softeer.h9.hey.repository.myChiving;
+package softeer.h9.hey.repository.archiving;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -12,6 +12,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
 import softeer.h9.hey.domain.archiving.Feed;
+import softeer.h9.hey.repository.archiving.FeedRepository;
 
 @SpringBootTest
 @DisplayName("Feed Repository 테스트")

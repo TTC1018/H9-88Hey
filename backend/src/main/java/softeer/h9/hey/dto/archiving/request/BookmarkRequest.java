@@ -1,4 +1,4 @@
-package softeer.h9.hey.dto.myChiving.request;
+package softeer.h9.hey.dto.archiving.request;
 
 import lombok.Getter;
 

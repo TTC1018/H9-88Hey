@@ -1,4 +1,4 @@
-package softeer.h9.hey.service.myChiving;
+package softeer.h9.hey.service.archiving;
 
 import java.util.List;
 
@@ -8,7 +8,7 @@ import lombok.RequiredArgsConstructor;
 import softeer.h9.hey.domain.archiving.Feed;
 import softeer.h9.hey.dto.myChiving.response.BookmarkResponse;
 import softeer.h9.hey.dto.myChiving.response.FeedIdResponse;
-import softeer.h9.hey.repository.myChiving.FeedRepository;
+import softeer.h9.hey.repository.archiving.FeedRepository;
 
 @Service
 @RequiredArgsConstructor

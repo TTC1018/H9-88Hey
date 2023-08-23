@@ -1,4 +1,4 @@
-package softeer.h9.hey.repository.myChiving;
+package softeer.h9.hey.repository.archiving;
 
 import java.util.List;
 

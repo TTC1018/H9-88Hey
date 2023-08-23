@@ -1,4 +1,4 @@
-package softeer.h9.hey.controller.myChiving;
+package softeer.h9.hey.controller.archiving;
 
 import static org.junit.jupiter.api.Assertions.*;
 

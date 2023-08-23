@@ -1,4 +1,4 @@
-package softeer.h9.hey.service.myChiving;
+package softeer.h9.hey.service.archiving;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -12,7 +12,8 @@ import org.mockito.Mockito;
 import softeer.h9.hey.domain.archiving.Feed;
 import softeer.h9.hey.dto.myChiving.response.BookmarkResponse;
 import softeer.h9.hey.dto.myChiving.response.FeedIdResponse;
-import softeer.h9.hey.repository.myChiving.FeedRepository;
+import softeer.h9.hey.repository.archiving.FeedRepository;
+import softeer.h9.hey.service.archiving.FeedService;
 
 @DisplayName("Feed Service 테스트")
 class FeedServiceTest {

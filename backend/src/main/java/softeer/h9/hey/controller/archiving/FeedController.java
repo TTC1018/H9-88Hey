@@ -1,4 +1,4 @@
-package softeer.h9.hey.controller.myChiving;
+package softeer.h9.hey.controller.archiving;
 
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
@@ -14,7 +14,7 @@ import softeer.h9.hey.auth.annotation.LoginUser;
 import softeer.h9.hey.dto.global.response.GlobalResponse;
 import softeer.h9.hey.dto.myChiving.response.BookmarkResponse;
 import softeer.h9.hey.dto.myChiving.response.FeedIdResponse;
-import softeer.h9.hey.service.myChiving.FeedService;
+import softeer.h9.hey.service.archiving.FeedService;
 
 @RestController
 @RequiredArgsConstructor
