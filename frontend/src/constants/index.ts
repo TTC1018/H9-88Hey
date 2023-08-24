@@ -9,7 +9,7 @@ export enum ModalType {
   CLEAR = 'CLEAR',
 }
 export const TAG_CHIP_MAX_NUMBER = 3;
-export const API_URL = '/dev';
+export const API_URL = 'https://api.88hey.site';
 export const NAVIGATION_PATH = {
   '/trim': { prev: '', next: '/trim/engine' },
   '/trim/engine': { prev: '/trim', next: '/trim/body-type' },
