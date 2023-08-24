@@ -15,6 +15,7 @@ import {
 import { AuthError } from '@/utils/AuthError';
 import { API_URL, emailRegex, AUTH_ALERT_MESSAGE } from '@/constants';
 
+import HyundaiLogo from '/public/assets/icons/signin_hyundai_logo.svg';
 import * as Styled from './style';
 
 export function Signup() {
@@ -133,7 +134,7 @@ export function Signup() {
   return (
     <>
       <Styled.Container>
-        <Styled.HyundaiLogo src="/src/assets/icons/signin_hyundai_logo.svg" />
+        <img src={HyundaiLogo} />
         <Styled.Form onSubmit={handleSignup}>
           <Styled.Alert isShow={isShow}>{alert}</Styled.Alert>
           <Styled.Input
