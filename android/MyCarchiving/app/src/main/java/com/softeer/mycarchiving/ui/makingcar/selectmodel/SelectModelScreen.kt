@@ -56,6 +56,7 @@ fun SelectModelRoute(
     val carDetails by sharedViewModel.carDetails.observeAsState()
     val scrollState = rememberScrollState()
     val selectedModel by sharedViewModel.selectedModelInfo.observeAsState()
+    val fromArchive by sharedViewModel.archivingStartedFlag
     val isArchived = carDetails != null && selectedModel == null
 
     LaunchedEffect(isArchived, carModels) {
@@ -82,9 +83,11 @@ fun SelectModelRoute(
         carModels = carModels,
         carImages = carImages,
         focusedImageIndex = focusedImageIndex,
+        fromArchive = fromArchive,
         onCarImageClick = viewModel::onCarImageClick,
         selectedModel = selectedModel,
-        onModelSelect = sharedViewModel::updateSelectedModelInfo
+        onModelSelect = sharedViewModel::updateSelectedModelInfo,
+        onInitialize = sharedViewModel::initializeByChangedModel,
     )
 }
 
@@ -97,8 +100,10 @@ fun SelectModelScreen(
     carImages: List<String>,
     focusedImageIndex: Int,
     selectedModel: SelectModelUiModel?,
+    fromArchive: Boolean,
     onCarImageClick: (Int) -> Unit,
     onModelSelect: (SelectModelUiModel) -> Unit,
+    onInitialize: () -> Unit,
 ) {
     val context = LocalContext.current
     val imageLoader = remember {
@@ -175,7 +180,9 @@ fun SelectModelScreen(
                                     carModelIndex = index,
                                     carModel = carModel,
                                     isExpanded = carModel.id == selectedModel?.id,
-                                    onClick = { onModelSelect(carModel) }
+                                    isArchived = fromArchive,
+                                    onClick = { onModelSelect(carModel) },
+                                    onInitialize = onInitialize
                                 )
                             }
                         }
@@ -210,7 +217,9 @@ fun PreviewSelectModelScreen() {
             price = 40000000,
             features = emptyList()
         ),
+        fromArchive = true,
         onCarImageClick = {},
         onModelSelect = {},
+        onInitialize = {}
     )
 }

@@ -21,6 +21,10 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -61,11 +65,15 @@ fun OptionCardForModel(
     carModelIndex: Int,
     carModel: SelectModelUiModel,
     isExpanded: Boolean = false,
+    isArchived: Boolean = false,
     onClick: () -> Unit,
+    onInitialize: () -> Unit,
 ) {
+    var shouldShowDialog by remember { mutableStateOf(false) }
+
     Column(
         modifier = modifier
-            .clickable { onClick() }
+            .clickable { if (isArchived) shouldShowDialog = true else onClick() }
             .fillMaxWidth()
             .then(
                 if (isExpanded) Modifier
@@ -92,6 +100,19 @@ fun OptionCardForModel(
             )
             OptionImages(modelFeatures = carModel.features)
         }
+    }
+
+    if (isArchived && shouldShowDialog) {
+        InitializeCarDialog(
+            onDismissRequest = {
+                shouldShowDialog = false
+            },
+            onInitialize = {
+                shouldShowDialog = false
+                onInitialize()
+                onClick()
+            }
+        )
     }
 }
 
@@ -143,7 +164,11 @@ fun OptionTopTitleForModel(
         Text(
             style = bold18,
             color = textColor,
-            text = stringResource(id = R.string.make_car_option_title, carModelIndex + 1, carModel.name)
+            text = stringResource(
+                id = R.string.make_car_option_title,
+                carModelIndex + 1,
+                carModel.name
+            )
         )
         PriceTextForModel(
             textColor = textColor,
