@@ -1,5 +1,7 @@
 import { useLocation } from 'react-router-dom';
 
+import { MyCarProps } from '@/types/trim';
+
 import { Title } from '@/components/Result/Title';
 import { TitleLine } from '@/components/Result/TitleLine';
 import { Summary } from '@/components/Result/Summary';
@@ -11,7 +13,15 @@ import { Footer } from '@/components/Result/Footer';
 import * as Styled from './style';
 
 export function Result() {
-  const { state: myCar } = useLocation();
+  const { state } = useLocation();
+
+  const myCar = state as MyCarProps;
+  const myCarKeysWithPrice = ['engine', 'bodyType', 'wheelDrive', 'exteriorColor'];
+
+  const totalPrice =
+    myCar.trim.price +
+    myCarKeysWithPrice.reduce((acc, cur) => acc + myCar[cur].additionalPrice, 0) +
+    myCar.options.reduce((acc, cur) => acc + cur.additionalPrice, 0);
 
   const { krName, enName } = myCar.carType;
 
@@ -23,7 +33,7 @@ export function Result() {
       <OptionCardList options={myCar.options} />
       <MenuLine />
       <Menu />
-      <Footer totalPrice={1000000} />
+      <Footer totalPrice={totalPrice} />
     </Styled.Container>
   );
 }

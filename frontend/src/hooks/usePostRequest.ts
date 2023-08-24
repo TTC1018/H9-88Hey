@@ -20,7 +20,7 @@ export function usePostRequest<T, U>({ url }: Props) {
     method: string;
     data?: U;
   }
-  const postData = async ({ method, data }: PostProps) => {
+  async function postData({ method, data }: PostProps) {
     setIsLoading(true);
     setError(null);
 
@@ -47,7 +47,7 @@ export function usePostRequest<T, U>({ url }: Props) {
       setIsLoading(false);
       setIsSuccess(false);
     }
-  };
+  }
 
   return { postData, data, isSuccess, isLoading, error };
 }
