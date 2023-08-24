@@ -12,8 +12,8 @@ import kotlinx.coroutines.flow.map
 class SelectColorRepositoryImpl(
     private val selectColorRemoteDataSource: SelectColorDataSource
 ) : SelectColorRepository {
-    override fun getCarColors(): Flow<List<CarColor>> =
-        selectColorRemoteDataSource.getCarColors()
+    override fun getCarColors(trimId: Int): Flow<List<CarColor>> =
+        selectColorRemoteDataSource.getCarColors(trimId)
             .map {
                 it.map { color ->
                     when (color) {

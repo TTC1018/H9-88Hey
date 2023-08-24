@@ -163,7 +163,7 @@ class HyundaiAppState(
     ) {
         when (currentMakingCarDestination) {
             SELECT_MODEL -> makingCarNavController.navigateToSelectTrim()
-            SELECT_TRIM -> makingCarNavController.navigateToSelectColor()
+            SELECT_TRIM -> makingCarNavController.navigateToSelectColor(trimId ?: 1)
             SELECT_COLOR -> makingCarNavController.navigateToSelectOption(
                 trimId ?: 1,
                 engineId ?: 1,

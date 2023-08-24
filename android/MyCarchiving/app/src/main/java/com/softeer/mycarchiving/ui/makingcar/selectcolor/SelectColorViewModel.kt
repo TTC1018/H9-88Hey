@@ -1,5 +1,7 @@
 package com.softeer.mycarchiving.ui.makingcar.selectcolor
 
+import android.util.Log
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.softeer.domain.model.CarExteriorColor
@@ -9,6 +11,7 @@ import com.softeer.domain.usecase.makingcar.GetTagsOfExteriorUseCase
 import com.softeer.domain.usecase.makingcar.GetTagsOfInteriorUseCase
 import com.softeer.mycarchiving.mapper.asUiModel
 import com.softeer.mycarchiving.model.makingcar.ColorOptionUiModel
+import com.softeer.mycarchiving.ui.makingcar.KEY_SELECT_COLOR
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -31,14 +34,17 @@ private val TAG = SelectColorViewModel::class.simpleName
 @OptIn(ExperimentalCoroutinesApi::class)
 @HiltViewModel
 class SelectColorViewModel @Inject constructor(
+    savedStateHandle: SavedStateHandle,
     getColorsUseCase: GetCarColorsUseCase,
     getTagsOfInterior: GetTagsOfInteriorUseCase,
     getTagsOfExterior: GetTagsOfExteriorUseCase,
 ) : ViewModel() {
 
+    private val modelId = savedStateHandle[KEY_SELECT_COLOR] ?: 1
+
     init {
         viewModelScope.launch {
-            getColorsUseCase().collect { colors ->
+            getColorsUseCase(modelId).collect { colors ->
                 if (colors.isNotEmpty()) {
                     when (colors.first()) {
                         is CarExteriorColor -> {

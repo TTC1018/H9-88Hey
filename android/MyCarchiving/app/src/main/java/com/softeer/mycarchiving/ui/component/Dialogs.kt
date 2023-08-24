@@ -41,10 +41,6 @@ import com.softeer.mycarchiving.ui.theme.regular12
 import com.softeer.mycarchiving.ui.theme.regular14
 import com.softeer.mycarchiving.ui.theme.roundCorner
 
-val detailItem = CarBasicDetailUiModel(
-    name = "ISG 시스템",
-    description = "신호 대기 상황이거나 정차 중일 때 차의 엔진을 일시 정지하여 연비를 향상시키고, 배출가스 발생을 억제하는 시스템입니다."
-)
 
 @Composable
 fun BasicItemDialog(
@@ -278,10 +274,50 @@ fun MoveMakeCarDialog(
     }
 }
 
+@Composable
+fun InitializeCarDialog(
+    modifier: Modifier = Modifier,
+    onDismissRequest: () -> Unit,
+    onInitialize: () -> Unit
+) {
+    val tempText = "변경 시 저장된 데이터가 초기화됩니다."
+
+    ButtonDialog(
+        modifier = modifier,
+        onDismissRequest = onDismissRequest,
+        description = tempText,
+        annotatedTargetStartIndex = 0,
+        annotatedTargetLength = tempText.length
+    ) {
+        Row {
+            HyundaiButton(
+                modifier = Modifier.width(120.dp),
+                backgroundColor = LightGray,
+                textColor = DarkGray,
+                text = stringResource(id = R.string.cancel),
+                onClick = onDismissRequest
+            )
+            Spacer(modifier = Modifier.width(6.dp))
+            HyundaiButton(
+                modifier = Modifier,
+                backgroundColor = PrimaryBlue,
+                textColor = White,
+                text = stringResource(id = R.string.make_car_dialog_initialize),
+                onClick = onInitialize
+            )
+        }
+    }
+}
+
 @Preview
 @Composable
 fun PreviewBasicItemDialog() {
-    BasicItemDialog(onDismissRequest = {}, detailItem = detailItem)
+    BasicItemDialog(
+        onDismissRequest = {}, detailItem = CarBasicDetailUiModel(
+            name = "ISG 시스템",
+            description = "신호 대기 상황이거나 정차 중일 때 차의 엔진을 일시 정지하여 연비를 향상시키고, 배출가스 발생을 억제하는 시스템입니다."
+        )
+    )
 }
 
 @Preview
@@ -307,5 +343,14 @@ fun PreviewMoveMakeCarDialog() {
         onDismissRequest = {},
         onMove = {},
         saveDate = "23년 7월 18일"
+    )
+}
+
+@Preview
+@Composable
+fun PreviewInitializeCarDialog() {
+    InitializeCarDialog(
+        onDismissRequest = {},
+        onInitialize = {}
     )
 }
