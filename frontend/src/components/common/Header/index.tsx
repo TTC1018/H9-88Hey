@@ -22,13 +22,6 @@ interface Props {
 export function Header({ isSaving }: Props) {
   const { handleOpen } = useModalContext();
   const { handleNavigate } = useMyCarNavigate({ path: '/archiving' });
-  const { pathname } = useLocation();
-
-  const noHeaderPaths = ['/', '/signup'];
-
-  if (noHeaderPaths.includes(pathname)) {
-    return null;
-  }
 
   return (
     <Fragment>
