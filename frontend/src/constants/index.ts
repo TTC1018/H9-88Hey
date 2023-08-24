@@ -99,6 +99,8 @@ export const cacheKey = {
   archivingOption: (modelId: number) => ['select-options', `${modelId}`],
   archivingDetail: (id: string) => ['detail', `${id}`],
   tag: (type: string, id: string | number) => ['tag', `${type}`, `${id}`],
+  // TEST
+  mychiving: (limit: number, offset: number) => ['mychiving', `${limit}`, `${offset}`],
 };
 
 export const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
