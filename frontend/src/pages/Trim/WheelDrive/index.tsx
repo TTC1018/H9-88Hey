@@ -7,6 +7,8 @@ import { useSelectIndex } from '@/hooks/useSelectedIndex';
 import { useFetchSuspense } from '@/hooks/useFetchSuspense';
 import { MyCarActionType, apiPath, cacheKey } from '@/constants';
 import { MyCarLayoutContextProps, WheelDriveDataProps } from '@/types/trim';
+import { ColorDataProps } from '@/types/color';
+import { convertToTwoDigits } from '@/utils';
 
 import { TrimCard } from '@/components/common/TrimCard';
 import { MyCarImageBox } from '@/components/Trim/MyCarImageBox';
@@ -25,8 +27,24 @@ export function WheelDrive() {
 
   const {
     dispatch,
-    myCar: { wheelDrive },
+    myCar: { wheelDrive, trim },
   } = useOutletContext<MyCarLayoutContextProps>();
+
+  /* 이미지 최적화 pre-loading */
+  const { exteriorColors } = useFetchSuspense<ColorDataProps>({
+    fetcher: () => fetcher<ColorDataProps>({ url: apiPath.color(trim.id) }),
+    key: cacheKey.color(trim.id),
+  });
+
+  const carImagePathArray = exteriorColors.map(value => value.carImagePath);
+
+  const imageArray = Array.from({ length: 60 }, (_, index) => index);
+  carImagePathArray.forEach(carImagePath => {
+    imageArray.map(num => {
+      const carImage = new Image();
+      carImage.src = `${carImagePath}image_0${convertToTwoDigits(num)}.webp`;
+    });
+  });
 
   function handleCardClick(name: string, additionalPrice: number, id: number, index: number) {
     return () => {
