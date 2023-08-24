@@ -54,3 +54,6 @@ export interface ArchivingCarDataProps {
 export interface BookmarkProps {
   bookmark: boolean;
 }
+export interface BookmarkDataProps {
+  feedId: string;
+}

@@ -62,3 +62,7 @@ export interface MyChivingDataProps {
 export interface MyFeedDataProps {
   archivingsByUser: ArchivingProps[];
 }
+
+export interface SaveDataProps {
+  myChivingId: string;
+}

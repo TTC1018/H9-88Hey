@@ -45,7 +45,7 @@ export function Detail() {
   const dateText = `에 ${isPurchase ? '구매' : '시승'}했어요`;
 
   const myCar = {
-    carType: { krName: '펠리세이드', enName: 'Palisade' },
+    carType: { krName: '팰리세이드', enName: 'Palisade' },
     trim: { ...trim },
     engine: { ...engine },
     bodyType: { ...bodyType },

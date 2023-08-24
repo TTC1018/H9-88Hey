@@ -3,7 +3,8 @@ import { Dispatch, MutableRefObject, useEffect, useRef, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 import { useCountPrice } from '@/hooks/useCountPrice';
-import { usePostRequest } from '@/hooks/usePostRequest';
+import { useAuthMutation } from '@/hooks/useAuthMutation';
+import { SaveDataProps } from '@/types/myChiving';
 import { ActionType, MyCarProps, SaveProps, TempSaveProps } from '@/types/trim';
 import { MyCarActionType, NAVIGATION_PATH, TAG_CHIP_MAX_NUMBER } from '@/constants';
 import { checkIsOptionPage, checkIsHGenuineAccessoriesPage, getLocalStorage, combineWithSlash } from '@/utils';
@@ -34,8 +35,8 @@ export function Footer({ myCarData, calculatePrice, carCode, setDisplayAutoSavin
 
   const [isOpen, setIsOpen] = useState(false);
 
-  const { data, postData } = usePostRequest<any, TempSaveProps>({ url: '/mychiving/temp' });
-  const { postData: saveMychiving } = usePostRequest<any, SaveProps>({ url: '/mychiving' });
+  const { data, authMutation } = useAuthMutation<SaveDataProps, TempSaveProps>({ url: '/mychiving/temp' });
+  const { authMutation: saveMychiving } = useAuthMutation<SaveDataProps, SaveProps>({ url: '/mychiving' });
 
   function handleOpenModal() {
     setIsOpen(true);
@@ -101,7 +102,7 @@ export function Footer({ myCarData, calculatePrice, carCode, setDisplayAutoSavin
       interiorColor: interiorColor.id === 0 ? null : interiorColor.id,
       selectOptions: options.map(({ id }) => id).length === 0 ? null : options.map(({ id }) => id),
     };
-    postData({ method: 'POST', data: saveData });
+    authMutation({ method: 'POST', data: saveData });
   }
 
   function handleSave() {
@@ -121,7 +122,8 @@ export function Footer({ myCarData, calculatePrice, carCode, setDisplayAutoSavin
     navigate('/result', {
       state: myCarData,
     });
-    localStorage.clear();
+    localStorage.removeItem('myCar');
+    localStorage.removeItem('carCode');
   }
 
   function handleNextNavigate() {
