@@ -66,7 +66,7 @@ export function MySavedCar() {
     engine: { name: '', additionalPrice: 0, id: 0 },
     bodyType: { name: '', additionalPrice: 0, id: 0 },
     wheelDrive: { name: '', additionalPrice: 0, id: 0 },
-    exteriorColor: { name: '', colorImageUrl: '', additionalPrice: 0 },
+    exteriorColor: { name: '', colorImageUrl: '', additionalPrice: 0, id: 0 },
     interiorColor: { name: '', colorImageUrl: '', id: 1 },
     options: [],
     carImageUrl: '',

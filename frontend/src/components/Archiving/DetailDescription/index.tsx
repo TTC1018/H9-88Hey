@@ -1,3 +1,5 @@
+import { Suspense } from 'react';
+
 import { SaveButton } from '@/components/common/SaveButton';
 
 import * as Styled from './style';
@@ -5,10 +7,9 @@ import * as Styled from './style';
 interface Props {
   totalPrice: number;
   options: string[];
-  onClickSaveButton: () => void;
   onClickStartButton: () => void;
 }
-export function DetailDescription({ totalPrice, options, onClickSaveButton, onClickStartButton }: Props) {
+export function DetailDescription({ totalPrice, options, onClickStartButton }: Props) {
   return (
     <Styled.Container>
       <Styled.RegularText>총 가격</Styled.RegularText>
@@ -23,7 +24,9 @@ export function DetailDescription({ totalPrice, options, onClickSaveButton, onCl
           </Styled.OptionBox>
         </Styled.Encloser>
         <Styled.ButtonBox>
-          <SaveButton onClick={onClickSaveButton} />
+          <Suspense fallback={<div>북마크중!</div>}>
+            <SaveButton />
+          </Suspense>
           <Styled.Button onClick={onClickStartButton}>이 차량으로 내 차 만들기 시작</Styled.Button>
         </Styled.ButtonBox>
       </Styled.Wrapper>

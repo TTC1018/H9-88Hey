@@ -1,4 +1,4 @@
-import { Suspense, useReducer, useRef, useState } from 'react';
+import { Suspense, useReducer, useRef } from 'react';
 
 import { Outlet, useLocation } from 'react-router-dom';
 
@@ -18,23 +18,23 @@ const initialState: MyCarProps = {
   engine: { name: '', additionalPrice: 0, id: 0 },
   bodyType: { name: '', additionalPrice: 0, id: 0 },
   wheelDrive: { name: '', additionalPrice: 0, id: 0 },
-  exteriorColor: { name: '', colorImageUrl: '', additionalPrice: 0 },
+  exteriorColor: { name: '', colorImageUrl: '', additionalPrice: 0, id: 0 },
   interiorColor: { name: '', colorImageUrl: '', id: 0 },
   options: [],
   carImageUrl: '',
 };
 
 function reducer(state: MyCarProps, action: ActionType): MyCarProps {
-  const { type, props } = action;
+  const { type, payload } = action;
 
   switch (type) {
     case 'TRIM':
       return {
         ...state,
-        trim: props,
+        trim: payload,
       };
     case 'TRIM_OPTION':
-      const { key, ...data } = props;
+      const { key, ...data } = payload;
       return {
         ...state,
         [key]: data,
@@ -42,20 +42,21 @@ function reducer(state: MyCarProps, action: ActionType): MyCarProps {
     case 'EXTERIOR_COLOR':
       return {
         ...state,
-        exteriorColor: props,
+        exteriorColor: payload,
+        carImageUrl: payload.carImagePath,
       };
     case 'INTERIOR_COLOR':
-      return { ...state, interiorColor: props };
+      return { ...state, interiorColor: payload };
     case 'ADD_OPTION':
-      return { ...state, options: [...state.options, props] };
+      return { ...state, options: [...state.options, payload] };
     case 'REMOVE_OPTION':
-      return { ...state, options: state.options.filter(({ name }) => name !== props) };
-    case 'CAR_IMAGE_URL':
-      return { ...state, carImageUrl: props };
+      return { ...state, options: state.options.filter(({ name }) => name !== payload) };
     case 'SAVE_OPTION':
-      return props;
+      return payload;
     case 'CLEAR_OPTION':
-      return { ...state, options: props };
+      return { ...state, options: payload };
+    case 'CLEAR_COLORS':
+      return { ...state, exteriorColor: initialState.exteriorColor, interiorColor: initialState.interiorColor };
     default:
       return state;
   }
@@ -95,7 +96,9 @@ export function MyCarLayout() {
           />
         </Suspense>
       </Styled.Wrapper>
-      <Footer myCarData={myCar} calculatePrice={totalPrice} carCode={carCode} dispatch={dispatch} />
+      {pathname !== '/result' && (
+        <Footer myCarData={myCar} calculatePrice={totalPrice} carCode={carCode} dispatch={dispatch} />
+      )}
     </Styled.Container>
   );
 }

@@ -12,7 +12,7 @@ export function TrimCarImageBox() {
     key: cacheKey.image(1),
   });
 
-  const [selectedIndex, handleSetIndex] = useSelectIndex();
+  const [selectedIndex, handleSetIndex] = useSelectIndex({ initialIndex: 0 });
 
   return (
     <MyCarImageBox hasOption={true} images={carImageUrls} selectedIndex={selectedIndex} onClick={handleSetIndex} />

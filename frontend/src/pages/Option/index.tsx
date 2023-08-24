@@ -1,10 +1,11 @@
-import { useState, useEffect, MouseEvent } from 'react';
+import { useState, MouseEvent } from 'react';
 
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 
 import { fetcher } from '@/utils/fetcher';
 import { apiPath, cacheKey } from '@/constants';
 import { useFetchSuspense } from '@/hooks/useFetchSuspense';
+import { useDidMountEffect } from '@/hooks/useDidMountEffect';
 import { isValidIndex, checkIsSelectOptionPage } from '@/utils';
 import { OptionDataProps, OptionProps, SubOptionProps, OptionCardDataProps } from '@/types/option';
 
@@ -22,7 +23,6 @@ interface Props {
 }
 
 export function Option({ apiType }: Props) {
-  const navigate = useNavigate();
   const { pathname, search } = useLocation();
 
   const { selectOptions } = useFetchSuspense<OptionDataProps>({
@@ -30,25 +30,18 @@ export function Option({ apiType }: Props) {
     key: cacheKey.option(apiType, search),
   });
 
-  const [option, setOption] = useState<OptionProps>({
-    isAvailable: true,
-    id: '',
-    name: '',
-    additionalPrice: 0,
-    imageUrl: '',
-    subOptions: [],
-  });
-  const [subOption, setSubOption] = useState<SubOptionProps>({
-    id: '',
-    name: '',
-    imageUrl: '',
-    description: '',
-  });
-  const [cardListData, setCardListData] = useState<OptionCardDataProps[]>([]);
+  if (selectOptions.length === 0) {
+    return <div>dd</div>;
+  }
 
   const [menu, setMenu] = useState(0);
   const [optionIndex, setOptionIndex] = useState(0);
   const [subOptionIndex, setSubOptionIndex] = useState(0);
+
+  const { currentSelectOptions, currentSubOption, currentCardListData } = handleOptions();
+  const [option, setOption] = useState<OptionProps>(currentSelectOptions);
+  const [subOption, setSubOption] = useState<SubOptionProps>(currentSubOption);
+  const [cardListData, setCardListData] = useState<OptionCardDataProps[]>(currentCardListData);
 
   function handleChangeMenu(menu: number) {
     setMenu(menu);
@@ -69,17 +62,11 @@ export function Option({ apiType }: Props) {
     setSubOptionIndex(newIndex);
   }
 
-  useEffect(() => {
-    if (selectOptions.length === 0) {
-      navigate('/result');
+  function handleOptions() {
+    const currentSelectOptions = selectOptions[optionIndex];
 
-      return;
-    }
-
-    const { isAvailable, id, name, additionalPrice, imageUrl, subOptions } = selectOptions[optionIndex];
-
-    const subOption = subOptions[subOptionIndex];
-    const cardListData = selectOptions.map(
+    const currentSubOption = currentSelectOptions.subOptions[subOptionIndex];
+    const currentCardListData = selectOptions.map(
       ({ isAvailable, id, name, additionalPrice, imageUrl, subOptions }, index) => ({
         isAvailable,
         id,
@@ -91,14 +78,21 @@ export function Option({ apiType }: Props) {
       })
     );
 
+    return { currentSelectOptions, currentSubOption, currentCardListData };
+  }
+
+  useDidMountEffect(() => {
+    const {
+      currentSelectOptions: { isAvailable, id, name, additionalPrice, imageUrl, subOptions },
+      currentSubOption,
+      currentCardListData,
+    } = handleOptions();
+
     setOption({ isAvailable, id, name, additionalPrice, imageUrl, subOptions });
     setSubOption({
-      id: subOption.id,
-      name: subOption.name,
-      imageUrl: subOption.imageUrl,
-      description: subOption.description,
+      ...currentSubOption,
     });
-    setCardListData(cardListData);
+    setCardListData(currentCardListData);
   }, [selectOptions, optionIndex, subOptionIndex]);
 
   return (

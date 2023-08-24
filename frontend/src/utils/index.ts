@@ -48,6 +48,14 @@ export function getLocalStorage(key: string) {
   return localStorage.getItem(key)!;
 }
 
+export function setLocalStorage(key: string, value: string) {
+  return localStorage.setItem(key, value);
+}
+
+export function removeLocalStorage(key: string) {
+  return localStorage.removeItem(key);
+}
+
 export function checkIsOptionPage(path: string) {
   const splittedPath = path.split('/');
 
@@ -68,16 +76,6 @@ export function checkIsNPerformancePage(path: string) {
 
 export function checkIsResultPage(path: string) {
   return path === '/result';
-}
-
-// DEPRECATED
-export function checkOptionsChanged(options: OptionContextProps[]) {
-  const selectOptions = options.filter(({ path }) => path === '/option');
-
-  const globalOptions: OptionContextProps[] = JSON.parse(getLocalStorage('myCar')).options;
-  const prevSelectOptions = globalOptions.filter(({ path }) => path === '/option');
-
-  return JSON.stringify(selectOptions) !== JSON.stringify(prevSelectOptions);
 }
 
 export function isHGenuineAccessoriesSelected(options: OptionContextProps[]) {

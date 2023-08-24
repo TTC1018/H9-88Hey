@@ -2,10 +2,12 @@ import { Fragment } from 'react';
 
 import { useLocation, useNavigate } from 'react-router-dom';
 
-import { ModalType } from '@/constants';
-import { ArchivingProps } from '@/types/archiving';
+import { fetcher } from '@/utils/fetcher';
 import { combineWithSlash, formatDate } from '@/utils';
+import { ArchivingProps } from '@/types/archiving';
 import { useModalContext } from '@/hooks/useModalContext';
+import { useFetchSuspense } from '@/hooks/useFetchSuspense';
+import { ModalType, apiPath, cacheKey } from '@/constants';
 
 import { PopupModal } from '@/components/common/PopupModal';
 import { ModalPortal } from '@/components/common/ModalPortal';
@@ -16,8 +18,8 @@ import { DetailDescription } from '@/components/Archiving/DetailDescription';
 import * as Styled from './style';
 
 export function Detail() {
-  const location = useLocation();
-  const navigate = useNavigate();
+  const { search } = useLocation();
+  const id = search.split('=')[1];
 
   const {
     modelName,
@@ -32,9 +34,12 @@ export function Detail() {
     isPurchase,
     totalPrice,
     selectedOptions,
-  }: ArchivingProps = {
-    ...location.state,
-  };
+  } = useFetchSuspense<ArchivingProps>({
+    fetcher: () => fetcher<ArchivingProps>({ url: apiPath.archivingDetail(id) }),
+    key: cacheKey.archivingDetail(id),
+  });
+
+  const navigate = useNavigate();
 
   const options = selectedOptions.map(option => option.name);
   const dateText = `에 ${isPurchase ? '구매' : '시승'}했어요`;
@@ -80,12 +85,7 @@ export function Detail() {
           />
         </Styled.HeaderWrapper>
         <Styled.DescriptionWrapper>
-          <DetailDescription
-            totalPrice={totalPrice}
-            options={options}
-            onClickSaveButton={() => {}}
-            onClickStartButton={handleOpen}
-          />
+          <DetailDescription totalPrice={totalPrice} options={options} onClickStartButton={handleOpen} />
         </Styled.DescriptionWrapper>
         <Styled.Line />
         <Styled.OptionWrapper>

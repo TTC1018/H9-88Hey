@@ -19,8 +19,9 @@ export function Header() {
   const [isSavingNow, setIsSavingNow] = useState(false);
 
   const { handleOpen } = useModalContext();
-
   const { handleNavigate } = useMyCarNavigate({ path: '/archiving' });
+
+  const noHeaderPaths = ['/', '/signup'];
 
   if (isSavingNow) {
     setTimeout(() => {
@@ -33,6 +34,10 @@ export function Header() {
       setIsSavingNow(true);
     }
   }, [pathname]);
+
+  if (noHeaderPaths.includes(pathname)) {
+    return null;
+  }
 
   return (
     <Fragment>

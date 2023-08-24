@@ -17,14 +17,6 @@ import { MyCarDescription } from '@/components/Trim/MyCarDescription';
 import * as Styled from './style';
 
 export function WheelDrive() {
-  const { wheelDrives } = useFetchSuspense<WheelDriveDataProps>({
-    fetcher: () => fetcher<WheelDriveDataProps>({ url: apiPath.wheelDrive(1) }),
-    key: cacheKey.wheelDrive(1),
-  });
-
-  const [selectedIndex, handleSetIndex] = useSelectIndex();
-  const { name, additionalPrice, imageUrl } = wheelDrives[selectedIndex];
-
   const {
     dispatch,
     myCar: { wheelDrive, trim },
@@ -46,24 +38,25 @@ export function WheelDrive() {
     });
   });
 
-  function handleCardClick(name: string, additionalPrice: number, id: number, index: number) {
-    return () => {
-      handleSetIndex(index)();
-      dispatch({ type: MyCarActionType.TRIM_OPTION, props: { key: 'wheelDrive', name, additionalPrice, id } });
-    };
-  }
+  const { wheelDrives } = useFetchSuspense<WheelDriveDataProps>({
+    fetcher: () => fetcher<WheelDriveDataProps>({ url: apiPath.wheelDrive(1) }),
+    key: cacheKey.wheelDrive(1),
+  });
+
+  const index = wheelDrives.findIndex(({ name }) => name === wheelDrive.name);
+  const initialIndex = index !== -1 ? index : 0;
+  const [selectedIndex, handleSetIndex] = useSelectIndex({ initialIndex });
+
+  const { name, additionalPrice, imageUrl } = wheelDrives[selectedIndex];
 
   useEffect(() => {
     if (wheelDrive.name === '') {
       const { name, additionalPrice, id } = wheelDrives[0];
 
-      dispatch({ type: MyCarActionType.TRIM_OPTION, props: { key: 'wheelDrive', name, additionalPrice, id } });
+      dispatch({ type: MyCarActionType.TRIM_OPTION, payload: { key: 'wheelDrive', name, additionalPrice, id } });
 
       return;
     }
-
-    const index = wheelDrives.findIndex(({ name }) => name === wheelDrive.name);
-    index !== -1 && handleSetIndex(index)();
   }, []);
 
   return (
@@ -75,15 +68,17 @@ export function WheelDrive() {
         </Styled.Box>
         <Styled.Box>
           {wheelDrives.map(({ name, additionalPrice, description, id }, index) => (
-            <Styled.Enclosure key={id} onClick={handleCardClick(name, additionalPrice, id, index)}>
-              <TrimCard
-                isActive={index === selectedIndex}
-                title={name}
-                price={additionalPrice}
-                description={description}
-                hasEngineInfo={false}
-              />
-            </Styled.Enclosure>
+            <TrimCard
+              key={id}
+              dispatchKey="wheelDrive"
+              id={id}
+              isActive={index === selectedIndex}
+              title={name}
+              price={additionalPrice}
+              description={description}
+              hasEngineInfo={false}
+              onSetIndex={handleSetIndex(index)}
+            />
           ))}
         </Styled.Box>
       </Styled.Wrapper>
