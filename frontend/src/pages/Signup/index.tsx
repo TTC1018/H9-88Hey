@@ -52,7 +52,7 @@ export function Signup() {
     setIsDisabled(false);
   }
 
-  async function handleSignin(event: FormEvent<HTMLFormElement>) {
+  async function handleSignup(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setIsDisabled(true);
     const { email, password } = account;
@@ -134,7 +134,7 @@ export function Signup() {
     <>
       <Styled.Container>
         <Styled.HyundaiLogo src="/src/assets/icons/signin_hyundai_logo.svg" />
-        <Styled.Form onSubmit={handleSignin}>
+        <Styled.Form onSubmit={handleSignup}>
           <Styled.Alert isShow={isShow}>{alert}</Styled.Alert>
           <Styled.Input
             type="text"
