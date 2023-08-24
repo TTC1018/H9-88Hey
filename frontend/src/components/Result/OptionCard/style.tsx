@@ -101,6 +101,8 @@ export const Description = styled.p`
     const { fonts } = theme;
 
     return css`
+      overflow-y: scroll;
+
       ${fonts.bodyRegular3};
     `;
   }}

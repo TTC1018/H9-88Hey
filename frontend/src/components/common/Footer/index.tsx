@@ -96,7 +96,9 @@ export function Footer({ myCarData, calculatePrice, carCode, setDisplayAutoSavin
     setDisplayAutoSaving();
   }
 
-  if (pathname === '/result') {
+  const noFooterPaths = ['/', '/signup', '/result'];
+
+  if (noFooterPaths.includes(pathname)) {
     return null;
   }
 

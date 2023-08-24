@@ -1,11 +1,5 @@
-import { ForwardedRef } from 'react';
-
 import styled from '@emotion/styled';
 import { css } from '@emotion/react';
-
-interface Props {
-  ref: ForwardedRef<HTMLUListElement>;
-}
 
 export const Container = styled.div`
   width: 160px;
@@ -20,7 +14,7 @@ export const Container = styled.div`
   background: rgba(35, 35, 35, 0.75);
 `;
 
-export const DescriptionWrapper = styled.ul<Props>`
+export const DescriptionWrapper = styled.ul`
   width: 160px;
   height: 140px;
   padding: 21px 15px 0 30px;

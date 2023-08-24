@@ -7,6 +7,14 @@ import { NavArrowButton } from '@/components/common/NavArrowButton';
 import * as Styled from './style';
 
 const SELECTIONS = Object.freeze({
+  '': {
+    title: '',
+    flow: {},
+  },
+  signup: {
+    title: '',
+    flow: {},
+  },
   trim: {
     title: '트림 선택',
     flow: {
