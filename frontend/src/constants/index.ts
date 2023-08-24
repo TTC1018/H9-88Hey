@@ -1,3 +1,5 @@
+import { OptionCategoryProps } from '@/types/myChiving';
+
 export const OPTION_CARD_LIST_LENGTH = 6;
 
 export enum ModalType {
@@ -7,7 +9,7 @@ export enum ModalType {
   CLEAR = 'CLEAR',
 }
 export const TAG_CHIP_MAX_NUMBER = 3;
-export const API_URL = 'http://api.88hey.site:8080';
+export const API_URL = '/dev';
 export const NAVIGATION_PATH = {
   '/trim': { prev: '', next: '/trim/engine' },
   '/trim/engine': { prev: '/trim', next: '/trim/body-type' },
@@ -41,6 +43,12 @@ export enum MyCarActionType {
   'CAR_IMAGE_URL' = 'CAR_IMAGE_URL',
   'CLEAR_OPTION' = 'CLEAR_OPTION',
 }
+
+export const OPTION_CATEGORY: OptionCategoryProps = {
+  선택옵션: '/option',
+  'N Performance': '/option/n-performance',
+  'H Genuine Accessories': '/option/h-genuine-accessories',
+};
 
 const routePath = {
   trim: () => '/trim',

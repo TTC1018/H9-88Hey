@@ -6,6 +6,7 @@ export interface OptionProps {
   imageUrl: string;
   subOptions: string[];
   additionalPrice: number;
+  category: string;
 }
 
 interface ModelProps {
@@ -62,4 +63,8 @@ export interface MyChivingDataProps {
 
 export interface MyFeedDataProps {
   archivingsByUser: ArchivingProps[];
+}
+
+export interface OptionCategoryProps {
+  [categoryName: string]: string;
 }

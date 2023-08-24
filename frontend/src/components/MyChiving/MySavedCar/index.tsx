@@ -8,7 +8,7 @@ import { OptionContextProps } from '@/types/option';
 import { useModalContext } from '@/hooks/useModalContext';
 import { useInfiniteFetch } from '@/hooks/useInfiniteFetch';
 import { useInfiniteScroll } from '@/hooks/useInfiniteScroll';
-import { ModalType, apiPath } from '@/constants';
+import { ModalType, OPTION_CATEGORY, apiPath } from '@/constants';
 
 import { MyCarList } from '@/components/MyChiving/MyCarList';
 import { NoDataInfo } from '@/components/MyChiving/NoDataInfo';
@@ -82,6 +82,7 @@ export function MySavedCar() {
         ? (selectOptions.map(props => {
             return {
               ...props,
+              path: OPTION_CATEGORY[props.category],
             };
           }) as OptionContextProps[])
         : [],
