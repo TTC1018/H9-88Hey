@@ -12,6 +12,7 @@ import org.springframework.stereotype.Repository;
 import lombok.RequiredArgsConstructor;
 import softeer.h9.hey.domain.archiving.Archiving;
 import softeer.h9.hey.domain.archiving.ArchivingResult;
+import softeer.h9.hey.domain.archiving.Feed;
 
 @Repository
 @RequiredArgsConstructor
@@ -87,6 +88,26 @@ public class ArchivingRepository {
 		SqlParameterSource params = new MapSqlParameterSource().addValue("feedId", feedId);
 
 		return jdbcTemplate.query(sql, params, archivingResultRowMapper());
+	}
+
+	public List<Feed> findArchivingsByUserIdWithPagination(final int userId, final int limit, final int offset) {
+		String sql = "SELECT DISTINCT archiving_id\n AS feed_id "
+			+ "FROM archiving\n"
+			+ "LEFT JOIN feed ON archiving.id = feed.archiving_id\n"
+			+ "LEFT JOIN user ON feed.user_id = user.id\n"
+			+ "WHERE user.id = :userId\n"
+			+ "LIMIT :limit OFFSET :offset";
+
+		SqlParameterSource params = new MapSqlParameterSource()
+			.addValue("limit", limit)
+			.addValue("offset", calcOffset(limit, offset))
+			.addValue("userId", userId);
+
+		return jdbcTemplate.query(sql, params, archivingIdRowMapper());
+	}
+
+	private RowMapper<Feed> archivingIdRowMapper() {
+		return BeanPropertyRowMapper.newInstance(Feed.class);
 	}
 
 	private RowMapper<ArchivingResult> archivingResultRowMapper() {
