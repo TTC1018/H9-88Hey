@@ -105,7 +105,7 @@ export const DescriptionBox = styled.div`
   justify-content: center;
 `;
 
-export const Description = styled.p`
+export const Description = styled.div`
   ${({ theme }) => {
     const { fonts } = theme;
 

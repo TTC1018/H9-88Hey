@@ -11,8 +11,7 @@ export const Container = styled.div`
 
     return css`
       width: 507px;
-      height: 152px;
-      padding: 24px 32px;
+      height: 153px;
 
       display: flex;
       flex-direction: column;
@@ -25,17 +24,20 @@ export const Container = styled.div`
 `;
 
 export const TitleWrapper = styled.div`
-  width: 443px;
-  height: 152px;
+  width: 507px;
+  height: 63px;
+  padding: 15px 32px;
 
   display: flex;
   justify-content: space-between;
 `;
 
 export const TitleBox = styled.div`
+  height: 100%;
   gap: 8px;
 
   display: flex;
+  align-items: center;
 `;
 
 export const Ellipse = styled.div`
@@ -47,7 +49,7 @@ export const Ellipse = styled.div`
       height: 22px;
       padding-right: 0.5px;
 
-      font-family: ‘HyundaiSansBold’;
+      font-family: HyundaiSansBold;
       color: ${colors.hyundaiLightSand};
       text-align: center;
       font-size: 12px;
@@ -99,7 +101,7 @@ export const Order = styled.p`
     const { colors, fonts } = theme;
 
     return css`
-      height: 100%;
+      height: 17px;
 
       color: ${colors.hyundaiLightSand};
       ${fonts.captionRegular}
@@ -114,7 +116,9 @@ export const Line = styled.hr`
     return css`
       width: 443px;
       height: 1px;
+      margin: 0 32px;
 
+      border: 0;
       background-color: ${colors.hyundaiPrimaryBlue};
     `;
   }}
@@ -122,6 +126,9 @@ export const Line = styled.hr`
 
 export const DescriptionWrapper = styled.div`
   width: 100%;
+  height: 89px;
+  gap: 13px;
+  margin: 8px 0;
 
   display: flex;
 `;
@@ -132,14 +139,16 @@ export const Description = styled.div<Props>`
 
     return css`
       width: 380px;
-      height: 61px;
+      height: 73px;
 
       color: ${isEmpty ? 'rgba(0, 44, 95, 0.40)' : colors.hyundaiPrimaryBlue};
       ${fonts.bodyRegular3}
       overflow-y: scroll;
-      ::-webkit-scrollbar {
-        display: none;
-      }
     `;
   }}
+`;
+
+export const Flex = styled.div`
+  display: flex;
+  align-items: center;
 `;

@@ -147,6 +147,11 @@ export function Footer({ myCarData, calculatePrice, carCode, setDisplayAutoSavin
       localStorage.setItem('myChivingId', data.myChivingId);
     }
   }, [data]);
+  const noFooterPaths = ['/', '/signup', '/result'];
+
+  if (noFooterPaths.includes(pathname)) {
+    return null;
+  }
 
   return (
     <Styled.Container>

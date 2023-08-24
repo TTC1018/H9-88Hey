@@ -100,3 +100,18 @@ export const cacheKey = {
   archivingDetail: (id: string) => ['detail', `${id}`],
   tag: (type: string, id: string | number) => ['tag', `${type}`, `${id}`],
 };
+
+export const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+
+export const AUTH_ALERT_MESSAGE = Object.freeze({
+  EMAIL_EMPTY: '이메일 주소가 필요합니다.',
+  PASSWORD_EMPTY: '비밀번호가 필요합니다.',
+  CONFIRM_PASSWORD_EMPTY: '비밀번호 확인이 필요합니다.',
+  USER_NAME_EMPTY: '이름이 필요합니다.',
+
+  PASSWORD_INCORRECT: '비밀번호가 일치하지 않습니다.',
+  ACCOUNT_INCORRECT: '이메일 주소 또는 비밀번호가 잘못 입력되었습니다.',
+
+  EMAIL_INVALID: '이메일 주소가 유효하지 않습니다.',
+  EMAIL_CONFLICT: '이미 사용중인 이메일 주소입니다.',
+});
