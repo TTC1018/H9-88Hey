@@ -12,8 +12,8 @@ public class SelectOptionDto {
 	private String name;
 	private String imageUrl;
 	private String review;
+	private String category;
 	private Integer additionalPrice;
 	private List<String> subOptions;
 	private List<String> tags;
-
 }

@@ -131,7 +131,7 @@ public class ArchivingService {
 			selectOptionDto.setImageUrl(archivingResult.getSelectOptionImageUrl());
 			selectOptionDto.setReview(archivingResult.getSelectOptionReview());
 			selectOptionDto.setAdditionalPrice(archivingResult.getSelectOptionAdditionalPrice());
-
+			selectOptionDto.setCategory(archivingResult.getSelectOptionCategory());
 			selectOptionDto.getSubOptions().add(archivingResult.getSubOptionName());
 		}
 

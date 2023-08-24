@@ -65,6 +65,7 @@ public class ArchivingRepository {
 			+ "       selectOption.name                AS select_option_name,\n"
 			+ "       selectOption.image_url           AS select_option_image_url,\n"
 			+ "       selectOption.additional_price    AS select_option_additional_price,\n"
+			+ "       selectOption.category            AS select_option_category,\n"
 			+ "       archiving_selectOption.review    AS select_option_review,\n"
 			+ "       subOption.name                   AS sub_option_name\n"
 			+ "\n"

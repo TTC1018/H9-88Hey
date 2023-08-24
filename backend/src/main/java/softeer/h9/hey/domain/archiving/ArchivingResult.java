@@ -43,6 +43,7 @@ public class ArchivingResult {
 	private String selectOptionId;
 	private String selectOptionName;
 	private String selectOptionImageUrl;
+	private String selectOptionCategory;
 	private Integer selectOptionAdditionalPrice;
 	private String selectOptionReview;
 	private String subOptionName;
