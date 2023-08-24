@@ -1,7 +1,6 @@
 import { useState, useEffect, MutableRefObject } from 'react';
 
 import { API_URL } from '@/constants';
-import { MyChivingProps } from '@/types/myChiving';
 
 interface UseFetchProps {
   key: string;

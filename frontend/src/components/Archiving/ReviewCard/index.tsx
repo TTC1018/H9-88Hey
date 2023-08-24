@@ -93,9 +93,9 @@ export function ReviewCard({ props, isArchiving, onClick, selectedSearchOptions 
       </Styled.OptionWrapper>
       <Styled.Description>{review}</Styled.Description>
       <Styled.TagWrapper>
-        {tags.map((tag, index) => (
+        {/* {selectedOptions.tags.map((tag, index) => (
           <Styled.Tag key={`${tag} ${index}`}>{tag}</Styled.Tag>
-        ))}
+        ))} */}
       </Styled.TagWrapper>
     </Styled.Contaienr>
   );

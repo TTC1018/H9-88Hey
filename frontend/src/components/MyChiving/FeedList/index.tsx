@@ -11,10 +11,10 @@ import * as Styled from './style';
 import { ArchivingProps } from '@/types/archiving';
 
 interface FeedListProps {
-  myChivings: ArchivingProps[];
+  myFeedChiving: ArchivingProps[];
 }
 
-export function FeedList({ myChivings }: FeedListProps) {
+export function FeedList({ myFeedChiving }: FeedListProps) {
   const masonryRef = useRef<HTMLDivElement>(null);
   const { handleOpen } = useModalContext();
 
@@ -38,7 +38,7 @@ export function FeedList({ myChivings }: FeedListProps) {
 
   useEffect(() => {
     masonryLayout();
-  }, [myChivings]);
+  }, [myFeedChiving]);
 
   // 목록 제거 함수
   function handleDeleteList() {}
@@ -51,7 +51,7 @@ export function FeedList({ myChivings }: FeedListProps) {
   return (
     <Fragment>
       <Styled.Container ref={masonryRef}>
-        {myChivings.map((review, index) => {
+        {myFeedChiving.map((review, index) => {
           return (
             <Styled.Wrapper key={index}>
               <ReviewCard props={review} isArchiving={false} onClick={handleClick} />
