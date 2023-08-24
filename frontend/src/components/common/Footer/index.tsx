@@ -3,6 +3,8 @@ import { Dispatch, MutableRefObject, useEffect, useRef, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 import { useCountPrice } from '@/hooks/useCountPrice';
+import { useAuthMutation } from '@/hooks/useAuthMutation';
+import { SaveDataProps } from '@/types/myChiving';
 import { ActionType, MyCarProps, SaveProps, TempSaveProps } from '@/types/trim';
 import { MyCarActionType, NAVIGATION_PATH, TAG_CHIP_MAX_NUMBER } from '@/constants';
 import { checkIsOptionPage, checkIsHGenuineAccessoriesPage, getLocalStorage, combineWithSlash } from '@/utils';
@@ -11,8 +13,6 @@ import { ColorCircle } from '@/components/common/ColorCircle';
 import { EstimateModal } from './EstimateModal';
 
 import * as Styled from './style';
-import { useAuthMutation } from '@/hooks/useAuthMutation';
-import { SaveDataProps } from '@/types/myChiving';
 
 interface FooterProps {
   myCarData: MyCarProps;
