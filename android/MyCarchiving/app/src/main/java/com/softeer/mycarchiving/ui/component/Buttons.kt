@@ -144,6 +144,7 @@ fun CarBasicItemButton(
 @Composable
 fun OptionAddButton(
     modifier: Modifier = Modifier,
+    isAvailable: Boolean,
     isSelect: Boolean,
     onClick: () -> Unit
 ) {
@@ -167,6 +168,7 @@ fun OptionAddButton(
             contentColor = animatedTextColor
         ),
         border = if (isSelect) null else BorderStroke(width = 1.dp, color = HyundaiNavy),
+        enabled = isAvailable,
         onClick = {
             onClick()
         },
@@ -341,6 +343,7 @@ fun PreviewOptionAddButton() {
     OptionAddButton(
         modifier = Modifier,
         isSelect = false,
+        isAvailable = true,
         onClick = {}
     )
 }

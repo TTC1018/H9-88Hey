@@ -127,6 +127,7 @@ fun OptionSelectItem(
                     }
                     OptionAddButton(
                         isSelect = isAdded,
+                        isAvailable = option.isAvailable ?: true,
                         onClick = onAddClick
                     )
                 }
