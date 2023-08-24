@@ -52,7 +52,7 @@ export function BodyType() {
           {bodyTypes.map(({ name, additionalPrice, description, id }, index) => (
             <TrimCard
               key={id}
-              dispatchKey="wheelDrive"
+              dispatchKey="bodyType"
               id={id}
               isActive={index === selectedIndex}
               title={name}

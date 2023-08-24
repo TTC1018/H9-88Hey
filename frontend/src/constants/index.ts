@@ -78,6 +78,7 @@ export const apiPath = {
   archivingOption: (modelId: number) => `${apiPath.carBase()}/select-options?model_id=${modelId}`,
   archivingDetail: (id: string) => `${apiPath.archivingBase()}/${id}`,
   tag: (type: string, id: string | number, limit: number) => `${apiPath.carBase()}/tag/${type}?id=${id}&limit=${limit}`,
+  bookMark: (id: string) => `/user/archiving/${id}/bookmark`,
 };
 
 export const cacheKey = {

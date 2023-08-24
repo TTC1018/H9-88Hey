@@ -18,7 +18,11 @@ export function useFetch<T>({ defaultValue, url }: UseFetchProps<T>) {
 
   async function fetcher() {
     try {
-      const response = await fetch(`${API_URL}${url}`);
+      const response = await fetch(`${API_URL}${url}`, {
+        headers: {
+          Authorization: `Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiIxIiwidXNlck5hbWUiOiJ0ZXN0IiwiaWF0IjoxNjkyNTYwMzM5LCJleHAiOjQ4MTQ2MjQzMzl9.gcSE7kPaRVxo2iT9DRcN1Bn5ZNAAsHG8Z3dvTopH-IWblMf_LJ2lhsYqOvrrLcZJ`,
+        },
+      });
       if (!response.ok) {
         throw new Error(`${response.status} ${response.statusText}`);
       }

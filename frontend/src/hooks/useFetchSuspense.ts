@@ -13,7 +13,7 @@ interface ResponseProps<T> {
 }
 
 export function useFetchSuspense<T>({ fetcher, key }: Props<T>) {
-  const promise = useRef<Promise<ResponseProps<T>>>();
+  const promise = useRef<Promise<ResponseProps<any>>>();
   const { getCache, setCache } = useCache();
   const value = getCache({ key }) || { status: 'new', data: null, dataUpdatedAt: new Date() };
 

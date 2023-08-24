@@ -63,7 +63,7 @@ export function Color() {
   } = availableInnerColorList[selectedInnerIndex];
 
   function updateOuterColor(index: number) {
-    const { name, colorImageUrl, additionalPrice, carImagePath } = exteriorColors[index];
+    const { name, colorImageUrl, additionalPrice, carImagePath, id } = exteriorColors[index];
 
     dispatch({
       type: MyCarActionType.EXTERIOR_COLOR,
@@ -72,6 +72,7 @@ export function Color() {
         colorImageUrl,
         additionalPrice,
         carImagePath,
+        id,
       },
     });
   }

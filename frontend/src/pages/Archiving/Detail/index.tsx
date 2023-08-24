@@ -85,12 +85,7 @@ export function Detail() {
           />
         </Styled.HeaderWrapper>
         <Styled.DescriptionWrapper>
-          <DetailDescription
-            totalPrice={totalPrice}
-            options={options}
-            onClickSaveButton={() => {}}
-            onClickStartButton={handleOpen}
-          />
+          <DetailDescription totalPrice={totalPrice} options={options} onClickStartButton={handleOpen} />
         </Styled.DescriptionWrapper>
         <Styled.Line />
         <Styled.OptionWrapper>

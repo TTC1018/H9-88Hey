@@ -65,6 +65,7 @@ export function SelectOptionCard({ isActive, id, name, price, features, onSetInd
           onClick={() => {
             dispatch({ type: MyCarActionType.CLEAR_COLORS, payload: null });
             dispatch({ type: MyCarActionType.CLEAR_OPTION, payload: [] });
+            dispatch({ type: MyCarActionType.TRIM, payload: { name, price, id } });
             onSetIndex();
             setIsOpen(false);
           }}
