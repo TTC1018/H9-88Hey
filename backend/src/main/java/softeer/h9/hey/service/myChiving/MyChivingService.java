@@ -155,6 +155,7 @@ public class MyChivingService {
 			MyChivingSelectOptionDto myChivingSelectOptionDto =
 				MyChivingSelectOptionDto.builder()
 					.id(myChivingSelectOptionFetchDto.getSelectOptionId())
+					.category(myChivingSelectOptionFetchDto.getCategory())
 					.name(myChivingSelectOptionFetchDto.getSelectOptionName())
 					.imageUrl(myChivingSelectOptionFetchDto.getImageUrl())
 					.additionalPrice(myChivingSelectOptionFetchDto.getAdditionalPrice())
