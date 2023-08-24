@@ -12,14 +12,14 @@ export function ReviewDescripion({ onClick }: Props) {
     <Styled.Container>
       <Styled.Title>
         <Styled.Regular>
-          오늘 시승한 차량은 <Styled.Focus>펠리세이드 Le Blanc</Styled.Focus> 이에요.
+          오늘 시승한 차량은 <Styled.Focus>팰리세이드 Le Blanc</Styled.Focus> 이에요.
         </Styled.Regular>
         <Styled.Regular>시승한 차량 정보를 가져왔어요.</Styled.Regular>
       </Styled.Title>
       <Styled.Wrapper>
         <ReviewImageCard
           image="https://www.hyundai.com/contents/vr360/LX06/exterior/A2B/001.png"
-          title="펠리세이드 Le Blanc(르블랑)"
+          title="팰리세이드 Le Blanc(르블랑)"
           subTitle="디젤 2.2 / 4WD / 7인승"
           price={47340000}
           interiorColor="문라이트 블루펄"

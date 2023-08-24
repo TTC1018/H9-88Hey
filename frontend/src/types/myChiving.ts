@@ -68,3 +68,7 @@ export interface MyFeedDataProps {
 export interface OptionCategoryProps {
   [categoryName: string]: string;
 }
+
+export interface SaveDataProps {
+  myChivingId: string;
+}

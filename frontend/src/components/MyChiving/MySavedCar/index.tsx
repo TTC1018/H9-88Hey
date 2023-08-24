@@ -61,7 +61,7 @@ export function MySavedCar() {
   });
 
   const myCar: MyCarProps = {
-    carType: { krName: '펠리세이드', enName: 'Palisade' },
+    carType: { krName: '팰리세이드', enName: 'Palisade' },
     trim: { name: '', price: 0, id: 0 },
     engine: { name: '', additionalPrice: 0, id: 0 },
     bodyType: { name: '', additionalPrice: 0, id: 0 },

@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
+
 import { useLocation } from 'react-router-dom';
 
 import { apiPath } from '@/constants';
-import { BookmarkProps } from '@/types/archiving';
-
-import { useFetch } from '@/hooks/useFetch';
-import { usePostRequest } from '@/hooks/usePostRequest';
+import { BookmarkDataProps, BookmarkProps } from '@/types/archiving';
+import { useAuthFetch } from '@/hooks/useAuthFetch';
+import { useAuthMutation } from '@/hooks/useAuthMutation';
 
 import * as Styled from './style';
 
@@ -15,18 +15,21 @@ export function SaveButton() {
 
   const {
     data: { bookmark },
-  } = useFetch<BookmarkProps>({
+  } = useAuthFetch<BookmarkProps>({
     defaultValue: { bookmark: false },
     url: apiPath.bookMark(id),
+    method: 'GET',
   });
 
   const [isActive, setIsActive] = useState(bookmark);
 
-  const { postData } = usePostRequest<null, any>({ url: apiPath.bookMark(id) });
+  const { authMutation } = useAuthMutation<BookmarkDataProps, null>({
+    url: apiPath.bookMark(id),
+  });
 
   function handleSave() {
     const method = isActive ? 'DELETE' : 'POST';
-    postData({ method });
+    authMutation({ method });
     setIsActive(prev => !prev);
   }
 

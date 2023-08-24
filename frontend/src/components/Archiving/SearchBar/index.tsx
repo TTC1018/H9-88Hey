@@ -9,7 +9,7 @@ export function SearchBar() {
     setSelectedCar(car);
   }
 
-  const activeCarNames = ['전체', '펠리세이드'];
+  const activeCarNames = ['전체', '팰리세이드'];
   const deActiveCarNames = ['베뉴', '코나', '싼타페', '그랜저', '아반떼', '아이오닉'];
 
   return (
