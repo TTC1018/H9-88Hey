@@ -1,6 +1,7 @@
 import { useState, useEffect, MutableRefObject } from 'react';
 
 import { API_URL } from '@/constants';
+import { MyChivingProps } from '@/types/myChiving';
 
 interface UseFetchProps {
   key: string;
@@ -25,6 +26,11 @@ export function useInfiniteFetch<T>({ key, url, intersecting, nextOffset, depend
   const [data, setData] = useState<T[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState('');
+
+  function handleDelete(id: string) {
+    const newData = data.filter((prev: T) => prev.myChivingId !== id);
+    setData(newData);
+  }
 
   async function fetcher() {
     try {
@@ -81,5 +87,5 @@ export function useInfiniteFetch<T>({ key, url, intersecting, nextOffset, depend
     }
   }, [intersecting]);
 
-  return { data, isLoading, error };
+  return { data, isLoading, error, handleDelete };
 }

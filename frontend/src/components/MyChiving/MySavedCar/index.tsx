@@ -8,7 +8,7 @@ import { OptionContextProps } from '@/types/option';
 import { useModalContext } from '@/hooks/useModalContext';
 import { useInfiniteFetch } from '@/hooks/useInfiniteFetch';
 import { useInfiniteScroll } from '@/hooks/useInfiniteScroll';
-import { ModalType, OPTION_CATEGORY, apiPath } from '@/constants';
+import { API_URL, ModalType, OPTION_CATEGORY, apiPath } from '@/constants';
 
 import { MyCarList } from '@/components/MyChiving/MyCarList';
 import { NoDataInfo } from '@/components/MyChiving/NoDataInfo';
@@ -42,7 +42,11 @@ export function MySavedCar() {
   const intersecting = useInfiniteScroll(fetchMoreElement);
   const nextOffset = useRef(1);
 
-  const { data: myChivings, isLoading } = useInfiniteFetch<MyChivingProps>({
+  const {
+    data: myChivings,
+    isLoading,
+    handleDelete,
+  } = useInfiniteFetch<MyChivingProps>({
     key: 'myChivings',
     url: apiPath.mychiving(nextOffset.current, 8),
     intersecting,
@@ -110,8 +114,23 @@ export function MySavedCar() {
     }
   }
 
+  /** fe-dev pull 받고 수정 예정 */
+  async function deleteMyChiving(url: string) {
+    const response = await fetch(url, {
+      method: 'DELETE',
+      headers: {
+        Authorization: `Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiIxIiwidXNlck5hbWUiOiJ0ZXN0IiwiaWF0IjoxNjkyNTYwMzM5LCJleHAiOjQ4MTQ2MjQzMzl9.gcSE7kPaRVxo2iT9DRcN1Bn5ZNAAsHG8Z3dvTopH-IWblMf_LJ2lhsYqOvrrLcZJ`,
+        credentials: 'same-origin',
+      },
+    });
+    if (!response.ok) {
+      throw new Error('DELETE 에러 발생');
+    }
+  }
+
   function handleDeleteList(myChiving: MyChivingProps) {
-    myChiving;
+    deleteMyChiving(`${API_URL}/mychiving/${myChiving.myChivingId}?user_id=1234`);
+    handleDelete(myChiving.myChivingId);
   }
 
   function handleClick(myChiving: MyChivingProps, data: ClickEventDataProps, event: MouseEvent<HTMLDivElement>) {
@@ -133,7 +152,7 @@ export function MySavedCar() {
   return (
     <Fragment>
       <Styled.Contianer>
-        {myChivings.length === 0 ? (
+        {myChivings && myChivings.length === 0 ? (
           isLoading ? (
             <ReviewSkeleton />
           ) : (

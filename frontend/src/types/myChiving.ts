@@ -41,7 +41,7 @@ interface ExteriorColorProps {
 }
 
 export interface MyChivingProps {
-  myChivingId: number;
+  myChivingId: string;
   lastModifiedDate: string;
   isSaved: boolean;
   totalPrice: number;
