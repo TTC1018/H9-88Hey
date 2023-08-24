@@ -124,7 +124,6 @@ export function Signin() {
           </Styled.Button>
           <Styled.Flex>
             <Styled.LinkWrapper to="/signup">아직 회원가입을 안하셨나요?</Styled.LinkWrapper>
-            <Styled.LinkWrapper to="/trim">로그인 안 하고 이용할래요</Styled.LinkWrapper>
           </Styled.Flex>
         </Styled.Form>
       </Styled.Container>
