@@ -15,6 +15,7 @@ import lombok.Setter;
 public class MyChivingSelectOptionFetchDto {
 	private Long myChivingId;
 	private String selectOptionId;
+	private String category;
 	private String selectOptionName;
 	private String imageUrl;
 	private Integer additionalPrice;

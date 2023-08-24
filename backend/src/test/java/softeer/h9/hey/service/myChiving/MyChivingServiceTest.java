@@ -113,6 +113,7 @@ class MyChivingServiceTest {
 				.imageUrl("http://")
 				.myChivingId(1234L)
 				.subOptionName("듀얼 와이드 선루프")
+				.category("선택옵션")
 				.build());
 
 		when(myChivingRepository.findOptionDataByMyChivingIdList(idList)).thenReturn(myChivingSelectOptionFetchDtoList);
@@ -137,6 +138,7 @@ class MyChivingServiceTest {
 		MyChivingSelectOptionDto myChivingSelectOptionDto = myChivingResponse.getSelectOptions().get(0);
 		assertThat(myChivingSelectOptionDto.getId()).isEqualTo("DUP");
 		assertThat(myChivingSelectOptionDto.getName()).isEqualTo("듀얼 와이드 선루프");
+		assertThat(myChivingSelectOptionDto.getCategory()).isEqualTo("선택옵션");
 		assertThat(myChivingSelectOptionDto.getAdditionalPrice()).isEqualTo(1000);
 		assertThat(myChivingSelectOptionDto.getSubOptions()).contains("듀얼 와이드 선루프");
 	}

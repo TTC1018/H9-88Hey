@@ -111,6 +111,7 @@ public class MyChivingRepository {
 			+ "seo.name as select_option_name,\n"
 			+ "seo.image_url,\n"
 			+ "seo.additional_price,\n"
+			+ "seo.category,\n"
 			+ "ms.myArchiving_id as my_chiving_id, \n"
 			+ "suo.name as sub_option_name \n"
 			+ "FROM myArchiving_selectOption ms \n"

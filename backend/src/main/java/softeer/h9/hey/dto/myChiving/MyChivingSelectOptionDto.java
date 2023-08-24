@@ -16,6 +16,7 @@ import lombok.Setter;
 @Builder
 public class MyChivingSelectOptionDto {
 	private String id;
+	private String category;
 	private String name;
 	private String imageUrl;
 	private Integer additionalPrice;

@@ -144,6 +144,7 @@ class MyChivingRepositoryTest {
 		for (MyChivingSelectOptionFetchDto myChivingSelectOptionFetchDto : optionDataByMyChivingIdList) {
 			assertThat(myChivingSelectOptionFetchDto.getMyChivingId()).isNotNull();
 			assertThat(myChivingSelectOptionFetchDto.getSelectOptionId()).isNotNull();
+			assertThat(myChivingSelectOptionFetchDto.getCategory()).isNotNull();
 			assertThat(myChivingSelectOptionFetchDto.getSelectOptionName()).isNotNull();
 			assertThat(myChivingSelectOptionFetchDto.getImageUrl()).isNotNull();
 			assertThat(myChivingSelectOptionFetchDto.getAdditionalPrice()).isNotNull();
