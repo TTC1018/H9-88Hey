@@ -18,7 +18,7 @@ const initialState: MyCarProps = {
   engine: { name: '', additionalPrice: 0, id: 0 },
   bodyType: { name: '', additionalPrice: 0, id: 0 },
   wheelDrive: { name: '', additionalPrice: 0, id: 0 },
-  exteriorColor: { name: '', colorImageUrl: '', additionalPrice: 0 },
+  exteriorColor: { name: '', colorImageUrl: '', additionalPrice: 0, id: 0 },
   interiorColor: { name: '', colorImageUrl: '', id: 0 },
   options: [],
   carImageUrl: '',
@@ -107,13 +107,15 @@ export function MyCarLayout() {
           />
         </Suspense>
       </Styled.Wrapper>
-      <Footer
-        myCarData={myCar}
-        calculatePrice={totalPrice}
-        setDisplayAutoSaving={setAutoSaving}
-        carCode={carCode}
-        dispatch={dispatch}
-      />
+      {pathname !== '/result' && (
+        <Footer
+          myCarData={myCar}
+          calculatePrice={totalPrice}
+          setDisplayAutoSaving={setAutoSaving}
+          carCode={carCode}
+          dispatch={dispatch}
+        />
+      )}
     </Styled.Container>
   );
 }

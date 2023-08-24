@@ -1,14 +1,8 @@
-import { useState } from 'react';
-
-import { fetcher } from '@/utils/fetcher';
-import { apiPath } from '@/constants';
-import { usePostRequest } from '@/hooks/usePostRequest';
-import { useFetchSuspense } from '@/hooks/useFetchSuspense';
+import { Suspense } from 'react';
 
 import { SaveButton } from '@/components/common/SaveButton';
 
 import * as Styled from './style';
-import { BookmarkProps } from '@/types/archiving';
 
 interface Props {
   totalPrice: number;
@@ -16,29 +10,6 @@ interface Props {
   onClickStartButton: () => void;
 }
 export function DetailDescription({ totalPrice, options, onClickStartButton }: Props) {
-  const { bookmark } = useFetchSuspense<BookmarkProps>({
-    fetcher: () =>
-      fetcher<BookmarkProps>({
-        url: apiPath.bookMark('479893076446129702'),
-        fetchOptions: {
-          headers: {
-            Authorization: `Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiIxIiwidXNlck5hbWUiOiJ0ZXN0IiwiaWF0IjoxNjkyNTYwMzM5LCJleHAiOjQ4MTQ2MjQzMzl9.gcSE7kPaRVxo2iT9DRcN1Bn5ZNAAsHG8Z3dvTopH-IWblMf_LJ2lhsYqOvrrLcZJ`,
-          },
-        },
-      }),
-    key: ['bookMark', '479893076446129702'],
-  });
-
-  const [isActive, setIsActive] = useState(bookmark);
-
-  const { postData, isSuccess } = usePostRequest<null>({ url: apiPath.bookMark('479893076446129702') });
-
-  function handleSave() {
-    const method = isActive ? 'DELETE' : 'POST';
-    postData(method);
-    isSuccess && setIsActive(prev => !prev);
-  }
-
   return (
     <Styled.Container>
       <Styled.RegularText>총 가격</Styled.RegularText>
@@ -53,7 +24,9 @@ export function DetailDescription({ totalPrice, options, onClickStartButton }: P
           </Styled.OptionBox>
         </Styled.Encloser>
         <Styled.ButtonBox>
-          <SaveButton onClick={handleSave} isActive={isActive} />
+          <Suspense fallback={<div>북마크중!</div>}>
+            <SaveButton />
+          </Suspense>
           <Styled.Button onClick={onClickStartButton}>이 차량으로 내 차 만들기 시작</Styled.Button>
         </Styled.ButtonBox>
       </Styled.Wrapper>

@@ -1,6 +1,4 @@
-import { useOutletContext } from 'react-router-dom';
-
-import { MyCarLayoutContextProps } from '@/types/trim';
+import { useLocation } from 'react-router-dom';
 
 import { Title } from '@/components/Result/Title';
 import { TitleLine } from '@/components/Result/TitleLine';
@@ -13,7 +11,8 @@ import { Footer } from '@/components/Result/Footer';
 import * as Styled from './style';
 
 export function Result() {
-  const { myCar, totalPrice } = useOutletContext<MyCarLayoutContextProps>();
+  const { state: myCar } = useLocation();
+
   const { krName, enName } = myCar.carType;
 
   return (
@@ -24,7 +23,7 @@ export function Result() {
       <OptionCardList options={myCar.options} />
       <MenuLine />
       <Menu />
-      <Footer totalPrice={totalPrice} />
+      <Footer totalPrice={1000000} />
     </Styled.Container>
   );
 }

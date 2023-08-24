@@ -1,5 +1,6 @@
-import { API_URL } from '@/constants';
 import { useState } from 'react';
+
+import { API_URL } from '@/constants';
 
 interface Props {
   url: string;
@@ -9,13 +10,17 @@ interface ResponseProps<T> {
   message: string;
   data: T;
 }
-export function usePostRequest<T>({ url }: Props) {
+export function usePostRequest<T, U>({ url }: Props) {
   const [data, setData] = useState<T>();
   const [isSuccess, setIsSuccess] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  const postData = async (method: string, data?: any) => {
+  interface PostProps {
+    method: string;
+    data?: U;
+  }
+  const postData = async ({ method, data }: PostProps) => {
     setIsLoading(true);
     setError(null);
 

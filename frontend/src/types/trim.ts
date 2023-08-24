@@ -52,7 +52,7 @@ interface MyCarTypeProps {
   enName: string;
 }
 
-export type ExteriorColorDataProps = Pick<ExteriorColorsProps, 'name' | 'colorImageUrl' | 'additionalPrice'>;
+export type ExteriorColorDataProps = Pick<ExteriorColorsProps, 'name' | 'colorImageUrl' | 'additionalPrice' | 'id'>;
 export type InteriorColorDataProps = Pick<InteriorColorsProps, 'name' | 'colorImageUrl' | 'id'>;
 
 export interface MyCarProps {
@@ -89,7 +89,7 @@ export type ActionType =
   | { type: MyCarActionType.TRIM_OPTION; payload: HandleTrimOptionProps }
   | {
       type: MyCarActionType.EXTERIOR_COLOR;
-      payload: Omit<ExteriorColorsProps, 'id' | 'availableInteriorColors'>;
+      payload: Omit<ExteriorColorsProps, 'availableInteriorColors'>;
     }
   | { type: MyCarActionType.INTERIOR_COLOR; payload: InteriorColorDataProps }
   | { type: MyCarActionType.ADD_OPTION; payload: OptionContextProps }
@@ -102,3 +102,16 @@ export type ActionType =
 export interface TagDataProps {
   tags: string[];
 }
+
+export interface TempSaveProps {
+  myChivingId: string | null;
+  bodyType: number | null;
+  wheelType: number | null;
+  engine: number | null;
+  trim: number | null;
+  exteriorColor: number | null;
+  interiorColor: number | null;
+  selectOptions: string[] | null;
+}
+
+export type SaveProps = NonNullable<TempSaveProps>;

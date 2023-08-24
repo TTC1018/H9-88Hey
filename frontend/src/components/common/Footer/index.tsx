@@ -1,11 +1,12 @@
-import { Dispatch, MutableRefObject, useRef, useState } from 'react';
+import { Dispatch, MutableRefObject, useEffect, useRef, useState } from 'react';
 
 import { useLocation, useNavigate } from 'react-router-dom';
 
-import { checkIsOptionPage, checkIsHGenuineAccessoriesPage, getLocalStorage, combineWithSlash } from '@/utils';
-import { ActionType, MyCarProps } from '@/types/trim';
 import { useCountPrice } from '@/hooks/useCountPrice';
+import { usePostRequest } from '@/hooks/usePostRequest';
+import { ActionType, MyCarProps, SaveProps, TempSaveProps } from '@/types/trim';
 import { MyCarActionType, NAVIGATION_PATH, TAG_CHIP_MAX_NUMBER } from '@/constants';
+import { checkIsOptionPage, checkIsHGenuineAccessoriesPage, getLocalStorage, combineWithSlash } from '@/utils';
 
 import { ColorCircle } from '@/components/common/ColorCircle';
 import { EstimateModal } from './EstimateModal';
@@ -32,6 +33,10 @@ export function Footer({ myCarData, calculatePrice, carCode, setDisplayAutoSavin
   const navigate = useNavigate();
 
   const [isOpen, setIsOpen] = useState(false);
+
+  const { data, postData } = usePostRequest<any, TempSaveProps>({ url: '/mychiving/temp' });
+  const { postData: saveMychiving } = usePostRequest<any, SaveProps>({ url: '/mychiving' });
+
   function handleOpenModal() {
     setIsOpen(true);
   }
@@ -84,10 +89,51 @@ export function Footer({ myCarData, calculatePrice, carCode, setDisplayAutoSavin
     navigate(path);
   }
 
+  function handleTempSave() {
+    const myChivingId = localStorage.getItem('myChivingId');
+    const saveData = {
+      myChivingId: myChivingId ? myChivingId : null,
+      trim: trim.id === 0 ? null : trim.id,
+      engine: engine.id === 0 ? null : engine.id,
+      wheelType: wheelDrive.id === 0 ? null : wheelDrive.id,
+      bodyType: bodyType.id === 0 ? null : bodyType.id,
+      exteriorColor: exteriorColor.id === 0 ? null : exteriorColor.id,
+      interiorColor: interiorColor.id === 0 ? null : interiorColor.id,
+      selectOptions: options.map(({ id }) => id).length === 0 ? null : options.map(({ id }) => id),
+    };
+    postData({ method: 'POST', data: saveData });
+  }
+
+  function handleSave() {
+    const myChivingId = localStorage.getItem('myChivingId');
+    const saveData = {
+      myChivingId: myChivingId ?? '',
+      trim: trim.id,
+      engine: engine.id,
+      wheelType: wheelDrive.id,
+      bodyType: bodyType.id,
+      exteriorColor: exteriorColor.id,
+      interiorColor: interiorColor.id,
+      selectOptions: options.map(({ id }) => id),
+    };
+    saveMychiving({ method: 'POST', data: saveData });
+
+    navigate('/result', {
+      state: myCarData,
+    });
+    localStorage.clear();
+  }
+
   function handleNextNavigate() {
     const path = NAVIGATION_PATH[pathKey as keyof typeof NAVIGATION_PATH].next;
-    handleNavigate(path);
-    setDisplayAutoSaving();
+
+    if (path === '/result') {
+      handleSave();
+    } else {
+      handleTempSave();
+      handleNavigate(path);
+      setDisplayAutoSaving();
+    }
   }
 
   function handlePrevNavigate() {
@@ -96,9 +142,11 @@ export function Footer({ myCarData, calculatePrice, carCode, setDisplayAutoSavin
     setDisplayAutoSaving();
   }
 
-  if (pathname === '/result') {
-    return null;
-  }
+  useEffect(() => {
+    if (data) {
+      localStorage.setItem('myChivingId', data.myChivingId);
+    }
+  }, [data]);
 
   return (
     <Styled.Container>

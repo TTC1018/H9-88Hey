@@ -93,6 +93,10 @@ export function TrimCard({
           onClick={() => {
             dispatch({ type: MyCarActionType.CLEAR_OPTION, payload: [] });
             setIsOpen(false);
+            dispatch({
+              type: MyCarActionType.TRIM_OPTION,
+              payload: { key: dispatchKey, name: title, additionalPrice: price, id },
+            });
             onSetIndex();
           }}
           onClose={() => setIsOpen(false)}
