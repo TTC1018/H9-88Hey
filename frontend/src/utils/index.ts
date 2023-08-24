@@ -52,6 +52,10 @@ export function setLocalStorage(key: string, value: string) {
   return localStorage.setItem(key, value);
 }
 
+export function removeLocalStorage(key: string) {
+  return localStorage.removeItem(key);
+}
+
 export function checkIsOptionPage(path: string) {
   const splittedPath = path.split('/');
 

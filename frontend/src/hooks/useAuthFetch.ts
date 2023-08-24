@@ -7,7 +7,7 @@ import { API_URL } from '@/constants';
 import { AuthError } from '@/utils/AuthError';
 
 import { AuthContext } from '@/AuthProvider';
-import { getLocalStorage } from '@/utils';
+import { getLocalStorage, removeLocalStorage } from '@/utils';
 
 interface UseAuthFetchProps<T> {
   defaultValue: T;
@@ -62,8 +62,8 @@ export function useAuthFetch<T>({ defaultValue, url, method }: UseAuthFetchProps
               fetcher(false);
             } catch (error) {
               setIsSignin(false);
-              localStorage.removeItem('accessToken');
-              localStorage.removeItem('refreshToken');
+              removeLocalStorage('accessToken');
+              removeLocalStorage('refreshToken');
               navigate('/', { replace: true });
             }
           } else {
