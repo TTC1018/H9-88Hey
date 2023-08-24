@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;
 import softeer.h9.hey.domain.archiving.Archiving;
 import softeer.h9.hey.domain.archiving.ArchivingResult;
+import softeer.h9.hey.domain.archiving.Feed;
 import softeer.h9.hey.domain.archiving.SelectOptionTag;
 import softeer.h9.hey.domain.archiving.SelectedOption;
 import softeer.h9.hey.dto.archiving.ArchivingDto;
@@ -23,8 +24,10 @@ import softeer.h9.hey.dto.archiving.SelectOptionDto;
 import softeer.h9.hey.dto.archiving.TrimDto;
 import softeer.h9.hey.dto.archiving.WheelDriveDto;
 import softeer.h9.hey.dto.archiving.request.ArchivingRequest;
+import softeer.h9.hey.dto.archiving.request.PaginationRequest;
 import softeer.h9.hey.dto.archiving.response.ArchivingDetailResponse;
 import softeer.h9.hey.dto.archiving.response.ArchivingResponse;
+import softeer.h9.hey.dto.archiving.response.ArchivingsByUserBookmarkedResponse;
 import softeer.h9.hey.repository.archiving.ArchivingBodyTypeRepository;
 import softeer.h9.hey.repository.archiving.ArchivingEngineRepository;
 import softeer.h9.hey.repository.archiving.ArchivingExteriorColorRepository;
@@ -53,6 +56,22 @@ public class ArchivingService {
 	private final ArchivingSelectedOptionRepository archivingSelectedOptionRepository;
 
 	private final ArchivingTagsRepository tagsRepository;
+
+	public ArchivingsByUserBookmarkedResponse findAllByUserId(final int userId, PaginationRequest request) {
+		int limit = request.getLimit();
+		int offset = request.getOffset();
+
+		List<Feed> feedsByUserBookmarked = archivingRepository.findArchivingsByUserIdWithPagination(
+			userId, limit, offset);
+
+		List<ArchivingDetailResponse> archivingDtos = new ArrayList<>();
+
+		for (Feed feed : feedsByUserBookmarked) {
+			archivingDtos.add(getArchivingDetail(feed.getFeedId()));
+		}
+
+		return ArchivingsByUserBookmarkedResponse.of(archivingDtos, offset + 1);
+	}
 
 	public ArchivingDetailResponse getArchivingDetail(final Long feedId) {
 		List<ArchivingResult> archivingResults = archivingRepository.findDetailByFeedId(feedId);
@@ -84,7 +103,8 @@ public class ArchivingService {
 		return totalPrice;
 	}
 
-	private void initializeSelectOptions(List<ArchivingResult> archivingResults, List<SelectOptionTag> selectOptionTags, ArchivingDetailResponse response) {
+	private void initializeSelectOptions(List<ArchivingResult> archivingResults, List<SelectOptionTag> selectOptionTags,
+		ArchivingDetailResponse response) {
 		Map<String, SelectOptionDto> selectOptions = new HashMap<>();
 
 		for (ArchivingResult archivingResult : archivingResults) {
