@@ -7,7 +7,7 @@ export enum ModalType {
   CLEAR = 'CLEAR',
 }
 export const TAG_CHIP_MAX_NUMBER = 3;
-export const API_URL = 'http://api.88hey.site:8080';
+export const API_URL = 'https://api.88hey.site';
 export const NAVIGATION_PATH = {
   '/trim': { prev: '', next: '/trim/engine' },
   '/trim/engine': { prev: '/trim', next: '/trim/body-type' },
@@ -95,6 +95,8 @@ export const cacheKey = {
   option: (routePath: string, search: string) => ['option', `${routePath}`, `${search}`],
   archivingOption: (modelId: number) => ['select-options', `${modelId}`],
   tag: (type: string, id: string | number) => ['tag', `${type}`, `${id}`],
+  // TEST
+  mychiving: (limit: number, offset: number) => ['mychiving', `${limit}`, `${offset}`],
 };
 
 export const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
