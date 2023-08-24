@@ -1,8 +1,7 @@
 import { useState, useEffect, useContext, ChangeEvent, FormEvent } from 'react';
 
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
-import { useReissueToken } from '@/hooks/useReissueToken';
 import { setLocalStorage } from '@/utils';
 import { isEmailEmpty, isPasswordEmpty, isEmailValid } from '@/utils/auth';
 import { AuthError } from '@/utils/AuthError';
@@ -10,6 +9,7 @@ import { API_URL, emailRegex, AUTH_ALERT_MESSAGE } from '@/constants';
 
 import { AuthContext } from '@/AuthProvider';
 
+import HyundaiLogo from '/public/assets/icons/signin_hyundai_logo.svg';
 import * as Styled from './style';
 
 export function Signin() {
@@ -102,7 +102,7 @@ export function Signin() {
   return (
     <>
       <Styled.Container>
-        <Styled.HyundaiLogo src="/src/assets/icons/signin_hyundai_logo.svg" />
+        <img src={HyundaiLogo} />
         <Styled.Form onSubmit={handleSignin}>
           <Styled.Alert isShow={isShow}>{alert}</Styled.Alert>
           <Styled.Input
