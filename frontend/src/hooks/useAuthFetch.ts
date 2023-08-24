@@ -78,7 +78,7 @@ export function useAuthFetch<T>({ defaultValue, url, method }: UseAuthFetchProps
     // 2.1. 200인 경우 -> 그대로 진행
     // 2.2. 401인 경우 -> 액세스 토큰과 리프레시 토큰을 재발급 -> 거기서도 401인 경우(리프레시 토큰이 만료되었거나 리프레시 토큰이 없는 경우 포함) -> 재로그인 요청
     try {
-      await tokenValidator(true);
+      await tokenValidator();
     } catch (error) {
       await tokenFetcher();
     }
