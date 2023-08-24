@@ -12,9 +12,11 @@ export function useValidateToken() {
   const accessToken = getLocalStorage('accessToken');
   const refreshToken = getLocalStorage('refreshToken');
 
-  async function tokenValidator() {
+  async function tokenValidator(isShowModal: boolean = false) {
     if (accessToken === null && refreshToken === null) {
-      console.log('No token found');
+      if (isShowModal) {
+        // 로그인이 필요한 서비스입니다. 로그인 페이지로 이동하시겠습니까? 모달 표시
+      }
       return;
     }
 
@@ -33,15 +35,11 @@ export function useValidateToken() {
         throw new AuthError(message, statusCode);
       }
 
-      console.log('액세스 토큰 검증 성공');
-
       setIsSignin(true);
       setUserName(data.userName);
     } catch (error) {
       if (error instanceof AuthError) {
         const { statusCode, message } = error;
-
-        console.log('액세스 코드 검증 실패! 재발급을 요청합니다.');
 
         setIsSignin(false);
         removeLocalStorage('accessToken');

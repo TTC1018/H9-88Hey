@@ -26,8 +26,6 @@ export function useReissueToken() {
         throw new AuthError(message, statusCode);
       }
 
-      console.log('액세스 토큰 및 리프레시 토큰이 성공적으로 재발급되었습니다.');
-
       setLocalStorage('accessToken', data.accessToken);
       setLocalStorage('refreshToken', data.refreshToken);
 
@@ -44,7 +42,6 @@ export function useReissueToken() {
           removeLocalStorage('refreshToken');
 
           // TODO: 세션이 만료되었습니다. 다시 로그인 해주세요. 모달 표시
-          console.log('세션이 만료되었습니다. 다시 로그인 해주세요.');
           throw new Error(message);
         } else {
           throw new Error(message);
