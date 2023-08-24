@@ -17,6 +17,12 @@ export function ArchivingNavigation() {
   const path = pathname.split('/')[1];
   const title = PATH_LIST[path as PathType];
 
+  function handleNavigeToTrim() {
+    localStorage.removeItem('myCar');
+    localStorage.removeItem('carCode');
+    navigate('/trim');
+  }
+
   return (
     <Styled.Container>
       <Styled.Wrapper>
@@ -25,12 +31,10 @@ export function ArchivingNavigation() {
           {title === ARCHIVING ? <ArchivingLogoDark /> : <MyArchivingLogoDark />}
           <Styled.TitleText>{title}</Styled.TitleText>
         </Styled.TitleBox>
-        <Link to={'/trim'}>
-          <Styled.ButtonBox>
-            <CarLogo />
-            <Styled.ButtonText>내 차 만들기 바로가기</Styled.ButtonText>
-          </Styled.ButtonBox>
-        </Link>
+        <Styled.ButtonBox onClick={handleNavigeToTrim}>
+          <CarLogo />
+          <Styled.ButtonText>내 차 만들기 바로가기</Styled.ButtonText>
+        </Styled.ButtonBox>
       </Styled.Wrapper>
     </Styled.Container>
   );
