@@ -1,6 +1,4 @@
-import { Fragment } from 'react';
-
-import { useLocation } from 'react-router-dom';
+import { Fragment, useContext } from 'react';
 
 import { ModalType } from '@/constants';
 
@@ -12,6 +10,7 @@ import { ModalPortal } from '@/components/common/ModalPortal';
 import { HyundaiLogo } from '@/components/common/HyundaiLogo';
 import { ArchivingLogo } from '@/components/common/ArchivingLogo';
 import { AutoSavingLogo } from '@/components/common/AutoSavingLogo';
+import { AuthContext } from '@/AuthProvider';
 
 import * as Styled from './style';
 
@@ -23,6 +22,8 @@ export function Header({ isSaving }: Props) {
   const { handleOpen } = useModalContext();
   const { handleNavigate } = useMyCarNavigate({ path: '/archiving' });
 
+  const { userName } = useContext(AuthContext);
+
   return (
     <Fragment>
       <Styled.Container>
@@ -31,6 +32,7 @@ export function Header({ isSaving }: Props) {
             <HyundaiLogo />
             <Styled.Division />
             <Styled.Text>내차 만들기</Styled.Text>
+            <Styled.CarNameText>팰리세이드</Styled.CarNameText>
           </Styled.Box>
           <Styled.ButtonWrapper>
             <Styled.InfoBox>
@@ -38,9 +40,11 @@ export function Header({ isSaving }: Props) {
                 <Styled.AutoSavingText>자동저장 중</Styled.AutoSavingText>
                 <AutoSavingLogo />
               </Styled.AutoSavingBox>
-              <Styled.CarNameText>팰리세이드</Styled.CarNameText>
             </Styled.InfoBox>
             <Styled.Division />
+            <Styled.UserNameText>{userName}</Styled.UserNameText>
+            <Styled.GreetingText>님, 안녕하세요!</Styled.GreetingText>
+            <Styled.LogoutButton>로그아웃</Styled.LogoutButton>
             <Styled.ButtonBox onClick={handleOpen}>
               <ArchivingLogo />
               <Styled.ButtonText>아카이빙</Styled.ButtonText>
