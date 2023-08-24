@@ -23,7 +23,5 @@ class ArchivingSelectedOptionRepositoryTest {
 
 		List<SelectedOption> selectOptions = repository.findByArchiving(id);
 
-		System.out.println(selectOptions.size());
-		System.out.println(selectOptions.toString());
 	}
 }

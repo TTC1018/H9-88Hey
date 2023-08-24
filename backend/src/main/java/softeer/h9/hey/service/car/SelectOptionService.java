@@ -74,7 +74,6 @@ public class SelectOptionService {
 				isAvailableOption(selectOption, disabledOptionIdDtos),
 				SelectOptionResponse.from(selectOption)))
 			.collect(Collectors.toList());
-		System.out.println(hGenuineAccessoryResponses.size());
 		return HGenuineAccessoriesResponse.of(hGenuineAccessoryResponses);
 	}
 
