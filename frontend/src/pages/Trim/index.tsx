@@ -31,9 +31,7 @@ export function Trim() {
   useEffect(() => {
     if (trim.name === '') {
       const { name, price, id } = trims[0];
-
       dispatch({ type: MyCarActionType.TRIM, payload: { name, price, id } });
-
       return;
     }
   }, []);

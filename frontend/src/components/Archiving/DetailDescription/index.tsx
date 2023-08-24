@@ -1,5 +1,3 @@
-import { Suspense } from 'react';
-
 import { SaveButton } from '@/components/common/SaveButton';
 
 import * as Styled from './style';
@@ -24,9 +22,7 @@ export function DetailDescription({ totalPrice, options, onClickStartButton }: P
           </Styled.OptionBox>
         </Styled.Encloser>
         <Styled.ButtonBox>
-          <Suspense fallback={<div>북마크중!</div>}>
-            <SaveButton />
-          </Suspense>
+          <SaveButton />
           <Styled.Button onClick={onClickStartButton}>이 차량으로 내 차 만들기 시작</Styled.Button>
         </Styled.ButtonBox>
       </Styled.Wrapper>

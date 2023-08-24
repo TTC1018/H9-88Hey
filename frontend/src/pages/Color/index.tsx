@@ -23,17 +23,16 @@ export function Color() {
     myCar: { trim, engine, wheelDrive, bodyType, exteriorColor, interiorColor },
   } = useOutletContext<MyCarLayoutContextProps>();
 
-  const { exteriorColors, interiorColors } = useFetchSuspense<ColorDataProps>({
-    fetcher: () => fetcher<ColorDataProps>({ url: apiPath.color(trim.id) }),
-    key: cacheKey.color(trim.id),
-  });
-
   const { carCode: carCodeData } = useFetchSuspense<CarCodeProps>({
     fetcher: () =>
       fetcher<CarCodeProps>({
         url: apiPath.carCode(trim.id, engine.id, bodyType.id, wheelDrive.id),
       }),
     key: cacheKey.carCode(trim.id, engine.id, bodyType.id, wheelDrive.id),
+  });
+  const { exteriorColors, interiorColors } = useFetchSuspense<ColorDataProps>({
+    fetcher: () => fetcher<ColorDataProps>({ url: apiPath.color(trim.id) }),
+    key: cacheKey.color(trim.id),
   });
 
   const [isExternalPage, setIsExternalPage] = useState(true);
@@ -125,7 +124,7 @@ export function Color() {
       updateOuterColor(0);
       updateInnerColor(availableInnerColorList, 0);
     }
-  }, [interiorColor, exteriorColor]);
+  }, []);
 
   useEffect(() => {
     if (carCodeData !== '') {
