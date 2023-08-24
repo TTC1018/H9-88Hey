@@ -188,6 +188,21 @@ export const OptionCard = styled.div<OptionCardProps>`
   }}
 `;
 
+export const EmptyOptionCard = styled.div`
+  ${({ theme }) => {
+    const { colors } = theme;
+    return css`
+      width: 120px;
+      height: 120px;
+
+      flex: none;
+
+      background: ${colors.hyundaiLightSand};
+      border-radius: 4px;
+    `;
+  }}
+`;
+
 export const OptionCardText = styled.span`
   ${({ theme }) => {
     const { colors, fonts } = theme;

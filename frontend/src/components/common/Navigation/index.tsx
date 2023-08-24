@@ -55,7 +55,7 @@ export function Navigation() {
   const { flow, title } = SELECTIONS[titlePath as SelectionsType];
 
   useEffect(() => {
-    const targetIndex = Object.keys(SELECTIONS).indexOf(titlePath) + 1;
+    const targetIndex = Object.keys(SELECTIONS).indexOf(titlePath) - 1;
     setOrderNum(targetIndex);
   }, [titlePath]);
 

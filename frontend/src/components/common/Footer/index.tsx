@@ -198,7 +198,9 @@ export function Footer({ myCarData, calculatePrice, carCode, dispatch }: FooterP
         </Styled.PriceText>
       </Styled.PriceWrapper>
       <Styled.ButtonWrapper>
-        <Styled.PrevButton onClick={handlePrevNavigate}>이전</Styled.PrevButton>
+        <Styled.PrevButton onClick={handlePrevNavigate} isDisplay={pathname !== '/trim'}>
+          이전
+        </Styled.PrevButton>
         <Styled.NextButton onClick={handleNextNavigate}>다음</Styled.NextButton>
       </Styled.ButtonWrapper>
       {isOpen && <EstimateModal onClick={handleCloseModal} myCarData={myCarData} totalPrice={totalPrice} />}

@@ -8,6 +8,7 @@ import { OptionContextProps } from '@/types/option';
 import { useModalContext } from '@/hooks/useModalContext';
 import { useInfiniteFetch } from '@/hooks/useInfiniteFetch';
 import { useInfiniteScroll } from '@/hooks/useInfiniteScroll';
+import { useShowScrollButton } from '@/hooks/useShowScrollButton';
 import { API_URL, ModalType, OPTION_CATEGORY, apiPath } from '@/constants';
 
 import { MyCarList } from '@/components/MyChiving/MyCarList';
@@ -15,6 +16,7 @@ import { NoDataInfo } from '@/components/MyChiving/NoDataInfo';
 import { PopupModal } from '@/components/common/PopupModal';
 import { ModalPortal } from '@/components/common/ModalPortal';
 import { ReviewSkeleton } from '@/components/common/ReviewSkeleton';
+import { ScrollTopButton } from '@/components/common/ScrollTopButton';
 
 import * as Styled from './style';
 
@@ -38,6 +40,7 @@ export function MySavedCar() {
   const { handleOpen } = useModalContext();
   const navigate = useNavigate();
 
+  const { isShow, scrollToTop } = useShowScrollButton({ scrollY: 800, scrollTo: 0 });
   const fetchMoreElement = useRef<HTMLDivElement>(null);
   const intersecting = useInfiniteScroll(fetchMoreElement);
   const nextOffset = useRef(1);
@@ -52,6 +55,7 @@ export function MySavedCar() {
     intersecting,
     nextOffset,
     dependencies: [''],
+    //method: 'GET',
   });
 
   const modalInfo = useRef({
@@ -76,7 +80,7 @@ export function MySavedCar() {
     const { trim, engine, bodyType, wheelDrive, exteriorColor, interiorColor, selectOptions, carCode } = myChiving;
     const savedMyCar: MyCarProps = {
       ...myCar,
-      trim: trim ?? myCar.trim,
+      trim: trim,
       engine: engine ?? myCar.engine,
       bodyType: bodyType ?? myCar.bodyType,
       wheelDrive: wheelDrive ?? myCar.wheelDrive,
@@ -95,7 +99,7 @@ export function MySavedCar() {
 
     localStorage.setItem('myCar', JSON.stringify(savedMyCar));
     if (myChiving.isSaved) {
-      navigate('/result');
+      navigate('/result', { state: savedMyCar });
     } else {
       const myChivingValues = Object.values(myChiving).slice(5);
       const myChivingKeys = Object.keys(myChiving).slice(5);
@@ -174,6 +178,7 @@ export function MySavedCar() {
           </>
         )}
         <div ref={fetchMoreElement}></div>
+        {isShow && <ScrollTopButton onClick={scrollToTop} />}
       </Styled.Contianer>
       <ModalPortal>
         <PopupModal

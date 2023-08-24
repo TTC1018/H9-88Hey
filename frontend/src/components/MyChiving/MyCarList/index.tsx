@@ -69,15 +69,13 @@ export function MyCarList({ myChiving, onClick }: MyCarListProps) {
           </Styled.SubTitle>
         </Styled.MainBox>
         <Styled.OptionBox>
-          {selectOptions && selectOptions.length > 0 ? (
-            selectOptions.map((option, index) => (
-              <Styled.OptionCard key={index} imageUrl={option.imageUrl}>
-                <Styled.OptionCardText>{option.name}</Styled.OptionCardText>
-              </Styled.OptionCard>
-            ))
-          ) : (
-            <Styled.OptionBoxText>선택한 옵션이 없습니다.</Styled.OptionBoxText>
-          )}
+          {selectOptions && selectOptions.length > 0
+            ? selectOptions.map((option, index) => (
+                <Styled.OptionCard key={index} imageUrl={option.imageUrl}>
+                  <Styled.OptionCardText>{option.name}</Styled.OptionCardText>
+                </Styled.OptionCard>
+              ))
+            : [1, 2, 3, 4].map(item => <Styled.EmptyOptionCard key={item} />)}
         </Styled.OptionBox>
       </Styled.Wrapper>
     </Styled.Container>
