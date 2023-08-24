@@ -4,6 +4,7 @@ import static org.springframework.http.HttpHeaders.*;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -36,8 +37,13 @@ public class AuthInterceptor implements HandlerInterceptor {
 	private final JwtTokenProvider tokenProvider;
 	private final ObjectMapper objectMapper;
 
+	private final List<String> allowedMethod = List.of("OPTIONS");
+
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+		if (allowedMethod.contains(request.getMethod())) {
+			return true;
+		}
 		try {
 			String jwtToken = request.getHeader(AUTHORIZATION).substring(BEARER.length());
 			Map<String, Object> claims = tokenProvider.getClaimsFromToken(jwtToken);
