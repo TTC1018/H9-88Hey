@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useRef } from 'react';
 
 import { useCache } from './useCache';
 
@@ -16,7 +16,7 @@ export function useFetchSuspense<T>({ fetcher, key }: Props<T>) {
   const promise = useRef<Promise<ResponseProps<any>>>();
   const { getCache, setCache } = useCache();
   const value = getCache({ key }) || { status: 'new', data: null, dataUpdatedAt: new Date() };
-
+  console.log(value, key);
   if (value.status === 'rejected') {
     throw new Error(value.status);
   }
@@ -26,10 +26,6 @@ export function useFetchSuspense<T>({ fetcher, key }: Props<T>) {
 
   function fetchData() {
     promise.current = (async () => {
-      await new Promise(resolve => {
-        setTimeout(resolve, 500);
-      });
-
       return fetcher();
     })();
 
@@ -60,10 +56,6 @@ export function useFetchSuspense<T>({ fetcher, key }: Props<T>) {
   }
 
   fetchData();
-
-  useEffect(() => {
-    fetchData();
-  }, []);
 
   throw promise.current;
 }
