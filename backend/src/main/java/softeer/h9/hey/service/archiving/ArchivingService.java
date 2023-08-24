@@ -76,9 +76,11 @@ public class ArchivingService {
 	public ArchivingDetailResponse getArchivingDetail(final Long feedId) {
 		List<ArchivingResult> archivingResults = archivingRepository.findDetailByFeedId(feedId);
 		List<SelectOptionTag> selectOptionTags = tagsRepository.findAllByArchivingIdSelectedOptions(feedId);
+		List<String> tags = archivingTagsRepository.findByArchivingId(feedId);
 
 		ArchivingDetailResponse response = new ArchivingDetailResponse();
 		response.setTotalPrice(initializeDefaultPrice(archivingResults));
+		response.setTags(tags);
 
 		initializeDefault(archivingResults, response);
 		initializeSelectOptions(archivingResults, selectOptionTags, response);

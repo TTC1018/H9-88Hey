@@ -33,5 +33,6 @@ public class ArchivingDetailResponse {
 	private WheelDriveDto wheelDrive;
 	private InteriorColorDto interiorColor;
 	private ExteriorColorDto exteriorColor;
+	private List<String> tags = new ArrayList<>();
 	private List<SelectOptionDto> selectedOptions = new ArrayList<>();
 }
