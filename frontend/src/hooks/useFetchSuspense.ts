@@ -16,7 +16,7 @@ export function useFetchSuspense<T>({ fetcher, key }: Props<T>) {
   const promise = useRef<Promise<ResponseProps<any>>>();
   const { getCache, setCache } = useCache();
   const value = getCache({ key }) || { status: 'new', data: null, dataUpdatedAt: new Date() };
-  console.log(value, key);
+
   if (value.status === 'rejected') {
     throw new Error(value.status);
   }
