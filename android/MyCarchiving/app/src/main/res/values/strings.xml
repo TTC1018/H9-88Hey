@@ -46,6 +46,7 @@
     <string name="make_car_surround">서라운드 뷰\n모니터</string>
     <string name="make_car_cluster">클러스터\n(12.3인 컬러 LCD)</string>
     <string name="make_car_option_indicator">%1$d/%2$d</string>
+    <string name="make_car_no_option">이 모델은 N Performance 옵션이 없어요</string>
 
     <!--  내 차 만들기 dialog  -->
     <string name="make_car_dialog_description">내 차 만들기 그만하시겠어요?\n만들던 차량은 <b>마이카이빙 > 내가 만든 차량</b>에\n저장해둘게요</string>
