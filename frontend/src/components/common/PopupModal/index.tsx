@@ -10,6 +10,15 @@ interface Props {
   onClick: () => void;
   onClose?: () => void;
 }
+
+interface MoveContentProps {
+  date: string;
+}
+
+interface DeleteContentProps {
+  name: string;
+}
+
 export function PopupModal({ type, contents, onClick, onClose }: Props) {
   const { handleClose } = useModalContext();
 
@@ -39,6 +48,12 @@ export function PopupModal({ type, contents, onClick, onClose }: Props) {
           isBig: true,
           content: <ClearContent />,
         };
+      case 'SIGNOUT':
+        return {
+          text: '로그아웃',
+          isBig: true,
+          content: <SignoutContent />,
+        };
     }
   })();
 
@@ -62,9 +77,6 @@ export function PopupModal({ type, contents, onClick, onClose }: Props) {
   );
 }
 
-interface MoveContentProps {
-  date: string;
-}
 function MoveContent({ date }: MoveContentProps) {
   return (
     <Styled.TextWrapper>
@@ -77,9 +89,6 @@ function MoveContent({ date }: MoveContentProps) {
   );
 }
 
-interface DeleteContentProps {
-  name: string;
-}
 function DeleteContent({ name }: DeleteContentProps) {
   return (
     <Styled.TextWrapper>
@@ -111,6 +120,14 @@ function ClearContent() {
     <Styled.TextWrapper>
       <Styled.Text>선택했던 H Genuine Accessories 옵션이 모두 초기화됩니다.</Styled.Text>
       <Styled.Text>그래도 계속하시겠어요?</Styled.Text>
+    </Styled.TextWrapper>
+  );
+}
+
+function SignoutContent() {
+  return (
+    <Styled.TextWrapper>
+      <Styled.Text>로그아웃하시겠어요?</Styled.Text>
     </Styled.TextWrapper>
   );
 }
