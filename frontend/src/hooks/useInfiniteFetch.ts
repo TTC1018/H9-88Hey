@@ -26,11 +26,6 @@ export function useInfiniteFetch<T>({ key, url, intersecting, nextOffset, depend
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState('');
 
-  function handleDelete(id: string) {
-    const newData = data.filter((prev: T) => prev.myChivingId !== id);
-    setData(newData);
-  }
-
   async function fetcher() {
     try {
       const response = await fetch(`${API_URL}${url}`, {
@@ -85,5 +80,5 @@ export function useInfiniteFetch<T>({ key, url, intersecting, nextOffset, depend
     }
   }, [intersecting]);
 
-  return { data, isLoading, error, handleDelete };
+  return { data, isLoading, error };
 }

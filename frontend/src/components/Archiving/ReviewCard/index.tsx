@@ -12,13 +12,13 @@ import * as Styled from './style';
 interface ArchivingCardProps {
   isArchiving: true;
   selectedSearchOptions: Set<string>;
-  onClickXButton: (id: string, key: 'feedId' | 'myChivingId') => void;
+  onClick: (id: string, key: 'feedId' | 'myChivingId') => void;
 }
 
 interface MyChivingCardProps {
   isArchiving: false;
   selectedSearchOptions?: never[];
-  onClickXButton: (id: string, key: 'feedId' | 'myChivingId') => void;
+  onClick: (id: string, key: 'feedId' | 'myChivingId') => void;
 }
 
 type ChivingProps = ArchivingCardProps | MyChivingCardProps;
@@ -29,7 +29,7 @@ interface DefaultProps {
 
 type Props = DefaultProps & ChivingProps;
 
-export function ReviewCard({ props, isArchiving, selectedSearchOptions, onClickXButton }: Props) {
+export function ReviewCard({ props, isArchiving, selectedSearchOptions, onClick }: Props) {
   const {
     feedId,
     isPurchase,
@@ -67,7 +67,7 @@ export function ReviewCard({ props, isArchiving, selectedSearchOptions, onClickX
             <XButton
               onClick={(event: MouseEvent<HTMLButtonElement>) => {
                 event.stopPropagation();
-                onClickXButton(feedId, 'feedId');
+                onClick(feedId, 'feedId');
               }}
             />
           )}
