@@ -12,7 +12,7 @@ interface MyArchiveDataSource {
 
     fun saveCarInfo(body: CarInfoBody): Flow<Long>
 
-    fun deleteMadeCar(feedId: Long): Flow<Boolean>
+    suspend fun deleteMadeCar(feedId: Long): Boolean
 
 }
 
@@ -42,12 +42,8 @@ class MyArchiveRemoteDataSource(
         }
     }
 
-    override fun deleteMadeCar(feedId: Long): Flow<Boolean> = flow {
+    override suspend fun deleteMadeCar(feedId: Long): Boolean {
         val response = myArchiveNetworkApi.deleteMadeCarFeed(feedId)
-        if (response.isSuccessful) {
-            emit(true)
-        } else {
-            emit(false)
-        }
+        return response.isSuccessful
     }
 }

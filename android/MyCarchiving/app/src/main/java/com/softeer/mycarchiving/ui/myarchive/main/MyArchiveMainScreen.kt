@@ -15,6 +15,7 @@ import androidx.paging.compose.collectAsLazyPagingItems
 import com.softeer.mycarchiving.model.common.CarFeedUiModel
 import com.softeer.mycarchiving.model.myarchive.MadeCarUiModel
 import com.softeer.mycarchiving.ui.component.ChoiceTab
+import com.softeer.mycarchiving.ui.component.DeleteMyArchiveCarDialog
 import com.softeer.mycarchiving.ui.myarchive.made.MyArchiveMadeScreen
 import com.softeer.mycarchiving.ui.myarchive.save.MyArchiveSaveScreen
 
@@ -33,18 +34,24 @@ fun MyArchiveMainRoute(
     val selectedIndex by viewModel.selectedIndex
     val madeCars = viewModel.madeCarFeedPagingData.collectAsLazyPagingItems()
     val savedCars by viewModel.savedCars.collectAsStateWithLifecycle()
+    val showDeleteDialog by viewModel.showDeleteDialog
+    val wantDeleteCarFeed by viewModel.wantDeleteCarFeed
 
     MyArchiveMainScreen(
         modifier = modifier,
         selectedIndex = selectedIndex,
         madeCars = madeCars,
         savedCars = savedCars,
+        showDeleteDialog = showDeleteDialog,
+        wantDeleteCarFeed = wantDeleteCarFeed,
         onSelect = viewModel::updateSelectedIndex,
         onMadeCarClick = onMadeCarClick,
         onMadeCarDetail = viewModel::onCarDetail,
-        onMadeCarDelete = viewModel::deleteMadeCar,
+        deleteCarFeed = viewModel::deleteCarFeed,
         onSavedCarClick = onSavedCarClick,
         onSavedCarDelete = viewModel::deleteSavedCar,
+        openDeleteDialog = viewModel::openDeleteDialog,
+        closeDeleteDialog = viewModel::closeDeleteDialog
     )
 }
 
@@ -54,12 +61,16 @@ fun MyArchiveMainScreen(
     selectedIndex: Int,
     madeCars: LazyPagingItems<MadeCarUiModel>,
     savedCars: List<CarFeedUiModel>,
+    showDeleteDialog: Boolean,
+    wantDeleteCarFeed: MadeCarUiModel?,
     onSelect: (Int) -> Unit,
     onMadeCarClick: () -> Unit,
     onMadeCarDetail: (MadeCarUiModel) -> Unit,
-    onMadeCarDelete: (Long) -> Unit,
+    deleteCarFeed: () -> Unit,
     onSavedCarClick: () -> Unit,
     onSavedCarDelete: (Int) -> Unit,
+    openDeleteDialog: (MadeCarUiModel) -> Unit,
+    closeDeleteDialog: () -> Unit,
 ) {
     Column(
         modifier = modifier
@@ -74,7 +85,6 @@ fun MyArchiveMainScreen(
                 onSelect = onSelect
             )
         }
-
         AnimatedContent(
             targetState = selectedIndex,
             label = ""
@@ -87,7 +97,7 @@ fun MyArchiveMainScreen(
                     madeCars = madeCars,
                     onDetail = onMadeCarDetail,
                     onClick = onMadeCarClick,
-                    onDelete = onMadeCarDelete,
+                    onDelete = openDeleteDialog,
                 )
 
                 MY_ARCHIVE_SAVE -> MyArchiveSaveScreen(
@@ -100,6 +110,13 @@ fun MyArchiveMainScreen(
                 )
             }
         }
+    }
+    if (showDeleteDialog) {
+        DeleteMyArchiveCarDialog(
+            onDismissRequest = closeDeleteDialog,
+            onDelete = deleteCarFeed,
+            carName = "${wantDeleteCarFeed!!.modelName} ${wantDeleteCarFeed.trimName}"
+        )
     }
 }
 

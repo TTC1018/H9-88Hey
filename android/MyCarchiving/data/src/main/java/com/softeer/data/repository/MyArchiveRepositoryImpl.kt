@@ -39,7 +39,7 @@ class MyArchiveRepositoryImpl(
             pagingData.map(MyArchiveMadeFeedDto::asEntity)
         }
 
-    override fun deleteMadeCarFeed(feedId: Long): Flow<Boolean> =
+    override suspend fun deleteMadeCarFeed(feedId: Long): Boolean =
         archiveRemoteDataSource.deleteMadeCar(feedId)
 
 

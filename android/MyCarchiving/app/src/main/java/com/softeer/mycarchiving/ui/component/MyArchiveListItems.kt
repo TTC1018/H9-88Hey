@@ -69,8 +69,6 @@ fun MadeCarItem(
     onItemClick: () -> Unit,
     onDelete: () -> Unit
 ) {
-    var shouldDialogShow by remember { mutableStateOf(false) }
-
     Column(
         modifier = modifier
             .fillMaxWidth()
@@ -118,7 +116,7 @@ fun MadeCarItem(
                 )
                 XCircle(
                     modifier = Modifier,
-                    onClick = { shouldDialogShow = true }
+                    onClick = onDelete
                 )
             }
         }
@@ -147,14 +145,6 @@ fun MadeCarItem(
                 }
             }
         }
-    }
-
-    if (shouldDialogShow) {
-        DeleteMyArchiveCarDialog(
-            onDismissRequest = { shouldDialogShow = false },
-            onDelete = onDelete,
-            carName = "$modelName $trimName"
-        )
     }
 }
 

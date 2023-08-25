@@ -19,7 +19,7 @@ fun MyArchiveMadeScreen(
     madeCars: LazyPagingItems<MadeCarUiModel>,
     onDetail: (MadeCarUiModel) -> Unit,
     onClick: () -> Unit,
-    onDelete: (Long) -> Unit
+    onDelete: (MadeCarUiModel) -> Unit
 ) {
     AnimatedContent(
         targetState = madeCars,
@@ -48,7 +48,7 @@ fun MyArchiveMadeScreen(
                                     onDetail(this)
                                     onClick()
                                 },
-                                onDelete = { onDelete(this.id) }
+                                onDelete = { onDelete(this) }
                             )
                         }
                     }

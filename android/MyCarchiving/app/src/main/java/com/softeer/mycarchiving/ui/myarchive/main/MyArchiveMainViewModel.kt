@@ -6,6 +6,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
+import androidx.paging.filter
 import androidx.paging.map
 import com.softeer.domain.model.MyArchiveFeed
 import com.softeer.domain.usecase.myarchive.DeleteMadeCarFeedUseCase
@@ -17,6 +18,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -55,6 +57,9 @@ class MyArchiveMainViewModel @Inject constructor(
     )
     val savedCars: StateFlow<List<CarFeedUiModel>> = _savedCars
 
+    val showDeleteDialog = mutableStateOf(false)
+    val wantDeleteCarFeed = mutableStateOf<MadeCarUiModel?>(null)
+
     fun updateSelectedIndex(index: Int) {
         _selectedIndex.intValue = index
     }
@@ -63,9 +68,22 @@ class MyArchiveMainViewModel @Inject constructor(
         _detailCar.value = madeCar
     }
 
-    fun deleteMadeCar(feedId: Long) {
+    fun openDeleteDialog(feed: MadeCarUiModel) {
+        wantDeleteCarFeed.value = feed
+        showDeleteDialog.value = true
+    }
+
+    fun closeDeleteDialog() {
+        showDeleteDialog.value = false
+    }
+
+    fun deleteCarFeed() {
         viewModelScope.launch {
-            deleteMadeCarFeedUseCase(feedId)
+            val isSuccess = deleteMadeCarFeedUseCase(wantDeleteCarFeed.value!!.id)
+            if (isSuccess) {
+                val newPagingData = madeCarFeedPagingData.stateIn(viewModelScope).value.filter { it != wantDeleteCarFeed.value }
+
+            }
         }
     }
 
