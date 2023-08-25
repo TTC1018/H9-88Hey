@@ -182,6 +182,8 @@ class MakingCarViewModel @Inject constructor(
             if (_selectedTrimSimple.value.getOrNull(progress) == null) // 아카이빙 -> 내차만들기 이후 모델 갱신
                 _selectedTrimSimple.value += listOf(trimOptionUiModel.asSimpleUiModel())
             _selectedTrim.value += listOf(trimOptionUiModel)
+            if (archived.not() && initial)
+                _totalPrice.value += trimOptionUiModel.price
         } else { // 아카이빙 데이터 로드 후 or 기본으로 진행 중
             if (_selectedTrim.value.getOrNull(progress) == null) { // 그대로 추가하면 될 때
                 _selectedTrimSimple.value += listOf(trimOptionUiModel.asSimpleUiModel()) // 견적 요약보기용 갱신
@@ -210,6 +212,8 @@ class MakingCarViewModel @Inject constructor(
             if (_selectedColorSimple.value.getOrNull(progress) == null) // 바텀시트는 갱신 안 된 상태라면
                 _selectedColorSimple.value += listOf(colorOptionUiModel.asSimpleUiModel())
             _selectedColor.value += listOf(colorOptionUiModel)
+            if (archived.not() && initial)
+                _totalPrice.value += colorOptionUiModel.price
         } else {
             if (_selectedColor.value.getOrNull(progress) == null) {
                 _selectedColorSimple.value += listOf(colorOptionUiModel.asSimpleUiModel())

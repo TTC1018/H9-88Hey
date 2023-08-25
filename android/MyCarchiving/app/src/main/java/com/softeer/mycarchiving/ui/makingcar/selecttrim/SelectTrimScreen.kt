@@ -59,6 +59,7 @@ fun SelectTrimRoute(
     val bodyTypes by selectTrimViewModel.bodyTypes.collectAsStateWithLifecycle()
     val wheels by selectTrimViewModel.wheels.collectAsStateWithLifecycle()
     val selectedTrims by makingCarViewModel.selectedTrim.collectAsStateWithLifecycle()
+    val selectedOptions by makingCarViewModel.totalExtraOptions.collectAsStateWithLifecycle()
     val carDetails by makingCarViewModel.carDetails.observeAsState()
     val isArchived = carDetails != null && selectedTrims.size < 3
     val isInitial = selectedTrims.getOrNull(screenProgress) == null
@@ -94,7 +95,9 @@ fun SelectTrimRoute(
         savedTrim = selectedTrims.getOrNull(screenProgress),
         isInitial = isInitial,
         isArchived = isArchived,
-        onOptionSelect = makingCarViewModel::updateSelectedTrimOption
+        shouldInitialize = selectedOptions.isNotEmpty(),
+        onOptionSelect = makingCarViewModel::updateSelectedTrimOption,
+        onInitialize = makingCarViewModel::initializeByChangedTrimOption
     )
 }
 
@@ -136,7 +139,9 @@ fun SelectTrimScreen(
     savedTrim: TrimOptionUiModel?,
     isInitial: Boolean,
     isArchived: Boolean,
+    shouldInitialize: Boolean,
     onOptionSelect: (TrimOptionUiModel, Int, Boolean, Boolean) -> Unit,
+    onInitialize: () -> Unit,
 ) {
     var selectedIndex by remember { mutableIntStateOf(-1) }
     val scrollState = rememberScrollState()
@@ -215,10 +220,12 @@ fun SelectTrimScreen(
                                         maximumTorque = item.maximumTorque,
                                         maximumOutput = item.maximumOutput,
                                         isSelected = idx == selectedIndex,
+                                        shouldInitialize = shouldInitialize,
                                         onClick = {
                                             selectedIndex = idx
                                             onOptionSelect(item, screenProgress, false, false)
                                         },
+                                        onInitialize = onInitialize
                                     )
                                 }
                             }
@@ -260,6 +267,8 @@ fun PreviewSelectTrimScreen() {
         savedTrim = null,
         isInitial = false,
         isArchived = false,
+        shouldInitialize = false,
         onOptionSelect = { _, _, _, _ -> },
+        onInitialize = {}
     )
 }
