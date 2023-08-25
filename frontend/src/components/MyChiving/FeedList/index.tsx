@@ -1,4 +1,6 @@
-import { Fragment, useEffect, useRef } from 'react';
+import { Fragment, MouseEvent, useEffect, useRef } from 'react';
+
+import { useNavigate } from 'react-router-dom';
 
 import { useModalContext } from '@/hooks/useModalContext';
 
@@ -12,9 +14,15 @@ import { ArchivingProps } from '@/types/archiving';
 
 interface FeedListProps {
   myFeedChiving: ArchivingProps[];
+  onDelete: (id: string, key: 'feedId' | 'myChivingId') => void;
 }
 
-export function FeedList({ myFeedChiving }: FeedListProps) {
+interface ClickEventDataProps {
+  deleteText: string;
+  moveText: string;
+}
+
+export function FeedList({ myFeedChiving, onDelete }: FeedListProps) {
   const masonryRef = useRef<HTMLDivElement>(null);
   const { handleOpen } = useModalContext();
 
@@ -40,11 +48,29 @@ export function FeedList({ myFeedChiving }: FeedListProps) {
     masonryLayout();
   }, [myFeedChiving]);
 
-  // 목록 제거 함수
-  function handleDeleteList() {}
+  const navigate = useNavigate();
 
-  function handleClick(contents: string) {
-    modalInfo.current = { type: ModalType.DELETE, contents, onClick: handleDeleteList };
+  function handleDeleteList(review: ArchivingProps) {
+    onDelete(review.feedId, 'feedId');
+  }
+
+  function handleNavigate(review: ArchivingProps) {
+    navigate(`/archiving/detail?feed_id=${review.feedId}`, { state: review });
+  }
+
+  function handleClick(review: ArchivingProps, data: ClickEventDataProps, event: MouseEvent<HTMLDivElement>) {
+    const element = event.target as Element;
+    const deleteButton = element.closest('button');
+
+    if (deleteButton) {
+      modalInfo.current = {
+        type: ModalType.DELETE,
+        contents: data.deleteText,
+        onClick: () => handleDeleteList(review),
+      };
+    } else {
+      modalInfo.current = { type: ModalType.MOVE, contents: data.moveText, onClick: () => handleNavigate(review) };
+    }
     handleOpen();
   }
 
@@ -54,7 +80,7 @@ export function FeedList({ myFeedChiving }: FeedListProps) {
         {myFeedChiving.map((review, index) => {
           return (
             <Styled.Wrapper key={index}>
-              <ReviewCard props={review} isArchiving={false} onClick={handleClick} />
+              <ReviewCard props={review} isArchiving={false} onClick={handleClick} onDelete={onDelete} />
             </Styled.Wrapper>
           );
         })}

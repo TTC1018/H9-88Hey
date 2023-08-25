@@ -1,5 +1,7 @@
-import { ArchivingProps } from '@/types/archiving';
+import { MouseEvent } from 'react';
+
 import { useMyCarNavigate } from '@/hooks/useMyCarNavigate';
+import { ArchivingProps } from '@/types/archiving';
 import { combineWithSlash, formatDate } from '@/utils';
 
 import { OptionSelectCard } from '@/components/Archiving/OptionSelectCard';
@@ -10,13 +12,19 @@ import * as Styled from './style';
 interface ArchivingCardProps {
   isArchiving: true;
   selectedSearchOptions: Set<string>;
-  onClick?: (contents: string) => void;
+  onClick: (myChiving: ArchivingProps, data: ClickEventDataProps, event: MouseEvent<HTMLDivElement>) => void;
+}
+
+interface ClickEventDataProps {
+  deleteText: string;
+  moveText: string;
 }
 
 interface MyChivingCardProps {
   isArchiving: false;
   selectedSearchOptions?: never[];
-  onClick: (contents: string) => void;
+  onClick: (myChiving: ArchivingProps, data: ClickEventDataProps, event: MouseEvent<HTMLDivElement>) => void;
+  onDelete: (id: string, key: 'feedId' | 'myChivingId') => void;
 }
 
 type ChivingProps = ArchivingCardProps | MyChivingCardProps;
@@ -27,7 +35,7 @@ interface DefaultProps {
 
 type Props = DefaultProps & ChivingProps;
 
-export function ReviewCard({ props, isArchiving, onClick, selectedSearchOptions }: Props) {
+export function ReviewCard({ props, isArchiving, onClick, selectedSearchOptions, onDelete }: Props) {
   const {
     feedId,
     isPurchase,
@@ -62,9 +70,12 @@ export function ReviewCard({ props, isArchiving, onClick, selectedSearchOptions 
             {dateText}
           </Styled.Time>
           {!isArchiving && (
-            <div onClick={() => onClick(`${modelName} ${trim.name}`)}>
-              <XButton />
-            </div>
+            <XButton
+              onClick={(event: MouseEvent<HTMLButtonElement>) => {
+                event.stopPropagation();
+                onDelete(feedId, 'feedId');
+              }}
+            />
           )}
         </Styled.SideBox>
       </Styled.TitleWrapper>
