@@ -65,13 +65,13 @@ const Text = styled.h1`
 const ButtonWrapper = styled.div`
   display: flex;
   align-items: center;
-  gap: 15px;
+  gap: 1px;
 `;
 
 const InfoBox = styled.div`
   display: flex;
   align-items: center;
-  gap: 25px;
+  gap: 10px;
 `;
 
 interface AutoSavingBoxProps {
@@ -81,18 +81,28 @@ interface AutoSavingBoxProps {
 const AutoSavingBox = styled.div<AutoSavingBoxProps>`
   ${({ isDisplay }) => {
     return css`
-      display: ${isDisplay ? 'flex' : 'none'};
-      align-items: center;
       gap: 5px;
 
-      animation: showAutoSaving 0.2s linear;
+      display: flex;
+      align-items: center;
+
+      animation: ${isDisplay ? 'showAutoSaving 0.5s linear forwards' : 'hideAutoSaving 0.5s linear forwards'};
 
       @keyframes showAutoSaving {
         0% {
-          transform: translateY(8px);
+          opacity: 0;
         }
         100% {
-          transform: translateY(0);
+          opacity: 1;
+        }
+      }
+
+      @keyframes hideAutoSaving {
+        0% {
+          opacity: 1;
+        }
+        100% {
+          opacity: 0;
         }
       }
     `;
@@ -144,6 +154,45 @@ const ButtonText = styled.span`
     const { fonts } = theme;
     return css`
       ${fonts.bodyMedium4};
+    `;
+  }}
+`;
+
+export const LogoutButton = styled.button`
+  ${({ theme }) => {
+    const { colors, fonts } = theme;
+
+    return css`
+      width: 101.32px;
+      height: 37px;
+
+      color: ${colors.hyundaiNeutral};
+      ${fonts.headingBold4};
+
+      border-radius: 8px;
+      background-color: ${colors.hyundaiPrimaryBlue};
+
+      transform: scale(0.7);
+    `;
+  }}
+`;
+
+export const UserNameText = styled.span`
+  ${({ theme }) => {
+    const { fonts } = theme;
+
+    return css`
+      ${fonts.headingBold4};
+    `;
+  }}
+`;
+
+export const GreetingText = styled.span`
+  ${({ theme }) => {
+    const { fonts } = theme;
+
+    return css`
+      ${fonts.bodyRegular2};
     `;
   }}
 `;

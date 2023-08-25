@@ -11,6 +11,7 @@ import {
   isUserNameEmpty,
   isEmailValid,
   isPasswordIncorrect,
+  isPasswordInvalid,
 } from '@/utils/auth';
 import { AuthError } from '@/utils/AuthError';
 import { API_URL, emailRegex, AUTH_ALERT_MESSAGE } from '@/constants';
@@ -87,6 +88,13 @@ export function Signup() {
       handleAlert(AUTH_ALERT_MESSAGE.PASSWORD_INCORRECT);
       return;
     }
+
+    if (isPasswordInvalid(password)) {
+      handleAlert(AUTH_ALERT_MESSAGE.PASSWORD_INVALID);
+      return;
+    }
+
+    handleAlert('');
 
     try {
       const response = await fetch(`${API_URL}/auth/signup`, {

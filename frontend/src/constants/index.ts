@@ -7,6 +7,8 @@ export enum ModalType {
   DELETE = 'DELETE',
   MOVE = 'MOVE',
   CLEAR = 'CLEAR',
+  SIGNOUT = 'SIGNOUT',
+  CHANGE_TRIM = 'CHANGE_TRIM',
 }
 export const TAG_CHIP_MAX_NUMBER = 3;
 export const API_URL = 'https://api.88hey.site';
@@ -110,7 +112,11 @@ export const cacheKey = {
   archivingOption: (modelId: number) => ['select-options', `${modelId}`],
   archivingDetail: (id: string) => ['detail', `${id}`],
   tag: (type: string, id: string | number) => ['tag', `${type}`, `${id}`],
+  // TEST
+  mychiving: (limit: number, offset: number) => ['mychiving', `${limit}`, `${offset}`],
 };
+
+export const PASSWORD_MIN_LENGTH = 8;
 
 export const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
 
@@ -125,4 +131,6 @@ export const AUTH_ALERT_MESSAGE = Object.freeze({
 
   EMAIL_INVALID: '이메일 주소가 유효하지 않습니다.',
   EMAIL_CONFLICT: '이미 사용중인 이메일 주소입니다.',
+
+  PASSWORD_INVALID: '비밀번호는 8자 이상이어야 합니다.',
 });

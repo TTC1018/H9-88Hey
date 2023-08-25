@@ -1,3 +1,5 @@
+import { PASSWORD_MIN_LENGTH } from '@/constants';
+
 export function isEmailEmpty(email: string) {
   return email === '';
 }
@@ -20,4 +22,8 @@ export function isPasswordIncorrect(password: string, confirmPassword: string) {
 
 export function isEmailValid(email: string, emailRegex: RegExp) {
   return emailRegex.test(email);
+}
+
+export function isPasswordInvalid(password: string) {
+  return password.length < PASSWORD_MIN_LENGTH;
 }

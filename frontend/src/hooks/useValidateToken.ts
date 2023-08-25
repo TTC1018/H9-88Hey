@@ -12,11 +12,8 @@ export function useValidateToken() {
   const accessToken = getLocalStorage('accessToken');
   const refreshToken = getLocalStorage('refreshToken');
 
-  async function tokenValidator(isShowModal: boolean = false) {
+  async function tokenValidator() {
     if (accessToken === null && refreshToken === null) {
-      if (isShowModal) {
-        // 로그인이 필요한 서비스입니다. 로그인 페이지로 이동하시겠습니까? 모달 표시
-      }
       return;
     }
 
