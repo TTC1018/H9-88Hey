@@ -6,12 +6,11 @@ import { useReissueToken } from './useReissueToken';
 import { getLocalStorage } from '@/utils';
 import { AuthError } from '@/utils/AuthError';
 
-interface UseFetchProps {
+interface UseAuthFetchProps {
   key: string;
   url: string;
   intersecting: boolean;
   nextOffset: MutableRefObject<number>;
-  dependencies?: string[];
   method: 'GET' | 'POST' | 'DELELTE';
 }
 
@@ -21,7 +20,7 @@ interface ResponseProps<T> {
   data: T;
 }
 
-export function useAuthInfiniteFetch<T>({ key, url, intersecting, nextOffset, dependencies, method }: UseFetchProps) {
+export function useAuthInfiniteFetch<T>({ key, url, intersecting, nextOffset, method }: UseAuthFetchProps) {
   interface Props {
     key: T[];
     nextOffset: number;
@@ -51,11 +50,11 @@ export function useAuthInfiniteFetch<T>({ key, url, intersecting, nextOffset, de
         },
       });
 
-      const { status, message, data } = (await response.json()) as ResponseProps<T>;
-
       if (!response.ok) {
-        throw new AuthError(message, status);
+        throw new Error(`${response.status} ${response.statusText}`);
       }
+
+      const { data } = (await response.json()) as ResponseProps<Props>;
 
       nextOffset.current = data.nextOffset;
       setData(prev => [...prev, ...(data[key] as [])]);
@@ -93,10 +92,11 @@ export function useAuthInfiniteFetch<T>({ key, url, intersecting, nextOffset, de
     // 2.1. 200인 경우 -> 그대로 진행
     // 2.2. 401인 경우 -> 액세스 토큰과 리프레시 토큰을 재발급 -> 거기서도 401인 경우(리프레시 토큰이 만료되었거나 리프레시 토큰이 없는 경우 포함) -> 재로그인 요청
     try {
-      await tokenValidator(true);
+      await tokenValidator();
     } catch (error) {
       await tokenFetcher();
     }
+
     await fetcher(true);
     setIsLoading(false);
   }
@@ -104,27 +104,6 @@ export function useAuthInfiniteFetch<T>({ key, url, intersecting, nextOffset, de
   if (error !== '') {
     throw new Error(error);
   }
-
-  const dependenciesString = JSON.stringify(dependencies);
-
-  // useEffect(() => {
-  //   setData([]);
-  //   nextOffset.current = 1;
-
-  //   if (intersecting) {
-  //     setIsLoading(true);
-  //     fetcher(true);
-  //   }
-  // }, [dependenciesString]);
-
-  // useEffect(() => {
-  //   if (intersecting && nextOffset.current !== null) {
-  //     setIsLoading(true);
-  //     fetcher(true);
-
-  //     return;
-  //   }
-  // }, [intersecting]);
 
   useEffect(() => {
     if (intersecting && nextOffset.current !== null) {
