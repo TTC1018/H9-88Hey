@@ -65,7 +65,7 @@ export function MyCarList({ myChiving, onClick }: MyCarListProps) {
           </Styled.InfoClosure>
           <Styled.SubTitle>
             <Styled.SubTitleText isSaved={isSaved}>{dateInfoText}</Styled.SubTitleText>
-            <XButton />
+            <XButton onClick={() => {}} />
           </Styled.SubTitle>
         </Styled.MainBox>
         <Styled.OptionBox>

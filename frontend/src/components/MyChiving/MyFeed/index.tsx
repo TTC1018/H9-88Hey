@@ -1,8 +1,8 @@
 import { useRef } from 'react';
 
 import { useShowScrollButton } from '@/hooks/useShowScrollButton';
-import { useInfiniteFetch } from '@/hooks/useInfiniteFetch';
 import { useInfiniteScroll } from '@/hooks/useInfiniteScroll';
+import { useAuthInfiniteFetch } from '@/hooks/useAuthInfiniteFetch';
 import { ArchivingProps } from '@/types/archiving';
 
 import { FeedList } from '@/components/MyChiving/FeedList';
@@ -19,12 +19,17 @@ export function MyFeed() {
 
   const { isShow, scrollToTop } = useShowScrollButton({ scrollY: 800, scrollTo: 0 });
 
-  const { data: archivingsByUser, isLoading } = useInfiniteFetch<ArchivingProps>({
+  const {
+    data: archivingsByUser,
+    isLoading,
+    handleDelete,
+  } = useAuthInfiniteFetch<ArchivingProps>({
     key: 'archivingsByUser',
     url: `/user/archiving/bookmark?limit=6&offset=${nextOffset.current}`,
     intersecting,
     nextOffset,
     dependencies: [''],
+    method: 'GET',
   });
 
   return (
@@ -41,7 +46,7 @@ export function MyFeed() {
         )
       ) : (
         <>
-          <FeedList myFeedChiving={archivingsByUser} />
+          <FeedList myFeedChiving={archivingsByUser} onDelete={handleDelete} />
         </>
       )}
       <div ref={fetchMoreElement}></div>
