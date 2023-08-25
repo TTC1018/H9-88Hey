@@ -15,6 +15,7 @@ import com.softeer.mycarchiving.navigation.MainDestination
 import com.softeer.mycarchiving.navigation.MyArchiveDestinations.*
 import com.softeer.mycarchiving.ui.HyundaiAppState
 import com.softeer.mycarchiving.ui.component.MyArchiveNavigateBar
+import com.softeer.mycarchiving.ui.makingcar.navigateToMakingCar
 import com.softeer.mycarchiving.ui.myarchive.detail.myArchiveDetailScreen
 import com.softeer.mycarchiving.ui.myarchive.main.myArchiveMainScreen
 
@@ -32,7 +33,7 @@ fun NavGraphBuilder.makingMyArchiveGraph(
 
         val onStartAreaClick: () -> Unit =
             if (appState.currentMyArchiveDestinations == MY_ARCHIVE_MAIN)
-                appState.navController::popBackStack
+                appState.navController::navigateToMakingCar
             else
                 appState.myArchiveNavController::popBackStack
 
