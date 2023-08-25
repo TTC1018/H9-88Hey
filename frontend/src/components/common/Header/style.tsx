@@ -122,7 +122,7 @@ const CarNameText = styled.span`
   ${({ theme }) => {
     const { colors, fonts } = theme;
     return css`
-      color: ${colors.darkGray};
+      color: ${colors.black};
 
       ${fonts.headingBold4}
     `;
