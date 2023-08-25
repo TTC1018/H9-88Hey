@@ -183,8 +183,11 @@ export function Footer({ myCarData, calculatePrice, carCode, setDisplayAutoSavin
       </Styled.ColorWrapper>
       <Styled.Division />
       <Styled.OptionWrapper>
-        <Styled.Title>선택 옵션</Styled.Title>
-        <Styled.OptionBox onClick={handleOpenModal}>
+        <Styled.TitleBox>
+          <Styled.Title>선택 옵션</Styled.Title>
+          <Styled.TitleButton onClick={handleOpenModal}>견적 요약보기</Styled.TitleButton>
+        </Styled.TitleBox>
+        <Styled.OptionBox>
           {options.slice(0, TAG_CHIP_MAX_NUMBER).map(({ name }) => (
             <Styled.Option key={name}>{name}</Styled.Option>
           ))}
