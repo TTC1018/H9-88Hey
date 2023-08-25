@@ -1,5 +1,6 @@
 package com.softeer.mycarchiving.ui.makingcar.selectoption
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.softeer.domain.model.CarBasicOption
@@ -11,6 +12,10 @@ import com.softeer.domain.usecase.makingcar.GetHGenuinesUseCase
 import com.softeer.domain.usecase.makingcar.GetNPerformancesUseCase
 import com.softeer.domain.usecase.makingcar.GetTagsOfSelectOptionUseCase
 import com.softeer.mycarchiving.mapper.asUiModel
+import com.softeer.mycarchiving.ui.makingcar.KEY_SELECT_OPTION_BODY
+import com.softeer.mycarchiving.ui.makingcar.KEY_SELECT_OPTION_ENGINE
+import com.softeer.mycarchiving.ui.makingcar.KEY_SELECT_OPTION_TRIM
+import com.softeer.mycarchiving.ui.makingcar.KEY_SELECT_OPTION_WHEEL
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -28,6 +33,7 @@ private val TAG = SelectOptionViewModel::class.simpleName
 @OptIn(ExperimentalCoroutinesApi::class)
 @HiltViewModel
 class SelectOptionViewModel @Inject constructor(
+    savedStateHandle: SavedStateHandle,
     getCarCodeUseCase: GetCarCodeUseCase,
     getExtrasUseCase: GetExtraOptionsUseCase,
     getHGenuinesUseCase: GetHGenuinesUseCase,
@@ -36,12 +42,16 @@ class SelectOptionViewModel @Inject constructor(
     getTagsOfSelectOptionUseCase: GetTagsOfSelectOptionUseCase,
 ) : ViewModel() {
 
-    private val _carCode = getCarCodeUseCase()
-        .stateIn(
-            scope = viewModelScope,
-            started = SharingStarted.WhileSubscribed(),
-            initialValue = ""
-        )
+    private val _carCode = getCarCodeUseCase(
+        trimId = savedStateHandle[KEY_SELECT_OPTION_TRIM] ?: 1,
+        engineId = savedStateHandle[KEY_SELECT_OPTION_ENGINE] ?: 1,
+        bodyTypeId = savedStateHandle[KEY_SELECT_OPTION_BODY] ?: 1,
+        wheelId = savedStateHandle[KEY_SELECT_OPTION_WHEEL] ?: 1,
+    ).stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.WhileSubscribed(),
+        initialValue = ""
+    )
 
     val selectOptions = _carCode.flatMapLatest { carCode ->
         getExtrasUseCase(carCode)
@@ -77,7 +87,7 @@ class SelectOptionViewModel @Inject constructor(
             initialValue = emptyList()
         )
 
-    val selectOptionTagMap = selectOptions.flatMapLatest {  options ->
+    val selectOptionTagMap = selectOptions.flatMapLatest { options ->
         flowOf(
             buildMap {
                 options.forEach { option ->
@@ -93,7 +103,7 @@ class SelectOptionViewModel @Inject constructor(
         initialValue = emptyMap()
     )
 
-    val hGeniuneTagMap = hGenuines.flatMapLatest {  options ->
+    val hGeniuneTagMap = hGenuines.flatMapLatest { options ->
         flowOf(
             buildMap {
                 options.forEach { option ->
@@ -109,7 +119,7 @@ class SelectOptionViewModel @Inject constructor(
         initialValue = emptyMap()
     )
 
-    val nPerformanceTagMap = nPerformances.flatMapLatest {  options ->
+    val nPerformanceTagMap = nPerformances.flatMapLatest { options ->
         flowOf(
             buildMap {
                 options.forEach { option ->

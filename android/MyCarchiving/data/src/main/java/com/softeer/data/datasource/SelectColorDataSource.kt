@@ -6,7 +6,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
 interface SelectColorDataSource {
-    fun getCarColors(): Flow<List<TrimCarColorDto>>
+    fun getCarColors(trimId: Int): Flow<List<TrimCarColorDto>>
 
 
     fun getTagsOfInterior(id: Int): Flow<List<String>>
@@ -17,8 +17,8 @@ interface SelectColorDataSource {
 class SelectColorRemoteDataSource(
     private val selectColorNetworkApi: SelectColorNetworkApi
 ): SelectColorDataSource {
-    override fun getCarColors(): Flow<List<TrimCarColorDto>> = flow {
-        val response = selectColorNetworkApi.getCarColors()
+    override fun getCarColors(trimId: Int): Flow<List<TrimCarColorDto>> = flow {
+        val response = selectColorNetworkApi.getCarColors(trimId)
         val exteriors = response.body()?.data?.exteriors
         val interiors = response.body()?.data?.interiors
 

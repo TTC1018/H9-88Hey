@@ -1,6 +1,5 @@
 package com.softeer.mycarchiving.ui.makingcar.selectmodel
 
-import android.util.Log
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.background
@@ -40,7 +39,6 @@ import com.softeer.mycarchiving.ui.makingcar.MakingCarViewModel
 import com.softeer.mycarchiving.ui.makingcar.loading.LoadingScreen
 import com.softeer.mycarchiving.ui.theme.White
 import com.softeer.mycarchiving.util.fadeInAndOut
-import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 
 @Composable
@@ -54,8 +52,10 @@ fun SelectModelRoute(
     val carImages by viewModel.carImages.collectAsStateWithLifecycle()
     val focusedImageIndex by viewModel.focusedImageIndex.collectAsStateWithLifecycle()
     val carDetails by sharedViewModel.carDetails.observeAsState()
+    val selectedColor by sharedViewModel.selectedColor.collectAsStateWithLifecycle()
     val scrollState = rememberScrollState()
     val selectedModel by sharedViewModel.selectedModelInfo.observeAsState()
+    val fromArchive by sharedViewModel.archivingStartedFlag
     val isArchived = carDetails != null && selectedModel == null
 
     LaunchedEffect(isArchived, carModels) {
@@ -64,7 +64,7 @@ fun SelectModelRoute(
             sharedViewModel.initializeSelectedOptions()
 
             carDetails?.trim?.run {
-                carModels.find { it.name == name }?.let {
+                carModels.find { it.id == id }?.let {
                     sharedViewModel.updateSelectedModelInfo(it, true)
                 }
             }
@@ -82,8 +82,11 @@ fun SelectModelRoute(
         carModels = carModels,
         carImages = carImages,
         focusedImageIndex = focusedImageIndex,
+        shouldShowDialog = fromArchive || selectedColor.isNotEmpty(),
         onCarImageClick = viewModel::onCarImageClick,
-        onModelSelect = sharedViewModel::updateSelectedModelInfo
+        selectedModel = selectedModel,
+        onModelSelect = sharedViewModel::updateSelectedModelInfo,
+        onInitialize = sharedViewModel::initializeByChangedModel,
     )
 }
 
@@ -95,8 +98,11 @@ fun SelectModelScreen(
     carModels: List<SelectModelUiModel>,
     carImages: List<String>,
     focusedImageIndex: Int,
+    selectedModel: SelectModelUiModel?,
+    shouldShowDialog: Boolean,
     onCarImageClick: (Int) -> Unit,
     onModelSelect: (SelectModelUiModel) -> Unit,
+    onInitialize: () -> Unit,
 ) {
     val context = LocalContext.current
     val imageLoader = remember {
@@ -163,6 +169,7 @@ fun SelectModelScreen(
                                 )
                             }
                         }
+
                         Column(
                             modifier = Modifier.padding(vertical = 12.dp),
                             verticalArrangement = Arrangement.spacedBy(8.dp)
@@ -171,7 +178,10 @@ fun SelectModelScreen(
                                 OptionCardForModel(
                                     carModelIndex = index,
                                     carModel = carModel,
-                                    isExpanded = index == 0
+                                    isExpanded = carModel.id == selectedModel?.id,
+                                    shouldInitialize = shouldShowDialog,
+                                    onClick = { onModelSelect(carModel) },
+                                    onInitialize = onInitialize
                                 )
                             }
                         }
@@ -192,6 +202,7 @@ fun PreviewSelectModelScreen() {
         scrollState = rememberScrollState(),
         carModels = listOf(
             SelectModelUiModel(
+                id = 1,
                 name = "르블랑",
                 price = 40000000,
                 features = emptyList()
@@ -199,7 +210,15 @@ fun PreviewSelectModelScreen() {
         ),
         carImages = emptyList(),
         focusedImageIndex = 0,
+        selectedModel = SelectModelUiModel(
+            id = 1,
+            name = "르블랑",
+            price = 40000000,
+            features = emptyList()
+        ),
+        shouldShowDialog = true,
         onCarImageClick = {},
         onModelSelect = {},
+        onInitialize = {}
     )
 }

@@ -1,6 +1,6 @@
 package com.softeer.mycarchiving.mapper
 
-import com.softeer.data.CarColorType
+import com.softeer.domain.model.CarColorType
 import com.softeer.domain.model.CarExteriorColor
 import com.softeer.domain.model.CarInteriorColor
 import com.softeer.mycarchiving.model.makingcar.ColorOptionUiModel

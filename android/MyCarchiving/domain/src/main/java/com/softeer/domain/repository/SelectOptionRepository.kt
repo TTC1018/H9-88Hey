@@ -5,7 +5,12 @@ import com.softeer.domain.model.CarExtraOption
 import kotlinx.coroutines.flow.Flow
 
 interface SelectOptionRepository {
-    fun getCarCode(): Flow<String>
+    fun getCarCode(
+        trimId: Int,
+        engineId: Int,
+        bodyTypeId: Int,
+        wheelId: Int,
+    ): Flow<String>
 
     fun getSelectOptions(carCode: String): Flow<List<CarExtraOption>>
 

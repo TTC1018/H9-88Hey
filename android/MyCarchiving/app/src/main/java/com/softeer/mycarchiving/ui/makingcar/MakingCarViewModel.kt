@@ -34,6 +34,7 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.firstOrNull
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -54,6 +55,8 @@ class MakingCarViewModel @Inject constructor(
             viewModelScope.launch {
                 getCarDetailsUseCase(feedId).firstOrNull()?.run {
                     _carDetails.value = this
+                    // 아카이빙 Flag 변경
+                    _archivingStartedFlag.value = true
                     // 가격 갱신
                     _totalPrice.value = totalPrice
                     // 모델 정보 (르블랑, ...)
@@ -74,8 +77,8 @@ class MakingCarViewModel @Inject constructor(
         }
     }
 
-    private val _carDetails = MutableLiveData<CarDetails>()
-    val carDetails: LiveData<CarDetails> = _carDetails
+    private val _carDetails = MutableLiveData<CarDetails?>()
+    val carDetails: LiveData<CarDetails?> = _carDetails
 
     private val _selectedCarName = MutableStateFlow("팰리세이드")
     val selectedCarName: StateFlow<String> = _selectedCarName
@@ -130,11 +133,15 @@ class MakingCarViewModel @Inject constructor(
     private val _selectedColorSimple = MutableStateFlow<List<ColorOptionSimpleUiModel>>(emptyList())
     val selectedColorSimple: StateFlow<List<ColorOptionSimpleUiModel>> = _selectedColorSimple
 
-    private val _selectedOptionSimple = MutableStateFlow<List<SelectOptionSimpleUiModel>>(emptyList())
+    private val _selectedOptionSimple =
+        MutableStateFlow<List<SelectOptionSimpleUiModel>>(emptyList())
     val selectedOptionSimple: StateFlow<List<SelectOptionSimpleUiModel>> = _selectedOptionSimple
 
     private var _optionArchivedFlag = mutableStateOf(false)
     val optionArchivedFlag: State<Boolean> = _optionArchivedFlag
+
+    private var _archivingStartedFlag = mutableStateOf(false)
+    val archivingStartedFlag: State<Boolean> = _archivingStartedFlag
 
     fun setArchivedFlag(flag: Boolean) {
         _optionArchivedFlag.value = flag
@@ -171,7 +178,9 @@ class MakingCarViewModel @Inject constructor(
         initial: Boolean = false,
         archived: Boolean = false,
     ) {
-        if (archived && initial) { // 아카이빙 데이터면 선택 데이터에 기록만 하기
+        if (archived || initial) { // 아카이빙 데이터면 선택 데이터에 기록만 하기
+            if (_selectedTrimSimple.value.getOrNull(progress) == null) // 아카이빙 -> 내차만들기 이후 모델 갱신
+                _selectedTrimSimple.value += listOf(trimOptionUiModel.asSimpleUiModel())
             _selectedTrim.value += listOf(trimOptionUiModel)
         } else { // 아카이빙 데이터 로드 후 or 기본으로 진행 중
             if (_selectedTrim.value.getOrNull(progress) == null) { // 그대로 추가하면 될 때
@@ -197,7 +206,9 @@ class MakingCarViewModel @Inject constructor(
         initial: Boolean,
         archived: Boolean = false,
     ) {
-        if (archived && initial) {
+        if (archived || initial) {
+            if (_selectedColorSimple.value.getOrNull(progress) == null) // 바텀시트는 갱신 안 된 상태라면
+                _selectedColorSimple.value += listOf(colorOptionUiModel.asSimpleUiModel())
             _selectedColor.value += listOf(colorOptionUiModel)
         } else {
             if (_selectedColor.value.getOrNull(progress) == null) {
@@ -227,11 +238,12 @@ class MakingCarViewModel @Inject constructor(
                 _selectedExtraOptions.value = _selectedExtraOptions.value.run {
                     if (find { it.id == extraOption.id } != null) {
                         _totalPrice.value -= extraOption.price
-                        _selectedOptionSimple.value = _selectedOptionSimple.value.let { // 바텀시트 갱신용 - 선택 옵션 재선택시 삭제만
-                            it.toMutableList().apply {
-                                removeIf { it.id == extraOption.id }
+                        _selectedOptionSimple.value =
+                            _selectedOptionSimple.value.let { // 바텀시트 갱신용 - 선택 옵션 재선택시 삭제만
+                                it.toMutableList().apply {
+                                    removeIf { it.id == extraOption.id }
+                                }
                             }
-                        }
                         toMutableList().apply { remove(extraOption) }
                     } else {
                         if (isArchived.not()) {
@@ -322,5 +334,31 @@ class MakingCarViewModel @Inject constructor(
         _selectedExtraOptions.value = emptyList()
         _selectedHGenuines.value = emptyList()
         _selectedNPerformance.value = emptyList()
+    }
+
+    // 모델 바뀌면 트림선택 제외 다 초기화
+    fun initializeByChangedModel() {
+        _carDetails.value = null
+        // 색상 및 선택옵션 가격 빼기
+        _totalPrice.value -= (_selectedColorSimple.value.sumOf { it.price ?: 0 } +
+                        _selectedOptionSimple.value.sumOf { it.price })
+        // 데이터 초기화
+        _selectedColor.value = emptyList()
+        _selectedColorSimple.value = emptyList()
+        _selectedExtraOptions.value = emptyList()
+        _selectedHGenuines.value = emptyList()
+        _selectedNPerformance.value = emptyList()
+        _selectedOptionSimple.value = emptyList()
+    }
+
+    // 트림선택 바꾸면 선택옵션 다 초기화
+    fun initializeByChangedTrimOption() {
+        _carDetails.value = null
+        // 선택옵션 가격 빼기
+        _totalPrice.value -= _selectedOptionSimple.value.sumOf { it.price }
+        _selectedExtraOptions.value = emptyList()
+        _selectedHGenuines.value = emptyList()
+        _selectedNPerformance.value = emptyList()
+        _selectedOptionSimple.value = emptyList()
     }
 }

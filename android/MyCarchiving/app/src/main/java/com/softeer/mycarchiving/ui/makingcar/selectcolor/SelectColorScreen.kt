@@ -1,6 +1,5 @@
 package com.softeer.mycarchiving.ui.makingcar.selectcolor
 
-import android.util.Log
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -14,10 +13,8 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
@@ -30,7 +27,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
 import coil.imageLoader
 import coil.request.ImageRequest
-import com.softeer.data.CarColorType
+import com.softeer.domain.model.CarColorType
 import com.softeer.domain.model.CarDetails
 import com.softeer.mycarchiving.model.makingcar.ColorOptionUiModel
 import com.softeer.mycarchiving.ui.component.CarColorSelectItem

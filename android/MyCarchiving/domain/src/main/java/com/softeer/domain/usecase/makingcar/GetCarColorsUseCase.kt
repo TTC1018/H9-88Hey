@@ -6,6 +6,6 @@ import javax.inject.Inject
 class GetCarColorsUseCase @Inject constructor(
     private val selectColorRepository: SelectColorRepository
 ) {
-    operator fun invoke() =
-        selectColorRepository.getCarColors()
+    operator fun invoke(trimId: Int) =
+        selectColorRepository.getCarColors(trimId)
 }

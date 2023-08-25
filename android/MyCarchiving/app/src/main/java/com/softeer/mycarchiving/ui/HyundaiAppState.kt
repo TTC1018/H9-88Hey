@@ -83,9 +83,9 @@ class HyundaiAppState(
             .currentBackStackEntryAsState().value?.destination
 
     val currentMainDestination: MainDestination?
-        @Composable get() = when (val route = currentDestination?.route) {
+        @Composable get() = when (currentDestination?.route?.split("?")?.first()) {
             LOGIN.route -> LOGIN
-            route?.split("?")?.first() -> MAKING_CAR
+            MAKING_CAR.route -> MAKING_CAR
             ARCHIVING.route -> ARCHIVING
             MY_ARCHIVING.route -> MY_ARCHIVING
             DRIVER_COMMENT.route -> DRIVER_COMMENT
@@ -94,7 +94,7 @@ class HyundaiAppState(
         }
 
     val currentMakingCarDestinations: MakingCarDestinations?
-        @Composable get() = when (currentMakingCarDestination?.route) {
+        @Composable get() = when (currentMakingCarDestination?.route?.split("/")?.first()) {
             SELECT_MODEL.route -> SELECT_MODEL
             SELECT_TRIM.route -> SELECT_TRIM
             SELECT_COLOR.route -> SELECT_COLOR
@@ -104,16 +104,16 @@ class HyundaiAppState(
         }
 
     val currentArchivingDestinations: ArchivingDestinations?
-        @Composable get() = when {
-            currentArchivingDestination?.route == ARCHIVING_MAIN.route -> ARCHIVING_MAIN
-            currentArchivingDestination?.route?.startsWith(ARCHIVING_DETAIL.route) == true -> ARCHIVING_DETAIL
+        @Composable get() = when(currentArchivingDestination?.route?.split("/")?.firstOrNull()) {
+            ARCHIVING_MAIN.route -> ARCHIVING_MAIN
+            ARCHIVING_DETAIL.route -> ARCHIVING_DETAIL
             else -> null
         }
 
     val currentMyArchiveDestinations: MyArchiveDestinations?
-        @Composable get() = when {
-            currentMyArchiveDestination?.route == MY_ARCHIVE_MAIN.route -> MY_ARCHIVE_MAIN
-            currentMyArchiveDestination?.route?.startsWith(MY_ARCHIVE_DETAIL.route) == true -> MY_ARCHIVE_DETAIL
+        @Composable get() = when(currentMyArchiveDestination?.route?.split("/")?.firstOrNull()) {
+            MY_ARCHIVE_MAIN.route -> MY_ARCHIVE_MAIN
+            MY_ARCHIVE_DETAIL.route -> MY_ARCHIVE_DETAIL
             else -> null
         }
 
@@ -154,11 +154,22 @@ class HyundaiAppState(
         }
     }
 
-    fun navigateInMakingCar(currentMakingCarDestination: MakingCarDestinations?) {
+    fun navigateInMakingCar(
+        trimId: Int? = null,
+        engineId: Int? = null,
+        bodyId: Int? = null,
+        wheelId: Int? = null,
+        currentMakingCarDestination: MakingCarDestinations?
+    ) {
         when (currentMakingCarDestination) {
             SELECT_MODEL -> makingCarNavController.navigateToSelectTrim()
-            SELECT_TRIM -> makingCarNavController.navigateToSelectColor()
-            SELECT_COLOR -> makingCarNavController.navigateToSelectOption()
+            SELECT_TRIM -> makingCarNavController.navigateToSelectColor(trimId ?: 1)
+            SELECT_COLOR -> makingCarNavController.navigateToSelectOption(
+                trimId ?: 1,
+                engineId ?: 1,
+                bodyId ?: 1,
+                wheelId ?: 1
+            )
             SELECT_OPTION -> makingCarNavController.navigateToComplete()
             SELECT_COMPLETE -> {/*unused*/}
             else -> {}

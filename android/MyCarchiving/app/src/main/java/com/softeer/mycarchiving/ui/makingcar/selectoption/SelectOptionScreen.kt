@@ -59,6 +59,7 @@ import com.softeer.mycarchiving.ui.component.OptionSelectItem
 import com.softeer.mycarchiving.ui.component.OptionSelectedInfo
 import com.softeer.mycarchiving.ui.makingcar.MakingCarViewModel
 import com.softeer.mycarchiving.ui.makingcar.loading.LoadingScreen
+import com.softeer.mycarchiving.ui.makingcar.loading.NoOptionScreen
 import com.softeer.mycarchiving.ui.theme.DarkGray
 import com.softeer.mycarchiving.ui.theme.HyundaiLightSand
 import com.softeer.mycarchiving.ui.theme.White
@@ -100,6 +101,12 @@ fun SelectOptionRoute(
                 (selectedExtras.size + selectedHGenuines.size + selectedNPerformance.size != size)
         // 첫 데이터의 개수와 같아질 때까지만 로드하고 더이상 로드 안 해야됨.
     } ?: false
+    val options = when (mainProgress to screenProgress) {
+        TRIM_OPTION to TRIM_EXTRA -> selectOptions
+        TRIM_OPTION to TRIM_HGENUINE -> hGenuines
+        TRIM_OPTION to TRIM_NPERFORMANCE -> nPerformances
+        else -> emptyList()
+    }
 
     if (isArchived) {
         InitArchiveDataEffect(
@@ -120,7 +127,12 @@ fun SelectOptionRoute(
     }
 
     LaunchedEffect(screenProgress) {
-        viewModel.focusOptionItem(0) // 화면 변할 때마다 focus된 아이템 초기화
+        // 화면 변할 때마다 focus된 아이템 초기화
+        viewModel.focusOptionItem(
+            options.indexOfFirst { option ->
+                option.isAvailable.let { it == null || it == true }
+            }.takeIf { it >= 0 } ?: 0
+        )
 
         // 방금 전 상태까지 임시 저장
         sharedViewModel.saveTempCarInfo()
@@ -130,12 +142,7 @@ fun SelectOptionRoute(
         modifier = modifier,
         scrollState = scrollState,
         screenProgress = screenProgress,
-        options = when (mainProgress to screenProgress) {
-            TRIM_OPTION to TRIM_EXTRA -> selectOptions
-            TRIM_OPTION to TRIM_HGENUINE -> hGenuines
-            TRIM_OPTION to TRIM_NPERFORMANCE -> nPerformances
-            else -> emptyList()
-        },
+        options = options,
         selectedOptions = when (screenProgress) {
             0 -> selectedExtras
             1 -> selectedHGenuines
@@ -307,7 +314,13 @@ fun SelectOptionScreen(
                         }
                     }
                 }
-                false -> LoadingScreen {}
+                false ->  {
+                    if (options.isEmpty() && screenProgress == TRIM_NPERFORMANCE) {
+                        NoOptionScreen()
+                    } else {
+                        LoadingScreen {}
+                    }
+                }
             }
         }
     }
