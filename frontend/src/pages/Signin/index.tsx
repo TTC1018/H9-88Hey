@@ -56,6 +56,8 @@ export function Signin() {
       return;
     }
 
+    handleAlert('');
+
     try {
       const response = await fetch(`${API_URL}/auth/signin`, {
         method: 'POST',
