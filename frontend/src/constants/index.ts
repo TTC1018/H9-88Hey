@@ -6,6 +6,7 @@ export enum ModalType {
   MOVE = 'MOVE',
   CLEAR = 'CLEAR',
   SIGNOUT = 'SIGNOUT',
+  CHANGE_TRIM = 'CHANGE_TRIM',
 }
 export const TAG_CHIP_MAX_NUMBER = 3;
 export const API_URL = 'https://api.88hey.site';

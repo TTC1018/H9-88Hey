@@ -61,7 +61,7 @@ export function SelectOptionCard({ isActive, id, name, price, features, onSetInd
       </Styled.Container>
       <ModalPortal isOpen={isOpen} handleClose={() => setIsOpen(false)}>
         <PopupModal
-          type={ModalType.CLEAR}
+          type={ModalType.CHANGE_TRIM}
           onClick={() => {
             dispatch({ type: MyCarActionType.CLEAR_COLORS, payload: null });
             dispatch({ type: MyCarActionType.CLEAR_OPTION, payload: [] });
