@@ -83,7 +83,7 @@ fun ArchiveDetailScreen(
                                     trim = it.trim,
                                     carImageUrl = it.exteriorColor.carImageUrl ?: "",
                                     price = it.price,
-                                    trimOptions = it.trimOptions,
+                                    trimOptions = it.trimOptions.joinToString(" / "),
                                     exteriorColor = it.exteriorColor.colorName,
                                     exteriorColorUrl = it.exteriorColor.imageUrl,
                                     interiorColor = it.interiorColor.colorName,

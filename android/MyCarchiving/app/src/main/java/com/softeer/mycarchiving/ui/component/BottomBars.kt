@@ -237,7 +237,7 @@ fun MyArchiveDetailBottomBar(
 ) {
     when (screenIndex) {
         MY_ARCHIVE_MADE -> MyArchiveBottomBar(modifier = modifier , totalPrice = totalPrice)
-        MY_ARCHIVE_SAVE -> ArchiveBottomBar(modifier = modifier)
+        MY_ARCHIVE_SAVE -> ArchiveBottomBar(modifier = modifier, totalPrice = totalPrice, onClick = {})
     }
 }
 
