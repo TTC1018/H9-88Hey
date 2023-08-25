@@ -13,6 +13,10 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -41,12 +45,16 @@ fun OptionCardForDetail(
     maximumOutput: String? = null,
     maximumTorque: String? = null,
     isSelected: Boolean,
+    shouldInitialize: Boolean = false,
     onClick: () -> Unit,
+    onInitialize: () -> Unit,
 ) {
+    var shouldShowDialog by remember { mutableStateOf(false) }
+
     Column(
         modifier = modifier
             .fillMaxWidth()
-            .clickable { onClick() }
+            .clickable { if (shouldInitialize) shouldShowDialog = true else onClick() }
             .then(
                 if (isSelected) Modifier
                     .border(
@@ -73,6 +81,19 @@ fun OptionCardForDetail(
                 maximumTorque = maximumTorque,
             )
         }
+    }
+
+    if (shouldInitialize && shouldShowDialog) {
+        InitializeCarDialog(
+            onDismissRequest = {
+                shouldShowDialog = false
+            },
+            onInitialize = {
+                shouldShowDialog = false
+                onInitialize()
+                onClick()
+            }
+        )
     }
 }
 
@@ -238,7 +259,8 @@ fun PreviewSelectedOptionCardForDetail() {
         maximumOutput = "202/3,800PS/rpm",
         maximumTorque = "45.0/1,750~2,750kgf-m/rpm",
         isSelected = true,
-        onClick = {}
+        onClick = {},
+        onInitialize = {}
     )
 }
 
