@@ -12,19 +12,13 @@ import * as Styled from './style';
 interface ArchivingCardProps {
   isArchiving: true;
   selectedSearchOptions: Set<string>;
-  onClick: (myChiving: ArchivingProps, data: ClickEventDataProps, event: MouseEvent<HTMLDivElement>) => void;
-}
-
-interface ClickEventDataProps {
-  deleteText: string;
-  moveText: string;
+  onClickXButton: (id: string, key: 'feedId' | 'myChivingId') => void;
 }
 
 interface MyChivingCardProps {
   isArchiving: false;
   selectedSearchOptions?: never[];
-  onClick: (myChiving: ArchivingProps, data: ClickEventDataProps, event: MouseEvent<HTMLDivElement>) => void;
-  onDelete: (id: string, key: 'feedId' | 'myChivingId') => void;
+  onClickXButton: (id: string, key: 'feedId' | 'myChivingId') => void;
 }
 
 type ChivingProps = ArchivingCardProps | MyChivingCardProps;
@@ -35,7 +29,7 @@ interface DefaultProps {
 
 type Props = DefaultProps & ChivingProps;
 
-export function ReviewCard({ props, isArchiving, onClick, selectedSearchOptions, onDelete }: Props) {
+export function ReviewCard({ props, isArchiving, selectedSearchOptions, onClickXButton }: Props) {
   const {
     feedId,
     isPurchase,
@@ -73,7 +67,7 @@ export function ReviewCard({ props, isArchiving, onClick, selectedSearchOptions,
             <XButton
               onClick={(event: MouseEvent<HTMLButtonElement>) => {
                 event.stopPropagation();
-                onDelete(feedId, 'feedId');
+                onClickXButton(feedId, 'feedId');
               }}
             />
           )}
