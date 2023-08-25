@@ -80,7 +80,7 @@ fun HyundaiButton(
 
 @Composable
 fun MyArchiveButton(
-    modifier: Modifier,
+    modifier: Modifier = Modifier,
 ) {
     Row(
         modifier = modifier
@@ -275,7 +275,7 @@ fun SearchConditionChipForDelete(
 
 @Composable
 fun ArchiveSaveButton(
-    modifier: Modifier,
+    modifier: Modifier = Modifier,
     onSave: () -> Unit
 ) {
     var isSaved by remember { mutableStateOf(false) }

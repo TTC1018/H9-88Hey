@@ -127,7 +127,8 @@ fun MadeCarItem(
         )
         Spacer(modifier = Modifier.height(12.dp))
         LazyRow(
-            horizontalArrangement = Arrangement.spacedBy(4.dp)
+            modifier = Modifier.padding(end = 22.dp),
+            horizontalArrangement = Arrangement.spacedBy(4.dp),
         ) {
             if (selectedOptions.isNotEmpty()) {
                 items(
@@ -351,7 +352,7 @@ fun PreviewMadeCarItem() {
 fun PreviewSavedFeed() {
     SavedFeed(
         carFeedUiModel = CarFeedUiModel(
-            id = 0,
+            id = "",
             model = "팰리세이드",
             isPurchase = false,
             creationDate = "2023-07-19",

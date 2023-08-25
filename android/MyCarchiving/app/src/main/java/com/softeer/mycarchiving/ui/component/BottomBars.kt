@@ -19,6 +19,7 @@ import androidx.compose.material3.SheetState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -46,14 +47,14 @@ import com.softeer.mycarchiving.util.toPriceString
 
 @Composable
 fun BottomBar(
-    modifier: Modifier,
+    modifier: Modifier = Modifier,
     totalPrice: Int,
     summaryText: String,
     underLineWidth: Int,
     buttonArea: @Composable () -> Unit,
     onShowSummary: (() -> Unit)? = null,
 ) {
-    val animatedPrice by animateIntAsState(targetValue = totalPrice)
+    val animatedPrice by animateIntAsState(targetValue = totalPrice, label = "")
 
     Column(
         modifier = modifier
@@ -68,23 +69,23 @@ fun BottomBar(
             )
     ) {
         Row(
-            modifier = modifier
+            modifier = Modifier
                 .fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
             Column(
-                modifier = modifier
+                modifier = Modifier
                     .clickable { onShowSummary?.invoke() }
             ) {
                 Text(
                     text = summaryText,
                     style = medium12,
                 )
-                Spacer(modifier = modifier.height(5.dp))
+                Spacer(modifier = Modifier.height(5.dp))
                 Divider(
-                    modifier = modifier.width(underLineWidth.dp),
-                    thickness = 2.dp,
+                    modifier = Modifier.width(underLineWidth.dp),
+                    thickness = 1.5.dp,
                     color = Black
                 )
             }
@@ -95,14 +96,14 @@ fun BottomBar(
                     text = animatedPrice.toPriceString(),
                     style = bold18
                 )
-                Spacer(modifier = modifier.width(3.dp))
+                Spacer(modifier = Modifier.width(3.dp))
                 Text(
                     text = stringResource(id = R.string.won),
                     style = medium12
                 )
             }
         }
-        Spacer(modifier = modifier.height(13.dp))
+        Spacer(modifier = Modifier.height(13.dp))
         buttonArea()
 
     }
@@ -121,15 +122,16 @@ fun MakeCarBottomBar(
     val processEnd = appState.progressEnd
     val totalPrice by viewModel.totalPrice.collectAsStateWithLifecycle()
     val showSummary by viewModel.showSummary.collectAsStateWithLifecycle()
-    val trimOptions by viewModel.selectedTrim.collectAsStateWithLifecycle()
-    val colorOptions by viewModel.selectedColor.collectAsStateWithLifecycle()
-    val totalExtraOption by viewModel.totalExtraOptions.collectAsStateWithLifecycle()
+    val selectedModel by viewModel.selectedModelSimple.observeAsState()
+    val trimOptions by viewModel.selectedTrimSimple.collectAsStateWithLifecycle()
+    val colorOptions by viewModel.selectedColorSimple.collectAsStateWithLifecycle()
+    val totalExtraOption by viewModel.selectedOptionSimple.collectAsStateWithLifecycle()
 
     BottomBar(
         modifier = modifier,
         totalPrice = totalPrice,
         summaryText = stringResource(id = R.string.show_summary),
-        underLineWidth = 61,
+        underLineWidth = 67,
         buttonArea = {
             HyundaiButton(
                 modifier = modifier,
@@ -159,6 +161,7 @@ fun MakeCarBottomBar(
         ) {
             SummaryBottomSheetContent(
                 totalPrice = totalPrice,
+                modelOption = selectedModel?.let { listOf(it) } ?: emptyList(),
                 trimOptions = trimOptions,
                 colorOptions = colorOptions,
                 extraOptions = totalExtraOption
@@ -170,27 +173,25 @@ fun MakeCarBottomBar(
 @Composable
 fun ArchiveBottomBar(
     modifier: Modifier = Modifier,
+    totalPrice: Int,
+    onClick: () -> Unit,
 ) {
     BottomBar(
         modifier = modifier,
-        totalPrice = 0,
+        totalPrice = totalPrice,
         summaryText = stringResource(id = R.string.archive_total_price),
         underLineWidth = 35,
         buttonArea = {
             Row(
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                ArchiveSaveButton(
-                    modifier = modifier,
-                    onSave = {}
-                )
-                Spacer(modifier = modifier.width(16.dp))
+                ArchiveSaveButton(onSave = {})
+                Spacer(modifier = Modifier.width(16.dp))
                 HyundaiButton(
-                    modifier = modifier,
                     backgroundColor = PrimaryBlue,
                     textColor = HyundaiLightSand,
                     text = stringResource(id = R.string.archive_make_my_car),
-                    onClick = {}
+                    onClick = onClick
                 )
             }
         }
@@ -244,7 +245,10 @@ fun PreviewMakeCarBottomBar() {
 @Preview
 @Composable
 fun PreviewArchiveBottomBar() {
-    ArchiveBottomBar()
+    ArchiveBottomBar(
+        totalPrice = 0,
+        onClick = {}
+    )
 }
 
 @Preview

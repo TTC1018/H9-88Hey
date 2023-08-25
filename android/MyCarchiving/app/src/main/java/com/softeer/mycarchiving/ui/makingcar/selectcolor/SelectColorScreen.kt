@@ -3,6 +3,7 @@ package com.softeer.mycarchiving.ui.makingcar.selectcolor
 import android.util.Log
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -13,7 +14,10 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
@@ -27,6 +31,7 @@ import coil.compose.AsyncImage
 import coil.imageLoader
 import coil.request.ImageRequest
 import com.softeer.data.CarColorType
+import com.softeer.domain.model.CarDetails
 import com.softeer.mycarchiving.model.makingcar.ColorOptionUiModel
 import com.softeer.mycarchiving.ui.component.CarColorSelectItem
 import com.softeer.mycarchiving.ui.component.OptionHeadText
@@ -63,6 +68,19 @@ fun SelectColorRoute(
     val interiors by selectColorViewModel.interiors.collectAsStateWithLifecycle()
     val interiorTags by selectColorViewModel.interiorTags.collectAsStateWithLifecycle()
     val selectedColor by makingCarViewModel.selectedColor.collectAsStateWithLifecycle()
+    val carDetails by makingCarViewModel.carDetails.observeAsState()
+    val isArchived = carDetails != null && selectedColor.isEmpty()
+    val isInitial = selectedColor.getOrNull(screenProgress) == null
+
+    // 아카이빙 데이터 로드
+    if (isArchived) {
+        InitArchiveDataEffect(
+            carDetails = carDetails,
+            exteriors = exteriors,
+            interiors = interiors,
+            saveTrimOptions = makingCarViewModel::updateSelectedColorOption
+        )
+    }
 
     // 방금 전 상태까지 임시 저장
     LaunchedEffect(screenProgress) {
@@ -71,43 +89,36 @@ fun SelectColorRoute(
         }
     }
 
-    LaunchedEffect(key1 = screenProgress, key2 = exteriors, key3 = interiors) {
-        val colorOptions = when (mainProgress to screenProgress) {
-            TRIM_COLOR to TRIM_EXTERIOR -> exteriors
-            TRIM_COLOR to TRIM_INTERIOR, TRIM_OPTION to TRIM_EXTRA -> interiors
-            else -> emptyList()
-        }
+    if (mainProgress == TRIM_COLOR) {
+        LaunchedEffect(screenProgress, exteriors, interiors, isInitial) {
+            val colorOptions = when (mainProgress to screenProgress) {
+                TRIM_COLOR to TRIM_EXTERIOR -> exteriors
+                TRIM_COLOR to TRIM_INTERIOR, TRIM_OPTION to TRIM_EXTRA -> interiors
+                else -> emptyList()
+            }
 
-        val isInitial = selectedColor.getOrNull(screenProgress) == null
-        if (isInitial) { // 화면 처음 진입 시 첫 색상 자동 선택 및 등록
-            selectColorViewModel.changeSelectedColor(0)
-            makingCarViewModel.updateSelectedColorOption(
-                colorOptions.firstOrNull(),
-                screenProgress,
-                isInitial
-            )
-        } else { // 이미 진입했던 화면이면 이전에 선택한 데이터 로드
-            colorOptions
-                .indexOfFirst { it.optionName == selectedColor.getOrNull(screenProgress)?.optionName }
-                .takeIf { index -> index >= 0 }
-                ?.let { savedIndex ->
-                    selectColorViewModel.changeSelectedColor(savedIndex)
+            if (isInitial && isArchived.not()) { // 화면 처음 진입 시 첫 색상 자동 선택 및 등록
+                selectColorViewModel.changeSelectedColor(0)
+                colorOptions.firstOrNull()?.let { color ->
+                    makingCarViewModel.updateSelectedColorOption(
+                        color,
+                        screenProgress,
+                        isInitial
+                    )
                 }
+            } else { // 이미 진입했던 화면이면 이전에 선택한 데이터 로드
+                colorOptions
+                    .indexOfFirst { it.id == selectedColor.getOrNull(screenProgress)?.id }
+                    .takeIf { index -> index >= 0 }
+                    ?.let { savedIndex ->
+                        selectColorViewModel.changeSelectedColor(savedIndex)
+                    }
+            }
+
+            selectColorViewModel.changeCategory(screenProgress)
         }
 
-        selectColorViewModel.changeCategory(screenProgress)
-    }
-
-    val context = LocalContext.current
-    LaunchedEffect(interiorImageUrls) {
-        interiorImageUrls.forEach { imageUrl ->
-            context.imageLoader.execute(
-                ImageRequest.Builder(context)
-                    .data(imageUrl)
-                    .memoryCacheKey(imageUrl)
-                    .build()
-            )
-        }
+        InteriorImagePreloadEffect(interiorImageUrls = interiorImageUrls)
     }
 
     SelectColorScreen(
@@ -159,7 +170,7 @@ fun SelectColorScreen(
     onLeftClick: () -> Unit,
     onRightClick: () -> Unit,
     onColorSelect: (Int) -> Unit,
-    onSaveColor: (ColorOptionUiModel, Int, Boolean) -> Unit,
+    onSaveColor: (ColorOptionUiModel, Int, isInitial: Boolean, isArchived: Boolean) -> Unit,
     onSaveImageUrl: (String) -> Unit,
 ) {
     val selectedColor = colorOptions.getOrNull(selectedIndex)
@@ -170,65 +181,67 @@ fun SelectColorScreen(
         }
     }
 
-    AnimatedContent(
-        targetState = tags, // 태그까지 불러지면 다 로드된 것
-        transitionSpec = { fadeInAndOut() },
-        label = ""
-    ) {
-        when {
-            it.isNotEmpty() -> {
-                Column(
-                    modifier = modifier
-                        .fillMaxSize(),
-                    verticalArrangement = Arrangement.spacedBy(16.dp)
-                ) {
-                    if (selectedColor != null) {
-                        SelectColorTopArea(
-                            mainProgress = mainProgress,
-                            screenProgress = screenProgress,
-                            topImagePath = topImagePath,
-                            topImageIndex = topImageIndex,
-                            onLeftClick = onLeftClick,
-                            onRightClick = onRightClick,
-                        )
-                        Column(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(16.dp),
-                            verticalArrangement = Arrangement.spacedBy(16.dp)
-                        ) {
-                            Row(
-                                modifier = Modifier
-                                    .fillMaxWidth(),
-                                horizontalArrangement = Arrangement.SpaceBetween,
-                                verticalAlignment = Alignment.CenterVertically
-                            ) {
-                                OptionHeadText(optionName = category)
-                                OptionRegular14Text(optionName = selectedColor.optionName)
-                            }
-                            LazyRow {
-                                itemsIndexed(colorOptions) { idx, item ->
-                                    CarColorSelectItem(
-                                        onItemClick = {
-                                            onColorSelect(idx)
-                                            onSaveColor(item, screenProgress, isInitial)
-                                        },
-                                        imageUrl = item.imageUrl,
-                                        selected = selectedColor.imageUrl == item.imageUrl,
-                                    )
-                                }
-                            }
-                            OptionInfoDivider(thickness = 4.dp, color = HyundaiLightSand)
-                            OptionSelectedInfo(
-                                optionName = selectedColor.optionName,
-                                optionTags = tags.getOrDefault(selectedColor.id, emptyList())
+    Box(modifier = modifier.fillMaxSize()) {
+        AnimatedContent(
+            targetState = tags, // 태그까지 불러지면 다 로드된 것
+            transitionSpec = { fadeInAndOut() },
+            label = ""
+        ) {
+            when {
+                it.isNotEmpty() -> {
+                    Column(
+                        modifier = Modifier
+                            .fillMaxSize(),
+                        verticalArrangement = Arrangement.spacedBy(16.dp)
+                    ) {
+                        if (selectedColor != null) {
+                            SelectColorTopArea(
+                                mainProgress = mainProgress,
+                                screenProgress = screenProgress,
+                                topImagePath = topImagePath,
+                                topImageIndex = topImageIndex,
+                                onLeftClick = onLeftClick,
+                                onRightClick = onRightClick,
                             )
+                            Column(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(16.dp),
+                                verticalArrangement = Arrangement.spacedBy(16.dp)
+                            ) {
+                                Row(
+                                    modifier = Modifier
+                                        .fillMaxWidth(),
+                                    horizontalArrangement = Arrangement.SpaceBetween,
+                                    verticalAlignment = Alignment.CenterVertically
+                                ) {
+                                    OptionHeadText(optionName = category)
+                                    OptionRegular14Text(optionName = selectedColor.optionName)
+                                }
+                                LazyRow {
+                                    itemsIndexed(colorOptions) { idx, item ->
+                                        CarColorSelectItem(
+                                            onItemClick = {
+                                                onColorSelect(idx)
+                                                onSaveColor(item, screenProgress, isInitial, false)
+                                            },
+                                            imageUrl = item.imageUrl,
+                                            selected = selectedColor.imageUrl == item.imageUrl,
+                                        )
+                                    }
+                                }
+                                OptionInfoDivider(thickness = 4.dp, color = HyundaiLightSand)
+                                OptionSelectedInfo(
+                                    optionName = selectedColor.optionName,
+                                    optionTags = tags.getOrDefault(selectedColor.id, emptyList())
+                                )
+                            }
                         }
                     }
                 }
-            }
 
-            else -> LoadingScreen {}
+                else -> LoadingScreen {}
+            }
         }
     }
 }
@@ -265,6 +278,44 @@ fun SelectColorTopArea(
                     .build(),
                 contentDescription = "",
                 contentScale = ContentScale.FillBounds
+            )
+        }
+    }
+}
+
+@Composable
+private fun InitArchiveDataEffect(
+    carDetails: CarDetails?,
+    exteriors: List<ColorOptionUiModel>,
+    interiors: List<ColorOptionUiModel>,
+    saveTrimOptions: (ColorOptionUiModel, Int, Boolean, Boolean) -> Unit,
+) {
+    LaunchedEffect(exteriors) {
+        carDetails?.exteriorColor?.run {
+            exteriors.find { it.id == id }
+                ?.let { saveTrimOptions(it, TRIM_EXTERIOR, true, true) }
+        }
+    }
+    LaunchedEffect(interiors) {
+        carDetails?.interiorColor?.run {
+            interiors.find { it.id == id }
+                ?.let { saveTrimOptions(it, TRIM_INTERIOR, true, true) }
+        }
+    }
+}
+
+@Composable
+private fun InteriorImagePreloadEffect(
+    interiorImageUrls: List<String>
+) {
+    val context = LocalContext.current
+    LaunchedEffect(interiorImageUrls) {
+        interiorImageUrls.forEach { imageUrl ->
+            context.imageLoader.execute(
+                ImageRequest.Builder(context)
+                    .data(imageUrl)
+                    .memoryCacheKey(imageUrl)
+                    .build()
             )
         }
     }
@@ -310,7 +361,7 @@ fun PreviewSelectColorScreen() {
         onLeftClick = {},
         onRightClick = {},
         onColorSelect = {},
-        onSaveColor = { _, _, _ -> },
+        onSaveColor = { _, _, _, _ -> },
         onSaveImageUrl = {}
     )
 }

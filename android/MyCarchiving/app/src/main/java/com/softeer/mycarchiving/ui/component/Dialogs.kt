@@ -76,7 +76,8 @@ fun BasicItemDialog(
                 ) {
                     Text(
                         modifier = Modifier
-                            .align(Alignment.Center),
+                            .align(Alignment.Center)
+                            .fillMaxWidth(0.7f),
                         text = detailItem.name,
                         style = medium18,
                         textAlign = TextAlign.Center
@@ -147,17 +148,17 @@ fun ButtonDialog(
             shape = roundCorner
         ) {
             Column(
-                modifier = modifier
+                modifier = Modifier
                     .padding(start = 12.dp, end = 12.dp, bottom = 13.dp),
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.SpaceBetween
             ) {
                 Box(
-                    modifier = modifier.weight(1f),
+                    modifier = Modifier.weight(1f),
                     contentAlignment = Alignment.Center
                 ) {
                     Text(
-                        modifier = modifier,
+                        modifier = Modifier,
                         text = annotatedString,
                         style = regular14,
                         textAlign = TextAlign.Center

@@ -21,6 +21,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
@@ -43,17 +44,20 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
-import com.softeer.data.CarColorType
 import com.softeer.mycarchiving.R
 import com.softeer.mycarchiving.enums.ArchiveSearchPage
 import com.softeer.mycarchiving.enums.ArchiveSearchPage.*
+import com.softeer.mycarchiving.model.TrimOptionSimpleUiModel
 import com.softeer.mycarchiving.model.TrimOptionUiModel
 import com.softeer.mycarchiving.model.archiving.SearchOption
 import com.softeer.mycarchiving.model.archiving.SearchOptionUiModel
 import com.softeer.mycarchiving.model.common.CarBasicDetailUiModel
 import com.softeer.mycarchiving.model.common.CarBasicUiModel
 import com.softeer.mycarchiving.model.common.SummaryChildUiModel
+import com.softeer.mycarchiving.model.makingcar.ColorOptionSimpleUiModel
 import com.softeer.mycarchiving.model.makingcar.ColorOptionUiModel
+import com.softeer.mycarchiving.model.makingcar.SelectModelUiModel
+import com.softeer.mycarchiving.model.makingcar.SelectOptionSimpleUiModel
 import com.softeer.mycarchiving.model.makingcar.SelectOptionUiModel
 import com.softeer.mycarchiving.ui.theme.DarkGray
 import com.softeer.mycarchiving.ui.theme.HyundaiLightSand
@@ -202,9 +206,10 @@ fun CarBasicDetailItem(
 fun SummaryBottomSheetContent(
     modifier: Modifier = Modifier,
     totalPrice: Int,
-    trimOptions: List<TrimOptionUiModel>,
-    colorOptions: List<ColorOptionUiModel>,
-    extraOptions: List<SelectOptionUiModel>,
+    modelOption: List<SelectModelUiModel>,
+    trimOptions: List<TrimOptionSimpleUiModel>,
+    colorOptions: List<ColorOptionSimpleUiModel>,
+    extraOptions: List<SelectOptionSimpleUiModel>,
 ) {
     val scrollState = rememberScrollState()
     Column(
@@ -224,7 +229,7 @@ fun SummaryBottomSheetContent(
             modifier = Modifier,
             labelName = stringResource(id = R.string.summary_total_price),
             totalPrice = totalPrice,
-            summaryChildren = trimOptions.trimsToSummary(),
+            summaryChildren = modelOption.map { it.toSummary() } + trimOptions.trimsToSummary(),
         )
         SummaryLabel(
             modifier = modifier,
@@ -362,182 +367,241 @@ fun SearchCarBottomSheetContent(
             .fillMaxSize()
             .background(White)
     ) {
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 16.dp, vertical = 20.dp)
-        ) {
-            if (currentPage.needBack) {
-                Box(
-                    modifier = Modifier
-                        .size(24.dp)
-                        .align(Alignment.CenterStart)
-                        .clickable { onBackClick() },
-                    contentAlignment = Alignment.Center
-                ){
-                    Icon(
-                        painter = painterResource(id = R.drawable.ic_back),
-                        contentDescription = null
-                    )
-                }
-            }
-            Text(
-                modifier = modifier.align(Alignment.Center),
-                text = stringResource(id = currentPage.titleTextId),
-                style = medium16,
-                fontSize = if (currentPage == SEARCH_CONDITION) 16.sp else 14.sp,
-            )
-            Icon(
-                modifier = Modifier
-                    .align(Alignment.CenterEnd)
-                    .clickable { closeSheet() },
-                painter = painterResource(id = R.drawable.ic_close),
-                contentDescription = null
-            )
-        }
+        SearchCarBottomSheetTopArea(
+            currentPage = currentPage,
+            closeSheet = closeSheet,
+            onBackClick = onBackClick
+        )
         Divider(thickness = 1.dp, color = ThinGray)
-        val setOptionsScrollState = rememberScrollState()
-        when(currentPage) {
-            SEARCH_CONDITION -> {
-                Column(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(horizontal = 16.dp, vertical = 32.dp)
-                        .weight(1f),
+        SearchCarBottomSheetBodyArea(
+            modifier = Modifier.weight(1f),
+            currentPage =  currentPage,
+            selectedCar = selectedCar,
+            selectedOptions = selectedOptions,
+            ableCars = ableCars,
+            ableOptions = ableOptions,
+            ableOptionsSize = ableOptionsSize,
+            moveSetCar = moveSetCar,
+            moveSetOption = moveSetOption,
+            onOptionChipClick =  onOptionChipClick,
+            deleteSelectedOptionChip =  deleteSelectedOptionChip
+        )
+        SearchCarBottomSheetBottomArea(
+            currentPage = currentPage,
+            pendingCar = pendingCar,
+            pendingOptions = pendingOptions,
+            ableOptionsSize = ableOptionsSize,
+            deletePendingOptionChip = deletePendingOptionChip,
+            onButtonClick = onButtonClick
+        )
+    }
+}
+
+@Composable
+fun SearchCarBottomSheetTopArea(
+    modifier: Modifier = Modifier,
+    currentPage: ArchiveSearchPage,
+    closeSheet: () -> Unit,
+    onBackClick: () -> Unit,
+) {
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 16.dp, vertical = 20.dp)
+    ) {
+        if (currentPage.needBack) {
+            Box(
+                modifier = Modifier
+                    .size(24.dp)
+                    .align(Alignment.CenterStart)
+                    .clickable { onBackClick() },
+                contentAlignment = Alignment.Center
+            ){
+                Icon(
+                    painter = painterResource(id = R.drawable.ic_back),
+                    contentDescription = null
+                )
+            }
+        }
+        Text(
+            modifier = modifier.align(Alignment.Center),
+            text = stringResource(id = currentPage.titleTextId),
+            style = medium16,
+            fontSize = if (currentPage == SEARCH_CONDITION) 16.sp else 14.sp,
+        )
+        Icon(
+            modifier = Modifier
+                .align(Alignment.CenterEnd)
+                .clickable { closeSheet() },
+            painter = painterResource(id = R.drawable.ic_close),
+            contentDescription = null
+        )
+    }
+}
+
+@Composable
+fun SearchCarBottomSheetBodyArea(
+    modifier: Modifier = Modifier,
+    currentPage: ArchiveSearchPage,
+    selectedCar: SearchOption,
+    selectedOptions: List<SearchOption>,
+    ableCars: List<SearchOptionUiModel>,
+    ableOptions: List<SearchOptionUiModel>,
+    ableOptionsSize: Int,
+    moveSetCar: () -> Unit,
+    moveSetOption: () -> Unit,
+    onOptionChipClick: (SearchOption) -> Unit,
+    deleteSelectedOptionChip: (SearchOption) -> Unit,
+) {
+    when(currentPage) {
+        SEARCH_CONDITION -> {
+            Column(
+                modifier = modifier
+                    .fillMaxSize()
+                    .padding(horizontal = 16.dp, vertical = 32.dp)
+            ) {
+                Text(
+                    text = stringResource(id = R.string.archive_search_set_car),
+                    style = medium16
+                )
+                Spacer(modifier = Modifier.height(10.dp))
+                SearchConditionButton(
+                    selectedCar = selectedCar.name,
+                    onClick = { moveSetCar() }
+                )
+                Spacer(modifier = Modifier.height(24.dp))
+                Divider(thickness = 1.dp, color = ThinGray)
+                Spacer(modifier = Modifier.height(24.dp))
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.Bottom
                 ) {
                     Text(
-                        text = stringResource(id = R.string.archive_search_set_car),
+                        text = stringResource(id = R.string.archive_search_set_option),
                         style = medium16
                     )
-                    Spacer(modifier = Modifier.height(10.dp))
-                    SearchConditionButton(
-                        selectedCar = selectedCar.name,
-                        onClick = { moveSetCar() }
-                    )
-                    Spacer(modifier = Modifier.height(24.dp))
-                    Divider(thickness = 1.dp, color = ThinGray)
-                    Spacer(modifier = Modifier.height(24.dp))
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.SpaceBetween,
-                        verticalAlignment = Alignment.Bottom
-                    ) {
-                        Text(
-                            text = stringResource(id = R.string.archive_search_set_option),
-                            style = medium16
-                        )
-                        Text(
-                            text = stringResource(
-                                id = R.string.archive_search_set_option_count,
-                                selectedOptions.size,
-                                ableOptionsSize
-                            ),
-                            style = medium12
-                        )
-                    }
-                    Spacer(modifier = Modifier.height(10.dp))
-                    SearchConditionButton(
-                        onClick = { moveSetOption() }
-                    )
-                    Spacer(modifier = Modifier.height(14.dp))
-                    SearchDeleteChipFlowList(
-                        options = selectedOptions,
-                        horizontalSpace = 4,
-                        deleteChip = deleteSelectedOptionChip
+                    Text(
+                        text = stringResource(
+                            id = R.string.archive_search_set_option_count,
+                            selectedOptions.size,
+                            ableOptionsSize
+                        ),
+                        style = medium12
                     )
                 }
+                Spacer(modifier = Modifier.height(10.dp))
+                SearchConditionButton(
+                    onClick = { moveSetOption() }
+                )
+                Spacer(modifier = Modifier.height(14.dp))
+                SearchDeleteChipFlowList(
+                    options = selectedOptions,
+                    horizontalSpace = 4,
+                    deleteChip = deleteSelectedOptionChip
+                )
             }
+        }
+        SET_CAR -> {
+            Column(
+                modifier = modifier
+                    .fillMaxSize()
+                    .padding(horizontal = 16.dp, vertical = 12.dp)
+            ) {
+                ableCars.forEach {
+                    SearchCarBottomSheetGridItem(searchOptionUiModel = it)
+                }
+            }
+        }
+        SET_OPTION -> {
+            Column(
+                modifier = modifier
+                    .fillMaxSize()
+                    .verticalScroll(rememberScrollState())
+                    .padding(horizontal = 16.dp, vertical = 12.dp)
+            ) {
+                ableOptions.forEachIndexed { index, option ->
+                    SearchCarBottomSheetFlowItem(
+                        searchOptionUiModel = option,
+                        onChipClick = onOptionChipClick
+                    )
+                    if (index < ableOptions.size - 1) {
+                        Divider(thickness = 1.dp, color = ThinGray)
+                    }
+                }
+            }
+        }
+    }
+}
+
+@Composable
+fun SearchCarBottomSheetBottomArea(
+    modifier: Modifier = Modifier,
+    currentPage: ArchiveSearchPage,
+    pendingCar: SearchOption,
+    pendingOptions: List<SearchOption>,
+    ableOptionsSize: Int,
+    deletePendingOptionChip: (SearchOption) -> Unit,
+    onButtonClick: () -> Unit,
+) {
+    Column(
+        modifier = modifier
+            .padding(bottom = 20.dp)
+    ) {
+        when (currentPage) {
+            SEARCH_CONDITION -> {/*none*/}
             SET_CAR -> {
+                Divider(thickness = 1.dp, color = LightGray)
                 Column(
                     modifier = Modifier
-                        .fillMaxSize()
-                        .padding(horizontal = 16.dp, vertical = 12.dp)
-                        .weight(1f),
+                        .fillMaxWidth()
+                        .padding(start = 16.dp, end = 16.dp, top = 16.dp, bottom = 18.dp)
                 ) {
-                    ableCars.forEach {
-                        SearchCarBottomSheetGridItem(searchOptionUiModel = it)
-                    }
+                    Text(
+                        text = stringResource(id = R.string.archive_search_set_car_selected_car),
+                        style = medium14
+                    )
+                    Spacer(modifier = Modifier.height(10.dp))
+                    SearchConditionChip(searchOption = pendingCar)
                 }
             }
             SET_OPTION -> {
-                Column(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .verticalScroll(setOptionsScrollState)
-                        .padding(horizontal = 16.dp, vertical = 12.dp)
-                        .weight(1f),
-                ) {
-                    ableOptions.forEachIndexed { index, option ->
-                        SearchCarBottomSheetFlowItem(
-                            searchOptionUiModel = option,
-                            onChipClick = onOptionChipClick
-                        )
-                        if (index < ableOptions.size - 1) {
-                            Divider(thickness = 1.dp, color = ThinGray)
-                        }
-                    }
-                }
-            }
-        }
-        Column(
-            modifier = Modifier
-                .padding(bottom = 20.dp)
-        ) {
-            when (currentPage) {
-                SEARCH_CONDITION -> {/*none*/ }
-                SET_CAR -> {
+                AnimatedVisibility(visible = pendingOptions.isNotEmpty()) {
                     Divider(thickness = 1.dp, color = LightGray)
                     Column(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(start = 16.dp, end = 16.dp, top = 16.dp, bottom = 18.dp)
+                            .padding(start = 16.dp, end = 16.dp, top = 16.dp, bottom = 10.dp)
                     ) {
                         Text(
-                            text = stringResource(id = R.string.archive_search_set_car_selected_car),
-                            style = medium14
+                            text = stringResource(id = R.string.archive_search_set_option_count, pendingOptions.size, ableOptionsSize),
+                            style = medium12
                         )
                         Spacer(modifier = Modifier.height(10.dp))
-                        SearchConditionChip(searchOption = pendingCar)
-                    }
-                }
-                SET_OPTION -> {
-                    AnimatedVisibility(visible = pendingOptions.isNotEmpty()) {
-                        Divider(thickness = 1.dp, color = LightGray)
-                        Column(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(start = 16.dp, end = 16.dp, top = 16.dp, bottom = 10.dp)
-                        ) {
-                            Text(
-                                text = stringResource(id = R.string.archive_search_set_option_count, pendingOptions.size, ableOptionsSize),
-                                style = medium12
-                            )
-                            Spacer(modifier = Modifier.height(10.dp))
-                            SearchDeleteChipFlowList(
-                                options = pendingOptions,
-                                horizontalSpace = 8,
-                                deleteChip = deletePendingOptionChip
-                            )
-                        }
-                    }
-                }
-            }
-            Box(
-                modifier = Modifier.padding(horizontal = 16.dp)
-            ) {
-                HyundaiButton(
-                    text = if (currentPage == SET_OPTION) {
-                        stringResource(
-                            id = R.string.archive_search_apply_options,
-                            pendingOptions.size
+                        SearchDeleteChipFlowList(
+                            options = pendingOptions,
+                            horizontalSpace = 8,
+                            deleteChip = deletePendingOptionChip
                         )
-                    } else {
-                        stringResource(id = R.string.archive_search_apply_selected_item)
-                    },
-                    textColor = White,
-                    onClick = onButtonClick,
-                )
+                    }
+                }
             }
+        }
+        Box(
+            modifier = Modifier.padding(horizontal = 16.dp)
+        ) {
+            HyundaiButton(
+                text = if (currentPage == SET_OPTION) {
+                    stringResource(
+                        id = R.string.archive_search_apply_options,
+                        pendingOptions.size
+                    )
+                } else {
+                    stringResource(id = R.string.archive_search_apply_selected_item)
+                },
+                textColor = White,
+                onClick = onButtonClick,
+            )
         }
     }
 }
@@ -559,8 +623,8 @@ fun SearchCarBottomSheetGridItem(
         )
         Spacer(modifier = Modifier.height(10.dp))
         LazyVerticalGrid(
+            state = rememberLazyGridState(),
             columns = GridCells.Fixed(count = 2),
-            userScrollEnabled = false,
             verticalArrangement = Arrangement.spacedBy(10.dp),
             horizontalArrangement = Arrangement.spacedBy(7.dp)
         ) {
@@ -632,18 +696,35 @@ fun SearchDeleteChipFlowList(
     }
 }
 
-private fun List<TrimOptionUiModel>.trimsToSummary(): List<SummaryChildUiModel> =
-    this.fold(0 to "") { acc, trimOptionUiModel ->
-        (acc.first + (trimOptionUiModel.price
-            ?: 0)) to (acc.second + trimOptionUiModel.optionName + " / ")
-    }.run { listOf(SummaryChildUiModel(name = second.dropLast(3), price = first.toPriceString())) }
 
-private fun ColorOptionUiModel.colorToSummary(): SummaryChildUiModel =
+private fun SelectModelUiModel.toSummary(): SummaryChildUiModel =
     SummaryChildUiModel(
-        name = optionName,
-        colorPosition = category.type.take(2),
+        name = name,
+        price = price.toPriceString()
+    )
+
+private fun List<TrimOptionSimpleUiModel>.trimsToSummary(): List<SummaryChildUiModel> {
+    return if (this.isNotEmpty())
+        this.fold(0 to "") { acc, trimOption ->
+            (acc.first + (trimOption.price)) to (acc.second + trimOption.name + " / ")
+        }.run {
+            listOf(
+                SummaryChildUiModel(
+                    name = second.dropLast(3),
+                    price = first.toPriceString()
+                )
+            )
+        }
+    else
+        emptyList()
+}
+
+private fun ColorOptionSimpleUiModel.colorToSummary(): SummaryChildUiModel =
+    SummaryChildUiModel(
+        name = colorName,
+        colorPosition = category.take(2),
         imageUrl = imageUrl,
-        price = price.toPriceString(),
+        price = price?.toPriceString()
     )
 
 private fun SelectOptionUiModel.extraToSummary(): SummaryChildUiModel =
@@ -651,6 +732,12 @@ private fun SelectOptionUiModel.extraToSummary(): SummaryChildUiModel =
         name = name,
         price = price.toPriceString(),
         imageUrl = imageUrl,
+    )
+
+private fun SelectOptionSimpleUiModel.extraToSummary(): SummaryChildUiModel =
+    SummaryChildUiModel(
+        name = name,
+        price = price.toPriceString(),
     )
 
 

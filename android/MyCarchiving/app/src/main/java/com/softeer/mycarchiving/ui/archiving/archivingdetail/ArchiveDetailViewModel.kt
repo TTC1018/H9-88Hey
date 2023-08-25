@@ -20,10 +20,10 @@ class ArchiveDetailViewModel @Inject constructor(
     getCarDetailsUseCase: GetCarDetailsUseCase,
 ) : ViewModel() {
 
-    val feedId = savedStateHandle.getStateFlow(KEY_ARCHIVE_DETAIL, -1L)
+    val feedId = savedStateHandle.getStateFlow(KEY_ARCHIVE_DETAIL, "")
 
     val details = feedId.flatMapLatest { id ->
-        if (id > 0) {
+        if (id.isNotEmpty()) {
             getCarDetailsUseCase(id).map { it?.asUiModel() }
         } else {
             emptyFlow()

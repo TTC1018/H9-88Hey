@@ -8,20 +8,26 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.softeer.mycarchiving.navigation.ArchivingDestinations
+import com.softeer.mycarchiving.navigation.MainDestination
 import com.softeer.mycarchiving.ui.archiving.KEY_ARCHIVE_DETAIL
 
-fun NavController.navigateToArchivingDetail(feedId: Long, navOptions: NavOptions? = null) {
+fun NavController.navigateToArchivingDetail(feedId: String, navOptions: NavOptions? = null) {
     navigate("${ArchivingDestinations.ARCHIVING_DETAIL.route}/$feedId", navOptions)
 }
 
-fun NavGraphBuilder.archivingDetailScreen(onBackClick: () -> Unit) {
+fun NavGraphBuilder.archivingDetailScreen(
+    onBackClick: () -> Unit,
+    onMakingCarClick: (MainDestination, String?) -> Unit,
+) {
     composable(
         route = "${ArchivingDestinations.ARCHIVING_DETAIL.route}/{$KEY_ARCHIVE_DETAIL}",
-        arguments = listOf(navArgument(KEY_ARCHIVE_DETAIL) { type = NavType.LongType })
+        arguments = listOf(navArgument(KEY_ARCHIVE_DETAIL) { type = NavType.StringType })
     ) {
         BackHandler {
             onBackClick()
         }
-        ArchiveDetailRoute()
+        ArchiveDetailRoute(
+            onMakingCarClick = onMakingCarClick
+        )
     }
 }

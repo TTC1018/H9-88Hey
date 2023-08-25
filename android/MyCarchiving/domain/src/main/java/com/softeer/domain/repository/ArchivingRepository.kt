@@ -12,6 +12,6 @@ interface ArchivingRepository {
 
     fun getCarFeeds(selectOptions: List<String>): Flow<PagingData<CarFeed>>
 
-    fun getCarDetails(feedId: Long): Flow<CarDetails?>
+    fun getCarDetails(feedId: String): Flow<CarDetails?>
 
 }

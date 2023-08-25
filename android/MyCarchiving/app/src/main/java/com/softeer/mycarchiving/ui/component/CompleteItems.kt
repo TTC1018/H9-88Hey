@@ -193,7 +193,7 @@ fun CompleteCarCard(
         OptionInfoDivider(thickness = 1.dp, color = HyundaiSand)
         colors.forEach {
             CompleteColorInfoRow(
-                category = it.category.type,
+                category = it.category.type.take(2),
                 imageUrl = it.imageUrl,
                 colorName = it.optionName
             )

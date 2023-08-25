@@ -52,7 +52,7 @@ fun PreviewMyArchiveSaveScreen() {
     MyArchiveSaveScreen(
         carFeeds = listOf(
             CarFeedUiModel(
-                id = 0,
+                id = "1",
                 model = "팰리세이드",
                 isPurchase = false,
                 creationDate = "2023-07-19",

@@ -39,7 +39,7 @@ class ArchivingRepositoryImpl(
             pagingData.map(ArchivingFeedDto::asEntity)
         }
 
-    override fun getCarDetails(feedId: Long): Flow<CarDetails?> =
+    override fun getCarDetails(feedId: String): Flow<CarDetails?> =
         archivingRemoteDataSource.getCarDetails(feedId)
             .map { it?.run { this.asEntity() } }
 }

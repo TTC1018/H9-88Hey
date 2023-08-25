@@ -2,6 +2,7 @@ package com.softeer.mycarchiving.ui.component
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -9,13 +10,15 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -36,41 +39,6 @@ import com.softeer.mycarchiving.ui.theme.medium14
 import com.softeer.mycarchiving.util.MakeCarProcess
 
 @Composable
-fun HyundaiTopBar(
-    appState: HyundaiAppState,
-) {
-/*    when(val destination = appState.currentMainDestination) {
-        MainDestination.ARCHIVING -> {
-*//*            ArchiveNavigateBar(
-                onStartAreaClick = appState.navController::popBackStack,
-                onEndAreaClick = { appState.navigateToMainDestination(MainDestination.MY_ARCHIVING) }
-            )*//*
-        }
-
-        MainDestination.MY_ARCHIVING -> MyArchiveNavigateBar(
-            onStartAreaClick = appState.navController::popBackStack
-        )
-
-        MainDestination.MAKING_CAR -> {
-            // MakingCarNavigation.kt로 이전
-//            MakeCarTopBar(
-//                appState = appState,
-//                viewModelStoreOwner = viewModelStoreOwner
-//            )
-        }
-
-        MainDestination.DRIVER_COMMENT,
-        MainDestination.CONSUMER_COMMENT -> ReviewNavigateBar(
-            onStartAreaClick = appState.navController::popBackStack,
-            onEndAreaClick = { *//*앱 종료*//* },
-            isBuyer = destination == MainDestination.CONSUMER_COMMENT
-        )
-
-        else -> @Composable {}
-    }*/
-}
-
-@Composable
 fun MakeCarTopBar(
     appState: HyundaiAppState,
     viewModelStoreOwner: ViewModelStoreOwner?,
@@ -81,6 +49,8 @@ fun MakeCarTopBar(
     val currentProgressId = appState.currentProgressId
     val currentProgressChildId = appState.currentProgressChildId
     val processEnd = appState.progressEnd
+    var shouldShowDialog by remember { mutableStateOf(false) }
+
     Column {
         MakeCarNavigateBar(
             carName = selectedCarModel,
@@ -89,7 +59,7 @@ fun MakeCarTopBar(
                  if (processEnd) {
                      appState.navigateToMainDestination(MainDestination.MY_ARCHIVING)
                  } else {
-                     appState.navigateToMainDestination(MainDestination.ARCHIVING)
+                     shouldShowDialog = true
                  }
             },
             isDone = processEnd
@@ -100,6 +70,13 @@ fun MakeCarTopBar(
             currentChildId = currentProgressChildId,
             isDone = processEnd
         )
+
+        if (shouldShowDialog) {
+            FinishMakeCarDialog(
+                onDismissRequest = { shouldShowDialog = false },
+                onFinish = { appState.navigateToMainDestination(MainDestination.ARCHIVING) }
+            )
+        }
     }
 }
 
@@ -117,7 +94,6 @@ fun NavigateBar(
             .fillMaxWidth()
             .height(60.dp)
             .background(color = HyundaiSand)
-            .padding(end = 15.dp),
     ) {
         Box(
             modifier = modifier
@@ -139,6 +115,7 @@ fun NavigateBar(
             modifier = modifier
                 .fillMaxHeight()
                 .align(Alignment.CenterEnd)
+                .offset(x = (-15).dp)
                 .clickable { onEndAreaClick?.invoke() },
             contentAlignment = Alignment.Center
         ) {
@@ -175,7 +152,7 @@ fun MakeCarNavigateBar(
         },
         endArea = {
             if (isDone) {
-                MyArchiveButton(modifier = modifier)
+                MyArchiveButton()
             } else {
                 Column(
                     horizontalAlignment = Alignment.CenterHorizontally
@@ -184,7 +161,7 @@ fun MakeCarNavigateBar(
                         painter = painterResource(id = R.drawable.ic_archive),
                         contentDescription = null
                     )
-                    Spacer(modifier = modifier.height(3.dp))
+                    Spacer(modifier = Modifier.height(3.dp))
                     Text(
                         text = stringResource(id = R.string.archive),
                         style = medium10,
@@ -212,13 +189,15 @@ fun ArchiveNavigateBar(
             )
         },
         centerArea = {
-             Row {
+             Row(
+                 verticalAlignment = Alignment.CenterVertically,
+                 horizontalArrangement = Arrangement.spacedBy(3.dp)
+             ) {
                  Icon(
                      painter = painterResource(id = R.drawable.ic_hyundai),
                      contentDescription = null,
                      tint = PrimaryBlue
                  )
-                 Spacer(modifier = modifier.width(6.dp))
                  Text(
                      text = stringResource(id = R.string.archive),
                      style = medium14

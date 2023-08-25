@@ -12,7 +12,7 @@ fun NavController.navigateToArchiveMain(navOptions: NavOptions? = null) {
 }
 
 fun NavGraphBuilder.archiveMainScreen(
-    moveDetailPage: (Long, ArchivingDestinations?) -> Unit,
+    moveDetailPage: (String, ArchivingDestinations?) -> Unit,
     onBackClick: () -> Unit,
 ) {
     composable(
