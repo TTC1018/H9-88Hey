@@ -18,8 +18,9 @@ import com.softeer.mycarchiving.ui.theme.HyundaiNeutral
 fun MyArchiveSaveScreen(
     modifier: Modifier = Modifier,
     savedCars: LazyPagingItems<ArchiveFeedUiModel>,
-    onClick: () -> Unit,
-    onDelete: (Int) -> Unit,
+    onFeedDetail: (ArchiveFeedUiModel) -> Unit,
+    moveDetail: () -> Unit,
+    openDeleteDialog: (ArchiveFeedUiModel) -> Unit,
 ) {
     when(savedCars.itemCount) {
         0 -> {
@@ -46,8 +47,11 @@ fun MyArchiveSaveScreen(
                             selectedOptions = this.selectedOptions.map { it.name },
                             review = this.review,
                             tags = this.tags,
-                            onFeedClick = {},
-                            openDeleteDialog = {}
+                            onFeedClick = {
+                                onFeedDetail(this)
+                                moveDetail()
+                            },
+                            openDeleteDialog = { openDeleteDialog(this) }
                         )
                     }
                 }

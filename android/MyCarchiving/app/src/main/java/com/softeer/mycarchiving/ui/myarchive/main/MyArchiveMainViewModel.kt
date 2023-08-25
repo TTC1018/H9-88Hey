@@ -4,9 +4,13 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import androidx.paging.map
 import com.softeer.domain.model.MyArchiveFeed
+import com.softeer.domain.usecase.myarchive.AddBookmarkUseCase
+import com.softeer.domain.usecase.myarchive.CheckBookmarkedUseCase
+import com.softeer.domain.usecase.myarchive.DeleteBookmarkUseCase
 import com.softeer.domain.usecase.myarchive.DeleteMadeCarFeedUseCase
 import com.softeer.domain.usecase.myarchive.GetMadeCarFeedUseCase
 import com.softeer.domain.usecase.myarchive.GetSavedCarFeedsUseCase
@@ -17,8 +21,10 @@ import com.softeer.mycarchiving.model.myarchive.ArchiveFeedUiModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flatMapLatest
-import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -29,25 +35,42 @@ class MyArchiveMainViewModel @Inject constructor(
     getMadeCarFeedUseCase: GetMadeCarFeedUseCase,
     getSavedCarFeedsUseCase: GetSavedCarFeedsUseCase,
     private val deleteMadeCarFeedUseCase: DeleteMadeCarFeedUseCase,
+    private val deleteBookmarkUseCase: DeleteBookmarkUseCase,
+    private val checkBookmarkedUseCase: CheckBookmarkedUseCase,
+    private val addBookmarkUseCase: AddBookmarkUseCase,
 ): ViewModel() {
 
-    private val _selectedPage = mutableStateOf(MADE)
-    val selectedPage: State<MyArchivePage> = _selectedPage
+    private val _selectedPage = MutableStateFlow(MADE)
+    val selectedPage: StateFlow<MyArchivePage> = _selectedPage
 
     private val refreshMadeCarFeed = MutableStateFlow(true)
 
-    val madeCarFeedPagingData = refreshMadeCarFeed.flatMapLatest { needRefresh ->
-        if (needRefresh) getMadeCarFeedUseCase()
-        else flow {  }
-    }.map { pagingData -> pagingData.map(MyArchiveFeed::asUiModel) }
+    val madeCarFeedPagingData = combine(
+        flow = refreshMadeCarFeed,
+        flow2 = _selectedPage
+    ) { needRefresh, page ->
+        if (needRefresh && page == MADE) {
+            getMadeCarFeedUseCase()
+        } else {
+            flowOf(PagingData.empty())
+        }
+    }.flatMapLatest { it }
+        .map { pagingData -> pagingData.map(MyArchiveFeed::asUiModel) }
         .cachedIn(viewModelScope)
 
     private val refreshSavedCarFeed = MutableStateFlow(true)
 
-    val savedCarFeedPagingData = refreshSavedCarFeed.flatMapLatest { needRefresh ->
-        if (needRefresh) getSavedCarFeedsUseCase()
-        else flow {  }
-    }.map { pagingData -> pagingData.map(MyArchiveFeed::asUiModel) }
+    val savedCarFeedPagingData = combine(
+        flow = refreshSavedCarFeed,
+        flow2 = _selectedPage
+    ) { needRefresh, page ->
+        if (needRefresh && page == SAVED) {
+            getSavedCarFeedsUseCase()
+        } else {
+            flowOf(PagingData.empty())
+        }
+    }.flatMapLatest { it }
+        .map { pagingData -> pagingData.map(MyArchiveFeed::asUiModel) }
         .cachedIn(viewModelScope)
 
     private val _detailCar = mutableStateOf<ArchiveFeedUiModel?>(null)
@@ -61,7 +84,7 @@ class MyArchiveMainViewModel @Inject constructor(
         _selectedPage.value = page
     }
 
-    fun onCarDetail(madeCar: ArchiveFeedUiModel) {
+    fun onFeedDetail(madeCar: ArchiveFeedUiModel) {
         _detailCar.value = madeCar
     }
 
@@ -83,18 +106,24 @@ class MyArchiveMainViewModel @Inject constructor(
         showMoveDialog.value = false
     }
 
-    fun deleteMadeCarFeed() {
+    fun deleteCarFeed() {
         viewModelScope.launch {
-            val isSuccess = deleteMadeCarFeedUseCase(focusedCarFeed.value!!.id)
-            if (isSuccess) {
-                refreshMadeCarFeed.value = false
-                refreshMadeCarFeed.value = true
+            when(_selectedPage.value) {
+                MADE -> {
+                    val isSuccess = deleteMadeCarFeedUseCase(focusedCarFeed.value!!.id)
+                    if (isSuccess) {
+                        refreshMadeCarFeed.value = false
+                        refreshMadeCarFeed.value = true
+                    }
+                }
+                SAVED -> {
+                    val isSuccess = deleteBookmarkUseCase(focusedCarFeed.value!!.id)
+                    if (isSuccess) {
+                        refreshSavedCarFeed.value = false
+                        refreshSavedCarFeed.value = true
+                    }
+                }
             }
         }
     }
-
-    fun deleteSavedCarFeed(feedId: Int) {
-
-    }
-
 }

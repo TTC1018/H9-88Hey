@@ -9,6 +9,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.ViewModelStoreOwner
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.softeer.mycarchiving.enums.MyArchivePage
@@ -25,10 +26,10 @@ fun MyArchiveMainRoute(
     viewModelStoreOwner: ViewModelStoreOwner?,
     viewModel: MyArchiveMainViewModel =
         viewModelStoreOwner?.run { hiltViewModel(this) } ?: hiltViewModel(),
-    onMadeCarClick: () -> Unit,
-    onSavedCarClick: () -> Unit,
+    moveMadeCarDetail: () -> Unit,
+    moveSavedCarDetail: () -> Unit,
 ) {
-    val selectedPage by viewModel.selectedPage
+    val selectedPage by viewModel.selectedPage.collectAsStateWithLifecycle()
     val madeCars = viewModel.madeCarFeedPagingData.collectAsLazyPagingItems()
     val savedCars = viewModel.savedCarFeedPagingData.collectAsLazyPagingItems()
     val showDeleteDialog by viewModel.showDeleteDialog
@@ -44,11 +45,10 @@ fun MyArchiveMainRoute(
         showMoveDialog = showMoveDialog,
         focusedCarFeed = wantDeleteCarFeed,
         changePage = viewModel::updateSelectedPage,
-        onMadeCarClick = onMadeCarClick,
-        onMadeCarDetail = viewModel::onCarDetail,
-        deleteCarFeed = viewModel::deleteMadeCarFeed,
-        onSavedCarClick = onSavedCarClick,
-        onSavedCarDelete = viewModel::deleteSavedCarFeed,
+        onFeedDetail = viewModel::onFeedDetail,
+        moveMadeCarDetail = moveMadeCarDetail,
+        moveSavedCarDetail = moveSavedCarDetail,
+        deleteCarFeed = viewModel::deleteCarFeed,
         openDeleteDialog = viewModel::openDeleteDialog,
         closeDeleteDialog = viewModel::closeDeleteDialog,
         openMoveDialog = viewModel::openMoveDialog,
@@ -66,11 +66,10 @@ fun MyArchiveMainScreen(
     showMoveDialog: Boolean,
     focusedCarFeed: ArchiveFeedUiModel?,
     changePage: (MyArchivePage) -> Unit,
-    onMadeCarClick: () -> Unit,
-    onMadeCarDetail: (ArchiveFeedUiModel) -> Unit,
+    onFeedDetail: (ArchiveFeedUiModel) -> Unit,
+    moveMadeCarDetail: () -> Unit,
+    moveSavedCarDetail: () -> Unit,
     deleteCarFeed: () -> Unit,
-    onSavedCarClick: () -> Unit,
-    onSavedCarDelete: (Int) -> Unit,
     openDeleteDialog: (ArchiveFeedUiModel) -> Unit,
     closeDeleteDialog: () -> Unit,
     openMoveDialog: (ArchiveFeedUiModel) -> Unit,
@@ -101,8 +100,8 @@ fun MyArchiveMainScreen(
                     showMoveDialog = showMoveDialog,
                     madeCars = madeCars,
                     focusedCarFeed = focusedCarFeed,
-                    onDetail = onMadeCarDetail,
-                    onClick = onMadeCarClick,
+                    onFeedDetail = onFeedDetail,
+                    moveDetail = moveMadeCarDetail,
                     openDeleteDialog = openDeleteDialog,
                     openMoveDialog = openMoveDialog,
                     closeMoveDialog = closeMoveDialog
@@ -113,8 +112,9 @@ fun MyArchiveMainScreen(
                         .weight(1f)
                         .fillMaxSize(),
                     savedCars = savedCars,
-                    onClick = onSavedCarClick,
-                    onDelete = onSavedCarDelete,
+                    onFeedDetail = onFeedDetail,
+                    moveDetail = moveSavedCarDetail,
+                    openDeleteDialog = openDeleteDialog
                 )
             }
         }

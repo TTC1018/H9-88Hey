@@ -17,6 +17,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.ViewModelStoreOwner
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.softeer.mycarchiving.R
 import com.softeer.mycarchiving.enums.MyArchivePage
 import com.softeer.mycarchiving.model.myarchive.ArchiveFeedSelectedOptionUiModel
@@ -37,7 +38,7 @@ fun MyArchiveDetailRoute(
     viewModel: MyArchiveMainViewModel =
         viewModelStoreOwner?.run { hiltViewModel(this) } ?: hiltViewModel()
 ) {
-    val currentPage by viewModel.selectedPage
+    val currentPage by viewModel.selectedPage.collectAsStateWithLifecycle()
     val madeCarDetail by viewModel.detailCar
 
     MyArchiveDetailScreen(

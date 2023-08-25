@@ -20,8 +20,8 @@ fun MyArchiveMadeScreen(
     showMoveDialog: Boolean,
     madeCars: LazyPagingItems<ArchiveFeedUiModel>,
     focusedCarFeed: ArchiveFeedUiModel?,
-    onDetail: (ArchiveFeedUiModel) -> Unit,
-    onClick: () -> Unit,
+    onFeedDetail: (ArchiveFeedUiModel) -> Unit,
+    moveDetail: () -> Unit,
     openDeleteDialog: (ArchiveFeedUiModel) -> Unit,
     openMoveDialog: (ArchiveFeedUiModel) -> Unit,
     closeMoveDialog: () -> Unit
@@ -48,8 +48,8 @@ fun MyArchiveMadeScreen(
                             selectedOptions = this.selectedOptions,
                             onFeedClick = {
                                 if (this.isSavedOrPurchase) {
-                                    onDetail(this)
-                                    onClick()
+                                    onFeedDetail(this)
+                                    moveDetail()
                                 } else {
                                     openMoveDialog(this)
                                 }
