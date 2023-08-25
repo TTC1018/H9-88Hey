@@ -56,6 +56,11 @@ export function useAuthInfiniteFetch<T>({ key, url, intersecting, nextOffset, me
 
       const { data } = (await response.json()) as ResponseProps<Props>;
 
+      if (data[key].length === 0) {
+        setIsLoading(false);
+        return;
+      }
+
       nextOffset.current = data.nextOffset;
       setData(prev => [...prev, ...(data[key] as [])]);
     } catch (error) {

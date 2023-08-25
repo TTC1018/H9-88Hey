@@ -28,7 +28,6 @@ export function MyFeed() {
     url: `/user/archiving/bookmark?limit=6&offset=${nextOffset.current}`,
     intersecting,
     nextOffset,
-    dependencies: [''],
     method: 'GET',
   });
 
@@ -45,9 +44,7 @@ export function MyFeed() {
           />
         )
       ) : (
-        <>
-          <FeedList myFeedChiving={archivingsByUser} onDelete={handleDelete} />
-        </>
+        <FeedList myFeedChiving={archivingsByUser} onDelete={handleDelete} />
       )}
       <div ref={fetchMoreElement}></div>
       {isShow && <ScrollTopButton onClick={scrollToTop} />}

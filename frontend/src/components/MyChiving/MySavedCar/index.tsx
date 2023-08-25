@@ -54,7 +54,6 @@ export function MySavedCar() {
     url: apiPath.mychiving(nextOffset.current, 8),
     intersecting,
     nextOffset,
-    dependencies: [''],
     method: 'GET',
   });
 
