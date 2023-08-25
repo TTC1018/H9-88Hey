@@ -104,16 +104,16 @@ class HyundaiAppState(
         }
 
     val currentArchivingDestinations: ArchivingDestinations?
-        @Composable get() = when {
-            currentArchivingDestination?.route == ARCHIVING_MAIN.route -> ARCHIVING_MAIN
-            currentArchivingDestination?.route?.startsWith(ARCHIVING_DETAIL.route) == true -> ARCHIVING_DETAIL
+        @Composable get() = when(currentArchivingDestination?.route?.split("/")?.firstOrNull()) {
+            ARCHIVING_MAIN.route -> ARCHIVING_MAIN
+            ARCHIVING_DETAIL.route -> ARCHIVING_DETAIL
             else -> null
         }
 
     val currentMyArchiveDestinations: MyArchiveDestinations?
-        @Composable get() = when {
-            currentMyArchiveDestination?.route == MY_ARCHIVE_MAIN.route -> MY_ARCHIVE_MAIN
-            currentMyArchiveDestination?.route?.startsWith(MY_ARCHIVE_DETAIL.route) == true -> MY_ARCHIVE_DETAIL
+        @Composable get() = when(currentMyArchiveDestination?.route?.split("/")?.firstOrNull()) {
+            MY_ARCHIVE_MAIN.route -> MY_ARCHIVE_MAIN
+            MY_ARCHIVE_DETAIL.route -> MY_ARCHIVE_DETAIL
             else -> null
         }
 
