@@ -18,8 +18,8 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.ViewModelStoreOwner
 import com.softeer.mycarchiving.R
-import com.softeer.mycarchiving.model.myarchive.MadeCarSelectedOptionUiModel
-import com.softeer.mycarchiving.model.myarchive.MadeCarUiModel
+import com.softeer.mycarchiving.model.myarchive.ArchiveFeedSelectedOptionUiModel
+import com.softeer.mycarchiving.model.myarchive.ArchiveFeedUiModel
 import com.softeer.mycarchiving.ui.component.DetailBanner
 import com.softeer.mycarchiving.ui.component.DetailReview
 import com.softeer.mycarchiving.ui.component.DetailSelectedOption
@@ -51,7 +51,7 @@ fun MyArchiveDetailRoute(
 fun MyArchiveDetailScreen(
     modifier: Modifier,
     screenIndex: Int,
-    detailCar: MadeCarUiModel,
+    detailCar: ArchiveFeedUiModel,
 ) {
     Column(
         modifier = modifier
@@ -75,7 +75,7 @@ fun MyArchiveDetailScreen(
                     carImageUrl = detailCar.carImageUrl ?: "",
                     model = detailCar.modelName,
                     trim = detailCar.trimName ?: "",
-                    trimOptions = detailCar.trimOptions.filterNotNull().joinToString(" / "),
+                    trimOptions = detailCar.trimOptions.joinToString(" / "),
                     price = detailCar.totalPrice,
                     exteriorColor = detailCar.exteriorColor?.name ?: "",
                     exteriorColorUrl = detailCar.exteriorColor?.colorImageUrl ?: "",
@@ -102,7 +102,7 @@ fun MyArchiveDetailScreen(
 @Composable
 fun MyArchiveSelectOptionArea(
     modifier: Modifier = Modifier,
-    selectOptions: List<MadeCarSelectedOptionUiModel>
+    selectOptions: List<ArchiveFeedSelectedOptionUiModel>
 ) {
     Column(
         modifier = modifier

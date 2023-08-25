@@ -8,7 +8,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.paging.compose.LazyPagingItems
-import com.softeer.mycarchiving.model.myarchive.MadeCarUiModel
+import com.softeer.mycarchiving.model.myarchive.ArchiveFeedUiModel
 import com.softeer.mycarchiving.ui.component.MadeCarItem
 import com.softeer.mycarchiving.ui.component.MoveMakeCarDialog
 import com.softeer.mycarchiving.ui.component.MyArchiveLoadingScreen
@@ -18,12 +18,12 @@ import com.softeer.mycarchiving.ui.theme.HyundaiLightSand
 fun MyArchiveMadeScreen(
     modifier: Modifier = Modifier,
     showMoveDialog: Boolean,
-    madeCars: LazyPagingItems<MadeCarUiModel>,
-    focusedCarFeed: MadeCarUiModel?,
-    onDetail: (MadeCarUiModel) -> Unit,
+    madeCars: LazyPagingItems<ArchiveFeedUiModel>,
+    focusedCarFeed: ArchiveFeedUiModel?,
+    onDetail: (ArchiveFeedUiModel) -> Unit,
     onClick: () -> Unit,
-    openDeleteDialog: (MadeCarUiModel) -> Unit,
-    openMoveDialog: (MadeCarUiModel) -> Unit,
+    openDeleteDialog: (ArchiveFeedUiModel) -> Unit,
+    openMoveDialog: (ArchiveFeedUiModel) -> Unit,
     closeMoveDialog: () -> Unit
 ) {
     when (madeCars.itemCount) {
@@ -40,14 +40,14 @@ fun MyArchiveMadeScreen(
                 items(count = madeCars.itemCount) { index ->
                     madeCars[index]?.run {
                         MadeCarItem(
-                            isTempSaved = this.isSaved.not(),
+                            isTempSaved = this.isSavedOrPurchase.not(),
                             modelName = this.modelName,
                             trimName = this.trimName,
-                            madeDate = this.lastModifiedDate,
-                            trimOptions = this.trimOptions.filterNotNull().joinToString(" / "),
+                            madeDate = this.date,
+                            trimOptions = this.trimOptions.joinToString(" / "),
                             selectedOptions = this.selectedOptions,
                             onItemClick = {
-                                if (this.isSaved) {
+                                if (this.isSavedOrPurchase) {
                                     onDetail(this)
                                     onClick()
                                 } else {
@@ -62,6 +62,6 @@ fun MyArchiveMadeScreen(
         }
     }
     if (showMoveDialog) {
-        MoveMakeCarDialog(onDismissRequest = closeMoveDialog, onMove = {}, saveDate = focusedCarFeed!!.lastModifiedDate)
+        MoveMakeCarDialog(onDismissRequest = closeMoveDialog, onMove = {}, saveDate = focusedCarFeed!!.date)
     }
 }

@@ -13,7 +13,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.softeer.mycarchiving.model.common.CarFeedUiModel
-import com.softeer.mycarchiving.model.myarchive.MadeCarUiModel
+import com.softeer.mycarchiving.model.myarchive.ArchiveFeedUiModel
 import com.softeer.mycarchiving.ui.component.ChoiceTab
 import com.softeer.mycarchiving.ui.component.DeleteMyArchiveCarDialog
 import com.softeer.mycarchiving.ui.myarchive.made.MyArchiveMadeScreen
@@ -63,20 +63,20 @@ fun MyArchiveMainRoute(
 fun MyArchiveMainScreen(
     modifier: Modifier = Modifier,
     selectedIndex: Int,
-    madeCars: LazyPagingItems<MadeCarUiModel>,
+    madeCars: LazyPagingItems<ArchiveFeedUiModel>,
     savedCars: List<CarFeedUiModel>,
     showDeleteDialog: Boolean,
     showMoveDialog: Boolean,
-    focusedCarFeed: MadeCarUiModel?,
+    focusedCarFeed: ArchiveFeedUiModel?,
     onSelect: (Int) -> Unit,
     onMadeCarClick: () -> Unit,
-    onMadeCarDetail: (MadeCarUiModel) -> Unit,
+    onMadeCarDetail: (ArchiveFeedUiModel) -> Unit,
     deleteCarFeed: () -> Unit,
     onSavedCarClick: () -> Unit,
     onSavedCarDelete: (Int) -> Unit,
-    openDeleteDialog: (MadeCarUiModel) -> Unit,
+    openDeleteDialog: (ArchiveFeedUiModel) -> Unit,
     closeDeleteDialog: () -> Unit,
-    openMoveDialog: (MadeCarUiModel) -> Unit,
+    openMoveDialog: (ArchiveFeedUiModel) -> Unit,
     closeMoveDialog: () -> Unit,
 ) {
     Column(

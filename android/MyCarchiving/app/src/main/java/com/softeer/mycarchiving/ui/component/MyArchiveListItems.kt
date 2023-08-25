@@ -36,7 +36,7 @@ import coil.compose.AsyncImage
 import com.softeer.mycarchiving.R
 import com.softeer.mycarchiving.enums.CarFeedType
 import com.softeer.mycarchiving.model.common.CarFeedUiModel
-import com.softeer.mycarchiving.model.myarchive.MadeCarSelectedOptionUiModel
+import com.softeer.mycarchiving.model.myarchive.ArchiveFeedSelectedOptionUiModel
 import com.softeer.mycarchiving.ui.theme.AlertPrimary
 import com.softeer.mycarchiving.ui.theme.Black
 import com.softeer.mycarchiving.ui.theme.DarkGray
@@ -65,7 +65,7 @@ fun MadeCarItem(
     modelName: String,
     trimName: String?,
     trimOptions: String,
-    selectedOptions: List<MadeCarSelectedOptionUiModel>,
+    selectedOptions: List<ArchiveFeedSelectedOptionUiModel>,
     onItemClick: () -> Unit,
     onDelete: () -> Unit
 ) {
@@ -338,9 +338,9 @@ fun PreviewMadeCarItem() {
         madeDate = "23년 7월 19일",
         trimOptions = "디젤 2.2 / 4WD / 7인승",
         selectedOptions = listOf(
-            MadeCarSelectedOptionUiModel("컴포트 II", "", listOf()),
-            MadeCarSelectedOptionUiModel("듀얼 와이드 선루프", "", listOf()),
-            MadeCarSelectedOptionUiModel("현대스마트센스 I", "", listOf())
+            ArchiveFeedSelectedOptionUiModel("컴포트 II", "", listOf()),
+            ArchiveFeedSelectedOptionUiModel("듀얼 와이드 선루프", "", listOf()),
+            ArchiveFeedSelectedOptionUiModel("현대스마트센스 I", "", listOf())
         ),
         onItemClick = {},
         onDelete = {}
