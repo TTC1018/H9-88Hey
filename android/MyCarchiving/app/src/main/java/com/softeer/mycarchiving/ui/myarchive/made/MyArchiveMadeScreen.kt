@@ -9,7 +9,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.paging.compose.LazyPagingItems
 import com.softeer.mycarchiving.model.myarchive.ArchiveFeedUiModel
-import com.softeer.mycarchiving.ui.component.MadeCarItem
+import com.softeer.mycarchiving.ui.component.MadeCarFeed
 import com.softeer.mycarchiving.ui.component.MoveMakeCarDialog
 import com.softeer.mycarchiving.ui.component.MyArchiveLoadingScreen
 import com.softeer.mycarchiving.ui.theme.HyundaiLightSand
@@ -39,14 +39,14 @@ fun MyArchiveMadeScreen(
             ) {
                 items(count = madeCars.itemCount) { index ->
                     madeCars[index]?.run {
-                        MadeCarItem(
+                        MadeCarFeed(
                             isTempSaved = this.isSavedOrPurchase.not(),
                             modelName = this.modelName,
                             trimName = this.trimName,
                             madeDate = this.date,
                             trimOptions = this.trimOptions.joinToString(" / "),
                             selectedOptions = this.selectedOptions,
-                            onItemClick = {
+                            onFeedClick = {
                                 if (this.isSavedOrPurchase) {
                                     onDetail(this)
                                     onClick()

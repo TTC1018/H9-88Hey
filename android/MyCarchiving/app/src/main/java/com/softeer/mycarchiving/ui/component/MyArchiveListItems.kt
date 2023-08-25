@@ -20,10 +20,6 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -35,7 +31,6 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.softeer.mycarchiving.R
 import com.softeer.mycarchiving.enums.CarFeedType
-import com.softeer.mycarchiving.model.common.CarFeedUiModel
 import com.softeer.mycarchiving.model.myarchive.ArchiveFeedSelectedOptionUiModel
 import com.softeer.mycarchiving.ui.theme.AlertPrimary
 import com.softeer.mycarchiving.ui.theme.Black
@@ -58,7 +53,7 @@ import com.softeer.mycarchiving.util.toDateString
 
 
 @Composable
-fun MadeCarItem(
+fun MadeCarFeed(
     modifier: Modifier = Modifier,
     isTempSaved: Boolean,
     madeDate: String,
@@ -66,7 +61,7 @@ fun MadeCarItem(
     trimName: String?,
     trimOptions: String,
     selectedOptions: List<ArchiveFeedSelectedOptionUiModel>,
-    onItemClick: () -> Unit,
+    onFeedClick: () -> Unit,
     onDelete: () -> Unit
 ) {
     Column(
@@ -74,7 +69,7 @@ fun MadeCarItem(
             .fillMaxWidth()
             .background(color = White)
             .padding(start = 22.dp, top = 20.dp, bottom = 20.dp)
-            .clickable { onItemClick() }
+            .clickable { onFeedClick() }
     ) {
         if (isTempSaved) {
             Row(
@@ -205,14 +200,21 @@ fun MadeCarEmptyImageItem(
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
-fun SavedFeed(
+fun SavedCarFeed(
     modifier: Modifier = Modifier,
-    carFeedUiModel: CarFeedUiModel,
+    date: String,
+    isPurchase: Boolean,
+    modelName: String,
+    trim: String,
+    trimOptions: List<String>,
+    exteriorColor: String,
+    interiorColor: String,
+    selectedOptions: List<String>,
+    review: String?,
+    tags: List<String>?,
     onFeedClick: () -> Unit,
-    onDelete: () -> Unit,
+    openDeleteDialog: () -> Unit,
 ) {
-    var shouldDialogShow by remember { mutableStateOf(false) }
-
     Column(
         modifier = modifier
             .fillMaxWidth()
@@ -227,23 +229,23 @@ fun SavedFeed(
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
-                text = "${carFeedUiModel.model} ${carFeedUiModel.trim}",
+                text = "$modelName $trim",
                 style = bold18
             )
-            XCircle(onClick = { shouldDialogShow = true })
+            XCircle(onClick = openDeleteDialog)
         }
         Spacer(modifier = Modifier.height(10.dp))
         Row(
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
-                text = carFeedUiModel.trimOptions.joinToString(" / "),
+                text = trimOptions.joinToString(" / "),
                 style = regular14
             )
             Spacer(modifier = Modifier.width(4.dp))
             CarFeedDateChip(
-                date = carFeedUiModel.creationDate.toDateString(),
-                feedType = if (carFeedUiModel.isPurchase) CarFeedType.PURCHASE else CarFeedType.TEST_DRIVE
+                date = date.toDateString(),
+                feedType = if (isPurchase) CarFeedType.PURCHASE else CarFeedType.TEST_DRIVE
             )
         }
         Spacer(modifier = Modifier.height(17.dp))
@@ -255,7 +257,7 @@ fun SavedFeed(
             Spacer(modifier = Modifier.width(12.dp))
             Text(
                 modifier = Modifier.weight(1f),
-                text = carFeedUiModel.exteriorColor,
+                text = exteriorColor,
                 style = regular14,
                 color = MediumDarkGray
             )
@@ -266,12 +268,12 @@ fun SavedFeed(
             Spacer(modifier = Modifier.width(12.dp))
             Text(
                 modifier = Modifier.weight(1f),
-                text = carFeedUiModel.interiorColor,
+                text = interiorColor,
                 style = regular14,
                 color = MediumDarkGray
             )
         }
-        if (carFeedUiModel.selectedOptions?.isNotEmpty() == true) {
+        if (selectedOptions.isNotEmpty()) {
             Spacer(modifier = Modifier.height(14.dp))
             Row(
                 verticalAlignment = Alignment.CenterVertically
@@ -281,48 +283,39 @@ fun SavedFeed(
                     style = medium14
                 )
                 Spacer(modifier = Modifier.width(12.dp))
-                carFeedUiModel.selectedOptions.let { options ->
-                    SavedCarOptionChip(name = options[0].name)
-                    if (options.size > 1) {
-                        Spacer(modifier = Modifier.width(6.dp))
-                        SavedCarOptionChip(name = options[1].name)
-                    }
-                    if (options.size > 2) {
-                        Spacer(modifier = Modifier.width(7.dp))
-                        Text(text = "+${options.size - 2}", style = medium12, color = DarkGray)
-                    }
+                SavedCarOptionChip(name = selectedOptions.first())
+                val secondChipVisible = selectedOptions.size > 1 && selectedOptions.first().length + selectedOptions[1].length < 18
+                val visibleOptionCount = if (secondChipVisible) 2 else 1
+                if (secondChipVisible) {
+                    Spacer(modifier = Modifier.width(6.dp))
+                    SavedCarOptionChip(name = selectedOptions[1])
+                }
+                if (selectedOptions.size > visibleOptionCount) {
+                    Spacer(modifier = Modifier.width(7.dp))
+                    Text(text = "+${selectedOptions.size - visibleOptionCount}", style = medium12, color = DarkGray)
                 }
             }
         }
-        carFeedUiModel.review?.let { review ->
+        review?.let {
             Spacer(modifier = Modifier.height(20.dp))
             Text(
                 modifier = Modifier
                     .fillMaxWidth()
                     .background(color = HyundaiLightSand, shape = roundCorner)
                     .padding(all = 13.dp),
-                text = review,
+                text = it,
                 style = regular14
             )
         }
-        carFeedUiModel.tags?.let { tags ->
+        tags?.let {
             Spacer(modifier = Modifier.height(16.dp))
             FlowRow(
                 horizontalArrangement = Arrangement.spacedBy(10.dp)
             ) {
-                tags.forEach {
-                    OptionTagChip(tagString = it)
+                it.forEach { tagName ->
+                    OptionTagChip(tagString = tagName)
                 }
             }
-        }
-
-        if (shouldDialogShow) {
-            DeleteMyArchiveCarDialog(
-                onDismissRequest = { shouldDialogShow = false },
-                onDelete = onDelete,
-                carName = "${carFeedUiModel.model} ${carFeedUiModel.trim}",
-                isMade = false,
-            )
         }
     }
 }
@@ -330,7 +323,7 @@ fun SavedFeed(
 @Preview
 @Composable
 fun PreviewMadeCarItem() {
-    MadeCarItem(
+    MadeCarFeed(
         modifier = Modifier,
         isTempSaved = true,
         modelName = "팰리세이드",
@@ -341,28 +334,6 @@ fun PreviewMadeCarItem() {
             ArchiveFeedSelectedOptionUiModel("컴포트 II", "", listOf()),
             ArchiveFeedSelectedOptionUiModel("듀얼 와이드 선루프", "", listOf()),
             ArchiveFeedSelectedOptionUiModel("현대스마트센스 I", "", listOf())
-        ),
-        onItemClick = {},
-        onDelete = {}
-    )
-}
-
-@Preview
-@Composable
-fun PreviewSavedFeed() {
-    SavedFeed(
-        carFeedUiModel = CarFeedUiModel(
-            id = "",
-            model = "팰리세이드",
-            isPurchase = false,
-            creationDate = "2023-07-19",
-            trim = "Le Blanc",
-            trimOptions = listOf("디젤 2.2", "4WD", "7인승"),
-            interiorColor = "문라이트 블루 펄",
-            exteriorColor = "퀄팅 천연(블랙)",
-            selectedOptions = listOf(),
-            review = "승차감이 좋아요 차가 크고 운전하는 시야도 높아서 좋았어요 저는 13개월 아들이 있는데 뒤에 차시트 달아도 널널할 것 같습니다. 다른 주차 관련 옵션도 괜찮아요.",
-            tags = listOf("편리해요😉", "이것만 있으면 나도 주차고수🚘", "대형견도 문제 없어요🐶")
         ),
         onFeedClick = {},
         onDelete = {}

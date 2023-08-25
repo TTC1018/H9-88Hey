@@ -9,10 +9,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.ViewModelStoreOwner
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
-import com.softeer.mycarchiving.model.common.CarFeedUiModel
 import com.softeer.mycarchiving.model.myarchive.ArchiveFeedUiModel
 import com.softeer.mycarchiving.ui.component.ChoiceTab
 import com.softeer.mycarchiving.ui.component.DeleteMyArchiveCarDialog
@@ -33,7 +31,7 @@ fun MyArchiveMainRoute(
 ) {
     val selectedIndex by viewModel.selectedIndex
     val madeCars = viewModel.madeCarFeedPagingData.collectAsLazyPagingItems()
-    val savedCars by viewModel.savedCars.collectAsStateWithLifecycle()
+    val savedCars = viewModel.savedCarFeedPagingData.collectAsLazyPagingItems()
     val showDeleteDialog by viewModel.showDeleteDialog
     val showMoveDialog by viewModel.showMoveDialog
     val wantDeleteCarFeed by viewModel.focusedCarFeed
@@ -49,9 +47,9 @@ fun MyArchiveMainRoute(
         onSelect = viewModel::updateSelectedIndex,
         onMadeCarClick = onMadeCarClick,
         onMadeCarDetail = viewModel::onCarDetail,
-        deleteCarFeed = viewModel::deleteCarFeed,
+        deleteCarFeed = viewModel::deleteMadeCarFeed,
         onSavedCarClick = onSavedCarClick,
-        onSavedCarDelete = viewModel::deleteSavedCar,
+        onSavedCarDelete = viewModel::deleteSavedCarFeed,
         openDeleteDialog = viewModel::openDeleteDialog,
         closeDeleteDialog = viewModel::closeDeleteDialog,
         openMoveDialog = viewModel::openMoveDialog,
@@ -64,7 +62,7 @@ fun MyArchiveMainScreen(
     modifier: Modifier = Modifier,
     selectedIndex: Int,
     madeCars: LazyPagingItems<ArchiveFeedUiModel>,
-    savedCars: List<CarFeedUiModel>,
+    savedCars: LazyPagingItems<ArchiveFeedUiModel>,
     showDeleteDialog: Boolean,
     showMoveDialog: Boolean,
     focusedCarFeed: ArchiveFeedUiModel?,
@@ -115,7 +113,7 @@ fun MyArchiveMainScreen(
                     modifier = Modifier
                         .weight(1f)
                         .fillMaxSize(),
-                    carFeeds = savedCars,
+                    savedCars = savedCars,
                     onClick = onSavedCarClick,
                     onDelete = onSavedCarDelete,
                 )
