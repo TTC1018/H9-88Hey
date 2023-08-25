@@ -14,6 +14,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navOptions
+import com.softeer.mycarchiving.enums.MyArchivePage
 import com.softeer.mycarchiving.navigation.ArchivingDestinations
 import com.softeer.mycarchiving.navigation.ArchivingDestinations.*
 import com.softeer.mycarchiving.navigation.MainDestination
@@ -192,14 +193,14 @@ class HyundaiAppState(
     }
 
     fun navigateToMyArchiveDestination(
-        screenIndex: Int? = null,
+        page: MyArchivePage? = null,
         myArchiveDestinations: MyArchiveDestinations?
     ) {
         when (myArchiveDestinations) {
             MY_ARCHIVE_MAIN -> myArchiveNavController.navigateToMyArchiveMain()
             MY_ARCHIVE_DETAIL -> {
-                if (screenIndex != null) {
-                    myArchiveNavController.navigateToMyArchiveDetail(screenIndex)
+                page?.let {
+                    myArchiveNavController.navigateToMyArchiveDetail(it.pageNumber)
                 }
             }
             else -> {}

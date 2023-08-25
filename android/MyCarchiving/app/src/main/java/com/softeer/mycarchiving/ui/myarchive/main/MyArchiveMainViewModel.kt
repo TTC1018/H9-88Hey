@@ -1,7 +1,6 @@
 package com.softeer.mycarchiving.ui.myarchive.main
 
 import androidx.compose.runtime.State
-import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -11,6 +10,8 @@ import com.softeer.domain.model.MyArchiveFeed
 import com.softeer.domain.usecase.myarchive.DeleteMadeCarFeedUseCase
 import com.softeer.domain.usecase.myarchive.GetMadeCarFeedUseCase
 import com.softeer.domain.usecase.myarchive.GetSavedCarFeedsUseCase
+import com.softeer.mycarchiving.enums.MyArchivePage
+import com.softeer.mycarchiving.enums.MyArchivePage.*
 import com.softeer.mycarchiving.mapper.asUiModel
 import com.softeer.mycarchiving.model.myarchive.ArchiveFeedUiModel
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -30,8 +31,8 @@ class MyArchiveMainViewModel @Inject constructor(
     private val deleteMadeCarFeedUseCase: DeleteMadeCarFeedUseCase,
 ): ViewModel() {
 
-    private val _selectedIndex = mutableIntStateOf(0)
-    val selectedIndex: State<Int> = _selectedIndex
+    private val _selectedPage = mutableStateOf(MADE)
+    val selectedPage: State<MyArchivePage> = _selectedPage
 
     private val refreshMadeCarFeed = MutableStateFlow(true)
 
@@ -56,8 +57,8 @@ class MyArchiveMainViewModel @Inject constructor(
     val showMoveDialog = mutableStateOf(false)
     val focusedCarFeed = mutableStateOf<ArchiveFeedUiModel?>(null)
 
-    fun updateSelectedIndex(index: Int) {
-        _selectedIndex.intValue = index
+    fun updateSelectedPage(page: MyArchivePage) {
+        _selectedPage.value = page
     }
 
     fun onCarDetail(madeCar: ArchiveFeedUiModel) {

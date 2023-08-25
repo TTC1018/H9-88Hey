@@ -30,11 +30,11 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.ViewModelStoreOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.softeer.mycarchiving.R
+import com.softeer.mycarchiving.enums.MyArchivePage
+import com.softeer.mycarchiving.enums.MyArchivePage.*
 import com.softeer.mycarchiving.navigation.MyArchiveDestinations.*
 import com.softeer.mycarchiving.ui.HyundaiAppState
 import com.softeer.mycarchiving.ui.makingcar.MakingCarViewModel
-import com.softeer.mycarchiving.ui.myarchive.main.MY_ARCHIVE_MADE
-import com.softeer.mycarchiving.ui.myarchive.main.MY_ARCHIVE_SAVE
 import com.softeer.mycarchiving.ui.rememberHyundaiAppState
 import com.softeer.mycarchiving.ui.theme.Black
 import com.softeer.mycarchiving.ui.theme.HyundaiLightSand
@@ -232,12 +232,12 @@ fun MyArchiveBottomBar(
 @Composable
 fun MyArchiveDetailBottomBar(
     modifier: Modifier = Modifier,
-    screenIndex: Int,
+    page: MyArchivePage,
     totalPrice: Int
 ) {
-    when (screenIndex) {
-        MY_ARCHIVE_MADE -> MyArchiveBottomBar(modifier = modifier , totalPrice = totalPrice)
-        MY_ARCHIVE_SAVE -> ArchiveBottomBar(modifier = modifier, totalPrice = totalPrice, onClick = {})
+    when (page) {
+        MADE -> MyArchiveBottomBar(modifier = modifier , totalPrice = totalPrice)
+        SAVED -> ArchiveBottomBar(modifier = modifier, totalPrice = totalPrice, onClick = {})
     }
 }
 

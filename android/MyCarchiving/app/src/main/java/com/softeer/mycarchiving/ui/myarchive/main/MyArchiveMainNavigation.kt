@@ -6,6 +6,7 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
+import com.softeer.mycarchiving.enums.MyArchivePage
 import com.softeer.mycarchiving.navigation.MyArchiveDestinations
 
 fun NavController.navigateToMyArchiveMain(navOptions: NavOptions? = null) {
@@ -14,7 +15,7 @@ fun NavController.navigateToMyArchiveMain(navOptions: NavOptions? = null) {
 
 fun NavGraphBuilder.myArchiveMainScreen(
     viewModelStoreOwner: ViewModelStoreOwner?,
-    moveDetailPage: (Int?, MyArchiveDestinations?) -> Unit,
+    moveDetailPage: (MyArchivePage?, MyArchiveDestinations?) -> Unit,
     onBackClick: () -> Unit,
 ) {
     composable(
@@ -27,13 +28,13 @@ fun NavGraphBuilder.myArchiveMainScreen(
             viewModelStoreOwner = viewModelStoreOwner,
             onMadeCarClick = {
                 moveDetailPage(
-                    MY_ARCHIVE_MADE,
+                    MyArchivePage.MADE,
                     MyArchiveDestinations.MY_ARCHIVE_DETAIL
                 )
             },
             onSavedCarClick = {
                 moveDetailPage(
-                    MY_ARCHIVE_SAVE,
+                    MyArchivePage.SAVED,
                     MyArchiveDestinations.MY_ARCHIVE_DETAIL
                 )
             }

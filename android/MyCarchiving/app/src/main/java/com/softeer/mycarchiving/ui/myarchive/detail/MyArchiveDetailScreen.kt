@@ -18,6 +18,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.ViewModelStoreOwner
 import com.softeer.mycarchiving.R
+import com.softeer.mycarchiving.enums.MyArchivePage
 import com.softeer.mycarchiving.model.myarchive.ArchiveFeedSelectedOptionUiModel
 import com.softeer.mycarchiving.model.myarchive.ArchiveFeedUiModel
 import com.softeer.mycarchiving.ui.component.DetailBanner
@@ -25,7 +26,6 @@ import com.softeer.mycarchiving.ui.component.DetailReview
 import com.softeer.mycarchiving.ui.component.DetailSelectedOption
 import com.softeer.mycarchiving.ui.component.DetailTextLabel
 import com.softeer.mycarchiving.ui.component.MyArchiveDetailBottomBar
-import com.softeer.mycarchiving.ui.myarchive.main.MY_ARCHIVE_SAVE
 import com.softeer.mycarchiving.ui.myarchive.main.MyArchiveMainViewModel
 import com.softeer.mycarchiving.ui.theme.HyundaiLightSand
 import com.softeer.mycarchiving.ui.theme.White
@@ -37,12 +37,12 @@ fun MyArchiveDetailRoute(
     viewModel: MyArchiveMainViewModel =
         viewModelStoreOwner?.run { hiltViewModel(this) } ?: hiltViewModel()
 ) {
-    val screenIndex by viewModel.selectedIndex
+    val currentPage by viewModel.selectedPage
     val madeCarDetail by viewModel.detailCar
 
     MyArchiveDetailScreen(
         modifier = modifier,
-        screenIndex = screenIndex,
+        currentPage = currentPage,
         detailCar = madeCarDetail!!
     )
 }
@@ -50,7 +50,7 @@ fun MyArchiveDetailRoute(
 @Composable
 fun MyArchiveDetailScreen(
     modifier: Modifier,
-    screenIndex: Int,
+    currentPage: MyArchivePage,
     detailCar: ArchiveFeedUiModel,
 ) {
     Column(
@@ -83,7 +83,7 @@ fun MyArchiveDetailScreen(
                     interiorColorUrl = detailCar.interiorColor?.colorImageUrl ?: ""
                 )
                 Spacer(modifier = Modifier.height(23.dp))
-                if (screenIndex == MY_ARCHIVE_SAVE) {
+                if (currentPage == MyArchivePage.SAVED) {
                     DetailTextLabel(text = stringResource(id = R.string.archive_general_review))
                     Spacer(modifier = Modifier.height(16.dp))
                     DetailReview(review = "")
@@ -95,7 +95,7 @@ fun MyArchiveDetailScreen(
                 selectOptions = detailCar.selectedOptions
             )
         }
-        MyArchiveDetailBottomBar(screenIndex = screenIndex, totalPrice = detailCar.totalPrice)
+        MyArchiveDetailBottomBar(page = currentPage, totalPrice = detailCar.totalPrice)
     }
 }
 
@@ -109,7 +109,7 @@ fun MyArchiveSelectOptionArea(
             .padding(top = 16.dp)
             .fillMaxWidth()
             .background(color = HyundaiLightSand),
-        verticalArrangement = Arrangement.spacedBy(6.dp)
+        verticalArrangement = Arrangement.spacedBy(3.dp)
     ) {
         selectOptions.forEachIndexed { idx, option ->
             DetailSelectedOption(
@@ -121,43 +121,3 @@ fun MyArchiveSelectOptionArea(
         }
     }
 }
-
-/*
-@Preview
-@Composable
-fun PreviewMyArchiveDetailScreen() {
-    MyArchiveDetailScreen(
-        screenIndex = MY_ARCHIVE_MADE,
-        review = "리뷰 텍스트",
-        selectOptions = listOf(
-            SelectOptionUiModel(
-                id = "",
-                name = "컴포트 2",
-                price = 1090000,
-                imageUrl = "",
-                subOptions = listOf(
-                    SubSelectOptionUiModel(
-                        name = "후석 승객 알림",
-                        imageUrl = "",
-                        description = "초음파 센서를 통해 뒷좌석에 남아있는 승객의 움직임을 감지하여 운전자에게 경고함으로써 부주의에 의한 유아 또는 반려 동물 등의 방치 사고를 예방하는 신기술입니다."
-                    ),
-                    SubSelectOptionUiModel(
-                        name = "메탈 리어범퍼스텝",
-                        imageUrl = "",
-                        description = "러기지 룸 앞쪽 하단부를 메탈로 만들어 물건을 싣고 내릴 때나 사람이 올라갈 때 차체를 보호해줍니다."
-                    )
-                ),
-            ),
-            SelectOptionUiModel(
-                id = "",
-                name = "현대스마트센스 Ⅰ",
-                price = 2900000,
-                imageUrl = "",
-                tags = listOf(
-                    "대형견도 문제 없어요",
-                    "가족들도 좋은 옵션👨‍👩‍👧‍👦"
-                ),
-            )
-        )
-    )
-}*/

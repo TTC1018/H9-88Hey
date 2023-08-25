@@ -11,14 +11,13 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.ViewModelStoreOwner
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
+import com.softeer.mycarchiving.enums.MyArchivePage
+import com.softeer.mycarchiving.enums.MyArchivePage.*
 import com.softeer.mycarchiving.model.myarchive.ArchiveFeedUiModel
 import com.softeer.mycarchiving.ui.component.ChoiceTab
 import com.softeer.mycarchiving.ui.component.DeleteMyArchiveCarDialog
 import com.softeer.mycarchiving.ui.myarchive.made.MyArchiveMadeScreen
 import com.softeer.mycarchiving.ui.myarchive.save.MyArchiveSaveScreen
-
-const val MY_ARCHIVE_MADE = 0
-const val MY_ARCHIVE_SAVE = 1
 
 @Composable
 fun MyArchiveMainRoute(
@@ -29,7 +28,7 @@ fun MyArchiveMainRoute(
     onMadeCarClick: () -> Unit,
     onSavedCarClick: () -> Unit,
 ) {
-    val selectedIndex by viewModel.selectedIndex
+    val selectedPage by viewModel.selectedPage
     val madeCars = viewModel.madeCarFeedPagingData.collectAsLazyPagingItems()
     val savedCars = viewModel.savedCarFeedPagingData.collectAsLazyPagingItems()
     val showDeleteDialog by viewModel.showDeleteDialog
@@ -38,13 +37,13 @@ fun MyArchiveMainRoute(
 
     MyArchiveMainScreen(
         modifier = modifier,
-        selectedIndex = selectedIndex,
+        page = selectedPage,
         madeCars = madeCars,
         savedCars = savedCars,
         showDeleteDialog = showDeleteDialog,
         showMoveDialog = showMoveDialog,
         focusedCarFeed = wantDeleteCarFeed,
-        onSelect = viewModel::updateSelectedIndex,
+        changePage = viewModel::updateSelectedPage,
         onMadeCarClick = onMadeCarClick,
         onMadeCarDetail = viewModel::onCarDetail,
         deleteCarFeed = viewModel::deleteMadeCarFeed,
@@ -60,13 +59,13 @@ fun MyArchiveMainRoute(
 @Composable
 fun MyArchiveMainScreen(
     modifier: Modifier = Modifier,
-    selectedIndex: Int,
+    page: MyArchivePage,
     madeCars: LazyPagingItems<ArchiveFeedUiModel>,
     savedCars: LazyPagingItems<ArchiveFeedUiModel>,
     showDeleteDialog: Boolean,
     showMoveDialog: Boolean,
     focusedCarFeed: ArchiveFeedUiModel?,
-    onSelect: (Int) -> Unit,
+    changePage: (MyArchivePage) -> Unit,
     onMadeCarClick: () -> Unit,
     onMadeCarDetail: (ArchiveFeedUiModel) -> Unit,
     deleteCarFeed: () -> Unit,
@@ -86,16 +85,16 @@ fun MyArchiveMainScreen(
                 .fillMaxWidth()
         ) {
             ChoiceTab(
-                selectedIndex = selectedIndex,
-                onSelect = onSelect
+                selectedPage = page,
+                onSelect = changePage
             )
         }
         AnimatedContent(
-            targetState = selectedIndex,
+            targetState = page,
             label = ""
         ) {
             when (it) {
-                MY_ARCHIVE_MADE -> MyArchiveMadeScreen(
+                MADE -> MyArchiveMadeScreen(
                     modifier = Modifier
                         .weight(1f)
                         .fillMaxSize(),
@@ -109,7 +108,7 @@ fun MyArchiveMainScreen(
                     closeMoveDialog = closeMoveDialog
                 )
 
-                MY_ARCHIVE_SAVE -> MyArchiveSaveScreen(
+                SAVED -> MyArchiveSaveScreen(
                     modifier = Modifier
                         .weight(1f)
                         .fillMaxSize(),

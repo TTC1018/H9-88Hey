@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -18,6 +17,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import com.softeer.mycarchiving.R
+import com.softeer.mycarchiving.enums.MyArchivePage
+import com.softeer.mycarchiving.enums.MyArchivePage.*
 import com.softeer.mycarchiving.ui.theme.HyundaiLightSand
 import com.softeer.mycarchiving.ui.theme.HyundaiNeutral
 import com.softeer.mycarchiving.ui.theme.LightGray
@@ -25,8 +26,8 @@ import com.softeer.mycarchiving.ui.theme.LightGray
 @Composable
 fun ChoiceTab(
     modifier: Modifier = Modifier,
-    selectedIndex: Int,
-    onSelect: (Int) -> Unit,
+    selectedPage: MyArchivePage,
+    onSelect: (MyArchivePage) -> Unit,
 ) {
     Box(
         modifier = modifier
@@ -51,21 +52,21 @@ fun ChoiceTab(
                 modifier = Modifier
                     .fillMaxWidth(0.55f)
                     .fillMaxHeight()
-                    .zIndex(if (selectedIndex == 0) 1f else 0f)
+                    .zIndex(if (selectedPage == MADE) 1f else 0f)
                     .align(Alignment.CenterStart),
                 text = stringResource(id = R.string.my_make_car_list),
-                isSelected = selectedIndex == 0,
-                onClick = { onSelect(0) },
+                isSelected = selectedPage == MADE,
+                onClick = { onSelect(MADE) },
             )
             MyArchiveChoiceButton(
                 modifier = Modifier
                     .fillMaxWidth(0.55f)
                     .fillMaxHeight()
-                    .zIndex(if (selectedIndex == 1) 1f else 0f)
+                    .zIndex(if (selectedPage == SAVED) 1f else 0f)
                     .align(Alignment.CenterEnd),
                 text = stringResource(id = R.string.my_save_car_list),
-                isSelected = selectedIndex == 1,
-                onClick = { onSelect(1) },
+                isSelected = selectedPage == SAVED,
+                onClick = { onSelect(SAVED) },
             )
         }
     }
@@ -75,7 +76,7 @@ fun ChoiceTab(
 @Composable
 fun PreviewChoiceTab() {
     ChoiceTab(
-        selectedIndex = 0,
+        selectedPage = MADE,
         onSelect = {},
     )
 }
