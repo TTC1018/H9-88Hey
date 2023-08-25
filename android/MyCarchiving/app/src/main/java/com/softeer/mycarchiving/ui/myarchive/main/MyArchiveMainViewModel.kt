@@ -6,7 +6,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
-import androidx.paging.filter
 import androidx.paging.map
 import com.softeer.domain.model.MyArchiveFeed
 import com.softeer.domain.usecase.myarchive.DeleteMadeCarFeedUseCase
@@ -15,13 +14,16 @@ import com.softeer.mycarchiving.mapper.asUiModel
 import com.softeer.mycarchiving.model.common.CarFeedUiModel
 import com.softeer.mycarchiving.model.myarchive.MadeCarUiModel
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+@OptIn(ExperimentalCoroutinesApi::class)
 @HiltViewModel
 class MyArchiveMainViewModel @Inject constructor(
     getMadeCarFeedUseCase: GetMadeCarFeedUseCase,
@@ -31,8 +33,11 @@ class MyArchiveMainViewModel @Inject constructor(
     private val _selectedIndex = mutableIntStateOf(0)
     val selectedIndex: State<Int> = _selectedIndex
 
-    val madeCarFeedPagingData = getMadeCarFeedUseCase()
-        .map { pagingData -> pagingData.map(MyArchiveFeed::asUiModel) }
+    private val refreshMadeCarFeed = MutableStateFlow(true)
+    val madeCarFeedPagingData = refreshMadeCarFeed.flatMapLatest { needRefresh ->
+        if (needRefresh) getMadeCarFeedUseCase()
+        else flow {  }
+    }.map { pagingData -> pagingData.map(MyArchiveFeed::asUiModel) }
         .cachedIn(viewModelScope)
 
     private val _detailCar = mutableStateOf<MadeCarUiModel?>(null)
@@ -91,8 +96,8 @@ class MyArchiveMainViewModel @Inject constructor(
         viewModelScope.launch {
             val isSuccess = deleteMadeCarFeedUseCase(focusedCarFeed.value!!.id)
             if (isSuccess) {
-                val newPagingData = madeCarFeedPagingData.stateIn(viewModelScope).value.filter { it != focusedCarFeed.value }
-
+                refreshMadeCarFeed.value = false
+                refreshMadeCarFeed.value = true
             }
         }
     }
