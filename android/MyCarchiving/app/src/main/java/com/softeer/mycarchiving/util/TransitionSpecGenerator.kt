@@ -11,8 +11,8 @@ import androidx.compose.animation.togetherWith
 
 
 fun fadeInAndOut(
-    fadeInDuration: Int = 1000,
-    fadeOutDuration: Int = 1000,
+    fadeInDuration: Int = 500,
+    fadeOutDuration: Int = 500,
 ) = fadeIn(
     tween(
         durationMillis = fadeInDuration,

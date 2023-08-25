@@ -59,6 +59,7 @@ import com.softeer.mycarchiving.ui.component.OptionSelectItem
 import com.softeer.mycarchiving.ui.component.OptionSelectedInfo
 import com.softeer.mycarchiving.ui.makingcar.MakingCarViewModel
 import com.softeer.mycarchiving.ui.makingcar.loading.LoadingScreen
+import com.softeer.mycarchiving.ui.makingcar.loading.NoOptionScreen
 import com.softeer.mycarchiving.ui.theme.DarkGray
 import com.softeer.mycarchiving.ui.theme.HyundaiLightSand
 import com.softeer.mycarchiving.ui.theme.White
@@ -313,7 +314,13 @@ fun SelectOptionScreen(
                         }
                     }
                 }
-                false -> LoadingScreen {}
+                false ->  {
+                    if (options.isEmpty() && screenProgress == TRIM_NPERFORMANCE) {
+                        NoOptionScreen()
+                    } else {
+                        LoadingScreen {}
+                    }
+                }
             }
         }
     }
