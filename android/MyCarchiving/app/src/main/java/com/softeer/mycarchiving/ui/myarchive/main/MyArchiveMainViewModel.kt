@@ -58,7 +58,8 @@ class MyArchiveMainViewModel @Inject constructor(
     val savedCars: StateFlow<List<CarFeedUiModel>> = _savedCars
 
     val showDeleteDialog = mutableStateOf(false)
-    val wantDeleteCarFeed = mutableStateOf<MadeCarUiModel?>(null)
+    val showMoveDialog = mutableStateOf(false)
+    val focusedCarFeed = mutableStateOf<MadeCarUiModel?>(null)
 
     fun updateSelectedIndex(index: Int) {
         _selectedIndex.intValue = index
@@ -69,7 +70,7 @@ class MyArchiveMainViewModel @Inject constructor(
     }
 
     fun openDeleteDialog(feed: MadeCarUiModel) {
-        wantDeleteCarFeed.value = feed
+        focusedCarFeed.value = feed
         showDeleteDialog.value = true
     }
 
@@ -77,11 +78,20 @@ class MyArchiveMainViewModel @Inject constructor(
         showDeleteDialog.value = false
     }
 
+    fun openMoveDialog(feed: MadeCarUiModel) {
+        focusedCarFeed.value = feed
+        showMoveDialog.value = true
+    }
+
+    fun closeMoveDialog() {
+        showMoveDialog.value = false
+    }
+
     fun deleteCarFeed() {
         viewModelScope.launch {
-            val isSuccess = deleteMadeCarFeedUseCase(wantDeleteCarFeed.value!!.id)
+            val isSuccess = deleteMadeCarFeedUseCase(focusedCarFeed.value!!.id)
             if (isSuccess) {
-                val newPagingData = madeCarFeedPagingData.stateIn(viewModelScope).value.filter { it != wantDeleteCarFeed.value }
+                val newPagingData = madeCarFeedPagingData.stateIn(viewModelScope).value.filter { it != focusedCarFeed.value }
 
             }
         }

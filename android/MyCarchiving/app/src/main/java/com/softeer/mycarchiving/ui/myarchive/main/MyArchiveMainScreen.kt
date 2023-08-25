@@ -35,7 +35,8 @@ fun MyArchiveMainRoute(
     val madeCars = viewModel.madeCarFeedPagingData.collectAsLazyPagingItems()
     val savedCars by viewModel.savedCars.collectAsStateWithLifecycle()
     val showDeleteDialog by viewModel.showDeleteDialog
-    val wantDeleteCarFeed by viewModel.wantDeleteCarFeed
+    val showMoveDialog by viewModel.showMoveDialog
+    val wantDeleteCarFeed by viewModel.focusedCarFeed
 
     MyArchiveMainScreen(
         modifier = modifier,
@@ -43,7 +44,8 @@ fun MyArchiveMainRoute(
         madeCars = madeCars,
         savedCars = savedCars,
         showDeleteDialog = showDeleteDialog,
-        wantDeleteCarFeed = wantDeleteCarFeed,
+        showMoveDialog = showMoveDialog,
+        focusedCarFeed = wantDeleteCarFeed,
         onSelect = viewModel::updateSelectedIndex,
         onMadeCarClick = onMadeCarClick,
         onMadeCarDetail = viewModel::onCarDetail,
@@ -51,7 +53,9 @@ fun MyArchiveMainRoute(
         onSavedCarClick = onSavedCarClick,
         onSavedCarDelete = viewModel::deleteSavedCar,
         openDeleteDialog = viewModel::openDeleteDialog,
-        closeDeleteDialog = viewModel::closeDeleteDialog
+        closeDeleteDialog = viewModel::closeDeleteDialog,
+        openMoveDialog = viewModel::openMoveDialog,
+        closeMoveDialog = viewModel::closeMoveDialog
     )
 }
 
@@ -62,7 +66,8 @@ fun MyArchiveMainScreen(
     madeCars: LazyPagingItems<MadeCarUiModel>,
     savedCars: List<CarFeedUiModel>,
     showDeleteDialog: Boolean,
-    wantDeleteCarFeed: MadeCarUiModel?,
+    showMoveDialog: Boolean,
+    focusedCarFeed: MadeCarUiModel?,
     onSelect: (Int) -> Unit,
     onMadeCarClick: () -> Unit,
     onMadeCarDetail: (MadeCarUiModel) -> Unit,
@@ -71,6 +76,8 @@ fun MyArchiveMainScreen(
     onSavedCarDelete: (Int) -> Unit,
     openDeleteDialog: (MadeCarUiModel) -> Unit,
     closeDeleteDialog: () -> Unit,
+    openMoveDialog: (MadeCarUiModel) -> Unit,
+    closeMoveDialog: () -> Unit,
 ) {
     Column(
         modifier = modifier
@@ -94,10 +101,14 @@ fun MyArchiveMainScreen(
                     modifier = Modifier
                         .weight(1f)
                         .fillMaxSize(),
+                    showMoveDialog = showMoveDialog,
                     madeCars = madeCars,
+                    focusedCarFeed = focusedCarFeed,
                     onDetail = onMadeCarDetail,
                     onClick = onMadeCarClick,
-                    onDelete = openDeleteDialog,
+                    openDeleteDialog = openDeleteDialog,
+                    openMoveDialog = openMoveDialog,
+                    closeMoveDialog = closeMoveDialog
                 )
 
                 MY_ARCHIVE_SAVE -> MyArchiveSaveScreen(
@@ -115,68 +126,7 @@ fun MyArchiveMainScreen(
         DeleteMyArchiveCarDialog(
             onDismissRequest = closeDeleteDialog,
             onDelete = deleteCarFeed,
-            carName = "${wantDeleteCarFeed!!.modelName} ${wantDeleteCarFeed.trimName}"
+            carName = "${focusedCarFeed!!.modelName} ${focusedCarFeed.trimName}"
         )
     }
 }
-
-/*
-@Preview
-@Composable
-fun PreviewMyArchiveMainScreen() {
-    MyArchiveMainScreen(
-        selectedIndex = 0,
-        madeCars = listOf(
-            MadeCarUiModel(
-                id = "123",
-                modelName = "팰리세이드",
-                trimName = "Le Blanc",
-                isSaved = false,
-                lastModifiedDate = "2023-07-19",
-                trimOptions = listOf(
-                    "디젤 2.2", "4WD", "7인승"
-                ),
-                selectedOptions = listOf(
-                    MadeCarSelectedOptionUiModel("컴포트 II", ""),
-                    MadeCarSelectedOptionUiModel("듀얼 와이드 선루프", ""),
-                    MadeCarSelectedOptionUiModel("현대스마트센스 I", "")
-                ),
-            ),
-            MadeCarUiModel(
-                id = "123",
-                modelName = "팰리세이드",
-                trimName = "Le Blanc",
-                isSaved = true,
-                lastModifiedDate = "2023-07-18",
-                trimOptions = listOf(
-                    "디젤 2.2", "2WD", "8인승"
-                ),
-                selectedOptions = listOf(
-                    MadeCarSelectedOptionUiModel("적외선 무릎워머", ""),
-                    MadeCarSelectedOptionUiModel("빌트인 공기청정기", ""),
-                    MadeCarSelectedOptionUiModel("사이드 스텝", "")
-                ),
-            )
-        ),
-        savedCars = listOf(
-            CarFeedUiModel(
-                id = 0,
-                model = "팰리세이드",
-                isPurchase = false,
-                creationDate = "2023-07-19",
-                trim = "Le Blanc",
-                trimOptions = listOf("디젤 2.2", "4WD", "7인승"),
-                interiorColor = "문라이트 블루 펄",
-                exteriorColor = "퀄팅 천연(블랙)",
-                selectedOptions = listOf(),
-                review = "승차감이 좋아요 차가 크고 운전하는 시야도 높아서 좋았어요 저는 13개월 아들이 있는데 뒤에 차시트 달아도 널널할 것 같습니다. 다른 주차 관련 옵션도 괜찮아요.",
-                tags = listOf("편리해요😉", "이것만 있으면 나도 주차고수🚘", "대형견도 문제 없어요🐶")
-            )
-        ),
-        onSelect = {},
-        onMadeCarClick = {},
-        onMadeCarDelete = {},
-        onSavedCarClick = {},
-        onSavedCarDelete = {}
-    )
-}*/
