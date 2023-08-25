@@ -32,8 +32,8 @@ export function useAuthInfiniteFetch<T>({ key, url, intersecting, nextOffset, de
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState('');
 
-  function handleDelete(id: string) {
-    const newData = data.filter((prev: T) => prev.myChivingId !== id);
+  function handleDelete(id: string, key: 'myChivingId' | 'feedId') {
+    const newData = data.filter((prev: T) => prev[key] !== id);
     setData(newData);
   }
 

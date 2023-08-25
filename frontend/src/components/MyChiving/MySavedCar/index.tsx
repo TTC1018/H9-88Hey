@@ -6,10 +6,10 @@ import { MyCarProps } from '@/types/trim';
 import { MyChivingProps } from '@/types/myChiving';
 import { OptionContextProps } from '@/types/option';
 import { useModalContext } from '@/hooks/useModalContext';
-import { useInfiniteFetch } from '@/hooks/useInfiniteFetch';
 import { useInfiniteScroll } from '@/hooks/useInfiniteScroll';
 import { useShowScrollButton } from '@/hooks/useShowScrollButton';
-import { API_URL, ModalType, OPTION_CATEGORY, apiPath } from '@/constants';
+import { useAuthInfiniteFetch } from '@/hooks/useAuthInfiniteFetch';
+import { ModalType, OPTION_CATEGORY, apiPath } from '@/constants';
 
 import { MyCarList } from '@/components/MyChiving/MyCarList';
 import { NoDataInfo } from '@/components/MyChiving/NoDataInfo';
@@ -49,13 +49,13 @@ export function MySavedCar() {
     data: myChivings,
     isLoading,
     handleDelete,
-  } = useInfiniteFetch<MyChivingProps>({
+  } = useAuthInfiniteFetch<MyChivingProps>({
     key: 'myChivings',
     url: apiPath.mychiving(nextOffset.current, 8),
     intersecting,
     nextOffset,
     dependencies: [''],
-    //method: 'GET',
+    method: 'GET',
   });
 
   const modalInfo = useRef({
@@ -118,23 +118,8 @@ export function MySavedCar() {
     }
   }
 
-  /** fe-dev pull 받고 수정 예정 */
-  async function deleteMyChiving(url: string) {
-    const response = await fetch(url, {
-      method: 'DELETE',
-      headers: {
-        Authorization: `Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiIxIiwidXNlck5hbWUiOiJ0ZXN0IiwiaWF0IjoxNjkyNTYwMzM5LCJleHAiOjQ4MTQ2MjQzMzl9.gcSE7kPaRVxo2iT9DRcN1Bn5ZNAAsHG8Z3dvTopH-IWblMf_LJ2lhsYqOvrrLcZJ`,
-        credentials: 'same-origin',
-      },
-    });
-    if (!response.ok) {
-      throw new Error('DELETE 에러 발생');
-    }
-  }
-
   function handleDeleteList(myChiving: MyChivingProps) {
-    deleteMyChiving(`${API_URL}/mychiving/${myChiving.myChivingId}?user_id=1234`);
-    handleDelete(myChiving.myChivingId);
+    handleDelete(myChiving.myChivingId, 'myChivingId');
   }
 
   function handleClick(myChiving: MyChivingProps, data: ClickEventDataProps, event: MouseEvent<HTMLDivElement>) {
