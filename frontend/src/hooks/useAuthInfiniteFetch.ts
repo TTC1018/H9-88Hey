@@ -33,6 +33,8 @@ export function useAuthInfiniteFetch<T>({ key, url, intersecting, nextOffset, me
 
   function handleDelete(id: string, key: 'myChivingId' | 'feedId') {
     // 마이카이빙 내 차 목록 또는 피드 삭제하기
+    const newData = data.filter((prev: T) => prev[key as keyof typeof prev] !== id);
+    setData(newData);
   }
 
   const { tokenValidator } = useValidateToken();

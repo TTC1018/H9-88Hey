@@ -45,7 +45,7 @@ export function FeedList({ myFeedChiving, onDelete }: FeedListProps) {
         {myFeedChiving.map((review, index) => {
           return (
             <Styled.Wrapper key={index}>
-              <ReviewCard props={review} isArchiving={false} onClickXButton={onDelete} />
+              <ReviewCard props={review} isArchiving={false} onClick={onDelete} />
             </Styled.Wrapper>
           );
         })}
