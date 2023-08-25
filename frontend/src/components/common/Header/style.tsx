@@ -120,10 +120,8 @@ const AutoSavingText = styled.span`
 
 const CarNameText = styled.span`
   ${({ theme }) => {
-    const { colors, fonts } = theme;
+    const { fonts } = theme;
     return css`
-      color: ${colors.black};
-
       ${fonts.headingBold4}
     `;
   }}
