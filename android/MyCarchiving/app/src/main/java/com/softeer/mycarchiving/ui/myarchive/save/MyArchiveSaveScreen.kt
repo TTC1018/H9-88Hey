@@ -1,6 +1,5 @@
 package com.softeer.mycarchiving.ui.myarchive.save
 
-import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -24,28 +23,23 @@ fun MyArchiveSaveScreen(
     onClick: () -> Unit,
     onDelete: (Int) -> Unit,
 ) {
-    AnimatedContent(
-        targetState = carFeeds,
-        label = ""
-    ) {
-        when {
-            it.isEmpty() -> MyArchiveLoadingScreen()
-            else -> {
-                LazyColumn(
-                    modifier = modifier
-                        .background(color = HyundaiNeutral)
-                        .padding(16.dp),
-                    verticalArrangement = Arrangement.spacedBy(12.dp),
-                ) {
-                    itemsIndexed(items = carFeeds, key = { idx, item -> item.id }) { idx, item ->
-                        SavedFeed(
-                            modifier = Modifier
-                                .animateItemPlacement(),
-                            carFeedUiModel = item,
-                            onFeedClick = onClick,
-                            onDelete = { onDelete(idx) }
-                        )
-                    }
+    when {
+        carFeeds.isEmpty() -> MyArchiveLoadingScreen()
+        else -> {
+            LazyColumn(
+                modifier = modifier
+                    .background(color = HyundaiNeutral)
+                    .padding(16.dp),
+                verticalArrangement = Arrangement.spacedBy(12.dp),
+            ) {
+                itemsIndexed(items = carFeeds, key = { idx, item -> item.id }) { idx, item ->
+                    SavedFeed(
+                        modifier = Modifier
+                            .animateItemPlacement(),
+                        carFeedUiModel = item,
+                        onFeedClick = onClick,
+                        onDelete = { onDelete(idx) }
+                    )
                 }
             }
         }

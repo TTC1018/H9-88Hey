@@ -1,6 +1,5 @@
 package com.softeer.data.datasource
 
-import android.util.Log
 import com.softeer.data.model.CarInfoBody
 import com.softeer.data.model.CarTempInfoBody
 import com.softeer.data.network.MyArchiveNetworkApi
@@ -13,9 +12,9 @@ interface MyArchiveDataSource {
 
     fun saveCarInfo(body: CarInfoBody): Flow<Long>
 
-}
+    suspend fun deleteMadeCar(feedId: Long): Boolean
 
-private val TAG = MyArchiveDataSource::class.simpleName
+}
 
 class MyArchiveRemoteDataSource(
     private val myArchiveNetworkApi: MyArchiveNetworkApi
@@ -41,5 +40,10 @@ class MyArchiveRemoteDataSource(
         } else {
             emit(-1L)
         }
+    }
+
+    override suspend fun deleteMadeCar(feedId: Long): Boolean {
+        val response = myArchiveNetworkApi.deleteMadeCarFeed(feedId)
+        return response.isSuccessful
     }
 }

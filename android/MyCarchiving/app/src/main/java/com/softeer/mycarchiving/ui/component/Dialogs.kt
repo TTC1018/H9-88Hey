@@ -40,6 +40,7 @@ import com.softeer.mycarchiving.ui.theme.medium18
 import com.softeer.mycarchiving.ui.theme.regular12
 import com.softeer.mycarchiving.ui.theme.regular14
 import com.softeer.mycarchiving.ui.theme.roundCorner
+import com.softeer.mycarchiving.util.toDateString
 
 val detailItem = CarBasicDetailUiModel(
     name = "ISG 시스템",
@@ -237,7 +238,10 @@ fun DeleteMyArchiveCarDialog(
                 backgroundColor = PrimaryBlue,
                 textColor = White,
                 text = stringResource(id = R.string.my_dialog_delete),
-                onClick = onDelete
+                onClick = {
+                    onDelete()
+                    onDismissRequest()
+                }
             )
         }
     }
@@ -253,9 +257,9 @@ fun MoveMakeCarDialog(
     ButtonDialog(
         modifier = modifier,
         onDismissRequest = onDismissRequest,
-        description = stringResource(id = R.string.my_dialog_continue_make_description, saveDate),
+        description = stringResource(id = R.string.my_dialog_continue_make_description, saveDate.toDateString()),
         annotatedTargetStartIndex = 0,
-        annotatedTargetLength = saveDate.length
+        annotatedTargetLength = saveDate.toDateString().length
     ) {
         Row {
             HyundaiButton(
@@ -271,7 +275,10 @@ fun MoveMakeCarDialog(
                 backgroundColor = PrimaryBlue,
                 textColor = White,
                 text = stringResource(id = R.string.my_dialog_continue_make),
-                onClick = onMove
+                onClick = {
+                    onMove()
+                    onDismissRequest()
+                }
             )
         }
     }
@@ -305,6 +312,6 @@ fun PreviewMoveMakeCarDialog() {
     MoveMakeCarDialog(
         onDismissRequest = {},
         onMove = {},
-        saveDate = "23년 7월 18일"
+        saveDate = "2023-07-18"
     )
 }

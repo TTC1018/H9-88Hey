@@ -100,7 +100,10 @@ object DataModule {
 
     @Provides
     @Singleton
-    fun provideMyArchiveRepository(myArchiveRemoteDataSource: MyArchiveDataSource): MyArchiveRepository =
-        MyArchiveRepositoryImpl(myArchiveRemoteDataSource)
+    fun provideMyArchiveRepository(
+        myArchiveNetworkApi: MyArchiveNetworkApi,
+        myArchiveRemoteDataSource: MyArchiveDataSource
+    ): MyArchiveRepository =
+        MyArchiveRepositoryImpl(myArchiveNetworkApi, myArchiveRemoteDataSource)
 
 }
