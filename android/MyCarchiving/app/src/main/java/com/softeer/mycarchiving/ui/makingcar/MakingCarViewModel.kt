@@ -77,8 +77,8 @@ class MakingCarViewModel @Inject constructor(
         }
     }
 
-    private val _carDetails = MutableLiveData<CarDetails>()
-    val carDetails: LiveData<CarDetails> = _carDetails
+    private val _carDetails = MutableLiveData<CarDetails?>()
+    val carDetails: LiveData<CarDetails?> = _carDetails
 
     private val _selectedCarName = MutableStateFlow("팰리세이드")
     val selectedCarName: StateFlow<String> = _selectedCarName
@@ -166,8 +166,6 @@ class MakingCarViewModel @Inject constructor(
             _totalPrice.value += selectedModel.price
             _selectedModelSimple.value = selectedModel
         }
-
-        Log.d(TAG, "selectedModel: $selectedModel")
     }
 
     fun updateCarImageUrl(imageUrl: String) {
@@ -180,7 +178,9 @@ class MakingCarViewModel @Inject constructor(
         initial: Boolean = false,
         archived: Boolean = false,
     ) {
-        if (archived && initial) { // 아카이빙 데이터면 선택 데이터에 기록만 하기
+        if (archived || initial) { // 아카이빙 데이터면 선택 데이터에 기록만 하기
+            if (_selectedTrimSimple.value.getOrNull(progress) == null) // 아카이빙 -> 내차만들기 이후 모델 갱신
+                _selectedTrimSimple.value += listOf(trimOptionUiModel.asSimpleUiModel())
             _selectedTrim.value += listOf(trimOptionUiModel)
         } else { // 아카이빙 데이터 로드 후 or 기본으로 진행 중
             if (_selectedTrim.value.getOrNull(progress) == null) { // 그대로 추가하면 될 때
@@ -206,13 +206,7 @@ class MakingCarViewModel @Inject constructor(
         initial: Boolean,
         archived: Boolean = false,
     ) {
-        Log.d(TAG, "initial: $initial, archived: $archived")
-        Log.d(TAG, "color: ${colorOptionUiModel.optionName}")
-        Log.d(TAG, "selectedColor: ${_selectedColor.value.map { it.optionName }}")
-        Log.d(TAG, "selectedColorSimple: ${_selectedColorSimple.value.map { it.colorName }}")
-
-
-        if (archived && initial) {
+        if (archived || initial) {
             if (_selectedColorSimple.value.getOrNull(progress) == null) // 바텀시트는 갱신 안 된 상태라면
                 _selectedColorSimple.value += listOf(colorOptionUiModel.asSimpleUiModel())
             _selectedColor.value += listOf(colorOptionUiModel)
@@ -344,11 +338,10 @@ class MakingCarViewModel @Inject constructor(
 
     // 모델 바뀌면 트림선택 제외 다 초기화
     fun initializeByChangedModel() {
+        _carDetails.value = null
         // 색상 및 선택옵션 가격 빼기
-        _totalPrice.value -= (
-                _selectedColorSimple.value.sumOf { it.price ?: 0 } +
-                        _selectedOptionSimple.value.sumOf { it.price }
-                )
+        _totalPrice.value -= (_selectedColorSimple.value.sumOf { it.price ?: 0 } +
+                        _selectedOptionSimple.value.sumOf { it.price })
         // 데이터 초기화
         _selectedColor.value = emptyList()
         _selectedColorSimple.value = emptyList()
@@ -360,6 +353,7 @@ class MakingCarViewModel @Inject constructor(
 
     // 트림선택 바꾸면 선택옵션 다 초기화
     fun initializeByChangedTrimOption() {
+        _carDetails.value = null
         // 선택옵션 가격 빼기
         _totalPrice.value -= _selectedOptionSimple.value.sumOf { it.price }
         _selectedExtraOptions.value = emptyList()

@@ -1,6 +1,5 @@
 package com.softeer.mycarchiving.ui.makingcar.selectmodel
 
-import android.util.Log
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.background
@@ -40,7 +39,6 @@ import com.softeer.mycarchiving.ui.makingcar.MakingCarViewModel
 import com.softeer.mycarchiving.ui.makingcar.loading.LoadingScreen
 import com.softeer.mycarchiving.ui.theme.White
 import com.softeer.mycarchiving.util.fadeInAndOut
-import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 
 @Composable
@@ -54,6 +52,7 @@ fun SelectModelRoute(
     val carImages by viewModel.carImages.collectAsStateWithLifecycle()
     val focusedImageIndex by viewModel.focusedImageIndex.collectAsStateWithLifecycle()
     val carDetails by sharedViewModel.carDetails.observeAsState()
+    val selectedColor by sharedViewModel.selectedColor.collectAsStateWithLifecycle()
     val scrollState = rememberScrollState()
     val selectedModel by sharedViewModel.selectedModelInfo.observeAsState()
     val fromArchive by sharedViewModel.archivingStartedFlag
@@ -83,7 +82,7 @@ fun SelectModelRoute(
         carModels = carModels,
         carImages = carImages,
         focusedImageIndex = focusedImageIndex,
-        fromArchive = fromArchive,
+        shouldShowDialog = fromArchive || selectedColor.isNotEmpty(),
         onCarImageClick = viewModel::onCarImageClick,
         selectedModel = selectedModel,
         onModelSelect = sharedViewModel::updateSelectedModelInfo,
@@ -100,7 +99,7 @@ fun SelectModelScreen(
     carImages: List<String>,
     focusedImageIndex: Int,
     selectedModel: SelectModelUiModel?,
-    fromArchive: Boolean,
+    shouldShowDialog: Boolean,
     onCarImageClick: (Int) -> Unit,
     onModelSelect: (SelectModelUiModel) -> Unit,
     onInitialize: () -> Unit,
@@ -180,7 +179,7 @@ fun SelectModelScreen(
                                     carModelIndex = index,
                                     carModel = carModel,
                                     isExpanded = carModel.id == selectedModel?.id,
-                                    isArchived = fromArchive,
+                                    shouldInitialize = shouldShowDialog,
                                     onClick = { onModelSelect(carModel) },
                                     onInitialize = onInitialize
                                 )
@@ -217,7 +216,7 @@ fun PreviewSelectModelScreen() {
             price = 40000000,
             features = emptyList()
         ),
-        fromArchive = true,
+        shouldShowDialog = true,
         onCarImageClick = {},
         onModelSelect = {},
         onInitialize = {}

@@ -12,7 +12,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
@@ -33,7 +32,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
-import com.skydoves.landscapist.glide.GlideImage
 import com.softeer.mycarchiving.R
 import com.softeer.mycarchiving.model.makingcar.ModelFeatureUiModel
 import com.softeer.mycarchiving.model.makingcar.SelectModelUiModel
@@ -44,7 +42,6 @@ import com.softeer.mycarchiving.ui.theme.PrimaryBlue10
 import com.softeer.mycarchiving.ui.theme.PrimaryBlue60
 import com.softeer.mycarchiving.ui.theme.bold18
 import com.softeer.mycarchiving.ui.theme.medium10
-import com.softeer.mycarchiving.ui.theme.regular14
 import com.softeer.mycarchiving.ui.theme.regular16
 import com.softeer.mycarchiving.util.toPriceString
 
@@ -65,7 +62,7 @@ fun OptionCardForModel(
     carModelIndex: Int,
     carModel: SelectModelUiModel,
     isExpanded: Boolean = false,
-    isArchived: Boolean = false,
+    shouldInitialize: Boolean = false,
     onClick: () -> Unit,
     onInitialize: () -> Unit,
 ) {
@@ -73,7 +70,7 @@ fun OptionCardForModel(
 
     Column(
         modifier = modifier
-            .clickable { if (isArchived) shouldShowDialog = true else onClick() }
+            .clickable { if (shouldInitialize) shouldShowDialog = true else onClick() }
             .fillMaxWidth()
             .then(
                 if (isExpanded) Modifier
@@ -102,7 +99,7 @@ fun OptionCardForModel(
         }
     }
 
-    if (isArchived && shouldShowDialog) {
+    if (shouldInitialize && shouldShowDialog) {
         InitializeCarDialog(
             onDismissRequest = {
                 shouldShowDialog = false
