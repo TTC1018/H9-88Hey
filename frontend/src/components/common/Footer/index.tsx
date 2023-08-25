@@ -122,6 +122,7 @@ export function Footer({ myCarData, calculatePrice, carCode, setDisplayAutoSavin
     navigate('/result', {
       state: myCarData,
     });
+    localStorage.removeItem('myChivingId');
     localStorage.removeItem('myCar');
     localStorage.removeItem('carCode');
   }
