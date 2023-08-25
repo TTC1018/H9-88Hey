@@ -2,8 +2,8 @@ package com.softeer.domain.model
 
 data class MyArchiveFeed(
     val id: Long,
-    val lastModifiedDate: String,
-    val isSaved: Boolean,
+    val date: String,
+    val isSavedOrPurchase: Boolean,
     val totalPrice: Int,
     val carImageUrl: String? = null,
     val modelName: String,
@@ -13,7 +13,9 @@ data class MyArchiveFeed(
     val wheelDrive: String? = null,
     val exteriorColor: MyArchiveFeedSimpleColor? = null,
     val interiorColor: MyArchiveFeedSimpleColor? = null,
-    val selectedOptions: List<MyArchiveFeedOption>
+    val review: String? = null,
+    val tags: List<String>? = null,
+    val selectedOptions: List<MyArchiveFeedOption>,
 )
 
 data class MyArchiveFeedSimpleColor(
@@ -26,5 +28,6 @@ data class MyArchiveFeedOption(
     val id: String,
     val name: String,
     val imageUrl: String,
-    val subOptions: List<String>? = null
+    val subOptions: List<String>? = null,
+    val tags: List<String>? = null
 )

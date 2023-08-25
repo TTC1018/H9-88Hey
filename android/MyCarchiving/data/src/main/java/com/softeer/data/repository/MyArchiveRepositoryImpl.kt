@@ -6,10 +6,12 @@ import androidx.paging.PagingData
 import androidx.paging.map
 import com.softeer.data.datasource.MyArchiveDataSource
 import com.softeer.data.datasource.MyArchiveMadeFeedPagingSource
+import com.softeer.data.datasource.MyArchiveSavedFeedPagingSource
 import com.softeer.data.datasource.RemotePagingSource
 import com.softeer.data.mapper.asBody
 import com.softeer.data.mapper.asEntity
 import com.softeer.data.model.MyArchiveMadeFeedDto
+import com.softeer.data.model.MyArchiveSavedFeedDto
 import com.softeer.data.network.MyArchiveNetworkApi
 import com.softeer.domain.model.CarInfo
 import com.softeer.domain.model.CarTempInfo
@@ -29,7 +31,7 @@ class MyArchiveRepositoryImpl(
     override fun saveTempCarInfo(carTempInfo: CarTempInfo): Flow<String> =
         archiveRemoteDataSource.saveTempCarInfo(carTempInfo.asBody())
 
-    override fun getMadeCarFeed(): Flow<PagingData<MyArchiveFeed>> =
+    override fun getMadeCarFeeds(): Flow<PagingData<MyArchiveFeed>> =
         Pager(
             config = PagingConfig(pageSize = RemotePagingSource.PAGING_SIZE),
             pagingSourceFactory = {
@@ -42,5 +44,23 @@ class MyArchiveRepositoryImpl(
     override suspend fun deleteMadeCarFeed(feedId: Long): Boolean =
         archiveRemoteDataSource.deleteMadeCar(feedId)
 
+    override fun getSavedCarFeeds(): Flow<PagingData<MyArchiveFeed>> =
+        Pager(
+            config = PagingConfig(pageSize = RemotePagingSource.PAGING_SIZE),
+            pagingSourceFactory = {
+                MyArchiveSavedFeedPagingSource(myArchiveNetworkApi)
+            }
+        ).flow.map { pagingData ->
+            pagingData.map(MyArchiveSavedFeedDto::asEntity)
+        }
 
-}
+
+    override suspend fun checkBookmarked(feedId: Long): Boolean =
+        archiveRemoteDataSource.checkBookmarked(feedId)
+
+    override suspend fun addBookmark(feedId: Long): Long? =
+        archiveRemoteDataSource.addBookmark(feedId)
+
+    override suspend fun deleteBookmark(feedId: Long): Boolean =
+        archiveRemoteDataSource.deleteBookmark(feedId)
+    }

@@ -12,8 +12,16 @@ interface MyArchiveRepository {
 
     fun saveTempCarInfo(carTempInfo: CarTempInfo): Flow<String>
 
-    fun getMadeCarFeed(): Flow<PagingData<MyArchiveFeed>>
+    fun getMadeCarFeeds(): Flow<PagingData<MyArchiveFeed>>
 
     suspend fun deleteMadeCarFeed(feedId: Long): Boolean
+
+    fun getSavedCarFeeds(): Flow<PagingData<MyArchiveFeed>>
+
+    suspend fun checkBookmarked(feedId: Long): Boolean
+
+    suspend fun addBookmark(feedId: Long): Long?
+
+    suspend fun deleteBookmark(feedId: Long): Boolean
 
 }

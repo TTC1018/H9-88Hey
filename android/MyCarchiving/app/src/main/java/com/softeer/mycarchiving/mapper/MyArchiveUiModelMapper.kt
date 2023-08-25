@@ -10,8 +10,8 @@ import com.softeer.mycarchiving.model.myarchive.MadeCarUiModel
 fun MyArchiveFeed.asUiModel(): MadeCarUiModel =
     MadeCarUiModel(
         id = id,
-        lastModifiedDate = lastModifiedDate,
-        isSaved = isSaved,
+        lastModifiedDate = date,
+        isSaved = isSavedOrPurchase,
         totalPrice = totalPrice,
         carImageUrl = carImageUrl,
         modelName = modelName,

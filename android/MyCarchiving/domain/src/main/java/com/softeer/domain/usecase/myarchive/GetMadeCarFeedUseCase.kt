@@ -10,5 +10,5 @@ class GetMadeCarFeedUseCase @Inject constructor(
     private val myArchiveRepository: MyArchiveRepository,
 ) {
     operator fun invoke(): Flow<PagingData<MyArchiveFeed>> =
-        myArchiveRepository.getMadeCarFeed()
+        myArchiveRepository.getMadeCarFeeds()
 }

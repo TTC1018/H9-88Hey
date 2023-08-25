@@ -14,6 +14,12 @@ interface MyArchiveDataSource {
 
     suspend fun deleteMadeCar(feedId: Long): Boolean
 
+    suspend fun checkBookmarked(feedId: Long): Boolean
+
+    suspend fun addBookmark(feedId: Long): Long?
+
+    suspend fun deleteBookmark(feedId: Long): Boolean
+
 }
 
 class MyArchiveRemoteDataSource(
@@ -44,6 +50,21 @@ class MyArchiveRemoteDataSource(
 
     override suspend fun deleteMadeCar(feedId: Long): Boolean {
         val response = myArchiveNetworkApi.deleteMadeCarFeed(feedId)
+        return response.isSuccessful
+    }
+
+    override suspend fun checkBookmarked(feedId: Long): Boolean {
+        val response = myArchiveNetworkApi.checkBookMarked(feedId)
+        return response.body()?.data?.bookmark ?: false
+    }
+
+    override suspend fun addBookmark(feedId: Long): Long? {
+        val response = myArchiveNetworkApi.addBookMark(feedId)
+        return response.body()?.data?.feedId
+    }
+
+    override suspend fun deleteBookmark(feedId: Long): Boolean {
+        val response = myArchiveNetworkApi.deleteBookMark(feedId)
         return response.isSuccessful
     }
 }

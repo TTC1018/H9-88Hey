@@ -5,6 +5,7 @@ import com.softeer.data.model.CarTempInfoBody
 import com.softeer.data.model.MyArchiveExteriorDto
 import com.softeer.data.model.MyArchiveInteriorDto
 import com.softeer.data.model.MyArchiveMadeFeedDto
+import com.softeer.data.model.MyArchiveSavedFeedDto
 import com.softeer.data.model.MyArchiveSelectedDto
 import com.softeer.domain.model.CarInfo
 import com.softeer.domain.model.CarTempInfo
@@ -39,8 +40,8 @@ fun CarInfo.asBody(): CarInfoBody =
 fun MyArchiveMadeFeedDto.asEntity(): MyArchiveFeed =
     MyArchiveFeed(
         id = id,
-        lastModifiedDate = lastModifiedDate,
-        isSaved = isSaved,
+        date = lastModifiedDate,
+        isSavedOrPurchase = isSaved,
         totalPrice = totalPrice,
         carImageUrl = exteriorColor?.carImageUrl,
         modelName = model.name,
@@ -50,6 +51,25 @@ fun MyArchiveMadeFeedDto.asEntity(): MyArchiveFeed =
         wheelDrive = wheelDrive?.name,
         exteriorColor = exteriorColor?.asEntity(),
         interiorColor = interiorColor?.asEntity(),
+        selectedOptions = selectedOptions.map(MyArchiveSelectedDto::asEntity)
+    )
+
+fun MyArchiveSavedFeedDto.asEntity(): MyArchiveFeed =
+    MyArchiveFeed(
+        id = id,
+        date = creationDate,
+        isSavedOrPurchase = purchase,
+        totalPrice = totalPrice,
+        carImageUrl = exteriorColor.colorImageUrl,
+        modelName = modelName,
+        trim = trim.name,
+        engine = engine.name,
+        bodyType = bodyType.name,
+        wheelDrive = wheelDrive.name,
+        exteriorColor = exteriorColor.asEntity(),
+        interiorColor = interiorColor.asEntity(),
+        review = review,
+        tags = tags,
         selectedOptions = selectedOptions.map(MyArchiveSelectedDto::asEntity)
     )
 
