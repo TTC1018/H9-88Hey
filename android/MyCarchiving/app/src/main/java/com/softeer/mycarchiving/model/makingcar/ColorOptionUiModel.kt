@@ -1,6 +1,6 @@
 package com.softeer.mycarchiving.model.makingcar
 
-import com.softeer.data.CarColorType
+import com.softeer.domain.model.CarColorType
 
 data class ColorOptionUiModel(
     val id: Int,
