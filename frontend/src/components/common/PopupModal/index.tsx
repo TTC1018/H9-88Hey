@@ -10,6 +10,15 @@ interface Props {
   onClick: () => void;
   onClose?: () => void;
 }
+
+interface MoveContentProps {
+  date: string;
+}
+
+interface DeleteContentProps {
+  name: string;
+}
+
 export function PopupModal({ type, contents, onClick, onClose }: Props) {
   const { handleClose } = useModalContext();
 
@@ -39,6 +48,18 @@ export function PopupModal({ type, contents, onClick, onClose }: Props) {
           isBig: true,
           content: <ClearContent />,
         };
+      case 'SIGNOUT':
+        return {
+          text: '로그아웃',
+          isBig: true,
+          content: <SignoutContent />,
+        };
+      case 'CHANGE_TRIM':
+        return {
+          text: '트림 변경',
+          isBig: true,
+          content: <ChangeTrimContent />,
+        };
     }
   })();
 
@@ -51,7 +72,10 @@ export function PopupModal({ type, contents, onClick, onClose }: Props) {
     <Styled.Container>
       {state?.content}
       <Styled.ButtonWrapper>
-        <Styled.CancleButton isBig={state!.isBig} onClick={type === 'CLEAR' ? onClose : handleClose}>
+        <Styled.CancleButton
+          isBig={state!.isBig}
+          onClick={type === 'CLEAR' || type === 'CHANGE_TRIM' ? onClose : handleClose}
+        >
           취소
         </Styled.CancleButton>
         <Styled.ConfirmButton isBig={state!.isBig} onClick={handleConfirm}>
@@ -62,9 +86,6 @@ export function PopupModal({ type, contents, onClick, onClose }: Props) {
   );
 }
 
-interface MoveContentProps {
-  date: string;
-}
 function MoveContent({ date }: MoveContentProps) {
   return (
     <Styled.TextWrapper>
@@ -77,9 +98,6 @@ function MoveContent({ date }: MoveContentProps) {
   );
 }
 
-interface DeleteContentProps {
-  name: string;
-}
 function DeleteContent({ name }: DeleteContentProps) {
   return (
     <Styled.TextWrapper>
@@ -110,6 +128,23 @@ function ClearContent() {
   return (
     <Styled.TextWrapper>
       <Styled.Text>선택했던 H Genuine Accessories 옵션이 모두 초기화됩니다.</Styled.Text>
+      <Styled.Text>그래도 계속하시겠어요?</Styled.Text>
+    </Styled.TextWrapper>
+  );
+}
+
+function SignoutContent() {
+  return (
+    <Styled.TextWrapper>
+      <Styled.Text>로그아웃하시겠어요?</Styled.Text>
+    </Styled.TextWrapper>
+  );
+}
+
+function ChangeTrimContent() {
+  return (
+    <Styled.TextWrapper>
+      <Styled.Text>선택했던 모든 색상 및 옵션이 초기화됩니다.</Styled.Text>
       <Styled.Text>그래도 계속하시겠어요?</Styled.Text>
     </Styled.TextWrapper>
   );

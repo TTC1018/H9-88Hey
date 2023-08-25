@@ -19,6 +19,14 @@ import { MyChivingLayout } from '@/components/layout/MyChivingLayout';
 
 export const router = createBrowserRouter([
   {
+    index: true,
+    element: <Signin />,
+  },
+  {
+    path: 'signup',
+    element: <Signup />,
+  },
+  {
     path: '/',
     element: (
       <ErrorBoundary>

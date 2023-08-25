@@ -89,7 +89,7 @@ export function TrimCard({
       </Styled.Container>
       <ModalPortal isOpen={isOpen} handleClose={() => setIsOpen(false)}>
         <PopupModal
-          type={ModalType.CLEAR}
+          type={ModalType.CHANGE_TRIM}
           onClick={() => {
             dispatch({ type: MyCarActionType.CLEAR_OPTION, payload: [] });
             setIsOpen(false);
