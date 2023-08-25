@@ -1,6 +1,5 @@
 package com.softeer.mycarchiving.ui.myarchive.detail
 
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -15,45 +14,44 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.ViewModelStoreOwner
 import com.softeer.mycarchiving.R
-import com.softeer.mycarchiving.model.makingcar.SelectOptionUiModel
-import com.softeer.mycarchiving.model.makingcar.SubSelectOptionUiModel
+import com.softeer.mycarchiving.model.myarchive.MadeCarSelectedOptionUiModel
+import com.softeer.mycarchiving.model.myarchive.MadeCarUiModel
 import com.softeer.mycarchiving.ui.component.DetailBanner
 import com.softeer.mycarchiving.ui.component.DetailReview
 import com.softeer.mycarchiving.ui.component.DetailSelectedOption
 import com.softeer.mycarchiving.ui.component.DetailTextLabel
 import com.softeer.mycarchiving.ui.component.MyArchiveDetailBottomBar
-import com.softeer.mycarchiving.ui.myarchive.main.MY_ARCHIVE_MADE
 import com.softeer.mycarchiving.ui.myarchive.main.MY_ARCHIVE_SAVE
+import com.softeer.mycarchiving.ui.myarchive.main.MyArchiveMainViewModel
 import com.softeer.mycarchiving.ui.theme.HyundaiLightSand
 import com.softeer.mycarchiving.ui.theme.White
 
 @Composable
 fun MyArchiveDetailRoute(
     modifier: Modifier = Modifier,
-    viewModel: MyArchiveDetailViewModel = hiltViewModel()
+    viewModelStoreOwner: ViewModelStoreOwner?,
+    viewModel: MyArchiveMainViewModel =
+        viewModelStoreOwner?.run { hiltViewModel(this) } ?: hiltViewModel()
 ) {
-    val previousScreenIndex by viewModel.screenIndex.collectAsStateWithLifecycle()
-    val selectOptions by viewModel.selectOptions.collectAsStateWithLifecycle()
-    val review by viewModel.comment.collectAsStateWithLifecycle()
+    val screenIndex by viewModel.selectedIndex
+    val madeCarDetail by viewModel.detailCar
 
     MyArchiveDetailScreen(
-        screenIndex = previousScreenIndex,
-        review = review,
-        selectOptions = selectOptions,
+        modifier = modifier,
+        screenIndex = screenIndex,
+        detailCar = madeCarDetail!!
     )
 }
 
 @Composable
 fun MyArchiveDetailScreen(
-    modifier: Modifier = Modifier,
+    modifier: Modifier,
     screenIndex: Int,
-    review: String,
-    selectOptions: List<SelectOptionUiModel>
+    detailCar: MadeCarUiModel,
 ) {
     Column(
         modifier = modifier
@@ -73,28 +71,38 @@ fun MyArchiveDetailScreen(
                     .padding(start = 16.dp, end = 16.dp, top = 27.dp)
             ) {
                 DetailTextLabel(text = stringResource(id = R.string.archive_summary_car_info))
-//                DetailBanner() TODO 연동 후 연결
+                DetailBanner(
+                    carImageUrl = detailCar.carImageUrl ?: "",
+                    model = detailCar.modelName,
+                    trim = detailCar.trimName ?: "",
+                    trimOptions = detailCar.trimOptions.filterNotNull().joinToString(" / "),
+                    price = detailCar.totalPrice,
+                    exteriorColor = detailCar.exteriorColor?.name ?: "",
+                    exteriorColorUrl = detailCar.exteriorColor?.colorImageUrl ?: "",
+                    interiorColor = detailCar.interiorColor?.name ?: "",
+                    interiorColorUrl = detailCar.interiorColor?.colorImageUrl ?: ""
+                )
                 Spacer(modifier = Modifier.height(23.dp))
                 if (screenIndex == MY_ARCHIVE_SAVE) {
                     DetailTextLabel(text = stringResource(id = R.string.archive_general_review))
                     Spacer(modifier = Modifier.height(16.dp))
-                    DetailReview(review = review)
+                    DetailReview(review = "")
                     Spacer(modifier = Modifier.height(23.dp))
                 }
                 DetailTextLabel(text = stringResource(id = R.string.selected_option))
             }
             MyArchiveSelectOptionArea(
-                selectOptions = selectOptions
+                selectOptions = detailCar.selectedOptions
             )
         }
-        MyArchiveDetailBottomBar(screenIndex = screenIndex)
+        MyArchiveDetailBottomBar(screenIndex = screenIndex, totalPrice = detailCar.totalPrice)
     }
 }
 
 @Composable
 fun MyArchiveSelectOptionArea(
     modifier: Modifier = Modifier,
-    selectOptions: List<SelectOptionUiModel>
+    selectOptions: List<MadeCarSelectedOptionUiModel>
 ) {
     Column(
         modifier = modifier
@@ -108,13 +116,13 @@ fun MyArchiveSelectOptionArea(
                 optionImageUrl = option.imageUrl,
                 optionNum = idx + 1,
                 optionName = option.name,
-                subOptions = option.subOptions?.map { it.name },
-
-                )
+                subOptions = option.subOptions,
+            )
         }
     }
 }
 
+/*
 @Preview
 @Composable
 fun PreviewMyArchiveDetailScreen() {
@@ -152,4 +160,4 @@ fun PreviewMyArchiveDetailScreen() {
             )
         )
     )
-}
+}*/

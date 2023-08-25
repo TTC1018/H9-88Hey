@@ -6,6 +6,7 @@ import androidx.paging.PagingData
 import androidx.paging.map
 import com.softeer.data.datasource.ArchivingDataSource
 import com.softeer.data.datasource.ArchivingRemotePagingSource
+import com.softeer.data.datasource.RemotePagingSource
 import com.softeer.data.mapper.asEntity
 import com.softeer.data.model.ArchivingFeedDto
 import com.softeer.data.model.ArchivingSelectOptionDto
@@ -17,8 +18,6 @@ import com.softeer.domain.repository.ArchivingRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
-private val TAG = ArchivingRepository::class.simpleName
-
 class ArchivingRepositoryImpl(
     private val archivingNetworkApi: ArchivingNetworkApi,
     private val archivingRemoteDataSource: ArchivingDataSource
@@ -29,7 +28,7 @@ class ArchivingRepositoryImpl(
 
     override fun getCarFeeds(selectOptions: List<String>): Flow<PagingData<CarFeed>> =
         Pager(
-            config = PagingConfig(pageSize = ArchivingRemotePagingSource.PAGING_SIZE),
+            config = PagingConfig(pageSize = RemotePagingSource.PAGING_SIZE),
             pagingSourceFactory = {
                 ArchivingRemotePagingSource(
                     archivingNetworkApi,

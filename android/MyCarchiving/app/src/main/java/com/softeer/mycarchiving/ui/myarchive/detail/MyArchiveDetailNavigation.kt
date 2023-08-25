@@ -1,6 +1,7 @@
 package com.softeer.mycarchiving.ui.myarchive.detail
 
 import androidx.activity.compose.BackHandler
+import androidx.lifecycle.ViewModelStoreOwner
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
@@ -15,6 +16,7 @@ fun NavController.navigateToMyArchiveDetail(screenIndex: Int, navOptions: NavOpt
 }
 
 fun NavGraphBuilder.myArchiveDetailScreen(
+    viewModelStoreOwner: ViewModelStoreOwner?,
     onBackClick: () -> Unit,
 ) {
     composable(
@@ -24,6 +26,6 @@ fun NavGraphBuilder.myArchiveDetailScreen(
         BackHandler {
             onBackClick()
         }
-        MyArchiveDetailRoute()
+        MyArchiveDetailRoute(viewModelStoreOwner = viewModelStoreOwner)
     }
 }

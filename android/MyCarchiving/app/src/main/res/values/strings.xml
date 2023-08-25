@@ -98,6 +98,8 @@
     <string name="my_not_save_car">저장하지 않고 나간 차량이 있어요.</string>
     <string name="my_temp_save_date">%1$s 임시저장</string>
     <string name="my_make_date">%1$s에 만들었어요</string>
+    <string name="my_make_car_trim_none">트림 옵션을 선택하지 않았어요.</string>
+    <string name="my_make_car_option_none">옵션 미선택</string>
 
     <!--  마이카이빙 다이얼로그  -->
     <string name="my_dialog_made_delete_description">%1$s을\n내가 만든 차량 목록에서 삭제하시겠어요?</string>
