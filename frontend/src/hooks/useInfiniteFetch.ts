@@ -23,25 +23,27 @@ export function useInfiniteFetch<T>({ key, url, intersecting, nextOffset, depend
   }
 
   const [data, setData] = useState<T[]>([]);
+  const [hasNext, setHasNext] = useState(true);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState('');
 
-  async function fetcher() {
+  async function fetcher(offset: number) {
     try {
-      const response = await fetch(`${API_URL}${url}`, {
-        headers: {
-          Authorization: `Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiIxIiwidXNlck5hbWUiOiJ0ZXN0IiwiaWF0IjoxNjkyNTYwMzM5LCJleHAiOjQ4MTQ2MjQzMzl9.gcSE7kPaRVxo2iT9DRcN1Bn5ZNAAsHG8Z3dvTopH-IWblMf_LJ2lhsYqOvrrLcZJ`,
-          credentials: 'same-origin',
-        },
-      });
+      const response = await fetch(`${API_URL}${url}&offset=${offset}`);
       if (!response.ok) {
         throw new Error(`${response.status} ${response.statusText}`);
       }
 
       const { data } = (await response.json()) as ResponseProps<Props>;
 
-      if (data[key].length === 0) {
+      if (data.archivings.length === 0) {
+        setHasNext(false);
         setIsLoading(false);
+        return;
+      }
+
+      if (data.nextOffset === null) {
+        setHasNext(false);
         return;
       }
       nextOffset.current = data.nextOffset;
@@ -64,28 +66,18 @@ export function useInfiniteFetch<T>({ key, url, intersecting, nextOffset, depend
 
   useEffect(() => {
     setData([]);
+    setHasNext(true);
     nextOffset.current = 1;
-
     if (intersecting) {
-      setIsLoading(true);
-
-      window.scroll({
-        top: 0,
-        behavior: 'smooth',
-      });
-
-      fetcher();
+      fetcher(1);
     }
   }, [dependenciesString]);
 
   useEffect(() => {
-    if (intersecting && nextOffset.current !== null) {
+    if (intersecting && hasNext) {
       setIsLoading(true);
-      window.scroll({
-        top: 0,
-        behavior: 'smooth',
-      });
-      fetcher();
+
+      fetcher(nextOffset.current);
 
       return;
     }

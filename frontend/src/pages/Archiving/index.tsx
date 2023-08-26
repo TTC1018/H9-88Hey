@@ -28,7 +28,7 @@ export function Archiving() {
     hasNext,
   } = useInfiniteFetch<ArchivingProps>({
     key: 'archivings',
-    url: apiPath.archiving(1, Array.from(selectedOptions), 16, nextOffset.current),
+    url: apiPath.archiving(1, Array.from(selectedOptions), 16),
     intersecting,
     nextOffset,
     dependencies: Array.from(selectedOptions),
@@ -54,9 +54,9 @@ export function Archiving() {
         <OptionSearchBar onSelectOption={handleSelectOption} selectedOptions={selectedOptions} />
       </Styled.HeaderWrapper>
       <Styled.ReviewWrapper>
-        {isLoading && <ReviewSkeleton />}
+        {isLoading && archivings.length === 0 && <ReviewSkeleton />}
         {!hasNext && archivings.length === 0 && <EmptyContent />}
-        {!isLoading && archivings.length > 0 && (
+        {archivings.length > 0 && (
           <ReviewList
             isLoading={isLoading}
             archivings={archivings}
