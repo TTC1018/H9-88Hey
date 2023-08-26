@@ -3,9 +3,6 @@ import { Fragment, useEffect, useRef } from 'react';
 import { ArchivingProps } from '@/types/archiving';
 
 import { ReviewCard } from '@/components/Archiving/ReviewCard';
-import { ModalPortal } from '@/components/common/ModalPortal';
-import { PopupModal } from '@/components/common/PopupModal';
-import { ModalType } from '@/constants';
 
 import * as Styled from './style';
 
@@ -16,12 +13,6 @@ interface FeedListProps {
 
 export function FeedList({ myFeedChiving, onDelete }: FeedListProps) {
   const masonryRef = useRef<HTMLDivElement>(null);
-
-  const modalInfo = useRef({
-    type: ModalType.CLOSE,
-    contents: '',
-    onClick: () => {},
-  });
 
   function masonryLayout() {
     const masonryItems = masonryRef.current?.childNodes;
@@ -50,13 +41,6 @@ export function FeedList({ myFeedChiving, onDelete }: FeedListProps) {
           );
         })}
       </Styled.Container>
-      <ModalPortal>
-        <PopupModal
-          type={modalInfo.current.type}
-          onClick={modalInfo.current.onClick}
-          contents={modalInfo.current.contents}
-        />
-      </ModalPortal>
     </Fragment>
   );
 }

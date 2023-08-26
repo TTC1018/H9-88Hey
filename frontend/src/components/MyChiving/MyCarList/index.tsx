@@ -1,7 +1,9 @@
-import { MouseEvent } from 'react';
+import { MouseEvent, MutableRefObject } from 'react';
 
 import { formatDate } from '@/utils';
+import { ModalType } from '@/constants';
 import { MyChivingProps } from '@/types/myChiving';
+import { useAuthMutation } from '@/hooks/useAuthMutation';
 
 import { XButton } from '@/components/MyChiving/XButton';
 import { ColorCircle } from '@/components/common/ColorCircle';
@@ -16,10 +18,16 @@ interface ClickEventDataProps {
 interface MyCarListProps {
   myChiving: MyChivingProps;
   onClick: (myChiving: MyChivingProps, data: ClickEventDataProps, isSaved: boolean) => void;
-  onClickDelete: (event: MouseEvent<HTMLButtonElement>, myChiving: MyChivingProps, data: ClickEventDataProps) => void;
+  onClickDelete: (myChiving: MyChivingProps) => void;
+  modalInfo: MutableRefObject<{
+    type: ModalType;
+    contents: string;
+    onClick: () => void;
+  }>;
+  handleOpen: () => void;
 }
 
-export function MyCarList({ myChiving, onClick, onClickDelete }: MyCarListProps) {
+export function MyCarList({ myChiving, onClick, onClickDelete, modalInfo, handleOpen }: MyCarListProps) {
   const {
     isSaved,
     model,
@@ -31,6 +39,7 @@ export function MyCarList({ myChiving, onClick, onClickDelete }: MyCarListProps)
     selectOptions,
     exteriorColor,
     interiorColor,
+    myChivingId,
   } = myChiving;
 
   const date = formatDate(lastModifiedDate);
@@ -38,6 +47,28 @@ export function MyCarList({ myChiving, onClick, onClickDelete }: MyCarListProps)
   const trimOptions = `${engine?.name ? engine.name : ''}${bodyType?.name ? ` / ${bodyType.name}` : ''} ${
     wheelDrive?.name ? ` / ${wheelDrive.name}` : ''
   }`;
+
+  const { authMutation } = useAuthMutation<string, null>({ url: `/mychiving/${myChivingId}` });
+
+  // 여기에 post 추가
+  function handleClickDelete(
+    event: MouseEvent<HTMLButtonElement>,
+    myChiving: MyChivingProps,
+    data: ClickEventDataProps
+  ) {
+    event.stopPropagation();
+
+    modalInfo.current = {
+      type: ModalType.DELETE,
+      contents: data.deleteText,
+      onClick: () => {
+        onClickDelete(myChiving);
+        authMutation({ method: 'DELETE' });
+      },
+    };
+
+    handleOpen();
+  }
 
   return (
     <Styled.Container
@@ -68,7 +99,7 @@ export function MyCarList({ myChiving, onClick, onClickDelete }: MyCarListProps)
             <Styled.SubTitleText isSaved={isSaved}>{dateInfoText}</Styled.SubTitleText>
             <XButton
               onClick={event =>
-                onClickDelete(event, myChiving, { deleteText: `${model.name} ${trim.name}`, moveText: `${date}` })
+                handleClickDelete(event, myChiving, { deleteText: `${model.name} ${trim.name}`, moveText: `${date}` })
               }
             />
           </Styled.SubTitle>

@@ -8,12 +8,12 @@ import { useShowScrollButton } from '@/hooks/useShowScrollButton';
 
 import { SearchBar } from '@/components/Archiving/SearchBar';
 import { ReviewList } from '@/components/Archiving/ReviewList';
+import { EmptyContent } from '@/components/common/EmptyContent';
 import { ReviewSkeleton } from '@/components/common/ReviewSkeleton';
 import { ScrollTopButton } from '@/components/common/ScrollTopButton';
 import { OptionSearchBar } from '@/components/Archiving/OptionSearchBar';
 
 import * as Styled from './style';
-import { EmptyContent } from '@/components/common/EmptyContent';
 
 export function Archiving() {
   const [selectedOptions, setSelectedOptions] = useState<Set<string>>(new Set());
