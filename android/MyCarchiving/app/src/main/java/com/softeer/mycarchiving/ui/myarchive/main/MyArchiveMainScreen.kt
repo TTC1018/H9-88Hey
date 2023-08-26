@@ -28,8 +28,7 @@ fun MyArchiveMainRoute(
     viewModelStoreOwner: ViewModelStoreOwner?,
     viewModel: MyArchiveMainViewModel =
         viewModelStoreOwner?.run { hiltViewModel(this) } ?: hiltViewModel(),
-    moveMadeCarDetail: () -> Unit,
-    moveSavedCarDetail: (MyArchivePage?, String, MyArchiveDestinations?) -> Unit,
+    moveCarDetail: (MyArchivePage?, String, MyArchiveDestinations?) -> Unit,
 ) {
     val selectedPage by viewModel.selectedPage.collectAsStateWithLifecycle()
     val madeCars = viewModel.madeCarFeedPagingData.collectAsLazyPagingItems()
@@ -52,8 +51,7 @@ fun MyArchiveMainRoute(
         focusedCarFeed = wantDeleteCarFeed,
         changePage = viewModel::updateSelectedPage,
         onFeedDetail = viewModel::onFeedDetail,
-        moveMadeCarDetail = moveMadeCarDetail,
-        moveSavedCarDetail = moveSavedCarDetail,
+        moveCarDetail = moveCarDetail,
         deleteCarFeed = viewModel::deleteCarFeed,
         openDeleteDialog = viewModel::openDeleteDialog,
         closeDeleteDialog = viewModel::closeDeleteDialog,
@@ -73,8 +71,7 @@ fun MyArchiveMainScreen(
     focusedCarFeed: ArchiveFeedUiModel?,
     changePage: (MyArchivePage) -> Unit,
     onFeedDetail: (ArchiveFeedUiModel) -> Unit,
-    moveMadeCarDetail: () -> Unit,
-    moveSavedCarDetail: (MyArchivePage?, String, MyArchiveDestinations?) -> Unit,
+    moveCarDetail: (MyArchivePage?, String, MyArchiveDestinations?) -> Unit,
     deleteCarFeed: () -> Unit,
     openDeleteDialog: (ArchiveFeedUiModel) -> Unit,
     closeDeleteDialog: () -> Unit,
@@ -107,7 +104,7 @@ fun MyArchiveMainScreen(
                     madeCars = madeCars,
                     focusedCarFeed = focusedCarFeed,
                     onFeedDetail = onFeedDetail,
-                    moveDetail = moveMadeCarDetail,
+                    moveDetail = moveCarDetail,
                     openDeleteDialog = openDeleteDialog,
                     openMoveDialog = openMoveDialog,
                     closeMoveDialog = closeMoveDialog
@@ -119,7 +116,7 @@ fun MyArchiveMainScreen(
                         .fillMaxSize(),
                     savedCars = savedCars,
                     onFeedDetail = onFeedDetail,
-                    moveDetail = moveSavedCarDetail,
+                    moveDetail = moveCarDetail,
                     openDeleteDialog = openDeleteDialog
                 )
             }

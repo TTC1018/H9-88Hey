@@ -26,14 +26,7 @@ fun NavGraphBuilder.myArchiveMainScreen(
         }
         MyArchiveMainRoute(
             viewModelStoreOwner = viewModelStoreOwner,
-            moveMadeCarDetail = {
-                moveDetailPage(
-                    MyArchivePage.MADE,
-                    "",
-                    MyArchiveDestinations.MY_ARCHIVE_DETAIL
-                )
-            },
-            moveSavedCarDetail = moveDetailPage
+            moveCarDetail = moveDetailPage
         )
     }
 }

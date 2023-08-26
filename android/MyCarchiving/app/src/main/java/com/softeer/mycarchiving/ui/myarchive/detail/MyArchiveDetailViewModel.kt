@@ -1,6 +1,7 @@
 package com.softeer.mycarchiving.ui.myarchive.detail
 
 import android.util.Log
+import androidx.core.text.isDigitsOnly
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -37,7 +38,7 @@ class MyArchiveDetailViewModel @Inject constructor(
     val feedId = savedStateHandle.getStateFlow(KEY_MYARCHIVE_FEED_ID, "")
 
     val details = feedId.flatMapLatest { id ->
-        if (id.isNotEmpty()) {
+        if (id.isDigitsOnly()) {
             getCarDetailsUseCase(id).map { it?.asUiModel() }
         } else {
             emptyFlow()
