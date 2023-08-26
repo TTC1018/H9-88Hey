@@ -6,7 +6,7 @@ import { useCountPrice } from '@/hooks/useCountPrice';
 import { useAuthMutation } from '@/hooks/useAuthMutation';
 import { SaveDataProps } from '@/types/myChiving';
 import { ActionType, MyCarProps, SaveProps, TempSaveProps } from '@/types/trim';
-import { MyCarActionType, NAVIGATION_PATH, TAG_CHIP_MAX_NUMBER } from '@/constants';
+import { MyCarActionType, NAVIGATION_PATH, TAG_CHIP_MAX_NUMBER, apiPath } from '@/constants';
 import { checkIsOptionPage, checkIsHGenuineAccessoriesPage, getLocalStorage, combineWithSlash } from '@/utils';
 
 import { ColorCircle } from '@/components/common/ColorCircle';
@@ -34,8 +34,8 @@ export function Footer({ myCarData, calculatePrice, carCode, dispatch }: FooterP
 
   const [isOpen, setIsOpen] = useState(false);
 
-  const { data, authMutation } = useAuthMutation<SaveDataProps, TempSaveProps>({ url: '/mychiving/temp' });
-  const { authMutation: saveMychiving } = useAuthMutation<SaveDataProps, SaveProps>({ url: '/mychiving' });
+  const { data, authMutation } = useAuthMutation<SaveDataProps, TempSaveProps>({ url: apiPath.mychivingTemp() });
+  const { authMutation: saveMychiving } = useAuthMutation<SaveDataProps, SaveProps>({ url: apiPath.mychivingBase() });
 
   function handleOpenModal() {
     setIsOpen(true);

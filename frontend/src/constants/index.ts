@@ -54,21 +54,6 @@ export const OPTION_CATEGORY: OptionCategoryProps = {
   'H Genuine Accessories': '/option/h-genuine-accessories',
 };
 
-const routePath = {
-  trim: () => '/trim',
-  engine: () => `${routePath.trim()}/engine`,
-  bodyType: () => `${routePath.trim()}/body-type`,
-  wheelDrive: () => `${routePath.trim()}/wheel-drive`,
-  color: () => '/color',
-  option: () => '/option',
-  hGenuineAccessories: () => `${routePath.option()}/h-genuine-accessories`,
-  nPerformance: () => `${routePath.option()}/n-performance`,
-  result: () => '/result',
-  archiving: () => '/archiving',
-  detail: () => `${routePath.archiving()}/detail`,
-  mychiving: () => '/mychiving',
-};
-
 export const apiPath = {
   carBase: () => '/car',
   trimBase: () => `${apiPath.carBase()}/model`,
@@ -87,9 +72,11 @@ export const apiPath = {
     return `${apiPath.archivingBase()}?model_id=${modelId}${optionQuerys}&limit=${limit}`;
   },
   archivingOption: (modelId: number) => `${apiPath.carBase()}/select-options?model_id=${modelId}`,
+  mychivingBase: () => '/mychiving',
   mychiving: (offset: number, limit: number) => {
-    return `/mychiving?offset=${offset}&limit=${limit}`;
+    return `${apiPath.mychivingBase()}?offset=${offset}&limit=${limit}`;
   },
+  mychivingTemp: () => `${apiPath.mychivingBase()}/temp`,
   archivingDetail: (id: string) => `${apiPath.archivingBase()}/${id}`,
   tag: (type: string, id: string | number, limit: number) => `${apiPath.carBase()}/tag/${type}?id=${id}&limit=${limit}`,
   bookMark: (id: string) => `/user/archiving/${id}/bookmark`,
