@@ -45,8 +45,10 @@ export function ArchivingHeader() {
           <Styled.CarNameText>팰리세이드</Styled.CarNameText>
         </Styled.Box>
         <Styled.Box>
-          <Styled.UserNameText>{userName}</Styled.UserNameText>
-          <Styled.GreetingText>님, 안녕하세요!</Styled.GreetingText>
+          <Styled.Enclosure>
+            <Styled.UserNameText>{userName}</Styled.UserNameText>
+            <Styled.GreetingText>님, 안녕하세요!</Styled.GreetingText>
+          </Styled.Enclosure>
           <Styled.LogoutButton onClick={handleOpen}>로그아웃</Styled.LogoutButton>
           <Link to={isArchivingPage ? '/mychiving' : '/archiving'}>
             <Styled.Button>{isArchivingPage ? '마이카이빙' : '아카이빙'}</Styled.Button>
