@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
@@ -32,8 +33,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
-import com.skydoves.landscapist.ImageOptions
-import com.skydoves.landscapist.glide.GlideImage
 import com.softeer.domain.model.CarColorType
 import com.softeer.mycarchiving.R
 import com.softeer.mycarchiving.model.makingcar.ColorOptionUiModel
@@ -55,14 +54,14 @@ fun SelectedOptionThumbnail(
     modifier: Modifier = Modifier,
     imageUrl: String?,
 ) {
-    GlideImage(
+    AsyncImage(
         modifier = modifier
             .padding(start = 8.dp, end = 8.dp)
             .aspectRatio(4f / 5f)
             .clip(RoundedCornerShape(8.dp)),
-        imageModel = { imageUrl },
-        imageOptions = ImageOptions(contentScale = ContentScale.Crop),
-        previewPlaceholder = R.drawable.ic_launcher_background
+        model = imageUrl,
+        contentDescription = "",
+        contentScale = ContentScale.Crop
     )
 }
 
@@ -215,13 +214,13 @@ fun CompleteColorInfoRow(
         horizontalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         Text(style = medium14, text = category)
-        GlideImage(
-            modifier = Modifier
-                .height(16.dp)
+        AsyncImage(
+            modifier = Modifier.width(16.dp)
                 .aspectRatio(1f)
                 .clip(CircleShape),
-            imageModel = { imageUrl },
-            previewPlaceholder = R.drawable.ic_launcher_background,
+            model = imageUrl,
+            contentDescription = "",
+            contentScale = ContentScale.Crop
         )
         Text(style = regular14, text = colorName)
     }

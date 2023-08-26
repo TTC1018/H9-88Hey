@@ -13,26 +13,23 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.ViewModelStoreOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.skydoves.landscapist.ImageOptions
-import com.skydoves.landscapist.animation.crossfade.CrossfadePlugin
-import com.skydoves.landscapist.components.rememberImageComponent
-import com.skydoves.landscapist.glide.GlideImage
+import coil.compose.AsyncImage
+import coil.request.CachePolicy
+import coil.request.ImageRequest
 import com.softeer.domain.model.CarDetails
-import com.softeer.mycarchiving.R
 import com.softeer.mycarchiving.model.TrimOptionUiModel
 import com.softeer.mycarchiving.ui.component.OptionCardForDetail
 import com.softeer.mycarchiving.ui.component.OptionNameWithDivider
@@ -181,20 +178,17 @@ fun SelectTrimScreen(
                             .fillMaxWidth()
                             .verticalScroll(scrollState),
                     ) {
-                        GlideImage(
+                        AsyncImage(
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .height(200.dp),
-                            imageModel = { options.getOrNull(selectedIndex)?.imageUrl },
-                            imageOptions = ImageOptions(
-                                contentScale = ContentScale.FillBounds
-                            ),
-                            previewPlaceholder = R.drawable.ic_launcher_background,
-                            component = rememberImageComponent {
-                                +CrossfadePlugin(
-                                    duration = 1000
-                                )
-                            }
+                            model = ImageRequest.Builder(LocalContext.current)
+                                .data(options.getOrNull(selectedIndex)?.imageUrl)
+                                .memoryCachePolicy(CachePolicy.DISABLED)
+                                .crossfade(500)
+                                .build(),
+                            contentDescription = "",
+                            contentScale = ContentScale.Crop
                         )
                         Column(
                             modifier = Modifier
