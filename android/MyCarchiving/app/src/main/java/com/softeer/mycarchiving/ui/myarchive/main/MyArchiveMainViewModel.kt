@@ -126,4 +126,9 @@ class MyArchiveMainViewModel @Inject constructor(
             }
         }
     }
+
+    fun refreshSavedPage() {
+        refreshSavedCarFeed.value = false
+        refreshSavedCarFeed.value = true
+    }
 }

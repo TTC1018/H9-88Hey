@@ -38,6 +38,10 @@ fun MyArchiveMainRoute(
     val showMoveDialog by viewModel.showMoveDialog
     val wantDeleteCarFeed by viewModel.focusedCarFeed
 
+    LaunchedEffect(Unit) {
+        viewModel.refreshSavedPage()
+    }
+
     MyArchiveMainScreen(
         modifier = modifier,
         page = selectedPage,
