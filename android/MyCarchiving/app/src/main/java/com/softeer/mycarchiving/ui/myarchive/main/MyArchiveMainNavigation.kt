@@ -15,7 +15,7 @@ fun NavController.navigateToMyArchiveMain(navOptions: NavOptions? = null) {
 
 fun NavGraphBuilder.myArchiveMainScreen(
     viewModelStoreOwner: ViewModelStoreOwner?,
-    moveDetailPage: (MyArchivePage?, MyArchiveDestinations?) -> Unit,
+    moveDetailPage: (MyArchivePage?, String, MyArchiveDestinations?) -> Unit,
     onBackClick: () -> Unit,
 ) {
     composable(
@@ -29,15 +29,11 @@ fun NavGraphBuilder.myArchiveMainScreen(
             moveMadeCarDetail = {
                 moveDetailPage(
                     MyArchivePage.MADE,
+                    "",
                     MyArchiveDestinations.MY_ARCHIVE_DETAIL
                 )
             },
-            moveSavedCarDetail = {
-                moveDetailPage(
-                    MyArchivePage.SAVED,
-                    MyArchiveDestinations.MY_ARCHIVE_DETAIL
-                )
-            }
+            moveSavedCarDetail = moveDetailPage
         )
     }
 }

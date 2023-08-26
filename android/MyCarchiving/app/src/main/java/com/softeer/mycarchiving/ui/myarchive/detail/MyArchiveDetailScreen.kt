@@ -1,5 +1,6 @@
 package com.softeer.mycarchiving.ui.myarchive.detail
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -11,17 +12,22 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.ViewModelStoreOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.softeer.mycarchiving.R
 import com.softeer.mycarchiving.enums.MyArchivePage
 import com.softeer.mycarchiving.model.myarchive.ArchiveFeedSelectedOptionUiModel
 import com.softeer.mycarchiving.model.myarchive.ArchiveFeedUiModel
+import com.softeer.mycarchiving.navigation.MainDestination
 import com.softeer.mycarchiving.ui.component.DetailBanner
 import com.softeer.mycarchiving.ui.component.DetailReview
 import com.softeer.mycarchiving.ui.component.DetailSelectedOption
@@ -35,16 +41,36 @@ import com.softeer.mycarchiving.ui.theme.White
 fun MyArchiveDetailRoute(
     modifier: Modifier = Modifier,
     viewModelStoreOwner: ViewModelStoreOwner?,
-    viewModel: MyArchiveMainViewModel =
-        viewModelStoreOwner?.run { hiltViewModel(this) } ?: hiltViewModel()
+    mainViewModel: MyArchiveMainViewModel =
+        viewModelStoreOwner?.run { hiltViewModel(this) } ?: hiltViewModel(),
+    detailViewModel: MyArchiveDetailViewModel = hiltViewModel(),
+    onMakingCarClick: (MainDestination, String?) -> Unit,
 ) {
-    val currentPage by viewModel.selectedPage.collectAsStateWithLifecycle()
-    val madeCarDetail by viewModel.detailCar
+    val currentPage by mainViewModel.selectedPage.collectAsStateWithLifecycle()
+    val madeCarDetail by mainViewModel.detailCar
+    val isSaved by detailViewModel.isSaved.collectAsStateWithLifecycle()
+    val lifecycleOwner = LocalLifecycleOwner.current
+
+    DisposableEffect(lifecycleOwner) {
+        val observer = LifecycleEventObserver { _, event ->
+            if (event == Lifecycle.Event.ON_STOP) {
+                detailViewModel.saveBookmarkState()
+            }
+        }
+
+        lifecycleOwner.lifecycle.addObserver(observer)
+        onDispose {
+            lifecycleOwner.lifecycle.removeObserver(observer)
+        }
+    }
 
     MyArchiveDetailScreen(
         modifier = modifier,
         currentPage = currentPage,
-        detailCar = madeCarDetail!!
+        detailCar = madeCarDetail!!,
+        isSaved = isSaved,
+        onMakeClick = { onMakingCarClick(MainDestination.MAKING_CAR, madeCarDetail?.id) },
+        onBookmarkClick = detailViewModel::switchBookmarkState,
     )
 }
 
@@ -53,6 +79,9 @@ fun MyArchiveDetailScreen(
     modifier: Modifier,
     currentPage: MyArchivePage,
     detailCar: ArchiveFeedUiModel,
+    isSaved: Boolean,
+    onMakeClick: () -> Unit,
+    onBookmarkClick: () -> Unit,
 ) {
     Column(
         modifier = modifier
@@ -96,7 +125,13 @@ fun MyArchiveDetailScreen(
                 selectOptions = detailCar.selectedOptions
             )
         }
-        MyArchiveDetailBottomBar(page = currentPage, totalPrice = detailCar.totalPrice)
+        MyArchiveDetailBottomBar(
+            page = currentPage,
+            totalPrice = detailCar.totalPrice,
+            isSaved = isSaved,
+            onMakeClick = onMakeClick,
+            onBookmarkClick = onBookmarkClick
+        )
     }
 }
 

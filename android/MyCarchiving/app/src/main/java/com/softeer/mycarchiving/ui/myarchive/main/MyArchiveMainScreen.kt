@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -15,6 +16,7 @@ import androidx.paging.compose.collectAsLazyPagingItems
 import com.softeer.mycarchiving.enums.MyArchivePage
 import com.softeer.mycarchiving.enums.MyArchivePage.*
 import com.softeer.mycarchiving.model.myarchive.ArchiveFeedUiModel
+import com.softeer.mycarchiving.navigation.MyArchiveDestinations
 import com.softeer.mycarchiving.ui.component.ChoiceTab
 import com.softeer.mycarchiving.ui.component.DeleteMyArchiveCarDialog
 import com.softeer.mycarchiving.ui.myarchive.made.MyArchiveMadeScreen
@@ -27,7 +29,7 @@ fun MyArchiveMainRoute(
     viewModel: MyArchiveMainViewModel =
         viewModelStoreOwner?.run { hiltViewModel(this) } ?: hiltViewModel(),
     moveMadeCarDetail: () -> Unit,
-    moveSavedCarDetail: () -> Unit,
+    moveSavedCarDetail: (MyArchivePage?, String, MyArchiveDestinations?) -> Unit,
 ) {
     val selectedPage by viewModel.selectedPage.collectAsStateWithLifecycle()
     val madeCars = viewModel.madeCarFeedPagingData.collectAsLazyPagingItems()
@@ -68,7 +70,7 @@ fun MyArchiveMainScreen(
     changePage: (MyArchivePage) -> Unit,
     onFeedDetail: (ArchiveFeedUiModel) -> Unit,
     moveMadeCarDetail: () -> Unit,
-    moveSavedCarDetail: () -> Unit,
+    moveSavedCarDetail: (MyArchivePage?, String, MyArchiveDestinations?) -> Unit,
     deleteCarFeed: () -> Unit,
     openDeleteDialog: (ArchiveFeedUiModel) -> Unit,
     closeDeleteDialog: () -> Unit,

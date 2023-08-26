@@ -1,5 +1,6 @@
 package com.softeer.mycarchiving.ui.myarchive.save
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.padding
@@ -9,7 +10,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.paging.compose.LazyPagingItems
+import com.softeer.mycarchiving.enums.MyArchivePage
 import com.softeer.mycarchiving.model.myarchive.ArchiveFeedUiModel
+import com.softeer.mycarchiving.navigation.MyArchiveDestinations
 import com.softeer.mycarchiving.ui.component.MyArchiveLoadingScreen
 import com.softeer.mycarchiving.ui.component.SavedCarFeed
 import com.softeer.mycarchiving.ui.theme.HyundaiNeutral
@@ -19,7 +22,7 @@ fun MyArchiveSaveScreen(
     modifier: Modifier = Modifier,
     savedCars: LazyPagingItems<ArchiveFeedUiModel>,
     onFeedDetail: (ArchiveFeedUiModel) -> Unit,
-    moveDetail: () -> Unit,
+    moveDetail: (MyArchivePage?, String, MyArchiveDestinations?) -> Unit,
     openDeleteDialog: (ArchiveFeedUiModel) -> Unit,
 ) {
     when(savedCars.itemCount) {
@@ -49,7 +52,7 @@ fun MyArchiveSaveScreen(
                             tags = this.tags,
                             onFeedClick = {
                                 onFeedDetail(this)
-                                moveDetail()
+                                moveDetail(MyArchivePage.SAVED, id, MyArchiveDestinations.MY_ARCHIVE_DETAIL)
                             },
                             openDeleteDialog = { openDeleteDialog(this) }
                         )
