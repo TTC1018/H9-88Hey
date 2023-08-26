@@ -16,9 +16,6 @@ import androidx.compose.ui.unit.dp
 import coil.ImageLoader
 import coil.compose.AsyncImage
 import coil.imageLoader
-import com.skydoves.landscapist.ImageOptions
-import com.skydoves.landscapist.glide.GlideImage
-import com.softeer.mycarchiving.R
 import com.softeer.mycarchiving.ui.theme.HyundaiActiveBlue
 import com.softeer.mycarchiving.ui.theme.roundCorner
 
@@ -70,14 +67,11 @@ fun CarColorSelectItem(
             shape = roundCorner,
             border = if (selected) BorderStroke(width = 3.dp, color = HyundaiActiveBlue) else null
         ) {
-            GlideImage(
-                modifier = Modifier
-                    .fillMaxSize(),
-                imageModel = { imageUrl },
-                previewPlaceholder = R.drawable.ic_launcher_background,
-                imageOptions = ImageOptions(
-                    contentScale = ContentScale.Crop
-                ),
+            AsyncImage(
+                modifier = Modifier.fillMaxSize(),
+                model = imageUrl,
+                contentDescription = "",
+                contentScale = ContentScale.Crop,
             )
         }
         if (selected) {

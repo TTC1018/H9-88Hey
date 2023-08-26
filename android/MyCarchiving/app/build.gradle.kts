@@ -79,12 +79,6 @@ dependencies {
     implementation(libs.androidx.paging.runtime)
     implementation(libs.androidx.paging.compose)
 
-    // Glide
-    implementation(libs.glide)
-    implementation(libs.landscapist.glide)
-    implementation(libs.landscapist.animation)
-    implementation(libs.landscapist.placeholder)
-
     // Coil
     implementation(libs.coil.compose)
     implementation(libs.coil.gif)
