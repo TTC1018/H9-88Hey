@@ -1,7 +1,7 @@
 package com.softeer.mycarchiving.model.myarchive
 
 data class ArchiveFeedUiModel(
-    val id: Long,
+    val id: String,
     val date: String,
     val isSavedOrPurchase: Boolean,
     val totalPrice: Int,

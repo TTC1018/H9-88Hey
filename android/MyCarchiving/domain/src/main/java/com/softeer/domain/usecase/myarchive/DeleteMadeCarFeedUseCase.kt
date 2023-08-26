@@ -6,6 +6,6 @@ import javax.inject.Inject
 class DeleteMadeCarFeedUseCase @Inject constructor(
     private val myArchiveRepository: MyArchiveRepository,
 ) {
-    suspend operator fun invoke(feedId: Long): Boolean =
+    suspend operator fun invoke(feedId: String): Boolean =
         myArchiveRepository.deleteMadeCarFeed(feedId)
 }

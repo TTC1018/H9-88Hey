@@ -41,7 +41,7 @@ class MyArchiveRepositoryImpl(
             pagingData.map(MyArchiveMadeFeedDto::asEntity)
         }
 
-    override suspend fun deleteMadeCarFeed(feedId: Long): Boolean =
+    override suspend fun deleteMadeCarFeed(feedId: String): Boolean =
         archiveRemoteDataSource.deleteMadeCar(feedId)
 
     override fun getSavedCarFeeds(): Flow<PagingData<MyArchiveFeed>> =
@@ -55,12 +55,12 @@ class MyArchiveRepositoryImpl(
         }
 
 
-    override suspend fun checkBookmarked(feedId: Long): Boolean =
+    override suspend fun checkBookmarked(feedId: String): Boolean =
         archiveRemoteDataSource.checkBookmarked(feedId)
 
-    override suspend fun addBookmark(feedId: Long): Long? =
+    override suspend fun addBookmark(feedId: String): String? =
         archiveRemoteDataSource.addBookmark(feedId)
 
-    override suspend fun deleteBookmark(feedId: Long): Boolean =
+    override suspend fun deleteBookmark(feedId: String): Boolean =
         archiveRemoteDataSource.deleteBookmark(feedId)
     }

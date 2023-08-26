@@ -6,6 +6,6 @@ import javax.inject.Inject
 class AddBookmarkUseCase @Inject constructor(
     private val myArchiveRepository: MyArchiveRepository,
 ) {
-    suspend operator fun invoke(feedId: Long): Long? =
+    suspend operator fun invoke(feedId: String): String? =
         myArchiveRepository.addBookmark(feedId)
 }

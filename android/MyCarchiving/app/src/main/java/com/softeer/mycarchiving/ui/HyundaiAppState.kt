@@ -1,5 +1,6 @@
 package com.softeer.mycarchiving.ui
 
+import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
@@ -194,13 +195,17 @@ class HyundaiAppState(
 
     fun navigateToMyArchiveDestination(
         page: MyArchivePage? = null,
+        feedId: String,
         myArchiveDestinations: MyArchiveDestinations?
     ) {
         when (myArchiveDestinations) {
             MY_ARCHIVE_MAIN -> myArchiveNavController.navigateToMyArchiveMain()
             MY_ARCHIVE_DETAIL -> {
                 page?.let {
-                    myArchiveNavController.navigateToMyArchiveDetail(it.pageNumber)
+                    myArchiveNavController.navigateToMyArchiveDetail(
+                        it.pageNumber,
+                        feedId,
+                    )
                 }
             }
             else -> {}

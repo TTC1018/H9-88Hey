@@ -36,7 +36,7 @@ interface MyArchiveNetworkApi {
 
     @DELETE("/mychiving/{id}")
     suspend fun deleteMadeCarFeed(
-        @Path("id") id: Long
+        @Path("id") id: String
     ): Response<BaseResponse<String>>
 
     @GET("/user/archiving/bookmark")
@@ -47,17 +47,17 @@ interface MyArchiveNetworkApi {
 
     @GET("/user/archiving/{id}/bookmark")
     suspend fun checkBookMarked(
-        @Path("id") id: Long
+        @Path("id") id: String
     ): Response<BaseResponse<MyArchiveBookMarkDto>>
 
     @POST("/user/archiving/{id}/bookmark")
     suspend fun addBookMark(
-        @Path("id") id: Long
+        @Path("id") id: String
     ): Response<BaseResponse<MyArchiveFeedIdDto>>
 
     @DELETE("/user/archiving/{id}/bookmark")
     suspend fun deleteBookMark(
-        @Path("id") id: Long
+        @Path("id") id: String
     ): Response<BaseResponse<Unit>>
 
 }

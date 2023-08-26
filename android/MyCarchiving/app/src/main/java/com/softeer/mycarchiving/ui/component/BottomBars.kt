@@ -183,7 +183,9 @@ fun MakeCarBottomBar(
 fun ArchiveBottomBar(
     modifier: Modifier = Modifier,
     totalPrice: Int,
+    isSaved: Boolean,
     onClick: () -> Unit,
+    onBookmarkClick: () -> Unit,
 ) {
     BottomBar(
         modifier = modifier,
@@ -194,7 +196,10 @@ fun ArchiveBottomBar(
             Row(
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                ArchiveSaveButton(onSave = {})
+                ArchiveSaveButton(
+                    isSaved = isSaved,
+                    onBookmarkClick = onBookmarkClick,
+                )
                 Spacer(modifier = Modifier.width(16.dp))
                 HyundaiButton(
                     backgroundColor = PrimaryBlue,
@@ -233,11 +238,23 @@ fun MyArchiveBottomBar(
 fun MyArchiveDetailBottomBar(
     modifier: Modifier = Modifier,
     page: MyArchivePage,
-    totalPrice: Int
+    totalPrice: Int,
+    isSaved: Boolean,
+    onMakeClick: () -> Unit,
+    onBookmarkClick: () -> Unit
 ) {
     when (page) {
-        MADE -> MyArchiveBottomBar(modifier = modifier , totalPrice = totalPrice)
-        SAVED -> ArchiveBottomBar(modifier = modifier, totalPrice = totalPrice, onClick = {})
+        MADE -> MyArchiveBottomBar(
+            modifier = modifier ,
+            totalPrice = totalPrice,
+        )
+        SAVED -> ArchiveBottomBar(
+            modifier = modifier,
+            totalPrice = totalPrice,
+            isSaved = isSaved,
+            onClick = onMakeClick,
+            onBookmarkClick = onBookmarkClick,
+        )
     }
 }
 
@@ -256,7 +273,9 @@ fun PreviewMakeCarBottomBar() {
 fun PreviewArchiveBottomBar() {
     ArchiveBottomBar(
         totalPrice = 0,
-        onClick = {}
+        isSaved = true,
+        onClick = {},
+        onBookmarkClick = {},
     )
 }
 
