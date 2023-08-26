@@ -16,24 +16,25 @@ import { Detail } from '@/pages/Archiving/Detail';
 import { ErrorBoundary } from '@/components/common/ErrorBoundary';
 import { MyCarLayout } from '@/components/layout/MyCarLayout';
 import { MyChivingLayout } from '@/components/layout/MyChivingLayout';
+import { AuthLayout } from '@/components/layout/AuthLayout';
 
 export const router = createBrowserRouter([
   {
     path: '/',
+    element: <Signin />,
+  },
+  {
+    path: 'signup',
+    element: <Signup />,
+  },
+  {
+    path: '',
     element: (
       <ErrorBoundary>
-        <Outlet />
+        <AuthLayout />
       </ErrorBoundary>
     ),
     children: [
-      {
-        index: true,
-        element: <Signin />,
-      },
-      {
-        path: 'signup',
-        element: <Signup />,
-      },
       {
         path: '',
         element: <MyCarLayout />,
