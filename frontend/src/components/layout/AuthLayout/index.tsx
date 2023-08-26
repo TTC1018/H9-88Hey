@@ -1,9 +1,12 @@
-import { AuthContext } from '@/AuthProvider';
+import { useContext } from 'react';
+
+import { Outlet } from 'react-router-dom';
+
 import { useErrorHandler } from '@/hooks/useErrorHandler';
 import { useReissueToken } from '@/hooks/useReissueToken';
 import { useValidateToken } from '@/hooks/useValidateToken';
-import { useContext, useState } from 'react';
-import { Outlet } from 'react-router-dom';
+
+import { AuthContext } from '@/AuthProvider';
 
 export function AuthLayout() {
   const { tokenValidator } = useValidateToken();
@@ -27,7 +30,7 @@ export function AuthLayout() {
   async function someComponentFunction() {
     if (!isSignin) {
       try {
-        await validateSignin(); // 비동기적으로 호출
+        await validateSignin();
       } catch (error) {
         handleError(error);
       }
