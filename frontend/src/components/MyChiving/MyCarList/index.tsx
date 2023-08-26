@@ -43,7 +43,7 @@ export function MyCarList({ myChiving, onClick, onClickDelete, modalInfo, handle
   } = myChiving;
 
   const date = formatDate(lastModifiedDate);
-  const dateInfoText = isSaved ? `${date}에 만들었어요.` : `${date} 임시저장`;
+  const dateInfoText = `${date}${isSaved ? '에 만들었어요.' : ' 임시저장'}`;
   const trimOptions = `${engine?.name ? engine.name : ''}${bodyType?.name ? ` / ${bodyType.name}` : ''} ${
     wheelDrive?.name ? ` / ${wheelDrive.name}` : ''
   }`;

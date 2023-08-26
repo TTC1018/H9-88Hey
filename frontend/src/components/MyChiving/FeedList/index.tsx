@@ -7,11 +7,11 @@ import { ReviewCard } from '@/components/Archiving/ReviewCard';
 import * as Styled from './style';
 
 interface FeedListProps {
-  myFeedChiving: ArchivingProps[];
+  myChivingFeed: ArchivingProps[];
   onDelete: (id: string, key: 'feedId' | 'myChivingId') => void;
 }
 
-export function FeedList({ myFeedChiving, onDelete }: FeedListProps) {
+export function FeedList({ myChivingFeed, onDelete }: FeedListProps) {
   const masonryRef = useRef<HTMLDivElement>(null);
 
   function masonryLayout() {
@@ -28,12 +28,12 @@ export function FeedList({ myFeedChiving, onDelete }: FeedListProps) {
 
   useEffect(() => {
     masonryLayout();
-  }, [myFeedChiving]);
+  }, [myChivingFeed]);
 
   return (
     <Fragment>
       <Styled.Container ref={masonryRef}>
-        {myFeedChiving.map((review, index) => {
+        {myChivingFeed.map((review, index) => {
           return (
             <Styled.Wrapper key={index}>
               <ReviewCard props={review} isArchiving={false} onClick={onDelete} />
