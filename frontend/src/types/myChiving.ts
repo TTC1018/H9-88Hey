@@ -6,6 +6,7 @@ export interface OptionProps {
   imageUrl: string;
   subOptions: string[];
   additionalPrice: number;
+  category: string;
 }
 
 interface ModelProps {
@@ -40,27 +41,32 @@ interface ExteriorColorProps {
 }
 
 export interface MyChivingProps {
-  myChivingId: number;
+  myChivingId: string;
   lastModifiedDate: string;
   isSaved: boolean;
   totalPrice: number;
   model: ModelProps;
-  trim?: TrimProps;
-  engine?: CommonProps;
-  bodyType?: CommonProps;
-  wheelDrive?: CommonProps;
-  interiorColor?: InteriorColor;
-  exteriorColor?: ExteriorColorProps;
-  selectedOptions?: OptionProps[];
+  trim: TrimProps;
+  engine: CommonProps | null;
+  bodyType: CommonProps | null;
+  wheelDrive: CommonProps | null;
+  interiorColor: InteriorColor | null;
+  exteriorColor: ExteriorColorProps | null;
+  selectOptions: OptionProps[] | null;
+  carCode: string | null;
 }
 
 export interface MyChivingDataProps {
   nextOffset: number;
-  mychivings: MyChivingProps[];
+  myChivings: MyChivingProps[];
 }
 
 export interface MyFeedDataProps {
   archivingsByUser: ArchivingProps[];
+}
+
+export interface OptionCategoryProps {
+  [categoryName: string]: string;
 }
 
 export interface SaveDataProps {

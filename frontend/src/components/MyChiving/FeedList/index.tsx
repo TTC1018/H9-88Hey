@@ -1,6 +1,6 @@
 import { Fragment, useEffect, useRef } from 'react';
 
-import { useModalContext } from '@/hooks/useModalContext';
+import { ArchivingProps } from '@/types/archiving';
 
 import { ReviewCard } from '@/components/Archiving/ReviewCard';
 import { ModalPortal } from '@/components/common/ModalPortal';
@@ -8,15 +8,14 @@ import { PopupModal } from '@/components/common/PopupModal';
 import { ModalType } from '@/constants';
 
 import * as Styled from './style';
-import { ArchivingProps } from '@/types/archiving';
 
 interface FeedListProps {
-  myChivings: ArchivingProps[];
+  myFeedChiving: ArchivingProps[];
+  onDelete: (id: string, key: 'feedId' | 'myChivingId') => void;
 }
 
-export function FeedList({ myChivings }: FeedListProps) {
+export function FeedList({ myFeedChiving, onDelete }: FeedListProps) {
   const masonryRef = useRef<HTMLDivElement>(null);
-  const { handleOpen } = useModalContext();
 
   const modalInfo = useRef({
     type: ModalType.CLOSE,
@@ -38,23 +37,15 @@ export function FeedList({ myChivings }: FeedListProps) {
 
   useEffect(() => {
     masonryLayout();
-  }, [myChivings]);
-
-  // 목록 제거 함수
-  function handleDeleteList() {}
-
-  function handleClick(contents: string) {
-    modalInfo.current = { type: ModalType.DELETE, contents, onClick: handleDeleteList };
-    handleOpen();
-  }
+  }, [myFeedChiving]);
 
   return (
     <Fragment>
       <Styled.Container ref={masonryRef}>
-        {myChivings.map((review, index) => {
+        {myFeedChiving.map((review, index) => {
           return (
             <Styled.Wrapper key={index}>
-              <ReviewCard props={review} isArchiving={false} onClick={handleClick} />
+              <ReviewCard props={review} isArchiving={false} onClick={onDelete} />
             </Styled.Wrapper>
           );
         })}

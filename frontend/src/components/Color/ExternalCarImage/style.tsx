@@ -23,12 +23,28 @@ export const Wrapper = styled.div`
 
 export const ImageBox = styled.div``;
 
+export const Picture = styled.picture``;
+
+export const CarSource = styled.source<CarImageProps>`
+  ${({ isDisplay }) => {
+    return css`
+      width: 603px;
+
+      display: ${isDisplay ? 'block' : 'none'};
+
+      transition: filter 0.5s ease-in-out;
+    `;
+  }}
+`;
+
 export const CarImage = styled.img<CarImageProps>`
   ${({ isDisplay }) => {
     return css`
       width: 603px;
 
       display: ${isDisplay ? 'block' : 'none'};
+
+      transition: filter 0.5s ease-in-out;
     `;
   }}
 `;

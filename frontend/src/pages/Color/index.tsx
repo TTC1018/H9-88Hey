@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 
 import { useOutletContext } from 'react-router-dom';
 
@@ -60,6 +60,12 @@ export function Color() {
     name: innerName,
     carImageUrl: innerCarImage,
   } = availableInnerColorList[selectedInnerIndex];
+
+  const currentImageNum = useRef(0);
+
+  function setCurrentImageNum(page: number) {
+    currentImageNum.current = page;
+  }
 
   function updateOuterColor(index: number) {
     const { name, colorImageUrl, additionalPrice, carImagePath, id } = exteriorColors[index];
@@ -135,7 +141,15 @@ export function Color() {
   return (
     <Styled.Container>
       <Styled.ImageWrapper>
-        {isExternalPage ? <ExternalCarImage imageUrl={externalCarImage} /> : <InnerCarImage imageUrl={innerCarImage} />}
+        {isExternalPage ? (
+          <ExternalCarImage
+            imageUrl={externalCarImage}
+            current={currentImageNum.current}
+            setImageNum={setCurrentImageNum}
+          />
+        ) : (
+          <InnerCarImage imageUrl={innerCarImage} />
+        )}
         <MyCarDescription
           title={descriptionTitle}
           price={descriptionPrice}

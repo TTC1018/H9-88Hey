@@ -142,9 +142,6 @@ const style = css`
   *::-webkit-scrollbar {
     display: none;
   }
-  *::-webkit-scrollbar {
-    display: none;
-  }
 `;
 
 export function GlobalStyle() {

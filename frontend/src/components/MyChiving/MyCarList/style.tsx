@@ -14,7 +14,7 @@ export const Container = styled.div`
     const { colors } = theme;
     return css`
       width: 506px;
-      height: 239px;
+      height: 260px;
       padding: 17px 30px;
 
       background-color: #fff;
@@ -22,6 +22,16 @@ export const Container = styled.div`
       border-radius: 8px;
 
       cursor: pointer;
+      opacity: 0;
+      animation: fadeIn 0.5s ease-in-out forwards;
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
     `;
   }}
 `;
@@ -48,11 +58,20 @@ export const InfoText = styled.span`
 `;
 
 export const MainBox = styled.div`
+  height: 76px;
   margin-bottom: 12px;
 
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
+`;
+
+export const InfoClosure = styled.div`
+  gap: 5px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
 `;
 
 export const Title = styled.div`
@@ -82,6 +101,23 @@ export const TrimText = styled.span`
   }}
 `;
 
+export const ColorBox = styled.div`
+  gap: 10px;
+
+  display: flex;
+  align-items: center;
+`;
+
+export const ColorName = styled.span`
+  ${({ theme }) => {
+    const { colors, fonts } = theme;
+    return css`
+      ${fonts.bodyRegular4};
+      color: ${colors.black};
+    `;
+  }}
+`;
+
 export const SubTitle = styled.div`
   gap: 10px;
 
@@ -93,7 +129,7 @@ export const SubTitleText = styled.span<subTitleTextProps>`
   ${({ theme, isSaved }) => {
     const { colors, fonts } = theme;
     return css`
-      padding: 4px 12px;
+      padding: 3px 12px;
 
       ${fonts.bodyMedium4};
       color: ${isSaved ? colors.hyundaiGold : colors.alertPrimary};
@@ -125,6 +161,10 @@ export const OptionBoxText = styled.span`
     return css`
       ${fonts.bodyRegular3};
       color: ${colors.black};
+
+      &::before {
+        content: '*';
+      }
     `;
   }}
 `;
@@ -143,6 +183,21 @@ export const OptionCard = styled.div<OptionCardProps>`
       background-repeat: no-repeat;
       background-size: cover;
       background-color: transparent;
+      border-radius: 4px;
+    `;
+  }}
+`;
+
+export const EmptyOptionCard = styled.div`
+  ${({ theme }) => {
+    const { colors } = theme;
+    return css`
+      width: 120px;
+      height: 120px;
+
+      flex: none;
+
+      background: ${colors.hyundaiLightSand};
       border-radius: 4px;
     `;
   }}

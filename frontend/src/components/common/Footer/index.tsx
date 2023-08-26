@@ -18,11 +18,10 @@ interface FooterProps {
   myCarData: MyCarProps;
   calculatePrice: number;
   carCode: MutableRefObject<string>;
-  setDisplayAutoSaving: () => void;
   dispatch: Dispatch<ActionType>;
 }
 
-export function Footer({ myCarData, calculatePrice, carCode, setDisplayAutoSaving, dispatch }: FooterProps) {
+export function Footer({ myCarData, calculatePrice, carCode, dispatch }: FooterProps) {
   const prevPrice = useRef(calculatePrice);
   const totalPrice = useCountPrice({
     prevPrice: prevPrice.current,
@@ -135,14 +134,12 @@ export function Footer({ myCarData, calculatePrice, carCode, setDisplayAutoSavin
     } else {
       handleTempSave();
       handleNavigate(path);
-      setDisplayAutoSaving();
     }
   }
 
   function handlePrevNavigate() {
     const path = NAVIGATION_PATH[pathKey as keyof typeof NAVIGATION_PATH].prev;
     handleNavigate(path);
-    setDisplayAutoSaving();
   }
 
   useEffect(() => {
@@ -205,7 +202,9 @@ export function Footer({ myCarData, calculatePrice, carCode, setDisplayAutoSavin
         </Styled.PriceText>
       </Styled.PriceWrapper>
       <Styled.ButtonWrapper>
-        <Styled.PrevButton onClick={handlePrevNavigate}>이전</Styled.PrevButton>
+        <Styled.PrevButton onClick={handlePrevNavigate} isDisplay={pathname !== '/trim'}>
+          이전
+        </Styled.PrevButton>
         <Styled.NextButton onClick={handleNextNavigate}>다음</Styled.NextButton>
       </Styled.ButtonWrapper>
       {isOpen && <EstimateModal onClick={handleCloseModal} myCarData={myCarData} totalPrice={totalPrice} />}
