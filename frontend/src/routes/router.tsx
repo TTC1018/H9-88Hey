@@ -1,4 +1,4 @@
-import { createBrowserRouter } from 'react-router-dom';
+import { Outlet, createBrowserRouter } from 'react-router-dom';
 
 import { Signin } from '@/pages/Signin';
 import { Signup } from '@/pages/Signup';
@@ -19,23 +19,15 @@ import { MyChivingLayout } from '@/components/layout/MyChivingLayout';
 
 export const router = createBrowserRouter([
   {
-    index: true,
-    element: <Signin />,
-  },
-  {
-    path: 'signup',
-    element: <Signup />,
-  },
-  {
     path: '/',
     element: (
       <ErrorBoundary>
-        <MyCarLayout />
+        <Outlet />
       </ErrorBoundary>
     ),
     children: [
       {
-        path: '',
+        index: true,
         element: <Signin />,
       },
       {
@@ -43,78 +35,84 @@ export const router = createBrowserRouter([
         element: <Signup />,
       },
       {
-        path: 'trim',
+        path: '',
+        element: <MyCarLayout />,
         children: [
           {
-            path: '',
-            element: <Trim />,
+            path: 'trim',
+            children: [
+              {
+                path: '',
+                element: <Trim />,
+              },
+              {
+                path: 'engine',
+                element: <Engine />,
+              },
+              {
+                path: 'body-type',
+                element: <BodyType />,
+              },
+              {
+                path: 'wheel-drive',
+                element: <WheelDrive />,
+              },
+            ],
           },
           {
-            path: 'engine',
-            element: <Engine />,
+            path: 'color',
+            element: <Color />,
           },
           {
-            path: 'body-type',
-            element: <BodyType />,
+            path: 'option',
+            children: [
+              {
+                path: '',
+                element: <Option key="option" apiType="select-option" />,
+              },
+              {
+                path: 'h-genuine-accessories',
+                element: <Option key="h-genuine-accessories" apiType="h-genuine-accessories" />,
+              },
+              {
+                path: 'n-performance',
+                element: <Option key="n-performance" apiType="n-performance" />,
+              },
+            ],
           },
           {
-            path: 'wheel-drive',
-            element: <WheelDrive />,
+            path: 'result',
+            element: <Result />,
           },
         ],
       },
       {
-        path: 'color',
-        element: <Color />,
-      },
-      {
-        path: 'option',
+        path: '',
+        element: <MyChivingLayout />,
         children: [
           {
-            path: '',
-            element: <Option key="option" apiType="select-option" />,
+            path: 'archiving',
+            children: [
+              {
+                path: '',
+                element: <Archiving />,
+              },
+              {
+                path: 'detail',
+                element: <Detail />,
+              },
+            ],
           },
           {
-            path: 'h-genuine-accessories',
-            element: <Option key="h-genuine-accessories" apiType="h-genuine-accessories" />,
-          },
-          {
-            path: 'n-performance',
-            element: <Option key="n-performance" apiType="n-performance" />,
+            path: 'mychiving',
+            element: <MyChiving />,
           },
         ],
       },
       {
-        path: 'result',
-        element: <Result />,
+        path: 'review',
+        element: <Review />,
       },
     ],
-  },
-  {
-    path: '',
-    element: <MyChivingLayout />,
-    children: [
-      {
-        path: 'archiving',
-        children: [
-          {
-            path: '',
-            element: <Archiving />,
-          },
-          {
-            path: 'detail',
-            element: <Detail />,
-          },
-        ],
-      },
-      {
-        path: 'mychiving',
-        element: <MyChiving />,
-      },
-    ],
-  },
-  {
-    path: 'review',
-    element: <Review />,
   },
 ]);
