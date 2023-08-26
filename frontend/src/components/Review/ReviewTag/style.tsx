@@ -59,6 +59,8 @@ export const Tag = styled.div<Props>`
 
       background-color: ${isActive ? colors.black : colors.hyundaiLightSand};
       border-radius: 8px;
+
+      cursor: pointer;
     `;
   }}
 `;

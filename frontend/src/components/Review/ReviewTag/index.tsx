@@ -2,9 +2,10 @@ import * as Styled from './style';
 
 interface Props {
   tags: string[];
+  selectedIndex: Set<string>;
+  onClick: (tag: string) => void;
 }
-export function ReviewTag({ tags }: Props) {
-  tags; // 아직 안쓰는거
+export function ReviewTag({ tags, selectedIndex, onClick }: Props) {
   return (
     <Styled.Container>
       <Styled.TextWrapper>
@@ -12,9 +13,11 @@ export function ReviewTag({ tags }: Props) {
         <Styled.Regular>(최소 1개 선택필수, 최대 3개 선택 가능)</Styled.Regular>
       </Styled.TextWrapper>
       <Styled.TagWrapper>
-        <Styled.Tag isActive>주행을 편안하게 해요🚙</Styled.Tag>
-        <Styled.Tag isActive={false}>뒷좌석도 편안해요</Styled.Tag>
-        <Styled.Tag isActive={false}>조용한 드라이빙😴</Styled.Tag>
+        {tags.map((tag, index) => (
+          <Styled.Tag key={index} isActive={selectedIndex.has(tag)} onClick={() => onClick(tag)}>
+            {tag}
+          </Styled.Tag>
+        ))}
       </Styled.TagWrapper>
     </Styled.Container>
   );

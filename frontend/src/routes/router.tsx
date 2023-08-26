@@ -1,4 +1,4 @@
-import { Outlet, createBrowserRouter } from 'react-router-dom';
+import { createBrowserRouter } from 'react-router-dom';
 
 import { Signin } from '@/pages/Signin';
 import { Signup } from '@/pages/Signup';
@@ -110,10 +110,10 @@ export const router = createBrowserRouter([
           },
         ],
       },
-      {
-        path: 'review',
-        element: <Review />,
-      },
     ],
+  },
+  {
+    path: 'review',
+    element: <Review />,
   },
 ]);

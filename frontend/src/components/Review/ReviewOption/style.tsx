@@ -66,6 +66,8 @@ export const Image = styled.img`
   height: 348px;
 
   border-radius: 8px;
+
+  object-fit: cover;
 `;
 
 export const SubTitle = styled.span`

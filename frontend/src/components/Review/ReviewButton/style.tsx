@@ -4,7 +4,7 @@ import styled from '@emotion/styled';
 interface Props {
   isActive: boolean;
 }
-export const Container = styled.div<Props>`
+export const Container = styled.button<Props>`
   ${({ theme, isActive }) => {
     const { colors, fonts } = theme;
     return css`
@@ -20,6 +20,8 @@ export const Container = styled.div<Props>`
 
       background-color: ${isActive ? colors.hyundaiPrimaryBlue : colors.lightGray};
       border-radius: 8px;
+
+      cursor: ${isActive ? 'pointer' : 'not-allowed'};
     `;
   }}
 `;
