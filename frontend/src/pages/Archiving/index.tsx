@@ -13,6 +13,7 @@ import { ScrollTopButton } from '@/components/common/ScrollTopButton';
 import { OptionSearchBar } from '@/components/Archiving/OptionSearchBar';
 
 import * as Styled from './style';
+import { EmptyContent } from '@/components/common/EmptyContent';
 
 export function Archiving() {
   const [selectedOptions, setSelectedOptions] = useState<Set<string>>(new Set());
@@ -21,7 +22,11 @@ export function Archiving() {
   const nextOffset = useRef(1);
   const { isShow, scrollToTop } = useShowScrollButton({ scrollY: 800, scrollTo: 0 });
 
-  const { data: archivings, isLoading } = useInfiniteFetch<ArchivingProps>({
+  const {
+    data: archivings,
+    isLoading,
+    hasNext,
+  } = useInfiniteFetch<ArchivingProps>({
     key: 'archivings',
     url: apiPath.archiving(1, Array.from(selectedOptions), 16, nextOffset.current),
     intersecting,
@@ -49,13 +54,9 @@ export function Archiving() {
         <OptionSearchBar onSelectOption={handleSelectOption} selectedOptions={selectedOptions} />
       </Styled.HeaderWrapper>
       <Styled.ReviewWrapper>
-        {archivings.length === 0 ? (
-          isLoading ? (
-            <ReviewSkeleton />
-          ) : (
-            <Styled.InfoBox>조건에 맞는 결과가 없습니다.</Styled.InfoBox>
-          )
-        ) : (
+        {isLoading && <ReviewSkeleton />}
+        {!hasNext && archivings.length === 0 && <EmptyContent />}
+        {!isLoading && archivings.length > 0 && (
           <ReviewList
             isLoading={isLoading}
             archivings={archivings}

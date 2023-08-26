@@ -48,6 +48,7 @@ export function useInfiniteFetch<T>({ key, url, intersecting, nextOffset, depend
       }
       nextOffset.current = data.nextOffset;
       setData(prev => [...prev, ...(data[key] as [])]);
+      setIsLoading(false);
     } catch (error) {
       if (error instanceof Error) {
         setError(error.message);
@@ -70,6 +71,12 @@ export function useInfiniteFetch<T>({ key, url, intersecting, nextOffset, depend
 
     if (intersecting) {
       setIsLoading(true);
+
+      window.scroll({
+        top: 0,
+        behavior: 'smooth',
+      });
+
       fetcher();
     }
   }, [dependenciesString]);
@@ -77,11 +84,15 @@ export function useInfiniteFetch<T>({ key, url, intersecting, nextOffset, depend
   useEffect(() => {
     if (intersecting && hasNext) {
       setIsLoading(true);
+      window.scroll({
+        top: 0,
+        behavior: 'smooth',
+      });
       fetcher();
 
       return;
     }
   }, [intersecting]);
 
-  return { data, isLoading, error };
+  return { data, isLoading, error, hasNext };
 }
