@@ -14,6 +14,8 @@ export const Container = styled.div`
 
   background: rgba(35, 35, 35, 0.6);
   backdrop-filter: blur(2px);
+
+  z-index: 1;
 `;
 
 export const ModalContainer = styled.div`
@@ -27,6 +29,8 @@ export const ModalContainer = styled.div`
   border-radius: 10px;
   background: #fff;
   box-shadow: -2px 0px 12px 0px rgba(78, 81, 94, 0.25);
+
+  z-index: 2;
 
   animation: appear 0.5s cubic-bezier(0.77, 0, 0.175, 1) forwards;
 
