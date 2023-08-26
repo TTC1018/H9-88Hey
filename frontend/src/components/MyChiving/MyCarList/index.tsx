@@ -15,10 +15,11 @@ interface ClickEventDataProps {
 
 interface MyCarListProps {
   myChiving: MyChivingProps;
-  onClick: (myChiving: MyChivingProps, data: ClickEventDataProps, event: MouseEvent<HTMLDivElement>) => void;
+  onClick: (myChiving: MyChivingProps, data: ClickEventDataProps, isSaved: boolean) => void;
+  onClickDelete: (event: MouseEvent<HTMLButtonElement>, myChiving: MyChivingProps, data: ClickEventDataProps) => void;
 }
 
-export function MyCarList({ myChiving, onClick }: MyCarListProps) {
+export function MyCarList({ myChiving, onClick, onClickDelete }: MyCarListProps) {
   const {
     isSaved,
     model,
@@ -40,7 +41,7 @@ export function MyCarList({ myChiving, onClick }: MyCarListProps) {
 
   return (
     <Styled.Container
-      onClick={event => onClick(myChiving, { deleteText: `${model.name} ${trim.name}`, moveText: `${date}` }, event)}
+      onClick={() => onClick(myChiving, { deleteText: `${model.name} ${trim.name}`, moveText: `${date}` }, isSaved)}
     >
       <Styled.Wrapper>
         <Styled.InfoBox>
@@ -65,7 +66,11 @@ export function MyCarList({ myChiving, onClick }: MyCarListProps) {
           </Styled.InfoClosure>
           <Styled.SubTitle>
             <Styled.SubTitleText isSaved={isSaved}>{dateInfoText}</Styled.SubTitleText>
-            <XButton onClick={() => {}} />
+            <XButton
+              onClick={event =>
+                onClickDelete(event, myChiving, { deleteText: `${model.name} ${trim.name}`, moveText: `${date}` })
+              }
+            />
           </Styled.SubTitle>
         </Styled.MainBox>
         <Styled.OptionBox>
@@ -75,7 +80,16 @@ export function MyCarList({ myChiving, onClick }: MyCarListProps) {
                   <Styled.OptionCardText>{option.name}</Styled.OptionCardText>
                 </Styled.OptionCard>
               ))
-            : [1, 2, 3, 4].map(item => <Styled.EmptyOptionCard key={item} />)}
+            : [1, 2, 3, 4].map(item => (
+                <Styled.EmptyOptionCard key={item}>
+                  {item === 1 && (
+                    <>
+                      <Styled.Text>선택한 옵션이 </Styled.Text>
+                      <Styled.Text>없습니다.</Styled.Text>
+                    </>
+                  )}
+                </Styled.EmptyOptionCard>
+              ))}
         </Styled.OptionBox>
       </Styled.Wrapper>
     </Styled.Container>

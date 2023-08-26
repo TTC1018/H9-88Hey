@@ -60,6 +60,12 @@ export function PopupModal({ type, contents, onClick, onClose }: Props) {
           isBig: true,
           content: <ChangeTrimContent />,
         };
+      case 'RESULT':
+        return {
+          text: '구매하러 가기',
+          isBig: true,
+          content: <ResultContent date={contents!} />,
+        };
     }
   })();
 
@@ -94,6 +100,18 @@ function MoveContent({ date }: MoveContentProps) {
         <Styled.Text>에 임시저장된 파일이에요.</Styled.Text>
       </Styled.Fragment>
       <Styled.Text>계속해서 내 차 만들기를 하시겠어요?</Styled.Text>
+    </Styled.TextWrapper>
+  );
+}
+
+function ResultContent({ date }: MoveContentProps) {
+  return (
+    <Styled.TextWrapper>
+      <Styled.Fragment>
+        <Styled.Bold>{date}</Styled.Bold>
+        <Styled.Text>에 저장한 파일이에요.</Styled.Text>
+      </Styled.Fragment>
+      <Styled.Text>구매하러 가시겠어요?</Styled.Text>
     </Styled.TextWrapper>
   );
 }

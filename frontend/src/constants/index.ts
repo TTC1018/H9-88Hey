@@ -9,6 +9,7 @@ export enum ModalType {
   CLEAR = 'CLEAR',
   SIGNOUT = 'SIGNOUT',
   CHANGE_TRIM = 'CHANGE_TRIM',
+  RESULT = 'RESULT',
 }
 export const TAG_CHIP_MAX_NUMBER = 3;
 export const API_URL = 'https://api.88hey.site';
@@ -81,9 +82,9 @@ export const apiPath = {
     `${apiPath.carBase()}/car-code?trim_id=${trimId}&engine_id=${engineId}&body_type_id=${bodyTypeId}&wheel_drive_id=${wheelDriveId}`,
   option: (routePath: string, search: string) => `${apiPath.carBase()}/${routePath}${search}`,
   archivingBase: () => '/archiving',
-  archiving: (modelId: number, selectOptionsId: string[], limit: number, offset: number) => {
+  archiving: (modelId: number, selectOptionsId: string[], limit: number) => {
     const optionQuerys = selectOptionsId.map(selectOptionsId => `&select_option=${selectOptionsId}`).join('');
-    return `${apiPath.archivingBase()}?model_id=${modelId}${optionQuerys}&limit=${limit}&offset=${offset}`;
+    return `${apiPath.archivingBase()}?model_id=${modelId}${optionQuerys}&limit=${limit}`;
   },
   archivingOption: (modelId: number) => `${apiPath.carBase()}/select-options?model_id=${modelId}`,
   mychiving: (offset: number, limit: number) => {
