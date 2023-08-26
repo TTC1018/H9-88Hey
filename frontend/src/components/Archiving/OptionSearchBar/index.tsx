@@ -16,7 +16,7 @@ export function OptionSearchBar({ onSelectOption, selectedOptions }: Props) {
     key: cacheKey.archivingOption(1),
   });
 
-  const options = selectOptions.slice(0, selectOptions.length - 4);
+  const options = selectOptions.slice(0, selectOptions.length - 1);
   return (
     <Styled.Conatiner>
       <Styled.Wrapper>

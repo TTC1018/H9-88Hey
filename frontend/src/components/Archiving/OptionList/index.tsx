@@ -10,10 +10,10 @@ interface Props {
 export function OptionList({ options }: Props) {
   const contents: SelectOptionsProps[][] = [[], [], []];
 
-  const itemsPerRow = 3;
+  const ITEM_ROW = 3;
 
   options.forEach((option, index) => {
-    contents[index % itemsPerRow].push(option);
+    contents[index % ITEM_ROW].push(option);
   });
 
   return (

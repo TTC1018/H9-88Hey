@@ -9,6 +9,7 @@ import { useDidMountEffect } from '@/hooks/useDidMountEffect';
 import { isValidIndex, checkIsSelectOptionPage } from '@/utils';
 import { OptionDataProps, OptionProps, SubOptionProps, OptionCardDataProps } from '@/types/option';
 
+import { EmptyContent } from '@/components/common/EmptyContent';
 import { OptionImageBox } from '@/components/Option/OptionImageBox';
 import { OptionDescription } from '@/components/Option/OptionDescription';
 import { OptionDetailCard } from '@/components/Option/OptionDetailCard';
@@ -17,7 +18,6 @@ import { OptionCardList } from '@/components/Option/OptionCardList';
 import { DefaultOptionCardList } from '@/components/Option/DefaultOptionCardList';
 
 import * as Styled from './style';
-import { EmptyContent } from '@/components/common/EmptyContent';
 
 interface Props {
   apiType: string;
