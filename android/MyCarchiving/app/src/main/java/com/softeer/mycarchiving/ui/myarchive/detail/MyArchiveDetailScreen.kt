@@ -3,6 +3,7 @@ package com.softeer.mycarchiving.ui.myarchive.detail
 import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -72,7 +73,7 @@ fun MyArchiveDetailRoute(
         detailCar = madeCarDetail!!,
         savedCar = savedCarDetail,
         isSaved = isSaved,
-        onMakeClick = { onMakingCarClick(MainDestination.MAKING_CAR, madeCarDetail?.id) },
+        onMakeClick = { onMakingCarClick(MainDestination.MAKING_CAR, savedCarDetail?.id) },
         onBookmarkClick = detailViewModel::switchBookmarkState,
     )
 }
