@@ -23,27 +23,25 @@ export function useInfiniteFetch<T>({ key, url, intersecting, nextOffset, depend
   }
 
   const [data, setData] = useState<T[]>([]);
-  const [hasNext, setHasNext] = useState(true);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState('');
 
   async function fetcher() {
     try {
-      const response = await fetch(`${API_URL}${url}`);
+      const response = await fetch(`${API_URL}${url}`, {
+        headers: {
+          Authorization: `Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiIxIiwidXNlck5hbWUiOiJ0ZXN0IiwiaWF0IjoxNjkyNTYwMzM5LCJleHAiOjQ4MTQ2MjQzMzl9.gcSE7kPaRVxo2iT9DRcN1Bn5ZNAAsHG8Z3dvTopH-IWblMf_LJ2lhsYqOvrrLcZJ`,
+          credentials: 'same-origin',
+        },
+      });
       if (!response.ok) {
         throw new Error(`${response.status} ${response.statusText}`);
       }
 
       const { data } = (await response.json()) as ResponseProps<Props>;
 
-      if (data.archivings.length === 0) {
-        setHasNext(false);
+      if (data[key].length === 0) {
         setIsLoading(false);
-        return;
-      }
-
-      if (data.nextOffset === null) {
-        setHasNext(false);
         return;
       }
       nextOffset.current = data.nextOffset;
@@ -65,7 +63,6 @@ export function useInfiniteFetch<T>({ key, url, intersecting, nextOffset, depend
 
   useEffect(() => {
     setData([]);
-    setHasNext(true);
     nextOffset.current = 1;
 
     if (intersecting) {
@@ -75,7 +72,7 @@ export function useInfiniteFetch<T>({ key, url, intersecting, nextOffset, depend
   }, [dependenciesString]);
 
   useEffect(() => {
-    if (intersecting && hasNext) {
+    if (intersecting && nextOffset.current !== null) {
       setIsLoading(true);
       fetcher();
 

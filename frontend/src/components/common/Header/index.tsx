@@ -1,10 +1,7 @@
-import { useState, Fragment, useContext } from 'react';
+import { Fragment, useEffect, useState, useContext } from 'react';
 
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
-import { ModalType } from '@/constants';
-import { useModalContext } from '@/hooks/useModalContext';
-import { useMyCarNavigate } from '@/hooks/useMyCarNavigate';
 import { removeLocalStorage } from '@/utils';
 
 import { PopupModal } from '@/components/common/PopupModal';
@@ -15,22 +12,36 @@ import { AutoSavingLogo } from '@/components/common/AutoSavingLogo';
 import { AuthContext } from '@/AuthProvider';
 
 import * as Styled from './style';
-
-interface Props {
-  isSaving: boolean;
-}
+import { useModalContext } from '@/hooks/useModalContext';
+import { useMyCarNavigate } from '@/hooks/useMyCarNavigate';
+import { ModalType } from '@/constants';
 
 interface ModalInfoProps {
   [key: string]: any;
 }
 
-export function Header({ isSaving }: Props) {
+export function Header() {
+  const { pathname } = useLocation();
+  const [isSavingNow, setIsSavingNow] = useState(false);
+
   const [modalType, setModalType] = useState('');
 
   const { handleOpen } = useModalContext();
   const { handleNavigate } = useMyCarNavigate({ path: '/archiving' });
 
   const { setIsSignin, userName } = useContext(AuthContext);
+
+  if (isSavingNow) {
+    setTimeout(() => {
+      setIsSavingNow(false);
+    }, 2000);
+  }
+
+  useEffect(() => {
+    if (pathname !== '/result') {
+      setIsSavingNow(true);
+    }
+  }, [pathname]);
 
   const navigate = useNavigate();
 
@@ -69,7 +80,7 @@ export function Header({ isSaving }: Props) {
           </Styled.Box>
           <Styled.ButtonWrapper>
             <Styled.InfoBox>
-              <Styled.AutoSavingBox isDisplay={isSaving}>
+              <Styled.AutoSavingBox isDisplay={isSavingNow}>
                 <Styled.AutoSavingText>자동저장 중</Styled.AutoSavingText>
                 <AutoSavingLogo />
               </Styled.AutoSavingBox>

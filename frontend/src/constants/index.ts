@@ -1,3 +1,5 @@
+import { OptionCategoryProps } from '@/types/myChiving';
+
 export const OPTION_CARD_LIST_LENGTH = 6;
 
 export enum ModalType {
@@ -45,6 +47,12 @@ export enum MyCarActionType {
   'CLEAR_COLORS' = 'CLEAR_COLORS',
 }
 
+export const OPTION_CATEGORY: OptionCategoryProps = {
+  선택옵션: '/option',
+  'N Performance': '/option/n-performance',
+  'H Genuine Accessories': '/option/h-genuine-accessories',
+};
+
 const routePath = {
   trim: () => '/trim',
   engine: () => `${routePath.trim()}/engine`,
@@ -78,6 +86,9 @@ export const apiPath = {
     return `${apiPath.archivingBase()}?model_id=${modelId}${optionQuerys}&limit=${limit}&offset=${offset}`;
   },
   archivingOption: (modelId: number) => `${apiPath.carBase()}/select-options?model_id=${modelId}`,
+  mychiving: (offset: number, limit: number) => {
+    return `/mychiving?offset=${offset}&limit=${limit}`;
+  },
   archivingDetail: (id: string) => `${apiPath.archivingBase()}/${id}`,
   tag: (type: string, id: string | number, limit: number) => `${apiPath.carBase()}/tag/${type}?id=${id}&limit=${limit}`,
   bookMark: (id: string) => `/user/archiving/${id}/bookmark`,

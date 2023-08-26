@@ -1,6 +1,10 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
+interface Props {
+  isDisplay: boolean;
+}
+
 const Container = styled.footer`
   ${({ theme }) => {
     const { colors } = theme;
@@ -207,12 +211,13 @@ const Title = styled.span`
   }}
 `;
 
-const PrevButton = styled.button`
-  ${({ theme }) => {
+const PrevButton = styled.button<Props>`
+  ${({ theme, isDisplay }) => {
     const { fonts, colors } = theme;
     return css`
       width: 105px;
       height: 50px;
+      visibility: ${isDisplay ? 'visible' : 'hidden'};
 
       flex-shrink: 0;
 

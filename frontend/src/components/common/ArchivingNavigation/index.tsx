@@ -1,8 +1,9 @@
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
-import { PATH_LIST } from '@/constants';
+import { ARCHIVING, PATH_LIST } from '@/constants';
 
 import { ArchivingLogoDark } from '@/components/common/ArchivingLogoDark';
+import { MyArchivingLogoDark } from '@/components/common/MyArchivingLogoDark';
 import { PrevButton } from '@/components/common/PrevButton';
 import { CarLogo } from '@/components/common/CarLogo';
 
@@ -16,20 +17,24 @@ export function ArchivingNavigation() {
   const path = pathname.split('/')[1];
   const title = PATH_LIST[path as PathType];
 
+  function handleNavigeToTrim() {
+    localStorage.removeItem('myCar');
+    localStorage.removeItem('carCode');
+    navigate('/trim');
+  }
+
   return (
     <Styled.Container>
       <Styled.Wrapper>
         <PrevButton width="48" height="48" onClick={() => navigate(-1)} />
         <Styled.TitleBox>
-          <ArchivingLogoDark />
+          {title === ARCHIVING ? <ArchivingLogoDark /> : <MyArchivingLogoDark />}
           <Styled.TitleText>{title}</Styled.TitleText>
         </Styled.TitleBox>
-        <Link to={'/trim'}>
-          <Styled.ButtonBox>
-            <CarLogo />
-            <Styled.ButtonText>내 차 만들기 바로가기</Styled.ButtonText>
-          </Styled.ButtonBox>
-        </Link>
+        <Styled.ButtonBox onClick={handleNavigeToTrim}>
+          <CarLogo />
+          <Styled.ButtonText>내 차 만들기 바로가기</Styled.ButtonText>
+        </Styled.ButtonBox>
       </Styled.Wrapper>
     </Styled.Container>
   );
