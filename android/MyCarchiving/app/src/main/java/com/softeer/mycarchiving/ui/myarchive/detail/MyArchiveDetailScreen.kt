@@ -25,6 +25,7 @@ import androidx.lifecycle.ViewModelStoreOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.softeer.mycarchiving.R
 import com.softeer.mycarchiving.enums.MyArchivePage
+import com.softeer.mycarchiving.model.common.CarDetailsUiModel
 import com.softeer.mycarchiving.model.myarchive.ArchiveFeedSelectedOptionUiModel
 import com.softeer.mycarchiving.model.myarchive.ArchiveFeedUiModel
 import com.softeer.mycarchiving.navigation.MainDestination
@@ -48,6 +49,7 @@ fun MyArchiveDetailRoute(
 ) {
     val currentPage by mainViewModel.selectedPage.collectAsStateWithLifecycle()
     val madeCarDetail by mainViewModel.detailCar
+    val savedCarDetail by detailViewModel.details.collectAsStateWithLifecycle(initialValue = null)
     val isSaved by detailViewModel.isSaved.collectAsStateWithLifecycle()
     val lifecycleOwner = LocalLifecycleOwner.current
 
@@ -68,6 +70,7 @@ fun MyArchiveDetailRoute(
         modifier = modifier,
         currentPage = currentPage,
         detailCar = madeCarDetail!!,
+        savedCar = savedCarDetail,
         isSaved = isSaved,
         onMakeClick = { onMakingCarClick(MainDestination.MAKING_CAR, madeCarDetail?.id) },
         onBookmarkClick = detailViewModel::switchBookmarkState,
@@ -79,6 +82,7 @@ fun MyArchiveDetailScreen(
     modifier: Modifier,
     currentPage: MyArchivePage,
     detailCar: ArchiveFeedUiModel,
+    savedCar: CarDetailsUiModel?,
     isSaved: Boolean,
     onMakeClick: () -> Unit,
     onBookmarkClick: () -> Unit,
@@ -87,42 +91,14 @@ fun MyArchiveDetailScreen(
         modifier = modifier
             .fillMaxSize()
     ) {
-        Column(
-            modifier = Modifier
-                .weight(1f)
-                .fillMaxSize()
-                .background(color = White)
-                .verticalScroll(rememberScrollState())
-        ) {
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .background(color = White)
-                    .padding(start = 16.dp, end = 16.dp, top = 27.dp)
-            ) {
-                DetailTextLabel(text = stringResource(id = R.string.archive_summary_car_info))
-                DetailBanner(
-                    carImageUrl = detailCar.carImageUrl ?: "",
-                    model = detailCar.modelName,
-                    trim = detailCar.trimName ?: "",
-                    trimOptions = detailCar.trimOptions.joinToString(" / "),
-                    price = detailCar.totalPrice,
-                    exteriorColor = detailCar.exteriorColor?.name ?: "",
-                    exteriorColorUrl = detailCar.exteriorColor?.colorImageUrl ?: "",
-                    interiorColor = detailCar.interiorColor?.name ?: "",
-                    interiorColorUrl = detailCar.interiorColor?.colorImageUrl ?: ""
-                )
-                Spacer(modifier = Modifier.height(23.dp))
-                if (currentPage == MyArchivePage.SAVED) {
-                    DetailTextLabel(text = stringResource(id = R.string.archive_general_review))
-                    Spacer(modifier = Modifier.height(16.dp))
-                    DetailReview(review = "")
-                    Spacer(modifier = Modifier.height(23.dp))
-                }
-                DetailTextLabel(text = stringResource(id = R.string.selected_option))
-            }
-            MyArchiveSelectOptionArea(
-                selectOptions = detailCar.selectedOptions
+        when (currentPage) {
+            MyArchivePage.MADE -> MyArchiveMadePage(
+                modifier = Modifier.weight(1f),
+                detailCar = detailCar
+            )
+            MyArchivePage.SAVED -> MyArchiveSavedPage(
+                modifier = Modifier.weight(1f),
+                savedCar = savedCar
             )
         }
         MyArchiveDetailBottomBar(
@@ -132,6 +108,100 @@ fun MyArchiveDetailScreen(
             onMakeClick = onMakeClick,
             onBookmarkClick = onBookmarkClick
         )
+    }
+}
+
+@Composable
+fun MyArchiveMadePage(
+    modifier: Modifier = Modifier,
+    detailCar: ArchiveFeedUiModel,
+) {
+    Column(
+        modifier = modifier
+            .fillMaxSize()
+            .background(color = White)
+            .verticalScroll(rememberScrollState())
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(color = White)
+                .padding(start = 16.dp, end = 16.dp, top = 27.dp)
+        ) {
+            DetailTextLabel(text = stringResource(id = R.string.archive_summary_car_info))
+            DetailBanner(
+                carImageUrl = detailCar.carImageUrl ?: "",
+                model = detailCar.modelName,
+                trim = detailCar.trimName ?: "",
+                trimOptions = detailCar.trimOptions.joinToString(" / "),
+                price = detailCar.totalPrice,
+                exteriorColor = detailCar.exteriorColor?.name ?: "",
+                exteriorColorUrl = detailCar.exteriorColor?.colorImageUrl ?: "",
+                interiorColor = detailCar.interiorColor?.name ?: "",
+                interiorColorUrl = detailCar.interiorColor?.colorImageUrl ?: ""
+            )
+            Spacer(modifier = Modifier.height(23.dp))
+            DetailTextLabel(text = stringResource(id = R.string.selected_option))
+        }
+        MyArchiveSelectOptionArea(
+            selectOptions = detailCar.selectedOptions
+        )
+    }
+}
+
+@Composable
+fun MyArchiveSavedPage(
+    modifier: Modifier = Modifier,
+    savedCar: CarDetailsUiModel?,
+) {
+    savedCar?.run {
+        Column(
+            modifier = modifier
+                .fillMaxSize()
+                .background(color = White)
+                .verticalScroll(rememberScrollState())
+        ) {
+            Column(
+                modifier = Modifier
+                    .padding(horizontal = 16.dp)
+                    .fillMaxWidth()
+            ) {
+                Spacer(modifier = Modifier.height(27.dp))
+                DetailTextLabel(text = stringResource(id = R.string.archive_summary_car_info))
+                DetailBanner(
+                    model = model,
+                    trim = trim,
+                    carImageUrl = exteriorColor.carImageUrl ?: "",
+                    price = price,
+                    trimOptions = trimOptions.joinToString(" / "),
+                    exteriorColor = exteriorColor.colorName,
+                    exteriorColorUrl = exteriorColor.imageUrl,
+                    interiorColor = interiorColor.colorName,
+                    interiorColorUrl = interiorColor.imageUrl,
+                )
+                Spacer(modifier = Modifier.height(23.dp))
+                DetailTextLabel(text = stringResource(id = R.string.archive_general_review))
+                Spacer(modifier = Modifier.height(16.dp))
+                DetailReview(review = review ?: "")
+                Spacer(modifier = Modifier.height(23.dp))
+                DetailTextLabel(text = stringResource(id = R.string.selected_option))
+            }
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+            ) {
+                selectedOptions?.forEachIndexed { idx, option ->
+                    DetailSelectedOption(
+                        optionImageUrl = option.imageUrl,
+                        optionNum = idx + 1,
+                        optionName = option.name,
+                        subOptions = option.subOptions,
+                        optionReview = option.reviewText,
+                        optionTags = option.tags,
+                    )
+                }
+            }
+        }
     }
 }
 
