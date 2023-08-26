@@ -50,7 +50,6 @@ export function MyCarList({ myChiving, onClick, onClickDelete, modalInfo, handle
 
   const { authMutation } = useAuthMutation<string, null>({ url: `/mychiving/${myChivingId}` });
 
-  // 여기에 post 추가
   function handleClickDelete(
     event: MouseEvent<HTMLButtonElement>,
     myChiving: MyChivingProps,

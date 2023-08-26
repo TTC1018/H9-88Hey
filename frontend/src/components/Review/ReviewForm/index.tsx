@@ -1,9 +1,10 @@
+import { useState } from 'react';
+
 import { ReviewButton } from '@/components/Review/ReviewButton';
 import { ReviewTag } from '@/components/Review/ReviewTag';
 import { ReviewTextArea } from '@/components/Review/ReviewTextArea';
 
 import * as Styled from './style';
-import { useState } from 'react';
 
 interface Props {
   tags: string[];

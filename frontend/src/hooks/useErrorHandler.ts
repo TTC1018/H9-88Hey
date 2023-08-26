@@ -4,7 +4,6 @@ export function useErrorHandler() {
   const [errorState, setErrorState] = useState(null);
 
   function handleError(error: any) {
-    console.log(error);
     if (error !== '') {
       setErrorState(error);
     }
