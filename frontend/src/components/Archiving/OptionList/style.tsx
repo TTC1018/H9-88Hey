@@ -1,11 +1,15 @@
 import styled from '@emotion/styled';
 
 export const Container = styled.div`
-  gap: 24px;
+  width: 1024px;
 
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  grid-auto-rows: 7px;
+  display: flex;
+  justify-content: space-between;
 `;
 
-export const Wrapper = styled.div``;
+export const Wrapper = styled.div`
+  gap: 30px;
+
+  display: flex;
+  flex-direction: column;
+`;
