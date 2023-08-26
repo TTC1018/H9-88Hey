@@ -2,11 +2,14 @@ import { EmptyLogo } from '@/components/common/EmptyLogo';
 
 import * as Styled from './style';
 
-export function EmptyContent() {
+interface Props {
+  text: string;
+}
+export function EmptyContent({ text }: Props) {
   return (
     <Styled.Container>
       <EmptyLogo />
-      <Styled.Text>해당 선택옵션에 대한 검색 결과가 없습니다.</Styled.Text>
+      <Styled.Text>{text}</Styled.Text>
     </Styled.Container>
   );
 }

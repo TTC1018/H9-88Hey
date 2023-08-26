@@ -1,5 +1,7 @@
 import { Link } from 'react-router-dom';
 
+import { EmptyContent } from '@/components/common/EmptyContent';
+
 import * as Styled from './style';
 
 interface Props {
@@ -11,7 +13,7 @@ interface Props {
 export function NoDataInfo({ infoText, buttonText, toPath }: Props) {
   return (
     <Styled.Container>
-      <Styled.Text>{infoText}</Styled.Text>
+      <EmptyContent text={infoText} />
       <Link to={toPath}>
         <Styled.Button>{buttonText}</Styled.Button>
       </Link>

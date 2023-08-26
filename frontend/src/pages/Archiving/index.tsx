@@ -55,7 +55,7 @@ export function Archiving() {
       </Styled.HeaderWrapper>
       <Styled.ReviewWrapper>
         {isLoading && archivings.length === 0 && <ReviewSkeleton />}
-        {!hasNext && archivings.length === 0 && <EmptyContent />}
+        {!hasNext && archivings.length === 0 && <EmptyContent text={'선택한 옵션에 대한 결과가 없습니다.'} />}
         {archivings.length > 0 && (
           <ReviewList
             isLoading={isLoading}

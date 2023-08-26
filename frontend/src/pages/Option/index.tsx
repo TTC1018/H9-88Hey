@@ -17,6 +17,7 @@ import { OptionCardList } from '@/components/Option/OptionCardList';
 import { DefaultOptionCardList } from '@/components/Option/DefaultOptionCardList';
 
 import * as Styled from './style';
+import { EmptyContent } from '@/components/common/EmptyContent';
 
 interface Props {
   apiType: string;
@@ -31,7 +32,11 @@ export function Option({ apiType }: Props) {
   });
 
   if (selectOptions.length === 0) {
-    return <div>dd</div>;
+    return (
+      <Styled.Container>
+        <EmptyContent text={'해당 모델에는 n performance가 없어요.'} />
+      </Styled.Container>
+    );
   }
 
   const [menu, setMenu] = useState(0);
