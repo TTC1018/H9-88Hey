@@ -1,5 +1,6 @@
 package com.softeer.data.datasource
 
+import android.util.Log
 import com.softeer.data.model.CarInfoBody
 import com.softeer.data.model.CarTempInfoBody
 import com.softeer.data.network.MyArchiveNetworkApi
@@ -12,15 +13,17 @@ interface MyArchiveDataSource {
 
     fun saveCarInfo(body: CarInfoBody): Flow<String>
 
-    suspend fun deleteMadeCar(feedId: Long): Boolean
+    suspend fun deleteMadeCar(feedId: String): Boolean
 
-    suspend fun checkBookmarked(feedId: Long): Boolean
+    suspend fun checkBookmarked(feedId: String): Boolean
 
-    suspend fun addBookmark(feedId: Long): Long?
+    suspend fun addBookmark(feedId: String): String?
 
-    suspend fun deleteBookmark(feedId: Long): Boolean
+    suspend fun deleteBookmark(feedId: String): Boolean
 
 }
+
+private val TAG = MyArchiveDataSource::class.simpleName
 
 class MyArchiveRemoteDataSource(
     private val myArchiveNetworkApi: MyArchiveNetworkApi
@@ -48,22 +51,22 @@ class MyArchiveRemoteDataSource(
         }
     }
 
-    override suspend fun deleteMadeCar(feedId: Long): Boolean {
+    override suspend fun deleteMadeCar(feedId: String): Boolean {
         val response = myArchiveNetworkApi.deleteMadeCarFeed(feedId)
         return response.isSuccessful
     }
 
-    override suspend fun checkBookmarked(feedId: Long): Boolean {
+    override suspend fun checkBookmarked(feedId: String): Boolean {
         val response = myArchiveNetworkApi.checkBookMarked(feedId)
         return response.body()?.data?.bookmark ?: false
     }
 
-    override suspend fun addBookmark(feedId: Long): Long? {
+    override suspend fun addBookmark(feedId: String): String? {
         val response = myArchiveNetworkApi.addBookMark(feedId)
         return response.body()?.data?.feedId
     }
 
-    override suspend fun deleteBookmark(feedId: Long): Boolean {
+    override suspend fun deleteBookmark(feedId: String): Boolean {
         val response = myArchiveNetworkApi.deleteBookMark(feedId)
         return response.isSuccessful
     }

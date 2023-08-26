@@ -11,7 +11,7 @@ data class MyArchiveSavedDto(
 
 data class MyArchiveSavedFeedDto(
     @SerializedName("feedId")
-    val id: Long,
+    val id: String,
     @SerializedName("purchase")
     val purchase: Boolean,
     @SerializedName("modelName")

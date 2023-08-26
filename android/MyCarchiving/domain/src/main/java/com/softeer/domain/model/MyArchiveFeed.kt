@@ -1,7 +1,7 @@
 package com.softeer.domain.model
 
 data class MyArchiveFeed(
-    val id: Long,
+    val id: String,
     val date: String,
     val isSavedOrPurchase: Boolean,
     val totalPrice: Int,

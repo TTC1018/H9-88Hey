@@ -11,7 +11,7 @@ data class MyArchiveMadeDto(
 
 data class MyArchiveMadeFeedDto(
     @SerializedName("myChivingId")
-    val id: Long,
+    val id: String,
     @SerializedName("lastModifiedDate")
     val lastModifiedDate: String,
     @SerializedName("isSaved")

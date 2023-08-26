@@ -71,5 +71,5 @@ data class MyArchiveBookMarkDto(
 
 data class MyArchiveFeedIdDto(
     @SerializedName("feedId")
-    val feedId: Long
+    val feedId: String
 )

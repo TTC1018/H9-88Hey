@@ -14,14 +14,14 @@ interface MyArchiveRepository {
 
     fun getMadeCarFeeds(): Flow<PagingData<MyArchiveFeed>>
 
-    suspend fun deleteMadeCarFeed(feedId: Long): Boolean
+    suspend fun deleteMadeCarFeed(feedId: String): Boolean
 
     fun getSavedCarFeeds(): Flow<PagingData<MyArchiveFeed>>
 
-    suspend fun checkBookmarked(feedId: Long): Boolean
+    suspend fun checkBookmarked(feedId: String): Boolean
 
-    suspend fun addBookmark(feedId: Long): Long?
+    suspend fun addBookmark(feedId: String): String?
 
-    suspend fun deleteBookmark(feedId: Long): Boolean
+    suspend fun deleteBookmark(feedId: String): Boolean
 
 }
