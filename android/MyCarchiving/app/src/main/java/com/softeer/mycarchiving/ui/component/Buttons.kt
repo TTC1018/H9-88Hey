@@ -17,7 +17,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
@@ -25,7 +24,6 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -282,7 +280,7 @@ fun ArchiveSaveButton(
     isSaved: Boolean,
     onBookmarkClick: () -> Unit,
 ) {
-    val animateTint by animateColorAsState(if (isSaved) AlertPrimary else White)
+    val animateTint by animateColorAsState(if (isSaved) AlertPrimary else White, label = "")
 
     Box(
         modifier = modifier
@@ -290,7 +288,11 @@ fun ArchiveSaveButton(
             .width(52.dp)
             .height(52.dp)
             .background(color = PrimaryBlue)
-            .clickable { onBookmarkClick() },
+            .clickable(
+                onClick = onBookmarkClick,
+                indication = null,
+                interactionSource = MutableInteractionSource()
+            ),
         contentAlignment = Alignment.Center
     ) {
         Icon(

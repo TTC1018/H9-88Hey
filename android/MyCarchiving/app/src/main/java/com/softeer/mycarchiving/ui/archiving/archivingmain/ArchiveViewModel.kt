@@ -32,9 +32,6 @@ class ArchiveViewModel @Inject constructor(
     getAbleOptionsUseCase: GetAbleOptionsUseCase
 ) : ViewModel() {
 
-    private val _showSearchSheet = mutableStateOf(false)
-    val showSearchSheet: State<Boolean> = _showSearchSheet
-
     private val _currentSheetPage = mutableStateOf(SEARCH_CONDITION)
     val currentSheetPage: State<ArchiveSearchPage> = _currentSheetPage
 
@@ -74,11 +71,6 @@ class ArchiveViewModel @Inject constructor(
     fun openSearchSheet() {
         _selectedOptions.value = _appliedOptions.value
         _currentSheetPage.value = SEARCH_CONDITION
-        _showSearchSheet.value = true
-    }
-
-    fun closeSearchSheet() {
-        _showSearchSheet.value = false
     }
 
     fun onSheetBackClick() {
@@ -97,19 +89,9 @@ class ArchiveViewModel @Inject constructor(
 
     fun onSheetButtonClick() {
         when (currentSheetPage.value) {
-            SEARCH_CONDITION -> {
-                _appliedOptions.value = _selectedOptions.value
-                closeSearchSheet()
-            }
-
-            SET_CAR -> {
-                onSheetBackClick()
-            }
-
-            SET_OPTION -> {
-                _selectedOptions.value = _pendingOptions.value
-                onSheetBackClick()
-            }
+            SEARCH_CONDITION -> _appliedOptions.value = _selectedOptions.value
+            SET_CAR -> {}
+            SET_OPTION -> _selectedOptions.value = _pendingOptions.value
         }
     }
 

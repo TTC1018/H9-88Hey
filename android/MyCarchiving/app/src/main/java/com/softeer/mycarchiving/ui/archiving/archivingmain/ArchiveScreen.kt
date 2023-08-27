@@ -18,10 +18,14 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.ModalBottomSheet
-import androidx.compose.material3.SheetState
 import androidx.compose.material3.Text
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -35,6 +39,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.softeer.mycarchiving.R
+import com.softeer.mycarchiving.enums.ArchiveSearchPage
 import com.softeer.mycarchiving.model.archiving.SearchOption
 import com.softeer.mycarchiving.model.common.CarFeedUiModel
 import com.softeer.mycarchiving.navigation.ArchivingDestinations
@@ -47,15 +52,19 @@ import com.softeer.mycarchiving.ui.theme.White
 import com.softeer.mycarchiving.ui.theme.medium14
 import com.softeer.mycarchiving.ui.theme.medium18
 import com.softeer.mycarchiving.ui.theme.roundCorner
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ArchiveRoute(
     modifier: Modifier = Modifier,
+    scope: CoroutineScope,
     archiveViewModel: ArchiveViewModel = hiltViewModel(),
     moveDetailPage: (String, ArchivingDestinations?) -> Unit,
 ) {
-    val showSearchSheet by archiveViewModel.showSearchSheet
+    var showSearchSheet by rememberSaveable { mutableStateOf(false) }
+    val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
     val currentSheetPage by archiveViewModel.currentSheetPage
     val ableCars by archiveViewModel.ableCars
     val selectedCar by archiveViewModel.selectedCar
@@ -72,14 +81,17 @@ fun ArchiveRoute(
         appliedOptions = appliedOptions,
         carFeeds = carFeeds,
         deleteAppliedChip = archiveViewModel::deleteAppliedOption,
-        openSearchSheet = archiveViewModel::openSearchSheet,
+        openSearchSheet = {
+            archiveViewModel.openSearchSheet()
+            showSearchSheet = true
+        },
         onFeedClick = moveDetailPage
     )
     if (showSearchSheet) {
         ModalBottomSheet(
-            onDismissRequest = archiveViewModel::closeSearchSheet,
+            onDismissRequest = { showSearchSheet = false },
             containerColor = White,
-            sheetState = SheetState(skipPartiallyExpanded = true),
+            sheetState = sheetState,
             windowInsets = WindowInsets(top = 45.dp),
             scrimColor = Color.Transparent,
             dragHandle = null
@@ -99,8 +111,14 @@ fun ArchiveRoute(
                 moveSetCar = archiveViewModel::moveSetCarSheet,
                 moveSetOption = archiveViewModel::moveSetOptionSheet,
                 onBackClick = archiveViewModel::onSheetBackClick,
-                closeSheet = archiveViewModel::closeSearchSheet,
-                onButtonClick = archiveViewModel::onSheetButtonClick
+                closeSheet = { scope.launch { sheetState.hide() }.invokeOnCompletion { showSearchSheet = false } },
+                onButtonClick = {
+                    archiveViewModel.onSheetButtonClick().also {
+                        if (currentSheetPage == ArchiveSearchPage.SEARCH_CONDITION) {
+                            scope.launch { sheetState.hide() }.invokeOnCompletion { showSearchSheet = false }
+                        } else archiveViewModel.onSheetBackClick()
+                    }
+                }
             )
         }
     }
@@ -198,5 +216,5 @@ fun ArchiveScreen(
 @Preview
 @Composable
 fun PreviewArchiveRoute() {
-    ArchiveRoute(moveDetailPage = { _, _ -> })
+    ArchiveRoute(scope = rememberCoroutineScope(), moveDetailPage = { _, _ -> })
 }

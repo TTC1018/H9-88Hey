@@ -12,7 +12,6 @@ import com.softeer.mycarchiving.ui.archiving.KEY_ARCHIVE_DETAIL
 import com.softeer.mycarchiving.util.mutableStateIn
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.flatMapLatest
@@ -25,12 +24,12 @@ import javax.inject.Inject
 class ArchiveDetailViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     getCarDetailsUseCase: GetCarDetailsUseCase,
+    checkBookmarkedUseCase: CheckBookmarkedUseCase,
     private val addBookmarkUseCase: AddBookmarkUseCase,
     private val deleteBookmarkUseCase: DeleteBookmarkUseCase,
-    checkBookmarkedUseCase: CheckBookmarkedUseCase,
 ) : ViewModel() {
 
-    val feedId = savedStateHandle.getStateFlow(KEY_ARCHIVE_DETAIL, "")
+    private val feedId = savedStateHandle.getStateFlow(KEY_ARCHIVE_DETAIL, "")
 
     val details = feedId.flatMapLatest { id ->
         if (id.isNotEmpty()) {
@@ -52,13 +51,13 @@ class ArchiveDetailViewModel @Inject constructor(
         _isSaved.value = _isSaved.value.not()
     }
 
-    fun addBookmark() {
+    private fun addBookmark() {
         viewModelScope.launch {
             addBookmarkUseCase(feedId.value)
         }
     }
 
-    fun deleteBookmark() {
+    private fun deleteBookmark() {
         viewModelScope.launch {
             deleteBookmarkUseCase(feedId.value)
         }

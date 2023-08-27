@@ -6,12 +6,14 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
 import com.softeer.mycarchiving.navigation.ArchivingDestinations
+import kotlinx.coroutines.CoroutineScope
 
 fun NavController.navigateToArchiveMain(navOptions: NavOptions? = null) {
     navigate(ArchivingDestinations.ARCHIVING_MAIN.route, navOptions)
 }
 
 fun NavGraphBuilder.archiveMainScreen(
+    scope: CoroutineScope,
     moveDetailPage: (String, ArchivingDestinations?) -> Unit,
     onBackClick: () -> Unit,
 ) {
@@ -21,6 +23,9 @@ fun NavGraphBuilder.archiveMainScreen(
         BackHandler {
             onBackClick()
         }
-        ArchiveRoute(moveDetailPage = moveDetailPage)
+        ArchiveRoute(
+            scope = scope,
+            moveDetailPage = moveDetailPage
+        )
     }
 }

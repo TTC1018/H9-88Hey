@@ -56,6 +56,7 @@ fun NavGraphBuilder.makingArchiveGraph(
                     startDestination = ARCHIVING_MAIN.route
                 ) {
                     archiveMainScreen(
+                        scope = appState.coroutineScope,
                         moveDetailPage = appState::navigateToArchivingDestination,
                         onBackClick = appState.navController::popBackStack
                     )
