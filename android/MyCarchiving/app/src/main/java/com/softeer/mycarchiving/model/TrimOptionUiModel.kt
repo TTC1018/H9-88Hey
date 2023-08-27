@@ -1,5 +1,7 @@
 package com.softeer.mycarchiving.model
 
+import kotlinx.serialization.Serializable
+
 data class TrimOptionUiModel(
     val id: Int,
     val optionName: String,
@@ -17,8 +19,9 @@ data class TrimOptionUiModel(
         )
 }
 
+@Serializable
 data class TrimOptionSimpleUiModel(
     val id: Int,
     val name: String,
     val price: Int,
-)
+): java.io.Serializable
