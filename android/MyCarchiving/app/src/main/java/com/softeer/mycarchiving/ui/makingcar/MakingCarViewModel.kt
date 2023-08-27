@@ -195,7 +195,12 @@ class MakingCarViewModel @Inject constructor(
                     toMutableList().apply { set(progress, trimOptionUiModel.asSimpleUiModel()) }
                 }
                 _selectedTrim.value = _selectedTrim.value.run {
-                    toMutableList().apply { set(progress, trimOptionUiModel) }
+                    toMutableList().apply {
+                        if (getOrNull(progress) == null)
+                            add(trimOptionUiModel)
+                        else
+                            set(progress, trimOptionUiModel)
+                    }
                 }
                 _totalPrice.value += _selectedTrimSimple.value.getOrNull(progress)?.price ?: 0
             }
