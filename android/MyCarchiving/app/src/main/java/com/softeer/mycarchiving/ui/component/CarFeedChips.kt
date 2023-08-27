@@ -21,6 +21,7 @@ import com.softeer.mycarchiving.ui.theme.HyundaiNavy
 import com.softeer.mycarchiving.ui.theme.HyundaiNeutral
 import com.softeer.mycarchiving.ui.theme.HyundaiSand
 import com.softeer.mycarchiving.ui.theme.LightGray
+import com.softeer.mycarchiving.ui.theme.medium10
 import com.softeer.mycarchiving.ui.theme.medium12
 import com.softeer.mycarchiving.ui.theme.regular14
 import com.softeer.mycarchiving.ui.theme.roundCornerMedium
@@ -45,7 +46,7 @@ fun CarFeedDateChip(
             TEST_DRIVE -> stringResource(id = R.string.archive_test_drive_date, date)
             PURCHASE -> stringResource(id = R.string.archive_purchase_date, date)
         },
-        style = medium12,
+        style = medium10,
         color = if (feedType == TEMP_SAVE) AlertPrimary else HyundaiGold
     )
 }
