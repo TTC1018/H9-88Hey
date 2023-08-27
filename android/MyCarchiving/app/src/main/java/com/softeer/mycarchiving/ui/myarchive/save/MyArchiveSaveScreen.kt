@@ -8,8 +8,10 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.paging.compose.LazyPagingItems
+import com.softeer.mycarchiving.R
 import com.softeer.mycarchiving.enums.MyArchivePage
 import com.softeer.mycarchiving.model.myarchive.ArchiveFeedUiModel
 import com.softeer.mycarchiving.navigation.MyArchiveDestinations
@@ -43,8 +45,8 @@ fun MyArchiveSaveScreen(
                             date = this.date,
                             isPurchase = this.isSavedOrPurchase,
                             modelName = this.modelName,
-                            trim = this.trimName!!,
-                            trimOptions = this.trimOptions,
+                            trim = this.trim?.name ?: stringResource(id = R.string.error_no_model),
+                            trimOptions = this.trimOptions.map { it.name },
                             exteriorColor = this.exteriorColor!!.name,
                             interiorColor = this.interiorColor!!.name,
                             selectedOptions = this.selectedOptions.map { it.name },

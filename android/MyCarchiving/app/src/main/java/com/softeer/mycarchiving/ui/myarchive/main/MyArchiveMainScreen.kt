@@ -126,7 +126,7 @@ fun MyArchiveMainScreen(
         DeleteMyArchiveCarDialog(
             onDismissRequest = closeDeleteDialog,
             onDelete = deleteCarFeed,
-            carName = "${focusedCarFeed!!.modelName} ${focusedCarFeed.trimName}"
+            carName = "${focusedCarFeed?.modelName} ${focusedCarFeed?.trim?.name}"
         )
     }
 }

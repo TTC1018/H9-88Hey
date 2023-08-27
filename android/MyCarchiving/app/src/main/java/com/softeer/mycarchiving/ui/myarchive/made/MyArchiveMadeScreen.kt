@@ -47,9 +47,9 @@ fun MyArchiveMadeScreen(
                             modifier = Modifier.animateItemPlacement(),
                             isTempSaved = this.isSavedOrPurchase.not(),
                             modelName = this.modelName,
-                            trimName = this.trimName,
+                            trimName = this.trim?.name,
                             madeDate = this.date,
-                            trimOptions = this.trimOptions.joinToString(" / "),
+                            trimOptions = this.trimOptions.joinToString(" / ") { it.name },
                             selectedOptions = this.selectedOptions,
                             onFeedClick = {
                                 if (this.isSavedOrPurchase) {
@@ -67,6 +67,10 @@ fun MyArchiveMadeScreen(
         }
     }
     if (showMoveDialog) {
-        MoveMakeCarDialog(onDismissRequest = closeMoveDialog, onMove = {}, saveDate = focusedCarFeed!!.date)
+        MoveMakeCarDialog(
+            onDismissRequest = closeMoveDialog,
+            onMove = {},
+            saveDate = focusedCarFeed!!.date
+        )
     }
 }
