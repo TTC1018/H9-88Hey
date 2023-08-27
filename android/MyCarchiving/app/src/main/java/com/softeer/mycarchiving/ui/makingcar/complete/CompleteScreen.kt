@@ -45,8 +45,10 @@ fun CompleteRoute(
     val selectedTrims by makingCarViewModel.selectedTrim.collectAsStateWithLifecycle()
     val extraOptions by makingCarViewModel.totalExtraOptions.collectAsStateWithLifecycle()
 
-    LaunchedEffect(Unit) {
-        makingCarViewModel.saveCarInfo()
+    LaunchedEffect(extraOptions) {
+        if (extraOptions.isNotEmpty()) {
+            makingCarViewModel.saveCarInfo()
+        }
     }
 
     CompleteScreen(
