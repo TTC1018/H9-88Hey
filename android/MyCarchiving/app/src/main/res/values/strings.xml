@@ -149,4 +149,5 @@
 
     <!-- 오류 -->
     <string name="error_no_model">모델 정보 없음</string>
+    <string name="error_no_color">색상 정보 없음</string>
 </resources>
