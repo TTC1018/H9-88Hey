@@ -1,6 +1,5 @@
 package com.softeer.mycarchiving.ui
 
-import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
@@ -119,13 +118,12 @@ class HyundaiAppState(
             else -> null
         }
 
-    val mainDestinations: List<MainDestination> = MainDestination.values().asList()
 
     var currentProgressId by mutableIntStateOf(0)
     var currentProgressChildId by mutableIntStateOf(-1)
     var progressEnd by mutableStateOf(false)
 
-    fun initializeProgressState() {
+    private fun initializeProgressState() {
         currentProgressId = 0
         currentProgressChildId = -1
         progressEnd = false

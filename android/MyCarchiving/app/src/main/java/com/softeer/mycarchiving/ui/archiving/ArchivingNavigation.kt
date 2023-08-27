@@ -58,7 +58,7 @@ fun NavGraphBuilder.makingArchiveGraph(
                     archiveMainScreen(
                         scope = appState.coroutineScope,
                         moveDetailPage = appState::navigateToArchivingDestination,
-                        onBackClick = appState.navController::popBackStack
+                        onBackClick = { appState.navigateToMainDestination(MainDestination.MAKING_CAR) }
                     )
                     archivingDetailScreen(
                         onBackClick = appState.archivingNavController::popBackStack,
