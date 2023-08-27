@@ -38,7 +38,6 @@ import com.softeer.mycarchiving.R
 import com.softeer.mycarchiving.model.archiving.SearchOption
 import com.softeer.mycarchiving.model.common.CarFeedUiModel
 import com.softeer.mycarchiving.navigation.ArchivingDestinations
-import com.softeer.mycarchiving.navigation.MyArchiveDestinations
 import com.softeer.mycarchiving.ui.component.ArchiveFeed
 import com.softeer.mycarchiving.ui.component.SearchCarBottomSheetContent
 import com.softeer.mycarchiving.ui.component.SearchDeleteChipFlowList
@@ -56,14 +55,14 @@ fun ArchiveRoute(
     archiveViewModel: ArchiveViewModel = hiltViewModel(),
     moveDetailPage: (String, ArchivingDestinations?) -> Unit,
 ) {
-    val showSearchSheet by archiveViewModel.showSearchSheet.collectAsStateWithLifecycle()
-    val currentSheetPage by archiveViewModel.currentSheetPage.collectAsStateWithLifecycle()
-    val ableCars by archiveViewModel.ableCars.collectAsStateWithLifecycle()
-    val selectedCar by archiveViewModel.selectedCar.collectAsStateWithLifecycle()
-    val pendingCar by archiveViewModel.pendingCar.collectAsStateWithLifecycle()
+    val showSearchSheet by archiveViewModel.showSearchSheet
+    val currentSheetPage by archiveViewModel.currentSheetPage
+    val ableCars by archiveViewModel.ableCars
+    val selectedCar by archiveViewModel.selectedCar
+    val pendingCar by archiveViewModel.pendingCar
     val appliedOptions by archiveViewModel.appliedOptions.collectAsStateWithLifecycle()
-    val selectedOptions by archiveViewModel.selectedOptions.collectAsStateWithLifecycle()
-    val pendingOptions by archiveViewModel.pendingOptions.collectAsStateWithLifecycle()
+    val selectedOptions by archiveViewModel.selectedOptions
+    val pendingOptions by archiveViewModel.pendingOptions
     val ableOptions by archiveViewModel.ableOptions.collectAsStateWithLifecycle()
     val carFeeds = archiveViewModel.carFeedPagingData.collectAsLazyPagingItems()
 
@@ -72,7 +71,7 @@ fun ArchiveRoute(
         selectedCar = selectedCar,
         appliedOptions = appliedOptions,
         carFeeds = carFeeds,
-        deleteSelectedChip = archiveViewModel::deleteAppliedOption,
+        deleteAppliedChip = archiveViewModel::deleteAppliedOption,
         openSearchSheet = archiveViewModel::openSearchSheet,
         onFeedClick = moveDetailPage
     )
@@ -113,7 +112,7 @@ fun ArchiveScreen(
     selectedCar: SearchOption,
     appliedOptions: List<SearchOption>,
     carFeeds: LazyPagingItems<CarFeedUiModel>,
-    deleteSelectedChip: (SearchOption) -> Unit,
+    deleteAppliedChip: (SearchOption) -> Unit,
     openSearchSheet: () -> Unit,
     onFeedClick: (String, ArchivingDestinations?) -> Unit,
 ) {
@@ -159,7 +158,7 @@ fun ArchiveScreen(
                     SearchDeleteChipFlowList(
                         options = appliedOptions,
                         horizontalSpace = 4,
-                        deleteChip = deleteSelectedChip
+                        deleteChip = deleteAppliedChip
                     )
                 }
             }

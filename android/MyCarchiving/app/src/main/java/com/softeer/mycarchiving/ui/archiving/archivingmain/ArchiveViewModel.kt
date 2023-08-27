@@ -1,5 +1,7 @@
 package com.softeer.mycarchiving.ui.archiving.archivingmain
 
+import androidx.compose.runtime.State
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
@@ -23,8 +25,6 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import javax.inject.Inject
 
-private val TAG = ArchiveViewModel::class.simpleName
-
 @OptIn(ExperimentalCoroutinesApi::class)
 @HiltViewModel
 class ArchiveViewModel @Inject constructor(
@@ -32,20 +32,20 @@ class ArchiveViewModel @Inject constructor(
     getAbleOptionsUseCase: GetAbleOptionsUseCase
 ) : ViewModel() {
 
-    private val _showSearchSheet = MutableStateFlow(false)
-    val showSearchSheet: StateFlow<Boolean> = _showSearchSheet
+    private val _showSearchSheet = mutableStateOf(false)
+    val showSearchSheet: State<Boolean> = _showSearchSheet
 
-    private val _currentSheetPage = MutableStateFlow(SEARCH_CONDITION)
-    val currentSheetPage: StateFlow<ArchiveSearchPage> = _currentSheetPage
+    private val _currentSheetPage = mutableStateOf(SEARCH_CONDITION)
+    val currentSheetPage: State<ArchiveSearchPage> = _currentSheetPage
 
-    private val _ableCars = MutableStateFlow(SearchCarOptions.searchAbleCars)
-    val ableCars: StateFlow<List<SearchOptionUiModel>> = _ableCars
+    private val _ableCars = mutableStateOf(SearchCarOptions.searchAbleCars)
+    val ableCars: State<List<SearchOptionUiModel>> = _ableCars
 
-    private val _selectedCar = MutableStateFlow(SearchOption(name = "팰리세이드", isSelect = true))
-    val selectedCar: StateFlow<SearchOption> = _selectedCar
+    private val _selectedCar = mutableStateOf(SearchOption(name = "팰리세이드", isSelect = true))
+    val selectedCar: State<SearchOption> = _selectedCar
 
-    private val _pendingCar = MutableStateFlow(_selectedCar.value)
-    val pendingCar: StateFlow<SearchOption> = _pendingCar
+    private val _pendingCar = mutableStateOf(_selectedCar.value)
+    val pendingCar: State<SearchOption> = _pendingCar
 
     val ableOptions = getAbleOptionsUseCase()
         .map { it.asUiModel() }
@@ -55,14 +55,15 @@ class ArchiveViewModel @Inject constructor(
             initialValue = emptyList()
         )
 
+
     private val _appliedOptions = MutableStateFlow(emptyList<SearchOption>())
     val appliedOptions: StateFlow<List<SearchOption>> = _appliedOptions
 
-    private val _selectedOptions = MutableStateFlow(emptyList<SearchOption>())
-    val selectedOptions: StateFlow<List<SearchOption>> = _selectedOptions
+    private val _selectedOptions = mutableStateOf(emptyList<SearchOption>())
+    val selectedOptions: State<List<SearchOption>> = _selectedOptions
 
-    private val _pendingOptions = MutableStateFlow(emptyList<SearchOption>())
-    val pendingOptions: StateFlow<List<SearchOption>> = _pendingOptions
+    private val _pendingOptions = mutableStateOf(emptyList<SearchOption>())
+    val pendingOptions: State<List<SearchOption>> = _pendingOptions
 
     val carFeedPagingData = _appliedOptions.flatMapLatest { appliedOptions ->
         getCarFeedsUseCase(appliedOptions.map { it.id })
