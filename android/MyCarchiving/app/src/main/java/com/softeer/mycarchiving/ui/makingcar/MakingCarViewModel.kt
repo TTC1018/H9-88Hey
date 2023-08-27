@@ -330,14 +330,15 @@ class MakingCarViewModel @Inject constructor(
     fun saveTempCarInfo() {
         val carTempInfo = CarTempInfo(
             infoId = carInfoId.value,
-            modelId = 1,
+            modelId = _selectedModelInfo.value?.id,
             engineId = _selectedTrim.value.getOrNull(0)?.id,
             bodyTypeId = _selectedTrim.value.getOrNull(1)?.id,
             wheelTypeId = _selectedTrim.value.getOrNull(2)?.id,
             exteriorColorId = _selectedColor.value.getOrNull(0)?.id,
             interiorColorId = _selectedColor.value.getOrNull(1)?.id,
-            selectOptionsIds = totalExtraOptions.value.map { it.id }
-        )
+            selectOptionsIds = (_selectedExtraOptions.value + _selectedHGenuines.value + _selectedNPerformance.value)
+                .map { it.id }
+            )
 
         viewModelScope.launch {
             carInfoId.value = saveTempCarInfoUseCase(carTempInfo).firstOrNull()
@@ -348,7 +349,7 @@ class MakingCarViewModel @Inject constructor(
         carInfoId.value?.let { infoId ->
             val carInfo = CarInfo(
                 infoId = infoId,
-                modelId = 1,
+                modelId = _selectedModelInfo.value?.id ?: 1,
                 engineId = _selectedTrim.value[0].id,
                 bodyTypeId = _selectedTrim.value[1].id,
                 wheelTypeId = _selectedTrim.value[2].id,
