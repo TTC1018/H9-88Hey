@@ -8,8 +8,8 @@ data class CarDetailsUiModel(
     val price: Int,
     val trim: String,
     val trimOptions: List<String>,
-    val interiorColor: ColorOptionSimpleUiModel,
-    val exteriorColor: ColorOptionSimpleUiModel,
+    val interiorColor: ColorOptionSimpleUiModel?,
+    val exteriorColor: ColorOptionSimpleUiModel?,
     val selectedOptions: List<CarDetailSelectOptionUiModel>? = null,
     val review: String? = null,
 )

@@ -9,7 +9,10 @@ import com.softeer.data.model.MyArchiveSavedFeedDto
 import com.softeer.data.model.MyArchiveSelectedDto
 import com.softeer.data.model.MyArchiveTrimDto
 import com.softeer.data.model.MyArchiveTrimOptionDto
+import com.softeer.domain.model.CarExteriorSimpleColor
+import com.softeer.domain.model.CarExtraSimpleOption
 import com.softeer.domain.model.CarInfo
+import com.softeer.domain.model.CarInteriorSimpleColor
 import com.softeer.domain.model.CarTempInfo
 import com.softeer.domain.model.ModelOption
 import com.softeer.domain.model.MyArchiveFeed
@@ -77,8 +80,8 @@ fun MyArchiveSavedFeedDto.asEntity(): MyArchiveFeed =
         selectedOptions = selectedOptions.map(MyArchiveSelectedDto::asEntity)
     )
 
-fun MyArchiveExteriorDto.asEntity(): MyArchiveFeedSimpleColor =
-    MyArchiveFeedSimpleColor(
+fun MyArchiveExteriorDto.asEntity(): CarExteriorSimpleColor =
+    CarExteriorSimpleColor(
         id = id,
         name = name,
         colorImageUrl = colorImageUrl,
@@ -86,8 +89,8 @@ fun MyArchiveExteriorDto.asEntity(): MyArchiveFeedSimpleColor =
         price = price,
     )
 
-fun MyArchiveInteriorDto.asEntity(): MyArchiveFeedSimpleColor =
-    MyArchiveFeedSimpleColor(
+fun MyArchiveInteriorDto.asEntity(): CarInteriorSimpleColor =
+    CarInteriorSimpleColor(
         id = id,
         name = name,
         colorImageUrl = colorImageUrl

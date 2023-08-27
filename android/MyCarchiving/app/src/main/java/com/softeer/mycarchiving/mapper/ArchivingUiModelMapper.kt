@@ -32,11 +32,11 @@ fun CarDetails.asUiModel() =
     CarDetailsUiModel(
         id = id,
         model = modelName,
-        trim = trim.name,
+        trim = trim?.name ?: "",
         price = totalPrice,
-        trimOptions = listOf(engine, bodyType, wheelDrive).map { it.optionName },
-        interiorColor = interiorColor.asUiModel(),
-        exteriorColor = exteriorColor.asUiModel(),
+        trimOptions = listOfNotNull(engine, bodyType, wheelDrive).map { it.optionName },
+        interiorColor = interiorColor?.asUiModel(),
+        exteriorColor = exteriorColor?.asUiModel(),
         selectedOptions = selectedOptions.map(CarExtraSimpleOption::asDetailUiModel),
         review = reviewText,
     )

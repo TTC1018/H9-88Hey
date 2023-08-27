@@ -3,6 +3,7 @@ package com.softeer.mycarchiving.ui.makingcar
 import android.util.Log
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
@@ -14,6 +15,7 @@ import com.softeer.domain.model.CarTempInfo
 import com.softeer.domain.usecase.archiving.GetCarDetailsUseCase
 import com.softeer.domain.usecase.makingcar.SaveCarInfoUseCase
 import com.softeer.domain.usecase.makingcar.SaveTempCarInfoUseCase
+import com.softeer.mycarchiving.mapper.asDetailEntity
 import com.softeer.mycarchiving.mapper.asSelectModelUiModel
 import com.softeer.mycarchiving.mapper.asSimpleUiModel
 import com.softeer.mycarchiving.mapper.asUiModel
@@ -24,7 +26,9 @@ import com.softeer.mycarchiving.model.makingcar.ColorOptionUiModel
 import com.softeer.mycarchiving.model.makingcar.SelectModelUiModel
 import com.softeer.mycarchiving.model.makingcar.SelectOptionSimpleUiModel
 import com.softeer.mycarchiving.model.makingcar.SelectOptionUiModel
+import com.softeer.mycarchiving.model.myarchive.ArchiveFeedUiModel
 import com.softeer.mycarchiving.ui.archiving.KEY_ARCHIVE_FEED_ID
+import com.softeer.mycarchiving.ui.myarchive.KEY_MYARCHIVE_FEED_DATA
 import com.softeer.mycarchiving.util.TRIM_EXTRA
 import com.softeer.mycarchiving.util.TRIM_HGENUINE
 import com.softeer.mycarchiving.util.TRIM_NPERFORMANCE
@@ -48,34 +52,6 @@ class MakingCarViewModel @Inject constructor(
     private val saveCarInfoUseCase: SaveCarInfoUseCase,
     getCarDetailsUseCase: GetCarDetailsUseCase,
 ) : ViewModel() {
-
-    init {
-        // 아카이빙에서 왔는지 확인하고 데이터 설정
-        savedStateHandle.get<String?>(KEY_ARCHIVE_FEED_ID)?.let { feedId ->
-            viewModelScope.launch {
-                getCarDetailsUseCase(feedId).firstOrNull()?.run {
-                    _carDetails.value = this
-                    // 아카이빙 Flag 변경
-                    _archivingStartedFlag.value = true
-                    // 가격 갱신
-                    _totalPrice.value = totalPrice
-                    // 모델 정보 (르블랑, ...)
-                    _selectedModelSimple.value = trim.asSelectModelUiModel()
-                    // 트림 선택 옵션
-                    _selectedTrimSimple.value =
-                        listOf(engine, bodyType, wheelDrive).map { it.asUiModel() }
-                    // 색상 정보
-                    _selectedColorSimple.value =
-                        listOf(exteriorColor.asUiModel(), interiorColor.asUiModel())
-                    // 선택 옵션
-                    _selectedOptionSimple.value =
-                        selectedOptions.map { it.asSimpleUiModel() }
-                    _optionArchivedFlag.value = false
-                }
-                carInfoId.value = feedId
-            }
-        }
-    }
 
     private val _carDetails = MutableLiveData<CarDetails?>()
     val carDetails: LiveData<CarDetails?> = _carDetails
@@ -142,6 +118,52 @@ class MakingCarViewModel @Inject constructor(
 
     private var _archivingStartedFlag = mutableStateOf(false)
     val archivingStartedFlag: State<Boolean> = _archivingStartedFlag
+
+    init {
+        // 아카이빙에서 왔는지 확인하고 데이터 설정
+        savedStateHandle.get<String?>(KEY_ARCHIVE_FEED_ID)?.let { feedId ->
+            viewModelScope.launch {
+                getCarDetailsUseCase(feedId).firstOrNull()?.run {
+                    _carDetails.value = this
+                    // 아카이빙 Flag 변경
+                    _archivingStartedFlag.value = true
+                    // 가격 갱신
+                    _totalPrice.value = totalPrice
+                    // 모델 정보 (르블랑, ...)
+                    _selectedModelSimple.value = trim?.asSelectModelUiModel()
+                    // 트림 선택 옵션
+                    _selectedTrimSimple.value =
+                        listOfNotNull(engine, bodyType, wheelDrive).map { it.asUiModel() }
+                    // 색상 정보
+                    _selectedColorSimple.value =
+                        listOfNotNull(exteriorColor?.asUiModel(), interiorColor?.asUiModel())
+                    // 선택 옵션
+                    _selectedOptionSimple.value =
+                        selectedOptions.map { it.asSimpleUiModel() }
+                    _optionArchivedFlag.value = false
+                }
+                carInfoId.value = feedId
+            }
+        }
+
+
+        // 마이카이빙 임시저장에서 왔는지 확인
+        savedStateHandle.get<ArchiveFeedUiModel?>(KEY_MYARCHIVE_FEED_DATA)?.let {
+            _carDetails.value = it.asDetailEntity().apply {
+                _archivingStartedFlag.value = true
+                _totalPrice.value = totalPrice
+                _selectedModelSimple.value = trim?.asSelectModelUiModel()
+                _selectedTrimSimple.value =
+                    listOfNotNull(engine, bodyType, wheelDrive).map { it.asUiModel() }
+                _selectedColorSimple.value =
+                    listOfNotNull(exteriorColor?.asUiModel(), interiorColor?.asUiModel())
+                _selectedOptionSimple.value =
+                    selectedOptions.map { it.asSimpleUiModel() }
+                _optionArchivedFlag.value = false
+                carInfoId.value = id
+            }
+        }
+    }
 
     fun setArchivedFlag(flag: Boolean) {
         _optionArchivedFlag.value = flag

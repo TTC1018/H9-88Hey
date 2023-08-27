@@ -111,20 +111,20 @@ private fun InitArchiveDataEffect(
 ) {
     LaunchedEffect(engines) {
         carDetails?.run {
-            engines.find { it.id == engine.id }
+            engines.find { it.id == engine?.id }
                 ?.let { saveTrimOptions(it, TRIM_ENGINE, true, true) }
         }
     }
     LaunchedEffect(bodyTypes) {
         carDetails?.run {
-            bodyTypes.find { it.id == bodyType.id }
+            bodyTypes.find { it.id == bodyType?.id }
                 ?.let { saveTrimOptions(it, TRIM_BODY_TYPE, true, true) }
         }
 
     }
     LaunchedEffect(wheels) {
         carDetails?.run {
-            wheels.find { it.id == wheelDrive.id }
+            wheels.find { it.id == wheelDrive?.id }
                 ?.let { saveTrimOptions(it, TRIM_DRIVING_SYSTEM, true, true) }
         }
     }

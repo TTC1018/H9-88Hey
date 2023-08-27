@@ -104,13 +104,13 @@ fun ArchiveDetailScreen(
                                 DetailBanner(
                                     model = it.model,
                                     trim = it.trim,
-                                    carImageUrl = it.exteriorColor.carImageUrl ?: "",
+                                    carImageUrl = it.exteriorColor?.carImageUrl ?: "",
                                     price = it.price,
                                     trimOptions = it.trimOptions.joinToString(" / "),
-                                    exteriorColor = it.exteriorColor.colorName,
-                                    exteriorColorUrl = it.exteriorColor.imageUrl,
-                                    interiorColor = it.interiorColor.colorName,
-                                    interiorColorUrl = it.interiorColor.imageUrl,
+                                    exteriorColor = it.exteriorColor?.colorName ?: stringResource(id = R.string.error_no_color),
+                                    exteriorColorUrl = it.exteriorColor?.imageUrl ?: "",
+                                    interiorColor = it.interiorColor?.colorName ?: stringResource(id = R.string.error_no_color),
+                                    interiorColorUrl = it.interiorColor?.imageUrl ?: "",
                                 )
                                 Spacer(modifier = Modifier.height(23.dp))
                                 DetailTextLabel(text = stringResource(id = R.string.archive_general_review))
