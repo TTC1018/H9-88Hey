@@ -214,23 +214,28 @@ class MakingCarViewModel @Inject constructor(
         archived: Boolean = false,
     ) {
         if (archived || initial) {
-            if (_selectedColorSimple.value.getOrNull(progress) == null) // 바텀시트는 갱신 안 된 상태라면
+            if (_selectedColorSimple.value.getOrNull(progress) == null) { // 바텀시트는 갱신 안 된 상태라면
                 _selectedColorSimple.value += listOf(colorOptionUiModel.asSimpleUiModel())
-            _selectedColor.value += listOf(colorOptionUiModel)
-            if (archived.not() && initial)
                 _totalPrice.value += colorOptionUiModel.price
+            }
+            _selectedColor.value += listOf(colorOptionUiModel)
         } else {
-            if (_selectedColor.value.getOrNull(progress) == null) {
+            if (_selectedColorSimple.value.getOrNull(progress) == null) {
                 _selectedColorSimple.value += listOf(colorOptionUiModel.asSimpleUiModel())
                 _selectedColor.value += listOf(colorOptionUiModel)
                 _totalPrice.value += colorOptionUiModel.price
-            } else if (initial.not()) {
+            } else {
                 _totalPrice.value -= _selectedColor.value.getOrNull(progress)?.price ?: 0
                 _selectedColorSimple.value = _selectedColorSimple.value.run {
                     toMutableList().apply { set(progress, colorOptionUiModel.asSimpleUiModel()) }
                 }
                 _selectedColor.value = _selectedColor.value.run {
-                    toMutableList().apply { set(progress, colorOptionUiModel) }
+                    toMutableList().apply {
+                        if (_selectedColor.value.getOrNull(progress) == null)
+                            add(colorOptionUiModel)
+                        else
+                            set(progress, colorOptionUiModel)
+                    }
                 }
                 _totalPrice.value += _selectedColor.value.getOrNull(progress)?.price ?: 0
             }
