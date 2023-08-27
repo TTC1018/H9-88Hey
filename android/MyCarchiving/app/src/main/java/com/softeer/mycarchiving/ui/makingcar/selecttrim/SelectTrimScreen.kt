@@ -57,7 +57,7 @@ fun SelectTrimRoute(
     val bodyTypes by selectTrimViewModel.bodyTypes.collectAsStateWithLifecycle()
     val wheels by selectTrimViewModel.wheels.collectAsStateWithLifecycle()
     val selectedTrims by makingCarViewModel.selectedTrim.collectAsStateWithLifecycle()
-    val selectedOptions by makingCarViewModel.totalExtraOptions.collectAsStateWithLifecycle()
+    val selectedOptions by makingCarViewModel.selectedOptionSimple.collectAsStateWithLifecycle()
     val selectedTrimSimple by makingCarViewModel.selectedTrimSimple.collectAsStateWithLifecycle()
     val carDetails by makingCarViewModel.carDetails.observeAsState()
     val isArchived = carDetails != null && selectedTrims.size < 3
