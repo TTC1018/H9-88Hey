@@ -45,6 +45,14 @@ val bold18 = TextStyle(
     color = Black
 )
 
+val bold16 = TextStyle(
+    fontFamily = hyundaiFontFamily,
+    fontWeight = FontWeight.W700,
+    fontSize = 16.sp,
+    lineHeight = 23.sp,
+    color = Black
+)
+
 val bold14 = TextStyle(
     fontFamily = hyundaiFontFamily,
     fontWeight = FontWeight.W700,

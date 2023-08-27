@@ -41,6 +41,8 @@ import com.softeer.mycarchiving.ui.theme.HyundaiSand
 import com.softeer.mycarchiving.ui.theme.MediumDarkGray
 import com.softeer.mycarchiving.ui.theme.ThinGray
 import com.softeer.mycarchiving.ui.theme.White
+import com.softeer.mycarchiving.ui.theme.bold14
+import com.softeer.mycarchiving.ui.theme.bold16
 import com.softeer.mycarchiving.ui.theme.bold18
 import com.softeer.mycarchiving.ui.theme.medium12
 import com.softeer.mycarchiving.ui.theme.medium14
@@ -97,7 +99,7 @@ fun MadeCarFeed(
         ) {
             Text(
                 text = "$modelName $trimName",
-                style = bold18,
+                style = bold16,
                 overflow = TextOverflow.Ellipsis
             )
             Row(
