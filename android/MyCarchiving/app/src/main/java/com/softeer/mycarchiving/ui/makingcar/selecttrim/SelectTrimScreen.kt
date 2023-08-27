@@ -30,6 +30,7 @@ import coil.compose.AsyncImage
 import coil.request.CachePolicy
 import coil.request.ImageRequest
 import com.softeer.domain.model.CarDetails
+import com.softeer.mycarchiving.model.TrimOptionSimpleUiModel
 import com.softeer.mycarchiving.model.TrimOptionUiModel
 import com.softeer.mycarchiving.ui.component.OptionCardForDetail
 import com.softeer.mycarchiving.ui.component.OptionNameWithDivider
@@ -57,6 +58,7 @@ fun SelectTrimRoute(
     val wheels by selectTrimViewModel.wheels.collectAsStateWithLifecycle()
     val selectedTrims by makingCarViewModel.selectedTrim.collectAsStateWithLifecycle()
     val selectedOptions by makingCarViewModel.totalExtraOptions.collectAsStateWithLifecycle()
+    val selectedTrimSimple by makingCarViewModel.selectedTrimSimple.collectAsStateWithLifecycle()
     val carDetails by makingCarViewModel.carDetails.observeAsState()
     val isArchived = carDetails != null && selectedTrims.size < 3
     val isInitial = selectedTrims.getOrNull(screenProgress) == null
@@ -89,7 +91,7 @@ fun SelectTrimRoute(
             TRIM_SELECT to TRIM_DRIVING_SYSTEM, TRIM_COLOR to TRIM_EXTERIOR -> wheels
             else -> emptyList()
         },
-        savedTrim = selectedTrims.getOrNull(screenProgress),
+        savedTrim = selectedTrimSimple.getOrNull(screenProgress),
         isInitial = isInitial,
         isArchived = isArchived,
         shouldInitialize = selectedOptions.isNotEmpty(),
@@ -133,7 +135,7 @@ fun SelectTrimScreen(
     mainProgress: Int,
     screenProgress: Int,
     options: List<TrimOptionUiModel>,
-    savedTrim: TrimOptionUiModel?,
+    savedTrim: TrimOptionSimpleUiModel?,
     isInitial: Boolean,
     isArchived: Boolean,
     shouldInitialize: Boolean,
@@ -146,17 +148,13 @@ fun SelectTrimScreen(
     // 아이템 자동 추가 or 이전 선택 아이템 불러오기
     if (mainProgress == TRIM_SELECT) {
         LaunchedEffect(options, savedTrim) {
-            if (isInitial && isArchived.not()) {
-                // 처음 화면 갱신되면 첫번째 아이템 선택하기
-                selectedIndex = 0
-            } else {
-                // 이미 선택한 적이 있는 영역이라면 미리 선택한 아이템 선택
-                options.indexOfFirst { it.id == savedTrim?.id }
-                    .takeIf { index -> index >= 0 }
-                    ?.let { savedIndex ->
-                        selectedIndex = savedIndex
-                    }
-            }
+            options.indexOfFirst { it.id == savedTrim?.id }
+                .also { savedIndex ->
+                    selectedIndex = if (savedIndex == -1)
+                        0 // 처음 화면 갱신되면 첫번째 아이템 선택하기
+                    else
+                        savedIndex // 이미 선택한 적이 있는 영역이라면 미리 선택한 아이템 선택
+                }
 
             options.getOrNull(selectedIndex)?.let {
                 onOptionSelect(it, screenProgress, isInitial, false)
