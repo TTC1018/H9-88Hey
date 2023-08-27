@@ -38,11 +38,11 @@ fun NavGraphBuilder.makingMyArchiveGraph(
         }
 
         val onStartAreaClick: () -> Unit =
-            if (appState.currentMyArchiveDestinations == MY_ARCHIVE_MAIN)
-                appState.navController::navigateToMakingCar
-            else
-                appState.myArchiveNavController::popBackStack
-
+            if (appState.currentMyArchiveDestinations == MY_ARCHIVE_MAIN) {
+                { appState.navigateToMainDestination(MainDestination.MAKING_CAR) }
+            } else {
+                { appState.myArchiveNavController.popBackStack() }
+            }
         Scaffold(
             modifier = Modifier,
             topBar = {
