@@ -65,9 +65,11 @@ fun SelectColorRoute(
     val interiors by selectColorViewModel.interiors.collectAsStateWithLifecycle()
     val interiorTags by selectColorViewModel.interiorTags.collectAsStateWithLifecycle()
     val selectedColor by makingCarViewModel.selectedColor.collectAsStateWithLifecycle()
+    val selectedColorSimple by makingCarViewModel.selectedColorSimple.collectAsStateWithLifecycle()
     val carDetails by makingCarViewModel.carDetails.observeAsState()
     val isArchived = carDetails != null && selectedColor.isEmpty()
     val isInitial = selectedColor.getOrNull(screenProgress) == null
+            && selectedColorSimple.getOrNull(screenProgress) == null
 
     // 아카이빙 데이터 로드
     if (isArchived) {
@@ -105,7 +107,7 @@ fun SelectColorRoute(
                 }
             } else { // 이미 진입했던 화면이면 이전에 선택한 데이터 로드
                 colorOptions
-                    .indexOfFirst { it.id == selectedColor.getOrNull(screenProgress)?.id }
+                    .indexOfFirst { it.id == selectedColorSimple.getOrNull(screenProgress)?.id }
                     .takeIf { index -> index >= 0 }
                     ?.let { savedIndex ->
                         selectColorViewModel.changeSelectedColor(savedIndex)

@@ -179,25 +179,30 @@ class MakingCarViewModel @Inject constructor(
         archived: Boolean = false,
     ) {
         if (archived || initial) { // 아카이빙 데이터면 선택 데이터에 기록만 하기
-            if (_selectedTrimSimple.value.getOrNull(progress) == null) // 아카이빙 -> 내차만들기 이후 모델 갱신
-                _selectedTrimSimple.value += listOf(trimOptionUiModel.asSimpleUiModel())
-            _selectedTrim.value += listOf(trimOptionUiModel)
-            if (archived.not() && initial)
+            if (_selectedTrimSimple.value.getOrNull(progress) == null) {
+                _selectedTrimSimple.value += listOf(trimOptionUiModel.asSimpleUiModel()) // 아카이빙 -> 내차만들기 이후 모델 갱신
                 _totalPrice.value += trimOptionUiModel.price
+            }
+            _selectedTrim.value += listOf(trimOptionUiModel)
         } else { // 아카이빙 데이터 로드 후 or 기본으로 진행 중
-            if (_selectedTrim.value.getOrNull(progress) == null) { // 그대로 추가하면 될 때
+            if (_selectedTrimSimple.value.getOrNull(progress) == null) { // 그대로 추가하면 될 때
                 _selectedTrimSimple.value += listOf(trimOptionUiModel.asSimpleUiModel()) // 견적 요약보기용 갱신
                 _selectedTrim.value += listOf(trimOptionUiModel)
                 _totalPrice.value += trimOptionUiModel.price
-            } else if (initial.not()) { // 이미 기록된 데이터가 있는데 변경하려 할 때
-                _totalPrice.value -= _selectedTrim.value.getOrNull(progress)?.price ?: 0
+            } else { // 이미 기록된 데이터가 있는데 변경하려 할 때
+                _totalPrice.value -= _selectedTrimSimple.value.getOrNull(progress)?.price ?: 0
                 _selectedTrimSimple.value = _selectedTrimSimple.value.run { // 견적 요약보기용 갱신
                     toMutableList().apply { set(progress, trimOptionUiModel.asSimpleUiModel()) }
                 }
                 _selectedTrim.value = _selectedTrim.value.run {
-                    toMutableList().apply { set(progress, trimOptionUiModel) }
+                    toMutableList().apply {
+                        if (getOrNull(progress) == null)
+                            add(trimOptionUiModel)
+                        else
+                            set(progress, trimOptionUiModel)
+                    }
                 }
-                _totalPrice.value += _selectedTrim.value.getOrNull(progress)?.price ?: 0
+                _totalPrice.value += _selectedTrimSimple.value.getOrNull(progress)?.price ?: 0
             }
         }
     }
@@ -209,23 +214,28 @@ class MakingCarViewModel @Inject constructor(
         archived: Boolean = false,
     ) {
         if (archived || initial) {
-            if (_selectedColorSimple.value.getOrNull(progress) == null) // 바텀시트는 갱신 안 된 상태라면
+            if (_selectedColorSimple.value.getOrNull(progress) == null) { // 바텀시트는 갱신 안 된 상태라면
                 _selectedColorSimple.value += listOf(colorOptionUiModel.asSimpleUiModel())
-            _selectedColor.value += listOf(colorOptionUiModel)
-            if (archived.not() && initial)
                 _totalPrice.value += colorOptionUiModel.price
+            }
+            _selectedColor.value += listOf(colorOptionUiModel)
         } else {
-            if (_selectedColor.value.getOrNull(progress) == null) {
+            if (_selectedColorSimple.value.getOrNull(progress) == null) {
                 _selectedColorSimple.value += listOf(colorOptionUiModel.asSimpleUiModel())
                 _selectedColor.value += listOf(colorOptionUiModel)
                 _totalPrice.value += colorOptionUiModel.price
-            } else if (initial.not()) {
+            } else {
                 _totalPrice.value -= _selectedColor.value.getOrNull(progress)?.price ?: 0
                 _selectedColorSimple.value = _selectedColorSimple.value.run {
                     toMutableList().apply { set(progress, colorOptionUiModel.asSimpleUiModel()) }
                 }
                 _selectedColor.value = _selectedColor.value.run {
-                    toMutableList().apply { set(progress, colorOptionUiModel) }
+                    toMutableList().apply {
+                        if (_selectedColor.value.getOrNull(progress) == null)
+                            add(colorOptionUiModel)
+                        else
+                            set(progress, colorOptionUiModel)
+                    }
                 }
                 _totalPrice.value += _selectedColor.value.getOrNull(progress)?.price ?: 0
             }

@@ -30,6 +30,7 @@ import coil.compose.AsyncImage
 import coil.request.CachePolicy
 import coil.request.ImageRequest
 import com.softeer.domain.model.CarDetails
+import com.softeer.mycarchiving.model.TrimOptionSimpleUiModel
 import com.softeer.mycarchiving.model.TrimOptionUiModel
 import com.softeer.mycarchiving.ui.component.OptionCardForDetail
 import com.softeer.mycarchiving.ui.component.OptionNameWithDivider
@@ -56,10 +57,12 @@ fun SelectTrimRoute(
     val bodyTypes by selectTrimViewModel.bodyTypes.collectAsStateWithLifecycle()
     val wheels by selectTrimViewModel.wheels.collectAsStateWithLifecycle()
     val selectedTrims by makingCarViewModel.selectedTrim.collectAsStateWithLifecycle()
-    val selectedOptions by makingCarViewModel.totalExtraOptions.collectAsStateWithLifecycle()
+    val selectedOptions by makingCarViewModel.selectedOptionSimple.collectAsStateWithLifecycle()
+    val selectedTrimSimple by makingCarViewModel.selectedTrimSimple.collectAsStateWithLifecycle()
     val carDetails by makingCarViewModel.carDetails.observeAsState()
     val isArchived = carDetails != null && selectedTrims.size < 3
     val isInitial = selectedTrims.getOrNull(screenProgress) == null
+            && selectedTrimSimple.getOrNull(screenProgress) == null
 
     // 아카이빙에서 넘어왔다면 뷰모델에 데이터 세팅
     if (isArchived) {
@@ -89,7 +92,7 @@ fun SelectTrimRoute(
             TRIM_SELECT to TRIM_DRIVING_SYSTEM, TRIM_COLOR to TRIM_EXTERIOR -> wheels
             else -> emptyList()
         },
-        savedTrim = selectedTrims.getOrNull(screenProgress),
+        savedTrim = selectedTrimSimple.getOrNull(screenProgress),
         isInitial = isInitial,
         isArchived = isArchived,
         shouldInitialize = selectedOptions.isNotEmpty(),
@@ -133,7 +136,7 @@ fun SelectTrimScreen(
     mainProgress: Int,
     screenProgress: Int,
     options: List<TrimOptionUiModel>,
-    savedTrim: TrimOptionUiModel?,
+    savedTrim: TrimOptionSimpleUiModel?,
     isInitial: Boolean,
     isArchived: Boolean,
     shouldInitialize: Boolean,
@@ -152,8 +155,7 @@ fun SelectTrimScreen(
             } else {
                 // 이미 선택한 적이 있는 영역이라면 미리 선택한 아이템 선택
                 options.indexOfFirst { it.id == savedTrim?.id }
-                    .takeIf { index -> index >= 0 }
-                    ?.let { savedIndex ->
+                    .also { savedIndex ->
                         selectedIndex = savedIndex
                     }
             }
