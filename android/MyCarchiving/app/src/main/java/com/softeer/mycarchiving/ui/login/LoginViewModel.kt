@@ -1,6 +1,7 @@
 package com.softeer.mycarchiving.ui.login
 
 import android.util.Patterns
+import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -11,8 +12,6 @@ import com.softeer.mycarchiving.model.login.LoginUiState
 import com.softeer.mycarchiving.model.login.LoginUiState.*
 import com.softeer.mycarchiving.util.PreferenceUtil
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -23,13 +22,13 @@ class LoginViewModel @Inject constructor(
     private val pref: PreferenceUtil
 ): ViewModel() {
 
-    private val _typedEmail = MutableStateFlow("android@email.com")
-    val typedEmail: StateFlow<String> = _typedEmail
+    private val _typedEmail = mutableStateOf("android@email.com")
+    val typedEmail: State<String> = _typedEmail
 
-    private val _typedPassword = MutableStateFlow("password")
-    val typedPassword: StateFlow<String> = _typedPassword
+    private val _typedPassword = mutableStateOf("password")
+    val typedPassword: State<String> = _typedPassword
 
-    val errorMessage = MutableStateFlow(ERROR_NONE)
+    val errorMessage = mutableStateOf(ERROR_NONE)
     val loginState = mutableStateOf<LoginUiState>(Loading)
 
     fun typeEmail(text: String) {
@@ -47,12 +46,15 @@ class LoginViewModel @Inject constructor(
     fun login() {
         if (_typedEmail.value.isEmpty()) {
             errorMessage.value = EMAIL_EMPTY_ERROR
+            return
         }
         if (!isValidEmail()) {
             errorMessage.value = EMAIL_VALID_ERROR
+            return
         }
         if (_typedPassword.value.isEmpty()) {
             errorMessage.value = PASSWORD_EMPTY_ERROR
+            return
         }
         viewModelScope.launch {
             val token = signInUseCase(_typedEmail.value, _typedPassword.value)

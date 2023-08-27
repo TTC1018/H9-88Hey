@@ -20,7 +20,6 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.softeer.mycarchiving.R
 import com.softeer.mycarchiving.model.login.LoginUiState
 import com.softeer.mycarchiving.ui.component.AlertMessage
@@ -36,9 +35,9 @@ fun LoginRoute(
     onLogin: () -> Unit,
     loginViewModel: LoginViewModel = hiltViewModel()
 ) {
-    val email by loginViewModel.typedEmail.collectAsStateWithLifecycle()
-    val password by loginViewModel.typedPassword.collectAsStateWithLifecycle()
-    val errorMessage by loginViewModel.errorMessage.collectAsStateWithLifecycle()
+    val email by loginViewModel.typedEmail
+    val password by loginViewModel.typedPassword
+    val errorMessage by loginViewModel.errorMessage
     val loginState by loginViewModel.loginState
 
     LaunchedEffect(Unit) {
