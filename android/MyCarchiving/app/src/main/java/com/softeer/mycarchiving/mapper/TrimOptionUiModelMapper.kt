@@ -1,5 +1,6 @@
 package com.softeer.mycarchiving.mapper
 
+import com.softeer.domain.model.ModelFeature
 import com.softeer.domain.model.ModelOption
 import com.softeer.domain.model.TrimOption
 import com.softeer.domain.model.TrimSimpleOption
@@ -13,12 +14,26 @@ fun ModelOption.asSelectModelUiModel(): SelectModelUiModel =
         id = id,
         name = name,
         price = price,
-        features = modelFeatures.map { featureDto ->
+        features = modelFeatures.map { entity ->
             ModelFeatureUiModel(
-                name = featureDto.name,
-                imageUrl = featureDto.imageUrl
+                name = entity.name,
+                imageUrl = entity.imageUrl
             )
         }
+    )
+
+fun SelectModelUiModel.asModelEntity() =
+    ModelOption(
+        id = id,
+        name = name,
+        price = price,
+        modelFeatures = features.map(ModelFeatureUiModel::asEntity)
+    )
+
+fun ModelFeatureUiModel.asEntity() =
+    ModelFeature(
+        name = name,
+        imageUrl = imageUrl
     )
 
 fun TrimOption.asUiModel() =
@@ -36,5 +51,12 @@ fun TrimSimpleOption.asUiModel() =
     TrimOptionSimpleUiModel(
         id = id,
         name = optionName,
+        price = price
+    )
+
+fun TrimOptionSimpleUiModel.asEntity() =
+    TrimSimpleOption(
+        id = id,
+        optionName = name,
         price = price
     )

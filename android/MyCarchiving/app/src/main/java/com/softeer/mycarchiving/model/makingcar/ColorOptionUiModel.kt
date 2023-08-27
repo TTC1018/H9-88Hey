@@ -6,6 +6,7 @@ data class ColorOptionUiModel(
     val id: Int,
     val category: CarColorType,
     val optionName: String,
+    val carImagePath: String? = null,
     val imageUrl: String,
     val price: Int,
     val matchingColors: List<Int>,

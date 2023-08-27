@@ -1,6 +1,7 @@
 package com.softeer.mycarchiving.model.myarchive
 
 import com.softeer.mycarchiving.model.TrimOptionSimpleUiModel
+import com.softeer.mycarchiving.model.makingcar.ColorOptionSimpleUiModel
 import com.softeer.mycarchiving.model.makingcar.SelectModelUiModel
 import kotlinx.serialization.Serializable
 
@@ -14,8 +15,8 @@ data class ArchiveFeedUiModel(
     val modelName: String,
     val trim: SelectModelUiModel? = null,
     val trimOptions: List<TrimOptionSimpleUiModel>,
-    val exteriorColor: ArchiveFeedColorUiModel? = null,
-    val interiorColor: ArchiveFeedColorUiModel? = null,
+    val exteriorColor: ColorOptionSimpleUiModel? = null,
+    val interiorColor: ColorOptionSimpleUiModel? = null,
     val review: String? = null,
     val tags: List<String>? = null,
     val selectedOptions: List<ArchiveFeedSelectedOptionUiModel>

@@ -136,10 +136,10 @@ fun MyArchiveMadePage(
                 trim = detailCar.trim?.name ?: "",
                 trimOptions = detailCar.trimOptions.joinToString(" / ") { it.name },
                 price = detailCar.totalPrice,
-                exteriorColor = detailCar.exteriorColor?.name ?: "",
-                exteriorColorUrl = detailCar.exteriorColor?.colorImageUrl ?: "",
-                interiorColor = detailCar.interiorColor?.name ?: "",
-                interiorColorUrl = detailCar.interiorColor?.colorImageUrl ?: ""
+                exteriorColor = detailCar.exteriorColor?.colorName ?: stringResource(id = R.string.error_no_color),
+                exteriorColorUrl = detailCar.exteriorColor?.imageUrl ?: "",
+                interiorColor = detailCar.interiorColor?.colorName ?: stringResource(id = R.string.error_no_color),
+                interiorColorUrl = detailCar.interiorColor?.imageUrl ?: ""
             )
             Spacer(modifier = Modifier.height(23.dp))
             DetailTextLabel(text = stringResource(id = R.string.selected_option))
@@ -172,13 +172,13 @@ fun MyArchiveSavedPage(
                 DetailBanner(
                     model = model,
                     trim = trim,
-                    carImageUrl = exteriorColor.carImageUrl ?: "",
+                    carImageUrl = exteriorColor?.carImageUrl ?: "",
                     price = price,
                     trimOptions = trimOptions.joinToString(" / "),
-                    exteriorColor = exteriorColor.colorName,
-                    exteriorColorUrl = exteriorColor.imageUrl,
-                    interiorColor = interiorColor.colorName,
-                    interiorColorUrl = interiorColor.imageUrl,
+                    exteriorColor = exteriorColor?.colorName ?: stringResource(id = R.string.error_no_color),
+                    exteriorColorUrl = exteriorColor?.imageUrl ?: "",
+                    interiorColor = interiorColor?.colorName ?: stringResource(id = R.string.error_no_color),
+                    interiorColorUrl = interiorColor?.imageUrl ?: "",
                 )
                 Spacer(modifier = Modifier.height(23.dp))
                 DetailTextLabel(text = stringResource(id = R.string.archive_general_review))
