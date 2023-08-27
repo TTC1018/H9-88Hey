@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.hilt)
     alias(libs.plugins.kotlin.kapt)
+    alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.ksp)
 }
 
@@ -95,6 +96,9 @@ dependencies {
     implementation(libs.retrofit2)
     implementation(libs.retrofit2.gson)
     implementation(libs.logging.interceptor)
+
+    // Serialization
+    implementation(libs.kotlinx.serialization)
 
     testImplementation(libs.junit4)
 }
