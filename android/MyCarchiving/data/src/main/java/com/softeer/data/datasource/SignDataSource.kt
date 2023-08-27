@@ -7,7 +7,7 @@ import com.softeer.data.network.SignNetworkApi
 interface SignDataSource {
     suspend fun signIn(request: SignInRequestDto): TokenDto?
 
-    suspend fun reissue(refreshToken: String): TokenDto?
+    suspend fun reissue(): TokenDto?
 }
 
 class SignRemoteDataSource(
@@ -22,8 +22,8 @@ class SignRemoteDataSource(
         return null
     }
 
-    override suspend fun reissue(refreshToken: String): TokenDto? {
-        val response = signNetworkApi.reissue("Bearer $refreshToken")
+    override suspend fun reissue(): TokenDto? {
+        val response = signNetworkApi.reissue()
         val token = response.body()?.data
         if (response.isSuccessful) {
             return token

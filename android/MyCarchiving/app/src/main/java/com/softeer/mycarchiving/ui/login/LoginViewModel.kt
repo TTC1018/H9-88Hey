@@ -68,7 +68,7 @@ class LoginViewModel @Inject constructor(
     }
 
     suspend fun reissue() {
-        val token = reissueUseCase(pref.refreshToken)
+        val token = reissueUseCase()
         if (token == null) {
             loginState.value = Pending
         } else {

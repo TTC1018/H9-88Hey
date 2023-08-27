@@ -1,13 +1,11 @@
 package com.softeer.mycarchiving.di
 
-import com.softeer.mycarchiving.constant.AUTHORIZATION
-import com.softeer.mycarchiving.constant.CONTENT_TYPE
+import com.softeer.mycarchiving.util.NetworkInterceptor
 import com.softeer.mycarchiving.util.PreferenceUtil
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -24,19 +22,12 @@ object NetworkModule {
     @Provides
     @Singleton
     fun provideOkHttpClient(pref: PreferenceUtil): OkHttpClient =
-        OkHttpClient.Builder()
-            .readTimeout(5000, TimeUnit.MILLISECONDS)
-            .connectTimeout(5000, TimeUnit.MILLISECONDS)
-            .addInterceptor(Interceptor {
-                val accessToken = pref.accessToken
-                val newRequest = it.request().newBuilder()
-                    .addHeader(AUTHORIZATION, "Bearer $accessToken")
-                    .addHeader(CONTENT_TYPE, "application/json")
-                    .build()
-                it.proceed(newRequest)
-            })
-            .addInterceptor(HttpLoggingInterceptor().apply { level = HttpLoggingInterceptor.Level.BODY })
-            .build()
+        OkHttpClient.Builder().apply {
+            readTimeout(5000, TimeUnit.MILLISECONDS)
+            connectTimeout(5000, TimeUnit.MILLISECONDS)
+            addInterceptor(NetworkInterceptor(pref))
+            addInterceptor(HttpLoggingInterceptor().apply { level = HttpLoggingInterceptor.Level.BODY })
+        }.build()
 
     @Provides
     @Singleton
@@ -46,5 +37,4 @@ object NetworkModule {
             .baseUrl(BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
-
 }

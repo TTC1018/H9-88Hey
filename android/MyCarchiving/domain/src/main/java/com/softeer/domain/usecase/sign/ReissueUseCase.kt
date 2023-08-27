@@ -7,6 +7,6 @@ import javax.inject.Inject
 class ReissueUseCase @Inject constructor(
     private val signRepository: SignRepository,
 ) {
-    suspend operator fun invoke(refreshToken: String): Token? =
-        signRepository.reissue(refreshToken)
+    suspend operator fun invoke(): Token? =
+        signRepository.reissue()
 }
