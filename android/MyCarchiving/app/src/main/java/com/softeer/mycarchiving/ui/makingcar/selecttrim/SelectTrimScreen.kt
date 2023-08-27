@@ -62,6 +62,7 @@ fun SelectTrimRoute(
     val carDetails by makingCarViewModel.carDetails.observeAsState()
     val isArchived = carDetails != null && selectedTrims.size < 3
     val isInitial = selectedTrims.getOrNull(screenProgress) == null
+            && selectedTrimSimple.getOrNull(screenProgress) == null
 
     // 아카이빙에서 넘어왔다면 뷰모델에 데이터 세팅
     if (isArchived) {
@@ -148,13 +149,16 @@ fun SelectTrimScreen(
     // 아이템 자동 추가 or 이전 선택 아이템 불러오기
     if (mainProgress == TRIM_SELECT) {
         LaunchedEffect(options, savedTrim) {
-            options.indexOfFirst { it.id == savedTrim?.id }
-                .also { savedIndex ->
-                    selectedIndex = if (savedIndex == -1)
-                        0 // 처음 화면 갱신되면 첫번째 아이템 선택하기
-                    else
-                        savedIndex // 이미 선택한 적이 있는 영역이라면 미리 선택한 아이템 선택
-                }
+            if (isInitial && isArchived.not()) {
+                // 처음 화면 갱신되면 첫번째 아이템 선택하기
+                selectedIndex = 0
+            } else {
+                // 이미 선택한 적이 있는 영역이라면 미리 선택한 아이템 선택
+                options.indexOfFirst { it.id == savedTrim?.id }
+                    .also { savedIndex ->
+                        selectedIndex = savedIndex
+                    }
+            }
 
             options.getOrNull(selectedIndex)?.let {
                 onOptionSelect(it, screenProgress, isInitial, false)
