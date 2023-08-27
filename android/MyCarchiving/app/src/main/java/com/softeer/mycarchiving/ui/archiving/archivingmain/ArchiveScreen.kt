@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -36,6 +37,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.softeer.mycarchiving.R
@@ -46,6 +48,7 @@ import com.softeer.mycarchiving.navigation.ArchivingDestinations
 import com.softeer.mycarchiving.ui.component.ArchiveFeed
 import com.softeer.mycarchiving.ui.component.SearchCarBottomSheetContent
 import com.softeer.mycarchiving.ui.component.SearchDeleteChipFlowList
+import com.softeer.mycarchiving.ui.makingcar.loading.LoadingScreen
 import com.softeer.mycarchiving.ui.theme.DarkGray
 import com.softeer.mycarchiving.ui.theme.HyundaiLightSand
 import com.softeer.mycarchiving.ui.theme.White
@@ -65,6 +68,7 @@ fun ArchiveRoute(
 ) {
     var showSearchSheet by rememberSaveable { mutableStateOf(false) }
     val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
+    val scrollState = rememberLazyListState()
     val currentSheetPage by archiveViewModel.currentSheetPage
     val ableCars by archiveViewModel.ableCars
     val selectedCar by archiveViewModel.selectedCar
@@ -80,6 +84,7 @@ fun ArchiveRoute(
         selectedCar = selectedCar,
         appliedOptions = appliedOptions,
         carFeeds = carFeeds,
+        scrollState = scrollState,
         deleteAppliedChip = archiveViewModel::deleteAppliedOption,
         openSearchSheet = {
             archiveViewModel.openSearchSheet()
@@ -130,11 +135,11 @@ fun ArchiveScreen(
     selectedCar: SearchOption,
     appliedOptions: List<SearchOption>,
     carFeeds: LazyPagingItems<CarFeedUiModel>,
+    scrollState: LazyListState,
     deleteAppliedChip: (SearchOption) -> Unit,
     openSearchSheet: () -> Unit,
     onFeedClick: (String, ArchivingDestinations?) -> Unit,
 ) {
-    val scrollState = rememberLazyListState()
     Column(
         modifier = modifier.fillMaxSize()
     ) {
@@ -194,21 +199,26 @@ fun ArchiveScreen(
                 style = medium14,
                 color = DarkGray
             )
-            LazyColumn(
-                contentPadding = PaddingValues(bottom = 20.dp),
-                state = scrollState,
-                verticalArrangement = Arrangement.spacedBy(12.dp)
-            ) {
-                items(count = carFeeds.itemCount) { index ->
-                    carFeeds[index]?.run {
-                        ArchiveFeed(
-                            carFeedUiModel = this,
-                            appliedOptions = appliedOptions,
-                            onFeedClick = onFeedClick
-                        )
+            when(carFeeds.loadState.refresh) {
+                is LoadState.Loading -> LoadingScreen {}
+                is LoadState.NotLoading,
+                is LoadState.Error-> LazyColumn(
+                    contentPadding = PaddingValues(bottom = 20.dp),
+                    state = scrollState,
+                    verticalArrangement = Arrangement.spacedBy(12.dp)
+                ) {
+                    items(count = carFeeds.itemCount) { index ->
+                        carFeeds[index]?.let {
+                            ArchiveFeed(
+                                carFeedUiModel = it,
+                                appliedOptions = appliedOptions,
+                                onFeedClick = onFeedClick
+                            )
+                        }
                     }
                 }
             }
+
         }
     }
 }
