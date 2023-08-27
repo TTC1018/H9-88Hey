@@ -11,7 +11,20 @@
 ### Frontend
 - React, TypeScript, Emotion, React Router
 ### Android
--
+#### 📚 Tech Stacks
+|분류|Stack|
+|------|---|
+|Project Architecture|<img src="https://img.shields.io/badge/Multi Module-99bafb?style=forthebage"/> |
+|Architecture Components|<img src="https://img.shields.io/badge/ViewModel-3DDC84?style=forthebage&logo=Android&logoColor=white"/> <img src="https://img.shields.io/badge/Navigation-3DDC84?style=forthebage&logo=Android&logoColor=white"/> <img src="https://img.shields.io/badge/Lifecycle-3DDC84?style=forthebage&logo=Android&logoColor=white"/> <img src="https://img.shields.io/badge/Paging-3DDC84?style=forthebage&logo=Android&logoColor=white"/> |
+|Design Patterns|<img src="https://img.shields.io/badge/Clean Architecture-3DDC84?style=forthebage&logo=Android&logoColor=white"/> <img src="https://img.shields.io/badge/Observer Pattern - Flow-f3841c?style=forthebage&logo=Kotlin&logoColor=blueviolet"/> <img src="https://img.shields.io/badge/Observer Pattern - LiveData-3DDC84?style=forthebage&logo=Android&logoColor=white"/>|
+|DI|<img src="https://img.shields.io/badge/Hilt-2196f3?style=forthebadge"/>|
+|Network|<img src="https://img.shields.io/badge/Retrofit-000000?style=forthebadge"/> <img src="https://img.shields.io/badge/OkHttp-FFFFFF?style=forthebadge"/>|
+|Local Storage|<img src="https://img.shields.io/badge/SharedPreferences-3DDC84?style=forthebage&logo=Android&logoColor=white"/>|
+|Image Loading|<img src="https://img.shields.io/badge/Coil-000000?style=forthebage&logo=Kotlin"/>|
+|CI/CD|<img src="https://img.shields.io/badge/GitHub Actions-2088FF?style=forthebage&logo=GitHub Actions&logoColor=black"/>|
+|Asynchronous|<img src="https://img.shields.io/badge/Coroutines-f3841c?style=forthebage&logo=Kotlin&logoColor=blueviolet"/>|
+|UI|<img src="https://img.shields.io/badge/Jetpack Compose-3DDC84?style=forthebage&logo=jetpackcompose&logoColor=white"/> <img src="https://img.shields.io/badge/Material-757575?style=forthebage&logo=Material Design&logoColor=white"/> <img src="https://img.shields.io/badge/Theme-3DDC84?style=forthebage&logo=Android&logoColor=white"/> <img src="https://img.shields.io/badge/Lottie-00A98F?style=forthebage"/>|
+|QA & App Publishing|<img src="https://img.shields.io/badge/Firebase App Distribution-EB844E?style=forthebage&logo=Firebase&logoColor=yellow"/>|
 
 ## 💡 개발 문화
 - 체크인 시간: **10시**
