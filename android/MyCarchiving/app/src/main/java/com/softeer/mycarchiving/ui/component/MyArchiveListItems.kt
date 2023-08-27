@@ -331,9 +331,9 @@ fun PreviewMadeCarItem() {
         madeDate = "23년 7월 19일",
         trimOptions = "디젤 2.2 / 4WD / 7인승",
         selectedOptions = listOf(
-            ArchiveFeedSelectedOptionUiModel("컴포트 II", "", listOf()),
-            ArchiveFeedSelectedOptionUiModel("듀얼 와이드 선루프", "", listOf()),
-            ArchiveFeedSelectedOptionUiModel("현대스마트센스 I", "", listOf())
+            ArchiveFeedSelectedOptionUiModel("컴포트 II", "", "", 0, listOf()),
+            ArchiveFeedSelectedOptionUiModel("듀얼 와이드 선루프", "", "", 0, listOf()),
+            ArchiveFeedSelectedOptionUiModel("현대스마트센스 I", "", "", 0, listOf())
         ),
         onFeedClick = {},
         onDelete = {}

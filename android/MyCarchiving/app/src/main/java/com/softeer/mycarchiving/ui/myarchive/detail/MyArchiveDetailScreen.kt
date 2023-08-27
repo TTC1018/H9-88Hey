@@ -133,8 +133,8 @@ fun MyArchiveMadePage(
             DetailBanner(
                 carImageUrl = detailCar.carImageUrl ?: "",
                 model = detailCar.modelName,
-                trim = detailCar.trimName ?: "",
-                trimOptions = detailCar.trimOptions.joinToString(" / "),
+                trim = detailCar.trim?.name ?: "",
+                trimOptions = detailCar.trimOptions.joinToString(" / ") { it.name },
                 price = detailCar.totalPrice,
                 exteriorColor = detailCar.exteriorColor?.name ?: "",
                 exteriorColorUrl = detailCar.exteriorColor?.colorImageUrl ?: "",

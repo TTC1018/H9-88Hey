@@ -7,10 +7,10 @@ data class MyArchiveFeed(
     val totalPrice: Int,
     val carImageUrl: String? = null,
     val modelName: String,
-    val trim: String? = null,
-    val engine: String? = null,
-    val bodyType: String? = null,
-    val wheelDrive: String? = null,
+    val trim: ModelOption? = null,
+    val engine: TrimSimpleOption? = null,
+    val bodyType: TrimSimpleOption? = null,
+    val wheelDrive: TrimSimpleOption? = null,
     val exteriorColor: MyArchiveFeedSimpleColor? = null,
     val interiorColor: MyArchiveFeedSimpleColor? = null,
     val review: String? = null,
@@ -21,6 +21,8 @@ data class MyArchiveFeed(
 data class MyArchiveFeedSimpleColor(
     val id: Int,
     val name: String,
+    val price: Int? = null,
+    val carImageUrl: String? = null,
     val colorImageUrl: String
 )
 
@@ -28,6 +30,7 @@ data class MyArchiveFeedOption(
     val id: String,
     val name: String,
     val imageUrl: String,
+    val price: Int,
     val subOptions: List<String>? = null,
     val tags: List<String>? = null
 )

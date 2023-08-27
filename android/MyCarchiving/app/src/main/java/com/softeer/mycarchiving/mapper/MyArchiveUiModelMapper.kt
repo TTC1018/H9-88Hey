@@ -15,8 +15,8 @@ fun MyArchiveFeed.asUiModel(): ArchiveFeedUiModel =
         totalPrice = totalPrice,
         carImageUrl = carImageUrl,
         modelName = modelName,
-        trimName = trim,
-        trimOptions = listOfNotNull(engine, bodyType, wheelDrive),
+        trim = trim?.asSelectModelUiModel(),
+        trimOptions = listOfNotNull(engine, bodyType, wheelDrive).map { it.asUiModel() },
         exteriorColor = exteriorColor?.asUiModel(),
         interiorColor = interiorColor?.asUiModel(),
         review = review,
@@ -32,8 +32,10 @@ fun MyArchiveFeedSimpleColor.asUiModel(): ArchiveFeedColorUiModel =
 
 fun MyArchiveFeedOption.asUiModel(): ArchiveFeedSelectedOptionUiModel =
     ArchiveFeedSelectedOptionUiModel(
+        id = id,
         name = name,
         imageUrl = imageUrl,
+        price = price,
         subOptions = subOptions,
         tags = tags
     )
