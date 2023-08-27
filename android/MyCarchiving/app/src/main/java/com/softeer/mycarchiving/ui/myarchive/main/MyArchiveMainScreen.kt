@@ -16,6 +16,7 @@ import androidx.paging.compose.collectAsLazyPagingItems
 import com.softeer.mycarchiving.enums.MyArchivePage
 import com.softeer.mycarchiving.enums.MyArchivePage.*
 import com.softeer.mycarchiving.model.myarchive.ArchiveFeedUiModel
+import com.softeer.mycarchiving.navigation.MainDestination
 import com.softeer.mycarchiving.navigation.MyArchiveDestinations
 import com.softeer.mycarchiving.ui.component.ChoiceTab
 import com.softeer.mycarchiving.ui.component.DeleteMyArchiveCarDialog
@@ -29,6 +30,7 @@ fun MyArchiveMainRoute(
     viewModel: MyArchiveMainViewModel =
         viewModelStoreOwner?.run { hiltViewModel(this) } ?: hiltViewModel(),
     moveCarDetail: (MyArchivePage?, String, MyArchiveDestinations?) -> Unit,
+    moveMakingCar: (MainDestination, String?, ArchiveFeedUiModel?) -> Unit,
 ) {
     val selectedPage by viewModel.selectedPage.collectAsStateWithLifecycle()
     val madeCars = viewModel.madeCarFeedPagingData.collectAsLazyPagingItems()
@@ -52,6 +54,7 @@ fun MyArchiveMainRoute(
         changePage = viewModel::updateSelectedPage,
         onFeedDetail = viewModel::onFeedDetail,
         moveCarDetail = moveCarDetail,
+        moveMakingCar = moveMakingCar,
         deleteCarFeed = viewModel::deleteCarFeed,
         openDeleteDialog = viewModel::openDeleteDialog,
         closeDeleteDialog = viewModel::closeDeleteDialog,
@@ -72,6 +75,7 @@ fun MyArchiveMainScreen(
     changePage: (MyArchivePage) -> Unit,
     onFeedDetail: (ArchiveFeedUiModel) -> Unit,
     moveCarDetail: (MyArchivePage?, String, MyArchiveDestinations?) -> Unit,
+    moveMakingCar: (MainDestination, String?, ArchiveFeedUiModel?) -> Unit,
     deleteCarFeed: () -> Unit,
     openDeleteDialog: (ArchiveFeedUiModel) -> Unit,
     closeDeleteDialog: () -> Unit,
@@ -105,6 +109,7 @@ fun MyArchiveMainScreen(
                     focusedCarFeed = focusedCarFeed,
                     onFeedDetail = onFeedDetail,
                     moveDetail = moveCarDetail,
+                    moveMakingCar = moveMakingCar,
                     openDeleteDialog = openDeleteDialog,
                     openMoveDialog = openMoveDialog,
                     closeMoveDialog = closeMoveDialog

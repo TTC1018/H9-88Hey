@@ -61,6 +61,7 @@ fun NavGraphBuilder.makingMyArchiveGraph(
                     myArchiveMainScreen(
                         viewModelStoreOwner = myArchiveViewModelOwner,
                         moveDetailPage = appState::navigateToMyArchiveDestination,
+                        moveMakingCar = appState::navigateToMainDestination,
                         onBackClick = appState.navController::popBackStack
                     )
                     myArchiveDetailScreen(

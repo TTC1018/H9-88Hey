@@ -11,6 +11,7 @@ import androidx.compose.ui.unit.dp
 import androidx.paging.compose.LazyPagingItems
 import com.softeer.mycarchiving.enums.MyArchivePage
 import com.softeer.mycarchiving.model.myarchive.ArchiveFeedUiModel
+import com.softeer.mycarchiving.navigation.MainDestination
 import com.softeer.mycarchiving.navigation.MyArchiveDestinations
 import com.softeer.mycarchiving.ui.component.MadeCarFeed
 import com.softeer.mycarchiving.ui.component.MoveMakeCarDialog
@@ -26,6 +27,7 @@ fun MyArchiveMadeScreen(
     focusedCarFeed: ArchiveFeedUiModel?,
     onFeedDetail: (ArchiveFeedUiModel) -> Unit,
     moveDetail: (MyArchivePage?, String, MyArchiveDestinations?) -> Unit,
+    moveMakingCar: (MainDestination, String?, ArchiveFeedUiModel?) -> Unit,
     openDeleteDialog: (ArchiveFeedUiModel) -> Unit,
     openMoveDialog: (ArchiveFeedUiModel) -> Unit,
     closeMoveDialog: () -> Unit
@@ -69,7 +71,7 @@ fun MyArchiveMadeScreen(
     if (showMoveDialog) {
         MoveMakeCarDialog(
             onDismissRequest = closeMoveDialog,
-            onMove = {},
+            onMove = { moveMakingCar(MainDestination.MAKING_CAR, null, focusedCarFeed) },
             saveDate = focusedCarFeed!!.date
         )
     }

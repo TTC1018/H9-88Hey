@@ -15,6 +15,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navOptions
 import com.softeer.mycarchiving.enums.MyArchivePage
+import com.softeer.mycarchiving.model.myarchive.ArchiveFeedUiModel
 import com.softeer.mycarchiving.navigation.ArchivingDestinations
 import com.softeer.mycarchiving.navigation.ArchivingDestinations.*
 import com.softeer.mycarchiving.navigation.MainDestination
@@ -129,7 +130,11 @@ class HyundaiAppState(
         progressEnd = false
     }
 
-    fun navigateToMainDestination(mainDestination: MainDestination, feedId: String? = null) {
+    fun navigateToMainDestination(
+        mainDestination: MainDestination,
+        feedId: String? = null,
+        tempCar: ArchiveFeedUiModel? = null,
+    ) {
         val mainNavOptions = navOptions {
             popUpTo(navController.graph.findStartDestination().id) {
 //                saveState = true
@@ -146,7 +151,7 @@ class HyundaiAppState(
             LOGIN -> navController.navigateToLogin(mainNavOptions)
             MAKING_CAR -> {
                 initializeProgressState()
-                navController.navigateToMakingCar(feedId, mainNavOptions)
+                navController.navigateToMakingCar(feedId, tempCar, mainNavOptions)
             }
             ARCHIVING -> navController.navigateToArchive(mainNavOptions)
             MY_ARCHIVING -> navController.navigateToMyArchiving(mainNavOptions)
