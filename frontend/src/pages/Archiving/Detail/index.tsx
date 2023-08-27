@@ -5,6 +5,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { fetcher } from '@/utils/fetcher';
 import { combineWithSlash, formatDate } from '@/utils';
 import { ArchivingProps } from '@/types/archiving';
+import { OptionContextProps } from '@/types/option';
 import { useModalContext } from '@/hooks/useModalContext';
 import { useFetchSuspense } from '@/hooks/useFetchSuspense';
 import { ModalType, OPTION_CATEGORY, apiPath, cacheKey } from '@/constants';
@@ -16,7 +17,6 @@ import { DetailHeader } from '@/components/Archiving/DetailHeader';
 import { DetailDescription } from '@/components/Archiving/DetailDescription';
 
 import * as Styled from './style';
-import { OptionContextProps } from '@/types/option';
 
 export function Detail() {
   const { search } = useLocation();
