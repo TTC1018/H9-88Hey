@@ -34,7 +34,7 @@ export function Option({ apiType }: Props) {
   if (selectOptions.length === 0) {
     return (
       <Styled.Container>
-        <EmptyContent text={'해당 모델에는 n performance가 없어요.'} />
+        <EmptyContent text={'선택할 수 있는 N Performance 옵션이 없어요'} />
       </Styled.Container>
     );
   }
