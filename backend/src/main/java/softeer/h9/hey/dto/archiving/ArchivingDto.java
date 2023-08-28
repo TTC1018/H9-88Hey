@@ -16,6 +16,7 @@ public class ArchivingDto {
 	private String creationDate;
 	private boolean isPurchase;
 	private String review;
+	private Integer totalPrice;
 	private List<String> tags;
 	private TrimDto trim;
 	private EngineDto engine;
