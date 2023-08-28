@@ -27,7 +27,7 @@ export function AuthLayout() {
       }
     }
   }
-  async function someComponentFunction() {
+  async function handleSignin() {
     if (!isSignin) {
       try {
         await validateSignin();
@@ -36,7 +36,7 @@ export function AuthLayout() {
       }
     }
   }
-  someComponentFunction();
+  handleSignin();
   return (
     <>
       <Outlet />
