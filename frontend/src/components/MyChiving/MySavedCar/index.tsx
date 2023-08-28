@@ -134,7 +134,7 @@ export function MySavedCar() {
   return (
     <Fragment>
       <Styled.Contianer>
-        {myChivings && myChivings.length === 0 ? (
+        {myChivings.length === 0 ? (
           isLoading ? (
             <ReviewSkeleton />
           ) : (

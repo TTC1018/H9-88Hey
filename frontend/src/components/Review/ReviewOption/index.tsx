@@ -9,11 +9,12 @@ import * as Styled from './style';
 interface Props {
   image: string;
   name: string;
-  description: string;
+  description?: string;
   tags: string[];
+  isBig: boolean;
   onClick: () => void;
 }
-export function ReviewOption({ name, description, tags, image, onClick }: Props) {
+export function ReviewOption({ name, description, tags, image, isBig, onClick }: Props) {
   const [selectedTags, setSelectedTags] = useState<Set<string>>(new Set());
 
   function handleSelectTag(tag: string) {
@@ -40,7 +41,7 @@ export function ReviewOption({ name, description, tags, image, onClick }: Props)
       </Styled.Title>
       <Styled.Wrapper>
         <Styled.ImageBox>
-          <Styled.Image src={image} alt="image" />
+          <Styled.Image isBig={isBig} src={image} alt="image" />
           <Styled.SubTitle>{name}</Styled.SubTitle>
           <Styled.Line />
           <Styled.Description>{description}</Styled.Description>

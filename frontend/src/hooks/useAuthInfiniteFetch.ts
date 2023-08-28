@@ -29,6 +29,7 @@ export function useAuthInfiniteFetch<T>({ key, url, intersecting, nextOffset, me
 
   const [data, setData] = useState<T[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [hasNext, setHasNext] = useState(true);
   const [error, setError] = useState('');
 
   function handleDelete(id: string, key: 'myChivingId' | 'feedId') {
@@ -58,8 +59,13 @@ export function useAuthInfiniteFetch<T>({ key, url, intersecting, nextOffset, me
       const { data } = (await response.json()) as ResponseProps<Props>;
 
       if (data[key].length === 0) {
+        setHasNext(false);
         setIsLoading(false);
         return;
+      }
+
+      if (data.nextOffset === null) {
+        setHasNext(false);
       }
 
       nextOffset.current = data.nextOffset;
@@ -112,8 +118,12 @@ export function useAuthInfiniteFetch<T>({ key, url, intersecting, nextOffset, me
   }
 
   useEffect(() => {
-    if (intersecting && nextOffset.current !== null) {
+    if (intersecting && hasNext) {
+      setIsLoading(true);
+
       authFetcher();
+
+      return;
     }
   }, [intersecting]);
 

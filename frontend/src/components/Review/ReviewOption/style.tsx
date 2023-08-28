@@ -59,15 +59,22 @@ export const TagBox = styled.div`
   }}
 `;
 
-export const Image = styled.img`
-  margin: 24px 0;
+interface Props {
+  isBig: boolean;
+}
+export const Image = styled.img<Props>`
+  ${({ isBig }) => {
+    return css`
+      margin: 24px 0;
 
-  width: 381px;
-  height: 348px;
+      width: 381px;
+      height: 348px;
 
-  border-radius: 8px;
+      border-radius: 8px;
 
-  object-fit: cover;
+      object-fit: ${isBig ? 'contain' : 'cover'};
+    `;
+  }}
 `;
 
 export const SubTitle = styled.span`
@@ -98,6 +105,7 @@ export const Description = styled.p`
   ${({ theme }) => {
     const { fonts } = theme;
     return css`
+      height: 80px;
       margin-top: 10px;
 
       ${fonts.bodyRegular3};
