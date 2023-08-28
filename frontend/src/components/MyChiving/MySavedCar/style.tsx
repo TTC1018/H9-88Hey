@@ -2,6 +2,7 @@ import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
 export const Contianer = styled.div`
+  padding-bottom: 10px;
   margin-top: 25px;
   gap: 15px;
 
@@ -34,7 +35,7 @@ export const Loading = styled.div`
   ${({ theme }) => {
     const { colors } = theme;
     return css`
-      width: 500px;
+      width: 506px;
       height: 300px;
 
       background-color: ${colors.hyundaiLightSand};
