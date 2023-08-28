@@ -1,6 +1,9 @@
 import { useState, useEffect } from 'react';
 
+import { useOutletContext } from 'react-router-dom';
+
 import { DefaultOptionDataProps, SubOptionProps } from '@/types/option';
+import { MyCarLayoutContextProps } from '@/types/trim';
 import { isValidIndex, isIndexLargeThanZero, isIndexSmallThanMaxIndex } from '@/utils';
 import { OPTION_CARD_LIST_LENGTH } from '@/constants';
 import { useFetch } from '@/hooks/useFetch';
@@ -28,9 +31,11 @@ const initialData = {
 };
 
 export function DefaultOptionCardList() {
+  const { carCode } = useOutletContext<MyCarLayoutContextProps>();
+
   const { data } = useFetch<DefaultOptionDataProps>({
     defaultValue: initialData,
-    url: `/car/default-option?car_code=LXJJ8MST5`,
+    url: `/car/default-option?car_code=${carCode.current}`,
   });
 
   const [categories, setCategories] = useState<string[]>([]);

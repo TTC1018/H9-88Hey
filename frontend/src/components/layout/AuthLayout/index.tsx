@@ -5,6 +5,7 @@ import { Outlet } from 'react-router-dom';
 import { useErrorHandler } from '@/hooks/useErrorHandler';
 import { useReissueToken } from '@/hooks/useReissueToken';
 import { useValidateToken } from '@/hooks/useValidateToken';
+import { CommonError } from '@/utils/CommonError';
 
 import { AuthContext } from '@/AuthProvider';
 
@@ -23,11 +24,16 @@ export function AuthLayout() {
       try {
         await tokenFetcher();
       } catch (error) {
-        throw new Error('Error');
+        if (error instanceof CommonError) {
+          const { message, statusCode } = error;
+          throw new CommonError(message, statusCode);
+        } else {
+          throw new Error(String(error));
+        }
       }
     }
   }
-  async function someComponentFunction() {
+  async function handleSignin() {
     if (!isSignin) {
       try {
         await validateSignin();
@@ -36,7 +42,7 @@ export function AuthLayout() {
       }
     }
   }
-  someComponentFunction();
+  handleSignin();
   return (
     <>
       <Outlet />

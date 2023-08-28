@@ -30,3 +30,12 @@ export const Text = styled.p`
     `;
   }}
 `;
+
+export const Head = styled.h2`
+  ${({ theme }) => {
+    const { fonts } = theme;
+    return css`
+      ${fonts.headingBold1}
+    `;
+  }}
+`;

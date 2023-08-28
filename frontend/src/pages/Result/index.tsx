@@ -1,6 +1,7 @@
 import { useLocation } from 'react-router-dom';
 
 import { MyCarProps } from '@/types/trim';
+import { CommonError } from '@/utils/CommonError';
 
 import { Title } from '@/components/Result/Title';
 import { TitleLine } from '@/components/Result/TitleLine';
@@ -17,6 +18,10 @@ export function Result() {
 
   const myCar = state as MyCarProps;
   const myCarKeysWithPrice = ['engine', 'bodyType', 'wheelDrive', 'exteriorColor'];
+
+  if (myCar === null) {
+    throw new CommonError('로그아웃 상태에서 결과 페이지 접근', 400);
+  }
 
   const totalPrice =
     myCar.trim.price +

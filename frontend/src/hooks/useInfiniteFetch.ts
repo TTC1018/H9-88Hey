@@ -1,6 +1,7 @@
 import { useState, useEffect, MutableRefObject } from 'react';
 
 import { API_URL } from '@/constants';
+import { CommonError } from '@/utils/CommonError';
 
 interface UseFetchProps {
   key: string;
@@ -31,7 +32,8 @@ export function useInfiniteFetch<T>({ key, url, intersecting, nextOffset, depend
     try {
       const response = await fetch(`${API_URL}${url}&offset=${offset}`);
       if (!response.ok) {
-        throw new Error(`${response.status} ${response.statusText}`);
+        const { statusText, status } = response;
+        throw new CommonError(statusText, status);
       }
 
       const { data } = (await response.json()) as ResponseProps<Props>;

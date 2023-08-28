@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import { useValidateToken } from './useValidateToken';
 import { useReissueToken } from './useReissueToken';
 import { API_URL } from '@/constants';
-import { AuthError } from '@/utils/AuthError';
+import { CommonError } from '@/utils/CommonError';
 import { getLocalStorage } from '@/utils';
 
 interface UseAuthFetchProps<T> {
@@ -40,12 +40,12 @@ export function useAuthFetch<T>({ defaultValue, url, method }: UseAuthFetchProps
       const { statusCode, message, data } = (await response.json()) as ResponseProps<T>;
 
       if (!response.ok) {
-        throw new AuthError(message, statusCode);
+        throw new CommonError(message, statusCode);
       }
 
       setData(data);
     } catch (error) {
-      if (error instanceof AuthError) {
+      if (error instanceof CommonError) {
         const { statusCode, message } = error;
 
         if (statusCode === 401) {
@@ -73,7 +73,6 @@ export function useAuthFetch<T>({ defaultValue, url, method }: UseAuthFetchProps
 
   async function authFetcher() {
     // 1. 액세스 토큰과 리프레시 토큰이 비어있는 경우 로그아웃 상태
-
     // 2. 액세스 토큰이 있는 경우 fetcher 함수를 통해 액세스 토큰 유효성을 검증
     // 2.1. 200인 경우 -> 그대로 진행
     // 2.2. 401인 경우 -> 액세스 토큰과 리프레시 토큰을 재발급 -> 거기서도 401인 경우(리프레시 토큰이 만료되었거나 리프레시 토큰이 없는 경우 포함) -> 재로그인 요청
