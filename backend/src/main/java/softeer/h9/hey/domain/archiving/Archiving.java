@@ -6,22 +6,17 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 @Setter
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@ToString
 public class Archiving {
-	private Long feedId;
+	private Long id;
 	private String modelName;
 	private Boolean isPurchase;
 	private LocalDate createdAt;
 	private String review;
-	private String trimName;
-	private String engineName;
-	private String bodyTypeName;
-	private String wheelDriveName;
-	private String exteriorColorName;
-	private String interiorColorName;
-	private String selectOptionId;
-	private String selectOptionName;
+	public String carNormalTypesId;
 }
