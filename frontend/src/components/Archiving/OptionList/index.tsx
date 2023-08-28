@@ -18,11 +18,11 @@ export function OptionList({ options }: Props) {
 
   return (
     <Styled.Container>
-      {contents.map(content => {
+      {contents.map((content, index) => {
         return (
-          <Styled.Wrapper>
+          <Styled.Wrapper key={index}>
             {content.map(props => {
-              return <OptionDescriptionCard props={props} />;
+              return <OptionDescriptionCard key={props.id} props={props} />;
             })}
           </Styled.Wrapper>
         );

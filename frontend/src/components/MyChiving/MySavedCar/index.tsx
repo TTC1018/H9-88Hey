@@ -153,13 +153,9 @@ export function MySavedCar() {
                   handleOpen={handleOpen}
                 />
               ))}
+              {isLoading && <Styled.Loading />}
+              {isLoading && <Styled.Loading />}
             </Styled.MyCarBox>
-            {isLoading && (
-              <Styled.Wrapper>
-                <Styled.Loading />
-                <Styled.Loading />
-              </Styled.Wrapper>
-            )}
           </>
         )}
         <div ref={fetchMoreElement}></div>
