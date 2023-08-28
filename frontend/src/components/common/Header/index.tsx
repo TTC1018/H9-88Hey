@@ -60,8 +60,7 @@ export function Header() {
 
   function handleSignout() {
     setIsSignin(false);
-    removeLocalStorage('accessToken');
-    removeLocalStorage('refreshToken');
+    localStorage.clear();
     navigate('/', { replace: true });
   }
 

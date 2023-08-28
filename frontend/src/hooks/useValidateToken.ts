@@ -1,6 +1,6 @@
 import { useContext } from 'react';
 
-import { getLocalStorage, removeLocalStorage } from '@/utils';
+import { getLocalStorage } from '@/utils';
 import { AuthError } from '@/utils/AuthError';
 import { API_URL } from '@/constants';
 
@@ -38,11 +38,13 @@ export function useValidateToken() {
       if (error instanceof AuthError) {
         const { statusCode, message } = error;
 
-        setIsSignin(false);
-        removeLocalStorage('accessToken');
-        removeLocalStorage('refreshToken');
-
-        throw new AuthError(message, statusCode);
+        if (statusCode === 401) {
+          setIsSignin(false);
+          localStorage.clear();
+          throw new AuthError(message, statusCode);
+        } else {
+          throw new AuthError(message, statusCode);
+        }
       } else {
         throw new Error(String(error));
       }
