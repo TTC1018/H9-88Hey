@@ -101,8 +101,14 @@ fun MyArchiveChoiceButton(
     isSelected: Boolean,
     onClick: () -> Unit,
 ) {
-    val animatedTextColor by animateColorAsState(if (isSelected) HyundaiLightSand else DarkGray,)
-    val animatedBgColor by animateColorAsState(if (isSelected) PrimaryBlue else HyundaiNeutral)
+    val animatedTextColor by animateColorAsState(
+        if (isSelected) HyundaiLightSand else DarkGray,
+        label = "",
+    )
+    val animatedBgColor by animateColorAsState(
+        if (isSelected) PrimaryBlue else HyundaiNeutral,
+        label = "",
+    )
 
     Button(
         modifier = modifier,

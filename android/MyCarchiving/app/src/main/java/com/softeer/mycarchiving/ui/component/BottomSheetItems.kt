@@ -48,17 +48,14 @@ import com.softeer.mycarchiving.R
 import com.softeer.mycarchiving.enums.ArchiveSearchPage
 import com.softeer.mycarchiving.enums.ArchiveSearchPage.*
 import com.softeer.mycarchiving.model.TrimOptionSimpleUiModel
-import com.softeer.mycarchiving.model.TrimOptionUiModel
 import com.softeer.mycarchiving.model.archiving.SearchOption
 import com.softeer.mycarchiving.model.archiving.SearchOptionUiModel
 import com.softeer.mycarchiving.model.common.CarBasicDetailUiModel
 import com.softeer.mycarchiving.model.common.CarBasicUiModel
 import com.softeer.mycarchiving.model.common.SummaryChildUiModel
 import com.softeer.mycarchiving.model.makingcar.ColorOptionSimpleUiModel
-import com.softeer.mycarchiving.model.makingcar.ColorOptionUiModel
 import com.softeer.mycarchiving.model.makingcar.SelectModelUiModel
 import com.softeer.mycarchiving.model.makingcar.SelectOptionSimpleUiModel
-import com.softeer.mycarchiving.model.makingcar.SelectOptionUiModel
 import com.softeer.mycarchiving.ui.theme.DarkGray
 import com.softeer.mycarchiving.ui.theme.HyundaiLightSand
 import com.softeer.mycarchiving.ui.theme.HyundaiNeutral
@@ -727,53 +724,8 @@ private fun ColorOptionSimpleUiModel.colorToSummary(): SummaryChildUiModel =
         price = price?.toPriceString()
     )
 
-private fun SelectOptionUiModel.extraToSummary(): SummaryChildUiModel =
-    SummaryChildUiModel(
-        name = name,
-        price = price.toPriceString(),
-        imageUrl = imageUrl,
-    )
-
 private fun SelectOptionSimpleUiModel.extraToSummary(): SummaryChildUiModel =
     SummaryChildUiModel(
         name = name,
         price = price.toPriceString(),
     )
-
-
-/*@Preview
-@Composable
-fun PreviewSearchCarBottomSheetContent() {
-    val selectedOptions = listOf("컴포트 2 패키지", "듀얼 와이드 선루프", "컴포트 2 패키지", "듀얼 와이드 선루프")
-
-    SearchCarBottomSheetContent(
-        currentPage = SET_OPTION,
-        selectedCar = "펠리세이드",
-        pendingCar = "펠리세이드",
-        selectedOptions = selectedOptions,
-        pendingOptions = selectedOptions,
-        moveSetCar = {},
-        moveSetOption = {},
-        onBackClick = {},
-        closeSheet = {},
-        onButtonClick = {},
-    )
-}*/
-
-/*@Preview
-@Composable
-fun PreviewSearchCarBottomSheetGridItem() {
-    SearchCarBottomSheetGridItem(
-        category = category,
-        options = options
-    )
-}
-
-@Preview
-@Composable
-fun PreviewSearchCarBottomSheetFlowItem() {
-    SearchCarBottomSheetFlowItem(
-        category = category,
-        options = options
-    )
-}*/

@@ -234,18 +234,10 @@ fun OptionNameSentence(
     modifier: Modifier = Modifier,
     optionName: String
 ) {
-    Row(
+    OptionHeadText(
         modifier = modifier,
-        horizontalArrangement = Arrangement.spacedBy(8.dp),
-    ) {
-        OptionHeadText(
-            modifier = Modifier.alignByBaseline(),
-            optionName = optionName
-        )
-        OptionHeadComment(
-            modifier = Modifier.alignByBaseline()
-        )
-    }
+        optionName = optionName
+    )
 }
 
 @Preview(widthDp = 343, heightDp = 186)

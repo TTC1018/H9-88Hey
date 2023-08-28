@@ -22,7 +22,6 @@ import com.softeer.mycarchiving.ui.theme.HyundaiNeutral
 import com.softeer.mycarchiving.ui.theme.HyundaiSand
 import com.softeer.mycarchiving.ui.theme.LightGray
 import com.softeer.mycarchiving.ui.theme.medium10
-import com.softeer.mycarchiving.ui.theme.medium12
 import com.softeer.mycarchiving.ui.theme.regular14
 import com.softeer.mycarchiving.ui.theme.roundCornerMedium
 import com.softeer.mycarchiving.ui.theme.roundCornerMinimum

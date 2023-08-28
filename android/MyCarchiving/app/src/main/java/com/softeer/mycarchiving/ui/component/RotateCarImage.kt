@@ -46,7 +46,7 @@ import com.softeer.mycarchiving.ui.theme.medium12
 import com.softeer.mycarchiving.util.scaleInAndOut
 import kotlinx.coroutines.launch
 
-private val TAG = "RotateCarImage"
+private const val TAG = "RotateCarImage"
 private const val IMAGE_360_SIZE = 60
 
 @Composable

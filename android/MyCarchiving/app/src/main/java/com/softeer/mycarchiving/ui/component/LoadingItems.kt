@@ -18,12 +18,9 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import coil.ImageLoader
 import coil.compose.AsyncImage
-import coil.compose.rememberAsyncImagePainter
 import coil.decode.ImageDecoderDecoder
-import coil.imageLoader
 import coil.request.ImageRequest
 import coil.request.repeatCount
 import com.airbnb.lottie.compose.LottieAnimation
