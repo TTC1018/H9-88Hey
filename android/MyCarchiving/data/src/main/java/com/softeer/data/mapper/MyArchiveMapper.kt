@@ -10,14 +10,12 @@ import com.softeer.data.model.MyArchiveSelectedDto
 import com.softeer.data.model.MyArchiveTrimDto
 import com.softeer.data.model.MyArchiveTrimOptionDto
 import com.softeer.domain.model.CarExteriorSimpleColor
-import com.softeer.domain.model.CarExtraSimpleOption
 import com.softeer.domain.model.CarInfo
 import com.softeer.domain.model.CarInteriorSimpleColor
 import com.softeer.domain.model.CarTempInfo
 import com.softeer.domain.model.ModelOption
 import com.softeer.domain.model.MyArchiveFeed
 import com.softeer.domain.model.MyArchiveFeedOption
-import com.softeer.domain.model.MyArchiveFeedSimpleColor
 import com.softeer.domain.model.TrimSimpleOption
 
 fun CarTempInfo.asBody(): CarTempInfoBody =

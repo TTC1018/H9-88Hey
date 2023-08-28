@@ -1,7 +1,6 @@
 package com.softeer.mycarchiving.mapper
 
 import com.softeer.domain.model.CarDetails
-import com.softeer.domain.model.CarExtraOption
 import com.softeer.domain.model.CarExtraSimpleOption
 import com.softeer.domain.model.MyArchiveFeed
 import com.softeer.domain.model.MyArchiveFeedOption

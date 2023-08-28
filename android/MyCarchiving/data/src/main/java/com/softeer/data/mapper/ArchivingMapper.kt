@@ -10,7 +10,6 @@ import com.softeer.data.model.ArchivingSelectedDto
 import com.softeer.data.model.ArchivingTrimOptionDto
 import com.softeer.domain.model.CarDetails
 import com.softeer.domain.model.CarExteriorSimpleColor
-import com.softeer.domain.model.CarExtraOption
 import com.softeer.domain.model.CarExtraSimpleOption
 import com.softeer.domain.model.CarFeed
 import com.softeer.domain.model.CarInteriorSimpleColor

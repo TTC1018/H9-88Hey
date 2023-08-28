@@ -136,15 +136,10 @@ class HyundaiAppState(
         tempCar: ArchiveFeedUiModel? = null,
     ) {
         val mainNavOptions = navOptions {
-            popUpTo(navController.graph.findStartDestination().id) {
-//                saveState = true
-            }
+            popUpTo(navController.graph.findStartDestination().id)
 
             // 같은 장소로 또 이동했을 때 백스택에 중복으로 쌓이는 것을 방지
             launchSingleTop = true
-
-            // 이전 화면으로 돌아갔을 때 상태를 복원
-//            restoreState = true
         }
 
         when (mainDestination) {
