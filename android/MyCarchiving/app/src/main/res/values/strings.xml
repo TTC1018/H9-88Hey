@@ -1,0 +1,153 @@
+<resources>
+    <string name="app_name">마이카이빙</string>
+
+    <!--  공용  -->
+    <string name="show_summary">견적요약보기</string>
+    <string name="go_back">돌아가기</string>
+    <string name="cancel">취소</string>
+    <string name="purchase_car">구매하기</string>
+    <string name="archive">아카이빙</string>
+    <string name="my_archive">마이카이빙</string>
+    <string name="my_archive_button">마이 카이빙</string>
+    <string name="won">원</string>
+    <string name="price_won">%1$s 원</string>
+    <string name="plus_price_won">+%1$s 원</string>
+    <string name="plus_space_price_won">+ %1$s 원</string>
+    <string name="selected_option">선택 옵션</string>
+
+    <!--  progress 바  -->
+    <string name="progress_trim">트림 선택</string>
+    <string name="progress_engine">엔진</string>
+    <string name="progress_body">바디타입</string>
+    <string name="progress_driving_method">구동방식</string>
+    <string name="progress_outer_color">외장 색상</string>
+    <string name="progress_inner_color">내장 색상</string>
+    <string name="progress_option_select">옵션 선택</string>
+    <string name="progress_selected_option">선택옵션</string>
+    <string name="progress_h_genuine">H Genuine Accessories</string>
+    <string name="progress_n_performance">N Performance</string>
+
+    <!--  하단 바  -->
+    <string name="bottom_bar_next_step">다음 단계로</string>
+
+    <!--  내 차 만들기  -->
+    <string name="make_car_comment_announce">에 대해 시승자들은 이런 후기를 남겼어요</string>
+    <string name="make_car_peak_output">최고출력</string>
+    <string name="make_car_max_torque">최대토크</string>
+    <string name="make_car_option_title">%1$d. %2$s</string>
+    <string name="make_car_price_tail">원</string>
+    <string name="make_car_price">+%1$s</string>
+    <string name="make_car_selected_option">선택옵션 %1$d개</string>
+    <string name="make_car_add">추가하기</string>
+    <string name="make_car_add_done">추가 완료</string>
+    <string name="make_car_basic_item">기본 포함 품목</string>
+    <string name="make_car_show_option_location">옵션 위치 보기</string>
+    <string name="make_car_wheel">20인치\n알로이 휠</string>
+    <string name="make_car_surround">서라운드 뷰\n모니터</string>
+    <string name="make_car_cluster">클러스터\n(12.3인 컬러 LCD)</string>
+    <string name="make_car_option_indicator">%1$d/%2$d</string>
+    <string name="make_car_no_option">이 모델은 N Performance 옵션이 없어요</string>
+
+    <!--  내 차 만들기 dialog  -->
+    <string name="make_car_dialog_description">내 차 만들기 그만하시겠어요?\n만들던 차량은 <b>마이카이빙 > 내가 만든 차량</b>에\n저장해둘게요</string>
+    <string name="make_car_dialog_finish">내 차 만들기 종료</string>
+    <string name="make_car_dialog_initialize">초기화</string>
+
+    <!--  내 차 만들기 완성  -->
+    <string name="make_car_done_announce">나의 %1$s가 완성되었어요 !</string>
+    <string name="make_car_done_description">완성된 차량은 마이카이빙 > 내가 만든 차량목록에서 볼 수 있어요</string>
+    <string name="make_car_done_feature">나의 %1$s는 이런 기능을 가지고 있어요</string>
+    <string name="make_car_done_dealer">딜러에게 가까운 출고일자 상담을 받아볼까요?</string>
+    <string name="make_car_done_other_process">구마를 위한 다른 절차가 필요하신가요?</string>
+    <string name="make_car_done_apply_consult">구매상담 신청하기</string>
+    <string name="make_car_done_download_pdf">PDF 다운로드</string>
+    <string name="make_car_done_download_catalog">카탈로그 다운로드</string>
+    <string name="make_car_done_display_car">전시 차량 조회</string>
+
+    <!--  요약 보기  -->
+    <string name="summary_total_price">총 견적 금액</string>
+    <string name="summary_color">색상</string>
+    <string name="summary_outer">외장</string>
+    <string name="summary_inner">내장</string>
+    <string name="summary_change">변경</string>
+
+    <!--  아카이브  -->
+    <string name="archive_filter_option">옵션을 필터링 하여 쉽게 검색해보세요</string>
+    <string name="archive_get_selected_option">현재 추가한 옵션들을 가져왔어요</string>
+    <string name="archive_get_recent_review">%1$s에 관한 리뷰를 최신순으로 정렬했어요!</string>
+    <string name="archive_test_drive_date">%1$s에 시승했어요</string>
+    <string name="archive_purchase_date">%1$s에 구매했어요</string>
+    <string name="archive_summary_car_info">차량 정보 요약</string>
+    <string name="archive_general_review">총평 후기</string>
+    <string name="archive_total_price">총 가격</string>
+    <string name="archive_make_my_car">이 차량으로 내 차 만들기</string>
+
+    <!--  아카이브 검색  -->
+    <string name="archive_search_condition">차량 검색 조건 설정</string>
+    <string name="archive_search_set_car">차량 설정</string>
+    <string name="archive_search_set_car_selected_car">현재 선택된 차량</string>
+    <string name="archive_search_set_option">옵션 설정</string>
+    <string name="archive_search_set_option_count">%1$d / %2$d</string>
+    <string name="archive_search_select_option">옵션을 선택해 주세요.</string>
+    <string name="archive_search_apply_selected_item">선택 항목 적용하기</string>
+    <string name="archive_search_apply_options">총 %d개의 옵션 적용하기</string>
+
+    <!--  마이카이빙  -->
+    <string name="my_make_car_list">내가 만든 차량 목록</string>
+    <string name="my_save_car_list">저장한 차량 목록</string>
+    <string name="my_not_save_car">저장하지 않고 나간 차량이 있어요.</string>
+    <string name="my_temp_save_date">%1$s 임시저장</string>
+    <string name="my_make_date">%1$s에 만들었어요</string>
+    <string name="my_make_car_trim_none">트림 옵션을 선택하지 않았어요.</string>
+    <string name="my_make_car_option_none">옵션 미선택</string>
+
+    <!--  마이카이빙 다이얼로그  -->
+    <string name="my_dialog_made_delete_description">%1$s을\n내가 만든 차량 목록에서 삭제하시겠어요?</string>
+    <string name="my_dialog_save_delete_description">%1$s을\n저장한 차량 목록에서 삭제하시겠어요?</string>
+    <string name="my_dialog_delete">삭제</string>
+    <string name="my_dialog_continue_make_description">%1$s에 임시저장된 파일이에요.\n계속해서 내 차 만들기를 하시겠어요?</string>
+    <string name="my_dialog_continue_make">내 차 만들기 이동</string>
+
+    <!--  후기  -->
+    <string name="review_test_drive">시승자 후기 작성</string>
+    <string name="review_test_drive_description">오늘 시승한 차량은 %1$s 이에요.\n시승한 차량 정보를 가져왔어요.</string>
+    <string name="review_purchase_car">구매자 후기 작성</string>
+    <string name="review_purchase_car_description">구매한 차량은 %1$s 이에요.\n차량 정보를 가져왔어요.</string>
+    <string name="review_start">후가 작성 시작하기</string>
+    <string name="review_question">%1$s 은 어땠나요?</string>
+    <string name="review_tag_select">태그를 선택해주세요</string>
+    <string name="review_tag_condition">(최소 1개 선택필수, 최대 3개 선택 가능)</string>
+    <string name="review_placeholder">리뷰를 남겨주세요</string>
+    <string name="review_condition">(선택 사항)</string>
+    <string name="review_text_count">(%1$d/%2$d)</string>
+    <string name="review_options">직접 옵션에 대해 이야기해주세요!</string>
+    <string name="review_next_step">다음</string>
+    <string name="review_done">완료</string>
+    <string name="review_done_description">후기 작성이 완료되었어요!</string>
+    <string name="review_display_description">작성한 후기는 아래 링크에서 30일동안 볼 수 있어요.</string>
+    <string name="review_view_written_review">작성한 후기 보러가기</string>
+    <string name="review_copy_link">링크 복사하기</string>
+
+    <!--  로그인  -->
+    <string name="hyundai_logo">HYUNDAI</string>
+    <string name="login">로그인</string>
+    <string name="login_email_placeholder">이메일</string>
+    <string name="login_password_placeholder">비밀번호</string>
+
+    <!--  로딩  -->
+    <string name="loading_get_my_car">내 차를 불러오는 중이에요</string>
+    <string name="loading_empty_feed">피드에 저장한 차량이 없어요</string>
+    <string name="loading_make_my_car">내 차 만들기</string>
+
+    <!--  Navigation  -->
+    <string name="top_bar_login">로그인</string>
+    <string name="top_bar_archiving">아카이빙</string>
+    <string name="top_bar_mycar">마이카이빙</string>
+    <string name="top_bar_making_car">팰리세이드</string>
+    <string name="top_bar_driver_comment">시승자 후기 작성</string>
+    <string name="top_bar_consumer_comment">구매자 후기 작성</string>
+
+    <!-- 오류 -->
+    <string name="error_no_model">모델 정보 없음</string>
+    <string name="error_no_color">색상 정보 없음</string>
+</resources>
