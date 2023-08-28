@@ -2,6 +2,7 @@ package com.softeer.mycarchiving.ui.makingcar
 
 import android.app.Activity
 import android.net.Uri
+import android.util.Log
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -41,10 +42,16 @@ fun NavController.navigateToMakingCar(
     navOptions: NavOptions? = null
 ) {
     when {
-        feedId != null -> navigate("${MainDestination.MAKING_CAR.route}?$KEY_ARCHIVE_FEED_ID=$feedId?$KEY_MYARCHIVE_FEED_DATA=", navOptions)
+        feedId != null -> navigate(
+            "${MainDestination.MAKING_CAR.route}?$KEY_ARCHIVE_FEED_ID=$feedId&$KEY_MYARCHIVE_FEED_DATA=$tempCar",
+            navOptions
+        )
         tempCar != null -> {
             val tempCarUri = Uri.encode(Json.encodeToString(tempCar))
-            navigate("${MainDestination.MAKING_CAR.route}?$KEY_ARCHIVE_FEED_ID=$feedId?$KEY_MYARCHIVE_FEED_DATA=$tempCarUri", navOptions)
+            navigate(
+                "${MainDestination.MAKING_CAR.route}?$KEY_ARCHIVE_FEED_ID=$feedId&$KEY_MYARCHIVE_FEED_DATA=$tempCarUri",
+                navOptions
+            )
         }
         else -> navigate(MainDestination.MAKING_CAR.route, navOptions)
     }
@@ -54,9 +61,12 @@ fun NavGraphBuilder.makingCarGraph(
     appState: HyundaiAppState,
 ) {
     composable(
-        route = "${MainDestination.MAKING_CAR.route}?$KEY_ARCHIVE_FEED_ID={$KEY_ARCHIVE_FEED_ID}?$KEY_MYARCHIVE_FEED_DATA={$KEY_MYARCHIVE_FEED_DATA}",
+        route = "${MainDestination.MAKING_CAR.route}?$KEY_ARCHIVE_FEED_ID={$KEY_ARCHIVE_FEED_ID}&$KEY_MYARCHIVE_FEED_DATA={$KEY_MYARCHIVE_FEED_DATA}",
         arguments = listOf(
-            navArgument(KEY_ARCHIVE_FEED_ID) { nullable = true },
+            navArgument(KEY_ARCHIVE_FEED_ID) {
+                type = NavType.StringType
+                nullable = true
+            },
             navArgument(KEY_MYARCHIVE_FEED_DATA) {
                 type = TempCarType()
                 nullable = true
