@@ -6,11 +6,11 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.stereotype.Service;
+import org.springframework.util.StopWatch;
 
 import lombok.RequiredArgsConstructor;
 import softeer.h9.hey.domain.archiving.Archiving;
 import softeer.h9.hey.domain.archiving.ArchivingResult;
-import softeer.h9.hey.domain.archiving.ArchivingTags;
 import softeer.h9.hey.domain.archiving.Feed;
 import softeer.h9.hey.domain.archiving.SelectOptionTag;
 import softeer.h9.hey.dto.archiving.ArchivingDto;
@@ -164,9 +164,15 @@ public class ArchivingService {
 		ArchivingResponse response = new ArchivingResponse();
 		response.setNextOffset(request.getOffset() + 1);
 
+		StopWatch stopWatch = new StopWatch();
+		stopWatch.start();
+
 		List<Archiving> resultFeedIds = archivingRepository.findArchivingIdByCondition(request.getModelId(),
 			request.getLimit(), request.getOffset(),
 			request.getSelectOptions());
+
+		stopWatch.stop();
+		System.out.println("stopWatch = " + stopWatch.prettyPrint());
 
 		// 아카이빙 피드
 		List<Long> feedIds = new ArrayList<>();
@@ -174,15 +180,50 @@ public class ArchivingService {
 			feedIds.add(archiving.getFeedId());
 		}
 
-		List<Archiving> archivingResults = archivingRepository.findAllByFeedIds(feedIds);
+		stopWatch.start();
+		List<Archiving> results = archivingRepository.findAllByFeedIds(feedIds);
+		stopWatch.stop();
+		System.out.println("stopWatch = " + stopWatch.prettyPrint());
 
 		Map<Long, ArchivingDto> archivingMap = new HashMap<>();
-		for (Archiving result : archivingResults) {
+		for (Archiving result : results) {
 			Long feedId = result.getFeedId();
 			if (!archivingMap.containsKey(feedId)) {
 				archivingMap.put(feedId, new ArchivingDto());
 				ArchivingDto currentArchivingDto = archivingMap.get(feedId);
-				initializeFeeds(result, feedId, currentArchivingDto);
+
+				// 기본 중복 데이터 세팅
+				currentArchivingDto.setFeedId(Long.toString(feedId));
+				currentArchivingDto.setModelName(result.getModelName());
+				currentArchivingDto.setPurchase(result.getIsPurchase());
+				currentArchivingDto.setReview(result.getReview());
+				currentArchivingDto.setCreationDate(result.getCreatedAt().toString());
+				// Dto 중복 데이터 세팅
+				currentArchivingDto.setTrim(
+					TrimDto.builder()
+						.name(result.getTrimName())
+						.build());
+				currentArchivingDto.setEngine(
+					EngineDto.builder()
+						.name(result.getEngineName())
+						.build());
+				currentArchivingDto.setBodyType(
+					BodyTypeDto.builder()
+						.name(result.getBodyTypeName())
+						.build());
+				currentArchivingDto.setWheelDrive(
+					WheelDriveDto.builder()
+						.name(result.getWheelDriveName())
+						.build());
+				currentArchivingDto.setInteriorColor(
+					InteriorColorDto.builder()
+						.name(result.getInteriorColorName())
+						.build());
+				currentArchivingDto.setExteriorColor(
+					ExteriorColorDto.builder()
+						.name(result.getExteriorColorName())
+						.build());
+				currentArchivingDto.setSelectedOptions(new ArrayList<>());
 			}
 			ArchivingDto currentArchivingDto = archivingMap.get(feedId);
 
@@ -193,60 +234,13 @@ public class ArchivingService {
 				.id(result.getSelectOptionId())
 				.build();
 			currentArchivingDto.getSelectedOptions().add(temp);
-		}
 
-		List<ArchivingTags> tagResults = tagsRepository.findByFeeds(feedIds);
 
-		Map<Long, List<String>> tagMap = new HashMap<>();
-		for (ArchivingTags archivingTags : tagResults) {
-			Long feedId = archivingTags.getFeedId();
-			if (!tagMap.containsKey(feedId)) {
-				List<String> tags = new ArrayList<>();
-				tagMap.put(feedId, tags);
-				archivingMap.get(feedId).setTags(tags);
-			}
-			List<String> currentTags = tagMap.get(feedId);
-			currentTags.add(archivingTags.getTag());
 		}
 
 		response.setArchivings(new ArrayList<>(archivingMap.values()));
 
 		return response;
-	}
-
-	private void initializeFeeds(Archiving result, Long feedId, ArchivingDto currentArchivingDto) {
-		// 기본 중복 데이터 세팅
-		currentArchivingDto.setFeedId(Long.toString(feedId));
-		currentArchivingDto.setModelName(result.getModelName());
-		currentArchivingDto.setPurchase(result.getIsPurchase());
-		currentArchivingDto.setReview(result.getReview());
-		currentArchivingDto.setCreationDate(result.getCreatedAt().toString());
-		// Dto 중복 데이터 세팅
-		currentArchivingDto.setTrim(
-			TrimDto.builder()
-				.name(result.getTrimName())
-				.build());
-		currentArchivingDto.setEngine(
-			EngineDto.builder()
-				.name(result.getEngineName())
-				.build());
-		currentArchivingDto.setBodyType(
-			BodyTypeDto.builder()
-				.name(result.getBodyTypeName())
-				.build());
-		currentArchivingDto.setWheelDrive(
-			WheelDriveDto.builder()
-				.name(result.getWheelDriveName())
-				.build());
-		currentArchivingDto.setInteriorColor(
-			InteriorColorDto.builder()
-				.name(result.getInteriorColorName())
-				.build());
-		currentArchivingDto.setExteriorColor(
-			ExteriorColorDto.builder()
-				.name(result.getExteriorColorName())
-				.build());
-		currentArchivingDto.setSelectedOptions(new ArrayList<>());
 	}
 
 }
