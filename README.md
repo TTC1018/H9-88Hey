@@ -85,6 +85,7 @@
 - 🤹‍♂️ [협업 전략](https://eight-citrine-a23.notion.site/GitHub-9560611adc2b462ba5b5f115d03a34dd?pvs=4)
 - 🎬 [기획](https://www.figma.com/file/JYV5ZV1tXRHU8kjuA6abpK/%EC%83%81%EC%84%B8%EC%84%A4%EA%B3%84%EC%95%88-230719-v0.2?type=design&node-id=0-1&mode=design&t=qNmPD6CjJPlW4qVm-0)
 - 🎨 [디자인](https://www.figma.com/file/7Z1cW7vx7ejocQzIJIYnDs/Handoff_%EC%97%91%EC%85%80?type=design&node-id=1-6&mode=design&t=hzkpYWWJyCNmyD44-0)
+- 📖 [API 명세서](https://eight-citrine-a23.notion.site/API-6f9154e80f3445fd9aeb8b92a666c68e?pvs=4)
 
 ## 👨‍💻 참여 인원
 
