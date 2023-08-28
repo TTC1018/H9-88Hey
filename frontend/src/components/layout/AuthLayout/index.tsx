@@ -5,7 +5,7 @@ import { Outlet } from 'react-router-dom';
 import { useErrorHandler } from '@/hooks/useErrorHandler';
 import { useReissueToken } from '@/hooks/useReissueToken';
 import { useValidateToken } from '@/hooks/useValidateToken';
-import { AuthError } from '@/utils/AuthError';
+import { CommonError } from '@/utils/CommonError';
 
 import { AuthContext } from '@/AuthProvider';
 
@@ -24,9 +24,9 @@ export function AuthLayout() {
       try {
         await tokenFetcher();
       } catch (error) {
-        if (error instanceof AuthError) {
+        if (error instanceof CommonError) {
           const { message, statusCode } = error;
-          throw new AuthError(message, statusCode);
+          throw new CommonError(message, statusCode);
         } else {
           throw new Error(String(error));
         }

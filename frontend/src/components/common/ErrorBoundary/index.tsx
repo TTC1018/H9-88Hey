@@ -1,6 +1,6 @@
 import { Component, ComponentType, ReactNode } from 'react';
 
-import { AuthError } from '@/utils/AuthError';
+import { CommonError } from '@/utils/CommonError';
 
 import * as Styled from './style';
 
@@ -28,13 +28,13 @@ type Props = {
   children: ReactNode;
 };
 
-export const ErrorBoundary = Catch(function ErrorBoundary(props: Props, error?: Error | AuthError) {
+export const ErrorBoundary = Catch(function ErrorBoundary(props: Props, error?: Error | CommonError) {
   if (error !== undefined) {
     return (
       <Styled.Container>
         <Styled.Wrapper>
           <Styled.Image src={'https://www.hyundai.com/static/images/logo.png'} />
-          {error instanceof AuthError && (error.statusCode === 400 || error.statusCode === 401) ? (
+          {error instanceof CommonError && (error.statusCode === 400 || error.statusCode === 401) ? (
             <>
               <Styled.Head>로그인 상태가 아니거나 세션이 만료되었습니다.</Styled.Head>
               <Styled.Body>로그인 후 다시 시도해주세요.</Styled.Body>

@@ -1,4 +1,4 @@
-export class AuthError extends Error {
+export class CommonError extends Error {
   statusCode: number;
 
   constructor(message: string, statusCode: number) {

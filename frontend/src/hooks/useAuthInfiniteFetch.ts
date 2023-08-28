@@ -4,7 +4,7 @@ import { API_URL } from '@/constants';
 import { useValidateToken } from './useValidateToken';
 import { useReissueToken } from './useReissueToken';
 import { getLocalStorage } from '@/utils';
-import { AuthError } from '@/utils/AuthError';
+import { CommonError } from '@/utils/CommonError';
 
 interface UseAuthFetchProps {
   key: string;
@@ -65,7 +65,7 @@ export function useAuthInfiniteFetch<T>({ key, url, intersecting, nextOffset, me
       nextOffset.current = data.nextOffset;
       setData(prev => [...prev, ...(data[key] as [])]);
     } catch (error) {
-      if (error instanceof AuthError) {
+      if (error instanceof CommonError) {
         const { statusCode, message } = error;
 
         if (statusCode === 401) {

@@ -2,6 +2,7 @@ import { useState } from 'react';
 
 import { API_URL } from '@/constants';
 import { getLocalStorage } from '@/utils';
+import { CommonError } from '@/utils/CommonError';
 
 interface Props {
   url: string;
@@ -36,7 +37,7 @@ export function usePostRequest<T, U>({ url }: Props) {
       });
 
       if (!response.ok) {
-        throw new Error('Network response was not ok');
+        throw new CommonError('네트워크가 원활하지 않습니다.', 500);
       }
 
       const { data: responseData } = (await response.json()) as ResponseProps<T>;

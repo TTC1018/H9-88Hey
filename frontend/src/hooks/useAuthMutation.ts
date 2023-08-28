@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { useValidateToken } from './useValidateToken';
 import { useReissueToken } from './useReissueToken';
 import { API_URL } from '@/constants';
-import { AuthError } from '@/utils/AuthError';
+import { CommonError } from '@/utils/CommonError';
 import { getLocalStorage } from '@/utils';
 
 interface Props {
@@ -46,12 +46,12 @@ export function useAuthMutation<T, U>({ url }: Props) {
       const { statusCode, message, data } = (await response.json()) as ResponseProps<T>;
 
       if (!response.ok) {
-        throw new AuthError(message, statusCode);
+        throw new CommonError(message, statusCode);
       }
 
       setData(data);
     } catch (error) {
-      if (error instanceof AuthError) {
+      if (error instanceof CommonError) {
         const { statusCode, message } = error;
 
         if (statusCode === 401) {

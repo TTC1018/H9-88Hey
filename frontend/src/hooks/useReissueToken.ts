@@ -1,7 +1,7 @@
 import { useContext } from 'react';
 
 import { getLocalStorage, setLocalStorage } from '@/utils';
-import { AuthError } from '@/utils/AuthError';
+import { CommonError } from '@/utils/CommonError';
 import { API_URL } from '@/constants';
 
 import { AuthContext } from '@/AuthProvider';
@@ -23,7 +23,7 @@ export function useReissueToken() {
       const { statusCode, message, data } = await response.json();
 
       if (!response.ok) {
-        throw new AuthError(message, statusCode);
+        throw new CommonError(message, statusCode);
       }
 
       setLocalStorage('accessToken', data.accessToken);
@@ -32,16 +32,16 @@ export function useReissueToken() {
       setIsSignin(true);
       setUserName(data.userName);
     } catch (error) {
-      if (error instanceof AuthError) {
+      if (error instanceof CommonError) {
         const { statusCode, message } = error;
 
         if (statusCode === 401) {
           // 세션 만료 및 사용자에게 재로그인 요청
           setIsSignin(false);
           localStorage.clear();
-          throw new AuthError(message, statusCode);
+          throw new CommonError(message, statusCode);
         } else {
-          throw new AuthError(message, statusCode);
+          throw new CommonError(message, statusCode);
         }
       } else {
         throw new Error(String(error));
