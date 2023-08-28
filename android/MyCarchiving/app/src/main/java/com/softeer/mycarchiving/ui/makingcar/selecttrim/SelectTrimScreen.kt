@@ -110,21 +110,29 @@ private fun InitArchiveDataEffect(
     saveTrimOptions: (TrimOptionUiModel, screenProgress: Int, isInitial: Boolean, isArchived: Boolean) -> Unit,
 ) {
     LaunchedEffect(engines) {
-        carDetails?.run {
+        val engine = carDetails?.engine
+        if (carDetails?.engine == null && engines.isNotEmpty()) {
+            saveTrimOptions(wheels.first(), TRIM_ENGINE, true, true)
+        } else {
             engines.find { it.id == engine?.id }
                 ?.let { saveTrimOptions(it, TRIM_ENGINE, true, true) }
         }
     }
     LaunchedEffect(bodyTypes) {
-        carDetails?.run {
+        val bodyType = carDetails?.bodyType
+        if (bodyType == null && bodyTypes.isNotEmpty()) {
+            saveTrimOptions(bodyTypes.first(), TRIM_BODY_TYPE, true, true)
+        } else {
             bodyTypes.find { it.id == bodyType?.id }
                 ?.let { saveTrimOptions(it, TRIM_BODY_TYPE, true, true) }
         }
-
     }
     LaunchedEffect(wheels) {
-        carDetails?.run {
-            wheels.find { it.id == wheelDrive?.id }
+        val wheel = carDetails?.wheelDrive
+        if (wheel == null && wheels.isNotEmpty()) {
+            saveTrimOptions(wheels.first(), TRIM_DRIVING_SYSTEM, true, true)
+        } else {
+            wheels.find { it.id == wheel?.id }
                 ?.let { saveTrimOptions(it, TRIM_DRIVING_SYSTEM, true, true) }
         }
     }
