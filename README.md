@@ -4,7 +4,48 @@
 </p>
 
 ## 📄 프로젝트 소개
-- 프로젝트 설명입니다.
+<img src="https://github.com/softeerbootcamp-2nd/H9-88Hey/assets/39405316/78736d18-1e4a-4471-a64f-0b37b8f6ea29">  
+<img src="https://github.com/softeerbootcamp-2nd/H9-88Hey/assets/39405316/88b3b1c3-7914-498e-83f2-749ec185ac85">  
+<img src="https://github.com/softeerbootcamp-2nd/H9-88Hey/assets/39405316/f0e94651-a205-49a9-83d5-4da74b3c2ecd">  
+
+## 🖼️ 프로젝트 한눈에 보기
+|<img src="https://github.com/softeerbootcamp-2nd/H9-88Hey/assets/39405316/d763a1f8-ba21-419e-b090-840c0c9012c4" width=180>|<img src="https://github.com/softeerbootcamp-2nd/H9-88Hey/assets/39405316/ddb6b50a-baed-47b8-a2ba-c3f6c0070f46" width=180>|<img src="https://github.com/softeerbootcamp-2nd/H9-88Hey/assets/39405316/159df725-1cff-4ff1-bd35-eafce0c52683" width="180" />|
+|:--:|:--:|:--:|
+|로그인|내차만들기|견적 요약 보기|
+|<img src="https://github.com/softeerbootcamp-2nd/H9-88Hey/assets/39405316/126aca3a-f220-4cb9-9a74-a2af4abe7aa7" width=180>|<img src="https://github.com/softeerbootcamp-2nd/H9-88Hey/assets/39405316/d2d635f1-e6e7-44fa-a7de-e7608d9e64ba" width=180>|<img src="https://github.com/softeerbootcamp-2nd/H9-88Hey/assets/39405316/ab42a1d1-6dfd-4ebc-b196-5d113c36f11b" width="180" />|
+|만든 차량 한눈에 보기|임시 저장|저장 정보로 내차만들기|
+
+#### 내차만들기
+* 옵션을 선택하여 팰리세이드를 만들 수 있습니다.
+* 견적 요약 보기 기능으로 선택한 옵션을 한 눈에 볼 수 있습니다.
+* 이전에 선택한 옵션은 유지됩니다.
+* 팰리세이드를 완성하면 선택한 옵션을 한 눈에 볼 수 있습니다.
+
+|<img src="https://github.com/softeerbootcamp-2nd/H9-88Hey/assets/39405316/ddb6b50a-baed-47b8-a2ba-c3f6c0070f46" width=180>|<img src="https://github.com/softeerbootcamp-2nd/H9-88Hey/assets/39405316/110a0232-e446-4d76-9b95-a44fbf20e368" width=180>|<img src="https://github.com/softeerbootcamp-2nd/H9-88Hey/assets/39405316/2b46dff1-2003-4875-a192-939c0cc8baba" width=180>|<img src="https://github.com/softeerbootcamp-2nd/H9-88Hey/assets/39405316/5b9f12b2-f715-4bdb-8ac0-5fa342bc32a4" width=180>|
+|:--:|:--:|:--:|:--:|
+|내차만들기|견적 요약 보기|데이터 로딩|선택한 옵션 유지|
+|<img src="https://github.com/softeerbootcamp-2nd/H9-88Hey/assets/39405316/365fec7f-990a-4c79-8382-b74e9d4f0c76" width=180>|<img src="https://github.com/softeerbootcamp-2nd/H9-88Hey/assets/39405316/126aca3a-f220-4cb9-9a74-a2af4abe7aa7" width=180>|<img src="https://github.com/softeerbootcamp-2nd/H9-88Hey/assets/39405316/d2d635f1-e6e7-44fa-a7de-e7608d9e64ba" width="180" />|<img src="https://github.com/softeerbootcamp-2nd/H9-88Hey/assets/39405316/ab42a1d1-6dfd-4ebc-b196-5d113c36f11b" width=180>|
+|360도 회전 이미지|만든 차량 한눈에 보기|임시 저장|저장 정보로 내차만들기|
+
+#### 아카이빙
+* 다른 팰리세이드 구매자들의 후기를 확인할 수 있습니다.
+* 마음에 드는 옵션 차량을 북마크(즐겨찾기)할 수 있습니다.
+* 차량 데이터를 선택해서 내차만들기를 시작할 수 있습니다.
+
+|<img src="https://github.com/softeerbootcamp-2nd/H9-88Hey/assets/39405316/9fa6e2b1-838a-45be-8753-ff8167b09f03" width=180>|<img src="https://github.com/softeerbootcamp-2nd/H9-88Hey/assets/39405316/d953b069-6d16-47c4-a3d4-7311c5c9759d" width=180>|<img src="https://github.com/softeerbootcamp-2nd/H9-88Hey/assets/39405316/194f5902-2253-4ff5-9737-dde79e19ea71" width=180>|<img src="https://github.com/softeerbootcamp-2nd/H9-88Hey/assets/39405316/1052a356-cb7c-4aba-b81d-91bdc3f8b431" width=180>|
+|:--:|:--:|:--:|:--:|
+|피드 보기|옵션 필터링|북마크 하기|피드 정보로 내차만들기|
+
+#### 마이카이빙
+* 내차만들기로 제작한 차량 데이터를 확인할 수 있습니다.
+* 제작 도중 중단한 임시 저장 데이터도 확인할 수 있습니다.
+* 아카이빙에서 북마크한 차량 데이터를 확인할 수 있습니다.
+
+|<img src="https://github.com/softeerbootcamp-2nd/H9-88Hey/assets/39405316/5429c984-da04-42c5-9742-841bb2f77ab9" width=180>|<img src="https://github.com/softeerbootcamp-2nd/H9-88Hey/assets/39405316/684001f7-5408-4126-956c-bb45881eaba5" width=180>|<img src="https://github.com/softeerbootcamp-2nd/H9-88Hey/assets/39405316/32edec67-1045-4f41-b6e1-8ef4a1805072" width=180>|<img src="https://github.com/softeerbootcamp-2nd/H9-88Hey/assets/39405316/ab42a1d1-6dfd-4ebc-b196-5d113c36f11b" width=180>|
+|:--:|:--:|:--:|:--|
+|마이카이빙 메인|만든 차량 상세 정보 보기|임시 저장 정보로 내차 만들기|북마크 정보로 내차만들기|
+
+
 ## ⚒️ 사용 기술
 ### Backend
 - 
