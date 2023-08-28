@@ -3,7 +3,6 @@ import { Fragment, useEffect, useState, useContext } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 import { ModalType } from '@/constants';
-import { removeLocalStorage } from '@/utils';
 import { useModalContext } from '@/hooks/useModalContext';
 import { useMyCarNavigate } from '@/hooks/useMyCarNavigate';
 
