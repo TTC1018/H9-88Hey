@@ -55,9 +55,9 @@
 #### 📚 Tech Stacks
 |분류|Stack|
 |------|---|
-|Project Architecture|<img src="https://img.shields.io/badge/Multi Module-99bafb?style=forthebage"/> |
+|Project Architecture|<img src="https://img.shields.io/badge/Multi Module-99bafb?style=forthebage"/> <img src="https://img.shields.io/badge/Clean Architecture-3DDC84?style=forthebage&logo=Android&logoColor=white"/>|
 |Architecture Components|<img src="https://img.shields.io/badge/ViewModel-3DDC84?style=forthebage&logo=Android&logoColor=white"/> <img src="https://img.shields.io/badge/Navigation-3DDC84?style=forthebage&logo=Android&logoColor=white"/> <img src="https://img.shields.io/badge/Lifecycle-3DDC84?style=forthebage&logo=Android&logoColor=white"/> <img src="https://img.shields.io/badge/Paging-3DDC84?style=forthebage&logo=Android&logoColor=white"/> |
-|Design Patterns|<img src="https://img.shields.io/badge/Clean Architecture-3DDC84?style=forthebage&logo=Android&logoColor=white"/> <img src="https://img.shields.io/badge/Observer Pattern - Flow-f3841c?style=forthebage&logo=Kotlin&logoColor=blueviolet"/> <img src="https://img.shields.io/badge/Observer Pattern - LiveData-3DDC84?style=forthebage&logo=Android&logoColor=white"/>|
+|Design Patterns|<img src="https://img.shields.io/badge/Repository Pattern-000000?style=forthebage"/> <img src="https://img.shields.io/badge/Observer Pattern - Flow-f3841c?style=forthebage&logo=Kotlin&logoColor=blueviolet"/> <img src="https://img.shields.io/badge/Observer Pattern - LiveData-3DDC84?style=forthebage&logo=Android&logoColor=white"/>|
 |DI|<img src="https://img.shields.io/badge/Hilt-2196f3?style=forthebadge"/>|
 |Network|<img src="https://img.shields.io/badge/Retrofit-000000?style=forthebadge"/> <img src="https://img.shields.io/badge/OkHttp-FFFFFF?style=forthebadge"/>|
 |Local Storage|<img src="https://img.shields.io/badge/SharedPreferences-3DDC84?style=forthebage&logo=Android&logoColor=white"/>|
