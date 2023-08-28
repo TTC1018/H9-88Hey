@@ -60,7 +60,8 @@ fun SelectTrimRoute(
     val selectedOptions by makingCarViewModel.selectedOptionSimple.collectAsStateWithLifecycle()
     val selectedTrimSimple by makingCarViewModel.selectedTrimSimple.collectAsStateWithLifecycle()
     val carDetails by makingCarViewModel.carDetails.observeAsState()
-    val isArchived = carDetails != null && selectedTrims.size < 3
+    val isArchived = carDetails != null
+            && selectedTrims.size < listOfNotNull(carDetails?.engine, carDetails?.bodyType, carDetails?.wheelDrive).size
     val isInitial = selectedTrims.getOrNull(screenProgress) == null
             && selectedTrimSimple.getOrNull(screenProgress) == null
 
@@ -110,31 +111,22 @@ private fun InitArchiveDataEffect(
     saveTrimOptions: (TrimOptionUiModel, screenProgress: Int, isInitial: Boolean, isArchived: Boolean) -> Unit,
 ) {
     LaunchedEffect(engines) {
-        val engine = carDetails?.engine
-        if (carDetails?.engine == null && engines.isNotEmpty()) {
-            saveTrimOptions(wheels.first(), TRIM_ENGINE, true, true)
-        } else {
+        carDetails?.run {
             engines.find { it.id == engine?.id }
                 ?.let { saveTrimOptions(it, TRIM_ENGINE, true, true) }
         }
     }
     LaunchedEffect(bodyTypes) {
-        val bodyType = carDetails?.bodyType
-        if (bodyType == null && bodyTypes.isNotEmpty()) {
-            saveTrimOptions(bodyTypes.first(), TRIM_BODY_TYPE, true, true)
-        } else {
+        carDetails?.run {
             bodyTypes.find { it.id == bodyType?.id }
                 ?.let { saveTrimOptions(it, TRIM_BODY_TYPE, true, true) }
         }
     }
     LaunchedEffect(wheels) {
-        val wheel = carDetails?.wheelDrive
-        if (wheel == null && wheels.isNotEmpty()) {
-            saveTrimOptions(wheels.first(), TRIM_DRIVING_SYSTEM, true, true)
-        } else {
-            wheels.find { it.id == wheel?.id }
-                ?.let { saveTrimOptions(it, TRIM_DRIVING_SYSTEM, true, true) }
-        }
+        carDetails?.run {
+            wheels.find { it.id == wheelDrive?.id }
+                    ?.let { saveTrimOptions(it, TRIM_DRIVING_SYSTEM, true, true) }
+            }
     }
 }
 

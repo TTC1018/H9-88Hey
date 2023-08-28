@@ -67,7 +67,8 @@ fun SelectColorRoute(
     val selectedColor by makingCarViewModel.selectedColor.collectAsStateWithLifecycle()
     val selectedColorSimple by makingCarViewModel.selectedColorSimple.collectAsStateWithLifecycle()
     val carDetails by makingCarViewModel.carDetails.observeAsState()
-    val isArchived = carDetails != null && selectedColor.isEmpty()
+    val archivedColor = listOfNotNull(carDetails?.exteriorColor, carDetails?.interiorColor)
+    val isArchived = archivedColor.isNotEmpty() && selectedColor.size < archivedColor.size
     val isInitial = selectedColor.getOrNull(screenProgress) == null
             && selectedColorSimple.getOrNull(screenProgress) == null
 
