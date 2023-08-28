@@ -114,7 +114,7 @@ fun SelectModelScreen(
             }.build()
     }
     var loadCounter by remember { mutableIntStateOf(0) }
-    val imageLoaded by remember(loadCounter) { derivedStateOf { loadCounter != 0 && loadCounter == carImages.size } }
+    val imageLoaded by remember(loadCounter) { derivedStateOf { loadCounter != 0 && loadCounter == (carImages.size + carModels.sumOf { it.features.size }) } }
 
     LaunchedEffect(carImages) {
         carImages.forEach {
@@ -126,6 +126,22 @@ fun SelectModelScreen(
                             loadCounter++
                         }.build()
                 )
+            }
+        }
+    }
+
+    LaunchedEffect(carModels) {
+        carModels.forEach {
+            it.features.forEach { feature ->
+                launch {
+                    imageLoader.execute(
+                        ImageRequest.Builder(context)
+                            .data(feature.imageUrl)
+                            .listener { _, _ ->
+                                loadCounter++
+                            }.build()
+                    )
+                }
             }
         }
     }
