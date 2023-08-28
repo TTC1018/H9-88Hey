@@ -11,7 +11,6 @@ import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
 
 import lombok.RequiredArgsConstructor;
-import softeer.h9.hey.domain.archiving.ArchivingTags;
 import softeer.h9.hey.domain.archiving.SelectOptionTag;
 import softeer.h9.hey.domain.car.Tag;
 
@@ -69,23 +68,6 @@ public class ArchivingTagsRepository {
 
 	private RowMapper<SelectOptionTag> selectOptionTagRowMapper() {
 		return BeanPropertyRowMapper.newInstance(SelectOptionTag.class);
-	}
-
-	public List<ArchivingTags> findByFeeds(final List<Long> feedIds) {
-		String sql = "SELECT archiving.id AS feed_id, content AS tag "
-			+ "FROM tag\n"
-			+ "         LEFT JOIN archiving_selectedTag ON tag.id = archiving_selectedTag.tag_id\n"
-			+ "         INNER JOIN archiving ON archiving_selectedTag.archiving_id = archiving.id\n"
-			+ "WHERE archiving.id IN (:feedIds)";
-
-		SqlParameterSource params = new MapSqlParameterSource()
-			.addValue("feedIds", feedIds);
-
-		return jdbcTemplate.query(sql, params, archivingTagsRowMapper());
-	}
-
-	private RowMapper<ArchivingTags> archivingTagsRowMapper() {
-		return BeanPropertyRowMapper.newInstance(ArchivingTags.class);
 	}
 
 	private RowMapper<String> rowMapper() {
