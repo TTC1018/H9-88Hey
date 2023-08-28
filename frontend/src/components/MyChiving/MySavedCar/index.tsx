@@ -1,4 +1,4 @@
-import { Fragment, MouseEvent, useRef } from 'react';
+import { Fragment, useRef } from 'react';
 
 import { useNavigate } from 'react-router-dom';
 
@@ -121,19 +121,13 @@ export function MySavedCar() {
     handleDelete(myChiving.myChivingId, 'myChivingId');
   }
 
-  function handleClick(myChiving: MyChivingProps, data: ClickEventDataProps, event: MouseEvent<HTMLDivElement>) {
-    const element = event.target as Element;
-    const deleteButton = element.closest('button');
+  function handleClick(myChiving: MyChivingProps, data: ClickEventDataProps, isSaved: boolean) {
+    modalInfo.current = {
+      type: isSaved ? ModalType.RESULT : ModalType.MOVE,
+      contents: data.moveText,
+      onClick: () => handleNavigate(myChiving),
+    };
 
-    if (deleteButton) {
-      modalInfo.current = {
-        type: ModalType.DELETE,
-        contents: data.deleteText,
-        onClick: () => handleDeleteList(myChiving),
-      };
-    } else {
-      modalInfo.current = { type: ModalType.MOVE, contents: data.moveText, onClick: () => handleNavigate(myChiving) };
-    }
     handleOpen();
   }
 
@@ -150,7 +144,14 @@ export function MySavedCar() {
           <>
             <Styled.MyCarBox>
               {myChivings.map((data, index) => (
-                <MyCarList key={index} myChiving={data} onClick={handleClick} />
+                <MyCarList
+                  key={index}
+                  myChiving={data}
+                  onClick={handleClick}
+                  onClickDelete={handleDeleteList}
+                  modalInfo={modalInfo}
+                  handleOpen={handleOpen}
+                />
               ))}
             </Styled.MyCarBox>
             {isLoading && (

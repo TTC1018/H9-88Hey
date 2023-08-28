@@ -2,7 +2,10 @@ import { Fragment, useEffect, useState, useContext } from 'react';
 
 import { useLocation, useNavigate } from 'react-router-dom';
 
+import { ModalType } from '@/constants';
 import { removeLocalStorage } from '@/utils';
+import { useModalContext } from '@/hooks/useModalContext';
+import { useMyCarNavigate } from '@/hooks/useMyCarNavigate';
 
 import { PopupModal } from '@/components/common/PopupModal';
 import { ModalPortal } from '@/components/common/ModalPortal';
@@ -12,9 +15,6 @@ import { AutoSavingLogo } from '@/components/common/AutoSavingLogo';
 import { AuthContext } from '@/AuthProvider';
 
 import * as Styled from './style';
-import { useModalContext } from '@/hooks/useModalContext';
-import { useMyCarNavigate } from '@/hooks/useMyCarNavigate';
-import { ModalType } from '@/constants';
 
 interface ModalInfoProps {
   [key: string]: any;
@@ -31,11 +31,13 @@ export function Header() {
 
   const { setIsSignin, userName } = useContext(AuthContext);
 
-  if (isSavingNow) {
-    setTimeout(() => {
-      setIsSavingNow(false);
-    }, 2000);
-  }
+  useEffect(() => {
+    if (isSavingNow) {
+      setTimeout(() => {
+        setIsSavingNow(false);
+      }, 2000);
+    }
+  }, [isSavingNow]);
 
   useEffect(() => {
     if (pathname !== '/result') {

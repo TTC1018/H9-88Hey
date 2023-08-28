@@ -61,10 +61,10 @@ export function Color() {
     carImageUrl: innerCarImage,
   } = availableInnerColorList[selectedInnerIndex];
 
-  const currentImageNum = useRef(0);
+  const currentImageNumber = useRef(0);
 
-  function setCurrentImageNum(page: number) {
-    currentImageNum.current = page;
+  function setCurrentImageNumber(page: number) {
+    currentImageNumber.current = page;
   }
 
   function updateOuterColor(index: number) {
@@ -144,8 +144,8 @@ export function Color() {
         {isExternalPage ? (
           <ExternalCarImage
             imageUrl={externalCarImage}
-            current={currentImageNum.current}
-            setImageNum={setCurrentImageNum}
+            current={currentImageNumber.current}
+            setImageNum={setCurrentImageNumber}
           />
         ) : (
           <InnerCarImage imageUrl={innerCarImage} />

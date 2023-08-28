@@ -5,7 +5,7 @@ interface Props {
   isDisplay: boolean;
 }
 
-const Container = styled.footer`
+export const Container = styled.footer`
   ${({ theme }) => {
     const { colors } = theme;
     return css`
@@ -25,7 +25,7 @@ const Container = styled.footer`
   }}
 `;
 
-const TrimWrapper = styled.div`
+export const TrimWrapper = styled.div`
   width: 150px;
   height: 75px;
 
@@ -34,7 +34,7 @@ const TrimWrapper = styled.div`
   justify-content: space-between;
 `;
 
-const CarName = styled.span`
+export const CarName = styled.span`
   ${({ theme }) => {
     const { fonts, colors } = theme;
     return css`
@@ -44,7 +44,7 @@ const CarName = styled.span`
   }}
 `;
 
-const TrimDetail = styled.span`
+export const TrimDetail = styled.span`
   ${({ theme }) => {
     const { fonts, colors } = theme;
     return css`
@@ -54,7 +54,7 @@ const TrimDetail = styled.span`
   }}
 `;
 
-const ColorWrapper = styled.div`
+export const ColorWrapper = styled.div`
   width: 170px;
   height: 75px;
 
@@ -63,14 +63,14 @@ const ColorWrapper = styled.div`
   justify-content: space-between;
 `;
 
-const ColorBox = styled.div`
+export const ColorBox = styled.div`
   gap: 10px;
 
   display: flex;
   align-items: center;
 `;
 
-const ColorTitle = styled.span`
+export const ColorTitle = styled.span`
   ${({ theme }) => {
     const { fonts, colors } = theme;
     return css`
@@ -82,7 +82,7 @@ const ColorTitle = styled.span`
   }}
 `;
 
-const ColorName = styled.div`
+export const ColorName = styled.div`
   gap: 7px;
 
   display: flex;
@@ -95,7 +95,7 @@ interface ColorCircleProps {
   imageUrl: string;
 }
 
-const ColorCircle = styled.div<ColorCircleProps>`
+export const ColorCircle = styled.div<ColorCircleProps>`
   ${({ imageUrl }) => {
     return css`
       width: 16px;
@@ -110,7 +110,7 @@ const ColorCircle = styled.div<ColorCircleProps>`
   }}
 `;
 
-const ColorNameText = styled.div`
+export const ColorNameText = styled.div`
   ${({ theme }) => {
     const { fonts, colors } = theme;
     return css`
@@ -124,7 +124,7 @@ const ColorNameText = styled.div`
   }}
 `;
 
-const OptionWrapper = styled.div`
+export const OptionWrapper = styled.div`
   width: 380px;
   height: 75px;
 
@@ -133,7 +133,7 @@ const OptionWrapper = styled.div`
   justify-content: space-between;
 `;
 
-const OptionBox = styled.div`
+export const OptionBox = styled.div`
   gap: 8px;
 
   display: flex;
@@ -142,7 +142,7 @@ const OptionBox = styled.div`
   cursor: pointer;
 `;
 
-const Option = styled.div`
+export const Option = styled.div`
   ${({ theme }) => {
     const { fonts, colors } = theme;
     return css`
@@ -162,7 +162,7 @@ const Option = styled.div`
   }}
 `;
 
-const PriceWrapper = styled.div`
+export const PriceWrapper = styled.div`
   width: 180px;
   height: 75px;
 
@@ -171,7 +171,7 @@ const PriceWrapper = styled.div`
   justify-content: space-between;
 `;
 
-const PriceText = styled.span`
+export const PriceText = styled.span`
   ${({ theme }) => {
     const { fonts, colors } = theme;
     return css`
@@ -181,7 +181,7 @@ const PriceText = styled.span`
   }}
 `;
 
-const PriceUnitText = styled.span`
+export const PriceUnitText = styled.span`
   ${({ theme }) => {
     const { fonts, colors } = theme;
     return css`
@@ -194,14 +194,14 @@ const PriceUnitText = styled.span`
   }}
 `;
 
-const ButtonWrapper = styled.div`
+export const ButtonWrapper = styled.div`
   gap: 8px;
 
   display: flex;
   align-items: center;
 `;
 
-const Title = styled.span`
+export const Title = styled.span`
   ${({ theme }) => {
     const { fonts, colors } = theme;
     return css`
@@ -211,7 +211,7 @@ const Title = styled.span`
   }}
 `;
 
-const PrevButton = styled.button<Props>`
+export const PrevButton = styled.button<Props>`
   ${({ theme, isDisplay }) => {
     const { fonts, colors } = theme;
     return css`
@@ -229,7 +229,7 @@ const PrevButton = styled.button<Props>`
   }}
 `;
 
-const NextButton = styled.button`
+export const NextButton = styled.button`
   ${({ theme }) => {
     const { fonts, colors } = theme;
     return css`
@@ -247,7 +247,7 @@ const NextButton = styled.button`
   }}
 `;
 
-const Division = styled.div`
+export const Division = styled.div`
   ${({ theme }) => {
     const { colors } = theme;
     return css`
@@ -259,26 +259,19 @@ const Division = styled.div`
   }}
 `;
 
-export {
-  Container,
-  TrimWrapper,
-  CarName,
-  TrimDetail,
-  ColorWrapper,
-  ColorBox,
-  ColorTitle,
-  ColorName,
-  ColorCircle,
-  ColorNameText,
-  OptionWrapper,
-  OptionBox,
-  Option,
-  PriceWrapper,
-  PriceText,
-  PriceUnitText,
-  ButtonWrapper,
-  Title,
-  PrevButton,
-  NextButton,
-  Division,
-};
+export const TitleButton = styled.button`
+  ${({ theme }) => {
+    const { fonts, colors } = theme;
+    return css`
+      ${fonts.bodyMedium2}
+      color: ${colors.darkGray};
+    `;
+  }}
+`;
+
+export const TitleBox = styled.div`
+  width: 100%;
+
+  display: flex;
+  justify-content: space-between;
+`;

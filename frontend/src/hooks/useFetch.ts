@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 
 import { API_URL } from '@/constants';
+import { getLocalStorage } from '@/utils';
 
 interface UseFetchProps<T> {
   defaultValue: T;
@@ -17,10 +18,11 @@ export function useFetch<T>({ defaultValue, url }: UseFetchProps<T>) {
   const [error, setError] = useState('');
 
   async function fetcher() {
+    const accessToken = getLocalStorage('accessToken');
     try {
       const response = await fetch(`${API_URL}${url}`, {
         headers: {
-          Authorization: `Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiIxIiwidXNlck5hbWUiOiJ0ZXN0IiwiaWF0IjoxNjkyNTYwMzM5LCJleHAiOjQ4MTQ2MjQzMzl9.gcSE7kPaRVxo2iT9DRcN1Bn5ZNAAsHG8Z3dvTopH-IWblMf_LJ2lhsYqOvrrLcZJ`,
+          Authorization: `Bearer ${accessToken}`,
         },
       });
       if (!response.ok) {

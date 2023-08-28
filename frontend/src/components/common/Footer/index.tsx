@@ -6,7 +6,7 @@ import { useCountPrice } from '@/hooks/useCountPrice';
 import { useAuthMutation } from '@/hooks/useAuthMutation';
 import { SaveDataProps } from '@/types/myChiving';
 import { ActionType, MyCarProps, SaveProps, TempSaveProps } from '@/types/trim';
-import { MyCarActionType, NAVIGATION_PATH, TAG_CHIP_MAX_NUMBER } from '@/constants';
+import { MyCarActionType, NAVIGATION_PATH, TAG_CHIP_MAX_NUMBER, apiPath } from '@/constants';
 import { checkIsOptionPage, checkIsHGenuineAccessoriesPage, getLocalStorage, combineWithSlash } from '@/utils';
 
 import { ColorCircle } from '@/components/common/ColorCircle';
@@ -34,8 +34,8 @@ export function Footer({ myCarData, calculatePrice, carCode, dispatch }: FooterP
 
   const [isOpen, setIsOpen] = useState(false);
 
-  const { data, authMutation } = useAuthMutation<SaveDataProps, TempSaveProps>({ url: '/mychiving/temp' });
-  const { authMutation: saveMychiving } = useAuthMutation<SaveDataProps, SaveProps>({ url: '/mychiving' });
+  const { data, authMutation } = useAuthMutation<SaveDataProps, TempSaveProps>({ url: apiPath.mychivingTemp() });
+  const { authMutation: saveMychiving } = useAuthMutation<SaveDataProps, SaveProps>({ url: apiPath.mychivingBase() });
 
   function handleOpenModal() {
     setIsOpen(true);
@@ -121,6 +121,7 @@ export function Footer({ myCarData, calculatePrice, carCode, dispatch }: FooterP
     navigate('/result', {
       state: myCarData,
     });
+    localStorage.removeItem('myChivingId');
     localStorage.removeItem('myCar');
     localStorage.removeItem('carCode');
   }
@@ -179,8 +180,11 @@ export function Footer({ myCarData, calculatePrice, carCode, dispatch }: FooterP
       </Styled.ColorWrapper>
       <Styled.Division />
       <Styled.OptionWrapper>
-        <Styled.Title>선택 옵션</Styled.Title>
-        <Styled.OptionBox onClick={handleOpenModal}>
+        <Styled.TitleBox>
+          <Styled.Title>선택 옵션</Styled.Title>
+          <Styled.TitleButton onClick={handleOpenModal}>견적 요약보기</Styled.TitleButton>
+        </Styled.TitleBox>
+        <Styled.OptionBox>
           {options.slice(0, TAG_CHIP_MAX_NUMBER).map(({ name }) => (
             <Styled.Option key={name}>{name}</Styled.Option>
           ))}

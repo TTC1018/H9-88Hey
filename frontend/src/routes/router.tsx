@@ -16,10 +16,11 @@ import { Detail } from '@/pages/Archiving/Detail';
 import { ErrorBoundary } from '@/components/common/ErrorBoundary';
 import { MyCarLayout } from '@/components/layout/MyCarLayout';
 import { MyChivingLayout } from '@/components/layout/MyChivingLayout';
+import { AuthLayout } from '@/components/layout/AuthLayout';
 
 export const router = createBrowserRouter([
   {
-    index: true,
+    path: '/',
     element: <Signin />,
   },
   {
@@ -27,89 +28,87 @@ export const router = createBrowserRouter([
     element: <Signup />,
   },
   {
-    path: '/',
+    path: '',
     element: (
       <ErrorBoundary>
-        <MyCarLayout />
+        <AuthLayout />
       </ErrorBoundary>
     ),
     children: [
       {
         path: '',
-        element: <Signin />,
-      },
-      {
-        path: 'signup',
-        element: <Signup />,
-      },
-      {
-        path: 'trim',
+        element: <MyCarLayout />,
         children: [
           {
-            path: '',
-            element: <Trim />,
+            path: 'trim',
+            children: [
+              {
+                path: '',
+                element: <Trim />,
+              },
+              {
+                path: 'engine',
+                element: <Engine />,
+              },
+              {
+                path: 'body-type',
+                element: <BodyType />,
+              },
+              {
+                path: 'wheel-drive',
+                element: <WheelDrive />,
+              },
+            ],
           },
           {
-            path: 'engine',
-            element: <Engine />,
+            path: 'color',
+            element: <Color />,
           },
           {
-            path: 'body-type',
-            element: <BodyType />,
+            path: 'option',
+            children: [
+              {
+                path: '',
+                element: <Option key="option" apiType="select-option" />,
+              },
+              {
+                path: 'h-genuine-accessories',
+                element: <Option key="h-genuine-accessories" apiType="h-genuine-accessories" />,
+              },
+              {
+                path: 'n-performance',
+                element: <Option key="n-performance" apiType="n-performance" />,
+              },
+            ],
           },
           {
-            path: 'wheel-drive',
-            element: <WheelDrive />,
+            path: 'result',
+            element: <Result />,
           },
         ],
       },
       {
-        path: 'color',
-        element: <Color />,
-      },
-      {
-        path: 'option',
+        path: '',
+        element: <MyChivingLayout />,
         children: [
           {
-            path: '',
-            element: <Option key="option" apiType="select-option" />,
+            path: 'archiving',
+            children: [
+              {
+                path: '',
+                element: <Archiving />,
+              },
+              {
+                path: 'detail',
+                element: <Detail />,
+              },
+            ],
           },
           {
-            path: 'h-genuine-accessories',
-            element: <Option key="h-genuine-accessories" apiType="h-genuine-accessories" />,
-          },
-          {
-            path: 'n-performance',
-            element: <Option key="n-performance" apiType="n-performance" />,
+            path: 'mychiving',
+            element: <MyChiving />,
           },
         ],
-      },
-      {
-        path: 'result',
-        element: <Result />,
-      },
-    ],
-  },
-  {
-    path: '',
-    element: <MyChivingLayout />,
-    children: [
-      {
-        path: 'archiving',
-        children: [
-          {
-            path: '',
-            element: <Archiving />,
-          },
-          {
-            path: 'detail',
-            element: <Detail />,
-          },
-        ],
-      },
-      {
-        path: 'mychiving',
-        element: <MyChiving />,
       },
     ],
   },

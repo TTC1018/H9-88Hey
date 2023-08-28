@@ -44,7 +44,7 @@ export function MyFeed() {
           />
         )
       ) : (
-        <FeedList myFeedChiving={archivingsByUser} onDelete={handleDelete} />
+        <FeedList myChivingFeed={archivingsByUser} onDelete={handleDelete} />
       )}
       <div ref={fetchMoreElement}></div>
       {isShow && <ScrollTopButton onClick={scrollToTop} />}

@@ -3,25 +3,16 @@ import { Fragment, useEffect, useRef } from 'react';
 import { ArchivingProps } from '@/types/archiving';
 
 import { ReviewCard } from '@/components/Archiving/ReviewCard';
-import { ModalPortal } from '@/components/common/ModalPortal';
-import { PopupModal } from '@/components/common/PopupModal';
-import { ModalType } from '@/constants';
 
 import * as Styled from './style';
 
 interface FeedListProps {
-  myFeedChiving: ArchivingProps[];
+  myChivingFeed: ArchivingProps[];
   onDelete: (id: string, key: 'feedId' | 'myChivingId') => void;
 }
 
-export function FeedList({ myFeedChiving, onDelete }: FeedListProps) {
+export function FeedList({ myChivingFeed, onDelete }: FeedListProps) {
   const masonryRef = useRef<HTMLDivElement>(null);
-
-  const modalInfo = useRef({
-    type: ModalType.CLOSE,
-    contents: '',
-    onClick: () => {},
-  });
 
   function masonryLayout() {
     const masonryItems = masonryRef.current?.childNodes;
@@ -37,12 +28,12 @@ export function FeedList({ myFeedChiving, onDelete }: FeedListProps) {
 
   useEffect(() => {
     masonryLayout();
-  }, [myFeedChiving]);
+  }, [myChivingFeed]);
 
   return (
     <Fragment>
       <Styled.Container ref={masonryRef}>
-        {myFeedChiving.map((review, index) => {
+        {myChivingFeed.map((review, index) => {
           return (
             <Styled.Wrapper key={index}>
               <ReviewCard props={review} isArchiving={false} onClick={onDelete} />
@@ -50,13 +41,6 @@ export function FeedList({ myFeedChiving, onDelete }: FeedListProps) {
           );
         })}
       </Styled.Container>
-      <ModalPortal>
-        <PopupModal
-          type={modalInfo.current.type}
-          onClick={modalInfo.current.onClick}
-          contents={modalInfo.current.contents}
-        />
-      </ModalPortal>
     </Fragment>
   );
 }

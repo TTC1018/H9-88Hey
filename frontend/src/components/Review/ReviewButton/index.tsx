@@ -7,7 +7,7 @@ interface Props {
 }
 export function ReviewButton({ onClick, isActive, text }: Props) {
   return (
-    <Styled.Container onClick={onClick} isActive={isActive}>
+    <Styled.Container onClick={onClick} isActive={isActive} disabled={!isActive}>
       {text}
     </Styled.Container>
   );

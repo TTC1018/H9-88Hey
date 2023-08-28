@@ -20,7 +20,7 @@ export function ReviewDescripion({ onClick }: Props) {
         <ReviewImageCard
           image="https://www.hyundai.com/contents/vr360/LX06/exterior/A2B/001.png"
           title="팰리세이드 Le Blanc(르블랑)"
-          subTitle="디젤 2.2 / 4WD / 7인승"
+          subTitle="디젤 2.2 / 7인승 / 2WD "
           price={47340000}
           interiorColor="문라이트 블루펄"
           exteriorColor="퀄팅 천연(블랙)"

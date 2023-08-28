@@ -56,3 +56,17 @@ export const Description = styled.p`
     `;
   }}
 `;
+
+export const Price = styled.span`
+  ${({ theme }) => {
+    const { fonts } = theme;
+    return css`
+      margin-left: 10px;
+      padding-left: 10px;
+
+      ${fonts.bodyMedium2};
+
+      border-left: 1px solid black;
+    `;
+  }}
+`;

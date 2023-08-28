@@ -1,7 +1,9 @@
 import { MouseEvent } from 'react';
 
+import { apiPath } from '@/constants';
+import { useAuthMutation } from '@/hooks/useAuthMutation';
 import { useMyCarNavigate } from '@/hooks/useMyCarNavigate';
-import { ArchivingProps } from '@/types/archiving';
+import { ArchivingProps, BookmarkDataProps } from '@/types/archiving';
 import { combineWithSlash, formatDate } from '@/utils';
 
 import { OptionSelectCard } from '@/components/Archiving/OptionSelectCard';
@@ -48,6 +50,10 @@ export function ReviewCard({ props, isArchiving, selectedSearchOptions, onClick 
 
   const { handleNavigate } = useMyCarNavigate({ path: `/archiving/detail?feed_id=${feedId}`, state: props });
 
+  const { authMutation } = useAuthMutation<BookmarkDataProps, null>({
+    url: apiPath.bookMark(feedId),
+  });
+
   const dateText = `에 ${isPurchase ? '구매' : '시승'}했어요`;
   const trimOptions = combineWithSlash([engine.name, bodyType.name, wheelDrive.name]);
 
@@ -68,6 +74,7 @@ export function ReviewCard({ props, isArchiving, selectedSearchOptions, onClick 
               onClick={(event: MouseEvent<HTMLButtonElement>) => {
                 event.stopPropagation();
                 onClick(feedId, 'feedId');
+                authMutation({ method: 'DELETE' });
               }}
             />
           )}

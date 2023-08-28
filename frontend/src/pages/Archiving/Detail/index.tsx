@@ -5,9 +5,10 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { fetcher } from '@/utils/fetcher';
 import { combineWithSlash, formatDate } from '@/utils';
 import { ArchivingProps } from '@/types/archiving';
+import { OptionContextProps } from '@/types/option';
 import { useModalContext } from '@/hooks/useModalContext';
 import { useFetchSuspense } from '@/hooks/useFetchSuspense';
-import { ModalType, apiPath, cacheKey } from '@/constants';
+import { ModalType, OPTION_CATEGORY, apiPath, cacheKey } from '@/constants';
 
 import { PopupModal } from '@/components/common/PopupModal';
 import { ModalPortal } from '@/components/common/ModalPortal';
@@ -57,8 +58,9 @@ export function Detail() {
     options: selectedOptions.map(props => {
       return {
         ...props,
+        path: OPTION_CATEGORY[props.category],
       };
-    }),
+    }) as OptionContextProps[],
     carImageUrl: exteriorColor.carImageUrl,
   };
 

@@ -1,6 +1,7 @@
 import { useState } from 'react';
 
 import { API_URL } from '@/constants';
+import { getLocalStorage } from '@/utils';
 
 interface Props {
   url: string;
@@ -23,13 +24,13 @@ export function usePostRequest<T, U>({ url }: Props) {
   async function postData({ method, data }: PostProps) {
     setIsLoading(true);
     setError(null);
-
+    const accessToken = getLocalStorage('accessToken');
     try {
       const response = await fetch(`${API_URL}${url}`, {
         method,
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiIxIiwidXNlck5hbWUiOiJ0ZXN0IiwiaWF0IjoxNjkyNTYwMzM5LCJleHAiOjQ4MTQ2MjQzMzl9.gcSE7kPaRVxo2iT9DRcN1Bn5ZNAAsHG8Z3dvTopH-IWblMf_LJ2lhsYqOvrrLcZJ`,
+          Authorization: `Bearer ${accessToken}`,
         },
         body: JSON.stringify(data),
       });

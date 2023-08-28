@@ -36,6 +36,7 @@ export interface SelectOptionsProps {
   subOptions: string[];
   tags: string[];
   review: string;
+  category: string;
   additionalPrice: number;
 }
 export interface ArchivingDataProps {

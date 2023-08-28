@@ -8,6 +8,7 @@ import { useShowScrollButton } from '@/hooks/useShowScrollButton';
 
 import { SearchBar } from '@/components/Archiving/SearchBar';
 import { ReviewList } from '@/components/Archiving/ReviewList';
+import { EmptyContent } from '@/components/common/EmptyContent';
 import { ReviewSkeleton } from '@/components/common/ReviewSkeleton';
 import { ScrollTopButton } from '@/components/common/ScrollTopButton';
 import { OptionSearchBar } from '@/components/Archiving/OptionSearchBar';
@@ -21,9 +22,13 @@ export function Archiving() {
   const nextOffset = useRef(1);
   const { isShow, scrollToTop } = useShowScrollButton({ scrollY: 800, scrollTo: 0 });
 
-  const { data: archivings, isLoading } = useInfiniteFetch<ArchivingProps>({
+  const {
+    data: archivings,
+    isLoading,
+    hasNext,
+  } = useInfiniteFetch<ArchivingProps>({
     key: 'archivings',
-    url: apiPath.archiving(1, Array.from(selectedOptions), 16, nextOffset.current),
+    url: apiPath.archiving(1, Array.from(selectedOptions), 16),
     intersecting,
     nextOffset,
     dependencies: Array.from(selectedOptions),
@@ -49,13 +54,9 @@ export function Archiving() {
         <OptionSearchBar onSelectOption={handleSelectOption} selectedOptions={selectedOptions} />
       </Styled.HeaderWrapper>
       <Styled.ReviewWrapper>
-        {archivings.length === 0 ? (
-          isLoading ? (
-            <ReviewSkeleton />
-          ) : (
-            <Styled.InfoBox>조건에 맞는 결과가 없습니다.</Styled.InfoBox>
-          )
-        ) : (
+        {isLoading && archivings.length === 0 && <ReviewSkeleton />}
+        {!hasNext && archivings.length === 0 && <EmptyContent text={'선택한 옵션에 대한 결과가 없습니다.'} />}
+        {archivings.length > 0 && (
           <ReviewList
             isLoading={isLoading}
             archivings={archivings}

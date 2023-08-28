@@ -14,7 +14,7 @@ export function useValidateToken() {
 
   async function tokenValidator() {
     if (accessToken === null && refreshToken === null) {
-      return;
+      throw new AuthError('토큰이 없습니다.', 401);
     }
 
     try {

@@ -1,6 +1,3 @@
-import { useLayoutEffect, useRef } from 'react';
-
-import { updateMasonryLayout } from '@/utils/updateMasonryLayout';
 import { SelectOptionsProps } from '@/types/archiving';
 
 import { OptionDescriptionCard } from '@/components/Archiving/OptionDescriptionCard';
@@ -11,19 +8,25 @@ interface Props {
   options: SelectOptionsProps[];
 }
 export function OptionList({ options }: Props) {
-  const masonryRef = useRef<HTMLDivElement>(null);
+  const contents: SelectOptionsProps[][] = [[], [], []];
 
-  useLayoutEffect(() => {
-    updateMasonryLayout({ element: masonryRef });
-  }, [options]);
+  const ITEM_ROW = 3;
+
+  options.forEach((option, index) => {
+    contents[index % ITEM_ROW].push(option);
+  });
 
   return (
-    <Styled.Container ref={masonryRef}>
-      {options.map(option => (
-        <Styled.Wrapper key={option.id}>
-          <OptionDescriptionCard props={option} />
-        </Styled.Wrapper>
-      ))}
+    <Styled.Container>
+      {contents.map(content => {
+        return (
+          <Styled.Wrapper>
+            {content.map(props => {
+              return <OptionDescriptionCard props={props} />;
+            })}
+          </Styled.Wrapper>
+        );
+      })}
     </Styled.Container>
   );
 }
