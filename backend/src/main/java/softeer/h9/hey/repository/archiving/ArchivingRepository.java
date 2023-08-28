@@ -118,10 +118,10 @@ public class ArchivingRepository {
 	private String initializeSql(final List<String> selectOptions) {
 		if (selectOptions.isEmpty()) {
 			return
-				"SELECT archiving.id AS feedId,\n"
+				"SELECT archiving.id,\n"
 					+ "       model.name AS model_name,\n"
 					+ "       archiving.is_purchase,\n"
-					+ "       archiving.created_at AS createdAt,\n"
+					+ "       archiving.created_at,\n"
 					+ "       archiving.review,\n"
 					+ "       archiving.car_normal_types_id\n"
 					+ "FROM archiving\n"
@@ -133,10 +133,10 @@ public class ArchivingRepository {
 					+ "LIMIT :limit OFFSET :offset";
 		}
 		return
-			"SELECT archiving.id AS feedId,\n"
+			"SELECT archiving.id,\n"
 				+ "       model.name AS model_name,\n"
 				+ "       archiving.is_purchase,\n"
-				+ "       archiving.created_at AS createdAt,\n"
+				+ "       archiving.created_at,\n"
 				+ "       archiving.review,\n"
 				+ "       archiving.car_normal_types_id\n"
 				+ "FROM model\n"
@@ -156,42 +156,6 @@ public class ArchivingRepository {
 
 	private int calcOffset(final int limit, final int offset) {
 		return (offset - 1) * limit;
-	}
-
-	public List<Archiving> findAllByFeedIds(List<Long> feedIds) {
-		String sql = "SELECT archiving.id                     AS feed_id,\n"
-			+ "       model.name                       AS model_name,\n"
-			+ "       archiving.review,\n"
-			+ "       archiving.is_purchase,\n"
-			+ "       archiving.created_at             AS created_at,\n"
-			+ "       trim.name                        AS trim_name,\n"
-			+ "       engine.name                      AS engine_name,\n"
-			+ "       bodyType.name                    AS body_type_name,\n"
-			+ "       wheelType.name                   AS wheel_drive_name,\n"
-			+ "       exteriorColor.name               AS exterior_color_name,\n"
-			+ "       interiorColor.name               AS interior_color_name,\n"
-			+ "       selectOption.id                  AS select_option_id,\n"
-			+ "       selectOption.name                AS select_option_name\n"
-			+ "\n"
-			+ "FROM model\n"
-			+ "         LEFT JOIN trim ON model.id = trim.model_id\n"
-			+ "         LEFT JOIN carNormalTypes ON trim.id = carNormalTypes.trim_id\n"
-			+ "         LEFT JOIN engine ON carNormalTypes.engine_id = engine.id\n"
-			+ "         LEFT JOIN bodyType ON carNormalTypes.body_type_id = bodyType.id\n"
-			+ "         LEFT JOIN wheelType ON carNormalTypes.wheel_type_id = wheelType.id\n"
-			+ "         LEFT JOIN archiving ON carNormalTypes.id = archiving.car_normal_types_id\n"
-			+ "         LEFT JOIN archiving_interiorColor ON archiving.id = archiving_interiorColor.archiving_id\n"
-			+ "         LEFT JOIN interiorColor ON archiving_interiorColor.interior_color_id = interiorColor.id\n"
-			+ "         LEFT JOIN archiving_exteriorColor ON archiving.id = archiving_exteriorColor.archiving_id\n"
-			+ "         LEFT JOIN exteriorColor ON archiving_exteriorColor.exterior_color_id = exteriorColor.id\n"
-			+ "         LEFT JOIN archiving_selectOption ON archiving.id = archiving_selectOption.archiving_id\n"
-			+ "         LEFT JOIN selectOption ON archiving_selectOption.select_option_id = selectOption.id\n"
-			+ "WHERE archiving.id IN (:feedIds)";
-
-		SqlParameterSource params = new MapSqlParameterSource()
-			.addValue("feedIds", feedIds);
-
-		return jdbcTemplate.query(sql, params, archivingRowMapper());
 	}
 
 	private RowMapper<Archiving> archivingRowMapper() {
