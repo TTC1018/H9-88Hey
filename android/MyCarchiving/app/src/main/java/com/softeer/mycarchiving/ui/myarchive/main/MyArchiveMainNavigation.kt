@@ -19,13 +19,12 @@ fun NavGraphBuilder.myArchiveMainScreen(
     viewModelStoreOwner: ViewModelStoreOwner?,
     moveDetailPage: (MyArchivePage?, String, MyArchiveDestinations?) -> Unit,
     moveMakingCar: (MainDestination, String?, ArchiveFeedUiModel?) -> Unit,
-    onBackClick: () -> Unit,
 ) {
     composable(
         route = MyArchiveDestinations.MY_ARCHIVE_MAIN.route
     ) {
         BackHandler {
-            onBackClick()
+            moveMakingCar(MainDestination.MAKING_CAR, null, null)
         }
         MyArchiveMainRoute(
             viewModelStoreOwner = viewModelStoreOwner,
