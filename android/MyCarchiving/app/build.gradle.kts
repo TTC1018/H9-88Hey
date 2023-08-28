@@ -100,5 +100,8 @@ dependencies {
     // Serialization
     implementation(libs.kotlinx.serialization)
 
+    // Lottie
+    implementation (libs.lottie.compose)
+
     testImplementation(libs.junit4)
 }

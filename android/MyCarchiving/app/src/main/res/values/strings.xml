@@ -136,7 +136,7 @@
 
     <!--  로딩  -->
     <string name="loading_get_my_car">내 차를 불러오는 중이에요</string>
-    <string name="loading_empty_peed">피드에 저장한 차량이 없어요</string>
+    <string name="loading_empty_feed">피드에 저장한 차량이 없어요</string>
     <string name="loading_make_my_car">내 차 만들기</string>
 
     <!--  Navigation  -->
