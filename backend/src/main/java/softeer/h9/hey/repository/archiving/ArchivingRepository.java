@@ -57,7 +57,7 @@ public class ArchivingRepository {
 			+ "       exteriorColor.name               AS exterior_color_name,\n"
 			+ "       exteriorColor.exterior_image_url AS exterior_color_car_image_url,\n"
 			+ "       exteriorColor.color_image_url    AS exterior_color_color_image_url,\n"
-			+ "       exteriorColor.additional_price   AS exterior_color_additional_price, "
+			+ "       exteriorColor.additional_price   AS exterior_color_additional_price,\n"
 			+ "       interiorColor.id                 AS interior_color_id,\n"
 			+ "       interiorColor.name               AS interior_color_name,\n"
 			+ "       interiorColor.color_image_url    AS interior_color_color_image_url,\n"
@@ -69,22 +69,22 @@ public class ArchivingRepository {
 			+ "       archiving_selectOption.review    AS select_option_review,\n"
 			+ "       subOption.name                   AS sub_option_name\n"
 			+ "\n"
-			+ "FROM archiving\n"
-			+ "         LEFT JOIN carNormalTypes ON archiving.car_normal_types_id = carNormalTypes.id\n"
-			+ "         LEFT JOIN trim ON carNormalTypes.trim_id = trim.id\n"
+			+ "FROM model\n"
+			+ "         LEFT JOIN trim ON model.id = trim.model_id\n"
+			+ "         LEFT JOIN carNormalTypes ON trim.id = carNormalTypes.trim_id\n"
 			+ "         LEFT JOIN engine ON carNormalTypes.engine_id = engine.id\n"
 			+ "         LEFT JOIN bodyType ON carNormalTypes.body_type_id = bodyType.id\n"
 			+ "         LEFT JOIN wheelType ON carNormalTypes.wheel_type_id = wheelType.id\n"
-			+ "         LEFT JOIN model ON trim.model_id = model.id\n"
+			+ "         LEFT JOIN archiving ON carNormalTypes.id = archiving.car_normal_types_id\n"
+			+ "         LEFT JOIN archiving_interiorColor ON archiving.id = archiving_interiorColor.archiving_id\n"
+			+ "         LEFT JOIN interiorColor ON archiving_interiorColor.interior_color_id = interiorColor.id\n"
+			+ "         LEFT JOIN archiving_exteriorColor ON archiving.id = archiving_exteriorColor.archiving_id\n"
+			+ "         LEFT JOIN exteriorColor ON archiving_exteriorColor.exterior_color_id = exteriorColor.id\n"
 			+ "         LEFT JOIN archiving_selectOption ON archiving.id = archiving_selectOption.archiving_id\n"
 			+ "         LEFT JOIN selectOption ON archiving_selectOption.select_option_id = selectOption.id\n"
 			+ "         LEFT JOIN selectOption_subOption ON selectOption.id = selectOption_subOption.select_option_id\n"
 			+ "         LEFT JOIN subOption ON selectOption_subOption.sub_option_id = subOption.id\n"
-			+ "         LEFT JOIN archiving_exteriorColor ON archiving.id = archiving_exteriorColor.archiving_id\n"
-			+ "         LEFT JOIN exteriorColor ON archiving_exteriorColor.exterior_color_id = exteriorColor.id\n"
-			+ "         LEFT JOIN archiving_interiorColor ON archiving.id = archiving_interiorColor.archiving_id\n"
-			+ "         LEFT JOIN interiorColor ON archiving_interiorColor.interior_color_id = interiorColor.id\n"
-			+ "WHERE archiving.id = :feedId ";
+			+ "WHERE archiving.id = :feedId";
 
 		SqlParameterSource params = new MapSqlParameterSource().addValue("feedId", feedId);
 
@@ -118,32 +118,80 @@ public class ArchivingRepository {
 	private String initializeSql(final List<String> selectOptions) {
 		if (selectOptions.isEmpty()) {
 			return
-				"SELECT archiving.id, model.name AS model_name ,archiving.is_purchase, archiving.created_at, archiving.review, archiving.car_normal_types_id\n"
-					+ "FROM archiving, carNormalTypes, trim, model "
-					+ "WHERE archiving.car_normal_types_id = carNormalTypes.id "
-					+ "AND carNormalTypes.trim_id = trim.id "
-					+ "AND model_id = (:modelId)"
-					+ "ORDER BY archiving.id DESC "
+				"SELECT archiving.id AS feedId,\n"
+					+ "       model.name AS model_name,\n"
+					+ "       archiving.is_purchase,\n"
+					+ "       archiving.created_at AS createdAt,\n"
+					+ "       archiving.review,\n"
+					+ "       archiving.car_normal_types_id\n"
+					+ "FROM archiving\n"
+					+ "         LEFT JOIN carNormalTypes ON archiving.car_normal_types_id = carNormalTypes.id\n"
+					+ "         LEFT JOIN trim ON carNormalTypes.trim_id = trim.id\n"
+					+ "         LEFT JOIN model ON trim.model_id = model.id\n"
+					+ "WHERE model_id = (:modelId)\n"
+					+ "ORDER BY archiving.id DESC\n"
 					+ "LIMIT :limit OFFSET :offset";
 		}
 		return
-			"SELECT archiving.id, model.name AS model_name ,archiving.is_purchase, archiving.created_at, archiving.review, archiving.car_normal_types_id\n"
-				+ "FROM archiving, carNormalTypes, trim, model "
-				+ "WHERE archiving.id IN "
-				+ "      (SELECT archiving_selectOption.archiving_id "
-				+ "       FROM archiving_selectOption "
-				+ "       WHERE archiving_selectOption.select_option_id IN (:selectOptions) "
-				+ "       GROUP BY archiving_selectOption.archiving_id "
-				+ "       HAVING COUNT(DISTINCT archiving_selectOption.select_option_id) = :count) "
-				+ "AND archiving.car_normal_types_id = carNormalTypes.id "
-				+ "AND carNormalTypes.trim_id = trim.id "
-				+ "AND model_id = (:modelId)"
-				+ "ORDER BY archiving.id DESC "
+			"SELECT archiving.id AS feedId,\n"
+				+ "       model.name AS model_name,\n"
+				+ "       archiving.is_purchase,\n"
+				+ "       archiving.created_at AS createdAt,\n"
+				+ "       archiving.review,\n"
+				+ "       archiving.car_normal_types_id\n"
+				+ "FROM model\n"
+				+ "         INNER JOIN trim ON model.id = trim.model_id\n"
+				+ "         INNER JOIN carNormalTypes ON trim.id = carNormalTypes.trim_id\n"
+				+ "         INNER JOIN archiving ON carNormalTypes.id = archiving.car_normal_types_id\n"
+				+ "WHERE model_id = (:modelId)\n"
+				+ "  AND archiving.id IN\n"
+				+ "      (SELECT archiving_selectOption.archiving_id\n"
+				+ "       FROM archiving_selectOption\n"
+				+ "       WHERE archiving_selectOption.select_option_id IN (:selectOptions)\n"
+				+ "       GROUP BY archiving_selectOption.archiving_id\n"
+				+ "       HAVING COUNT(DISTINCT archiving_selectOption.select_option_id) = :count)\n"
+				+ "ORDER BY archiving.id DESC\n"
 				+ "LIMIT :limit OFFSET :offset";
 	}
 
 	private int calcOffset(final int limit, final int offset) {
 		return (offset - 1) * limit;
+	}
+
+	public List<Archiving> findAllByFeedIds(List<Long> feedIds) {
+		String sql = "SELECT archiving.id                     AS feed_id,\n"
+			+ "       model.name                       AS model_name,\n"
+			+ "       archiving.review,\n"
+			+ "       archiving.is_purchase,\n"
+			+ "       archiving.created_at             AS created_at,\n"
+			+ "       trim.name                        AS trim_name,\n"
+			+ "       engine.name                      AS engine_name,\n"
+			+ "       bodyType.name                    AS body_type_name,\n"
+			+ "       wheelType.name                   AS wheel_drive_name,\n"
+			+ "       exteriorColor.name               AS exterior_color_name,\n"
+			+ "       interiorColor.name               AS interior_color_name,\n"
+			+ "       selectOption.id                  AS select_option_id,\n"
+			+ "       selectOption.name                AS select_option_name\n"
+			+ "\n"
+			+ "FROM model\n"
+			+ "         LEFT JOIN trim ON model.id = trim.model_id\n"
+			+ "         LEFT JOIN carNormalTypes ON trim.id = carNormalTypes.trim_id\n"
+			+ "         LEFT JOIN engine ON carNormalTypes.engine_id = engine.id\n"
+			+ "         LEFT JOIN bodyType ON carNormalTypes.body_type_id = bodyType.id\n"
+			+ "         LEFT JOIN wheelType ON carNormalTypes.wheel_type_id = wheelType.id\n"
+			+ "         LEFT JOIN archiving ON carNormalTypes.id = archiving.car_normal_types_id\n"
+			+ "         LEFT JOIN archiving_interiorColor ON archiving.id = archiving_interiorColor.archiving_id\n"
+			+ "         LEFT JOIN interiorColor ON archiving_interiorColor.interior_color_id = interiorColor.id\n"
+			+ "         LEFT JOIN archiving_exteriorColor ON archiving.id = archiving_exteriorColor.archiving_id\n"
+			+ "         LEFT JOIN exteriorColor ON archiving_exteriorColor.exterior_color_id = exteriorColor.id\n"
+			+ "         LEFT JOIN archiving_selectOption ON archiving.id = archiving_selectOption.archiving_id\n"
+			+ "         LEFT JOIN selectOption ON archiving_selectOption.select_option_id = selectOption.id\n"
+			+ "WHERE archiving.id IN (:feedIds)";
+
+		SqlParameterSource params = new MapSqlParameterSource()
+			.addValue("feedIds", feedIds);
+
+		return jdbcTemplate.query(sql, params, archivingRowMapper());
 	}
 
 	private RowMapper<Archiving> archivingRowMapper() {

@@ -1,7 +1,6 @@
 package softeer.h9.hey.dto.archiving;
 
 import java.util.List;
-import java.util.Set;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,7 +15,6 @@ public class ArchivingDto {
 	private String creationDate;
 	private boolean isPurchase;
 	private String review;
-	private Integer totalPrice;
 	private List<String> tags;
 	private TrimDto trim;
 	private EngineDto engine;
@@ -24,5 +22,5 @@ public class ArchivingDto {
 	private WheelDriveDto wheelDrive;
 	private InteriorColorDto interiorColor;
 	private ExteriorColorDto exteriorColor;
-	private Set<ArchivingSelectedOptionDto> selectedOptions;
+	private List<ArchivingSelectedOptionDto> selectedOptions;
 }

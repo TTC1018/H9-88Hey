@@ -2,7 +2,6 @@ package softeer.h9.hey.service.archiving;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -11,9 +10,9 @@ import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;
 import softeer.h9.hey.domain.archiving.Archiving;
 import softeer.h9.hey.domain.archiving.ArchivingResult;
+import softeer.h9.hey.domain.archiving.ArchivingTags;
 import softeer.h9.hey.domain.archiving.Feed;
 import softeer.h9.hey.domain.archiving.SelectOptionTag;
-import softeer.h9.hey.domain.archiving.SelectedOption;
 import softeer.h9.hey.dto.archiving.ArchivingDto;
 import softeer.h9.hey.dto.archiving.ArchivingSelectedOptionDto;
 import softeer.h9.hey.dto.archiving.BodyTypeDto;
@@ -28,33 +27,15 @@ import softeer.h9.hey.dto.archiving.request.PaginationRequest;
 import softeer.h9.hey.dto.archiving.response.ArchivingDetailResponse;
 import softeer.h9.hey.dto.archiving.response.ArchivingResponse;
 import softeer.h9.hey.dto.archiving.response.ArchivingsByUserBookmarkedResponse;
-import softeer.h9.hey.repository.archiving.ArchivingBodyTypeRepository;
-import softeer.h9.hey.repository.archiving.ArchivingEngineRepository;
-import softeer.h9.hey.repository.archiving.ArchivingExteriorColorRepository;
-import softeer.h9.hey.repository.archiving.ArchivingInteriorColorRepository;
 import softeer.h9.hey.repository.archiving.ArchivingRepository;
-import softeer.h9.hey.repository.archiving.ArchivingSelectedOptionRepository;
 import softeer.h9.hey.repository.archiving.ArchivingTagsRepository;
-import softeer.h9.hey.repository.archiving.ArchivingTrimRepository;
-import softeer.h9.hey.repository.archiving.ArchivingWheelDriveRepository;
 
 @Service
 @RequiredArgsConstructor
 public class ArchivingService {
 
 	private final ArchivingRepository archivingRepository;
-
-	private final ArchivingTrimRepository trimRepository;
-	private final ArchivingEngineRepository engineRepository;
-	private final ArchivingBodyTypeRepository bodyTypeRepository;
-	private final ArchivingWheelDriveRepository wheelDriveRepository;
-
-	private final ArchivingInteriorColorRepository interiorColorRepository;
-	private final ArchivingExteriorColorRepository exteriorColorRepository;
-
 	private final ArchivingTagsRepository archivingTagsRepository;
-	private final ArchivingSelectedOptionRepository archivingSelectedOptionRepository;
-
 	private final ArchivingTagsRepository tagsRepository;
 
 	public ArchivingsByUserBookmarkedResponse findAllByUserId(final int userId, PaginationRequest request) {
@@ -183,91 +164,89 @@ public class ArchivingService {
 		ArchivingResponse response = new ArchivingResponse();
 		response.setNextOffset(request.getOffset() + 1);
 
-		List<Archiving> archivings = archivingRepository.findArchivingIdByCondition(request.getModelId(),
+		List<Archiving> resultFeedIds = archivingRepository.findArchivingIdByCondition(request.getModelId(),
 			request.getLimit(), request.getOffset(),
 			request.getSelectOptions());
 
-		response.setArchivings(mapToArchivingDto(archivings));
+		// 아카이빙 피드
+		List<Long> feedIds = new ArrayList<>();
+		for (Archiving archiving : resultFeedIds) {
+			feedIds.add(archiving.getFeedId());
+		}
+
+		List<Archiving> archivingResults = archivingRepository.findAllByFeedIds(feedIds);
+
+		Map<Long, ArchivingDto> archivingMap = new HashMap<>();
+		for (Archiving result : archivingResults) {
+			Long feedId = result.getFeedId();
+			if (!archivingMap.containsKey(feedId)) {
+				archivingMap.put(feedId, new ArchivingDto());
+				ArchivingDto currentArchivingDto = archivingMap.get(feedId);
+				initializeFeeds(result, feedId, currentArchivingDto);
+			}
+			ArchivingDto currentArchivingDto = archivingMap.get(feedId);
+
+			// 선택 옵션 추가
+			ArchivingSelectedOptionDto temp = ArchivingSelectedOptionDto
+				.builder()
+				.name(result.getSelectOptionName())
+				.id(result.getSelectOptionId())
+				.build();
+			currentArchivingDto.getSelectedOptions().add(temp);
+		}
+
+		List<ArchivingTags> tagResults = tagsRepository.findByFeeds(feedIds);
+
+		Map<Long, List<String>> tagMap = new HashMap<>();
+		for (ArchivingTags archivingTags : tagResults) {
+			Long feedId = archivingTags.getFeedId();
+			if (!tagMap.containsKey(feedId)) {
+				List<String> tags = new ArrayList<>();
+				tagMap.put(feedId, tags);
+				archivingMap.get(feedId).setTags(tags);
+			}
+			List<String> currentTags = tagMap.get(feedId);
+			currentTags.add(archivingTags.getTag());
+		}
+
+		response.setArchivings(new ArrayList<>(archivingMap.values()));
+
 		return response;
 	}
 
-	private List<ArchivingDto> mapToArchivingDto(final List<Archiving> archivings) {
-		List<ArchivingDto> archivingDtos = new ArrayList<>();
-
-		for (Archiving archiving : archivings) {
-			Long archivingId = archiving.getId();
-			String carCode = archiving.getCarNormalTypesId();
-
-			ArchivingDto archivingDto = new ArchivingDto();
-			archivingDto.setFeedId(Long.toString(archivingId));
-			archivingDto.setModelName(archiving.getModelName());
-			archivingDto.setCreationDate(archiving.getCreatedAt().toString());
-			archivingDto.setReview(archiving.getReview());
-			archivingDto.setPurchase(archiving.getIsPurchase());
-			archivingDto.setReview(archiving.getReview());
-
-			archivingDto.setTags(archivingTagsRepository.findByArchivingId(archivingId));
-
-			archivingDto.setTrim(trimRepository.findByCarCode(carCode));
-			archivingDto.setEngine(engineRepository.findByCarCode(carCode));
-			archivingDto.setBodyType(bodyTypeRepository.findByCarCode(carCode));
-			archivingDto.setWheelDrive(wheelDriveRepository.findByCarCode(carCode));
-
-			archivingDto.setInteriorColor(interiorColorRepository.findByArchivingId(archivingId));
-			archivingDto.setExteriorColor(exteriorColorRepository.findByArchivingId(archivingId));
-
-			HashSet<ArchivingSelectedOptionDto> selectedOptions = new HashSet<>(
-				getArchivingSelectedOptionDtoByArchivingId(archivingId));
-			archivingDto.setSelectedOptions(selectedOptions);
-
-			archivingDto.setTotalPrice(calculatePrice(archivingDto, selectedOptions));
-
-			archivingDtos.add(archivingDto);
-		}
-		return archivingDtos;
+	private void initializeFeeds(Archiving result, Long feedId, ArchivingDto currentArchivingDto) {
+		// 기본 중복 데이터 세팅
+		currentArchivingDto.setFeedId(Long.toString(feedId));
+		currentArchivingDto.setModelName(result.getModelName());
+		currentArchivingDto.setPurchase(result.getIsPurchase());
+		currentArchivingDto.setReview(result.getReview());
+		currentArchivingDto.setCreationDate(result.getCreatedAt().toString());
+		// Dto 중복 데이터 세팅
+		currentArchivingDto.setTrim(
+			TrimDto.builder()
+				.name(result.getTrimName())
+				.build());
+		currentArchivingDto.setEngine(
+			EngineDto.builder()
+				.name(result.getEngineName())
+				.build());
+		currentArchivingDto.setBodyType(
+			BodyTypeDto.builder()
+				.name(result.getBodyTypeName())
+				.build());
+		currentArchivingDto.setWheelDrive(
+			WheelDriveDto.builder()
+				.name(result.getWheelDriveName())
+				.build());
+		currentArchivingDto.setInteriorColor(
+			InteriorColorDto.builder()
+				.name(result.getInteriorColorName())
+				.build());
+		currentArchivingDto.setExteriorColor(
+			ExteriorColorDto.builder()
+				.name(result.getExteriorColorName())
+				.build());
+		currentArchivingDto.setSelectedOptions(new ArrayList<>());
 	}
 
-	private int calculatePrice(final ArchivingDto archivingDto,
-		final HashSet<ArchivingSelectedOptionDto> selectedOptions) {
-		// 아카이빙 총 금액을 계산하는 로직
-		int totalPrice = 0;
-
-		totalPrice += (archivingDto.getTrim().getPrice()
-			+ archivingDto.getEngine().getAdditionalPrice()
-			+ archivingDto.getBodyType().getAdditionalPrice()
-			+ archivingDto.getWheelDrive().getAdditionalPrice()
-			+ archivingDto.getExteriorColor().getAdditionalPrice());
-
-		totalPrice += selectedOptions.stream().mapToInt(ArchivingSelectedOptionDto::getAdditionalPrice).sum();
-
-		return totalPrice;
-	}
-
-	private List<ArchivingSelectedOptionDto> getArchivingSelectedOptionDtoByArchivingId(final Long archivingId) {
-		List<SelectedOption> selectedOptions = archivingSelectedOptionRepository.findByArchiving(archivingId);
-		Map<String, ArchivingSelectedOptionDto> map = new HashMap<>();
-
-		for (SelectedOption selectedOption : selectedOptions) {
-			String id = selectedOption.getId();
-			// 선택한 태그가 N개 이므로, 처음 생성시에만 세팅
-			if (!map.containsKey(id)) {
-				map.put(id, initializeArchivingSelectedOption(selectedOption, id));
-			}
-			ArchivingSelectedOptionDto selectedOptionDto = map.get(id);
-
-			selectedOptionDto.getSubOptions().add(selectedOption.getSubOption());
-			selectedOptionDto.getTags().add(selectedOption.getTag());
-		}
-		return new ArrayList<>(map.values());
-	}
-
-	private ArchivingSelectedOptionDto initializeArchivingSelectedOption(SelectedOption selectedOption, String id) {
-		ArchivingSelectedOptionDto selectedOptionDto = new ArchivingSelectedOptionDto();
-		selectedOptionDto.setId(id);
-		selectedOptionDto.setName(selectedOption.getName());
-		selectedOptionDto.setImageUrl(selectedOption.getImageUrl());
-		selectedOptionDto.setReview(selectedOption.getReview());
-		selectedOptionDto.setAdditionalPrice(selectedOption.getAdditionalPrice());
-		return selectedOptionDto;
-	}
 }
