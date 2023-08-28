@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 
 import { setLocalStorage } from '@/utils';
 import { isEmailEmpty, isPasswordEmpty, isEmailValid } from '@/utils/auth';
-import { AuthError } from '@/utils/AuthError';
+import { CommonError } from '@/utils/CommonError';
 import { API_URL, emailRegex, AUTH_ALERT_MESSAGE } from '@/constants';
 
 import { AuthContext } from '@/AuthProvider';
@@ -70,7 +70,7 @@ export function Signin() {
       const { statusCode, message, data } = await response.json();
 
       if (!response.ok) {
-        throw new AuthError(message, statusCode);
+        throw new CommonError(message, statusCode);
       }
 
       const { accessToken, refreshToken, userName } = data;
@@ -81,7 +81,7 @@ export function Signin() {
       setIsSignin(true);
       setUserName(userName);
     } catch (error) {
-      if (error instanceof AuthError) {
+      if (error instanceof CommonError) {
         const { statusCode } = error;
 
         if (statusCode === 401) {

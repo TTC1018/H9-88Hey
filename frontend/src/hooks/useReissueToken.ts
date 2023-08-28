@@ -1,7 +1,7 @@
 import { useContext } from 'react';
 
-import { getLocalStorage, removeLocalStorage, setLocalStorage } from '@/utils';
-import { AuthError } from '@/utils/AuthError';
+import { getLocalStorage, setLocalStorage } from '@/utils';
+import { CommonError } from '@/utils/CommonError';
 import { API_URL } from '@/constants';
 
 import { AuthContext } from '@/AuthProvider';
@@ -23,7 +23,7 @@ export function useReissueToken() {
       const { statusCode, message, data } = await response.json();
 
       if (!response.ok) {
-        throw new AuthError(message, statusCode);
+        throw new CommonError(message, statusCode);
       }
 
       setLocalStorage('accessToken', data.accessToken);
@@ -32,19 +32,16 @@ export function useReissueToken() {
       setIsSignin(true);
       setUserName(data.userName);
     } catch (error) {
-      if (error instanceof AuthError) {
+      if (error instanceof CommonError) {
         const { statusCode, message } = error;
 
         if (statusCode === 401) {
-          // 토큰 초기화
+          // 세션 만료 및 사용자에게 재로그인 요청
           setIsSignin(false);
-          removeLocalStorage('accessToken');
-          removeLocalStorage('refreshToken');
-
-          // TODO: 세션이 만료되었습니다. 다시 로그인 해주세요. 모달 표시
-          throw new Error(message);
+          localStorage.clear();
+          throw new CommonError(message, statusCode);
         } else {
-          throw new Error(message);
+          throw new CommonError(message, statusCode);
         }
       } else {
         throw new Error(String(error));

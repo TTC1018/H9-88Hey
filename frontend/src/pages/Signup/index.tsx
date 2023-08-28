@@ -13,7 +13,7 @@ import {
   isPasswordIncorrect,
   isPasswordInvalid,
 } from '@/utils/auth';
-import { AuthError } from '@/utils/AuthError';
+import { CommonError } from '@/utils/CommonError';
 import { API_URL, emailRegex, AUTH_ALERT_MESSAGE } from '@/constants';
 
 import HyundaiLogo from '/public/assets/icons/signin_hyundai_logo.svg';
@@ -108,7 +108,7 @@ export function Signup() {
       const { statusCode, message, data } = await response.json();
 
       if (!response.ok) {
-        throw new AuthError(message, statusCode);
+        throw new CommonError(message, statusCode);
       }
 
       const { accessToken, refreshToken } = data;
@@ -119,7 +119,7 @@ export function Signup() {
       setIsSignin(true);
       setUserName(user);
     } catch (error) {
-      if (error instanceof AuthError) {
+      if (error instanceof CommonError) {
         const { statusCode } = error;
 
         if (statusCode === 409) {

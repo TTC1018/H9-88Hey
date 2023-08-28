@@ -4,7 +4,6 @@ import { useLocation, Link, useNavigate } from 'react-router-dom';
 
 import { ARCHIVING, PATH_LIST, ModalType } from '@/constants';
 import { useModalContext } from '@/hooks/useModalContext';
-import { removeLocalStorage } from '@/utils';
 
 import { HyundaiLogo } from '@/components/common/HyundaiLogo';
 import { AuthContext } from '@/AuthProvider';
@@ -30,8 +29,7 @@ export function ArchivingHeader() {
 
   function handleSignout() {
     setIsSignin(false);
-    removeLocalStorage('accessToken');
-    removeLocalStorage('refreshToken');
+    localStorage.clear();
     navigate('/', { replace: true });
   }
 

@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react';
 
+import { CommonError } from '@/utils/CommonError';
+
 export function useErrorHandler() {
   const [errorState, setErrorState] = useState(null);
 
@@ -11,7 +13,8 @@ export function useErrorHandler() {
 
   useEffect(() => {
     if (errorState !== null) {
-      throw new Error(errorState);
+      const { message, statusCode } = errorState;
+      throw new CommonError(message, statusCode);
     }
   }, [errorState]);
 
