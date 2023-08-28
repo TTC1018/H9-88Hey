@@ -48,7 +48,7 @@
 
 ## ⚒️ 사용 기술
 ### Backend
-- 
+- AWS EC2, AWS S3, NGINX, Github Action, MySQL, CI Test Container, Java, Spring, Python
 ### Frontend
 - React, TypeScript, Emotion, React Router
 ### Android
