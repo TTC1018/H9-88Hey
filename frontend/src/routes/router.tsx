@@ -13,6 +13,7 @@ import { Result } from '@/pages/Result';
 import { MyChiving } from '@/pages/MyChiving';
 import { Archiving } from '@/pages/Archiving';
 import { Detail } from '@/pages/Archiving/Detail';
+import { NotFound } from '@/pages/NotFound';
 import { ErrorBoundary } from '@/components/common/ErrorBoundary';
 import { MyCarLayout } from '@/components/layout/MyCarLayout';
 import { MyChivingLayout } from '@/components/layout/MyChivingLayout';
@@ -115,5 +116,9 @@ export const router = createBrowserRouter([
   {
     path: 'review',
     element: <Review />,
+  },
+  {
+    path: '*',
+    element: <NotFound />,
   },
 ]);
