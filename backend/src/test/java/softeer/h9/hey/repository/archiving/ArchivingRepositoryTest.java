@@ -31,7 +31,7 @@ class ArchivingRepositoryTest {
 		assertTrue(limit >= archivings.size());
 		// 오름차순 정렬 테스트
 		for (int i = 1; i < archivings.size(); i++) {
-			assertTrue(archivings.get(i - 1).getFeedId() > archivings.get(i).getFeedId());
+			assertTrue(archivings.get(i - 1).getId() > archivings.get(i).getId());
 		}
 	}
 

@@ -14,19 +14,41 @@ import softeer.h9.hey.dto.archiving.request.ArchivingDetailRequest;
 import softeer.h9.hey.dto.archiving.request.ArchivingRequest;
 import softeer.h9.hey.dto.archiving.response.ArchivingDetailResponse;
 import softeer.h9.hey.dto.archiving.response.ArchivingResponse;
+import softeer.h9.hey.repository.archiving.ArchivingBodyTypeRepository;
+import softeer.h9.hey.repository.archiving.ArchivingEngineRepository;
+import softeer.h9.hey.repository.archiving.ArchivingExteriorColorRepository;
+import softeer.h9.hey.repository.archiving.ArchivingInteriorColorRepository;
 import softeer.h9.hey.repository.archiving.ArchivingRepository;
+import softeer.h9.hey.repository.archiving.ArchivingSelectedOptionRepository;
 import softeer.h9.hey.repository.archiving.ArchivingTagsRepository;
+import softeer.h9.hey.repository.archiving.ArchivingTrimRepository;
+import softeer.h9.hey.repository.archiving.ArchivingWheelDriveRepository;
 
 @DisplayName("Archiving Service 테스트")
 class ArchivingServiceTest {
 
 	ArchivingRepository archivingRepository = Mockito.mock(ArchivingRepository.class);
+	ArchivingTrimRepository trimRepository = Mockito.mock(ArchivingTrimRepository.class);
+	ArchivingEngineRepository engineRepository = Mockito.mock(ArchivingEngineRepository.class);
+	ArchivingBodyTypeRepository bodyTypeRepository = Mockito.mock(ArchivingBodyTypeRepository.class);
+	ArchivingWheelDriveRepository wheelDriveRepository = Mockito.mock(ArchivingWheelDriveRepository.class);
+	ArchivingInteriorColorRepository interiorColorRepository = Mockito.mock(ArchivingInteriorColorRepository.class);
+	ArchivingExteriorColorRepository exteriorColorRepository = Mockito.mock(ArchivingExteriorColorRepository.class);
 	ArchivingTagsRepository archivingTagsRepository = Mockito.mock(ArchivingTagsRepository.class);
+	ArchivingSelectedOptionRepository archivingSelectedOptionRepository = Mockito.mock(
+		ArchivingSelectedOptionRepository.class);
 	ArchivingTagsRepository tagsRepository = Mockito.mock(ArchivingTagsRepository.class);
 
 	ArchivingService archivingService = new ArchivingService(
 		archivingRepository,
+		trimRepository,
+		engineRepository,
+		bodyTypeRepository,
+		wheelDriveRepository,
+		interiorColorRepository,
+		exteriorColorRepository,
 		archivingTagsRepository,
+		archivingSelectedOptionRepository,
 		tagsRepository);
 
 	@DisplayName("단일 아카이빙 상세 정보를 조회한다.")
