@@ -102,10 +102,10 @@
 
 ### Frontend
 <div>
-  <img src="https://img.shields.io/badge/React-61DAFB?style=flat-square&logo=React&logoColor=white"/> 
-     <img src="https://img.shields.io/badge/Typescript-3178C6?style=flat-square&logo=Typescript&logoColor=white"/>
-     <img src="https://img.shields.io/badge/React Router-CA4245?style=flat-square&logo=ReactRouter&logoColor=white"/>
-     <img src="https://img.shields.io/badge/Emotion-ffc0cb?style=flat-square"/>
+  <img src="https://img.shields.io/badge/React-61DAFB?style=forthebage&logo=React&logoColor=white"/> 
+     <img src="https://img.shields.io/badge/Typescript-3178C6?style=forthebage&logo=Typescript&logoColor=white"/>
+     <img src="https://img.shields.io/badge/React Router-CA4245?style=forthebage&logo=ReactRouter&logoColor=white"/>
+     <img src="https://img.shields.io/badge/Emotion-ffc0cb?style=forthebage"/>
 </div>
   
 
