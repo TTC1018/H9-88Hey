@@ -101,8 +101,13 @@
 - AWS EC2, AWS S3, NGINX, Github Action, MySQL, CI Test Container, Java, Spring, Python
 
 ### Frontend
-
-- React, TypeScript, Emotion, React Router
+<div>
+  <img src="https://img.shields.io/badge/React-61DAFB?style=flat-square&logo=React&logoColor=white"/> 
+     <img src="https://img.shields.io/badge/Typescript-3178C6?style=flat-square&logo=Typescript&logoColor=white"/>
+     <img src="https://img.shields.io/badge/React Router-CA4245?style=flat-square&logo=ReactRouter&logoColor=white"/>
+     <img src="https://img.shields.io/badge/Emotion-ffc0cb?style=flat-square"/>
+</div>
+  
 
 ### Android
 
