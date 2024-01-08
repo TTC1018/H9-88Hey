@@ -4,29 +4,28 @@
 </p>
 
 ## 📄 프로젝트 소개
-
-<img src="https://github.com/softeerbootcamp-2nd/H9-88Hey/assets/39405316/78736d18-1e4a-4471-a64f-0b37b8f6ea29">  
-<img src="https://github.com/softeerbootcamp-2nd/H9-88Hey/assets/39405316/88b3b1c3-7914-498e-83f2-749ec185ac85">  
-<img src="https://github.com/softeerbootcamp-2nd/H9-88Hey/assets/39405316/f0e94651-a205-49a9-83d5-4da74b3c2ecd">
+![대문1](https://github.com/TTC1018/H9-88Hey/assets/39405316/747eed7f-c861-498a-bc4b-7a620471aa89)  
+![대문2](https://github.com/TTC1018/H9-88Hey/assets/39405316/af1d8e66-2569-46bd-8fee-bc78578975bd)  
+![대문3](https://github.com/TTC1018/H9-88Hey/assets/39405316/48273d19-623f-466c-bd8b-64d244ae1e08)  
 
 ## 🖼️ 프로젝트 한눈에 보기
 
 ### AND
 
-| <img src="https://github.com/softeerbootcamp-2nd/H9-88Hey/assets/39405316/d763a1f8-ba21-419e-b090-840c0c9012c4" width=180> | <img src="https://github.com/softeerbootcamp-2nd/H9-88Hey/assets/39405316/ddb6b50a-baed-47b8-a2ba-c3f6c0070f46" width=180> | <img src="https://github.com/softeerbootcamp-2nd/H9-88Hey/assets/39405316/159df725-1cff-4ff1-bd35-eafce0c52683" width="180" /> |
+| <img src="https://github.com/TTC1018/H9-88Hey/assets/39405316/a8178035-edce-4342-86ba-46d878dc16ea" width=180> | <img src="https://github.com/TTC1018/H9-88Hey/assets/39405316/fdecc66c-8c29-4d93-8bd1-c319543edd88" width=180> | <img src="https://github.com/TTC1018/H9-88Hey/assets/39405316/bfc3d76d-9d61-4ee3-b8fa-292c81a13438" width="180" /> |
 |:--------------------------------------------------------------------------------------------------------------------------:|:--------------------------------------------------------------------------------------------------------------------------:|:------------------------------------------------------------------------------------------------------------------------------:|
 |                                                            로그인                                                             |                                                           내차만들기                                                            |                                                            견적 요약 보기                                                            |
-| <img src="https://github.com/softeerbootcamp-2nd/H9-88Hey/assets/39405316/126aca3a-f220-4cb9-9a74-a2af4abe7aa7" width=180> | <img src="https://github.com/softeerbootcamp-2nd/H9-88Hey/assets/39405316/d2d635f1-e6e7-44fa-a7de-e7608d9e64ba" width=180> | <img src="https://github.com/softeerbootcamp-2nd/H9-88Hey/assets/39405316/ab42a1d1-6dfd-4ebc-b196-5d113c36f11b" width="180" /> |
+| <img src="https://github.com/softeerbootcamp-2nd/H9-88Hey/assets/39405316/126aca3a-f220-4cb9-9a74-a2af4abe7aa7" width=180> | <img src="https://github.com/TTC1018/H9-88Hey/assets/39405316/60bcab37-45a3-44c7-8e63-df901aea1f24" width=180> | <img src="https://github.com/TTC1018/H9-88Hey/assets/39405316/dbc0357c-9fef-42d3-9b5c-a878485c268e" width="180" /> |
 |                                                        만든 차량 한눈에 보기                                                        |                                                           임시 저장                                                            |                                                          저장 정보로 내차만들기                                                          |
 
 ### FE
 
-|   <img src="https://github.com/softeerbootcamp-2nd/H9-88Hey/assets/41375597/62aa13dd-8d30-442a-9c6c-43d4a9e88284" width=400>   |   <img src="https://github.com/softeerbootcamp-2nd/H9-88Hey/assets/41375597/de6fc003-2548-4e57-814c-40ad5eba201a" width=400>   |
+|   <img src="https://github.com/TTC1018/H9-88Hey/assets/39405316/faf9106b-140a-45d9-a981-0e6dbc441b87" width=400>   |   <img src="https://github.com/TTC1018/H9-88Hey/assets/39405316/b8c1cbd5-eac6-44a7-a7d3-8ef81b99b196" width=400>   |
 |:------------------------------------------------------------------------------------------------------------------------------:|:------------------------------------------------------------------------------------------------------------------------------:|
 |                                                              로그인                                                               |                                                             내차만들기                                                              |
-| <img src="https://github.com/softeerbootcamp-2nd/H9-88Hey/assets/41375597/142d2506-ebc9-41cf-9898-d631b1db3943" width="400" /> |   <img src="https://github.com/softeerbootcamp-2nd/H9-88Hey/assets/41375597/fcafb12d-88c6-4355-a39d-dd55f441bf44" width=400>   |
+| <img src="https://github.com/TTC1018/H9-88Hey/assets/39405316/864acd8d-2b43-4c15-baef-034a568b15c9" width="400" /> |   <img src="https://github.com/TTC1018/H9-88Hey/assets/39405316/b5fa0439-eae1-49bb-91a4-4a30a6ac04e0" width=400>   |
 |                                                            견적 요약 보기                                                            |                                                          만든 차량 한눈에 보기                                                          |
-|   <img src="https://github.com/softeerbootcamp-2nd/H9-88Hey/assets/41375597/54317ae8-ba1b-4cd6-9aa3-594e904f03b3" width=400>   | <img src="https://github.com/softeerbootcamp-2nd/H9-88Hey/assets/41375597/5e49aa3e-f1f9-4cd6-95fa-7dd3fe40da37" width="400" /> |
+|   <img src="https://github.com/TTC1018/H9-88Hey/assets/39405316/d35454da-695e-4996-b76b-74376f534124" width=400>   | <img src="https://github.com/TTC1018/H9-88Hey/assets/39405316/5539dc85-ba90-4a3f-987a-d498db39c685" width="400" /> |
 |                                                             임시 저장                                                              |                                                          저장 정보로 내차만들기                                                          |
 
 #### 내차만들기
@@ -38,20 +37,20 @@
 
 ### AND
 
-| <img src="https://github.com/softeerbootcamp-2nd/H9-88Hey/assets/39405316/ddb6b50a-baed-47b8-a2ba-c3f6c0070f46" width=180> | <img src="https://github.com/softeerbootcamp-2nd/H9-88Hey/assets/39405316/110a0232-e446-4d76-9b95-a44fbf20e368" width=180> |   <img src="https://github.com/softeerbootcamp-2nd/H9-88Hey/assets/39405316/2b46dff1-2003-4875-a192-939c0cc8baba" width=180>   | <img src="https://github.com/softeerbootcamp-2nd/H9-88Hey/assets/39405316/5b9f12b2-f715-4bdb-8ac0-5fa342bc32a4" width=180> |
+| <img src="https://github.com/TTC1018/H9-88Hey/assets/39405316/fdecc66c-8c29-4d93-8bd1-c319543edd88" width=180> | <img src="https://github.com/TTC1018/H9-88Hey/assets/39405316/bfc3d76d-9d61-4ee3-b8fa-292c81a13438" width=180> |   <img src="https://github.com/TTC1018/H9-88Hey/assets/39405316/bdb80934-efca-4d4c-9bf1-1cf840de4e1b" width=180>   | <img src="https://github.com/TTC1018/H9-88Hey/assets/39405316/46f568ec-06b3-4706-a50e-61fb407c738b" width=180> |
 |:--------------------------------------------------------------------------------------------------------------------------:|:--------------------------------------------------------------------------------------------------------------------------:|:------------------------------------------------------------------------------------------------------------------------------:|:--------------------------------------------------------------------------------------------------------------------------:|
 |                                                           내차만들기                                                            |                                                          견적 요약 보기                                                          |                                                             데이터 로딩                                                             |                                                         선택한 옵션 유지                                                          |
-| <img src="https://github.com/softeerbootcamp-2nd/H9-88Hey/assets/39405316/365fec7f-990a-4c79-8382-b74e9d4f0c76" width=180> | <img src="https://github.com/softeerbootcamp-2nd/H9-88Hey/assets/39405316/126aca3a-f220-4cb9-9a74-a2af4abe7aa7" width=180> | <img src="https://github.com/softeerbootcamp-2nd/H9-88Hey/assets/39405316/d2d635f1-e6e7-44fa-a7de-e7608d9e64ba" width="180" /> | <img src="https://github.com/softeerbootcamp-2nd/H9-88Hey/assets/39405316/ab42a1d1-6dfd-4ebc-b196-5d113c36f11b" width=180> |
+| <img src="https://github.com/TTC1018/H9-88Hey/assets/39405316/927971df-97ef-489a-98de-c8f2895892ff" width=180> | <img src="https://github.com/TTC1018/H9-88Hey/assets/39405316/aeab043a-841b-41fc-869e-58c4db494658" width=180> | <img src="https://github.com/TTC1018/H9-88Hey/assets/39405316/60bcab37-45a3-44c7-8e63-df901aea1f24" width="180" /> | <img src="https://github.com/TTC1018/H9-88Hey/assets/39405316/dbc0357c-9fef-42d3-9b5c-a878485c268e" width=180> |
 |                                                        360도 회전 이미지                                                         |                                                        만든 차량 한눈에 보기                                                        |                                                             임시 저장                                                              |                                                        저장 정보로 내차만들기                                                        |
 
 ### FE
 
-| <img src="https://github.com/softeerbootcamp-2nd/H9-88Hey/assets/41375597/de6fc003-2548-4e57-814c-40ad5eba201a" width=400> | <img src="https://github.com/softeerbootcamp-2nd/H9-88Hey/assets/41375597/142d2506-ebc9-41cf-9898-d631b1db3943" width=400> |
+| <img src="https://github.com/TTC1018/H9-88Hey/assets/39405316/b8c1cbd5-eac6-44a7-a7d3-8ef81b99b196" width=400> | <img src="https://github.com/TTC1018/H9-88Hey/assets/39405316/864acd8d-2b43-4c15-baef-034a568b15c9" width=400> |
 |:--------------------------------------------------------------------------------------------------------------------------:|:--------------------------------------------------------------------------------------------------------------------------:|
 |                                                           내차만들기                                                            |                                                          견적 요약 보기                                                          |
-| <img src="https://github.com/softeerbootcamp-2nd/H9-88Hey/assets/41375597/2c435ecd-5618-4ec7-ae00-2cbfc1044110" width=400> | <img src="https://github.com/softeerbootcamp-2nd/H9-88Hey/assets/41375597/ad4b0857-b113-46d0-9591-3693610c9309" width=400> |
+| <img src="https://github.com/TTC1018/H9-88Hey/assets/39405316/e63fc797-e366-427e-a8df-f4ecd296c5fe" width=400> | <img src="https://github.com/TTC1018/H9-88Hey/assets/39405316/d72da496-6b61-4672-a0c5-b334a330f230" width=400> |
 |                                                           데이터 로딩                                                           |                                                         선택한 옵션 유지                                                          |
-| <img src="https://github.com/softeerbootcamp-2nd/H9-88Hey/assets/41375597/c84025d4-efd0-4c14-8ebf-a4faae4df5ff" width=400> | <img src="https://github.com/softeerbootcamp-2nd/H9-88Hey/assets/41375597/fcafb12d-88c6-4355-a39d-dd55f441bf44" width=400> |
+| <img src="https://github.com/TTC1018/H9-88Hey/assets/39405316/1a1c49f0-7dd2-4cda-8bcf-b12b73be44b9" width=400> | <img src="https://github.com/TTC1018/H9-88Hey/assets/39405316/b5fa0439-eae1-49bb-91a4-4a30a6ac04e0" width=400> |
 |                                                        360도 회전 이미지                                                         |                                                        만든 차량 한눈에 보기                                                        |
 
 #### 아카이빙
@@ -62,16 +61,16 @@
 
 ### AND
 
-| <img src="https://github.com/softeerbootcamp-2nd/H9-88Hey/assets/39405316/9fa6e2b1-838a-45be-8753-ff8167b09f03" width=180> | <img src="https://github.com/softeerbootcamp-2nd/H9-88Hey/assets/39405316/d953b069-6d16-47c4-a3d4-7311c5c9759d" width=180> | <img src="https://github.com/softeerbootcamp-2nd/H9-88Hey/assets/39405316/194f5902-2253-4ff5-9737-dde79e19ea71" width=180> | <img src="https://github.com/softeerbootcamp-2nd/H9-88Hey/assets/39405316/1052a356-cb7c-4aba-b81d-91bdc3f8b431" width=180> |
+| <img src="https://github.com/TTC1018/H9-88Hey/assets/39405316/a0a2a7ff-118f-4bb8-8e41-a8ddd5e812ae" width=180> | <img src="https://github.com/TTC1018/H9-88Hey/assets/39405316/5f4a834b-779a-4284-9a68-4fff28df3c01" width=180> | <img src="https://github.com/TTC1018/H9-88Hey/assets/39405316/3b26ac3f-18bf-4b57-8662-30b29e5f4d55" width=180> | <img src="https://github.com/TTC1018/H9-88Hey/assets/39405316/2b7b48a4-086b-40fa-9db3-7dfa498442f9" width=180> |
 |:--------------------------------------------------------------------------------------------------------------------------:|:--------------------------------------------------------------------------------------------------------------------------:|:--------------------------------------------------------------------------------------------------------------------------:|:--------------------------------------------------------------------------------------------------------------------------:|
 |                                                           피드 보기                                                            |                                                           옵션 필터링                                                           |                                                           북마크 하기                                                           |                                                        피드 정보로 내차만들기                                                        |
 
 ### FE
 
-| <img src="https://github.com/softeerbootcamp-2nd/H9-88Hey/assets/41375597/039e00fe-78d4-433b-a35b-2ad6774e28c3" width=400> | <img src="https://github.com/softeerbootcamp-2nd/H9-88Hey/assets/41375597/f8b609c1-b9d4-414f-a670-4faea54c7620" width=400> |
+| <img src="https://github.com/TTC1018/H9-88Hey/assets/39405316/4be62d29-72c0-4700-bab4-cfd9eaa3aa17" width=400> | <img src="https://github.com/TTC1018/H9-88Hey/assets/39405316/74fc213b-51b6-4f39-bb4a-6d3a734bad76" width=400> |
 |:--------------------------------------------------------------------------------------------------------------------------:|:--------------------------------------------------------------------------------------------------------------------------:|
 |                                                           피드 보기                                                            |                                                           옵션 필터링                                                           |
-| <img src="https://github.com/softeerbootcamp-2nd/H9-88Hey/assets/41375597/383d9a21-3b48-4682-9d78-91b64620a491" width=400> | <img src="https://github.com/softeerbootcamp-2nd/H9-88Hey/assets/41375597/1ad3a595-760c-4556-8434-7531085dc141" width=400> |
+| <img src="https://github.com/TTC1018/H9-88Hey/assets/39405316/4c7c5805-e97d-4009-97fb-b68059b180a7" width=400> | <img src="https://github.com/TTC1018/H9-88Hey/assets/39405316/3f78281b-3e79-44cd-b79c-73198188abe8" width=400> |
 |                                                           북마크 하기                                                           |                                                       피드 정보로 내차 만들기                                                        |
 
 #### 마이카이빙
@@ -82,27 +81,28 @@
 
 ### AND
 
-| <img src="https://github.com/softeerbootcamp-2nd/H9-88Hey/assets/39405316/5429c984-da04-42c5-9742-841bb2f77ab9" width=180> | <img src="https://github.com/softeerbootcamp-2nd/H9-88Hey/assets/39405316/684001f7-5408-4126-956c-bb45881eaba5" width=180> | <img src="https://github.com/softeerbootcamp-2nd/H9-88Hey/assets/39405316/32edec67-1045-4f41-b6e1-8ef4a1805072" width=180> | <img src="https://github.com/softeerbootcamp-2nd/H9-88Hey/assets/39405316/ab42a1d1-6dfd-4ebc-b196-5d113c36f11b" width=180> |
+| <img src="https://github.com/TTC1018/H9-88Hey/assets/39405316/6e0c14ed-8629-4641-a61e-374897279851" width=180> | <img src="https://github.com/TTC1018/H9-88Hey/assets/39405316/6c26c8b9-9c98-4882-a8c8-b3661a1a1cc8" width=180> | <img src="https://github.com/TTC1018/H9-88Hey/assets/39405316/82e22a52-8aa0-4f60-afc2-75c4aa33c6a6" width=180> | <img src="https://github.com/TTC1018/H9-88Hey/assets/39405316/7cc3c9ba-5ebb-4013-9fe6-e595a69b2a3c" width=180> |
 |:--------------------------------------------------------------------------------------------------------------------------:|:--------------------------------------------------------------------------------------------------------------------------:|:--------------------------------------------------------------------------------------------------------------------------:|:---------------------------------------------------------------------------------------------------------------------------|
 |                                                          마이카이빙 메인                                                          |                                                       만든 차량 상세 정보 보기                                                       |                                                      임시 저장 정보로 내차 만들기                                                      | 북마크 정보로 내차만들기                                                                                                              |
 
 ### FE
 
-| <img src="https://github.com/softeerbootcamp-2nd/H9-88Hey/assets/41375597/373b7d43-a117-4a34-b0eb-8e11511297ee" width=400> | <img src="https://github.com/softeerbootcamp-2nd/H9-88Hey/assets/41375597/66d2391b-f523-419e-a8bb-565512f8b202" width=400> |
+| <img src="https://github.com/TTC1018/H9-88Hey/assets/39405316/dd42d834-18c2-4b11-94ec-42078995cc54" width=400> | <img src="https://github.com/TTC1018/H9-88Hey/assets/39405316/16394a04-a84b-4f75-acf8-197e684a0dd5" width=400> |
 |:--------------------------------------------------------------------------------------------------------------------------:|:--------------------------------------------------------------------------------------------------------------------------:|
 |                                                          마이카이빙 메인                                                          |                                                       만든 차량 상세 정보 보기                                                       |
-| <img src="https://github.com/softeerbootcamp-2nd/H9-88Hey/assets/41375597/51c52e52-9067-4dfc-a917-9df510bf0767" width=400> | <img src="https://github.com/softeerbootcamp-2nd/H9-88Hey/assets/41375597/0412dc9e-fd24-4c3d-b169-d8e745b78882" width=400> |
+| <img src="https://github.com/TTC1018/H9-88Hey/assets/39405316/d260725f-3ec6-43fe-9b2f-5defee1d3d43" width=400> | <img src="https://github.com/TTC1018/H9-88Hey/assets/39405316/3667cbcd-77a1-4519-a989-80ab55cbd24c" width=400> |
 |                                                      임시 저장 정보로 내차 만들기                                                      |                                                       북마크 정보로 내차 만들기                                                       |
 
 ## 🎬 프로젝트 구조
+
 ### 🌍 ERD
-![last_erd](https://github.com/softeerbootcamp-2nd/H9-88Hey/assets/91249216/8f5ace15-d8f0-41b5-b920-fd3fbc2195b5)
+![last_erd](https://github.com/TTC1018/H9-88Hey/assets/39405316/ad386aa0-3e87-4355-85c5-d07cea7270e6)
 #### 내 차 만들기
-![makemycar](https://github.com/softeerbootcamp-2nd/H9-88Hey/assets/91249216/b6446e02-b79f-418f-8150-b781bd631961)
+![makemycar](https://github.com/TTC1018/H9-88Hey/assets/39405316/855f440e-ea25-4bb5-bc3e-d6cf0bccdf64)
 #### 마이카이빙
-![mychiving](https://github.com/softeerbootcamp-2nd/H9-88Hey/assets/91249216/8eee8082-e9de-4e0f-97f0-b002f1670126)
+![mychiving](https://github.com/TTC1018/H9-88Hey/assets/39405316/278f6bd9-f389-491a-993e-c9a9d425041d)
 #### 아카이빙
-![archiving](https://github.com/softeerbootcamp-2nd/H9-88Hey/assets/91249216/38a8c501-f262-4865-b891-26fbe181f9e4)
+![archiving](https://github.com/TTC1018/H9-88Hey/assets/39405316/4a570208-32e9-4ff6-a835-ee2b120d0bfb)
 
 
 
